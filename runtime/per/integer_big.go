@@ -313,11 +313,15 @@ func encodeConstrainedBig(bb *BitBuffer, value, lower, upper *big.Int, aligned b
 	case -1:
 		return writeBigBits(bb, offset, rangeValue.BitLen())
 	case 0:
-		bb.AlignToOctetWrite()
+		if err := bb.AlignToOctetWrite(); err != nil {
+			return err
+		}
 		return bb.WriteBits(offset.Uint64(), 8)
 	}
 	if rangeValue.Cmp(big.NewInt(65536)) < 0 {
-		bb.AlignToOctetWrite()
+		if err := bb.AlignToOctetWrite(); err != nil {
+			return err
+		}
 		return bb.WriteBits(offset.Uint64(), 16)
 	}
 	maximumLength, err := constrainedBigMaximumLength(rangeValue.BitLen())
@@ -333,7 +337,9 @@ func encodeConstrainedBig(bb *BitBuffer, value, lower, upper *big.Int, aligned b
 	if err := EncodeConstrainedWholeNumber(bb, int64(len(data)), 1, int64(maximumLength)); err != nil {
 		return err
 	}
-	bb.AlignToOctetWrite()
+	if err := bb.AlignToOctetWrite(); err != nil {
+		return err
+	}
 	return bb.WriteBytes(data)
 }
 

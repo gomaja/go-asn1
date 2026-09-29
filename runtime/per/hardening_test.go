@@ -226,7 +226,9 @@ func TestNormallySmallNonNegativeRejectsInt64Overflow(t *testing.T) {
 				t.Fatal(err)
 			}
 			if tc.aligned {
-				bb.AlignToOctetWrite()
+				if err := bb.AlignToOctetWrite(); err != nil {
+					t.Fatal(err)
+				}
 			}
 			if err := bb.WriteBits(8, 8); err != nil {
 				t.Fatal(err)
@@ -604,7 +606,9 @@ func TestLargeRootSizeRejectsOutOfRangeValues(t *testing.T) {
 				if err := EncodeUnconstrainedLengthAligned(bb, 1); err != nil {
 					return err
 				}
-				bb.AlignToOctetWrite()
+				if err := bb.AlignToOctetWrite(); err != nil {
+					return err
+				}
 				return bb.WriteBit(1)
 			},
 			decodeRoot: func(bb *BitBuffer) error {
@@ -643,7 +647,9 @@ func TestLargeRootSizeRejectsOutOfRangeValues(t *testing.T) {
 				if err := EncodeUnconstrainedLengthAligned(bb, 1); err != nil {
 					return err
 				}
-				bb.AlignToOctetWrite()
+				if err := bb.AlignToOctetWrite(); err != nil {
+					return err
+				}
 				return bb.WriteBits('A', 7)
 			},
 			decodeRoot: func(bb *BitBuffer) error {

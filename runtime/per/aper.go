@@ -35,11 +35,15 @@ func EncodeConstrainedWholeNumberAligned(bb *BitBuffer, v, lb, ub int64) error {
 		return bb.WriteBits(offset, bits.Len64(rangeValue))
 	case rangeValue == 255:
 		// Exactly 256 values: 8-bit field, octet-aligned.
-		bb.AlignToOctetWrite()
+		if err := bb.AlignToOctetWrite(); err != nil {
+			return err
+		}
 		return bb.WriteBits(offset, 8)
 	case rangeValue < 65536:
 		// 257..65536 values: 16-bit field, octet-aligned.
-		bb.AlignToOctetWrite()
+		if err := bb.AlignToOctetWrite(); err != nil {
+			return err
+		}
 		return bb.WriteBits(offset, 16)
 	default:
 		// Range > 65535: length-determinant (NOT aligned) + value bytes (octet-aligned).
@@ -61,7 +65,9 @@ func EncodeConstrainedWholeNumberAligned(bb *BitBuffer, v, lb, ub int64) error {
 		if err := EncodeConstrainedWholeNumber(bb, int64(n), 1, int64(maxBytes)); err != nil {
 			return err
 		}
-		bb.AlignToOctetWrite()
+		if err := bb.AlignToOctetWrite(); err != nil {
+			return err
+		}
 		for i := n; i > 0; {
 			i--
 			if i >= 8 {
@@ -157,7 +163,9 @@ func DecodeConstrainedWholeNumberAligned(bb *BitBuffer, lb, ub int64) (int64, er
 // EncodeUnconstrainedLengthAligned encodes an unconstrained length determinant (APER).
 // The length determinant is octet-aligned. X.691 Section 11.9.
 func EncodeUnconstrainedLengthAligned(bb *BitBuffer, n int64) error {
-	bb.AlignToOctetWrite()
+	if err := bb.AlignToOctetWrite(); err != nil {
+		return err
+	}
 	return EncodeUnconstrainedLength(bb, n)
 }
 
@@ -419,7 +427,9 @@ func EncodeBitStringAlignedExt(bb *BitBuffer, data []byte, bitLen int, lb, ub in
 			return fmt.Errorf("%w: BIT STRING length exceeds host int", ErrInvalidValue)
 		}
 		if lb > 16 {
-			bb.AlignToOctetWrite()
+			if err := bb.AlignToOctetWrite(); err != nil {
+				return err
+			}
 		}
 		return bb.WriteBitsFromBytes(data, int(lb))
 	}
@@ -428,7 +438,9 @@ func EncodeBitStringAlignedExt(bb *BitBuffer, data []byte, bitLen int, lb, ub in
 			return err
 		}
 		if ub > 16 {
-			bb.AlignToOctetWrite()
+			if err := bb.AlignToOctetWrite(); err != nil {
+				return err
+			}
 		}
 		return bb.WriteBitsFromBytes(data, bitLen)
 	}
@@ -526,7 +538,9 @@ func EncodeOctetStringAlignedExt(bb *BitBuffer, data []byte, lb, ub int64, const
 			return fmt.Errorf("%w: OCTET STRING length %d does not match fixed SIZE(%d)", ErrConstraintViolation, len(data), lb)
 		}
 		if lb > 2 {
-			bb.AlignToOctetWrite()
+			if err := bb.AlignToOctetWrite(); err != nil {
+				return err
+			}
 		}
 		return bb.WriteBytes(data)
 	}
@@ -535,7 +549,9 @@ func EncodeOctetStringAlignedExt(bb *BitBuffer, data []byte, lb, ub int64, const
 			return err
 		}
 		if ub > 2 {
-			bb.AlignToOctetWrite()
+			if err := bb.AlignToOctetWrite(); err != nil {
+				return err
+			}
 		}
 		return bb.WriteBytes(data)
 	}
@@ -640,7 +656,9 @@ func EncodeKnownMultiplierStringAlignedExt(bb *BitBuffer, s string, bitsPerChar 
 			return err
 		}
 		if payloadBits > 16 {
-			bb.AlignToOctetWrite()
+			if err := bb.AlignToOctetWrite(); err != nil {
+				return err
+			}
 		}
 		return writeKnownMultiplierString(bb, s, bitsPerChar)
 	}
@@ -649,7 +667,9 @@ func EncodeKnownMultiplierStringAlignedExt(bb *BitBuffer, s string, bitsPerChar 
 			return err
 		}
 		if ub > 2 {
-			bb.AlignToOctetWrite()
+			if err := bb.AlignToOctetWrite(); err != nil {
+				return err
+			}
 		}
 	} else {
 		return encodeLengthDelimitedKnownMultiplierString(bb, s, bitsPerChar, true)

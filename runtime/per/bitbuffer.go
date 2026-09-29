@@ -309,13 +309,16 @@ func (bb *BitBuffer) WriteBitsFromBytes(data []byte, bitLen int) error {
 }
 
 // AlignToOctetWrite pads the write position to the next octet boundary (APER).
-func (bb *BitBuffer) AlignToOctetWrite() {
+func (bb *BitBuffer) AlignToOctetWrite() error {
 	rem := bb.bitPos % 8
 	if rem != 0 {
 		for i := 0; i < 8-rem; i++ {
-			_ = bb.WriteBit(0)
+			if err := bb.WriteBit(0); err != nil {
+				return err
+			}
 		}
 	}
+	return nil
 }
 
 // AlignToOctetRead consumes and validates zero-valued APER alignment padding.

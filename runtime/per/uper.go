@@ -718,7 +718,9 @@ func encodeLengthDelimitedBits(bb *BitBuffer, data []byte, bitLength int, aligne
 	}
 	return EncodeLengthFragments(bb, int64(bitLength), aligned, func(offset, length int64) error {
 		if aligned {
-			bb.AlignToOctetWrite()
+			if err := bb.AlignToOctetWrite(); err != nil {
+				return err
+			}
 		}
 		if offset%8 != 0 {
 			return fmt.Errorf("%w: BIT STRING fragment offset %d is not octet-aligned", ErrInvalidValue, offset)
@@ -777,7 +779,9 @@ func encodeLengthDelimitedKnownMultiplierString(bb *BitBuffer, value string, bit
 	}
 	return EncodeLengthFragments(bb, length, aligned, func(offset, fragmentLength int64) error {
 		if aligned {
-			bb.AlignToOctetWrite()
+			if err := bb.AlignToOctetWrite(); err != nil {
+				return err
+			}
 		}
 		var limit int64
 		if bitsPerChar <= 8 {

@@ -225,7 +225,9 @@ func encodeLengthFragmentDeterminant(bb *BitBuffer, remaining int64, aligned boo
 		return 0, false, fmt.Errorf("%w: negative remaining length %d", ErrInvalidValue, remaining)
 	}
 	if aligned {
-		bb.AlignToOctetWrite()
+		if err := bb.AlignToOctetWrite(); err != nil {
+			return 0, false, err
+		}
 	}
 	if remaining < perFragmentUnit {
 		if err := EncodeUnconstrainedLength(bb, remaining); err != nil {

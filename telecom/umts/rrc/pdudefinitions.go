@@ -26589,7 +26589,7 @@ func (v *ActiveSetUpdateR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlist {
 		tmp_rladditioninformationlist := make(RLAdditionInformationList, 0)
 		_, errCollection_rladditioninformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlist, fragmentLength_rladditioninformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlist > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -26610,7 +26610,7 @@ func (v *ActiveSetUpdateR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rlremovalinformationlist {
 		tmp_rlremovalinformationlist := make(RLRemovalInformationList, 0)
 		_, errCollection_rlremovalinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rlremovalinformationlist, fragmentLength_rlremovalinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist > int64(^uint(0)>>1) || fragmentOffset_rlremovalinformationlist > int64(^uint(0)>>1)-fragmentLength_rlremovalinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -26723,7 +26723,7 @@ func (v *ActiveSetUpdateV4b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cellidperrllist {
 		tmp_cellidperrllist := make(CellIdentityPerRLList, 0)
 		_, errCollection_cellidperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_cellidperrllist, fragmentLength_cellidperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1240
+			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1241
 			if fragmentOffset_cellidperrllist < 0 || fragmentLength_cellidperrllist < 0 || fragmentLength_cellidperrllist > int64(^uint(0)>>1) || fragmentOffset_cellidperrllist > int64(^uint(0)>>1)-fragmentLength_cellidperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -26809,7 +26809,7 @@ func (v *ActiveSetUpdateV590extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltpcpoweroffsetperrllist {
 		tmp_dltpcpoweroffsetperrllist := make(DLTPCPowerOffsetPerRLList, 0)
 		_, errCollection_dltpcpoweroffsetperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dltpcpoweroffsetperrllist, fragmentLength_dltpcpoweroffsetperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dltpcpoweroffsetperrllist < 0 || fragmentLength_dltpcpoweroffsetperrllist < 0 || fragmentLength_dltpcpoweroffsetperrllist > int64(^uint(0)>>1) || fragmentOffset_dltpcpoweroffsetperrllist > int64(^uint(0)>>1)-fragmentLength_dltpcpoweroffsetperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -27149,7 +27149,7 @@ func (v *ActiveSetUpdateR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlist {
 		tmp_rladditioninformationlist := make(RLAdditionInformationListR6, 0)
 		_, errCollection_rladditioninformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlist, fragmentLength_rladditioninformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlist > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -27170,7 +27170,7 @@ func (v *ActiveSetUpdateR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rlremovalinformationlist {
 		tmp_rlremovalinformationlist := make(RLRemovalInformationList, 0)
 		_, errCollection_rlremovalinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rlremovalinformationlist, fragmentLength_rlremovalinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist > int64(^uint(0)>>1) || fragmentOffset_rlremovalinformationlist > int64(^uint(0)>>1)-fragmentLength_rlremovalinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -27278,7 +27278,7 @@ func (v *ActiveSetUpdateV6b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlistv6b0ext {
 		tmp_rladditioninformationlistv6b0ext := make(RLAdditionInformationListV6b0ext, 0)
 		_, errCollection_rladditioninformationlistv6b0ext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlistv6b0ext, fragmentLength_rladditioninformationlistv6b0ext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlistv6b0ext < 0 || fragmentLength_rladditioninformationlistv6b0ext < 0 || fragmentLength_rladditioninformationlistv6b0ext > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlistv6b0ext > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlistv6b0ext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -27689,7 +27689,7 @@ func (v *ActiveSetUpdateR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlist {
 		tmp_rladditioninformationlist := make(RLAdditionInformationListR7, 0)
 		_, errCollection_rladditioninformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlist, fragmentLength_rladditioninformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlist > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -27710,7 +27710,7 @@ func (v *ActiveSetUpdateR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rlremovalinformationlist {
 		tmp_rlremovalinformationlist := make(RLRemovalInformationList, 0)
 		_, errCollection_rlremovalinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rlremovalinformationlist, fragmentLength_rlremovalinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist > int64(^uint(0)>>1) || fragmentOffset_rlremovalinformationlist > int64(^uint(0)>>1)-fragmentLength_rlremovalinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -28363,7 +28363,7 @@ func (v *ActiveSetUpdateR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlist {
 		tmp_rladditioninformationlist := make(RLAdditionInformationListR8, 0)
 		_, errCollection_rladditioninformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlist, fragmentLength_rladditioninformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlist > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -28391,7 +28391,7 @@ func (v *ActiveSetUpdateR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rlremovalinformationlist {
 		tmp_rlremovalinformationlist := make(RLRemovalInformationList, 0)
 		_, errCollection_rlremovalinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rlremovalinformationlist, fragmentLength_rlremovalinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist > int64(^uint(0)>>1) || fragmentOffset_rlremovalinformationlist > int64(^uint(0)>>1)-fragmentLength_rlremovalinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -28572,7 +28572,7 @@ func (v *ActiveSetUpdateV890extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlist {
 		tmp_rladditioninformationlist := make(RLAdditionInformationListV890ext, 0)
 		_, errCollection_rladditioninformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlist, fragmentLength_rladditioninformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlist > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -29091,7 +29091,7 @@ func (v *ActiveSetUpdateR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlist {
 		tmp_rladditioninformationlist := make(RLAdditionInformationListR9, 0)
 		_, errCollection_rladditioninformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlist, fragmentLength_rladditioninformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlist > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -29112,7 +29112,7 @@ func (v *ActiveSetUpdateR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlistseculfreq {
 		tmp_rladditioninformationlistseculfreq := make(RLAdditionInformationListSecULFreq, 0)
 		_, errCollection_rladditioninformationlistseculfreq := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlistseculfreq, fragmentLength_rladditioninformationlistseculfreq int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlistseculfreq < 0 || fragmentLength_rladditioninformationlistseculfreq < 0 || fragmentLength_rladditioninformationlistseculfreq > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlistseculfreq > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlistseculfreq {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -29140,7 +29140,7 @@ func (v *ActiveSetUpdateR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rlremovalinformationlist {
 		tmp_rlremovalinformationlist := make(RLRemovalInformationList, 0)
 		_, errCollection_rlremovalinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rlremovalinformationlist, fragmentLength_rlremovalinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist > int64(^uint(0)>>1) || fragmentOffset_rlremovalinformationlist > int64(^uint(0)>>1)-fragmentLength_rlremovalinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -29161,7 +29161,7 @@ func (v *ActiveSetUpdateR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rlremovalinformationlistseculfreq {
 		tmp_rlremovalinformationlistseculfreq := make(RLRemovalInformationListSecULFreq, 0)
 		_, errCollection_rlremovalinformationlistseculfreq := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_rlremovalinformationlistseculfreq, fragmentLength_rlremovalinformationlistseculfreq int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rlremovalinformationlistseculfreq < 0 || fragmentLength_rlremovalinformationlistseculfreq < 0 || fragmentLength_rlremovalinformationlistseculfreq > int64(^uint(0)>>1) || fragmentOffset_rlremovalinformationlistseculfreq > int64(^uint(0)>>1)-fragmentLength_rlremovalinformationlistseculfreq {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -29323,7 +29323,7 @@ func (v *ActiveSetUpdateV950extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlist {
 		tmp_rladditioninformationlist := make(RLAdditionInformationListV950ext, 0)
 		_, errCollection_rladditioninformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlist, fragmentLength_rladditioninformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlist > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -29865,7 +29865,7 @@ func (v *ActiveSetUpdateR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlist {
 		tmp_rladditioninformationlist := make(RLAdditionInformationListR10, 0)
 		_, errCollection_rladditioninformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlist, fragmentLength_rladditioninformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlist > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -29886,7 +29886,7 @@ func (v *ActiveSetUpdateR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlistseculfreq {
 		tmp_rladditioninformationlistseculfreq := make(RLAdditionInformationListSecULFreq, 0)
 		_, errCollection_rladditioninformationlistseculfreq := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlistseculfreq, fragmentLength_rladditioninformationlistseculfreq int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlistseculfreq < 0 || fragmentLength_rladditioninformationlistseculfreq < 0 || fragmentLength_rladditioninformationlistseculfreq > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlistseculfreq > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlistseculfreq {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -29914,7 +29914,7 @@ func (v *ActiveSetUpdateR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rlremovalinformationlist {
 		tmp_rlremovalinformationlist := make(RLRemovalInformationList, 0)
 		_, errCollection_rlremovalinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rlremovalinformationlist, fragmentLength_rlremovalinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist > int64(^uint(0)>>1) || fragmentOffset_rlremovalinformationlist > int64(^uint(0)>>1)-fragmentLength_rlremovalinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -29935,7 +29935,7 @@ func (v *ActiveSetUpdateR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rlremovalinformationlistseculfreq {
 		tmp_rlremovalinformationlistseculfreq := make(RLRemovalInformationListSecULFreq, 0)
 		_, errCollection_rlremovalinformationlistseculfreq := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_rlremovalinformationlistseculfreq, fragmentLength_rlremovalinformationlistseculfreq int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rlremovalinformationlistseculfreq < 0 || fragmentLength_rlremovalinformationlistseculfreq < 0 || fragmentLength_rlremovalinformationlistseculfreq > int64(^uint(0)>>1) || fragmentOffset_rlremovalinformationlistseculfreq > int64(^uint(0)>>1)-fragmentLength_rlremovalinformationlistseculfreq {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -30021,7 +30021,7 @@ func (v *ActiveSetUpdateR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDD, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -30118,7 +30118,7 @@ func (v *ActiveSetUpdateVb50extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlist {
 		tmp_rladditioninformationlist := make(RLAdditionInformationListVb50ext, 0)
 		_, errCollection_rladditioninformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlist, fragmentLength_rladditioninformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlist > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -30783,7 +30783,7 @@ func (v *ActiveSetUpdateR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlist {
 		tmp_rladditioninformationlist := make(RLAdditionInformationListR11, 0)
 		_, errCollection_rladditioninformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlist, fragmentLength_rladditioninformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlist > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -30804,7 +30804,7 @@ func (v *ActiveSetUpdateR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlistseculfreq {
 		tmp_rladditioninformationlistseculfreq := make(RLAdditionInformationListSecULFreq, 0)
 		_, errCollection_rladditioninformationlistseculfreq := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlistseculfreq, fragmentLength_rladditioninformationlistseculfreq int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlistseculfreq < 0 || fragmentLength_rladditioninformationlistseculfreq < 0 || fragmentLength_rladditioninformationlistseculfreq > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlistseculfreq > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlistseculfreq {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -30832,7 +30832,7 @@ func (v *ActiveSetUpdateR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rlremovalinformationlist {
 		tmp_rlremovalinformationlist := make(RLRemovalInformationList, 0)
 		_, errCollection_rlremovalinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rlremovalinformationlist, fragmentLength_rlremovalinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist > int64(^uint(0)>>1) || fragmentOffset_rlremovalinformationlist > int64(^uint(0)>>1)-fragmentLength_rlremovalinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -30853,7 +30853,7 @@ func (v *ActiveSetUpdateR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rlremovalinformationlistseculfreq {
 		tmp_rlremovalinformationlistseculfreq := make(RLRemovalInformationListSecULFreq, 0)
 		_, errCollection_rlremovalinformationlistseculfreq := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_rlremovalinformationlistseculfreq, fragmentLength_rlremovalinformationlistseculfreq int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rlremovalinformationlistseculfreq < 0 || fragmentLength_rlremovalinformationlistseculfreq < 0 || fragmentLength_rlremovalinformationlistseculfreq > int64(^uint(0)>>1) || fragmentOffset_rlremovalinformationlistseculfreq > int64(^uint(0)>>1)-fragmentLength_rlremovalinformationlistseculfreq {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -30953,7 +30953,7 @@ func (v *ActiveSetUpdateR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -30974,7 +30974,7 @@ func (v *ActiveSetUpdateR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -31670,7 +31670,7 @@ func (v *ActiveSetUpdateR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlist {
 		tmp_rladditioninformationlist := make(RLAdditionInformationListR12, 0)
 		_, errCollection_rladditioninformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlist, fragmentLength_rladditioninformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlist > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -31691,7 +31691,7 @@ func (v *ActiveSetUpdateR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlistseculfreq {
 		tmp_rladditioninformationlistseculfreq := make(RLAdditionInformationListSecULFreqR12, 0)
 		_, errCollection_rladditioninformationlistseculfreq := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlistseculfreq, fragmentLength_rladditioninformationlistseculfreq int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlistseculfreq < 0 || fragmentLength_rladditioninformationlistseculfreq < 0 || fragmentLength_rladditioninformationlistseculfreq > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlistseculfreq > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlistseculfreq {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -31719,7 +31719,7 @@ func (v *ActiveSetUpdateR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rlremovalinformationlist {
 		tmp_rlremovalinformationlist := make(RLRemovalInformationList, 0)
 		_, errCollection_rlremovalinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rlremovalinformationlist, fragmentLength_rlremovalinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist > int64(^uint(0)>>1) || fragmentOffset_rlremovalinformationlist > int64(^uint(0)>>1)-fragmentLength_rlremovalinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -31740,7 +31740,7 @@ func (v *ActiveSetUpdateR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rlremovalinformationlistseculfreq {
 		tmp_rlremovalinformationlistseculfreq := make(RLRemovalInformationListSecULFreq, 0)
 		_, errCollection_rlremovalinformationlistseculfreq := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_rlremovalinformationlistseculfreq, fragmentLength_rlremovalinformationlistseculfreq int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rlremovalinformationlistseculfreq < 0 || fragmentLength_rlremovalinformationlistseculfreq < 0 || fragmentLength_rlremovalinformationlistseculfreq > int64(^uint(0)>>1) || fragmentOffset_rlremovalinformationlistseculfreq > int64(^uint(0)>>1)-fragmentLength_rlremovalinformationlistseculfreq {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -31840,7 +31840,7 @@ func (v *ActiveSetUpdateR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -31861,7 +31861,7 @@ func (v *ActiveSetUpdateR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -32583,7 +32583,7 @@ func (v *ActiveSetUpdateR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlist {
 		tmp_rladditioninformationlist := make(RLAdditionInformationListR13, 0)
 		_, errCollection_rladditioninformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlist, fragmentLength_rladditioninformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist < 0 || fragmentLength_rladditioninformationlist > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlist > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -32604,7 +32604,7 @@ func (v *ActiveSetUpdateR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rladditioninformationlistseculfreq {
 		tmp_rladditioninformationlistseculfreq := make(RLAdditionInformationListSecULFreqR13, 0)
 		_, errCollection_rladditioninformationlistseculfreq := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_rladditioninformationlistseculfreq, fragmentLength_rladditioninformationlistseculfreq int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rladditioninformationlistseculfreq < 0 || fragmentLength_rladditioninformationlistseculfreq < 0 || fragmentLength_rladditioninformationlistseculfreq > int64(^uint(0)>>1) || fragmentOffset_rladditioninformationlistseculfreq > int64(^uint(0)>>1)-fragmentLength_rladditioninformationlistseculfreq {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -32632,7 +32632,7 @@ func (v *ActiveSetUpdateR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rlremovalinformationlist {
 		tmp_rlremovalinformationlist := make(RLRemovalInformationList, 0)
 		_, errCollection_rlremovalinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rlremovalinformationlist, fragmentLength_rlremovalinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist < 0 || fragmentLength_rlremovalinformationlist > int64(^uint(0)>>1) || fragmentOffset_rlremovalinformationlist > int64(^uint(0)>>1)-fragmentLength_rlremovalinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -32653,7 +32653,7 @@ func (v *ActiveSetUpdateR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rlremovalinformationlistseculfreq {
 		tmp_rlremovalinformationlistseculfreq := make(RLRemovalInformationListSecULFreq, 0)
 		_, errCollection_rlremovalinformationlistseculfreq := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_rlremovalinformationlistseculfreq, fragmentLength_rlremovalinformationlistseculfreq int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rlremovalinformationlistseculfreq < 0 || fragmentLength_rlremovalinformationlistseculfreq < 0 || fragmentLength_rlremovalinformationlistseculfreq > int64(^uint(0)>>1) || fragmentOffset_rlremovalinformationlistseculfreq > int64(^uint(0)>>1)-fragmentLength_rlremovalinformationlistseculfreq {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -32753,7 +32753,7 @@ func (v *ActiveSetUpdateR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -32774,7 +32774,7 @@ func (v *ActiveSetUpdateR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -32910,7 +32910,7 @@ func (v *ActiveSetUpdateComplete) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dummy2 {
 		tmp_dummy2 := make(RBActivationTimeInfoList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -33832,7 +33832,7 @@ func (v *CellChangeOrderFromUTRANR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationList, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -34160,7 +34160,7 @@ func (v *CellUpdate) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.StartList = make(STARTList, 0)
 	_, errCollection_startlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_startlist, fragmentLength_startlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_startlist < 0 || fragmentLength_startlist < 0 || fragmentLength_startlist > int64(^uint(0)>>1) || fragmentOffset_startlist > int64(^uint(0)>>1)-fragmentLength_startlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -35298,7 +35298,7 @@ func (v *CellUpdateFDDR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.StartList = make(STARTList, 0)
 	_, errCollection_startlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_startlist, fragmentLength_startlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_startlist < 0 || fragmentLength_startlist < 0 || fragmentLength_startlist > int64(^uint(0)>>1) || fragmentOffset_startlist > int64(^uint(0)>>1)-fragmentLength_startlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -36774,7 +36774,7 @@ func (v *CellUpdateConfirmR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreleaselist {
 		tmp_rbinformationreleaselist := make(RBInformationReleaseList, 0)
 		_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -36795,7 +36795,7 @@ func (v *CellUpdateConfirmR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -36816,7 +36816,7 @@ func (v *CellUpdateConfirmR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -36873,7 +36873,7 @@ func (v *CellUpdateConfirmR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -36894,7 +36894,7 @@ func (v *CellUpdateConfirmR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -36922,7 +36922,7 @@ func (v *CellUpdateConfirmR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -36943,7 +36943,7 @@ func (v *CellUpdateConfirmR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR13, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -37098,7 +37098,7 @@ func (v *CellUpdateConfirmR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -37126,7 +37126,7 @@ func (v *CellUpdateConfirmR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -37147,7 +37147,7 @@ func (v *CellUpdateConfirmR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -37737,7 +37737,7 @@ func (v *CellUpdateConfirmR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreleaselist {
 		tmp_rbinformationreleaselist := make(RBInformationReleaseList, 0)
 		_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -37758,7 +37758,7 @@ func (v *CellUpdateConfirmR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigList, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -37779,7 +37779,7 @@ func (v *CellUpdateConfirmR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedList, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -37814,7 +37814,7 @@ func (v *CellUpdateConfirmR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoList, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -37835,7 +37835,7 @@ func (v *CellUpdateConfirmR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -37866,7 +37866,7 @@ func (v *CellUpdateConfirmR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoList, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -37887,7 +37887,7 @@ func (v *CellUpdateConfirmR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoList, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -37940,7 +37940,7 @@ func (v *CellUpdateConfirmR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLList, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -38092,7 +38092,7 @@ func (v *CellUpdateConfirmV4b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	if opt_cellidperrllist {
 		tmp_cellidperrllist := make(CellIdentityPerRLList, 0)
 		_, errCollection_cellidperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_cellidperrllist, fragmentLength_cellidperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1240
+			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1241
 			if fragmentOffset_cellidperrllist < 0 || fragmentLength_cellidperrllist < 0 || fragmentLength_cellidperrllist > int64(^uint(0)>>1) || fragmentOffset_cellidperrllist > int64(^uint(0)>>1)-fragmentLength_cellidperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -38170,7 +38170,7 @@ func (v *CellUpdateConfirmV590extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	if opt_dltpcpoweroffsetperrllist {
 		tmp_dltpcpoweroffsetperrllist := make(DLTPCPowerOffsetPerRLList, 0)
 		_, errCollection_dltpcpoweroffsetperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dltpcpoweroffsetperrllist, fragmentLength_dltpcpoweroffsetperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dltpcpoweroffsetperrllist < 0 || fragmentLength_dltpcpoweroffsetperrllist < 0 || fragmentLength_dltpcpoweroffsetperrllist > int64(^uint(0)>>1) || fragmentOffset_dltpcpoweroffsetperrllist > int64(^uint(0)>>1)-fragmentLength_dltpcpoweroffsetperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -38753,7 +38753,7 @@ func (v *CellUpdateConfirmR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreleaselist {
 		tmp_rbinformationreleaselist := make(RBInformationReleaseList, 0)
 		_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -38774,7 +38774,7 @@ func (v *CellUpdateConfirmR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR4, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -38795,7 +38795,7 @@ func (v *CellUpdateConfirmR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedList, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -38830,7 +38830,7 @@ func (v *CellUpdateConfirmR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoList, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -38851,7 +38851,7 @@ func (v *CellUpdateConfirmR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -38882,7 +38882,7 @@ func (v *CellUpdateConfirmR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoList, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -38903,7 +38903,7 @@ func (v *CellUpdateConfirmR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR4, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -38956,7 +38956,7 @@ func (v *CellUpdateConfirmR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR4, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -39517,7 +39517,7 @@ func (v *CellUpdateConfirmR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreleaselist {
 		tmp_rbinformationreleaselist := make(RBInformationReleaseList, 0)
 		_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -39538,7 +39538,7 @@ func (v *CellUpdateConfirmR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR5, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -39559,7 +39559,7 @@ func (v *CellUpdateConfirmR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR5, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -39594,7 +39594,7 @@ func (v *CellUpdateConfirmR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoList, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -39615,7 +39615,7 @@ func (v *CellUpdateConfirmR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -39646,7 +39646,7 @@ func (v *CellUpdateConfirmR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR5, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -39667,7 +39667,7 @@ func (v *CellUpdateConfirmR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR5, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -39727,7 +39727,7 @@ func (v *CellUpdateConfirmR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR5, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -40358,7 +40358,7 @@ func (v *CellUpdateConfirmR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreleaselist {
 		tmp_rbinformationreleaselist := make(RBInformationReleaseList, 0)
 		_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -40379,7 +40379,7 @@ func (v *CellUpdateConfirmR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR6, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -40400,7 +40400,7 @@ func (v *CellUpdateConfirmR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR6, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -40443,7 +40443,7 @@ func (v *CellUpdateConfirmR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -40464,7 +40464,7 @@ func (v *CellUpdateConfirmR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR6, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -40492,7 +40492,7 @@ func (v *CellUpdateConfirmR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR5, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -40513,7 +40513,7 @@ func (v *CellUpdateConfirmR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR5, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -40577,7 +40577,7 @@ func (v *CellUpdateConfirmR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR6, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -40815,7 +40815,7 @@ func (v *CellUpdateConfirmV6b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	if opt_dlinformationperrllistv6b0ext {
 		tmp_dlinformationperrllistv6b0ext := make(DLInformationPerRLListV6b0ext, 0)
 		_, errCollection_dlinformationperrllistv6b0ext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllistv6b0ext, fragmentLength_dlinformationperrllistv6b0ext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllistv6b0ext < 0 || fragmentLength_dlinformationperrllistv6b0ext < 0 || fragmentLength_dlinformationperrllistv6b0ext > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllistv6b0ext > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllistv6b0ext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -41544,7 +41544,7 @@ func (v *CellUpdateConfirmR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreleaselist {
 		tmp_rbinformationreleaselist := make(RBInformationReleaseList, 0)
 		_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -41565,7 +41565,7 @@ func (v *CellUpdateConfirmR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR7, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -41586,7 +41586,7 @@ func (v *CellUpdateConfirmR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR7, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -41629,7 +41629,7 @@ func (v *CellUpdateConfirmR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -41650,7 +41650,7 @@ func (v *CellUpdateConfirmR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR7, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -41678,7 +41678,7 @@ func (v *CellUpdateConfirmR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -41699,7 +41699,7 @@ func (v *CellUpdateConfirmR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR7, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -41798,7 +41798,7 @@ func (v *CellUpdateConfirmR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR7, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -42894,7 +42894,7 @@ func (v *CellUpdateConfirmR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreleaselist {
 		tmp_rbinformationreleaselist := make(RBInformationReleaseList, 0)
 		_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -42915,7 +42915,7 @@ func (v *CellUpdateConfirmR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR8, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -42936,7 +42936,7 @@ func (v *CellUpdateConfirmR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -42979,7 +42979,7 @@ func (v *CellUpdateConfirmR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -43000,7 +43000,7 @@ func (v *CellUpdateConfirmR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -43028,7 +43028,7 @@ func (v *CellUpdateConfirmR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -43049,7 +43049,7 @@ func (v *CellUpdateConfirmR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR7, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -43148,7 +43148,7 @@ func (v *CellUpdateConfirmR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -44182,7 +44182,7 @@ func (v *CellUpdateConfirmR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreleaselist {
 		tmp_rbinformationreleaselist := make(RBInformationReleaseList, 0)
 		_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -44203,7 +44203,7 @@ func (v *CellUpdateConfirmR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR8, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -44224,7 +44224,7 @@ func (v *CellUpdateConfirmR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -44267,7 +44267,7 @@ func (v *CellUpdateConfirmR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -44288,7 +44288,7 @@ func (v *CellUpdateConfirmR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -44316,7 +44316,7 @@ func (v *CellUpdateConfirmR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -44337,7 +44337,7 @@ func (v *CellUpdateConfirmR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR9, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -44443,7 +44443,7 @@ func (v *CellUpdateConfirmR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -44610,7 +44610,7 @@ func (v *CellUpdateConfirmV9c0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListTDD128V9c0ext, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -45503,7 +45503,7 @@ func (v *CellUpdateConfirmR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreleaselist {
 		tmp_rbinformationreleaselist := make(RBInformationReleaseList, 0)
 		_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -45524,7 +45524,7 @@ func (v *CellUpdateConfirmR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR8, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -45545,7 +45545,7 @@ func (v *CellUpdateConfirmR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -45588,7 +45588,7 @@ func (v *CellUpdateConfirmR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -45609,7 +45609,7 @@ func (v *CellUpdateConfirmR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -45637,7 +45637,7 @@ func (v *CellUpdateConfirmR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -45658,7 +45658,7 @@ func (v *CellUpdateConfirmR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR9, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -45771,7 +45771,7 @@ func (v *CellUpdateConfirmR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -45799,7 +45799,7 @@ func (v *CellUpdateConfirmR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDD, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -46852,7 +46852,7 @@ func (v *CellUpdateConfirmR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreleaselist {
 		tmp_rbinformationreleaselist := make(RBInformationReleaseList, 0)
 		_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -46873,7 +46873,7 @@ func (v *CellUpdateConfirmR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -46894,7 +46894,7 @@ func (v *CellUpdateConfirmR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -46937,7 +46937,7 @@ func (v *CellUpdateConfirmR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -46958,7 +46958,7 @@ func (v *CellUpdateConfirmR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -46986,7 +46986,7 @@ func (v *CellUpdateConfirmR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -47007,7 +47007,7 @@ func (v *CellUpdateConfirmR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -47141,7 +47141,7 @@ func (v *CellUpdateConfirmR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR11, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -47169,7 +47169,7 @@ func (v *CellUpdateConfirmR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -47190,7 +47190,7 @@ func (v *CellUpdateConfirmR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -48231,7 +48231,7 @@ func (v *CellUpdateConfirmR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreleaselist {
 		tmp_rbinformationreleaselist := make(RBInformationReleaseList, 0)
 		_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -48252,7 +48252,7 @@ func (v *CellUpdateConfirmR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -48273,7 +48273,7 @@ func (v *CellUpdateConfirmR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -48316,7 +48316,7 @@ func (v *CellUpdateConfirmR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -48337,7 +48337,7 @@ func (v *CellUpdateConfirmR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -48365,7 +48365,7 @@ func (v *CellUpdateConfirmR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -48386,7 +48386,7 @@ func (v *CellUpdateConfirmR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -48541,7 +48541,7 @@ func (v *CellUpdateConfirmR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR12, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -48569,7 +48569,7 @@ func (v *CellUpdateConfirmR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -48590,7 +48590,7 @@ func (v *CellUpdateConfirmR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -49697,7 +49697,7 @@ func (v *CellUpdateConfirmR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreleaselist {
 		tmp_rbinformationreleaselist := make(RBInformationReleaseList, 0)
 		_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -49718,7 +49718,7 @@ func (v *CellUpdateConfirmR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -49739,7 +49739,7 @@ func (v *CellUpdateConfirmR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -49796,7 +49796,7 @@ func (v *CellUpdateConfirmR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -49817,7 +49817,7 @@ func (v *CellUpdateConfirmR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -49845,7 +49845,7 @@ func (v *CellUpdateConfirmR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -49866,7 +49866,7 @@ func (v *CellUpdateConfirmR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR13, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -50021,7 +50021,7 @@ func (v *CellUpdateConfirmR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -50049,7 +50049,7 @@ func (v *CellUpdateConfirmR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -50070,7 +50070,7 @@ func (v *CellUpdateConfirmR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -50376,7 +50376,7 @@ func (v *CounterCheckR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.RrcTransactionIdentifier = RRCTransactionIdentifier(val_rrctransactionidentifier)
 	v.RbCOUNTCMSBInformationList = make(RBCOUNTCMSBInformationList, 0)
 	_, errCollection_rbcountcmsbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_rbcountcmsbinformationlist, fragmentLength_rbcountcmsbinformationlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_rbcountcmsbinformationlist < 0 || fragmentLength_rbcountcmsbinformationlist < 0 || fragmentLength_rbcountcmsbinformationlist > int64(^uint(0)>>1) || fragmentOffset_rbcountcmsbinformationlist > int64(^uint(0)>>1)-fragmentLength_rbcountcmsbinformationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -50472,7 +50472,7 @@ func (v *CounterCheckResponse) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbcountcinformationlist {
 		tmp_rbcountcinformationlist := make(RBCOUNTCInformationList, 0)
 		_, errCollection_rbcountcinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_rbcountcinformationlist, fragmentLength_rbcountcinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbcountcinformationlist < 0 || fragmentLength_rbcountcinformationlist < 0 || fragmentLength_rbcountcinformationlist > int64(^uint(0)>>1) || fragmentOffset_rbcountcinformationlist > int64(^uint(0)>>1)-fragmentLength_rbcountcinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -51637,7 +51637,7 @@ func (v *HandoverToUTRANCommandV820extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListV820ext, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -51982,7 +51982,7 @@ func (v *HandoverToUTRANCommandV9c0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListTDD128V9c0ext, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -52688,7 +52688,7 @@ func (v *HandoverToUTRANComplete) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_startlist {
 		tmp_startlist := make(STARTList, 0)
 		_, errCollection_startlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_startlist, fragmentLength_startlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_startlist < 0 || fragmentLength_startlist < 0 || fragmentLength_startlist > int64(^uint(0)>>1) || fragmentOffset_startlist > int64(^uint(0)>>1)-fragmentLength_startlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -53792,7 +53792,7 @@ func (v *HandoverFromUTRANCommandGSMR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_tohandoverrabinfo {
 		tmp_tohandoverrabinfo := make(RABInformationListR6, 0)
 		_, errCollection_tohandoverrabinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_tohandoverrabinfo, fragmentLength_tohandoverrabinfo int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_tohandoverrabinfo < 0 || fragmentLength_tohandoverrabinfo < 0 || fragmentLength_tohandoverrabinfo > int64(^uint(0)>>1) || fragmentOffset_tohandoverrabinfo > int64(^uint(0)>>1)-fragmentLength_tohandoverrabinfo {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -54225,7 +54225,7 @@ func (v *HandoverFromUTRANCommandCDMA2000R3IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	}
 	v.Cdma2000MessageList = make(CDMA2000MessageList, 0)
 	_, errCollection_cdma2000messagelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cdma2000messagelist, fragmentLength_cdma2000messagelist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_cdma2000messagelist < 0 || fragmentLength_cdma2000messagelist < 0 || fragmentLength_cdma2000messagelist > int64(^uint(0)>>1) || fragmentOffset_cdma2000messagelist > int64(^uint(0)>>1)-fragmentLength_cdma2000messagelist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -54370,7 +54370,7 @@ func (v *HandoverFromUTRANCommandEUTRAR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer
 	if opt_tohandoverrabinfo {
 		tmp_tohandoverrabinfo := make(RABInformationList, 0)
 		_, errCollection_tohandoverrabinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_tohandoverrabinfo, fragmentLength_tohandoverrabinfo int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_tohandoverrabinfo < 0 || fragmentLength_tohandoverrabinfo < 0 || fragmentLength_tohandoverrabinfo > int64(^uint(0)>>1) || fragmentOffset_tohandoverrabinfo > int64(^uint(0)>>1)-fragmentLength_tohandoverrabinfo {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -54495,7 +54495,7 @@ func (v *HandoverFromUTRANCommandEUTRAR11IEs) UnmarshalUPERFrom(bb *per.BitBuffe
 	if opt_tohandoverrabinfo {
 		tmp_tohandoverrabinfo := make(RABInformationList, 0)
 		_, errCollection_tohandoverrabinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_tohandoverrabinfo, fragmentLength_tohandoverrabinfo int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_tohandoverrabinfo < 0 || fragmentLength_tohandoverrabinfo < 0 || fragmentLength_tohandoverrabinfo > int64(^uint(0)>>1) || fragmentOffset_tohandoverrabinfo > int64(^uint(0)>>1)-fragmentLength_tohandoverrabinfo {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -54677,7 +54677,7 @@ func (v *HandoverFromUtranFailureV590extIEs) UnmarshalUPERFrom(bb *per.BitBuffer
 	if opt_geraniumessagelist {
 		tmp_geraniumessagelist := make(GERANIuMessageList, 0)
 		_, errCollection_geraniumessagelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_geraniumessagelist, fragmentLength_geraniumessagelist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1240
+			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1241
 			if fragmentOffset_geraniumessagelist < 0 || fragmentLength_geraniumessagelist < 0 || fragmentLength_geraniumessagelist > int64(^uint(0)>>1) || fragmentOffset_geraniumessagelist > int64(^uint(0)>>1)-fragmentLength_geraniumessagelist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -56287,7 +56287,7 @@ func (v *InterRATHandoverInfoBandVa40extIEs) UnmarshalUPERFrom(bb *per.BitBuffer
 	if opt_rfcapabilityfddcomp {
 		tmp_rfcapabilityfddcomp := make(RFCapabBandListFDDCompExt2, 0)
 		_, errCollection_rfcapabilityfddcomp := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_rfcapabilityfddcomp, fragmentLength_rfcapabilityfddcomp int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_rfcapabilityfddcomp < 0 || fragmentLength_rfcapabilityfddcomp < 0 || fragmentLength_rfcapabilityfddcomp > int64(^uint(0)>>1) || fragmentOffset_rfcapabilityfddcomp > int64(^uint(0)>>1)-fragmentLength_rfcapabilityfddcomp {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -56935,7 +56935,7 @@ func (v *MeasurementControlR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementlist {
 		tmp_additionalmeasurementlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementlist, fragmentLength_additionalmeasurementlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -57172,7 +57172,7 @@ func (v *MeasurementControlR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementlist {
 		tmp_additionalmeasurementlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementlist, fragmentLength_additionalmeasurementlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -57455,7 +57455,7 @@ func (v *MeasurementControlR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementlist {
 		tmp_additionalmeasurementlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementlist, fragmentLength_additionalmeasurementlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -57638,7 +57638,7 @@ func (v *MeasurementControlR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementlist {
 		tmp_additionalmeasurementlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementlist, fragmentLength_additionalmeasurementlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -57723,7 +57723,7 @@ func (v *MeasurementControlV7b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_newinterfreqcelllist {
 		tmp_newinterfreqcelllist := make(NewInterFreqCellListV7b0ext, 0)
 		_, errCollection_newinterfreqcelllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_newinterfreqcelllist, fragmentLength_newinterfreqcelllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_newinterfreqcelllist < 0 || fragmentLength_newinterfreqcelllist < 0 || fragmentLength_newinterfreqcelllist > int64(^uint(0)>>1) || fragmentOffset_newinterfreqcelllist > int64(^uint(0)>>1)-fragmentLength_newinterfreqcelllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -57846,7 +57846,7 @@ func (v *MeasurementControlR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementlist {
 		tmp_additionalmeasurementlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementlist, fragmentLength_additionalmeasurementlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -57954,7 +57954,7 @@ func (v *MeasurementControlV8a0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_newintrafreqcelllist {
 		tmp_newintrafreqcelllist := make(NewIntraFreqCellListLCRV8a0ext, 0)
 		_, errCollection_newintrafreqcelllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_newintrafreqcelllist, fragmentLength_newintrafreqcelllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_newintrafreqcelllist < 0 || fragmentLength_newintrafreqcelllist < 0 || fragmentLength_newintrafreqcelllist > int64(^uint(0)>>1) || fragmentOffset_newintrafreqcelllist > int64(^uint(0)>>1)-fragmentLength_newintrafreqcelllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -57975,7 +57975,7 @@ func (v *MeasurementControlV8a0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_newinterfreqcelllist {
 		tmp_newinterfreqcelllist := make(NewInterFreqCellListLCRV8a0ext, 0)
 		_, errCollection_newinterfreqcelllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_newinterfreqcelllist, fragmentLength_newinterfreqcelllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_newinterfreqcelllist < 0 || fragmentLength_newinterfreqcelllist < 0 || fragmentLength_newinterfreqcelllist > int64(^uint(0)>>1) || fragmentOffset_newinterfreqcelllist > int64(^uint(0)>>1)-fragmentLength_newinterfreqcelllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -58110,7 +58110,7 @@ func (v *MeasurementControlR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementlist {
 		tmp_additionalmeasurementlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementlist, fragmentLength_additionalmeasurementlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -58222,7 +58222,7 @@ func (v *MeasurementControlV970extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_additionalmeasurementlist {
 		tmp_additionalmeasurementlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementlist, fragmentLength_additionalmeasurementlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -58357,7 +58357,7 @@ func (v *MeasurementControlR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementlist {
 		tmp_additionalmeasurementlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementlist, fragmentLength_additionalmeasurementlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -58559,7 +58559,7 @@ func (v *MeasurementControlR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementlist {
 		tmp_additionalmeasurementlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementlist, fragmentLength_additionalmeasurementlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -58785,7 +58785,7 @@ func (v *MeasurementControlR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementlist {
 		tmp_additionalmeasurementlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementlist, fragmentLength_additionalmeasurementlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -58966,7 +58966,7 @@ func (v *MeasurementControlR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementlist {
 		tmp_additionalmeasurementlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementlist, fragmentLength_additionalmeasurementlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -59147,7 +59147,7 @@ func (v *MeasurementControlR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementlist {
 		tmp_additionalmeasurementlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementlist, fragmentLength_additionalmeasurementlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -59404,7 +59404,7 @@ func (v *MeasurementControlR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementlist {
 		tmp_additionalmeasurementlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementlist, fragmentLength_additionalmeasurementlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist < 0 || fragmentLength_additionalmeasurementlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -59735,7 +59735,7 @@ func (v *MeasurementReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasuredresults {
 		tmp_additionalmeasuredresults := make(MeasuredResultsList, 0)
 		_, errCollection_additionalmeasuredresults := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasuredresults, fragmentLength_additionalmeasuredresults int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionalmeasuredresults < 0 || fragmentLength_additionalmeasuredresults < 0 || fragmentLength_additionalmeasuredresults > int64(^uint(0)>>1) || fragmentOffset_additionalmeasuredresults > int64(^uint(0)>>1)-fragmentLength_additionalmeasuredresults {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -59911,7 +59911,7 @@ func (v *MeasurementReportV4b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	if opt_additionalmeasuredresultslcr {
 		tmp_additionalmeasuredresultslcr := make(MeasuredResultsListLCRR4Ext, 0)
 		_, errCollection_additionalmeasuredresultslcr := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasuredresultslcr, fragmentLength_additionalmeasuredresultslcr int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionalmeasuredresultslcr < 0 || fragmentLength_additionalmeasuredresultslcr < 0 || fragmentLength_additionalmeasuredresultslcr > int64(^uint(0)>>1) || fragmentOffset_additionalmeasuredresultslcr > int64(^uint(0)>>1)-fragmentLength_additionalmeasuredresultslcr {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -60199,7 +60199,7 @@ func (v *MeasurementReportV770extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	if opt_additionalmeasuredresults {
 		tmp_additionalmeasuredresults := make(MeasuredResultsListV770xet, 0)
 		_, errCollection_additionalmeasuredresults := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasuredresults, fragmentLength_additionalmeasuredresults int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionalmeasuredresults < 0 || fragmentLength_additionalmeasuredresults < 0 || fragmentLength_additionalmeasuredresults > int64(^uint(0)>>1) || fragmentOffset_additionalmeasuredresults > int64(^uint(0)>>1)-fragmentLength_additionalmeasuredresults {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -60366,7 +60366,7 @@ func (v *MeasurementReportV860extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	if opt_additionalmeasuredresults {
 		tmp_additionalmeasuredresults := make(MeasuredResultsListV860ext, 0)
 		_, errCollection_additionalmeasuredresults := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasuredresults, fragmentLength_additionalmeasuredresults int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionalmeasuredresults < 0 || fragmentLength_additionalmeasuredresults < 0 || fragmentLength_additionalmeasuredresults > int64(^uint(0)>>1) || fragmentOffset_additionalmeasuredresults > int64(^uint(0)>>1)-fragmentLength_additionalmeasuredresults {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -60569,7 +60569,7 @@ func (v *MeasurementReportV920extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	if opt_additionalmeasuredresults {
 		tmp_additionalmeasuredresults := make(MeasuredResultsListV920ext, 0)
 		_, errCollection_additionalmeasuredresults := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasuredresults, fragmentLength_additionalmeasuredresults int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionalmeasuredresults < 0 || fragmentLength_additionalmeasuredresults < 0 || fragmentLength_additionalmeasuredresults > int64(^uint(0)>>1) || fragmentOffset_additionalmeasuredresults > int64(^uint(0)>>1)-fragmentLength_additionalmeasuredresults {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -60590,7 +60590,7 @@ func (v *MeasurementReportV920extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	if opt_additionalmeasuredresultsonseculfreq {
 		tmp_additionalmeasuredresultsonseculfreq := make(MeasuredResultsListOnSecUlFreq, 0)
 		_, errCollection_additionalmeasuredresultsonseculfreq := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasuredresultsonseculfreq, fragmentLength_additionalmeasuredresultsonseculfreq int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionalmeasuredresultsonseculfreq < 0 || fragmentLength_additionalmeasuredresultsonseculfreq < 0 || fragmentLength_additionalmeasuredresultsonseculfreq > int64(^uint(0)>>1) || fragmentOffset_additionalmeasuredresultsonseculfreq > int64(^uint(0)>>1)-fragmentLength_additionalmeasuredresultsonseculfreq {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -61131,7 +61131,7 @@ func (v *MeasurementReportVc50extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	if opt_additionalmeasuredresults {
 		tmp_additionalmeasuredresults := make(MeasuredResultsListVc50ext, 0)
 		_, errCollection_additionalmeasuredresults := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasuredresults, fragmentLength_additionalmeasuredresults int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionalmeasuredresults < 0 || fragmentLength_additionalmeasuredresults < 0 || fragmentLength_additionalmeasuredresults > int64(^uint(0)>>1) || fragmentOffset_additionalmeasuredresults > int64(^uint(0)>>1)-fragmentLength_additionalmeasuredresults {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -61152,7 +61152,7 @@ func (v *MeasurementReportVc50extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	if opt_additionalmeasuredresultsonseculfreq {
 		tmp_additionalmeasuredresultsonseculfreq := make(MeasuredResultsListOnSecUlFreqVc50ext, 0)
 		_, errCollection_additionalmeasuredresultsonseculfreq := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasuredresultsonseculfreq, fragmentLength_additionalmeasuredresultsonseculfreq int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionalmeasuredresultsonseculfreq < 0 || fragmentLength_additionalmeasuredresultsonseculfreq < 0 || fragmentLength_additionalmeasuredresultsonseculfreq > int64(^uint(0)>>1) || fragmentOffset_additionalmeasuredresultsonseculfreq > int64(^uint(0)>>1)-fragmentLength_additionalmeasuredresultsonseculfreq {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -61491,7 +61491,7 @@ func (v *PagingType1) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_pagingrecordlist {
 		tmp_pagingrecordlist := make(PagingRecordList, 0)
 		_, errCollection_pagingrecordlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_pagingrecordlist, fragmentLength_pagingrecordlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_pagingrecordlist < 0 || fragmentLength_pagingrecordlist < 0 || fragmentLength_pagingrecordlist > int64(^uint(0)>>1) || fragmentOffset_pagingrecordlist > int64(^uint(0)>>1)-fragmentLength_pagingrecordlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -61583,7 +61583,7 @@ func (v *PagingType1V590extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_pagingrecord2list {
 		tmp_pagingrecord2list := make(PagingRecord2ListR5, 0)
 		_, errCollection_pagingrecord2list := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_pagingrecord2list, fragmentLength_pagingrecord2list int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_pagingrecord2list < 0 || fragmentLength_pagingrecord2list < 0 || fragmentLength_pagingrecord2list > int64(^uint(0)>>1) || fragmentOffset_pagingrecord2list > int64(^uint(0)>>1)-fragmentLength_pagingrecord2list {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -62209,7 +62209,7 @@ func (v *PhysicalChannelReconfigurationR3IEs) UnmarshalUPERFrom(bb *per.BitBuffe
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLList, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -62361,7 +62361,7 @@ func (v *PhysicalChannelReconfigurationV4b0extIEs) UnmarshalUPERFrom(bb *per.Bit
 	if opt_cellidperrllist {
 		tmp_cellidperrllist := make(CellIdentityPerRLList, 0)
 		_, errCollection_cellidperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_cellidperrllist, fragmentLength_cellidperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1240
+			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1241
 			if fragmentOffset_cellidperrllist < 0 || fragmentLength_cellidperrllist < 0 || fragmentLength_cellidperrllist > int64(^uint(0)>>1) || fragmentOffset_cellidperrllist > int64(^uint(0)>>1)-fragmentLength_cellidperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -62439,7 +62439,7 @@ func (v *PhysicalChannelReconfigurationV590extIEs) UnmarshalUPERFrom(bb *per.Bit
 	if opt_dltpcpoweroffsetperrllist {
 		tmp_dltpcpoweroffsetperrllist := make(DLTPCPowerOffsetPerRLList, 0)
 		_, errCollection_dltpcpoweroffsetperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dltpcpoweroffsetperrllist, fragmentLength_dltpcpoweroffsetperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dltpcpoweroffsetperrllist < 0 || fragmentLength_dltpcpoweroffsetperrllist < 0 || fragmentLength_dltpcpoweroffsetperrllist > int64(^uint(0)>>1) || fragmentOffset_dltpcpoweroffsetperrllist > int64(^uint(0)>>1)-fragmentLength_dltpcpoweroffsetperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -62803,7 +62803,7 @@ func (v *PhysicalChannelReconfigurationR4IEs) UnmarshalUPERFrom(bb *per.BitBuffe
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR4, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -63206,7 +63206,7 @@ func (v *PhysicalChannelReconfigurationR5IEs) UnmarshalUPERFrom(bb *per.BitBuffe
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR5, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -63694,7 +63694,7 @@ func (v *PhysicalChannelReconfigurationR6IEs) UnmarshalUPERFrom(bb *per.BitBuffe
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR6, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -63972,7 +63972,7 @@ func (v *PhysicalChannelReconfigurationV6b0extIEs) UnmarshalUPERFrom(bb *per.Bit
 	if opt_dlinformationperrllistv6b0ext {
 		tmp_dlinformationperrllistv6b0ext := make(DLInformationPerRLListV6b0ext, 0)
 		_, errCollection_dlinformationperrllistv6b0ext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllistv6b0ext, fragmentLength_dlinformationperrllistv6b0ext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllistv6b0ext < 0 || fragmentLength_dlinformationperrllistv6b0ext < 0 || fragmentLength_dlinformationperrllistv6b0ext > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllistv6b0ext > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllistv6b0ext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -64612,7 +64612,7 @@ func (v *PhysicalChannelReconfigurationR7IEs) UnmarshalUPERFrom(bb *per.BitBuffe
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR7, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -65601,7 +65601,7 @@ func (v *PhysicalChannelReconfigurationR8IEs) UnmarshalUPERFrom(bb *per.BitBuffe
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -66495,7 +66495,7 @@ func (v *PhysicalChannelReconfigurationR9IEs) UnmarshalUPERFrom(bb *per.BitBuffe
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -67364,7 +67364,7 @@ func (v *PhysicalChannelReconfigurationR10IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -67392,7 +67392,7 @@ func (v *PhysicalChannelReconfigurationR10IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDD, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -68353,7 +68353,7 @@ func (v *PhysicalChannelReconfigurationR11IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR11, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -68381,7 +68381,7 @@ func (v *PhysicalChannelReconfigurationR11IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -68402,7 +68402,7 @@ func (v *PhysicalChannelReconfigurationR11IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -69372,7 +69372,7 @@ func (v *PhysicalChannelReconfigurationR12IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR12, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -69400,7 +69400,7 @@ func (v *PhysicalChannelReconfigurationR12IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -69421,7 +69421,7 @@ func (v *PhysicalChannelReconfigurationR12IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -70452,7 +70452,7 @@ func (v *PhysicalChannelReconfigurationR13IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -70480,7 +70480,7 @@ func (v *PhysicalChannelReconfigurationR13IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -70501,7 +70501,7 @@ func (v *PhysicalChannelReconfigurationR13IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -70722,7 +70722,7 @@ func (v *PhysicalChannelReconfigurationComplete) UnmarshalUPERFrom(bb *per.BitBu
 	if opt_dummy {
 		tmp_dummy := make(RBActivationTimeInfoList, 0)
 		_, errCollection_dummy := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy, fragmentLength_dummy int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy < 0 || fragmentLength_dummy < 0 || fragmentLength_dummy > int64(^uint(0)>>1) || fragmentOffset_dummy > int64(^uint(0)>>1)-fragmentLength_dummy {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -71174,7 +71174,7 @@ func (v *PhysicalSharedChannelAllocationR3IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_iscptimeslotlist {
 		tmp_iscptimeslotlist := make(TimeslotList, 0)
 		_, errCollection_iscptimeslotlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 14, HasUpper: true}, false, func(fragmentOffset_iscptimeslotlist, fragmentLength_iscptimeslotlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_iscptimeslotlist < 0 || fragmentLength_iscptimeslotlist < 0 || fragmentLength_iscptimeslotlist > int64(^uint(0)>>1) || fragmentOffset_iscptimeslotlist > int64(^uint(0)>>1)-fragmentLength_iscptimeslotlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -71640,7 +71640,7 @@ func (v *PUSCHCapacityRequest) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_trafficvolume {
 		tmp_trafficvolume := make(TrafficVolumeMeasuredResultsList, 0)
 		_, errCollection_trafficvolume := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_trafficvolume, fragmentLength_trafficvolume int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_trafficvolume < 0 || fragmentLength_trafficvolume < 0 || fragmentLength_trafficvolume > int64(^uint(0)>>1) || fragmentOffset_trafficvolume > int64(^uint(0)>>1)-fragmentLength_trafficvolume {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -71661,7 +71661,7 @@ func (v *PUSCHCapacityRequest) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_timeslotlistwithiscp {
 		tmp_timeslotlistwithiscp := make(TimeslotListWithISCP, 0)
 		_, errCollection_timeslotlistwithiscp := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 14, HasUpper: true}, false, func(fragmentOffset_timeslotlistwithiscp, fragmentLength_timeslotlistwithiscp int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_timeslotlistwithiscp < 0 || fragmentLength_timeslotlistwithiscp < 0 || fragmentLength_timeslotlistwithiscp > int64(^uint(0)>>1) || fragmentOffset_timeslotlistwithiscp > int64(^uint(0)>>1)-fragmentLength_timeslotlistwithiscp {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -71901,7 +71901,7 @@ func (v *RadioBearerReconfigurationVaa0extIEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_umrlcreestablishmentrblist {
 		tmp_umrlcreestablishmentrblist := make(RBIdentityList, 0)
 		_, errCollection_umrlcreestablishmentrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_umrlcreestablishmentrblist, fragmentLength_umrlcreestablishmentrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_umrlcreestablishmentrblist < 0 || fragmentLength_umrlcreestablishmentrblist < 0 || fragmentLength_umrlcreestablishmentrblist > int64(^uint(0)>>1) || fragmentOffset_umrlcreestablishmentrblist > int64(^uint(0)>>1)-fragmentLength_umrlcreestablishmentrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -72381,7 +72381,7 @@ func (v *RadioBearerReconfigurationR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigList, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -72401,7 +72401,7 @@ func (v *RadioBearerReconfigurationR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	}
 	v.RbInformationReconfigList = make(RBInformationReconfigList, 0)
 	_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -72420,7 +72420,7 @@ func (v *RadioBearerReconfigurationR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedList, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -72448,7 +72448,7 @@ func (v *RadioBearerReconfigurationR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoList, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -72469,7 +72469,7 @@ func (v *RadioBearerReconfigurationR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -72504,7 +72504,7 @@ func (v *RadioBearerReconfigurationR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoList, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -72525,7 +72525,7 @@ func (v *RadioBearerReconfigurationR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfo2List, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -72577,7 +72577,7 @@ func (v *RadioBearerReconfigurationR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLList, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -72727,7 +72727,7 @@ func (v *RadioBearerReconfigurationV4b0extIEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_cellidperrllist {
 		tmp_cellidperrllist := make(CellIdentityPerRLList, 0)
 		_, errCollection_cellidperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_cellidperrllist, fragmentLength_cellidperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1240
+			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1241
 			if fragmentOffset_cellidperrllist < 0 || fragmentLength_cellidperrllist < 0 || fragmentLength_cellidperrllist > int64(^uint(0)>>1) || fragmentOffset_cellidperrllist > int64(^uint(0)>>1)-fragmentLength_cellidperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -72805,7 +72805,7 @@ func (v *RadioBearerReconfigurationV590extIEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dltpcpoweroffsetperrllist {
 		tmp_dltpcpoweroffsetperrllist := make(DLTPCPowerOffsetPerRLList, 0)
 		_, errCollection_dltpcpoweroffsetperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dltpcpoweroffsetperrllist, fragmentLength_dltpcpoweroffsetperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dltpcpoweroffsetperrllist < 0 || fragmentLength_dltpcpoweroffsetperrllist < 0 || fragmentLength_dltpcpoweroffsetperrllist > int64(^uint(0)>>1) || fragmentOffset_dltpcpoweroffsetperrllist > int64(^uint(0)>>1)-fragmentLength_dltpcpoweroffsetperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -73369,7 +73369,7 @@ func (v *RadioBearerReconfigurationR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigList, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -73390,7 +73390,7 @@ func (v *RadioBearerReconfigurationR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR4, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -73411,7 +73411,7 @@ func (v *RadioBearerReconfigurationR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedList, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -73439,7 +73439,7 @@ func (v *RadioBearerReconfigurationR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoList, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -73460,7 +73460,7 @@ func (v *RadioBearerReconfigurationR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -73495,7 +73495,7 @@ func (v *RadioBearerReconfigurationR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoList, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -73516,7 +73516,7 @@ func (v *RadioBearerReconfigurationR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR4, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -73569,7 +73569,7 @@ func (v *RadioBearerReconfigurationR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR4, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -73959,7 +73959,7 @@ func (v *RadioBearerReconfigurationR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR5, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -74434,7 +74434,7 @@ func (v *RadioBearerReconfigurationR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR6, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -74712,7 +74712,7 @@ func (v *RadioBearerReconfigurationV6b0extIEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dlinformationperrllistv6b0ext {
 		tmp_dlinformationperrllistv6b0ext := make(DLInformationPerRLListV6b0ext, 0)
 		_, errCollection_dlinformationperrllistv6b0ext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllistv6b0ext, fragmentLength_dlinformationperrllistv6b0ext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllistv6b0ext < 0 || fragmentLength_dlinformationperrllistv6b0ext < 0 || fragmentLength_dlinformationperrllistv6b0ext > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllistv6b0ext > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllistv6b0ext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -75377,7 +75377,7 @@ func (v *RadioBearerReconfigurationR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR7, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -76388,7 +76388,7 @@ func (v *RadioBearerReconfigurationR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -77255,7 +77255,7 @@ func (v *RadioBearerReconfigurationR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -77422,7 +77422,7 @@ func (v *RadioBearerReconfigurationV9c0extIEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListTDD128V9c0ext, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -78189,7 +78189,7 @@ func (v *RadioBearerReconfigurationR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -78217,7 +78217,7 @@ func (v *RadioBearerReconfigurationR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDD, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -79165,7 +79165,7 @@ func (v *RadioBearerReconfigurationR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR11, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -79193,7 +79193,7 @@ func (v *RadioBearerReconfigurationR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -79214,7 +79214,7 @@ func (v *RadioBearerReconfigurationR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -80229,7 +80229,7 @@ func (v *RadioBearerReconfigurationR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR12, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -80257,7 +80257,7 @@ func (v *RadioBearerReconfigurationR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -80278,7 +80278,7 @@ func (v *RadioBearerReconfigurationR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -81354,7 +81354,7 @@ func (v *RadioBearerReconfigurationR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -81382,7 +81382,7 @@ func (v *RadioBearerReconfigurationR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -81403,7 +81403,7 @@ func (v *RadioBearerReconfigurationR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -82549,7 +82549,7 @@ func (v *RadioBearerReconfigurationR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -82577,7 +82577,7 @@ func (v *RadioBearerReconfigurationR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -82598,7 +82598,7 @@ func (v *RadioBearerReconfigurationR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -83807,7 +83807,7 @@ func (v *RadioBearerReconfigurationR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -83835,7 +83835,7 @@ func (v *RadioBearerReconfigurationR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -83856,7 +83856,7 @@ func (v *RadioBearerReconfigurationR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -84105,7 +84105,7 @@ func (v *RadioBearerReconfigurationComplete) UnmarshalUPERFrom(bb *per.BitBuffer
 	if opt_dummy {
 		tmp_dummy := make(RBActivationTimeInfoList, 0)
 		_, errCollection_dummy := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy, fragmentLength_dummy int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy < 0 || fragmentLength_dummy < 0 || fragmentLength_dummy > int64(^uint(0)>>1) || fragmentOffset_dummy > int64(^uint(0)>>1)-fragmentLength_dummy {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -84295,7 +84295,7 @@ func (v *RadioBearerReconfigurationFailure) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if opt_potentiallysuccesfulbearerlist {
 		tmp_potentiallysuccesfulbearerlist := make(RBIdentityList, 0)
 		_, errCollection_potentiallysuccesfulbearerlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_potentiallysuccesfulbearerlist, fragmentLength_potentiallysuccesfulbearerlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_potentiallysuccesfulbearerlist < 0 || fragmentLength_potentiallysuccesfulbearerlist < 0 || fragmentLength_potentiallysuccesfulbearerlist > int64(^uint(0)>>1) || fragmentOffset_potentiallysuccesfulbearerlist > int64(^uint(0)>>1)-fragmentLength_potentiallysuccesfulbearerlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -84906,7 +84906,7 @@ func (v *RadioBearerReleaseR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigList, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -84926,7 +84926,7 @@ func (v *RadioBearerReleaseR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RbInformationReleaseList = make(RBInformationReleaseList, 0)
 	_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 		if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -84945,7 +84945,7 @@ func (v *RadioBearerReleaseR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedList, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -84980,7 +84980,7 @@ func (v *RadioBearerReleaseR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoList, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -85001,7 +85001,7 @@ func (v *RadioBearerReleaseR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -85036,7 +85036,7 @@ func (v *RadioBearerReleaseR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoList, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -85057,7 +85057,7 @@ func (v *RadioBearerReleaseR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfo2List, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -85110,7 +85110,7 @@ func (v *RadioBearerReleaseR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLList, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -85262,7 +85262,7 @@ func (v *RadioBearerReleaseV4b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_cellidperrllist {
 		tmp_cellidperrllist := make(CellIdentityPerRLList, 0)
 		_, errCollection_cellidperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_cellidperrllist, fragmentLength_cellidperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1240
+			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1241
 			if fragmentOffset_cellidperrllist < 0 || fragmentLength_cellidperrllist < 0 || fragmentLength_cellidperrllist > int64(^uint(0)>>1) || fragmentOffset_cellidperrllist > int64(^uint(0)>>1)-fragmentLength_cellidperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -85340,7 +85340,7 @@ func (v *RadioBearerReleaseV590extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_dltpcpoweroffsetperrllist {
 		tmp_dltpcpoweroffsetperrllist := make(DLTPCPowerOffsetPerRLList, 0)
 		_, errCollection_dltpcpoweroffsetperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dltpcpoweroffsetperrllist, fragmentLength_dltpcpoweroffsetperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dltpcpoweroffsetperrllist < 0 || fragmentLength_dltpcpoweroffsetperrllist < 0 || fragmentLength_dltpcpoweroffsetperrllist > int64(^uint(0)>>1) || fragmentOffset_dltpcpoweroffsetperrllist > int64(^uint(0)>>1)-fragmentLength_dltpcpoweroffsetperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -85873,7 +85873,7 @@ func (v *RadioBearerReleaseR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigList, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -85893,7 +85893,7 @@ func (v *RadioBearerReleaseR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RbInformationReleaseList = make(RBInformationReleaseList, 0)
 	_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 		if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -85912,7 +85912,7 @@ func (v *RadioBearerReleaseR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedList, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -85947,7 +85947,7 @@ func (v *RadioBearerReleaseR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoList, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -85968,7 +85968,7 @@ func (v *RadioBearerReleaseR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -86003,7 +86003,7 @@ func (v *RadioBearerReleaseR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoList, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -86024,7 +86024,7 @@ func (v *RadioBearerReleaseR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR4, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -86077,7 +86077,7 @@ func (v *RadioBearerReleaseR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR4, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -86642,7 +86642,7 @@ func (v *RadioBearerReleaseR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigList, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -86662,7 +86662,7 @@ func (v *RadioBearerReleaseR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RbInformationReleaseList = make(RBInformationReleaseList, 0)
 	_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 		if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -86681,7 +86681,7 @@ func (v *RadioBearerReleaseR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR5, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -86716,7 +86716,7 @@ func (v *RadioBearerReleaseR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoList, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -86737,7 +86737,7 @@ func (v *RadioBearerReleaseR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -86772,7 +86772,7 @@ func (v *RadioBearerReleaseR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR5, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -86793,7 +86793,7 @@ func (v *RadioBearerReleaseR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR5, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -86853,7 +86853,7 @@ func (v *RadioBearerReleaseR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR5, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -87069,7 +87069,7 @@ func (v *RadioBearerReleaseV690extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_mbmsrblistreleasedtochangetransfermode {
 		tmp_mbmsrblistreleasedtochangetransfermode := make(RBInformationReleaseList, 0)
 		_, errCollection_mbmsrblistreleasedtochangetransfermode := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_mbmsrblistreleasedtochangetransfermode, fragmentLength_mbmsrblistreleasedtochangetransfermode int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1) || fragmentOffset_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1)-fragmentLength_mbmsrblistreleasedtochangetransfermode {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -87729,7 +87729,7 @@ func (v *RadioBearerReleaseR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigList, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -87749,7 +87749,7 @@ func (v *RadioBearerReleaseR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RbInformationReleaseList = make(RBInformationReleaseList, 0)
 	_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 		if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -87768,7 +87768,7 @@ func (v *RadioBearerReleaseR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR6, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -87789,7 +87789,7 @@ func (v *RadioBearerReleaseR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR6, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -87824,7 +87824,7 @@ func (v *RadioBearerReleaseR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -87845,7 +87845,7 @@ func (v *RadioBearerReleaseR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR6, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -87873,7 +87873,7 @@ func (v *RadioBearerReleaseR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR5, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -87894,7 +87894,7 @@ func (v *RadioBearerReleaseR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR5, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -87958,7 +87958,7 @@ func (v *RadioBearerReleaseR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR6, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -87987,7 +87987,7 @@ func (v *RadioBearerReleaseR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_mbmsrblistreleasedtochangetransfermode {
 		tmp_mbmsrblistreleasedtochangetransfermode := make(RBInformationReleaseList, 0)
 		_, errCollection_mbmsrblistreleasedtochangetransfermode := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_mbmsrblistreleasedtochangetransfermode, fragmentLength_mbmsrblistreleasedtochangetransfermode int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1) || fragmentOffset_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1)-fragmentLength_mbmsrblistreleasedtochangetransfermode {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -88065,7 +88065,7 @@ func (v *RadioBearerReleaseV6b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_dlinformationperrllistv6b0ext {
 		tmp_dlinformationperrllistv6b0ext := make(DLInformationPerRLListV6b0ext, 0)
 		_, errCollection_dlinformationperrllistv6b0ext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllistv6b0ext, fragmentLength_dlinformationperrllistv6b0ext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllistv6b0ext < 0 || fragmentLength_dlinformationperrllistv6b0ext < 0 || fragmentLength_dlinformationperrllistv6b0ext > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllistv6b0ext > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllistv6b0ext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -88823,7 +88823,7 @@ func (v *RadioBearerReleaseR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigList, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -88843,7 +88843,7 @@ func (v *RadioBearerReleaseR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RbInformationReleaseList = make(RBInformationReleaseList, 0)
 	_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 		if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -88862,7 +88862,7 @@ func (v *RadioBearerReleaseR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR7, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -88883,7 +88883,7 @@ func (v *RadioBearerReleaseR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR7, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -88918,7 +88918,7 @@ func (v *RadioBearerReleaseR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -88939,7 +88939,7 @@ func (v *RadioBearerReleaseR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR7, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -88967,7 +88967,7 @@ func (v *RadioBearerReleaseR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -88988,7 +88988,7 @@ func (v *RadioBearerReleaseR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR7, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -89087,7 +89087,7 @@ func (v *RadioBearerReleaseR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR7, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -89116,7 +89116,7 @@ func (v *RadioBearerReleaseR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_mbmsrblistreleasedtochangetransfermode {
 		tmp_mbmsrblistreleasedtochangetransfermode := make(RBInformationReleaseList, 0)
 		_, errCollection_mbmsrblistreleasedtochangetransfermode := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_mbmsrblistreleasedtochangetransfermode, fragmentLength_mbmsrblistreleasedtochangetransfermode int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1) || fragmentOffset_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1)-fragmentLength_mbmsrblistreleasedtochangetransfermode {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -90177,7 +90177,7 @@ func (v *RadioBearerReleaseR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -90197,7 +90197,7 @@ func (v *RadioBearerReleaseR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RbInformationReleaseList = make(RBInformationReleaseList, 0)
 	_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 		if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -90216,7 +90216,7 @@ func (v *RadioBearerReleaseR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR8, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -90237,7 +90237,7 @@ func (v *RadioBearerReleaseR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -90272,7 +90272,7 @@ func (v *RadioBearerReleaseR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -90293,7 +90293,7 @@ func (v *RadioBearerReleaseR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -90321,7 +90321,7 @@ func (v *RadioBearerReleaseR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -90342,7 +90342,7 @@ func (v *RadioBearerReleaseR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR7, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -90441,7 +90441,7 @@ func (v *RadioBearerReleaseR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -90491,7 +90491,7 @@ func (v *RadioBearerReleaseR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_mbmsrblistreleasedtochangetransfermode {
 		tmp_mbmsrblistreleasedtochangetransfermode := make(RBInformationReleaseList, 0)
 		_, errCollection_mbmsrblistreleasedtochangetransfermode := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_mbmsrblistreleasedtochangetransfermode, fragmentLength_mbmsrblistreleasedtochangetransfermode int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1) || fragmentOffset_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1)-fragmentLength_mbmsrblistreleasedtochangetransfermode {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -91422,7 +91422,7 @@ func (v *RadioBearerReleaseR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -91442,7 +91442,7 @@ func (v *RadioBearerReleaseR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RbInformationReleaseList = make(RBInformationReleaseList, 0)
 	_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 		if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -91461,7 +91461,7 @@ func (v *RadioBearerReleaseR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR8, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -91482,7 +91482,7 @@ func (v *RadioBearerReleaseR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -91517,7 +91517,7 @@ func (v *RadioBearerReleaseR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -91538,7 +91538,7 @@ func (v *RadioBearerReleaseR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -91566,7 +91566,7 @@ func (v *RadioBearerReleaseR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -91587,7 +91587,7 @@ func (v *RadioBearerReleaseR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR9, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -91693,7 +91693,7 @@ func (v *RadioBearerReleaseR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -91743,7 +91743,7 @@ func (v *RadioBearerReleaseR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_mbmsrblistreleasedtochangetransfermode {
 		tmp_mbmsrblistreleasedtochangetransfermode := make(RBInformationReleaseList, 0)
 		_, errCollection_mbmsrblistreleasedtochangetransfermode := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_mbmsrblistreleasedtochangetransfermode, fragmentLength_mbmsrblistreleasedtochangetransfermode int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1) || fragmentOffset_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1)-fragmentLength_mbmsrblistreleasedtochangetransfermode {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -91927,7 +91927,7 @@ func (v *RadioBearerReleaseV9c0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListTDD128V9c0ext, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -92792,7 +92792,7 @@ func (v *RadioBearerReleaseR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -92812,7 +92812,7 @@ func (v *RadioBearerReleaseR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RbInformationReleaseList = make(RBInformationReleaseList, 0)
 	_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 		if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -92831,7 +92831,7 @@ func (v *RadioBearerReleaseR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR8, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -92852,7 +92852,7 @@ func (v *RadioBearerReleaseR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -92887,7 +92887,7 @@ func (v *RadioBearerReleaseR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -92908,7 +92908,7 @@ func (v *RadioBearerReleaseR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -92936,7 +92936,7 @@ func (v *RadioBearerReleaseR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -92957,7 +92957,7 @@ func (v *RadioBearerReleaseR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR9, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -93070,7 +93070,7 @@ func (v *RadioBearerReleaseR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -93098,7 +93098,7 @@ func (v *RadioBearerReleaseR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDD, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -93148,7 +93148,7 @@ func (v *RadioBearerReleaseR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_mbmsrblistreleasedtochangetransfermode {
 		tmp_mbmsrblistreleasedtochangetransfermode := make(RBInformationReleaseList, 0)
 		_, errCollection_mbmsrblistreleasedtochangetransfermode := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_mbmsrblistreleasedtochangetransfermode, fragmentLength_mbmsrblistreleasedtochangetransfermode int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1) || fragmentOffset_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1)-fragmentLength_mbmsrblistreleasedtochangetransfermode {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -94144,7 +94144,7 @@ func (v *RadioBearerReleaseR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -94164,7 +94164,7 @@ func (v *RadioBearerReleaseR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RbInformationReleaseList = make(RBInformationReleaseList, 0)
 	_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 		if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -94183,7 +94183,7 @@ func (v *RadioBearerReleaseR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -94204,7 +94204,7 @@ func (v *RadioBearerReleaseR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -94239,7 +94239,7 @@ func (v *RadioBearerReleaseR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -94260,7 +94260,7 @@ func (v *RadioBearerReleaseR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -94288,7 +94288,7 @@ func (v *RadioBearerReleaseR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -94309,7 +94309,7 @@ func (v *RadioBearerReleaseR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -94443,7 +94443,7 @@ func (v *RadioBearerReleaseR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR11, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -94471,7 +94471,7 @@ func (v *RadioBearerReleaseR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -94492,7 +94492,7 @@ func (v *RadioBearerReleaseR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -94549,7 +94549,7 @@ func (v *RadioBearerReleaseR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_mbmsrblistreleasedtochangetransfermode {
 		tmp_mbmsrblistreleasedtochangetransfermode := make(RBInformationReleaseList, 0)
 		_, errCollection_mbmsrblistreleasedtochangetransfermode := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_mbmsrblistreleasedtochangetransfermode, fragmentLength_mbmsrblistreleasedtochangetransfermode int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1) || fragmentOffset_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1)-fragmentLength_mbmsrblistreleasedtochangetransfermode {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -95572,7 +95572,7 @@ func (v *RadioBearerReleaseR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -95592,7 +95592,7 @@ func (v *RadioBearerReleaseR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RbInformationReleaseList = make(RBInformationReleaseList, 0)
 	_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 		if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -95611,7 +95611,7 @@ func (v *RadioBearerReleaseR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -95632,7 +95632,7 @@ func (v *RadioBearerReleaseR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -95667,7 +95667,7 @@ func (v *RadioBearerReleaseR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -95688,7 +95688,7 @@ func (v *RadioBearerReleaseR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -95716,7 +95716,7 @@ func (v *RadioBearerReleaseR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -95737,7 +95737,7 @@ func (v *RadioBearerReleaseR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -95892,7 +95892,7 @@ func (v *RadioBearerReleaseR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR12, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -95920,7 +95920,7 @@ func (v *RadioBearerReleaseR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -95941,7 +95941,7 @@ func (v *RadioBearerReleaseR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -96014,7 +96014,7 @@ func (v *RadioBearerReleaseR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_mbmsrblistreleasedtochangetransfermode {
 		tmp_mbmsrblistreleasedtochangetransfermode := make(RBInformationReleaseList, 0)
 		_, errCollection_mbmsrblistreleasedtochangetransfermode := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_mbmsrblistreleasedtochangetransfermode, fragmentLength_mbmsrblistreleasedtochangetransfermode int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1) || fragmentOffset_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1)-fragmentLength_mbmsrblistreleasedtochangetransfermode {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -97068,7 +97068,7 @@ func (v *RadioBearerReleaseR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -97088,7 +97088,7 @@ func (v *RadioBearerReleaseR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RbInformationReleaseList = make(RBInformationReleaseList, 0)
 	_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 		if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -97107,7 +97107,7 @@ func (v *RadioBearerReleaseR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -97128,7 +97128,7 @@ func (v *RadioBearerReleaseR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -97170,7 +97170,7 @@ func (v *RadioBearerReleaseR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -97191,7 +97191,7 @@ func (v *RadioBearerReleaseR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -97219,7 +97219,7 @@ func (v *RadioBearerReleaseR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -97240,7 +97240,7 @@ func (v *RadioBearerReleaseR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR13, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -97395,7 +97395,7 @@ func (v *RadioBearerReleaseR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -97423,7 +97423,7 @@ func (v *RadioBearerReleaseR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -97444,7 +97444,7 @@ func (v *RadioBearerReleaseR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -97517,7 +97517,7 @@ func (v *RadioBearerReleaseR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_mbmsrblistreleasedtochangetransfermode {
 		tmp_mbmsrblistreleasedtochangetransfermode := make(RBInformationReleaseList, 0)
 		_, errCollection_mbmsrblistreleasedtochangetransfermode := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_mbmsrblistreleasedtochangetransfermode, fragmentLength_mbmsrblistreleasedtochangetransfermode int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1) || fragmentOffset_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1)-fragmentLength_mbmsrblistreleasedtochangetransfermode {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -98627,7 +98627,7 @@ func (v *RadioBearerReleaseR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -98647,7 +98647,7 @@ func (v *RadioBearerReleaseR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RbInformationReleaseList = make(RBInformationReleaseList, 0)
 	_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 		if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -98666,7 +98666,7 @@ func (v *RadioBearerReleaseR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -98687,7 +98687,7 @@ func (v *RadioBearerReleaseR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -98729,7 +98729,7 @@ func (v *RadioBearerReleaseR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -98750,7 +98750,7 @@ func (v *RadioBearerReleaseR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -98778,7 +98778,7 @@ func (v *RadioBearerReleaseR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -98799,7 +98799,7 @@ func (v *RadioBearerReleaseR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR13, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -98954,7 +98954,7 @@ func (v *RadioBearerReleaseR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -98982,7 +98982,7 @@ func (v *RadioBearerReleaseR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -99003,7 +99003,7 @@ func (v *RadioBearerReleaseR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -99083,7 +99083,7 @@ func (v *RadioBearerReleaseR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_mbmsrblistreleasedtochangetransfermode {
 		tmp_mbmsrblistreleasedtochangetransfermode := make(RBInformationReleaseList, 0)
 		_, errCollection_mbmsrblistreleasedtochangetransfermode := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_mbmsrblistreleasedtochangetransfermode, fragmentLength_mbmsrblistreleasedtochangetransfermode int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode < 0 || fragmentLength_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1) || fragmentOffset_mbmsrblistreleasedtochangetransfermode > int64(^uint(0)>>1)-fragmentLength_mbmsrblistreleasedtochangetransfermode {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -99259,7 +99259,7 @@ func (v *RadioBearerReleaseComplete) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	if opt_dummy {
 		tmp_dummy := make(RBActivationTimeInfoList, 0)
 		_, errCollection_dummy := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy, fragmentLength_dummy int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy < 0 || fragmentLength_dummy < 0 || fragmentLength_dummy > int64(^uint(0)>>1) || fragmentOffset_dummy > int64(^uint(0)>>1)-fragmentLength_dummy {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -99449,7 +99449,7 @@ func (v *RadioBearerReleaseFailure) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_potentiallysuccesfulbearerlist {
 		tmp_potentiallysuccesfulbearerlist := make(RBIdentityList, 0)
 		_, errCollection_potentiallysuccesfulbearerlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_potentiallysuccesfulbearerlist, fragmentLength_potentiallysuccesfulbearerlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_potentiallysuccesfulbearerlist < 0 || fragmentLength_potentiallysuccesfulbearerlist < 0 || fragmentLength_potentiallysuccesfulbearerlist > int64(^uint(0)>>1) || fragmentOffset_potentiallysuccesfulbearerlist > int64(^uint(0)>>1)-fragmentLength_potentiallysuccesfulbearerlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -100049,7 +100049,7 @@ func (v *RadioBearerSetupR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbinformationsetuplist {
 		tmp_srbinformationsetuplist := make(SRBInformationSetupList, 0)
 		_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -100070,7 +100070,7 @@ func (v *RadioBearerSetupR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupList, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -100091,7 +100091,7 @@ func (v *RadioBearerSetupR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedList, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -100126,7 +100126,7 @@ func (v *RadioBearerSetupR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoList, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -100147,7 +100147,7 @@ func (v *RadioBearerSetupR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -100182,7 +100182,7 @@ func (v *RadioBearerSetupR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoList, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -100203,7 +100203,7 @@ func (v *RadioBearerSetupR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoList, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -100256,7 +100256,7 @@ func (v *RadioBearerSetupR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLList, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -100408,7 +100408,7 @@ func (v *RadioBearerSetupV4b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	if opt_cellidperrllist {
 		tmp_cellidperrllist := make(CellIdentityPerRLList, 0)
 		_, errCollection_cellidperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_cellidperrllist, fragmentLength_cellidperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1240
+			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1241
 			if fragmentOffset_cellidperrllist < 0 || fragmentLength_cellidperrllist < 0 || fragmentLength_cellidperrllist > int64(^uint(0)>>1) || fragmentOffset_cellidperrllist > int64(^uint(0)>>1)-fragmentLength_cellidperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -100486,7 +100486,7 @@ func (v *RadioBearerSetupV590extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	if opt_dltpcpoweroffsetperrllist {
 		tmp_dltpcpoweroffsetperrllist := make(DLTPCPowerOffsetPerRLList, 0)
 		_, errCollection_dltpcpoweroffsetperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dltpcpoweroffsetperrllist, fragmentLength_dltpcpoweroffsetperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dltpcpoweroffsetperrllist < 0 || fragmentLength_dltpcpoweroffsetperrllist < 0 || fragmentLength_dltpcpoweroffsetperrllist > int64(^uint(0)>>1) || fragmentOffset_dltpcpoweroffsetperrllist > int64(^uint(0)>>1)-fragmentLength_dltpcpoweroffsetperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -101062,7 +101062,7 @@ func (v *RadioBearerSetupR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbinformationsetuplist {
 		tmp_srbinformationsetuplist := make(SRBInformationSetupList, 0)
 		_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -101083,7 +101083,7 @@ func (v *RadioBearerSetupR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR4, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -101104,7 +101104,7 @@ func (v *RadioBearerSetupR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedList, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -101139,7 +101139,7 @@ func (v *RadioBearerSetupR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoList, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -101160,7 +101160,7 @@ func (v *RadioBearerSetupR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -101195,7 +101195,7 @@ func (v *RadioBearerSetupR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoList, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -101216,7 +101216,7 @@ func (v *RadioBearerSetupR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR4, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -101269,7 +101269,7 @@ func (v *RadioBearerSetupR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR4, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -101823,7 +101823,7 @@ func (v *RadioBearerSetupR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbinformationsetuplist {
 		tmp_srbinformationsetuplist := make(SRBInformationSetupListR5, 0)
 		_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -101844,7 +101844,7 @@ func (v *RadioBearerSetupR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR5, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -101865,7 +101865,7 @@ func (v *RadioBearerSetupR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR5, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -101900,7 +101900,7 @@ func (v *RadioBearerSetupR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoList, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -101921,7 +101921,7 @@ func (v *RadioBearerSetupR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -101956,7 +101956,7 @@ func (v *RadioBearerSetupR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR5, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -101977,7 +101977,7 @@ func (v *RadioBearerSetupR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR5, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -102037,7 +102037,7 @@ func (v *RadioBearerSetupR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR5, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -102245,7 +102245,7 @@ func (v *RadioBearerSetupV690extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR6Ext, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -102708,7 +102708,7 @@ func (v *RadioBearerSetupR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR6, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -102817,7 +102817,7 @@ func (v *RadioBearerSetupV6b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	if opt_dlinformationperrllistv6b0ext {
 		tmp_dlinformationperrllistv6b0ext := make(DLInformationPerRLListV6b0ext, 0)
 		_, errCollection_dlinformationperrllistv6b0ext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllistv6b0ext, fragmentLength_dlinformationperrllistv6b0ext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllistv6b0ext < 0 || fragmentLength_dlinformationperrllistv6b0ext < 0 || fragmentLength_dlinformationperrllistv6b0ext > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllistv6b0ext > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllistv6b0ext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -102838,7 +102838,7 @@ func (v *RadioBearerSetupV6b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	if opt_rabinformationsetuplistext {
 		tmp_rabinformationsetuplistext := make(RABInformationSetupListV6b0ext, 0)
 		_, errCollection_rabinformationsetuplistext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplistext, fragmentLength_rabinformationsetuplistext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplistext < 0 || fragmentLength_rabinformationsetuplistext < 0 || fragmentLength_rabinformationsetuplistext > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplistext > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplistext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -103406,7 +103406,7 @@ func (v *RadioBearerSetupR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR7, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -104493,7 +104493,7 @@ func (v *RadioBearerSetupR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbinformationsetuplist {
 		tmp_srbinformationsetuplist := make(SRBInformationSetupListR8, 0)
 		_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -104514,7 +104514,7 @@ func (v *RadioBearerSetupR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR8, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -104535,7 +104535,7 @@ func (v *RadioBearerSetupR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -104556,7 +104556,7 @@ func (v *RadioBearerSetupR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR8, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -104577,7 +104577,7 @@ func (v *RadioBearerSetupR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -104620,7 +104620,7 @@ func (v *RadioBearerSetupR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -104641,7 +104641,7 @@ func (v *RadioBearerSetupR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -104669,7 +104669,7 @@ func (v *RadioBearerSetupR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -104690,7 +104690,7 @@ func (v *RadioBearerSetupR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR7, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -104789,7 +104789,7 @@ func (v *RadioBearerSetupR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -104896,7 +104896,7 @@ func (v *RadioBearerSetupV820extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListV820ext, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -105839,7 +105839,7 @@ func (v *RadioBearerSetupR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbinformationsetuplist {
 		tmp_srbinformationsetuplist := make(SRBInformationSetupListR8, 0)
 		_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -105860,7 +105860,7 @@ func (v *RadioBearerSetupR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR8, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -105881,7 +105881,7 @@ func (v *RadioBearerSetupR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -105902,7 +105902,7 @@ func (v *RadioBearerSetupR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR8, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -105923,7 +105923,7 @@ func (v *RadioBearerSetupR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -105966,7 +105966,7 @@ func (v *RadioBearerSetupR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -105987,7 +105987,7 @@ func (v *RadioBearerSetupR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -106015,7 +106015,7 @@ func (v *RadioBearerSetupR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -106036,7 +106036,7 @@ func (v *RadioBearerSetupR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR9, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -106142,7 +106142,7 @@ func (v *RadioBearerSetupR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -106309,7 +106309,7 @@ func (v *RadioBearerSetupV9c0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListTDD128V9c0ext, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -107174,7 +107174,7 @@ func (v *RadioBearerSetupR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbinformationsetuplist {
 		tmp_srbinformationsetuplist := make(SRBInformationSetupListR8, 0)
 		_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -107195,7 +107195,7 @@ func (v *RadioBearerSetupR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR8, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -107216,7 +107216,7 @@ func (v *RadioBearerSetupR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -107237,7 +107237,7 @@ func (v *RadioBearerSetupR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR8, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -107258,7 +107258,7 @@ func (v *RadioBearerSetupR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -107301,7 +107301,7 @@ func (v *RadioBearerSetupR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -107322,7 +107322,7 @@ func (v *RadioBearerSetupR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -107350,7 +107350,7 @@ func (v *RadioBearerSetupR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -107371,7 +107371,7 @@ func (v *RadioBearerSetupR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR9, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -107484,7 +107484,7 @@ func (v *RadioBearerSetupR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -107512,7 +107512,7 @@ func (v *RadioBearerSetupR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDD, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -108537,7 +108537,7 @@ func (v *RadioBearerSetupR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbinformationsetuplist {
 		tmp_srbinformationsetuplist := make(SRBInformationSetupListR11, 0)
 		_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -108558,7 +108558,7 @@ func (v *RadioBearerSetupR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR11, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -108579,7 +108579,7 @@ func (v *RadioBearerSetupR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -108600,7 +108600,7 @@ func (v *RadioBearerSetupR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -108621,7 +108621,7 @@ func (v *RadioBearerSetupR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -108664,7 +108664,7 @@ func (v *RadioBearerSetupR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -108685,7 +108685,7 @@ func (v *RadioBearerSetupR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -108713,7 +108713,7 @@ func (v *RadioBearerSetupR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -108734,7 +108734,7 @@ func (v *RadioBearerSetupR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -108868,7 +108868,7 @@ func (v *RadioBearerSetupR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR11, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -108896,7 +108896,7 @@ func (v *RadioBearerSetupR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -108917,7 +108917,7 @@ func (v *RadioBearerSetupR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -109976,7 +109976,7 @@ func (v *RadioBearerSetupR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbinformationsetuplist {
 		tmp_srbinformationsetuplist := make(SRBInformationSetupListR11, 0)
 		_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -109997,7 +109997,7 @@ func (v *RadioBearerSetupR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR11, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -110018,7 +110018,7 @@ func (v *RadioBearerSetupR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -110039,7 +110039,7 @@ func (v *RadioBearerSetupR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -110060,7 +110060,7 @@ func (v *RadioBearerSetupR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -110103,7 +110103,7 @@ func (v *RadioBearerSetupR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -110124,7 +110124,7 @@ func (v *RadioBearerSetupR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -110152,7 +110152,7 @@ func (v *RadioBearerSetupR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -110173,7 +110173,7 @@ func (v *RadioBearerSetupR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -110328,7 +110328,7 @@ func (v *RadioBearerSetupR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR12, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -110356,7 +110356,7 @@ func (v *RadioBearerSetupR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -110377,7 +110377,7 @@ func (v *RadioBearerSetupR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -111483,7 +111483,7 @@ func (v *RadioBearerSetupR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbinformationsetuplist {
 		tmp_srbinformationsetuplist := make(SRBInformationSetupListR11, 0)
 		_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -111504,7 +111504,7 @@ func (v *RadioBearerSetupR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR11, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -111525,7 +111525,7 @@ func (v *RadioBearerSetupR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -111546,7 +111546,7 @@ func (v *RadioBearerSetupR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -111567,7 +111567,7 @@ func (v *RadioBearerSetupR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -111610,7 +111610,7 @@ func (v *RadioBearerSetupR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -111631,7 +111631,7 @@ func (v *RadioBearerSetupR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -111659,7 +111659,7 @@ func (v *RadioBearerSetupR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -111680,7 +111680,7 @@ func (v *RadioBearerSetupR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR13, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -111842,7 +111842,7 @@ func (v *RadioBearerSetupR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -111870,7 +111870,7 @@ func (v *RadioBearerSetupR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -111891,7 +111891,7 @@ func (v *RadioBearerSetupR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -113053,7 +113053,7 @@ func (v *RadioBearerSetupR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbinformationsetuplist {
 		tmp_srbinformationsetuplist := make(SRBInformationSetupListR11, 0)
 		_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -113074,7 +113074,7 @@ func (v *RadioBearerSetupR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR11, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -113095,7 +113095,7 @@ func (v *RadioBearerSetupR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -113116,7 +113116,7 @@ func (v *RadioBearerSetupR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -113137,7 +113137,7 @@ func (v *RadioBearerSetupR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -113180,7 +113180,7 @@ func (v *RadioBearerSetupR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -113201,7 +113201,7 @@ func (v *RadioBearerSetupR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -113229,7 +113229,7 @@ func (v *RadioBearerSetupR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -113250,7 +113250,7 @@ func (v *RadioBearerSetupR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR13, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -113412,7 +113412,7 @@ func (v *RadioBearerSetupR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -113440,7 +113440,7 @@ func (v *RadioBearerSetupR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -113461,7 +113461,7 @@ func (v *RadioBearerSetupR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -113716,7 +113716,7 @@ func (v *RadioBearerSetupComplete) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dummy {
 		tmp_dummy := make(RBActivationTimeInfoList, 0)
 		_, errCollection_dummy := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy, fragmentLength_dummy int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy < 0 || fragmentLength_dummy < 0 || fragmentLength_dummy > int64(^uint(0)>>1) || fragmentOffset_dummy > int64(^uint(0)>>1)-fragmentLength_dummy {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -113906,7 +113906,7 @@ func (v *RadioBearerSetupFailure) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_potentiallysuccesfulbearerlist {
 		tmp_potentiallysuccesfulbearerlist := make(RBIdentityList, 0)
 		_, errCollection_potentiallysuccesfulbearerlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_potentiallysuccesfulbearerlist, fragmentLength_potentiallysuccesfulbearerlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_potentiallysuccesfulbearerlist < 0 || fragmentLength_potentiallysuccesfulbearerlist < 0 || fragmentLength_potentiallysuccesfulbearerlist > int64(^uint(0)>>1) || fragmentOffset_potentiallysuccesfulbearerlist > int64(^uint(0)>>1)-fragmentLength_potentiallysuccesfulbearerlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -114157,7 +114157,7 @@ func (v *RRCConnectionRejectV690extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if opt_redirectioninfov690ext {
 		tmp_redirectioninfov690ext := make(GSMTargetCellInfoList, 0)
 		_, errCollection_redirectioninfov690ext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_redirectioninfov690ext, fragmentLength_redirectioninfov690ext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_redirectioninfov690ext < 0 || fragmentLength_redirectioninfov690ext < 0 || fragmentLength_redirectioninfov690ext > int64(^uint(0)>>1) || fragmentOffset_redirectioninfov690ext > int64(^uint(0)>>1)-fragmentLength_redirectioninfov690ext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -114395,7 +114395,7 @@ func (v *RRCConnectionRejectVb50extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if opt_eutratargetfreqinfolist {
 		tmp_eutratargetfreqinfolist := make(EUTRATargetFreqInfoListVb50ext, 0)
 		_, errCollection_eutratargetfreqinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_eutratargetfreqinfolist, fragmentLength_eutratargetfreqinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_eutratargetfreqinfolist < 0 || fragmentLength_eutratargetfreqinfolist < 0 || fragmentLength_eutratargetfreqinfolist > int64(^uint(0)>>1) || fragmentOffset_eutratargetfreqinfolist > int64(^uint(0)>>1)-fragmentLength_eutratargetfreqinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -114940,7 +114940,7 @@ func (v *RRCConnectionReleaseVb50extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) er
 	if opt_eutratargetfreqinfolist {
 		tmp_eutratargetfreqinfolist := make(EUTRATargetFreqInfoListVb50ext, 0)
 		_, errCollection_eutratargetfreqinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_eutratargetfreqinfolist, fragmentLength_eutratargetfreqinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_eutratargetfreqinfolist < 0 || fragmentLength_eutratargetfreqinfolist < 0 || fragmentLength_eutratargetfreqinfolist > int64(^uint(0)>>1) || fragmentOffset_eutratargetfreqinfolist > int64(^uint(0)>>1)-fragmentLength_eutratargetfreqinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -116780,7 +116780,7 @@ func (v *RRCConnectionSetupR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupList2, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 3, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -116805,7 +116805,7 @@ func (v *RRCConnectionSetupR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.UlAddReconfTransChInfoList = make(ULAddReconfTransChInfoList, 0)
 	_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -116830,7 +116830,7 @@ func (v *RRCConnectionSetupR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.DlAddReconfTransChInfoList = make(DLAddReconfTransChInfoList, 0)
 	_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -116878,7 +116878,7 @@ func (v *RRCConnectionSetupR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLList, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -116995,7 +116995,7 @@ func (v *RRCConnectionSetupV4b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_cellidperrllist {
 		tmp_cellidperrllist := make(CellIdentityPerRLList, 0)
 		_, errCollection_cellidperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_cellidperrllist, fragmentLength_cellidperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1240
+			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1241
 			if fragmentOffset_cellidperrllist < 0 || fragmentLength_cellidperrllist < 0 || fragmentLength_cellidperrllist > int64(^uint(0)>>1) || fragmentOffset_cellidperrllist > int64(^uint(0)>>1)-fragmentLength_cellidperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -117093,7 +117093,7 @@ func (v *RRCConnectionSetupV590extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_dltpcpoweroffsetperrllist {
 		tmp_dltpcpoweroffsetperrllist := make(DLTPCPowerOffsetPerRLList, 0)
 		_, errCollection_dltpcpoweroffsetperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dltpcpoweroffsetperrllist, fragmentLength_dltpcpoweroffsetperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dltpcpoweroffsetperrllist < 0 || fragmentLength_dltpcpoweroffsetperrllist < 0 || fragmentLength_dltpcpoweroffsetperrllist > int64(^uint(0)>>1) || fragmentOffset_dltpcpoweroffsetperrllist > int64(^uint(0)>>1)-fragmentLength_dltpcpoweroffsetperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -117383,7 +117383,7 @@ func (v *RRCConnectionSetupR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupList2, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 3, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -117409,7 +117409,7 @@ func (v *RRCConnectionSetupR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -117437,7 +117437,7 @@ func (v *RRCConnectionSetupR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR4, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -117487,7 +117487,7 @@ func (v *RRCConnectionSetupR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR4, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -117729,7 +117729,7 @@ func (v *RRCConnectionSetupR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR5bis, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -118142,7 +118142,7 @@ func (v *RRCConnectionSetupR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR6, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -118220,7 +118220,7 @@ func (v *RRCConnectionSetupV6b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_dlinformationperrllistv6b0ext {
 		tmp_dlinformationperrllistv6b0ext := make(DLInformationPerRLListV6b0ext, 0)
 		_, errCollection_dlinformationperrllistv6b0ext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllistv6b0ext, fragmentLength_dlinformationperrllistv6b0ext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllistv6b0ext < 0 || fragmentLength_dlinformationperrllistv6b0ext < 0 || fragmentLength_dlinformationperrllistv6b0ext > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllistv6b0ext > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllistv6b0ext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -118642,7 +118642,7 @@ func (v *RRCConnectionSetupR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR7, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -119214,7 +119214,7 @@ func (v *RRCConnectionSetupR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -119818,7 +119818,7 @@ func (v *RRCConnectionSetupR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -120385,7 +120385,7 @@ func (v *RRCConnectionSetupR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -120413,7 +120413,7 @@ func (v *RRCConnectionSetupR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDD, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -120992,7 +120992,7 @@ func (v *RRCConnectionSetupR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -121020,7 +121020,7 @@ func (v *RRCConnectionSetupR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -121577,7 +121577,7 @@ func (v *RRCConnectionSetupR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -121605,7 +121605,7 @@ func (v *RRCConnectionSetupR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -121765,7 +121765,7 @@ func (v *RRCConnectionSetupComplete) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	v.RrcTransactionIdentifier = RRCTransactionIdentifier(val_rrctransactionidentifier)
 	v.StartList = make(STARTList, 0)
 	_, errCollection_startlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_startlist, fragmentLength_startlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_startlist < 0 || fragmentLength_startlist < 0 || fragmentLength_startlist > int64(^uint(0)>>1) || fragmentOffset_startlist > int64(^uint(0)>>1)-fragmentLength_startlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -121791,7 +121791,7 @@ func (v *RRCConnectionSetupComplete) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	if opt_ueratspecificcapability {
 		tmp_ueratspecificcapability := make(InterRATUERadioAccessCapabilityList, 0)
 		_, errCollection_ueratspecificcapability := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ueratspecificcapability, fragmentLength_ueratspecificcapability int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability > int64(^uint(0)>>1) || fragmentOffset_ueratspecificcapability > int64(^uint(0)>>1)-fragmentLength_ueratspecificcapability {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -123133,7 +123133,7 @@ func (v *SecurityModeCommandR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uesystemspecificsecuritycap {
 		tmp_uesystemspecificsecuritycap := make(InterRATUESecurityCapList, 0)
 		_, errCollection_uesystemspecificsecuritycap := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_uesystemspecificsecuritycap, fragmentLength_uesystemspecificsecuritycap int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uesystemspecificsecuritycap < 0 || fragmentLength_uesystemspecificsecuritycap < 0 || fragmentLength_uesystemspecificsecuritycap > int64(^uint(0)>>1) || fragmentOffset_uesystemspecificsecuritycap > int64(^uint(0)>>1)-fragmentLength_uesystemspecificsecuritycap {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -123263,7 +123263,7 @@ func (v *SecurityModeCommandR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uesystemspecificsecuritycap {
 		tmp_uesystemspecificsecuritycap := make(InterRATUESecurityCapList, 0)
 		_, errCollection_uesystemspecificsecuritycap := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_uesystemspecificsecuritycap, fragmentLength_uesystemspecificsecuritycap int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uesystemspecificsecuritycap < 0 || fragmentLength_uesystemspecificsecuritycap < 0 || fragmentLength_uesystemspecificsecuritycap > int64(^uint(0)>>1) || fragmentOffset_uesystemspecificsecuritycap > int64(^uint(0)>>1)-fragmentLength_uesystemspecificsecuritycap {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -123380,7 +123380,7 @@ func (v *SecurityModeComplete) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbulciphactivationtimeinfo {
 		tmp_rbulciphactivationtimeinfo := make(RBActivationTimeInfoList, 0)
 		_, errCollection_rbulciphactivationtimeinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbulciphactivationtimeinfo, fragmentLength_rbulciphactivationtimeinfo int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbulciphactivationtimeinfo < 0 || fragmentLength_rbulciphactivationtimeinfo < 0 || fragmentLength_rbulciphactivationtimeinfo > int64(^uint(0)>>1) || fragmentOffset_rbulciphactivationtimeinfo > int64(^uint(0)>>1)-fragmentLength_rbulciphactivationtimeinfo {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -124520,7 +124520,7 @@ func UnmarshalUPERCompleteSIBListFrom(bb *per.BitBuffer) (CompleteSIBList, error
 func unmarshalUPERCompleteSIBListInto(v *asn1cUPERCompleteSIBListListValue, bb *per.BitBuffer) error {
 	v.Value = make(CompleteSIBList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -124616,7 +124616,7 @@ func UnmarshalUPERCompleteSIB2ListFrom(bb *per.BitBuffer) (CompleteSIB2List, err
 func unmarshalUPERCompleteSIB2ListInto(v *asn1cUPERCompleteSIB2ListListValue, bb *per.BitBuffer) error {
 	v.Value = make(CompleteSIB2List, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -125463,7 +125463,7 @@ func (v *TransportChannelReconfigurationR3IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -125498,7 +125498,7 @@ func (v *TransportChannelReconfigurationR3IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoList, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -125551,7 +125551,7 @@ func (v *TransportChannelReconfigurationR3IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLList, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -125703,7 +125703,7 @@ func (v *TransportChannelReconfigurationV4b0extIEs) UnmarshalUPERFrom(bb *per.Bi
 	if opt_cellidperrllist {
 		tmp_cellidperrllist := make(CellIdentityPerRLList, 0)
 		_, errCollection_cellidperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_cellidperrllist, fragmentLength_cellidperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1240
+			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1241
 			if fragmentOffset_cellidperrllist < 0 || fragmentLength_cellidperrllist < 0 || fragmentLength_cellidperrllist > int64(^uint(0)>>1) || fragmentOffset_cellidperrllist > int64(^uint(0)>>1)-fragmentLength_cellidperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -125781,7 +125781,7 @@ func (v *TransportChannelReconfigurationV590extIEs) UnmarshalUPERFrom(bb *per.Bi
 	if opt_dltpcpoweroffsetperrllist {
 		tmp_dltpcpoweroffsetperrllist := make(DLTPCPowerOffsetPerRLList, 0)
 		_, errCollection_dltpcpoweroffsetperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dltpcpoweroffsetperrllist, fragmentLength_dltpcpoweroffsetperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dltpcpoweroffsetperrllist < 0 || fragmentLength_dltpcpoweroffsetperrllist < 0 || fragmentLength_dltpcpoweroffsetperrllist > int64(^uint(0)>>1) || fragmentOffset_dltpcpoweroffsetperrllist > int64(^uint(0)>>1)-fragmentLength_dltpcpoweroffsetperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -126202,7 +126202,7 @@ func (v *TransportChannelReconfigurationR4IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -126237,7 +126237,7 @@ func (v *TransportChannelReconfigurationR4IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR4, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -126290,7 +126290,7 @@ func (v *TransportChannelReconfigurationR4IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR4, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -126743,7 +126743,7 @@ func (v *TransportChannelReconfigurationR5IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -126778,7 +126778,7 @@ func (v *TransportChannelReconfigurationR5IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR5, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -126838,7 +126838,7 @@ func (v *TransportChannelReconfigurationR5IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR5, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -127552,7 +127552,7 @@ func (v *TransportChannelReconfigurationR6IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR6, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -127580,7 +127580,7 @@ func (v *TransportChannelReconfigurationR6IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR5, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -127644,7 +127644,7 @@ func (v *TransportChannelReconfigurationR6IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR6, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -127730,7 +127730,7 @@ func (v *TransportChannelReconfigurationV6b0extIEs) UnmarshalUPERFrom(bb *per.Bi
 	if opt_dlinformationperrllistv6b0ext {
 		tmp_dlinformationperrllistv6b0ext := make(DLInformationPerRLListV6b0ext, 0)
 		_, errCollection_dlinformationperrllistv6b0ext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllistv6b0ext, fragmentLength_dlinformationperrllistv6b0ext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllistv6b0ext < 0 || fragmentLength_dlinformationperrllistv6b0ext < 0 || fragmentLength_dlinformationperrllistv6b0ext > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllistv6b0ext > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllistv6b0ext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -128369,7 +128369,7 @@ func (v *TransportChannelReconfigurationR7IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR7, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -128397,7 +128397,7 @@ func (v *TransportChannelReconfigurationR7IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR7, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -128496,7 +128496,7 @@ func (v *TransportChannelReconfigurationR7IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR7, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -129446,7 +129446,7 @@ func (v *TransportChannelReconfigurationR8IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -129474,7 +129474,7 @@ func (v *TransportChannelReconfigurationR8IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR7, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -129573,7 +129573,7 @@ func (v *TransportChannelReconfigurationR8IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -130426,7 +130426,7 @@ func (v *TransportChannelReconfigurationR9IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -130454,7 +130454,7 @@ func (v *TransportChannelReconfigurationR9IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR9, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -130560,7 +130560,7 @@ func (v *TransportChannelReconfigurationR9IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -130727,7 +130727,7 @@ func (v *TransportChannelReconfigurationV9c0extIEs) UnmarshalUPERFrom(bb *per.Bi
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListTDD128V9c0ext, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -131473,7 +131473,7 @@ func (v *TransportChannelReconfigurationR10IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -131501,7 +131501,7 @@ func (v *TransportChannelReconfigurationR10IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR9, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -131614,7 +131614,7 @@ func (v *TransportChannelReconfigurationR10IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR8, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -131642,7 +131642,7 @@ func (v *TransportChannelReconfigurationR10IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDD, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -132548,7 +132548,7 @@ func (v *TransportChannelReconfigurationR11IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -132576,7 +132576,7 @@ func (v *TransportChannelReconfigurationR11IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -132710,7 +132710,7 @@ func (v *TransportChannelReconfigurationR11IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR11, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -132738,7 +132738,7 @@ func (v *TransportChannelReconfigurationR11IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -132759,7 +132759,7 @@ func (v *TransportChannelReconfigurationR11IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -133691,7 +133691,7 @@ func (v *TransportChannelReconfigurationR12IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -133719,7 +133719,7 @@ func (v *TransportChannelReconfigurationR12IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -133874,7 +133874,7 @@ func (v *TransportChannelReconfigurationR12IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR12, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -133902,7 +133902,7 @@ func (v *TransportChannelReconfigurationR12IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -133923,7 +133923,7 @@ func (v *TransportChannelReconfigurationR12IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -134916,7 +134916,7 @@ func (v *TransportChannelReconfigurationR13IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -134944,7 +134944,7 @@ func (v *TransportChannelReconfigurationR13IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR13, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -135099,7 +135099,7 @@ func (v *TransportChannelReconfigurationR13IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -135127,7 +135127,7 @@ func (v *TransportChannelReconfigurationR13IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_additionaldlseccellinfolistfdd {
 		tmp_additionaldlseccellinfolistfdd := make(AdditionalDLSecCellInfoListFDDR11, 0)
 		_, errCollection_additionaldlseccellinfolistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd, fragmentLength_additionaldlseccellinfolistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd < 0 || fragmentLength_additionaldlseccellinfolistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -135148,7 +135148,7 @@ func (v *TransportChannelReconfigurationR13IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_additionaldlseccellinfolistfdd2 {
 		tmp_additionaldlseccellinfolistfdd2 := make(AdditionalDLSecCellInfoListFDD2, 0)
 		_, errCollection_additionaldlseccellinfolistfdd2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfolistfdd2, fragmentLength_additionaldlseccellinfolistfdd2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 < 0 || fragmentLength_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfolistfdd2 > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfolistfdd2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -135383,7 +135383,7 @@ func (v *TransportChannelReconfigurationComplete) UnmarshalUPERFrom(bb *per.BitB
 	if opt_dummy {
 		tmp_dummy := make(RBActivationTimeInfoList, 0)
 		_, errCollection_dummy := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy, fragmentLength_dummy int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy < 0 || fragmentLength_dummy < 0 || fragmentLength_dummy > int64(^uint(0)>>1) || fragmentOffset_dummy > int64(^uint(0)>>1)-fragmentLength_dummy {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -136277,7 +136277,7 @@ func (v *UECapabilityInformation) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueratspecificcapability {
 		tmp_ueratspecificcapability := make(InterRATUERadioAccessCapabilityList, 0)
 		_, errCollection_ueratspecificcapability := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ueratspecificcapability, fragmentLength_ueratspecificcapability int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability > int64(^uint(0)>>1) || fragmentOffset_ueratspecificcapability > int64(^uint(0)>>1)-fragmentLength_ueratspecificcapability {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -141702,7 +141702,7 @@ func (v *UTRANMobilityInformationConfirm) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dummy {
 		tmp_dummy := make(RBActivationTimeInfoList, 0)
 		_, errCollection_dummy := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy, fragmentLength_dummy int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy < 0 || fragmentLength_dummy < 0 || fragmentLength_dummy > int64(^uint(0)>>1) || fragmentOffset_dummy > int64(^uint(0)>>1)-fragmentLength_dummy {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -141969,7 +141969,7 @@ func (v *MBMSAccessInformation) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.MbmsServiceAccessInfoList = make(MBMSServiceAccessInfoListR6, 0)
 	_, errCollection_mbmsserviceaccessinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_mbmsserviceaccessinfolist, fragmentLength_mbmsserviceaccessinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_mbmsserviceaccessinfolist < 0 || fragmentLength_mbmsserviceaccessinfolist < 0 || fragmentLength_mbmsserviceaccessinfolist > int64(^uint(0)>>1) || fragmentOffset_mbmsserviceaccessinfolist > int64(^uint(0)>>1)-fragmentLength_mbmsserviceaccessinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -142105,7 +142105,7 @@ func (v *MBMSCommonPTMRBInformation) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	}
 	v.MbmsCommonRBInformationList = make(MBMSCommonRBInformationListR6, 0)
 	_, errCollection_mbmscommonrbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_mbmscommonrbinformationlist, fragmentLength_mbmscommonrbinformationlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_mbmscommonrbinformationlist < 0 || fragmentLength_mbmscommonrbinformationlist < 0 || fragmentLength_mbmscommonrbinformationlist > int64(^uint(0)>>1) || fragmentOffset_mbmscommonrbinformationlist > int64(^uint(0)>>1)-fragmentLength_mbmscommonrbinformationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -142123,7 +142123,7 @@ func (v *MBMSCommonPTMRBInformation) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	}
 	v.MbmsTranspChInfoForEachTrCh = make(MBMSTranspChInfoForEachTrChR6, 0)
 	_, errCollection_mbmstranspchinfoforeachtrch := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_mbmstranspchinfoforeachtrch, fragmentLength_mbmstranspchinfoforeachtrch int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_mbmstranspchinfoforeachtrch < 0 || fragmentLength_mbmstranspchinfoforeachtrch < 0 || fragmentLength_mbmstranspchinfoforeachtrch > int64(^uint(0)>>1) || fragmentOffset_mbmstranspchinfoforeachtrch > int64(^uint(0)>>1)-fragmentLength_mbmstranspchinfoforeachtrch {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -142142,7 +142142,7 @@ func (v *MBMSCommonPTMRBInformation) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	if opt_mbmstranspchinfoforeachcctrch {
 		tmp_mbmstranspchinfoforeachcctrch := make(MBMSTranspChInfoForEachCCTrChR6, 0)
 		_, errCollection_mbmstranspchinfoforeachcctrch := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_mbmstranspchinfoforeachcctrch, fragmentLength_mbmstranspchinfoforeachcctrch int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_mbmstranspchinfoforeachcctrch < 0 || fragmentLength_mbmstranspchinfoforeachcctrch < 0 || fragmentLength_mbmstranspchinfoforeachcctrch > int64(^uint(0)>>1) || fragmentOffset_mbmstranspchinfoforeachcctrch > int64(^uint(0)>>1)-fragmentLength_mbmstranspchinfoforeachcctrch {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -142162,7 +142162,7 @@ func (v *MBMSCommonPTMRBInformation) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	}
 	v.MbmsPhyChInformationList = make(MBMSPhyChInformationListR6, 0)
 	_, errCollection_mbmsphychinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_mbmsphychinformationlist, fragmentLength_mbmsphychinformationlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_mbmsphychinformationlist < 0 || fragmentLength_mbmsphychinformationlist < 0 || fragmentLength_mbmsphychinformationlist > int64(^uint(0)>>1) || fragmentOffset_mbmsphychinformationlist > int64(^uint(0)>>1)-fragmentLength_mbmsphychinformationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -142245,7 +142245,7 @@ func (v *MBMSCommonPTMRBInformationV770extIEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_mbmsphychinformationlistr7 {
 		tmp_mbmsphychinformationlistr7 := make(MBMSPhyChInformationListR7, 0)
 		_, errCollection_mbmsphychinformationlistr7 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_mbmsphychinformationlistr7, fragmentLength_mbmsphychinformationlistr7 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_mbmsphychinformationlistr7 < 0 || fragmentLength_mbmsphychinformationlistr7 < 0 || fragmentLength_mbmsphychinformationlistr7 > int64(^uint(0)>>1) || fragmentOffset_mbmsphychinformationlistr7 > int64(^uint(0)>>1)-fragmentLength_mbmsphychinformationlistr7 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -142323,7 +142323,7 @@ func (v *MBMSCommonPTMRBInformationV780extIEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_mbsfntddinformationlcr {
 		tmp_mbsfntddinformationlcr := make(MBSFNTDDInformationLCR, 0)
 		_, errCollection_mbsfntddinformationlcr := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_mbsfntddinformationlcr, fragmentLength_mbsfntddinformationlcr int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_mbsfntddinformationlcr < 0 || fragmentLength_mbsfntddinformationlcr < 0 || fragmentLength_mbsfntddinformationlcr > int64(^uint(0)>>1) || fragmentOffset_mbsfntddinformationlcr > int64(^uint(0)>>1)-fragmentLength_mbsfntddinformationlcr {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -142401,7 +142401,7 @@ func (v *MBMSCommonPTMRBInformationV860extIEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_mbmsphychinformationlist {
 		tmp_mbmsphychinformationlist := make(MBMSPhyChInformationListIMB384, 0)
 		_, errCollection_mbmsphychinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_mbmsphychinformationlist, fragmentLength_mbmsphychinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_mbmsphychinformationlist < 0 || fragmentLength_mbmsphychinformationlist < 0 || fragmentLength_mbmsphychinformationlist > int64(^uint(0)>>1) || fragmentOffset_mbmsphychinformationlist > int64(^uint(0)>>1)-fragmentLength_mbmsphychinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -142514,7 +142514,7 @@ func (v *MBMSCurrentCellPTMRBInformation) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_mbmscurrentcellsccpchlist {
 		tmp_mbmscurrentcellsccpchlist := make(MBMSCurrentCellSCCPCHListR6, 0)
 		_, errCollection_mbmscurrentcellsccpchlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_mbmscurrentcellsccpchlist, fragmentLength_mbmscurrentcellsccpchlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_mbmscurrentcellsccpchlist < 0 || fragmentLength_mbmscurrentcellsccpchlist < 0 || fragmentLength_mbmscurrentcellsccpchlist > int64(^uint(0)>>1) || fragmentOffset_mbmscurrentcellsccpchlist > int64(^uint(0)>>1)-fragmentLength_mbmscurrentcellsccpchlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -142535,7 +142535,7 @@ func (v *MBMSCurrentCellPTMRBInformation) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_mbmssibtype5sccpchlist {
 		tmp_mbmssibtype5sccpchlist := make(MBMSSIBType5SCCPCHListR6, 0)
 		_, errCollection_mbmssibtype5sccpchlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_mbmssibtype5sccpchlist, fragmentLength_mbmssibtype5sccpchlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_mbmssibtype5sccpchlist < 0 || fragmentLength_mbmssibtype5sccpchlist < 0 || fragmentLength_mbmssibtype5sccpchlist > int64(^uint(0)>>1) || fragmentOffset_mbmssibtype5sccpchlist > int64(^uint(0)>>1)-fragmentLength_mbmssibtype5sccpchlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -142620,7 +142620,7 @@ func (v *MBMSCurrentCellPTMRBInfoV770extIEs) UnmarshalUPERFrom(bb *per.BitBuffer
 	if opt_mbsfntdminfolist {
 		tmp_mbsfntdminfolist := make(MBSFNTDMInfoList, 0)
 		_, errCollection_mbsfntdminfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_mbsfntdminfolist, fragmentLength_mbsfntdminfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_mbsfntdminfolist < 0 || fragmentLength_mbsfntdminfolist < 0 || fragmentLength_mbsfntdminfolist > int64(^uint(0)>>1) || fragmentOffset_mbsfntdminfolist > int64(^uint(0)>>1)-fragmentLength_mbsfntdminfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -142731,7 +142731,7 @@ func (v *MBMSGeneralInformation) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_mbmspreferredfrequencyinfo {
 		tmp_mbmspreferredfrequencyinfo := make(MBMSPreferredFrequencyListR6, 0)
 		_, errCollection_mbmspreferredfrequencyinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_mbmspreferredfrequencyinfo, fragmentLength_mbmspreferredfrequencyinfo int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_mbmspreferredfrequencyinfo < 0 || fragmentLength_mbmspreferredfrequencyinfo < 0 || fragmentLength_mbmspreferredfrequencyinfo > int64(^uint(0)>>1) || fragmentOffset_mbmspreferredfrequencyinfo > int64(^uint(0)>>1)-fragmentLength_mbmspreferredfrequencyinfo {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -142893,7 +142893,7 @@ func (v *MBMSGeneralInformationV770extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_mbsfninterfrequencyneighbourlist {
 		tmp_mbsfninterfrequencyneighbourlist := make(MBSFNInterFrequencyNeighbourListR7, 0)
 		_, errCollection_mbsfninterfrequencyneighbourlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_mbsfninterfrequencyneighbourlist, fragmentLength_mbsfninterfrequencyneighbourlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_mbsfninterfrequencyneighbourlist < 0 || fragmentLength_mbsfninterfrequencyneighbourlist < 0 || fragmentLength_mbsfninterfrequencyneighbourlist > int64(^uint(0)>>1) || fragmentOffset_mbsfninterfrequencyneighbourlist > int64(^uint(0)>>1)-fragmentLength_mbsfninterfrequencyneighbourlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -142971,7 +142971,7 @@ func (v *MBMSGeneralInformationV860extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_mbsfninterfrequencyneighbourlist {
 		tmp_mbsfninterfrequencyneighbourlist := make(MBSFNInterFrequencyNeighbourListV860ext, 0)
 		_, errCollection_mbsfninterfrequencyneighbourlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_mbsfninterfrequencyneighbourlist, fragmentLength_mbsfninterfrequencyneighbourlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_mbsfninterfrequencyneighbourlist < 0 || fragmentLength_mbsfninterfrequencyneighbourlist < 0 || fragmentLength_mbsfninterfrequencyneighbourlist > int64(^uint(0)>>1) || fragmentOffset_mbsfninterfrequencyneighbourlist > int64(^uint(0)>>1)-fragmentLength_mbsfninterfrequencyneighbourlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -143152,7 +143152,7 @@ func (v *MBMSModificationRequest) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rbinformationreleaselist {
 		tmp_rbinformationreleaselist := make(RBInformationReleaseList, 0)
 		_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -143403,7 +143403,7 @@ func (v *MBMSModifiedServicesInformation) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_modifedservicelist {
 		tmp_modifedservicelist := make(MBMSModifedServiceListR6, 0)
 		_, errCollection_modifedservicelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_modifedservicelist, fragmentLength_modifedservicelist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_modifedservicelist < 0 || fragmentLength_modifedservicelist < 0 || fragmentLength_modifedservicelist > int64(^uint(0)>>1) || fragmentOffset_modifedservicelist > int64(^uint(0)>>1)-fragmentLength_modifedservicelist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -143542,7 +143542,7 @@ func (v *MBMSModifiedServicesInformationV770extIEs) UnmarshalUPERFrom(bb *per.Bi
 	if opt_modifiedservicelist {
 		tmp_modifiedservicelist := make(MBMSModifiedServiceListV770ext, 0)
 		_, errCollection_modifiedservicelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_modifiedservicelist, fragmentLength_modifiedservicelist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_modifiedservicelist < 0 || fragmentLength_modifiedservicelist < 0 || fragmentLength_modifiedservicelist > int64(^uint(0)>>1) || fragmentOffset_modifiedservicelist > int64(^uint(0)>>1)-fragmentLength_modifiedservicelist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -143628,7 +143628,7 @@ func (v *MBMSModifiedServicesInformationV7c0extIEs) UnmarshalUPERFrom(bb *per.Bi
 	if opt_modifiedservicelist {
 		tmp_modifiedservicelist := make(MBMSModifiedServiceListLCRV7c0ext, 0)
 		_, errCollection_modifiedservicelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_modifiedservicelist, fragmentLength_modifiedservicelist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_modifiedservicelist < 0 || fragmentLength_modifiedservicelist < 0 || fragmentLength_modifiedservicelist > int64(^uint(0)>>1) || fragmentOffset_modifiedservicelist > int64(^uint(0)>>1)-fragmentLength_modifiedservicelist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -143716,7 +143716,7 @@ func (v *MBMSNeighbouringCellPTMRBInformation) UnmarshalUPERFrom(bb *per.BitBuff
 	v.NeighbouringCellIdentity = IntraFreqCellID(val_neighbouringcellidentity)
 	v.NeighbouringCellSCCPCHList = make(MBMSNeighbouringCellSCCPCHListR6, 0)
 	_, errCollection_neighbouringcellsccpchlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_neighbouringcellsccpchlist, fragmentLength_neighbouringcellsccpchlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_neighbouringcellsccpchlist < 0 || fragmentLength_neighbouringcellsccpchlist < 0 || fragmentLength_neighbouringcellsccpchlist > int64(^uint(0)>>1) || fragmentOffset_neighbouringcellsccpchlist > int64(^uint(0)>>1)-fragmentLength_neighbouringcellsccpchlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -143799,7 +143799,7 @@ func (v *MBMSNeighbouringCellPTMRBInformationV770extIEs) UnmarshalUPERFrom(bb *p
 	if opt_neighbouringcellsccpchlist {
 		tmp_neighbouringcellsccpchlist := make(MBMSNeighbouringCellSCCPCHListV770ext, 0)
 		_, errCollection_neighbouringcellsccpchlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_neighbouringcellsccpchlist, fragmentLength_neighbouringcellsccpchlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_neighbouringcellsccpchlist < 0 || fragmentLength_neighbouringcellsccpchlist < 0 || fragmentLength_neighbouringcellsccpchlist > int64(^uint(0)>>1) || fragmentOffset_neighbouringcellsccpchlist > int64(^uint(0)>>1)-fragmentLength_neighbouringcellsccpchlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -143879,7 +143879,7 @@ func (v *MBMSSchedulingInformation) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ServiceSchedulingInfoList = make(MBMSServiceSchedulingInfoListR6, 0)
 	_, errCollection_serviceschedulinginfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_serviceschedulinginfolist, fragmentLength_serviceschedulinginfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_serviceschedulinginfolist < 0 || fragmentLength_serviceschedulinginfolist < 0 || fragmentLength_serviceschedulinginfolist > int64(^uint(0)>>1) || fragmentOffset_serviceschedulinginfolist > int64(^uint(0)>>1)-fragmentLength_serviceschedulinginfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -143974,7 +143974,7 @@ func (v *MBMSUnmodifiedServicesInformation) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if opt_unmodifiedservicelist {
 		tmp_unmodifiedservicelist := make(MBMSUnmodifiedServiceListR6, 0)
 		_, errCollection_unmodifiedservicelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_unmodifiedservicelist, fragmentLength_unmodifiedservicelist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_unmodifiedservicelist < 0 || fragmentLength_unmodifiedservicelist < 0 || fragmentLength_unmodifiedservicelist > int64(^uint(0)>>1) || fragmentOffset_unmodifiedservicelist > int64(^uint(0)>>1)-fragmentLength_unmodifiedservicelist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -144059,7 +144059,7 @@ func (v *MBMSUnmodifiedServicesInformationV770extIEs) UnmarshalUPERFrom(bb *per.
 	if opt_unmodifiedservicelist {
 		tmp_unmodifiedservicelist := make(MBMSUnmodifiedServiceListV770ext, 0)
 		_, errCollection_unmodifiedservicelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_unmodifiedservicelist, fragmentLength_unmodifiedservicelist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_unmodifiedservicelist < 0 || fragmentLength_unmodifiedservicelist < 0 || fragmentLength_unmodifiedservicelist > int64(^uint(0)>>1) || fragmentOffset_unmodifiedservicelist > int64(^uint(0)>>1)-fragmentLength_unmodifiedservicelist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -144756,7 +144756,7 @@ func (v *UEInformationResponse) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_loggedanrreportinfolist {
 		tmp_loggedanrreportinfolist := make(LoggedANRReportInfoList, 0)
 		_, errCollection_loggedanrreportinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_loggedanrreportinfolist, fragmentLength_loggedanrreportinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_loggedanrreportinfolist < 0 || fragmentLength_loggedanrreportinfolist < 0 || fragmentLength_loggedanrreportinfolist > int64(^uint(0)>>1) || fragmentOffset_loggedanrreportinfolist > int64(^uint(0)>>1)-fragmentLength_loggedanrreportinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -144879,7 +144879,7 @@ func (v *UEInformationResponseVb50extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_loggedanrreportinfolist {
 		tmp_loggedanrreportinfolist := make(LoggedANRReportInfoListVb50ext, 0)
 		_, errCollection_loggedanrreportinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_loggedanrreportinfolist, fragmentLength_loggedanrreportinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_loggedanrreportinfolist < 0 || fragmentLength_loggedanrreportinfolist < 0 || fragmentLength_loggedanrreportinfolist > int64(^uint(0)>>1) || fragmentOffset_loggedanrreportinfolist > int64(^uint(0)>>1)-fragmentLength_loggedanrreportinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -148929,7 +148929,7 @@ func (v *CellChangeOrderFromUTRANV590extIEsGeranSystemInfoType) UnmarshalUPERFro
 	case CellChangeOrderFromUTRANV590extIEsGeranSystemInfoTypeChoiceSI:
 		tmp_si := make(GERANSystemInformation, 0)
 		_, errCollection_si := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_si, fragmentLength_si int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1229
+			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1230
 			if fragmentOffset_si < 0 || fragmentLength_si < 0 || fragmentLength_si > int64(^uint(0)>>1) || fragmentOffset_si > int64(^uint(0)>>1)-fragmentLength_si {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -148949,7 +148949,7 @@ func (v *CellChangeOrderFromUTRANV590extIEsGeranSystemInfoType) UnmarshalUPERFro
 	case CellChangeOrderFromUTRANV590extIEsGeranSystemInfoTypeChoicePSI:
 		tmp_psi := make(GERANSystemInformation, 0)
 		_, errCollection_psi := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_psi, fragmentLength_psi int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1229
+			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1230
 			if fragmentOffset_psi < 0 || fragmentLength_psi < 0 || fragmentLength_psi > int64(^uint(0)>>1) || fragmentOffset_psi > int64(^uint(0)>>1)-fragmentLength_psi {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -153702,7 +153702,7 @@ func (v *CellUpdateConfirmR3IEsModeSpecificTransChInfoFdd) UnmarshalUPERFrom(bb 
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -153999,7 +153999,7 @@ func (v *CellUpdateConfirmR4IEsModeSpecificTransChInfoFdd) UnmarshalUPERFrom(bb 
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -154296,7 +154296,7 @@ func (v *CellUpdateConfirmR5IEsModeSpecificTransChInfoFdd) UnmarshalUPERFrom(bb 
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -160401,7 +160401,7 @@ func (v *HandoverToUTRANCommandR3IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupList, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -160420,7 +160420,7 @@ func (v *HandoverToUTRANCommandR3IEsSpecificationModeComplete) UnmarshalUPERFrom
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupList, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -160443,7 +160443,7 @@ func (v *HandoverToUTRANCommandR3IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.UlAddReconfTransChInfoList = make(ULAddReconfTransChInfoList, 0)
 	_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -160464,7 +160464,7 @@ func (v *HandoverToUTRANCommandR3IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.DlAddReconfTransChInfoList = make(DLAddReconfTransChInfoList, 0)
 	_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -160491,7 +160491,7 @@ func (v *HandoverToUTRANCommandR3IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLList, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -160998,7 +160998,7 @@ func (v *HandoverToUTRANCommandR3IEsSpecificationModePreconfigurationModeSpecifi
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListPostFDD, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -161297,7 +161297,7 @@ func (v *HandoverToUTRANCommandR4IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupList, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -161316,7 +161316,7 @@ func (v *HandoverToUTRANCommandR4IEsSpecificationModeComplete) UnmarshalUPERFrom
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR4, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -161339,7 +161339,7 @@ func (v *HandoverToUTRANCommandR4IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.UlAddReconfTransChInfoList = make(ULAddReconfTransChInfoList, 0)
 	_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -161360,7 +161360,7 @@ func (v *HandoverToUTRANCommandR4IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.DlAddReconfTransChInfoList = make(DLAddReconfTransChInfoListR4, 0)
 	_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -161387,7 +161387,7 @@ func (v *HandoverToUTRANCommandR4IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListR4, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -161894,7 +161894,7 @@ func (v *HandoverToUTRANCommandR4IEsSpecificationModePreconfigurationModeSpecifi
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListPostFDD, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -162328,7 +162328,7 @@ func (v *HandoverToUTRANCommandR5IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupListR5, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -162347,7 +162347,7 @@ func (v *HandoverToUTRANCommandR5IEsSpecificationModeComplete) UnmarshalUPERFrom
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR5, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -162370,7 +162370,7 @@ func (v *HandoverToUTRANCommandR5IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.UlAddReconfTransChInfoList = make(ULAddReconfTransChInfoList, 0)
 	_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -162391,7 +162391,7 @@ func (v *HandoverToUTRANCommandR5IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.DlAddReconfTransChInfoList = make(DLAddReconfTransChInfoListR5, 0)
 	_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -162418,7 +162418,7 @@ func (v *HandoverToUTRANCommandR5IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListR5, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -162925,7 +162925,7 @@ func (v *HandoverToUTRANCommandR5IEsSpecificationModePreconfigurationModeSpecifi
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListPostFDD, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -163380,7 +163380,7 @@ func (v *HandoverToUTRANCommandR6IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupListR6, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -163399,7 +163399,7 @@ func (v *HandoverToUTRANCommandR6IEsSpecificationModeComplete) UnmarshalUPERFrom
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR6, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -163422,7 +163422,7 @@ func (v *HandoverToUTRANCommandR6IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.UlAddReconfTransChInfoList = make(ULAddReconfTransChInfoListR6, 0)
 	_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -163443,7 +163443,7 @@ func (v *HandoverToUTRANCommandR6IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.DlAddReconfTransChInfoList = make(DLAddReconfTransChInfoListR5, 0)
 	_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -163481,7 +163481,7 @@ func (v *HandoverToUTRANCommandR6IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListR6, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -163843,7 +163843,7 @@ func (v *HandoverToUTRANCommandR6IEsSpecificationModePreconfigurationModeSpecifi
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListPostFDD, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -164310,7 +164310,7 @@ func (v *HandoverToUTRANCommandR7IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupListR7, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -164329,7 +164329,7 @@ func (v *HandoverToUTRANCommandR7IEsSpecificationModeComplete) UnmarshalUPERFrom
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR7, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -164352,7 +164352,7 @@ func (v *HandoverToUTRANCommandR7IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.UlAddReconfTransChInfoList = make(ULAddReconfTransChInfoListR7, 0)
 	_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -164373,7 +164373,7 @@ func (v *HandoverToUTRANCommandR7IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.DlAddReconfTransChInfoList = make(DLAddReconfTransChInfoListR7, 0)
 	_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -164411,7 +164411,7 @@ func (v *HandoverToUTRANCommandR7IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListR7, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -164780,7 +164780,7 @@ func (v *HandoverToUTRANCommandR7IEsSpecificationModePreconfigurationModeSpecifi
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListPostFDD, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -165092,7 +165092,7 @@ func (v *HandoverToUTRANCommandR7IEsSpecificationModePreconfigurationModeSpecifi
 	}
 	v.DlInformationPerRL = make(DLInformationPerRLListR7, 0)
 	_, errCollection_dlinformationperrl := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrl, fragmentLength_dlinformationperrl int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrl < 0 || fragmentLength_dlinformationperrl < 0 || fragmentLength_dlinformationperrl > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrl > int64(^uint(0)>>1)-fragmentLength_dlinformationperrl {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -165365,7 +165365,7 @@ func (v *HandoverToUTRANCommandR8IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupListR8, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -165384,7 +165384,7 @@ func (v *HandoverToUTRANCommandR8IEsSpecificationModeComplete) UnmarshalUPERFrom
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR8, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -165407,7 +165407,7 @@ func (v *HandoverToUTRANCommandR8IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.UlAddReconfTransChInfoList = make(ULAddReconfTransChInfoListR8, 0)
 	_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -165428,7 +165428,7 @@ func (v *HandoverToUTRANCommandR8IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.DlAddReconfTransChInfoList = make(DLAddReconfTransChInfoListR7, 0)
 	_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -165466,7 +165466,7 @@ func (v *HandoverToUTRANCommandR8IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListR7, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -165856,7 +165856,7 @@ func (v *HandoverToUTRANCommandR8IEsSpecificationModePreconfigurationModeSpecifi
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListPostFDD, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -166168,7 +166168,7 @@ func (v *HandoverToUTRANCommandR8IEsSpecificationModePreconfigurationModeSpecifi
 	}
 	v.DlInformationPerRL = make(DLInformationPerRLListR7, 0)
 	_, errCollection_dlinformationperrl := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrl, fragmentLength_dlinformationperrl int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrl < 0 || fragmentLength_dlinformationperrl < 0 || fragmentLength_dlinformationperrl > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrl > int64(^uint(0)>>1)-fragmentLength_dlinformationperrl {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -166441,7 +166441,7 @@ func (v *HandoverToUTRANCommandR9IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupListR8, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -166460,7 +166460,7 @@ func (v *HandoverToUTRANCommandR9IEsSpecificationModeComplete) UnmarshalUPERFrom
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR8, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -166483,7 +166483,7 @@ func (v *HandoverToUTRANCommandR9IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.UlAddReconfTransChInfoList = make(ULAddReconfTransChInfoListR8, 0)
 	_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -166504,7 +166504,7 @@ func (v *HandoverToUTRANCommandR9IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.DlAddReconfTransChInfoList = make(DLAddReconfTransChInfoListR9, 0)
 	_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -166542,7 +166542,7 @@ func (v *HandoverToUTRANCommandR9IEsSpecificationModeComplete) UnmarshalUPERFrom
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListR7, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -166932,7 +166932,7 @@ func (v *HandoverToUTRANCommandR9IEsSpecificationModePreconfigurationModeSpecifi
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListPostFDD, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -167244,7 +167244,7 @@ func (v *HandoverToUTRANCommandR9IEsSpecificationModePreconfigurationModeSpecifi
 	}
 	v.DlInformationPerRL = make(DLInformationPerRLListR7, 0)
 	_, errCollection_dlinformationperrl := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrl, fragmentLength_dlinformationperrl int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrl < 0 || fragmentLength_dlinformationperrl < 0 || fragmentLength_dlinformationperrl > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrl > int64(^uint(0)>>1)-fragmentLength_dlinformationperrl {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -168146,7 +168146,7 @@ func (v *HandoverToUTRANCommandR10IEsSpecificationModeComplete) UnmarshalUPERFro
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupListR8, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -168165,7 +168165,7 @@ func (v *HandoverToUTRANCommandR10IEsSpecificationModeComplete) UnmarshalUPERFro
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR8, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -168188,7 +168188,7 @@ func (v *HandoverToUTRANCommandR10IEsSpecificationModeComplete) UnmarshalUPERFro
 	}
 	v.UlAddReconfTransChInfoList = make(ULAddReconfTransChInfoListR8, 0)
 	_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -168209,7 +168209,7 @@ func (v *HandoverToUTRANCommandR10IEsSpecificationModeComplete) UnmarshalUPERFro
 	}
 	v.DlAddReconfTransChInfoList = make(DLAddReconfTransChInfoListR9, 0)
 	_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -168247,7 +168247,7 @@ func (v *HandoverToUTRANCommandR10IEsSpecificationModeComplete) UnmarshalUPERFro
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListR7, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -168637,7 +168637,7 @@ func (v *HandoverToUTRANCommandR10IEsSpecificationModePreconfigurationModeSpecif
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListPostFDD, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -168949,7 +168949,7 @@ func (v *HandoverToUTRANCommandR10IEsSpecificationModePreconfigurationModeSpecif
 	}
 	v.DlInformationPerRL = make(DLInformationPerRLListR7, 0)
 	_, errCollection_dlinformationperrl := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrl, fragmentLength_dlinformationperrl int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrl < 0 || fragmentLength_dlinformationperrl < 0 || fragmentLength_dlinformationperrl > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrl > int64(^uint(0)>>1)-fragmentLength_dlinformationperrl {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -169222,7 +169222,7 @@ func (v *HandoverToUTRANCommandR11IEsSpecificationModeComplete) UnmarshalUPERFro
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupListR8, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -169241,7 +169241,7 @@ func (v *HandoverToUTRANCommandR11IEsSpecificationModeComplete) UnmarshalUPERFro
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR8, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -169264,7 +169264,7 @@ func (v *HandoverToUTRANCommandR11IEsSpecificationModeComplete) UnmarshalUPERFro
 	}
 	v.UlAddReconfTransChInfoList = make(ULAddReconfTransChInfoListR8, 0)
 	_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -169285,7 +169285,7 @@ func (v *HandoverToUTRANCommandR11IEsSpecificationModeComplete) UnmarshalUPERFro
 	}
 	v.DlAddReconfTransChInfoList = make(DLAddReconfTransChInfoListR11, 0)
 	_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -169323,7 +169323,7 @@ func (v *HandoverToUTRANCommandR11IEsSpecificationModeComplete) UnmarshalUPERFro
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListR11, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -169692,7 +169692,7 @@ func (v *HandoverToUTRANCommandR11IEsSpecificationModePreconfigurationModeSpecif
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListPostFDD, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -170004,7 +170004,7 @@ func (v *HandoverToUTRANCommandR11IEsSpecificationModePreconfigurationModeSpecif
 	}
 	v.DlInformationPerRL = make(DLInformationPerRLListR7, 0)
 	_, errCollection_dlinformationperrl := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrl, fragmentLength_dlinformationperrl int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrl < 0 || fragmentLength_dlinformationperrl < 0 || fragmentLength_dlinformationperrl > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrl > int64(^uint(0)>>1)-fragmentLength_dlinformationperrl {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -170181,7 +170181,7 @@ func (v *HandoverToUTRANCommandVbc0extIEsSpecificationModeComplete) UnmarshalUPE
 	if opt_additionaldlseccellinfohandovertoutranlistfdd {
 		tmp_additionaldlseccellinfohandovertoutranlistfdd := make(AdditionalDLSecCellInfoHandoverToUtranListFDD, 0)
 		_, errCollection_additionaldlseccellinfohandovertoutranlistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfohandovertoutranlistfdd, fragmentLength_additionaldlseccellinfohandovertoutranlistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfohandovertoutranlistfdd < 0 || fragmentLength_additionaldlseccellinfohandovertoutranlistfdd < 0 || fragmentLength_additionaldlseccellinfohandovertoutranlistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfohandovertoutranlistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfohandovertoutranlistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -170507,7 +170507,7 @@ func (v *HandoverToUTRANCommandR12IEsSpecificationModeComplete) UnmarshalUPERFro
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupListR8, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -170526,7 +170526,7 @@ func (v *HandoverToUTRANCommandR12IEsSpecificationModeComplete) UnmarshalUPERFro
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR8, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -170549,7 +170549,7 @@ func (v *HandoverToUTRANCommandR12IEsSpecificationModeComplete) UnmarshalUPERFro
 	}
 	v.UlAddReconfTransChInfoList = make(ULAddReconfTransChInfoListR8, 0)
 	_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -170570,7 +170570,7 @@ func (v *HandoverToUTRANCommandR12IEsSpecificationModeComplete) UnmarshalUPERFro
 	}
 	v.DlAddReconfTransChInfoList = make(DLAddReconfTransChInfoListR11, 0)
 	_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -170608,7 +170608,7 @@ func (v *HandoverToUTRANCommandR12IEsSpecificationModeComplete) UnmarshalUPERFro
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListR12, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -170658,7 +170658,7 @@ func (v *HandoverToUTRANCommandR12IEsSpecificationModeComplete) UnmarshalUPERFro
 	if opt_additionaldlseccellinfohandovertoutranlistfdd {
 		tmp_additionaldlseccellinfohandovertoutranlistfdd := make(AdditionalDLSecCellInfoHandoverToUtranListFDD, 0)
 		_, errCollection_additionaldlseccellinfohandovertoutranlistfdd := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_additionaldlseccellinfohandovertoutranlistfdd, fragmentLength_additionaldlseccellinfohandovertoutranlistfdd int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_additionaldlseccellinfohandovertoutranlistfdd < 0 || fragmentLength_additionaldlseccellinfohandovertoutranlistfdd < 0 || fragmentLength_additionaldlseccellinfohandovertoutranlistfdd > int64(^uint(0)>>1) || fragmentOffset_additionaldlseccellinfohandovertoutranlistfdd > int64(^uint(0)>>1)-fragmentLength_additionaldlseccellinfohandovertoutranlistfdd {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -171019,7 +171019,7 @@ func (v *HandoverToUTRANCommandR12IEsSpecificationModePreconfigurationModeSpecif
 	}
 	v.DlInformationPerRLList = make(DLInformationPerRLListPostFDD, 0)
 	_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -171331,7 +171331,7 @@ func (v *HandoverToUTRANCommandR12IEsSpecificationModePreconfigurationModeSpecif
 	}
 	v.DlInformationPerRL = make(DLInformationPerRLListR7, 0)
 	_, errCollection_dlinformationperrl := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrl, fragmentLength_dlinformationperrl int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_dlinformationperrl < 0 || fragmentLength_dlinformationperrl < 0 || fragmentLength_dlinformationperrl > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrl > int64(^uint(0)>>1)-fragmentLength_dlinformationperrl {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -172918,7 +172918,7 @@ func (v *HandoverFromUTRANCommandGSMR3IEsGsmMessageGsmMessageList) UnmarshalUPER
 	*v = HandoverFromUTRANCommandGSMR3IEsGsmMessageGsmMessageList{}
 	v.GsmMessages = make(GSMMessageList, 0)
 	_, errCollection_gsmmessages := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_gsmmessages, fragmentLength_gsmmessages int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1240
+		// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1241
 		if fragmentOffset_gsmmessages < 0 || fragmentLength_gsmmessages < 0 || fragmentLength_gsmmessages > int64(^uint(0)>>1) || fragmentOffset_gsmmessages > int64(^uint(0)>>1)-fragmentLength_gsmmessages {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -173097,7 +173097,7 @@ func (v *HandoverFromUTRANCommandGSMR6IEsGsmMessageGsmMessageList) UnmarshalUPER
 	*v = HandoverFromUTRANCommandGSMR6IEsGsmMessageGsmMessageList{}
 	v.GsmMessages = make(GSMMessageList, 0)
 	_, errCollection_gsmmessages := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_gsmmessages, fragmentLength_gsmmessages int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1240
+		// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1241
 		if fragmentOffset_gsmmessages < 0 || fragmentLength_gsmmessages < 0 || fragmentLength_gsmmessages > int64(^uint(0)>>1) || fragmentOffset_gsmmessages > int64(^uint(0)>>1)-fragmentLength_gsmmessages {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -173202,7 +173202,7 @@ func (v *HandoverFromUTRANCommandGSMR6IEsGeranSystemInfoType) UnmarshalUPERFrom(
 	case HandoverFromUTRANCommandGSMR6IEsGeranSystemInfoTypeChoiceSI:
 		tmp_si := make(GERANSystemInformation, 0)
 		_, errCollection_si := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_si, fragmentLength_si int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1229
+			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1230
 			if fragmentOffset_si < 0 || fragmentLength_si < 0 || fragmentLength_si > int64(^uint(0)>>1) || fragmentOffset_si > int64(^uint(0)>>1)-fragmentLength_si {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -173222,7 +173222,7 @@ func (v *HandoverFromUTRANCommandGSMR6IEsGeranSystemInfoType) UnmarshalUPERFrom(
 	case HandoverFromUTRANCommandGSMR6IEsGeranSystemInfoTypeChoicePSI:
 		tmp_psi := make(GERANSystemInformation, 0)
 		_, errCollection_psi := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_psi, fragmentLength_psi int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1229
+			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1230
 			if fragmentOffset_psi < 0 || fragmentLength_psi < 0 || fragmentLength_psi > int64(^uint(0)>>1) || fragmentOffset_psi > int64(^uint(0)>>1)-fragmentLength_psi {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -173329,7 +173329,7 @@ func (v *HandoverFromUTRANCommandGSMV690extIEsGeranSystemInfoType) UnmarshalUPER
 	case HandoverFromUTRANCommandGSMV690extIEsGeranSystemInfoTypeChoiceSI:
 		tmp_si := make(GERANSystemInformation, 0)
 		_, errCollection_si := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_si, fragmentLength_si int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1229
+			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1230
 			if fragmentOffset_si < 0 || fragmentLength_si < 0 || fragmentLength_si > int64(^uint(0)>>1) || fragmentOffset_si > int64(^uint(0)>>1)-fragmentLength_si {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -173349,7 +173349,7 @@ func (v *HandoverFromUTRANCommandGSMV690extIEsGeranSystemInfoType) UnmarshalUPER
 	case HandoverFromUTRANCommandGSMV690extIEsGeranSystemInfoTypeChoicePSI:
 		tmp_psi := make(GERANSystemInformation, 0)
 		_, errCollection_psi := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_psi, fragmentLength_psi int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1229
+			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1230
 			if fragmentOffset_psi < 0 || fragmentLength_psi < 0 || fragmentLength_psi > int64(^uint(0)>>1) || fragmentOffset_psi > int64(^uint(0)>>1)-fragmentLength_psi {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -173774,7 +173774,7 @@ func (v *HandoverFromUTRANCommandGERANIuR5IEsGeranIuMessageGeranIuMessageList) U
 	*v = HandoverFromUTRANCommandGERANIuR5IEsGeranIuMessageGeranIuMessageList{}
 	v.GeranIuMessages = make(GERANIuMessageList, 0)
 	_, errCollection_geraniumessages := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_geraniumessages, fragmentLength_geraniumessages int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1240
+		// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1241
 		if fragmentOffset_geraniumessages < 0 || fragmentLength_geraniumessages < 0 || fragmentLength_geraniumessages > int64(^uint(0)>>1) || fragmentOffset_geraniumessages > int64(^uint(0)>>1)-fragmentLength_geraniumessages {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -174583,7 +174583,7 @@ func (v *HandoverFromUTRANFailureInterRATMessageGsm) UnmarshalUPERFrom(bb *per.B
 	*v = HandoverFromUTRANFailureInterRATMessageGsm{}
 	v.GsmMessageList = make(GSMMessageList, 0)
 	_, errCollection_gsmmessagelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_gsmmessagelist, fragmentLength_gsmmessagelist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1240
+		// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1241
 		if fragmentOffset_gsmmessagelist < 0 || fragmentLength_gsmmessagelist < 0 || fragmentLength_gsmmessagelist > int64(^uint(0)>>1) || fragmentOffset_gsmmessagelist > int64(^uint(0)>>1)-fragmentLength_gsmmessagelist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -174647,7 +174647,7 @@ func (v *HandoverFromUTRANFailureInterRATMessageCdma2000) UnmarshalUPERFrom(bb *
 	*v = HandoverFromUTRANFailureInterRATMessageCdma2000{}
 	v.Cdma2000MessageList = make(CDMA2000MessageList, 0)
 	_, errCollection_cdma2000messagelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cdma2000messagelist, fragmentLength_cdma2000messagelist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_cdma2000messagelist < 0 || fragmentLength_cdma2000messagelist < 0 || fragmentLength_cdma2000messagelist > int64(^uint(0)>>1) || fragmentOffset_cdma2000messagelist > int64(^uint(0)>>1)-fragmentLength_cdma2000messagelist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -174963,7 +174963,7 @@ func (v *InterRATHandoverInfoPredefinedConfigStatusList) UnmarshalUPERFrom(bb *p
 	case InterRATHandoverInfoPredefinedConfigStatusListChoicePresent:
 		tmp_present := make(PredefinedConfigStatusList, 0)
 		_, errCollection_present := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_present, fragmentLength_present int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_present < 0 || fragmentLength_present < 0 || fragmentLength_present > int64(^uint(0)>>1) || fragmentOffset_present > int64(^uint(0)>>1)-fragmentLength_present {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -180037,7 +180037,7 @@ func (v *MeasurementControlV590extIEsMeasurementCommandV590ext) UnmarshalUPERFro
 	case MeasurementControlV590extIEsMeasurementCommandV590extChoiceIntraFrequency:
 		tmp_intrafrequency := make(IntraFreqEventCriteriaListV590ext, 0)
 		_, errCollection_intrafrequency := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_intrafrequency, fragmentLength_intrafrequency int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_intrafrequency < 0 || fragmentLength_intrafrequency < 0 || fragmentLength_intrafrequency > int64(^uint(0)>>1) || fragmentOffset_intrafrequency > int64(^uint(0)>>1)-fragmentLength_intrafrequency {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -180057,7 +180057,7 @@ func (v *MeasurementControlV590extIEsMeasurementCommandV590ext) UnmarshalUPERFro
 	case MeasurementControlV590extIEsMeasurementCommandV590extChoiceInterFrequency:
 		tmp_interfrequency := make(InterFreqEventCriteriaListV590ext, 0)
 		_, errCollection_interfrequency := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_interfrequency, fragmentLength_interfrequency int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_interfrequency < 0 || fragmentLength_interfrequency < 0 || fragmentLength_interfrequency > int64(^uint(0)>>1) || fragmentOffset_interfrequency > int64(^uint(0)>>1)-fragmentLength_interfrequency {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -191394,7 +191394,7 @@ func (v *RadioBearerReconfigurationR3IEsDummyFdd) UnmarshalUPERFrom(bb *per.BitB
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -191691,7 +191691,7 @@ func (v *RadioBearerReconfigurationR4IEsDummyFdd) UnmarshalUPERFrom(bb *per.BitB
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -192175,7 +192175,7 @@ func (v *RadioBearerReconfigurationR5IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigList, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -192196,7 +192196,7 @@ func (v *RadioBearerReconfigurationR5IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR5, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -192217,7 +192217,7 @@ func (v *RadioBearerReconfigurationR5IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR5, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -192238,7 +192238,7 @@ func (v *RadioBearerReconfigurationR5IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rbpdcpcontextrelocationlist {
 		tmp_rbpdcpcontextrelocationlist := make(RBPDCPContextRelocationList, 0)
 		_, errCollection_rbpdcpcontextrelocationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_rbpdcpcontextrelocationlist, fragmentLength_rbpdcpcontextrelocationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist > int64(^uint(0)>>1) || fragmentOffset_rbpdcpcontextrelocationlist > int64(^uint(0)>>1)-fragmentLength_rbpdcpcontextrelocationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -192266,7 +192266,7 @@ func (v *RadioBearerReconfigurationR5IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoList, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -192287,7 +192287,7 @@ func (v *RadioBearerReconfigurationR5IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -192322,7 +192322,7 @@ func (v *RadioBearerReconfigurationR5IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR5, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -192343,7 +192343,7 @@ func (v *RadioBearerReconfigurationR5IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR5, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -192514,7 +192514,7 @@ func (v *RadioBearerReconfigurationR5IEsSpecificationModeCompleteDummyFdd) Unmar
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -193168,7 +193168,7 @@ func (v *RadioBearerReconfigurationR6IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigList, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -193189,7 +193189,7 @@ func (v *RadioBearerReconfigurationR6IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR6, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -193210,7 +193210,7 @@ func (v *RadioBearerReconfigurationR6IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR6, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -193231,7 +193231,7 @@ func (v *RadioBearerReconfigurationR6IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rbpdcpcontextrelocationlist {
 		tmp_rbpdcpcontextrelocationlist := make(RBPDCPContextRelocationList, 0)
 		_, errCollection_rbpdcpcontextrelocationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_rbpdcpcontextrelocationlist, fragmentLength_rbpdcpcontextrelocationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist > int64(^uint(0)>>1) || fragmentOffset_rbpdcpcontextrelocationlist > int64(^uint(0)>>1)-fragmentLength_rbpdcpcontextrelocationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -193267,7 +193267,7 @@ func (v *RadioBearerReconfigurationR6IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -193288,7 +193288,7 @@ func (v *RadioBearerReconfigurationR6IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR6, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -193316,7 +193316,7 @@ func (v *RadioBearerReconfigurationR6IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR5, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -193337,7 +193337,7 @@ func (v *RadioBearerReconfigurationR6IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR5, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -193640,7 +193640,7 @@ func (v *RadioBearerReconfigurationV6f0extIEsSpecificationModeComplete) Unmarsha
 	if opt_rabinformationmbmsptplist {
 		tmp_rabinformationmbmsptplist := make(RABInformationMBMSPtpList, 0)
 		_, errCollection_rabinformationmbmsptplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rabinformationmbmsptplist, fragmentLength_rabinformationmbmsptplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationmbmsptplist > int64(^uint(0)>>1)-fragmentLength_rabinformationmbmsptplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194021,7 +194021,7 @@ func (v *RadioBearerReconfigurationR7IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigList, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194042,7 +194042,7 @@ func (v *RadioBearerReconfigurationR7IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rabinformationmbmsptplist {
 		tmp_rabinformationmbmsptplist := make(RABInformationMBMSPtpList, 0)
 		_, errCollection_rabinformationmbmsptplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rabinformationmbmsptplist, fragmentLength_rabinformationmbmsptplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationmbmsptplist > int64(^uint(0)>>1)-fragmentLength_rabinformationmbmsptplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194063,7 +194063,7 @@ func (v *RadioBearerReconfigurationR7IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR7, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194084,7 +194084,7 @@ func (v *RadioBearerReconfigurationR7IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR7, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194105,7 +194105,7 @@ func (v *RadioBearerReconfigurationR7IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rbpdcpcontextrelocationlist {
 		tmp_rbpdcpcontextrelocationlist := make(RBPDCPContextRelocationList, 0)
 		_, errCollection_rbpdcpcontextrelocationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_rbpdcpcontextrelocationlist, fragmentLength_rbpdcpcontextrelocationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist > int64(^uint(0)>>1) || fragmentOffset_rbpdcpcontextrelocationlist > int64(^uint(0)>>1)-fragmentLength_rbpdcpcontextrelocationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194141,7 +194141,7 @@ func (v *RadioBearerReconfigurationR7IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194162,7 +194162,7 @@ func (v *RadioBearerReconfigurationR7IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR7, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194190,7 +194190,7 @@ func (v *RadioBearerReconfigurationR7IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194211,7 +194211,7 @@ func (v *RadioBearerReconfigurationR7IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR7, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194762,7 +194762,7 @@ func (v *RadioBearerReconfigurationR8IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194783,7 +194783,7 @@ func (v *RadioBearerReconfigurationR8IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rabinformationmbmsptplist {
 		tmp_rabinformationmbmsptplist := make(RABInformationMBMSPtpList, 0)
 		_, errCollection_rabinformationmbmsptplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rabinformationmbmsptplist, fragmentLength_rabinformationmbmsptplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationmbmsptplist > int64(^uint(0)>>1)-fragmentLength_rabinformationmbmsptplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194804,7 +194804,7 @@ func (v *RadioBearerReconfigurationR8IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR8, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194825,7 +194825,7 @@ func (v *RadioBearerReconfigurationR8IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194846,7 +194846,7 @@ func (v *RadioBearerReconfigurationR8IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rbpdcpcontextrelocationlist {
 		tmp_rbpdcpcontextrelocationlist := make(RBPDCPContextRelocationList, 0)
 		_, errCollection_rbpdcpcontextrelocationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_rbpdcpcontextrelocationlist, fragmentLength_rbpdcpcontextrelocationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist > int64(^uint(0)>>1) || fragmentOffset_rbpdcpcontextrelocationlist > int64(^uint(0)>>1)-fragmentLength_rbpdcpcontextrelocationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194882,7 +194882,7 @@ func (v *RadioBearerReconfigurationR8IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194903,7 +194903,7 @@ func (v *RadioBearerReconfigurationR8IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194931,7 +194931,7 @@ func (v *RadioBearerReconfigurationR8IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -194952,7 +194952,7 @@ func (v *RadioBearerReconfigurationR8IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR7, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -195503,7 +195503,7 @@ func (v *RadioBearerReconfigurationR9IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -195524,7 +195524,7 @@ func (v *RadioBearerReconfigurationR9IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rabinformationmbmsptplist {
 		tmp_rabinformationmbmsptplist := make(RABInformationMBMSPtpList, 0)
 		_, errCollection_rabinformationmbmsptplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rabinformationmbmsptplist, fragmentLength_rabinformationmbmsptplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationmbmsptplist > int64(^uint(0)>>1)-fragmentLength_rabinformationmbmsptplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -195545,7 +195545,7 @@ func (v *RadioBearerReconfigurationR9IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR8, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -195566,7 +195566,7 @@ func (v *RadioBearerReconfigurationR9IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -195587,7 +195587,7 @@ func (v *RadioBearerReconfigurationR9IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_rbpdcpcontextrelocationlist {
 		tmp_rbpdcpcontextrelocationlist := make(RBPDCPContextRelocationList, 0)
 		_, errCollection_rbpdcpcontextrelocationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_rbpdcpcontextrelocationlist, fragmentLength_rbpdcpcontextrelocationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist > int64(^uint(0)>>1) || fragmentOffset_rbpdcpcontextrelocationlist > int64(^uint(0)>>1)-fragmentLength_rbpdcpcontextrelocationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -195623,7 +195623,7 @@ func (v *RadioBearerReconfigurationR9IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -195644,7 +195644,7 @@ func (v *RadioBearerReconfigurationR9IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -195672,7 +195672,7 @@ func (v *RadioBearerReconfigurationR9IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -195693,7 +195693,7 @@ func (v *RadioBearerReconfigurationR9IEsSpecificationModeComplete) UnmarshalUPER
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR9, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -196244,7 +196244,7 @@ func (v *RadioBearerReconfigurationR10IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -196265,7 +196265,7 @@ func (v *RadioBearerReconfigurationR10IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rabinformationmbmsptplist {
 		tmp_rabinformationmbmsptplist := make(RABInformationMBMSPtpList, 0)
 		_, errCollection_rabinformationmbmsptplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rabinformationmbmsptplist, fragmentLength_rabinformationmbmsptplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationmbmsptplist > int64(^uint(0)>>1)-fragmentLength_rabinformationmbmsptplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -196286,7 +196286,7 @@ func (v *RadioBearerReconfigurationR10IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR8, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -196307,7 +196307,7 @@ func (v *RadioBearerReconfigurationR10IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -196328,7 +196328,7 @@ func (v *RadioBearerReconfigurationR10IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbpdcpcontextrelocationlist {
 		tmp_rbpdcpcontextrelocationlist := make(RBPDCPContextRelocationList, 0)
 		_, errCollection_rbpdcpcontextrelocationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_rbpdcpcontextrelocationlist, fragmentLength_rbpdcpcontextrelocationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist > int64(^uint(0)>>1) || fragmentOffset_rbpdcpcontextrelocationlist > int64(^uint(0)>>1)-fragmentLength_rbpdcpcontextrelocationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -196364,7 +196364,7 @@ func (v *RadioBearerReconfigurationR10IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -196385,7 +196385,7 @@ func (v *RadioBearerReconfigurationR10IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -196413,7 +196413,7 @@ func (v *RadioBearerReconfigurationR10IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -196434,7 +196434,7 @@ func (v *RadioBearerReconfigurationR10IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR9, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197008,7 +197008,7 @@ func (v *RadioBearerReconfigurationR11IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197029,7 +197029,7 @@ func (v *RadioBearerReconfigurationR11IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rabinformationmbmsptplist {
 		tmp_rabinformationmbmsptplist := make(RABInformationMBMSPtpList, 0)
 		_, errCollection_rabinformationmbmsptplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rabinformationmbmsptplist, fragmentLength_rabinformationmbmsptplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationmbmsptplist > int64(^uint(0)>>1)-fragmentLength_rabinformationmbmsptplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197050,7 +197050,7 @@ func (v *RadioBearerReconfigurationR11IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197071,7 +197071,7 @@ func (v *RadioBearerReconfigurationR11IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197092,7 +197092,7 @@ func (v *RadioBearerReconfigurationR11IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbpdcpcontextrelocationlist {
 		tmp_rbpdcpcontextrelocationlist := make(RBPDCPContextRelocationList, 0)
 		_, errCollection_rbpdcpcontextrelocationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_rbpdcpcontextrelocationlist, fragmentLength_rbpdcpcontextrelocationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist > int64(^uint(0)>>1) || fragmentOffset_rbpdcpcontextrelocationlist > int64(^uint(0)>>1)-fragmentLength_rbpdcpcontextrelocationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197121,7 +197121,7 @@ func (v *RadioBearerReconfigurationR11IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_umrlcreestablishmentrblist {
 		tmp_umrlcreestablishmentrblist := make(RBIdentityList, 0)
 		_, errCollection_umrlcreestablishmentrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_umrlcreestablishmentrblist, fragmentLength_umrlcreestablishmentrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_umrlcreestablishmentrblist < 0 || fragmentLength_umrlcreestablishmentrblist < 0 || fragmentLength_umrlcreestablishmentrblist > int64(^uint(0)>>1) || fragmentOffset_umrlcreestablishmentrblist > int64(^uint(0)>>1)-fragmentLength_umrlcreestablishmentrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197149,7 +197149,7 @@ func (v *RadioBearerReconfigurationR11IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197170,7 +197170,7 @@ func (v *RadioBearerReconfigurationR11IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197198,7 +197198,7 @@ func (v *RadioBearerReconfigurationR11IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197219,7 +197219,7 @@ func (v *RadioBearerReconfigurationR11IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197793,7 +197793,7 @@ func (v *RadioBearerReconfigurationR12IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197814,7 +197814,7 @@ func (v *RadioBearerReconfigurationR12IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rabinformationmbmsptplist {
 		tmp_rabinformationmbmsptplist := make(RABInformationMBMSPtpList, 0)
 		_, errCollection_rabinformationmbmsptplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rabinformationmbmsptplist, fragmentLength_rabinformationmbmsptplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationmbmsptplist > int64(^uint(0)>>1)-fragmentLength_rabinformationmbmsptplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197835,7 +197835,7 @@ func (v *RadioBearerReconfigurationR12IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197856,7 +197856,7 @@ func (v *RadioBearerReconfigurationR12IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197877,7 +197877,7 @@ func (v *RadioBearerReconfigurationR12IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbpdcpcontextrelocationlist {
 		tmp_rbpdcpcontextrelocationlist := make(RBPDCPContextRelocationList, 0)
 		_, errCollection_rbpdcpcontextrelocationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_rbpdcpcontextrelocationlist, fragmentLength_rbpdcpcontextrelocationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist > int64(^uint(0)>>1) || fragmentOffset_rbpdcpcontextrelocationlist > int64(^uint(0)>>1)-fragmentLength_rbpdcpcontextrelocationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197906,7 +197906,7 @@ func (v *RadioBearerReconfigurationR12IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_umrlcreestablishmentrblist {
 		tmp_umrlcreestablishmentrblist := make(RBIdentityList, 0)
 		_, errCollection_umrlcreestablishmentrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_umrlcreestablishmentrblist, fragmentLength_umrlcreestablishmentrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_umrlcreestablishmentrblist < 0 || fragmentLength_umrlcreestablishmentrblist < 0 || fragmentLength_umrlcreestablishmentrblist > int64(^uint(0)>>1) || fragmentOffset_umrlcreestablishmentrblist > int64(^uint(0)>>1)-fragmentLength_umrlcreestablishmentrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197934,7 +197934,7 @@ func (v *RadioBearerReconfigurationR12IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197955,7 +197955,7 @@ func (v *RadioBearerReconfigurationR12IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -197983,7 +197983,7 @@ func (v *RadioBearerReconfigurationR12IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -198004,7 +198004,7 @@ func (v *RadioBearerReconfigurationR12IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -198602,7 +198602,7 @@ func (v *RadioBearerReconfigurationR13IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -198623,7 +198623,7 @@ func (v *RadioBearerReconfigurationR13IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rabinformationmbmsptplist {
 		tmp_rabinformationmbmsptplist := make(RABInformationMBMSPtpList, 0)
 		_, errCollection_rabinformationmbmsptplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rabinformationmbmsptplist, fragmentLength_rabinformationmbmsptplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationmbmsptplist > int64(^uint(0)>>1)-fragmentLength_rabinformationmbmsptplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -198644,7 +198644,7 @@ func (v *RadioBearerReconfigurationR13IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -198665,7 +198665,7 @@ func (v *RadioBearerReconfigurationR13IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -198686,7 +198686,7 @@ func (v *RadioBearerReconfigurationR13IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbpdcpcontextrelocationlist {
 		tmp_rbpdcpcontextrelocationlist := make(RBPDCPContextRelocationList, 0)
 		_, errCollection_rbpdcpcontextrelocationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_rbpdcpcontextrelocationlist, fragmentLength_rbpdcpcontextrelocationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist > int64(^uint(0)>>1) || fragmentOffset_rbpdcpcontextrelocationlist > int64(^uint(0)>>1)-fragmentLength_rbpdcpcontextrelocationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -198715,7 +198715,7 @@ func (v *RadioBearerReconfigurationR13IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_umrlcreestablishmentrblist {
 		tmp_umrlcreestablishmentrblist := make(RBIdentityList, 0)
 		_, errCollection_umrlcreestablishmentrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_umrlcreestablishmentrblist, fragmentLength_umrlcreestablishmentrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_umrlcreestablishmentrblist < 0 || fragmentLength_umrlcreestablishmentrblist < 0 || fragmentLength_umrlcreestablishmentrblist > int64(^uint(0)>>1) || fragmentOffset_umrlcreestablishmentrblist > int64(^uint(0)>>1)-fragmentLength_umrlcreestablishmentrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -198750,7 +198750,7 @@ func (v *RadioBearerReconfigurationR13IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -198771,7 +198771,7 @@ func (v *RadioBearerReconfigurationR13IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -198799,7 +198799,7 @@ func (v *RadioBearerReconfigurationR13IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -198820,7 +198820,7 @@ func (v *RadioBearerReconfigurationR13IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR13, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -199471,7 +199471,7 @@ func (v *RadioBearerReconfigurationR14IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR11, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -199492,7 +199492,7 @@ func (v *RadioBearerReconfigurationR14IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -199513,7 +199513,7 @@ func (v *RadioBearerReconfigurationR14IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rabinformationmbmsptplist {
 		tmp_rabinformationmbmsptplist := make(RABInformationMBMSPtpList, 0)
 		_, errCollection_rabinformationmbmsptplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rabinformationmbmsptplist, fragmentLength_rabinformationmbmsptplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationmbmsptplist > int64(^uint(0)>>1)-fragmentLength_rabinformationmbmsptplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -199534,7 +199534,7 @@ func (v *RadioBearerReconfigurationR14IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -199555,7 +199555,7 @@ func (v *RadioBearerReconfigurationR14IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -199576,7 +199576,7 @@ func (v *RadioBearerReconfigurationR14IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbinformationreleaselist {
 		tmp_rbinformationreleaselist := make(RBInformationReleaseList, 0)
 		_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -199597,7 +199597,7 @@ func (v *RadioBearerReconfigurationR14IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbpdcpcontextrelocationlist {
 		tmp_rbpdcpcontextrelocationlist := make(RBPDCPContextRelocationList, 0)
 		_, errCollection_rbpdcpcontextrelocationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_rbpdcpcontextrelocationlist, fragmentLength_rbpdcpcontextrelocationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist > int64(^uint(0)>>1) || fragmentOffset_rbpdcpcontextrelocationlist > int64(^uint(0)>>1)-fragmentLength_rbpdcpcontextrelocationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -199626,7 +199626,7 @@ func (v *RadioBearerReconfigurationR14IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_umrlcreestablishmentrblist {
 		tmp_umrlcreestablishmentrblist := make(RBIdentityList, 0)
 		_, errCollection_umrlcreestablishmentrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_umrlcreestablishmentrblist, fragmentLength_umrlcreestablishmentrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_umrlcreestablishmentrblist < 0 || fragmentLength_umrlcreestablishmentrblist < 0 || fragmentLength_umrlcreestablishmentrblist > int64(^uint(0)>>1) || fragmentOffset_umrlcreestablishmentrblist > int64(^uint(0)>>1)-fragmentLength_umrlcreestablishmentrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -199661,7 +199661,7 @@ func (v *RadioBearerReconfigurationR14IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -199682,7 +199682,7 @@ func (v *RadioBearerReconfigurationR14IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR14, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -199710,7 +199710,7 @@ func (v *RadioBearerReconfigurationR14IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -199731,7 +199731,7 @@ func (v *RadioBearerReconfigurationR14IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR13, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -200525,7 +200525,7 @@ func (v *RadioBearerReconfigurationR15IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR11, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -200546,7 +200546,7 @@ func (v *RadioBearerReconfigurationR15IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigListR8, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -200567,7 +200567,7 @@ func (v *RadioBearerReconfigurationR15IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rabinformationmbmsptplist {
 		tmp_rabinformationmbmsptplist := make(RABInformationMBMSPtpList, 0)
 		_, errCollection_rabinformationmbmsptplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_rabinformationmbmsptplist, fragmentLength_rabinformationmbmsptplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist < 0 || fragmentLength_rabinformationmbmsptplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationmbmsptplist > int64(^uint(0)>>1)-fragmentLength_rabinformationmbmsptplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -200588,7 +200588,7 @@ func (v *RadioBearerReconfigurationR15IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR11, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -200609,7 +200609,7 @@ func (v *RadioBearerReconfigurationR15IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR8, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -200630,7 +200630,7 @@ func (v *RadioBearerReconfigurationR15IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbinformationreleaselist {
 		tmp_rbinformationreleaselist := make(RBInformationReleaseList, 0)
 		_, errCollection_rbinformationreleaselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreleaselist, fragmentLength_rbinformationreleaselist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist < 0 || fragmentLength_rbinformationreleaselist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreleaselist > int64(^uint(0)>>1)-fragmentLength_rbinformationreleaselist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -200651,7 +200651,7 @@ func (v *RadioBearerReconfigurationR15IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_rbpdcpcontextrelocationlist {
 		tmp_rbpdcpcontextrelocationlist := make(RBPDCPContextRelocationList, 0)
 		_, errCollection_rbpdcpcontextrelocationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_rbpdcpcontextrelocationlist, fragmentLength_rbpdcpcontextrelocationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist < 0 || fragmentLength_rbpdcpcontextrelocationlist > int64(^uint(0)>>1) || fragmentOffset_rbpdcpcontextrelocationlist > int64(^uint(0)>>1)-fragmentLength_rbpdcpcontextrelocationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -200680,7 +200680,7 @@ func (v *RadioBearerReconfigurationR15IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_umrlcreestablishmentrblist {
 		tmp_umrlcreestablishmentrblist := make(RBIdentityList, 0)
 		_, errCollection_umrlcreestablishmentrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_umrlcreestablishmentrblist, fragmentLength_umrlcreestablishmentrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
 			if fragmentOffset_umrlcreestablishmentrblist < 0 || fragmentLength_umrlcreestablishmentrblist < 0 || fragmentLength_umrlcreestablishmentrblist > int64(^uint(0)>>1) || fragmentOffset_umrlcreestablishmentrblist > int64(^uint(0)>>1)-fragmentLength_umrlcreestablishmentrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -200715,7 +200715,7 @@ func (v *RadioBearerReconfigurationR15IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -200736,7 +200736,7 @@ func (v *RadioBearerReconfigurationR15IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR14, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -200764,7 +200764,7 @@ func (v *RadioBearerReconfigurationR15IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -200785,7 +200785,7 @@ func (v *RadioBearerReconfigurationR15IEsSpecificationModeComplete) UnmarshalUPE
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR13, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -205139,7 +205139,7 @@ func (v *RadioBearerReleaseR3IEsDummyFdd) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -205436,7 +205436,7 @@ func (v *RadioBearerReleaseR4IEsDummyFdd) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -205733,7 +205733,7 @@ func (v *RadioBearerReleaseR5IEsDummyFdd) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -209957,7 +209957,7 @@ func (v *RadioBearerSetupR3IEsDummyFdd) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -210254,7 +210254,7 @@ func (v *RadioBearerSetupR4IEsDummyFdd) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -210551,7 +210551,7 @@ func (v *RadioBearerSetupR5IEsDummyFdd) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211070,7 +211070,7 @@ func (v *RadioBearerSetupR6IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_srbinformationsetuplist {
 		tmp_srbinformationsetuplist := make(SRBInformationSetupListR6, 0)
 		_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211091,7 +211091,7 @@ func (v *RadioBearerSetupR6IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR6, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211112,7 +211112,7 @@ func (v *RadioBearerSetupR6IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigList, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211133,7 +211133,7 @@ func (v *RadioBearerSetupR6IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR6, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211154,7 +211154,7 @@ func (v *RadioBearerSetupR6IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR6, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211197,7 +211197,7 @@ func (v *RadioBearerSetupR6IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211218,7 +211218,7 @@ func (v *RadioBearerSetupR6IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR6, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211246,7 +211246,7 @@ func (v *RadioBearerSetupR6IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR5, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211267,7 +211267,7 @@ func (v *RadioBearerSetupR6IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR5, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211370,7 +211370,7 @@ func (v *RadioBearerSetupR6IEsSpecificationModeDummy) UnmarshalUPERFrom(bb *per.
 	if opt_rbinformationchangedlist {
 		tmp_rbinformationchangedlist := make(RBInformationChangedListR6, 0)
 		_, errCollection_rbinformationchangedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationchangedlist, fragmentLength_rbinformationchangedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationchangedlist < 0 || fragmentLength_rbinformationchangedlist < 0 || fragmentLength_rbinformationchangedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationchangedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationchangedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211756,7 +211756,7 @@ func (v *RadioBearerSetupR7IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_srbinformationsetuplist {
 		tmp_srbinformationsetuplist := make(SRBInformationSetupListR7, 0)
 		_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211777,7 +211777,7 @@ func (v *RadioBearerSetupR7IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR7, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211798,7 +211798,7 @@ func (v *RadioBearerSetupR7IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_rabinformationreconfiglist {
 		tmp_rabinformationreconfiglist := make(RABInformationReconfigList, 0)
 		_, errCollection_rabinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationreconfiglist, fragmentLength_rabinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist < 0 || fragmentLength_rabinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rabinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rabinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211819,7 +211819,7 @@ func (v *RadioBearerSetupR7IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_rbinformationreconfiglist {
 		tmp_rbinformationreconfiglist := make(RBInformationReconfigListR7, 0)
 		_, errCollection_rbinformationreconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationreconfiglist, fragmentLength_rbinformationreconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist < 0 || fragmentLength_rbinformationreconfiglist > int64(^uint(0)>>1) || fragmentOffset_rbinformationreconfiglist > int64(^uint(0)>>1)-fragmentLength_rbinformationreconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211840,7 +211840,7 @@ func (v *RadioBearerSetupR7IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_rbinformationaffectedlist {
 		tmp_rbinformationaffectedlist := make(RBInformationAffectedListR7, 0)
 		_, errCollection_rbinformationaffectedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_rbinformationaffectedlist, fragmentLength_rbinformationaffectedlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist < 0 || fragmentLength_rbinformationaffectedlist > int64(^uint(0)>>1) || fragmentOffset_rbinformationaffectedlist > int64(^uint(0)>>1)-fragmentLength_rbinformationaffectedlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211883,7 +211883,7 @@ func (v *RadioBearerSetupR7IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_uldeletedtranschinfolist {
 		tmp_uldeletedtranschinfolist := make(ULDeletedTransChInfoListR6, 0)
 		_, errCollection_uldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uldeletedtranschinfolist, fragmentLength_uldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist < 0 || fragmentLength_uldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_uldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211904,7 +211904,7 @@ func (v *RadioBearerSetupR7IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR7, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211932,7 +211932,7 @@ func (v *RadioBearerSetupR7IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_dldeletedtranschinfolist {
 		tmp_dldeletedtranschinfolist := make(DLDeletedTransChInfoListR7, 0)
 		_, errCollection_dldeletedtranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dldeletedtranschinfolist, fragmentLength_dldeletedtranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist < 0 || fragmentLength_dldeletedtranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dldeletedtranschinfolist > int64(^uint(0)>>1)-fragmentLength_dldeletedtranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -211953,7 +211953,7 @@ func (v *RadioBearerSetupR7IEsSpecificationModeComplete) UnmarshalUPERFrom(bb *p
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR7, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -214976,7 +214976,7 @@ func (v *RRCConnectionReleaseCCCHLaterThanR3CriticalExtensionsCriticalExtensions
 	if opt_groupidentity {
 		tmp_groupidentity := make(RRCConnectionReleaseCCCHLaterThanR3CriticalExtensionsCriticalExtensionsGroupIdentity, 0)
 		_, errCollection_groupidentity := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_groupidentity, fragmentLength_groupidentity int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_groupidentity < 0 || fragmentLength_groupidentity < 0 || fragmentLength_groupidentity > int64(^uint(0)>>1) || fragmentOffset_groupidentity > int64(^uint(0)>>1)-fragmentLength_groupidentity {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -215079,7 +215079,7 @@ func UnmarshalUPERRRCConnectionReleaseCCCHLaterThanR3CriticalExtensionsCriticalE
 func unmarshalUPERRRCConnectionReleaseCCCHLaterThanR3CriticalExtensionsCriticalExtensionsGroupIdentityInto(v *asn1cUPERRRCConnectionReleaseCCCHLaterThanR3CriticalExtensionsCriticalExtensionsGroupIdentityListValue, bb *per.BitBuffer) error {
 	v.Value = make(RRCConnectionReleaseCCCHLaterThanR3CriticalExtensionsCriticalExtensionsGroupIdentity, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -219886,7 +219886,7 @@ func (v *RRCConnectionSetupR5IEsSpecificationModeComplete) UnmarshalUPERFrom(bb 
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupList2, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 3, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -219912,7 +219912,7 @@ func (v *RRCConnectionSetupR5IEsSpecificationModeComplete) UnmarshalUPERFrom(bb 
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -219940,7 +219940,7 @@ func (v *RRCConnectionSetupR5IEsSpecificationModeComplete) UnmarshalUPERFrom(bb 
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR4, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -220331,7 +220331,7 @@ func (v *RRCConnectionSetupR6IEsSpecificationModeComplete) UnmarshalUPERFrom(bb 
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupList2R6, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 3, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -220357,7 +220357,7 @@ func (v *RRCConnectionSetupR6IEsSpecificationModeComplete) UnmarshalUPERFrom(bb 
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR6, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -220385,7 +220385,7 @@ func (v *RRCConnectionSetupR6IEsSpecificationModeComplete) UnmarshalUPERFrom(bb 
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR5, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -220776,7 +220776,7 @@ func (v *RRCConnectionSetupR7IEsSpecificationModeComplete) UnmarshalUPERFrom(bb 
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupList2R7, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 3, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -220802,7 +220802,7 @@ func (v *RRCConnectionSetupR7IEsSpecificationModeComplete) UnmarshalUPERFrom(bb 
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR7, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -220830,7 +220830,7 @@ func (v *RRCConnectionSetupR7IEsSpecificationModeComplete) UnmarshalUPERFrom(bb 
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR7, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -221221,7 +221221,7 @@ func (v *RRCConnectionSetupR8IEsSpecificationModeComplete) UnmarshalUPERFrom(bb 
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupList2R8, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 3, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -221247,7 +221247,7 @@ func (v *RRCConnectionSetupR8IEsSpecificationModeComplete) UnmarshalUPERFrom(bb 
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -221275,7 +221275,7 @@ func (v *RRCConnectionSetupR8IEsSpecificationModeComplete) UnmarshalUPERFrom(bb 
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR7, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -221666,7 +221666,7 @@ func (v *RRCConnectionSetupR9IEsSpecificationModeComplete) UnmarshalUPERFrom(bb 
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupList2R8, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 3, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -221692,7 +221692,7 @@ func (v *RRCConnectionSetupR9IEsSpecificationModeComplete) UnmarshalUPERFrom(bb 
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -221720,7 +221720,7 @@ func (v *RRCConnectionSetupR9IEsSpecificationModeComplete) UnmarshalUPERFrom(bb 
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR9, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -222111,7 +222111,7 @@ func (v *RRCConnectionSetupR10IEsSpecificationModeComplete) UnmarshalUPERFrom(bb
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupList2R8, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 3, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -222137,7 +222137,7 @@ func (v *RRCConnectionSetupR10IEsSpecificationModeComplete) UnmarshalUPERFrom(bb
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -222165,7 +222165,7 @@ func (v *RRCConnectionSetupR10IEsSpecificationModeComplete) UnmarshalUPERFrom(bb
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR9, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -222556,7 +222556,7 @@ func (v *RRCConnectionSetupR11IEsSpecificationModeComplete) UnmarshalUPERFrom(bb
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupList2R8, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 3, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -222582,7 +222582,7 @@ func (v *RRCConnectionSetupR11IEsSpecificationModeComplete) UnmarshalUPERFrom(bb
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -222610,7 +222610,7 @@ func (v *RRCConnectionSetupR11IEsSpecificationModeComplete) UnmarshalUPERFrom(bb
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -223001,7 +223001,7 @@ func (v *RRCConnectionSetupR12IEsSpecificationModeComplete) UnmarshalUPERFrom(bb
 	}
 	v.SrbInformationSetupList = make(SRBInformationSetupList2R8, 0)
 	_, errCollection_srbinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 3, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_srbinformationsetuplist, fragmentLength_srbinformationsetuplist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist < 0 || fragmentLength_srbinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_srbinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_srbinformationsetuplist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -223027,7 +223027,7 @@ func (v *RRCConnectionSetupR12IEsSpecificationModeComplete) UnmarshalUPERFrom(bb
 	if opt_uladdreconftranschinfolist {
 		tmp_uladdreconftranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_uladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_uladdreconftranschinfolist, fragmentLength_uladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist < 0 || fragmentLength_uladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_uladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_uladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -223055,7 +223055,7 @@ func (v *RRCConnectionSetupR12IEsSpecificationModeComplete) UnmarshalUPERFrom(bb
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -225872,7 +225872,7 @@ func (v *SystemInformationBCHPayload) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	case SystemInformationBCHPayloadChoiceCompleteSIBList:
 		tmp_completesiblist := make(CompleteSIBList, 0)
 		_, errCollection_completesiblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_completesiblist, fragmentLength_completesiblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_completesiblist < 0 || fragmentLength_completesiblist < 0 || fragmentLength_completesiblist > int64(^uint(0)>>1) || fragmentOffset_completesiblist > int64(^uint(0)>>1)-fragmentLength_completesiblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -226016,7 +226016,7 @@ func (v *SystemInformationBCHPayloadLastAndComplete) UnmarshalUPERFrom(bb *per.B
 	}
 	v.CompleteSIBList = make(CompleteSIBList, 0)
 	_, errCollection_completesiblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_completesiblist, fragmentLength_completesiblist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_completesiblist < 0 || fragmentLength_completesiblist < 0 || fragmentLength_completesiblist > int64(^uint(0)>>1) || fragmentOffset_completesiblist > int64(^uint(0)>>1)-fragmentLength_completesiblist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -226089,7 +226089,7 @@ func (v *SystemInformationBCHPayloadLastAndCompleteAndFirst) UnmarshalUPERFrom(b
 	}
 	v.CompleteSIBList = make(CompleteSIBList, 0)
 	_, errCollection_completesiblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_completesiblist, fragmentLength_completesiblist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_completesiblist < 0 || fragmentLength_completesiblist < 0 || fragmentLength_completesiblist > int64(^uint(0)>>1) || fragmentOffset_completesiblist > int64(^uint(0)>>1)-fragmentLength_completesiblist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -226159,7 +226159,7 @@ func (v *SystemInformationBCHPayloadCompleteAndFirst) UnmarshalUPERFrom(bb *per.
 	*v = SystemInformationBCHPayloadCompleteAndFirst{}
 	v.CompleteSIBList = make(CompleteSIBList, 0)
 	_, errCollection_completesiblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_completesiblist, fragmentLength_completesiblist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_completesiblist < 0 || fragmentLength_completesiblist < 0 || fragmentLength_completesiblist > int64(^uint(0)>>1) || fragmentOffset_completesiblist > int64(^uint(0)>>1)-fragmentLength_completesiblist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -226357,7 +226357,7 @@ func (v *SystemInformation2BCHSegmentCombination) UnmarshalUPERFrom(bb *per.BitB
 	case SystemInformation2BCHSegmentCombinationChoiceCombination8:
 		tmp_combination8 := make(CompleteSIB2List, 0)
 		_, errCollection_combination8 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_combination8, fragmentLength_combination8 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_combination8 < 0 || fragmentLength_combination8 < 0 || fragmentLength_combination8 > int64(^uint(0)>>1) || fragmentOffset_combination8 > int64(^uint(0)>>1)-fragmentLength_combination8 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -226503,7 +226503,7 @@ func (v *SystemInformation2BCHSegmentCombinationCombination6) UnmarshalUPERFrom(
 	}
 	v.CompleteSIBList = make(CompleteSIB2List, 0)
 	_, errCollection_completesiblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_completesiblist, fragmentLength_completesiblist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_completesiblist < 0 || fragmentLength_completesiblist < 0 || fragmentLength_completesiblist > int64(^uint(0)>>1) || fragmentOffset_completesiblist > int64(^uint(0)>>1)-fragmentLength_completesiblist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -226576,7 +226576,7 @@ func (v *SystemInformation2BCHSegmentCombinationCombination7) UnmarshalUPERFrom(
 	}
 	v.CompleteSIBList = make(CompleteSIB2List, 0)
 	_, errCollection_completesiblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_completesiblist, fragmentLength_completesiblist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_completesiblist < 0 || fragmentLength_completesiblist < 0 || fragmentLength_completesiblist > int64(^uint(0)>>1) || fragmentOffset_completesiblist > int64(^uint(0)>>1)-fragmentLength_completesiblist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -226646,7 +226646,7 @@ func (v *SystemInformation2BCHSegmentCombinationCombination9) UnmarshalUPERFrom(
 	*v = SystemInformation2BCHSegmentCombinationCombination9{}
 	v.CompleteSIBList = make(CompleteSIB2List, 0)
 	_, errCollection_completesiblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_completesiblist, fragmentLength_completesiblist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_completesiblist < 0 || fragmentLength_completesiblist < 0 || fragmentLength_completesiblist > int64(^uint(0)>>1) || fragmentOffset_completesiblist > int64(^uint(0)>>1)-fragmentLength_completesiblist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -226846,7 +226846,7 @@ func (v *SystemInformationFACHPayload) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	case SystemInformationFACHPayloadChoiceCompleteSIBList:
 		tmp_completesiblist := make(CompleteSIBList, 0)
 		_, errCollection_completesiblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_completesiblist, fragmentLength_completesiblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_completesiblist < 0 || fragmentLength_completesiblist < 0 || fragmentLength_completesiblist > int64(^uint(0)>>1) || fragmentOffset_completesiblist > int64(^uint(0)>>1)-fragmentLength_completesiblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -226990,7 +226990,7 @@ func (v *SystemInformationFACHPayloadLastAndComplete) UnmarshalUPERFrom(bb *per.
 	}
 	v.CompleteSIBList = make(CompleteSIBList, 0)
 	_, errCollection_completesiblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_completesiblist, fragmentLength_completesiblist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_completesiblist < 0 || fragmentLength_completesiblist < 0 || fragmentLength_completesiblist > int64(^uint(0)>>1) || fragmentOffset_completesiblist > int64(^uint(0)>>1)-fragmentLength_completesiblist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -227063,7 +227063,7 @@ func (v *SystemInformationFACHPayloadLastAndCompleteAndFirst) UnmarshalUPERFrom(
 	}
 	v.CompleteSIBList = make(CompleteSIBList, 0)
 	_, errCollection_completesiblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_completesiblist, fragmentLength_completesiblist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_completesiblist < 0 || fragmentLength_completesiblist < 0 || fragmentLength_completesiblist > int64(^uint(0)>>1) || fragmentOffset_completesiblist > int64(^uint(0)>>1)-fragmentLength_completesiblist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -227133,7 +227133,7 @@ func (v *SystemInformationFACHPayloadCompleteAndFirst) UnmarshalUPERFrom(bb *per
 	*v = SystemInformationFACHPayloadCompleteAndFirst{}
 	v.CompleteSIBList = make(CompleteSIBList, 0)
 	_, errCollection_completesiblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_completesiblist, fragmentLength_completesiblist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 		if fragmentOffset_completesiblist < 0 || fragmentLength_completesiblist < 0 || fragmentLength_completesiblist > int64(^uint(0)>>1) || fragmentOffset_completesiblist > int64(^uint(0)>>1)-fragmentLength_completesiblist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -231238,7 +231238,7 @@ func (v *TransportChannelReconfigurationR3IEsDummyFdd) UnmarshalUPERFrom(bb *per
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -231535,7 +231535,7 @@ func (v *TransportChannelReconfigurationR4IEsDummyFdd) UnmarshalUPERFrom(bb *per
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -231832,7 +231832,7 @@ func (v *TransportChannelReconfigurationR5IEsDummyFdd) UnmarshalUPERFrom(bb *per
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}

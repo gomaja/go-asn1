@@ -8863,7 +8863,8 @@ func decodeProtocolFieldsInValue(value reflect.Value, hint protocolOpenTypeHint,
 	case reflect.Struct:
 		owner := value.Type().Name()
 		var result decodedProtocolFields
-		for i := 0; i < value.NumField(); i++ {
+		fieldCount := value.NumField()
+		for i := 0; i < fieldCount; i++ {
 			fieldInfo := value.Type().Field(i)
 			if fieldInfo.PkgPath != "" || fieldInfo.Tag.Get("asn1") == "-" {
 				continue
@@ -8909,7 +8910,8 @@ func decodeProtocolFieldsInValue(value reflect.Value, hint protocolOpenTypeHint,
 			return decodedProtocolFields{}, nil
 		}
 		var result decodedProtocolFields
-		for i := 0; i < value.Len(); i++ {
+		elementCount := value.Len()
+		for i := 0; i < elementCount; i++ {
 			decoded, err := decodeProtocolFieldsInValue(value.Index(i), protocolOpenTypeHint{}, fmt.Sprintf("%s[%d]", path, i), seen)
 			if err != nil {
 				return decodedProtocolFields{}, err
@@ -8935,8 +8937,9 @@ func protocolIEFieldsFromValue(value reflect.Value) ([]ProtocolIEField, bool) {
 	if value.Kind() != reflect.Slice && value.Kind() != reflect.Array {
 		return nil, false
 	}
-	result := make([]ProtocolIEField, value.Len())
-	for i := 0; i < value.Len(); i++ {
+	elementCount := value.Len()
+	result := make([]ProtocolIEField, elementCount)
+	for i := 0; i < elementCount; i++ {
 		item := indirectProtocolOpenTypeValue(value.Index(i))
 		if !item.IsValid() || !item.Type().ConvertibleTo(fieldType) {
 			return nil, false
@@ -8958,8 +8961,9 @@ func protocolExtensionFieldsFromValue(value reflect.Value) ([]ProtocolExtensionF
 	if value.Kind() != reflect.Slice && value.Kind() != reflect.Array {
 		return nil, false
 	}
-	result := make([]ProtocolExtensionField, value.Len())
-	for i := 0; i < value.Len(); i++ {
+	elementCount := value.Len()
+	result := make([]ProtocolExtensionField, elementCount)
+	for i := 0; i < elementCount; i++ {
 		item := indirectProtocolOpenTypeValue(value.Index(i))
 		if !item.IsValid() || !item.Type().ConvertibleTo(fieldType) {
 			return nil, false

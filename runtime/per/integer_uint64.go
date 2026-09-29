@@ -90,10 +90,14 @@ func EncodeIntegerUint64Aligned(bb *BitBuffer, value, lower, upper uint64, exten
 	case rangeValue < 255:
 		return bb.WriteBits(offset, bits.Len64(rangeValue))
 	case rangeValue == 255:
-		bb.AlignToOctetWrite()
+		if err := bb.AlignToOctetWrite(); err != nil {
+			return err
+		}
 		return bb.WriteBits(offset, 8)
 	case rangeValue < 65536:
-		bb.AlignToOctetWrite()
+		if err := bb.AlignToOctetWrite(); err != nil {
+			return err
+		}
 		return bb.WriteBits(offset, 16)
 	default:
 		bitWidth := bits.Len64(offset)
@@ -120,7 +124,9 @@ func EncodeIntegerUint64Aligned(bb *BitBuffer, value, lower, upper uint64, exten
 		if err := EncodeConstrainedWholeNumber(bb, int64(length), 1, int64(maximumLength)); err != nil {
 			return err
 		}
-		bb.AlignToOctetWrite()
+		if err := bb.AlignToOctetWrite(); err != nil {
+			return err
+		}
 		for index := length; index > 0; {
 			index--
 			if index >= 8 {
