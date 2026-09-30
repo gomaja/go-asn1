@@ -2,6 +2,7 @@ package per
 
 import (
 	"bytes"
+	"errors"
 	"testing"
 )
 
@@ -37,6 +38,34 @@ func TestExtensionBitmapNormallySmallLengthSeventy(t *testing.T) {
 			}
 			if !bytes.Equal(bb.Bytes(), tc.prefix) {
 				t.Fatalf("length prefix = %x, want %x", bb.Bytes(), tc.prefix)
+			}
+		})
+	}
+}
+
+func TestFragmentedExtensionBitmapLengthHasTypedError(t *testing.T) {
+	for _, test := range []struct {
+		name   string
+		encode func(*BitBuffer, int64) error
+		decode func(*BitBuffer) (int64, []bool, error)
+	}{
+		{"UPER", EncodeNormallySmallLength, DecodeExtensionBitmap},
+		{"APER", EncodeNormallySmallLengthAligned, DecodeExtensionBitmapAligned},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			bb := NewBitBuffer()
+			if err := test.encode(bb, 16384); !errors.Is(err, ErrUnsupportedFragmentedNormallySmallLength) {
+				t.Fatalf("encode error = %v", err)
+			}
+			if bb.BitsWritten() != 0 {
+				t.Fatalf("encode wrote %d bits before rejecting", bb.BitsWritten())
+			}
+			bb = NewBitBufferFromBytes([]byte{0xe0, 0x80})
+			if test.name == "APER" {
+				bb = NewBitBufferFromBytes([]byte{0x80, 0xc1})
+			}
+			if _, _, err := test.decode(bb); !errors.Is(err, ErrUnsupportedFragmentedNormallySmallLength) {
+				t.Fatalf("decode error = %v", err)
 			}
 		})
 	}

@@ -113,6 +113,9 @@ func EncodeNormallySmallLength(bb *BitBuffer, n int64) error {
 	if n < 1 {
 		return fmt.Errorf("%w: normally small length %d is not positive", ErrInvalidValue, n)
 	}
+	if n >= 16384 {
+		return fmt.Errorf("%w: length %d", ErrUnsupportedFragmentedNormallySmallLength, n)
+	}
 	if n <= 64 {
 		if err := bb.WriteBit(0); err != nil {
 			return err
@@ -136,9 +139,12 @@ func DecodeNormallySmallLength(bb *BitBuffer) (int64, error) {
 		value, err := bb.ReadBits(6)
 		return int64(value) + 1, err
 	}
-	n, err := DecodeUnconstrainedLength(bb)
+	n, more, _, err := decodeLengthFragmentDeterminant(bb, false)
 	if err != nil {
 		return 0, err
+	}
+	if more {
+		return 0, fmt.Errorf("%w: first fragment length %d", ErrUnsupportedFragmentedNormallySmallLength, n)
 	}
 	if n <= 64 {
 		return 0, fmt.Errorf("%w: long normally small length %d is not greater than 64", ErrInvalidValue, n)
