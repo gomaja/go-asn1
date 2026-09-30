@@ -289,13 +289,52 @@ func DecodeNormallySmallNonNegativeAligned(bb *BitBuffer) (int64, error) {
 	return DecodeSemiConstrainedWholeNumberAligned(bb, 0)
 }
 
+// EncodeNormallySmallLengthAligned encodes a positive normally small length.
+// ITU-T X.691 (02/2021) 11.9.3.4 and 19.8.
+func EncodeNormallySmallLengthAligned(bb *BitBuffer, n int64) error {
+	if n < 1 {
+		return fmt.Errorf("%w: normally small length %d is not positive", ErrInvalidValue, n)
+	}
+	if n <= 64 {
+		if err := bb.WriteBit(0); err != nil {
+			return err
+		}
+		return bb.WriteBits(uint64(n-1), 6)
+	}
+	if err := bb.WriteBit(1); err != nil {
+		return err
+	}
+	return EncodeUnconstrainedLengthAligned(bb, n)
+}
+
+// DecodeNormallySmallLengthAligned decodes a positive normally small length.
+// ITU-T X.691 (02/2021) 11.9.3.4 and 19.8.
+func DecodeNormallySmallLengthAligned(bb *BitBuffer) (int64, error) {
+	bit, err := bb.ReadBit()
+	if err != nil {
+		return 0, err
+	}
+	if bit == 0 {
+		value, err := bb.ReadBits(6)
+		return int64(value) + 1, err
+	}
+	n, err := DecodeUnconstrainedLengthAligned(bb)
+	if err != nil {
+		return 0, err
+	}
+	if n <= 64 {
+		return 0, fmt.Errorf("%w: long normally small length %d is not greater than 64", ErrInvalidValue, n)
+	}
+	return n, nil
+}
+
 // DecodeExtensionBitmapAligned decodes an aligned extension presence bitmap.
 func DecodeExtensionBitmapAligned(bb *BitBuffer) (int64, []bool, error) {
-	count, err := DecodeNormallySmallNonNegativeAligned(bb)
+	n, err := DecodeNormallySmallLengthAligned(bb)
 	if err != nil {
 		return 0, nil, err
 	}
-	return decodeExtensionBitmapBits(bb, count)
+	return decodeExtensionBitmapBits(bb, n-1)
 }
 
 // EncodeIntegerAligned encodes an integer using APER rules.

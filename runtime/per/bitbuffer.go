@@ -11,7 +11,21 @@ type BitBuffer struct {
 	bitPos        int  // current read position (read) or total bits written (write)
 	bitLen        int  // total bits available (read mode only)
 	invalidLength bool // input octets cannot be represented as an int bit length
+	decodeOptions DecodeOptions
 }
+
+// DecodeOptions enables receiver tolerance for non-conformant PER senders.
+// X.691 (02/2021) 11.1.3.2 forbids padding inside BIT STRING (CONTAINING).
+// TS 25.331 V19.0.1 12.1.3 requires tolerant RRC receivers.
+type DecodeOptions struct {
+	AllowNonstandardTrailingBits bool
+}
+
+// SetDecodeOptions applies options to this decoder and its nested decoders.
+func (bb *BitBuffer) SetDecodeOptions(options DecodeOptions) { bb.decodeOptions = options }
+
+// Options returns the options to pass to a nested decoder.
+func (bb *BitBuffer) Options() DecodeOptions { return bb.decodeOptions }
 
 // NewBitBuffer creates a write-mode buffer.
 func NewBitBuffer() *BitBuffer {
@@ -152,21 +166,25 @@ func (bb *BitBuffer) ReadBytes(n int) ([]byte, error) {
 	if n < 0 {
 		return nil, fmt.Errorf("%w: ReadBytes called with negative n=%d", ErrInvalidValue, n)
 	}
+	if bb.bitPos < 0 {
+		return nil, fmt.Errorf("%w: negative PER bit position %d", ErrInvalidValue, bb.bitPos)
+	}
 	if n > bb.BitsRemaining()/8 {
 		return nil, fmt.Errorf("%w: requested %d bytes with %d bits remaining", ErrTruncated, n, bb.BitsRemaining())
 	}
 	result := make([]byte, n)
-	for i := 0; i < n; {
-		val, err := bb.ReadBits(8)
-		if err != nil {
-			return nil, err
-		}
-		if val > math.MaxUint8 {
-			return nil, fmt.Errorf("%w: PER octet value exceeds byte", ErrInvalidValue)
-		}
-		result[i] = byte(val)
-		i++
+	if n == 0 {
+		return result, nil
 	}
+	start, shift := bb.bitPos/8, uint(bb.bitPos%8)
+	if shift == 0 {
+		copy(result, bb.data[start:start+n])
+	} else {
+		for i := range result {
+			result[i] = bb.data[start+i]<<shift | bb.data[start+i+1]>>(8-shift)
+		}
+	}
+	bb.bitPos += n * 8
 	return result, nil
 }
 
@@ -192,6 +210,106 @@ func (bb *BitBuffer) CompleteBytes() []byte {
 type CompletePadding struct {
 	bits  uint8
 	count uint8
+}
+
+// TrailingBits retains non-conformant bits after a complete PER value.
+// Bytes are MSB-first, with unused low bits zero.
+type TrailingBits struct {
+	Bytes     []byte
+	BitLength int
+}
+
+// CaptureContainedZeroPadding accepts only zero bits inside a BIT STRING
+// (CONTAINING ...) when receiver tolerance is explicitly enabled.
+// X.691 (02/2021) 11.1.3.2 otherwise requires no padding bits.
+func CaptureContainedZeroPadding(bb *BitBuffer) (CompletePadding, error) {
+	remaining := bb.BitsRemaining()
+	if remaining < 0 || remaining > 7 {
+		return CompletePadding{}, fmt.Errorf("%w: contained value has %d trailing bits", ErrExtraData, remaining)
+	}
+	value, err := bb.ReadBits(remaining)
+	if err != nil {
+		return CompletePadding{}, err
+	}
+	if value != 0 {
+		return CompletePadding{}, fmt.Errorf("%w: contained value has nonzero padding", ErrInvalidValue)
+	}
+	return CompletePadding{count: uint8(remaining)}, nil
+}
+
+// AppendContainedZeroPadding reproduces observed non-conformant padding.
+func AppendContainedZeroPadding(bb *BitBuffer, padding CompletePadding) error {
+	if padding.count > 7 || padding.bits != 0 {
+		return fmt.Errorf("%w: invalid contained padding", ErrInvalidValue)
+	}
+	for range padding.count {
+		if err := bb.WriteBit(0); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// CaptureFinalPaddingWithOptions retains trailing bits from a non-conformant
+// top-level value when explicitly allowed. X.691 (02/2021) 11.1.3.1 permits
+// only the terminal 1-7 padding bits; TS 25.331 V19.0.1 12.1.3 motivates
+// receiver tolerance for extra extension and padding bits.
+func CaptureFinalPaddingWithOptions(bb *BitBuffer) (CompletePadding, TrailingBits, error) {
+	if !bb.decodeOptions.AllowNonstandardTrailingBits || bb.BitsRemaining() <= 7 {
+		padding, err := CaptureFinalPadding(bb)
+		return padding, TrailingBits{}, err
+	}
+	remaining := bb.BitsRemaining()
+	bytes, err := bb.ReadBitsToBytes(remaining)
+	if err != nil {
+		return CompletePadding{}, TrailingBits{}, err
+	}
+	return CompletePadding{}, TrailingBits{Bytes: bytes, BitLength: remaining}, nil
+}
+
+// CompleteBytesWithTrailing reproduces a tolerated top-level suffix.
+func (bb *BitBuffer) CompleteBytesWithTrailing(padding CompletePadding, trailing TrailingBits) ([]byte, error) {
+	if trailing.BitLength == 0 {
+		return bb.CompleteBytesWithPadding(padding)
+	}
+	if padding.count != 0 || trailing.BitLength < 0 {
+		return nil, fmt.Errorf("%w: incompatible trailing bits", ErrInvalidValue)
+	}
+	if err := bb.WriteBitsFromBytes(trailing.Bytes, trailing.BitLength); err != nil {
+		return nil, err
+	}
+	if bb.bitPos%8 != 0 {
+		return nil, fmt.Errorf("%w: stale trailing bits", ErrInvalidValue)
+	}
+	return bb.CompleteBytes(), nil
+}
+
+// CompleteValue carries a primitive open-type value and its observed padding.
+// ITU-T X.691 (02/2021) 11.2.1 makes open-type contents a complete encoding.
+type CompleteValue[T any] struct {
+	Value       T
+	PERPadding_ CompletePadding `json:"-"`
+}
+
+// CompleteOpenTypeValue checks that an open type has no trailing data and
+// retains its observed terminal bits. ITU-T X.691 (02/2021) 11.2.1 and 11.1.
+func CompleteOpenTypeValue[T any](bb *BitBuffer, value T) (*CompleteValue[T], error) {
+	padding, err := CaptureOpenTypePadding(bb)
+	if err != nil {
+		return nil, err
+	}
+	return &CompleteValue[T]{Value: value, PERPadding_: padding}, nil
+}
+
+// Bits returns the observed terminal bits right-aligned and their width.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require zero padding on encode.
+func (p CompletePadding) Bits() (value, count uint8) {
+	return p.bits, p.count
+}
+
+// IsZero reports whether every observed terminal bit is zero.
+func (p CompletePadding) IsZero() bool {
+	return p.bits == 0
 }
 
 // CompleteBytesWithPadding returns a complete encoding with observed terminal

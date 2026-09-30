@@ -46,7 +46,11 @@ func TestLocalTrainingData(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			defer file.Close()
+			t.Cleanup(func() {
+				if err := file.Close(); err != nil {
+					t.Error(err)
+				}
+			})
 			stats := struct{ Records, Matches, Changed int }{}
 			var mismatches []string
 			scanner := bufio.NewScanner(file)
@@ -85,7 +89,8 @@ func TestLocalTrainingData(t *testing.T) {
 func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bool, string) {
 	if strings.HasPrefix(file, "utran/") {
 		var value umts.InterRATHandoverInfo
-		option := len(rec.PaddedBITStringContaining) != 0 || len(rec.TrailingBitsAfterBasicProduction) != 0
+		option := len(rec.PaddedBITStringContaining) != 0 || len(rec.TrailingBitsAfterBasicProduction) != 0 ||
+			(strings.HasSuffix(rec.Issue, "/59") && strings.Contains(rec.Expected, "receiver tolerance"))
 		var err error
 		if option {
 			err = value.UnmarshalUPERWithOptions(wire, per.DecodeOptions{AllowNonstandardTrailingBits: true})
@@ -100,7 +105,7 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 			return false, false, fmt.Sprintf("round trip: %v", err)
 		}
 		if option {
-			if len(rec.PaddedBITStringContaining) != 0 {
+			if len(rec.PaddedBITStringContaining) != 0 || strings.Contains(rec.Expected, "6 padding bits reported") {
 				p := value.V390NonCriticalExtensions.Present.V3a0NonCriticalExtensions.LaterNonCriticalExtensions.PERContainedPadding_["interRATHandoverInfo-r3-add-ext"]
 				_, count := p.Bits()
 				if count == 0 {

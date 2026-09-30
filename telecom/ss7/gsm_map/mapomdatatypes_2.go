@@ -193,6 +193,9 @@ type OMDeactivateTraceModeRes struct {
 func (v *OMActivateTraceModeArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -203,6 +206,9 @@ func (v *OMActivateTraceModeArg) MarshalBER() ([]byte, error) {
 		}
 		enc_imsi = retagged_enc_imsi
 		children = append(children, enc_imsi...)
+	}
+	if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
+		return nil, fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(v.TraceReference))
 	}
 	enc_tracereference, encodeErr_enc_tracereference := ber.EncodeOctetString([]byte(v.TraceReference))
 	if encodeErr_enc_tracereference != nil {
@@ -222,6 +228,9 @@ func (v *OMActivateTraceModeArg) MarshalBER() ([]byte, error) {
 	enc_tracetype = retagged_enc_tracetype
 	children = append(children, enc_tracetype...)
 	if v.OmcId != nil {
+		if len(*v.OmcId) < 1 || len(*v.OmcId) > 20 {
+			return nil, fmt.Errorf("omc-Id length %d violates SIZE (1..20)", len(*v.OmcId))
+		}
 		enc_omcid, encodeErr_enc_omcid := ber.EncodeOctetString([]byte(*v.OmcId))
 		if encodeErr_enc_omcid != nil {
 			return nil, fmt.Errorf("encoding omc-Id: %w", encodeErr_enc_omcid)
@@ -246,6 +255,9 @@ func (v *OMActivateTraceModeArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.TraceReference2 != nil {
+		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
+			return nil, fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+		}
 		enc_tracereference2, encodeErr_enc_tracereference2 := ber.EncodeOctetString([]byte(*v.TraceReference2))
 		if encodeErr_enc_tracereference2 != nil {
 			return nil, fmt.Errorf("encoding traceReference2: %w", encodeErr_enc_tracereference2)
@@ -270,7 +282,10 @@ func (v *OMActivateTraceModeArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_tracedepthlist...)
 	}
 	if v.TraceNETypeList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.TraceNETypeList).BitLength < 6 || (*v.TraceNETypeList).BitLength > 16 {
+			return nil, fmt.Errorf("traceNE-TypeList length %d violates SIZE (6..16)", (*v.TraceNETypeList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.TraceNETypeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -326,6 +341,9 @@ func (v *OMActivateTraceModeArg) MarshalBER() ([]byte, error) {
 func (v *OMActivateTraceModeArg) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -336,6 +354,9 @@ func (v *OMActivateTraceModeArg) MarshalDER() ([]byte, error) {
 		}
 		enc_imsi = retagged_enc_imsi
 		children = append(children, enc_imsi...)
+	}
+	if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
+		return nil, fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(v.TraceReference))
 	}
 	enc_tracereference, encodeErr_enc_tracereference := ber.EncodeOctetString([]byte(v.TraceReference))
 	if encodeErr_enc_tracereference != nil {
@@ -355,6 +376,9 @@ func (v *OMActivateTraceModeArg) MarshalDER() ([]byte, error) {
 	enc_tracetype = retagged_enc_tracetype
 	children = append(children, enc_tracetype...)
 	if v.OmcId != nil {
+		if len(*v.OmcId) < 1 || len(*v.OmcId) > 20 {
+			return nil, fmt.Errorf("omc-Id length %d violates SIZE (1..20)", len(*v.OmcId))
+		}
 		enc_omcid, encodeErr_enc_omcid := ber.EncodeOctetString([]byte(*v.OmcId))
 		if encodeErr_enc_omcid != nil {
 			return nil, fmt.Errorf("encoding omc-Id: %w", encodeErr_enc_omcid)
@@ -379,6 +403,9 @@ func (v *OMActivateTraceModeArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.TraceReference2 != nil {
+		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
+			return nil, fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+		}
 		enc_tracereference2, encodeErr_enc_tracereference2 := ber.EncodeOctetString([]byte(*v.TraceReference2))
 		if encodeErr_enc_tracereference2 != nil {
 			return nil, fmt.Errorf("encoding traceReference2: %w", encodeErr_enc_tracereference2)
@@ -403,7 +430,10 @@ func (v *OMActivateTraceModeArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_tracedepthlist...)
 	}
 	if v.TraceNETypeList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.TraceNETypeList).BitLength < 6 || (*v.TraceNETypeList).BitLength > 16 {
+			return nil, fmt.Errorf("traceNE-TypeList length %d violates SIZE (6..16)", (*v.TraceNETypeList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.TraceNETypeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -492,6 +522,9 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_imsi
+				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+				}
 			}
 		}
 	}
@@ -519,6 +552,9 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	}
 
 	offset += n_tracereference
+	if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
+		return fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(v.TraceReference))
+	}
 	// Decode traceType
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field traceType")
@@ -566,6 +602,9 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_omcid
+				if len(*v.OmcId) < 1 || len(*v.OmcId) > 20 {
+					return fmt.Errorf("omc-Id length %d violates SIZE (1..20)", len(*v.OmcId))
+				}
 			}
 		}
 	}
@@ -620,6 +659,9 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_tracereference2
+				if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
+					return fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+				}
 			}
 		}
 	}
@@ -682,6 +724,9 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_tracenetypelist
+				if (*v.TraceNETypeList).BitLength < 6 || (*v.TraceNETypeList).BitLength > 16 {
+					return fmt.Errorf("traceNE-TypeList length %d violates SIZE (6..16)", (*v.TraceNETypeList).BitLength)
+				}
 			}
 		}
 	}
@@ -1128,7 +1173,10 @@ func (v *OMTraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 func (v *OMTraceInterfaceList) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.MscSList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.MscSList).BitLength < 10 || (*v.MscSList).BitLength > 16 {
+			return nil, fmt.Errorf("msc-s-List length %d violates SIZE (10..16)", (*v.MscSList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1144,7 +1192,10 @@ func (v *OMTraceInterfaceList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mscslist...)
 	}
 	if v.MgwList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.MgwList).BitLength < 3 || (*v.MgwList).BitLength > 8 {
+			return nil, fmt.Errorf("mgw-List length %d violates SIZE (3..8)", (*v.MgwList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1160,7 +1211,10 @@ func (v *OMTraceInterfaceList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mgwlist...)
 	}
 	if v.SgsnList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SgsnList).BitLength < 8 || (*v.SgsnList).BitLength > 16 {
+			return nil, fmt.Errorf("sgsn-List length %d violates SIZE (8..16)", (*v.SgsnList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1176,7 +1230,10 @@ func (v *OMTraceInterfaceList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_sgsnlist...)
 	}
 	if v.GgsnList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.GgsnList).BitLength < 3 || (*v.GgsnList).BitLength > 8 {
+			return nil, fmt.Errorf("ggsn-List length %d violates SIZE (3..8)", (*v.GgsnList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1192,7 +1249,10 @@ func (v *OMTraceInterfaceList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ggsnlist...)
 	}
 	if v.RncList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.RncList).BitLength < 4 || (*v.RncList).BitLength > 8 {
+			return nil, fmt.Errorf("rnc-List length %d violates SIZE (4..8)", (*v.RncList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.RncList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1208,7 +1268,10 @@ func (v *OMTraceInterfaceList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_rnclist...)
 	}
 	if v.BmscList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
+			return nil, fmt.Errorf("bmsc-List length %d violates SIZE (1..8)", (*v.BmscList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1240,7 +1303,10 @@ func (v *OMTraceInterfaceList) MarshalBER() ([]byte, error) {
 func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.MscSList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.MscSList).BitLength < 10 || (*v.MscSList).BitLength > 16 {
+			return nil, fmt.Errorf("msc-s-List length %d violates SIZE (10..16)", (*v.MscSList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1256,7 +1322,10 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mscslist...)
 	}
 	if v.MgwList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.MgwList).BitLength < 3 || (*v.MgwList).BitLength > 8 {
+			return nil, fmt.Errorf("mgw-List length %d violates SIZE (3..8)", (*v.MgwList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1272,7 +1341,10 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mgwlist...)
 	}
 	if v.SgsnList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SgsnList).BitLength < 8 || (*v.SgsnList).BitLength > 16 {
+			return nil, fmt.Errorf("sgsn-List length %d violates SIZE (8..16)", (*v.SgsnList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1288,7 +1360,10 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sgsnlist...)
 	}
 	if v.GgsnList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.GgsnList).BitLength < 3 || (*v.GgsnList).BitLength > 8 {
+			return nil, fmt.Errorf("ggsn-List length %d violates SIZE (3..8)", (*v.GgsnList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1304,7 +1379,10 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ggsnlist...)
 	}
 	if v.RncList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.RncList).BitLength < 4 || (*v.RncList).BitLength > 8 {
+			return nil, fmt.Errorf("rnc-List length %d violates SIZE (4..8)", (*v.RncList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.RncList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1320,7 +1398,10 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_rnclist...)
 	}
 	if v.BmscList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
+			return nil, fmt.Errorf("bmsc-List length %d violates SIZE (1..8)", (*v.BmscList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1393,6 +1474,9 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 
 				offset += n_mscslist
+				if (*v.MscSList).BitLength < 10 || (*v.MscSList).BitLength > 16 {
+					return fmt.Errorf("msc-s-List length %d violates SIZE (10..16)", (*v.MscSList).BitLength)
+				}
 			}
 		}
 	}
@@ -1424,6 +1508,9 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 
 				offset += n_mgwlist
+				if (*v.MgwList).BitLength < 3 || (*v.MgwList).BitLength > 8 {
+					return fmt.Errorf("mgw-List length %d violates SIZE (3..8)", (*v.MgwList).BitLength)
+				}
 			}
 		}
 	}
@@ -1455,6 +1542,9 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 
 				offset += n_sgsnlist
+				if (*v.SgsnList).BitLength < 8 || (*v.SgsnList).BitLength > 16 {
+					return fmt.Errorf("sgsn-List length %d violates SIZE (8..16)", (*v.SgsnList).BitLength)
+				}
 			}
 		}
 	}
@@ -1486,6 +1576,9 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 
 				offset += n_ggsnlist
+				if (*v.GgsnList).BitLength < 3 || (*v.GgsnList).BitLength > 8 {
+					return fmt.Errorf("ggsn-List length %d violates SIZE (3..8)", (*v.GgsnList).BitLength)
+				}
 			}
 		}
 	}
@@ -1517,6 +1610,9 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 
 				offset += n_rnclist
+				if (*v.RncList).BitLength < 4 || (*v.RncList).BitLength > 8 {
+					return fmt.Errorf("rnc-List length %d violates SIZE (4..8)", (*v.RncList).BitLength)
+				}
 			}
 		}
 	}
@@ -1548,6 +1644,9 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 
 				offset += n_bmsclist
+				if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
+					return fmt.Errorf("bmsc-List length %d violates SIZE (1..8)", (*v.BmscList).BitLength)
+				}
 			}
 		}
 	}
@@ -1581,7 +1680,10 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 func (v *OMTraceEventList) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.MscSList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.MscSList).BitLength < 5 || (*v.MscSList).BitLength > 16 {
+			return nil, fmt.Errorf("msc-s-List length %d violates SIZE (5..16)", (*v.MscSList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1597,7 +1699,10 @@ func (v *OMTraceEventList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mscslist...)
 	}
 	if v.MgwList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.MgwList).BitLength < 1 || (*v.MgwList).BitLength > 8 {
+			return nil, fmt.Errorf("mgw-List length %d violates SIZE (1..8)", (*v.MgwList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1613,7 +1718,10 @@ func (v *OMTraceEventList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mgwlist...)
 	}
 	if v.SgsnList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SgsnList).BitLength < 4 || (*v.SgsnList).BitLength > 16 {
+			return nil, fmt.Errorf("sgsn-List length %d violates SIZE (4..16)", (*v.SgsnList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1629,7 +1737,10 @@ func (v *OMTraceEventList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_sgsnlist...)
 	}
 	if v.GgsnList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.GgsnList).BitLength < 2 || (*v.GgsnList).BitLength > 8 {
+			return nil, fmt.Errorf("ggsn-List length %d violates SIZE (2..8)", (*v.GgsnList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1645,7 +1756,10 @@ func (v *OMTraceEventList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ggsnlist...)
 	}
 	if v.BmscList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
+			return nil, fmt.Errorf("bmsc-List length %d violates SIZE (1..8)", (*v.BmscList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1677,7 +1791,10 @@ func (v *OMTraceEventList) MarshalBER() ([]byte, error) {
 func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.MscSList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.MscSList).BitLength < 5 || (*v.MscSList).BitLength > 16 {
+			return nil, fmt.Errorf("msc-s-List length %d violates SIZE (5..16)", (*v.MscSList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1693,7 +1810,10 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mscslist...)
 	}
 	if v.MgwList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.MgwList).BitLength < 1 || (*v.MgwList).BitLength > 8 {
+			return nil, fmt.Errorf("mgw-List length %d violates SIZE (1..8)", (*v.MgwList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1709,7 +1829,10 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mgwlist...)
 	}
 	if v.SgsnList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SgsnList).BitLength < 4 || (*v.SgsnList).BitLength > 16 {
+			return nil, fmt.Errorf("sgsn-List length %d violates SIZE (4..16)", (*v.SgsnList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1725,7 +1848,10 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sgsnlist...)
 	}
 	if v.GgsnList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.GgsnList).BitLength < 2 || (*v.GgsnList).BitLength > 8 {
+			return nil, fmt.Errorf("ggsn-List length %d violates SIZE (2..8)", (*v.GgsnList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1741,7 +1867,10 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ggsnlist...)
 	}
 	if v.BmscList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
+			return nil, fmt.Errorf("bmsc-List length %d violates SIZE (1..8)", (*v.BmscList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1814,6 +1943,9 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 
 				offset += n_mscslist
+				if (*v.MscSList).BitLength < 5 || (*v.MscSList).BitLength > 16 {
+					return fmt.Errorf("msc-s-List length %d violates SIZE (5..16)", (*v.MscSList).BitLength)
+				}
 			}
 		}
 	}
@@ -1845,6 +1977,9 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 
 				offset += n_mgwlist
+				if (*v.MgwList).BitLength < 1 || (*v.MgwList).BitLength > 8 {
+					return fmt.Errorf("mgw-List length %d violates SIZE (1..8)", (*v.MgwList).BitLength)
+				}
 			}
 		}
 	}
@@ -1876,6 +2011,9 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 
 				offset += n_sgsnlist
+				if (*v.SgsnList).BitLength < 4 || (*v.SgsnList).BitLength > 16 {
+					return fmt.Errorf("sgsn-List length %d violates SIZE (4..16)", (*v.SgsnList).BitLength)
+				}
 			}
 		}
 	}
@@ -1907,6 +2045,9 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 
 				offset += n_ggsnlist
+				if (*v.GgsnList).BitLength < 2 || (*v.GgsnList).BitLength > 8 {
+					return fmt.Errorf("ggsn-List length %d violates SIZE (2..8)", (*v.GgsnList).BitLength)
+				}
 			}
 		}
 	}
@@ -1938,6 +2079,9 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 
 				offset += n_bmsclist
+				if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
+					return fmt.Errorf("bmsc-List length %d violates SIZE (1..8)", (*v.BmscList).BitLength)
+				}
 			}
 		}
 	}
@@ -1971,6 +2115,9 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 func (v *OMTracePropagationList) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.TraceReference != nil {
+		if len(*v.TraceReference) < 1 || len(*v.TraceReference) > 2 {
+			return nil, fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(*v.TraceReference))
+		}
 		enc_tracereference, encodeErr_enc_tracereference := ber.EncodeOctetString([]byte(*v.TraceReference))
 		if encodeErr_enc_tracereference != nil {
 			return nil, fmt.Errorf("encoding traceReference: %w", encodeErr_enc_tracereference)
@@ -1992,6 +2139,9 @@ func (v *OMTracePropagationList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_tracetype...)
 	}
 	if v.TraceReference2 != nil {
+		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
+			return nil, fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+		}
 		enc_tracereference2, encodeErr_enc_tracereference2 := ber.EncodeOctetString([]byte(*v.TraceReference2))
 		if encodeErr_enc_tracereference2 != nil {
 			return nil, fmt.Errorf("encoding traceReference2: %w", encodeErr_enc_tracereference2)
@@ -2004,6 +2154,9 @@ func (v *OMTracePropagationList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_tracereference2...)
 	}
 	if v.TraceRecordingSessionReference != nil {
+		if len(*v.TraceRecordingSessionReference) < 2 || len(*v.TraceRecordingSessionReference) > 2 {
+			return nil, fmt.Errorf("traceRecordingSessionReference length %d violates SIZE (2)", len(*v.TraceRecordingSessionReference))
+		}
 		enc_tracerecordingsessionreference, encodeErr_enc_tracerecordingsessionreference := ber.EncodeOctetString([]byte(*v.TraceRecordingSessionReference))
 		if encodeErr_enc_tracerecordingsessionreference != nil {
 			return nil, fmt.Errorf("encoding traceRecordingSessionReference: %w", encodeErr_enc_tracerecordingsessionreference)
@@ -2025,7 +2178,10 @@ func (v *OMTracePropagationList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_rnctracedepth...)
 	}
 	if v.RncInterfaceList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.RncInterfaceList).BitLength < 4 || (*v.RncInterfaceList).BitLength > 8 {
+			return nil, fmt.Errorf("rnc-InterfaceList length %d violates SIZE (4..8)", (*v.RncInterfaceList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.RncInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2050,7 +2206,10 @@ func (v *OMTracePropagationList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mscstracedepth...)
 	}
 	if v.MscSInterfaceList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.MscSInterfaceList).BitLength < 10 || (*v.MscSInterfaceList).BitLength > 16 {
+			return nil, fmt.Errorf("msc-s-InterfaceList length %d violates SIZE (10..16)", (*v.MscSInterfaceList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.MscSInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2066,7 +2225,10 @@ func (v *OMTracePropagationList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mscsinterfacelist...)
 	}
 	if v.MscSEventList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.MscSEventList).BitLength < 5 || (*v.MscSEventList).BitLength > 16 {
+			return nil, fmt.Errorf("msc-s-EventList length %d violates SIZE (5..16)", (*v.MscSEventList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.MscSEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2091,7 +2253,10 @@ func (v *OMTracePropagationList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mgwtracedepth...)
 	}
 	if v.MgwInterfaceList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.MgwInterfaceList).BitLength < 3 || (*v.MgwInterfaceList).BitLength > 8 {
+			return nil, fmt.Errorf("mgw-InterfaceList length %d violates SIZE (3..8)", (*v.MgwInterfaceList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.MgwInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2107,7 +2272,10 @@ func (v *OMTracePropagationList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mgwinterfacelist...)
 	}
 	if v.MgwEventList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.MgwEventList).BitLength < 1 || (*v.MgwEventList).BitLength > 8 {
+			return nil, fmt.Errorf("mgw-EventList length %d violates SIZE (1..8)", (*v.MgwEventList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.MgwEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2139,6 +2307,9 @@ func (v *OMTracePropagationList) MarshalBER() ([]byte, error) {
 func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.TraceReference != nil {
+		if len(*v.TraceReference) < 1 || len(*v.TraceReference) > 2 {
+			return nil, fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(*v.TraceReference))
+		}
 		enc_tracereference, encodeErr_enc_tracereference := ber.EncodeOctetString([]byte(*v.TraceReference))
 		if encodeErr_enc_tracereference != nil {
 			return nil, fmt.Errorf("encoding traceReference: %w", encodeErr_enc_tracereference)
@@ -2160,6 +2331,9 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_tracetype...)
 	}
 	if v.TraceReference2 != nil {
+		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
+			return nil, fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+		}
 		enc_tracereference2, encodeErr_enc_tracereference2 := ber.EncodeOctetString([]byte(*v.TraceReference2))
 		if encodeErr_enc_tracereference2 != nil {
 			return nil, fmt.Errorf("encoding traceReference2: %w", encodeErr_enc_tracereference2)
@@ -2172,6 +2346,9 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_tracereference2...)
 	}
 	if v.TraceRecordingSessionReference != nil {
+		if len(*v.TraceRecordingSessionReference) < 2 || len(*v.TraceRecordingSessionReference) > 2 {
+			return nil, fmt.Errorf("traceRecordingSessionReference length %d violates SIZE (2)", len(*v.TraceRecordingSessionReference))
+		}
 		enc_tracerecordingsessionreference, encodeErr_enc_tracerecordingsessionreference := ber.EncodeOctetString([]byte(*v.TraceRecordingSessionReference))
 		if encodeErr_enc_tracerecordingsessionreference != nil {
 			return nil, fmt.Errorf("encoding traceRecordingSessionReference: %w", encodeErr_enc_tracerecordingsessionreference)
@@ -2193,7 +2370,10 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_rnctracedepth...)
 	}
 	if v.RncInterfaceList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.RncInterfaceList).BitLength < 4 || (*v.RncInterfaceList).BitLength > 8 {
+			return nil, fmt.Errorf("rnc-InterfaceList length %d violates SIZE (4..8)", (*v.RncInterfaceList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.RncInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2218,7 +2398,10 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mscstracedepth...)
 	}
 	if v.MscSInterfaceList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.MscSInterfaceList).BitLength < 10 || (*v.MscSInterfaceList).BitLength > 16 {
+			return nil, fmt.Errorf("msc-s-InterfaceList length %d violates SIZE (10..16)", (*v.MscSInterfaceList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.MscSInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2234,7 +2417,10 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mscsinterfacelist...)
 	}
 	if v.MscSEventList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.MscSEventList).BitLength < 5 || (*v.MscSEventList).BitLength > 16 {
+			return nil, fmt.Errorf("msc-s-EventList length %d violates SIZE (5..16)", (*v.MscSEventList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.MscSEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2259,7 +2445,10 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mgwtracedepth...)
 	}
 	if v.MgwInterfaceList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.MgwInterfaceList).BitLength < 3 || (*v.MgwInterfaceList).BitLength > 8 {
+			return nil, fmt.Errorf("mgw-InterfaceList length %d violates SIZE (3..8)", (*v.MgwInterfaceList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.MgwInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2275,7 +2464,10 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mgwinterfacelist...)
 	}
 	if v.MgwEventList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.MgwEventList).BitLength < 1 || (*v.MgwEventList).BitLength > 8 {
+			return nil, fmt.Errorf("mgw-EventList length %d violates SIZE (1..8)", (*v.MgwEventList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.MgwEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2341,6 +2533,9 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_tracereference
+				if len(*v.TraceReference) < 1 || len(*v.TraceReference) > 2 {
+					return fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(*v.TraceReference))
+				}
 			}
 		}
 	}
@@ -2391,6 +2586,9 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_tracereference2
+				if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
+					return fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+				}
 			}
 		}
 	}
@@ -2415,6 +2613,9 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_tracerecordingsessionreference
+				if len(*v.TraceRecordingSessionReference) < 2 || len(*v.TraceRecordingSessionReference) > 2 {
+					return fmt.Errorf("traceRecordingSessionReference length %d violates SIZE (2)", len(*v.TraceRecordingSessionReference))
+				}
 			}
 		}
 	}
@@ -2474,6 +2675,9 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_rncinterfacelist
+				if (*v.RncInterfaceList).BitLength < 4 || (*v.RncInterfaceList).BitLength > 8 {
+					return fmt.Errorf("rnc-InterfaceList length %d violates SIZE (4..8)", (*v.RncInterfaceList).BitLength)
+				}
 			}
 		}
 	}
@@ -2534,6 +2738,9 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_mscsinterfacelist
+				if (*v.MscSInterfaceList).BitLength < 10 || (*v.MscSInterfaceList).BitLength > 16 {
+					return fmt.Errorf("msc-s-InterfaceList length %d violates SIZE (10..16)", (*v.MscSInterfaceList).BitLength)
+				}
 			}
 		}
 	}
@@ -2565,6 +2772,9 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_mscseventlist
+				if (*v.MscSEventList).BitLength < 5 || (*v.MscSEventList).BitLength > 16 {
+					return fmt.Errorf("msc-s-EventList length %d violates SIZE (5..16)", (*v.MscSEventList).BitLength)
+				}
 			}
 		}
 	}
@@ -2624,6 +2834,9 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_mgwinterfacelist
+				if (*v.MgwInterfaceList).BitLength < 3 || (*v.MgwInterfaceList).BitLength > 8 {
+					return fmt.Errorf("mgw-InterfaceList length %d violates SIZE (3..8)", (*v.MgwInterfaceList).BitLength)
+				}
 			}
 		}
 	}
@@ -2655,6 +2868,9 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_mgweventlist
+				if (*v.MgwEventList).BitLength < 1 || (*v.MgwEventList).BitLength > 8 {
+					return fmt.Errorf("mgw-EventList length %d violates SIZE (1..8)", (*v.MgwEventList).BitLength)
+				}
 			}
 		}
 	}
@@ -2862,6 +3078,9 @@ func (v *OMActivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 func (v *OMDeactivateTraceModeArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -2872,6 +3091,9 @@ func (v *OMDeactivateTraceModeArg) MarshalBER() ([]byte, error) {
 		}
 		enc_imsi = retagged_enc_imsi
 		children = append(children, enc_imsi...)
+	}
+	if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
+		return nil, fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(v.TraceReference))
 	}
 	enc_tracereference, encodeErr_enc_tracereference := ber.EncodeOctetString([]byte(v.TraceReference))
 	if encodeErr_enc_tracereference != nil {
@@ -2896,6 +3118,9 @@ func (v *OMDeactivateTraceModeArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.TraceReference2 != nil {
+		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
+			return nil, fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+		}
 		enc_tracereference2, encodeErr_enc_tracereference2 := ber.EncodeOctetString([]byte(*v.TraceReference2))
 		if encodeErr_enc_tracereference2 != nil {
 			return nil, fmt.Errorf("encoding traceReference2: %w", encodeErr_enc_tracereference2)
@@ -2924,6 +3149,9 @@ func (v *OMDeactivateTraceModeArg) MarshalBER() ([]byte, error) {
 func (v *OMDeactivateTraceModeArg) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -2934,6 +3162,9 @@ func (v *OMDeactivateTraceModeArg) MarshalDER() ([]byte, error) {
 		}
 		enc_imsi = retagged_enc_imsi
 		children = append(children, enc_imsi...)
+	}
+	if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
+		return nil, fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(v.TraceReference))
 	}
 	enc_tracereference, encodeErr_enc_tracereference := ber.EncodeOctetString([]byte(v.TraceReference))
 	if encodeErr_enc_tracereference != nil {
@@ -2958,6 +3189,9 @@ func (v *OMDeactivateTraceModeArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.TraceReference2 != nil {
+		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
+			return nil, fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+		}
 		enc_tracereference2, encodeErr_enc_tracereference2 := ber.EncodeOctetString([]byte(*v.TraceReference2))
 		if encodeErr_enc_tracereference2 != nil {
 			return nil, fmt.Errorf("encoding traceReference2: %w", encodeErr_enc_tracereference2)
@@ -3019,6 +3253,9 @@ func (v *OMDeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 
 				offset += n_imsi
+				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+				}
 			}
 		}
 	}
@@ -3045,6 +3282,9 @@ func (v *OMDeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}
 
 	offset += n_tracereference
+	if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
+		return fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(v.TraceReference))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -3097,6 +3337,9 @@ func (v *OMDeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 
 				offset += n_tracereference2
+				if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
+					return fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+				}
 			}
 		}
 	}

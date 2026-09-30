@@ -1093,8 +1093,8 @@ func (v *ROS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
 		}
-		if v.Invoke.LinkedId != nil {
-			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_0)
 		if tagErr_enc_0 != nil {
@@ -1160,8 +1160,8 @@ func (v *ROS) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
 		}
-		if v.Invoke.LinkedId != nil {
-			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_0)
 		if tagErr_enc_der_0 != nil {
@@ -1272,8 +1272,8 @@ func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 			return fmt.Errorf("decoding invoke: %w", unmErr)
 		}
 		v.Invoke = &dec
-		if v.Invoke.LinkedId != nil {
-			return fmt.Errorf("decoded Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return fmt.Errorf("decoded Invoke violates WITH COMPONENTS union")
 		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == true {
 		v.Choice = ROSChoiceReturnResult
@@ -1328,8 +1328,8 @@ func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 // MarshalBER encodes Invoke to BER format.
 func (v *Invoke) MarshalBER() ([]byte, error) {
-	if v.LinkedId != nil {
-		return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
+	if !((v.LinkedId == nil) || (v.LinkedId != nil)) {
+		return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 	}
 	var children []byte
 	enc_invokeid, err := v.InvokeId.MarshalBER()
@@ -1358,8 +1358,8 @@ func (v *Invoke) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Invoke to DER format.
 func (v *Invoke) MarshalDER() ([]byte, error) {
-	if v.LinkedId != nil {
-		return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
+	if !((v.LinkedId == nil) || (v.LinkedId != nil)) {
+		return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 	}
 	var children []byte
 	enc_invokeid, err := v.InvokeId.MarshalDER()
@@ -1513,8 +1513,8 @@ func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "Invoke", Cause: ber.ErrExtraData}
 	}
-	if v.LinkedId != nil {
-		return fmt.Errorf("decoded Invoke violates WITH COMPONENTS: LinkedId must be absent")
+	if !((v.LinkedId == nil) || (v.LinkedId != nil)) {
+		return fmt.Errorf("decoded Invoke violates WITH COMPONENTS union")
 	}
 	return nil
 }

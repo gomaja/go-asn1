@@ -1419,6 +1419,9 @@ func (v *CUGRejectParam3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 func (v *SSIncompatibilityCause3) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.SsCode != nil {
+		if len(*v.SsCode) < 1 || len(*v.SsCode) > 1 {
+			return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(*v.SsCode))
+		}
 		enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
 		if encodeErr_enc_sscode != nil {
 			return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
@@ -1438,6 +1441,9 @@ func (v *SSIncompatibilityCause3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_basicservice...)
 	}
 	if v.SsStatus != nil {
+		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
+			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -1466,6 +1472,9 @@ func (v *SSIncompatibilityCause3) MarshalBER() ([]byte, error) {
 func (v *SSIncompatibilityCause3) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.SsCode != nil {
+		if len(*v.SsCode) < 1 || len(*v.SsCode) > 1 {
+			return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(*v.SsCode))
+		}
 		enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
 		if encodeErr_enc_sscode != nil {
 			return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
@@ -1485,6 +1494,9 @@ func (v *SSIncompatibilityCause3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_basicservice...)
 	}
 	if v.SsStatus != nil {
+		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
+			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -1546,6 +1558,9 @@ func (v *SSIncompatibilityCause3) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_sscode
+				if len(*v.SsCode) < 1 || len(*v.SsCode) > 1 {
+					return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(*v.SsCode))
+				}
 			}
 		}
 	}
@@ -1598,6 +1613,9 @@ func (v *SSIncompatibilityCause3) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_ssstatus
+				if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
+					return fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+				}
 			}
 		}
 	}
@@ -1633,6 +1651,9 @@ func (v *SMDeliveryFailureCause3) MarshalBER() ([]byte, error) {
 	enc_smenumerateddeliveryfailurecause := ber.EncodeEnumerated(int64(v.SmEnumeratedDeliveryFailureCause))
 	children = append(children, enc_smenumerateddeliveryfailurecause...)
 	if v.DiagnosticInfo != nil {
+		if len(*v.DiagnosticInfo) < 1 || len(*v.DiagnosticInfo) > 200 {
+			return nil, fmt.Errorf("diagnosticInfo length %d violates SIZE (1..200)", len(*v.DiagnosticInfo))
+		}
 		enc_diagnosticinfo, encodeErr_enc_diagnosticinfo := ber.EncodeOctetString([]byte(*v.DiagnosticInfo))
 		if encodeErr_enc_diagnosticinfo != nil {
 			return nil, fmt.Errorf("encoding diagnosticInfo: %w", encodeErr_enc_diagnosticinfo)
@@ -1665,6 +1686,9 @@ func (v *SMDeliveryFailureCause3) MarshalDER() ([]byte, error) {
 	enc_smenumerateddeliveryfailurecause := ber.EncodeEnumerated(int64(v.SmEnumeratedDeliveryFailureCause))
 	children = append(children, enc_smenumerateddeliveryfailurecause...)
 	if v.DiagnosticInfo != nil {
+		if len(*v.DiagnosticInfo) < 1 || len(*v.DiagnosticInfo) > 200 {
+			return nil, fmt.Errorf("diagnosticInfo length %d violates SIZE (1..200)", len(*v.DiagnosticInfo))
+		}
 		enc_diagnosticinfo, encodeErr_enc_diagnosticinfo := ber.EncodeOctetString([]byte(*v.DiagnosticInfo))
 		if encodeErr_enc_diagnosticinfo != nil {
 			return nil, fmt.Errorf("encoding diagnosticInfo: %w", encodeErr_enc_diagnosticinfo)
@@ -1740,6 +1764,9 @@ func (v *SMDeliveryFailureCause3) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n
+				if len(*v.DiagnosticInfo) < 1 || len(*v.DiagnosticInfo) > 200 {
+					return fmt.Errorf("diagnosticInfo length %d violates SIZE (1..200)", len(*v.DiagnosticInfo))
+				}
 			}
 		}
 	}
@@ -1824,6 +1851,9 @@ func (v *AbsentSubscriberSMParam3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_additionalabsentsubscriberdiagnosticsm...)
 	}
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -1836,6 +1866,9 @@ func (v *AbsentSubscriberSMParam3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if v.RequestedRetransmissionTime != nil {
+		if len(*v.RequestedRetransmissionTime) < 4 || len(*v.RequestedRetransmissionTime) > 4 {
+			return nil, fmt.Errorf("requestedRetransmissionTime length %d violates SIZE (4)", len(*v.RequestedRetransmissionTime))
+		}
 		enc_requestedretransmissiontime, encodeErr_enc_requestedretransmissiontime := ber.EncodeOctetString([]byte(*v.RequestedRetransmissionTime))
 		if encodeErr_enc_requestedretransmissiontime != nil {
 			return nil, fmt.Errorf("encoding requestedRetransmissionTime: %w", encodeErr_enc_requestedretransmissiontime)
@@ -1848,6 +1881,9 @@ func (v *AbsentSubscriberSMParam3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_requestedretransmissiontime...)
 	}
 	if v.UserIdentifierAlert != nil {
+		if len(*v.UserIdentifierAlert) < 3 || len(*v.UserIdentifierAlert) > 8 {
+			return nil, fmt.Errorf("userIdentifierAlert length %d violates SIZE (3..8)", len(*v.UserIdentifierAlert))
+		}
 		enc_useridentifieralert, encodeErr_enc_useridentifieralert := ber.EncodeOctetString([]byte(*v.UserIdentifierAlert))
 		if encodeErr_enc_useridentifieralert != nil {
 			return nil, fmt.Errorf("encoding userIdentifierAlert: %w", encodeErr_enc_useridentifieralert)
@@ -1896,6 +1932,9 @@ func (v *AbsentSubscriberSMParam3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_additionalabsentsubscriberdiagnosticsm...)
 	}
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -1908,6 +1947,9 @@ func (v *AbsentSubscriberSMParam3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if v.RequestedRetransmissionTime != nil {
+		if len(*v.RequestedRetransmissionTime) < 4 || len(*v.RequestedRetransmissionTime) > 4 {
+			return nil, fmt.Errorf("requestedRetransmissionTime length %d violates SIZE (4)", len(*v.RequestedRetransmissionTime))
+		}
 		enc_requestedretransmissiontime, encodeErr_enc_requestedretransmissiontime := ber.EncodeOctetString([]byte(*v.RequestedRetransmissionTime))
 		if encodeErr_enc_requestedretransmissiontime != nil {
 			return nil, fmt.Errorf("encoding requestedRetransmissionTime: %w", encodeErr_enc_requestedretransmissiontime)
@@ -1920,6 +1962,9 @@ func (v *AbsentSubscriberSMParam3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_requestedretransmissiontime...)
 	}
 	if v.UserIdentifierAlert != nil {
+		if len(*v.UserIdentifierAlert) < 3 || len(*v.UserIdentifierAlert) > 8 {
+			return nil, fmt.Errorf("userIdentifierAlert length %d violates SIZE (3..8)", len(*v.UserIdentifierAlert))
+		}
 		enc_useridentifieralert, encodeErr_enc_useridentifieralert := ber.EncodeOctetString([]byte(*v.UserIdentifierAlert))
 		if encodeErr_enc_useridentifieralert != nil {
 			return nil, fmt.Errorf("encoding userIdentifierAlert: %w", encodeErr_enc_useridentifieralert)
@@ -2060,6 +2105,9 @@ func (v *AbsentSubscriberSMParam3) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 
 				offset += n_imsi
+				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+				}
 			}
 		}
 	}
@@ -2084,6 +2132,9 @@ func (v *AbsentSubscriberSMParam3) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 
 				offset += n_requestedretransmissiontime
+				if len(*v.RequestedRetransmissionTime) < 4 || len(*v.RequestedRetransmissionTime) > 4 {
+					return fmt.Errorf("requestedRetransmissionTime length %d violates SIZE (4)", len(*v.RequestedRetransmissionTime))
+				}
 			}
 		}
 	}
@@ -2108,6 +2159,9 @@ func (v *AbsentSubscriberSMParam3) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 
 				offset += n_useridentifieralert
+				if len(*v.UserIdentifierAlert) < 3 || len(*v.UserIdentifierAlert) > 8 {
+					return fmt.Errorf("userIdentifierAlert length %d violates SIZE (3..8)", len(*v.UserIdentifierAlert))
+				}
 			}
 		}
 	}

@@ -281,8 +281,8 @@ func (v *ROSSingleAS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
 		}
-		if v.Invoke.LinkedId != nil {
-			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_0)
 		if tagErr_enc_0 != nil {
@@ -348,8 +348,8 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
 		}
-		if v.Invoke.LinkedId != nil {
-			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_0)
 		if tagErr_enc_der_0 != nil {
@@ -460,8 +460,8 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 			return fmt.Errorf("decoding invoke: %w", unmErr)
 		}
 		v.Invoke = &dec
-		if v.Invoke.LinkedId != nil {
-			return fmt.Errorf("decoded Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return fmt.Errorf("decoded Invoke violates WITH COMPONENTS union")
 		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == true {
 		v.Choice = ROSSingleASChoiceReturnResult
@@ -525,8 +525,8 @@ func (v *ROSConsumerAS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
 		}
-		if v.Invoke.LinkedId != nil {
-			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_0)
 		if tagErr_enc_0 != nil {
@@ -592,8 +592,8 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
 		}
-		if v.Invoke.LinkedId != nil {
-			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_0)
 		if tagErr_enc_der_0 != nil {
@@ -704,8 +704,8 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 			return fmt.Errorf("decoding invoke: %w", unmErr)
 		}
 		v.Invoke = &dec
-		if v.Invoke.LinkedId != nil {
-			return fmt.Errorf("decoded Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return fmt.Errorf("decoded Invoke violates WITH COMPONENTS union")
 		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == true {
 		v.Choice = ROSConsumerASChoiceReturnResult
@@ -769,8 +769,8 @@ func (v *ROSSupplierAS) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
 		}
-		if v.Invoke.LinkedId != nil {
-			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_0)
 		if tagErr_enc_0 != nil {
@@ -836,8 +836,8 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
 		}
-		if v.Invoke.LinkedId != nil {
-			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_0)
 		if tagErr_enc_der_0 != nil {
@@ -948,8 +948,8 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 			return fmt.Errorf("decoding invoke: %w", unmErr)
 		}
 		v.Invoke = &dec
-		if v.Invoke.LinkedId != nil {
-			return fmt.Errorf("decoded Invoke violates WITH COMPONENTS: LinkedId must be absent")
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return fmt.Errorf("decoded Invoke violates WITH COMPONENTS union")
 		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == true {
 		v.Choice = ROSSupplierASChoiceReturnResult

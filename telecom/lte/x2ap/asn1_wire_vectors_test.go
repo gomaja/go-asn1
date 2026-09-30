@@ -299,11 +299,15 @@ func TestVectorHandoverRequestOldEnbUeId(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	decodedPointer, ok := dispatched.(*UEX2APID)
-	if !ok {
-		t.Fatalf("dispatch type = %T, want typed pointer", dispatched)
+	decodedPointer := reflect.ValueOf(dispatched)
+	if decodedPointer.Kind() != reflect.Pointer || decodedPointer.IsNil() {
+		t.Fatalf("dispatch type = %T, want pointer to complete primitive", dispatched)
 	}
-	decoded := *decodedPointer
+	value := decodedPointer.Elem().FieldByName("Value")
+	if !value.IsValid() || value.Type() != reflect.TypeOf((*UEX2APID)(nil)).Elem() || !decodedPointer.Elem().FieldByName("PERPadding_").IsValid() {
+		t.Fatalf("dispatch type = %T, want complete UEX2APID", dispatched)
+	}
+	decoded := value.Interface()
 	asn1VectorAssertPath(t, decoded, "$", "7")
 }
 

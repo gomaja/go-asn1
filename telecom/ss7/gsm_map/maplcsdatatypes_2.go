@@ -814,6 +814,12 @@ type LCSSubscriberLocationReportRes struct {
 // MarshalBER encodes LCSRoutingInfoForLCSArg to BER format.
 func (v *LCSRoutingInfoForLCSArg) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.MlcNumber) < 1 || len(v.MlcNumber) > 9 {
+		return nil, fmt.Errorf("mlcNumber length %d violates SIZE (1..9)", len(v.MlcNumber))
+	}
+	if len(v.MlcNumber) < 1 || len(v.MlcNumber) > 20 {
+		return nil, fmt.Errorf("mlcNumber length %d violates SIZE (1..20)", len(v.MlcNumber))
+	}
 	enc_mlcnumber, encodeErr_enc_mlcnumber := ber.EncodeOctetString([]byte(v.MlcNumber))
 	if encodeErr_enc_mlcnumber != nil {
 		return nil, fmt.Errorf("encoding mlcNumber: %w", encodeErr_enc_mlcnumber)
@@ -864,6 +870,12 @@ func (v *LCSRoutingInfoForLCSArg) MarshalBER() ([]byte, error) {
 // MarshalDER encodes LCSRoutingInfoForLCSArg to DER format.
 func (v *LCSRoutingInfoForLCSArg) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.MlcNumber) < 1 || len(v.MlcNumber) > 9 {
+		return nil, fmt.Errorf("mlcNumber length %d violates SIZE (1..9)", len(v.MlcNumber))
+	}
+	if len(v.MlcNumber) < 1 || len(v.MlcNumber) > 20 {
+		return nil, fmt.Errorf("mlcNumber length %d violates SIZE (1..20)", len(v.MlcNumber))
+	}
 	enc_mlcnumber, encodeErr_enc_mlcnumber := ber.EncodeOctetString([]byte(v.MlcNumber))
 	if encodeErr_enc_mlcnumber != nil {
 		return nil, fmt.Errorf("encoding mlcNumber: %w", encodeErr_enc_mlcnumber)
@@ -951,6 +963,12 @@ func (v *LCSRoutingInfoForLCSArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}
 
 	offset += n_mlcnumber
+	if len(v.MlcNumber) < 1 || len(v.MlcNumber) > 9 {
+		return fmt.Errorf("mlcNumber length %d violates SIZE (1..9)", len(v.MlcNumber))
+	}
+	if len(v.MlcNumber) < 1 || len(v.MlcNumber) > 20 {
+		return fmt.Errorf("mlcNumber length %d violates SIZE (1..20)", len(v.MlcNumber))
+	}
 	// Decode targetMS
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field targetMS")
@@ -1072,6 +1090,9 @@ func (v *LCSRoutingInfoForLCSRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.VGmlcAddress != nil {
+		if len(*v.VGmlcAddress) < 5 || len(*v.VGmlcAddress) > 17 {
+			return nil, fmt.Errorf("v-gmlc-Address length %d violates SIZE (5..17)", len(*v.VGmlcAddress))
+		}
 		enc_vgmlcaddress, encodeErr_enc_vgmlcaddress := ber.EncodeOctetString([]byte(*v.VGmlcAddress))
 		if encodeErr_enc_vgmlcaddress != nil {
 			return nil, fmt.Errorf("encoding v-gmlc-Address: %w", encodeErr_enc_vgmlcaddress)
@@ -1084,6 +1105,9 @@ func (v *LCSRoutingInfoForLCSRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_vgmlcaddress...)
 	}
 	if v.HGmlcAddress != nil {
+		if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+			return nil, fmt.Errorf("h-gmlc-Address length %d violates SIZE (5..17)", len(*v.HGmlcAddress))
+		}
 		enc_hgmlcaddress, encodeErr_enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
 		if encodeErr_enc_hgmlcaddress != nil {
 			return nil, fmt.Errorf("encoding h-gmlc-Address: %w", encodeErr_enc_hgmlcaddress)
@@ -1096,6 +1120,9 @@ func (v *LCSRoutingInfoForLCSRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_hgmlcaddress...)
 	}
 	if v.PprAddress != nil {
+		if len(*v.PprAddress) < 5 || len(*v.PprAddress) > 17 {
+			return nil, fmt.Errorf("ppr-Address length %d violates SIZE (5..17)", len(*v.PprAddress))
+		}
 		enc_ppraddress, encodeErr_enc_ppraddress := ber.EncodeOctetString([]byte(*v.PprAddress))
 		if encodeErr_enc_ppraddress != nil {
 			return nil, fmt.Errorf("encoding ppr-Address: %w", encodeErr_enc_ppraddress)
@@ -1108,6 +1135,9 @@ func (v *LCSRoutingInfoForLCSRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ppraddress...)
 	}
 	if v.AdditionalVGmlcAddress != nil {
+		if len(*v.AdditionalVGmlcAddress) < 5 || len(*v.AdditionalVGmlcAddress) > 17 {
+			return nil, fmt.Errorf("additional-v-gmlc-Address length %d violates SIZE (5..17)", len(*v.AdditionalVGmlcAddress))
+		}
 		enc_additionalvgmlcaddress, encodeErr_enc_additionalvgmlcaddress := ber.EncodeOctetString([]byte(*v.AdditionalVGmlcAddress))
 		if encodeErr_enc_additionalvgmlcaddress != nil {
 			return nil, fmt.Errorf("encoding additional-v-gmlc-Address: %w", encodeErr_enc_additionalvgmlcaddress)
@@ -1170,6 +1200,9 @@ func (v *LCSRoutingInfoForLCSRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.VGmlcAddress != nil {
+		if len(*v.VGmlcAddress) < 5 || len(*v.VGmlcAddress) > 17 {
+			return nil, fmt.Errorf("v-gmlc-Address length %d violates SIZE (5..17)", len(*v.VGmlcAddress))
+		}
 		enc_vgmlcaddress, encodeErr_enc_vgmlcaddress := ber.EncodeOctetString([]byte(*v.VGmlcAddress))
 		if encodeErr_enc_vgmlcaddress != nil {
 			return nil, fmt.Errorf("encoding v-gmlc-Address: %w", encodeErr_enc_vgmlcaddress)
@@ -1182,6 +1215,9 @@ func (v *LCSRoutingInfoForLCSRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_vgmlcaddress...)
 	}
 	if v.HGmlcAddress != nil {
+		if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+			return nil, fmt.Errorf("h-gmlc-Address length %d violates SIZE (5..17)", len(*v.HGmlcAddress))
+		}
 		enc_hgmlcaddress, encodeErr_enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
 		if encodeErr_enc_hgmlcaddress != nil {
 			return nil, fmt.Errorf("encoding h-gmlc-Address: %w", encodeErr_enc_hgmlcaddress)
@@ -1194,6 +1230,9 @@ func (v *LCSRoutingInfoForLCSRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_hgmlcaddress...)
 	}
 	if v.PprAddress != nil {
+		if len(*v.PprAddress) < 5 || len(*v.PprAddress) > 17 {
+			return nil, fmt.Errorf("ppr-Address length %d violates SIZE (5..17)", len(*v.PprAddress))
+		}
 		enc_ppraddress, encodeErr_enc_ppraddress := ber.EncodeOctetString([]byte(*v.PprAddress))
 		if encodeErr_enc_ppraddress != nil {
 			return nil, fmt.Errorf("encoding ppr-Address: %w", encodeErr_enc_ppraddress)
@@ -1206,6 +1245,9 @@ func (v *LCSRoutingInfoForLCSRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ppraddress...)
 	}
 	if v.AdditionalVGmlcAddress != nil {
+		if len(*v.AdditionalVGmlcAddress) < 5 || len(*v.AdditionalVGmlcAddress) > 17 {
+			return nil, fmt.Errorf("additional-v-gmlc-Address length %d violates SIZE (5..17)", len(*v.AdditionalVGmlcAddress))
+		}
 		enc_additionalvgmlcaddress, encodeErr_enc_additionalvgmlcaddress := ber.EncodeOctetString([]byte(*v.AdditionalVGmlcAddress))
 		if encodeErr_enc_additionalvgmlcaddress != nil {
 			return nil, fmt.Errorf("encoding additional-v-gmlc-Address: %w", encodeErr_enc_additionalvgmlcaddress)
@@ -1353,6 +1395,9 @@ func (v *LCSRoutingInfoForLCSRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_vgmlcaddress
+				if len(*v.VGmlcAddress) < 5 || len(*v.VGmlcAddress) > 17 {
+					return fmt.Errorf("v-gmlc-Address length %d violates SIZE (5..17)", len(*v.VGmlcAddress))
+				}
 			}
 		}
 	}
@@ -1376,6 +1421,9 @@ func (v *LCSRoutingInfoForLCSRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_hgmlcaddress
+				if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+					return fmt.Errorf("h-gmlc-Address length %d violates SIZE (5..17)", len(*v.HGmlcAddress))
+				}
 			}
 		}
 	}
@@ -1399,6 +1447,9 @@ func (v *LCSRoutingInfoForLCSRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_ppraddress
+				if len(*v.PprAddress) < 5 || len(*v.PprAddress) > 17 {
+					return fmt.Errorf("ppr-Address length %d violates SIZE (5..17)", len(*v.PprAddress))
+				}
 			}
 		}
 	}
@@ -1423,6 +1474,9 @@ func (v *LCSRoutingInfoForLCSRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_additionalvgmlcaddress
+				if len(*v.AdditionalVGmlcAddress) < 5 || len(*v.AdditionalVGmlcAddress) > 17 {
+					return fmt.Errorf("additional-v-gmlc-Address length %d violates SIZE (5..17)", len(*v.AdditionalVGmlcAddress))
+				}
 			}
 		}
 	}
@@ -1455,12 +1509,21 @@ func (v *LCSRoutingInfoForLCSRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 // MarshalBER encodes LCSLCSLocationInfo to BER format.
 func (v *LCSLCSLocationInfo) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.NetworkNodeNumber) < 1 || len(v.NetworkNodeNumber) > 9 {
+		return nil, fmt.Errorf("networkNode-Number length %d violates SIZE (1..9)", len(v.NetworkNodeNumber))
+	}
+	if len(v.NetworkNodeNumber) < 1 || len(v.NetworkNodeNumber) > 20 {
+		return nil, fmt.Errorf("networkNode-Number length %d violates SIZE (1..20)", len(v.NetworkNodeNumber))
+	}
 	enc_networknodenumber, encodeErr_enc_networknodenumber := ber.EncodeOctetString([]byte(v.NetworkNodeNumber))
 	if encodeErr_enc_networknodenumber != nil {
 		return nil, fmt.Errorf("encoding networkNode-Number: %w", encodeErr_enc_networknodenumber)
 	}
 	children = append(children, enc_networknodenumber...)
 	if v.Lmsi != nil {
+		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
+			return nil, fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+		}
 		enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
 		if encodeErr_enc_lmsi != nil {
 			return nil, fmt.Errorf("encoding lmsi: %w", encodeErr_enc_lmsi)
@@ -1508,7 +1571,10 @@ func (v *LCSLCSLocationInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_additionalnumber...)
 	}
 	if v.SupportedLCSCapabilitySets != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedLCSCapabilitySets).BitLength < 2 || (*v.SupportedLCSCapabilitySets).BitLength > 16 {
+			return nil, fmt.Errorf("supportedLCS-CapabilitySets length %d violates SIZE (2..16)", (*v.SupportedLCSCapabilitySets).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1524,7 +1590,10 @@ func (v *LCSLCSLocationInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_supportedlcscapabilitysets...)
 	}
 	if v.AdditionalLCSCapabilitySets != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.AdditionalLCSCapabilitySets).BitLength < 2 || (*v.AdditionalLCSCapabilitySets).BitLength > 16 {
+			return nil, fmt.Errorf("additional-LCS-CapabilitySets length %d violates SIZE (2..16)", (*v.AdditionalLCSCapabilitySets).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.AdditionalLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1540,6 +1609,9 @@ func (v *LCSLCSLocationInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_additionallcscapabilitysets...)
 	}
 	if v.MmeName != nil {
+		if len(*v.MmeName) < 9 || len(*v.MmeName) > 255 {
+			return nil, fmt.Errorf("mme-Name length %d violates SIZE (9..255)", len(*v.MmeName))
+		}
 		enc_mmename, encodeErr_enc_mmename := ber.EncodeOctetString([]byte(*v.MmeName))
 		if encodeErr_enc_mmename != nil {
 			return nil, fmt.Errorf("encoding mme-Name: %w", encodeErr_enc_mmename)
@@ -1552,6 +1624,9 @@ func (v *LCSLCSLocationInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mmename...)
 	}
 	if v.AaaServerName != nil {
+		if len(*v.AaaServerName) < 9 || len(*v.AaaServerName) > 255 {
+			return nil, fmt.Errorf("aaa-Server-Name length %d violates SIZE (9..255)", len(*v.AaaServerName))
+		}
 		enc_aaaservername, encodeErr_enc_aaaservername := ber.EncodeOctetString([]byte(*v.AaaServerName))
 		if encodeErr_enc_aaaservername != nil {
 			return nil, fmt.Errorf("encoding aaa-Server-Name: %w", encodeErr_enc_aaaservername)
@@ -1564,6 +1639,9 @@ func (v *LCSLCSLocationInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_aaaservername...)
 	}
 	if v.SgsnName != nil {
+		if len(*v.SgsnName) < 9 || len(*v.SgsnName) > 255 {
+			return nil, fmt.Errorf("sgsn-Name length %d violates SIZE (9..255)", len(*v.SgsnName))
+		}
 		enc_sgsnname, encodeErr_enc_sgsnname := ber.EncodeOctetString([]byte(*v.SgsnName))
 		if encodeErr_enc_sgsnname != nil {
 			return nil, fmt.Errorf("encoding sgsn-Name: %w", encodeErr_enc_sgsnname)
@@ -1576,6 +1654,9 @@ func (v *LCSLCSLocationInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_sgsnname...)
 	}
 	if v.SgsnRealm != nil {
+		if len(*v.SgsnRealm) < 9 || len(*v.SgsnRealm) > 255 {
+			return nil, fmt.Errorf("sgsn-Realm length %d violates SIZE (9..255)", len(*v.SgsnRealm))
+		}
 		enc_sgsnrealm, encodeErr_enc_sgsnrealm := ber.EncodeOctetString([]byte(*v.SgsnRealm))
 		if encodeErr_enc_sgsnrealm != nil {
 			return nil, fmt.Errorf("encoding sgsn-Realm: %w", encodeErr_enc_sgsnrealm)
@@ -1603,12 +1684,21 @@ func (v *LCSLCSLocationInfo) MarshalBER() ([]byte, error) {
 // MarshalDER encodes LCSLCSLocationInfo to DER format.
 func (v *LCSLCSLocationInfo) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.NetworkNodeNumber) < 1 || len(v.NetworkNodeNumber) > 9 {
+		return nil, fmt.Errorf("networkNode-Number length %d violates SIZE (1..9)", len(v.NetworkNodeNumber))
+	}
+	if len(v.NetworkNodeNumber) < 1 || len(v.NetworkNodeNumber) > 20 {
+		return nil, fmt.Errorf("networkNode-Number length %d violates SIZE (1..20)", len(v.NetworkNodeNumber))
+	}
 	enc_networknodenumber, encodeErr_enc_networknodenumber := ber.EncodeOctetString([]byte(v.NetworkNodeNumber))
 	if encodeErr_enc_networknodenumber != nil {
 		return nil, fmt.Errorf("encoding networkNode-Number: %w", encodeErr_enc_networknodenumber)
 	}
 	children = append(children, enc_networknodenumber...)
 	if v.Lmsi != nil {
+		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
+			return nil, fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+		}
 		enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
 		if encodeErr_enc_lmsi != nil {
 			return nil, fmt.Errorf("encoding lmsi: %w", encodeErr_enc_lmsi)
@@ -1656,7 +1746,10 @@ func (v *LCSLCSLocationInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_additionalnumber...)
 	}
 	if v.SupportedLCSCapabilitySets != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedLCSCapabilitySets).BitLength < 2 || (*v.SupportedLCSCapabilitySets).BitLength > 16 {
+			return nil, fmt.Errorf("supportedLCS-CapabilitySets length %d violates SIZE (2..16)", (*v.SupportedLCSCapabilitySets).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1672,7 +1765,10 @@ func (v *LCSLCSLocationInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_supportedlcscapabilitysets...)
 	}
 	if v.AdditionalLCSCapabilitySets != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.AdditionalLCSCapabilitySets).BitLength < 2 || (*v.AdditionalLCSCapabilitySets).BitLength > 16 {
+			return nil, fmt.Errorf("additional-LCS-CapabilitySets length %d violates SIZE (2..16)", (*v.AdditionalLCSCapabilitySets).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.AdditionalLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1688,6 +1784,9 @@ func (v *LCSLCSLocationInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_additionallcscapabilitysets...)
 	}
 	if v.MmeName != nil {
+		if len(*v.MmeName) < 9 || len(*v.MmeName) > 255 {
+			return nil, fmt.Errorf("mme-Name length %d violates SIZE (9..255)", len(*v.MmeName))
+		}
 		enc_mmename, encodeErr_enc_mmename := ber.EncodeOctetString([]byte(*v.MmeName))
 		if encodeErr_enc_mmename != nil {
 			return nil, fmt.Errorf("encoding mme-Name: %w", encodeErr_enc_mmename)
@@ -1700,6 +1799,9 @@ func (v *LCSLCSLocationInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mmename...)
 	}
 	if v.AaaServerName != nil {
+		if len(*v.AaaServerName) < 9 || len(*v.AaaServerName) > 255 {
+			return nil, fmt.Errorf("aaa-Server-Name length %d violates SIZE (9..255)", len(*v.AaaServerName))
+		}
 		enc_aaaservername, encodeErr_enc_aaaservername := ber.EncodeOctetString([]byte(*v.AaaServerName))
 		if encodeErr_enc_aaaservername != nil {
 			return nil, fmt.Errorf("encoding aaa-Server-Name: %w", encodeErr_enc_aaaservername)
@@ -1712,6 +1814,9 @@ func (v *LCSLCSLocationInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_aaaservername...)
 	}
 	if v.SgsnName != nil {
+		if len(*v.SgsnName) < 9 || len(*v.SgsnName) > 255 {
+			return nil, fmt.Errorf("sgsn-Name length %d violates SIZE (9..255)", len(*v.SgsnName))
+		}
 		enc_sgsnname, encodeErr_enc_sgsnname := ber.EncodeOctetString([]byte(*v.SgsnName))
 		if encodeErr_enc_sgsnname != nil {
 			return nil, fmt.Errorf("encoding sgsn-Name: %w", encodeErr_enc_sgsnname)
@@ -1724,6 +1829,9 @@ func (v *LCSLCSLocationInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sgsnname...)
 	}
 	if v.SgsnRealm != nil {
+		if len(*v.SgsnRealm) < 9 || len(*v.SgsnRealm) > 255 {
+			return nil, fmt.Errorf("sgsn-Realm length %d violates SIZE (9..255)", len(*v.SgsnRealm))
+		}
 		enc_sgsnrealm, encodeErr_enc_sgsnrealm := ber.EncodeOctetString([]byte(*v.SgsnRealm))
 		if encodeErr_enc_sgsnrealm != nil {
 			return nil, fmt.Errorf("encoding sgsn-Realm: %w", encodeErr_enc_sgsnrealm)
@@ -1780,6 +1888,12 @@ func (v *LCSLCSLocationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	}
 
 	offset += n
+	if len(v.NetworkNodeNumber) < 1 || len(v.NetworkNodeNumber) > 9 {
+		return fmt.Errorf("networkNode-Number length %d violates SIZE (1..9)", len(v.NetworkNodeNumber))
+	}
+	if len(v.NetworkNodeNumber) < 1 || len(v.NetworkNodeNumber) > 20 {
+		return fmt.Errorf("networkNode-Number length %d violates SIZE (1..20)", len(v.NetworkNodeNumber))
+	}
 	// Decode lmsi
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -1800,6 +1914,9 @@ func (v *LCSLCSLocationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_lmsi
+				if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
+					return fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+				}
 			}
 		}
 	}
@@ -1917,6 +2034,9 @@ func (v *LCSLCSLocationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_supportedlcscapabilitysets
+				if (*v.SupportedLCSCapabilitySets).BitLength < 2 || (*v.SupportedLCSCapabilitySets).BitLength > 16 {
+					return fmt.Errorf("supportedLCS-CapabilitySets length %d violates SIZE (2..16)", (*v.SupportedLCSCapabilitySets).BitLength)
+				}
 			}
 		}
 	}
@@ -1949,6 +2069,9 @@ func (v *LCSLCSLocationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_additionallcscapabilitysets
+				if (*v.AdditionalLCSCapabilitySets).BitLength < 2 || (*v.AdditionalLCSCapabilitySets).BitLength > 16 {
+					return fmt.Errorf("additional-LCS-CapabilitySets length %d violates SIZE (2..16)", (*v.AdditionalLCSCapabilitySets).BitLength)
+				}
 			}
 		}
 	}
@@ -1972,6 +2095,9 @@ func (v *LCSLCSLocationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_mmename
+				if len(*v.MmeName) < 9 || len(*v.MmeName) > 255 {
+					return fmt.Errorf("mme-Name length %d violates SIZE (9..255)", len(*v.MmeName))
+				}
 			}
 		}
 	}
@@ -1995,6 +2121,9 @@ func (v *LCSLCSLocationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_aaaservername
+				if len(*v.AaaServerName) < 9 || len(*v.AaaServerName) > 255 {
+					return fmt.Errorf("aaa-Server-Name length %d violates SIZE (9..255)", len(*v.AaaServerName))
+				}
 			}
 		}
 	}
@@ -2018,6 +2147,9 @@ func (v *LCSLCSLocationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_sgsnname
+				if len(*v.SgsnName) < 9 || len(*v.SgsnName) > 255 {
+					return fmt.Errorf("sgsn-Name length %d violates SIZE (9..255)", len(*v.SgsnName))
+				}
 			}
 		}
 	}
@@ -2041,6 +2173,9 @@ func (v *LCSLCSLocationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_sgsnrealm
+				if len(*v.SgsnRealm) < 9 || len(*v.SgsnRealm) > 255 {
+					return fmt.Errorf("sgsn-Realm length %d violates SIZE (9..255)", len(*v.SgsnRealm))
+				}
 			}
 		}
 	}
@@ -2078,6 +2213,12 @@ func (v *LCSProvideSubscriberLocationArg) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding locationType: %w", err)
 	}
 	children = append(children, enc_locationtype...)
+	if len(v.MlcNumber) < 1 || len(v.MlcNumber) > 9 {
+		return nil, fmt.Errorf("mlc-Number length %d violates SIZE (1..9)", len(v.MlcNumber))
+	}
+	if len(v.MlcNumber) < 1 || len(v.MlcNumber) > 20 {
+		return nil, fmt.Errorf("mlc-Number length %d violates SIZE (1..20)", len(v.MlcNumber))
+	}
 	enc_mlcnumber, encodeErr_enc_mlcnumber := ber.EncodeOctetString([]byte(v.MlcNumber))
 	if encodeErr_enc_mlcnumber != nil {
 		return nil, fmt.Errorf("encoding mlc-Number: %w", encodeErr_enc_mlcnumber)
@@ -2105,6 +2246,9 @@ func (v *LCSProvideSubscriberLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_privacyoverride...)
 	}
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -2117,6 +2261,12 @@ func (v *LCSProvideSubscriberLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if v.Msisdn != nil {
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+		}
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
 			return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
@@ -2129,6 +2279,9 @@ func (v *LCSProvideSubscriberLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_msisdn...)
 	}
 	if v.Lmsi != nil {
+		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
+			return nil, fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+		}
 		enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
 		if encodeErr_enc_lmsi != nil {
 			return nil, fmt.Errorf("encoding lmsi: %w", encodeErr_enc_lmsi)
@@ -2141,6 +2294,9 @@ func (v *LCSProvideSubscriberLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_lmsi...)
 	}
 	if v.Imei != nil {
+		if len(*v.Imei) < 8 || len(*v.Imei) > 8 {
+			return nil, fmt.Errorf("imei length %d violates SIZE (8)", len(*v.Imei))
+		}
 		enc_imei, encodeErr_enc_imei := ber.EncodeOctetString([]byte(*v.Imei))
 		if encodeErr_enc_imei != nil {
 			return nil, fmt.Errorf("encoding imei: %w", encodeErr_enc_imei)
@@ -2153,6 +2309,9 @@ func (v *LCSProvideSubscriberLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imei...)
 	}
 	if v.LcsPriority != nil {
+		if len(*v.LcsPriority) < 1 || len(*v.LcsPriority) > 1 {
+			return nil, fmt.Errorf("lcs-Priority length %d violates SIZE (1)", len(*v.LcsPriority))
+		}
 		enc_lcspriority, encodeErr_enc_lcspriority := ber.EncodeOctetString([]byte(*v.LcsPriority))
 		if encodeErr_enc_lcspriority != nil {
 			return nil, fmt.Errorf("encoding lcs-Priority: %w", encodeErr_enc_lcspriority)
@@ -2189,7 +2348,10 @@ func (v *LCSProvideSubscriberLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.SupportedGADShapes != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedGADShapes).BitLength < 7 || (*v.SupportedGADShapes).BitLength > 16 {
+			return nil, fmt.Errorf("supportedGADShapes length %d violates SIZE (7..16)", (*v.SupportedGADShapes).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedGADShapes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2205,6 +2367,9 @@ func (v *LCSProvideSubscriberLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_supportedgadshapes...)
 	}
 	if v.LcsReferenceNumber != nil {
+		if len(*v.LcsReferenceNumber) < 1 || len(*v.LcsReferenceNumber) > 1 {
+			return nil, fmt.Errorf("lcs-ReferenceNumber length %d violates SIZE (1)", len(*v.LcsReferenceNumber))
+		}
 		enc_lcsreferencenumber, encodeErr_enc_lcsreferencenumber := ber.EncodeOctetString([]byte(*v.LcsReferenceNumber))
 		if encodeErr_enc_lcsreferencenumber != nil {
 			return nil, fmt.Errorf("encoding lcs-ReferenceNumber: %w", encodeErr_enc_lcsreferencenumber)
@@ -2262,6 +2427,9 @@ func (v *LCSProvideSubscriberLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_areaeventinfo...)
 	}
 	if v.HGmlcAddress != nil {
+		if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+			return nil, fmt.Errorf("h-gmlc-Address length %d violates SIZE (5..17)", len(*v.HGmlcAddress))
+		}
 		enc_hgmlcaddress, encodeErr_enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
 		if encodeErr_enc_hgmlcaddress != nil {
 			return nil, fmt.Errorf("encoding h-gmlc-Address: %w", encodeErr_enc_hgmlcaddress)
@@ -2327,6 +2495,12 @@ func (v *LCSProvideSubscriberLocationArg) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding locationType: %w", err)
 	}
 	children = append(children, enc_locationtype...)
+	if len(v.MlcNumber) < 1 || len(v.MlcNumber) > 9 {
+		return nil, fmt.Errorf("mlc-Number length %d violates SIZE (1..9)", len(v.MlcNumber))
+	}
+	if len(v.MlcNumber) < 1 || len(v.MlcNumber) > 20 {
+		return nil, fmt.Errorf("mlc-Number length %d violates SIZE (1..20)", len(v.MlcNumber))
+	}
 	enc_mlcnumber, encodeErr_enc_mlcnumber := ber.EncodeOctetString([]byte(v.MlcNumber))
 	if encodeErr_enc_mlcnumber != nil {
 		return nil, fmt.Errorf("encoding mlc-Number: %w", encodeErr_enc_mlcnumber)
@@ -2354,6 +2528,9 @@ func (v *LCSProvideSubscriberLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_privacyoverride...)
 	}
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -2366,6 +2543,12 @@ func (v *LCSProvideSubscriberLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if v.Msisdn != nil {
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+		}
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
 			return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
@@ -2378,6 +2561,9 @@ func (v *LCSProvideSubscriberLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_msisdn...)
 	}
 	if v.Lmsi != nil {
+		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
+			return nil, fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+		}
 		enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
 		if encodeErr_enc_lmsi != nil {
 			return nil, fmt.Errorf("encoding lmsi: %w", encodeErr_enc_lmsi)
@@ -2390,6 +2576,9 @@ func (v *LCSProvideSubscriberLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_lmsi...)
 	}
 	if v.Imei != nil {
+		if len(*v.Imei) < 8 || len(*v.Imei) > 8 {
+			return nil, fmt.Errorf("imei length %d violates SIZE (8)", len(*v.Imei))
+		}
 		enc_imei, encodeErr_enc_imei := ber.EncodeOctetString([]byte(*v.Imei))
 		if encodeErr_enc_imei != nil {
 			return nil, fmt.Errorf("encoding imei: %w", encodeErr_enc_imei)
@@ -2402,6 +2591,9 @@ func (v *LCSProvideSubscriberLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imei...)
 	}
 	if v.LcsPriority != nil {
+		if len(*v.LcsPriority) < 1 || len(*v.LcsPriority) > 1 {
+			return nil, fmt.Errorf("lcs-Priority length %d violates SIZE (1)", len(*v.LcsPriority))
+		}
 		enc_lcspriority, encodeErr_enc_lcspriority := ber.EncodeOctetString([]byte(*v.LcsPriority))
 		if encodeErr_enc_lcspriority != nil {
 			return nil, fmt.Errorf("encoding lcs-Priority: %w", encodeErr_enc_lcspriority)
@@ -2438,7 +2630,10 @@ func (v *LCSProvideSubscriberLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.SupportedGADShapes != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedGADShapes).BitLength < 7 || (*v.SupportedGADShapes).BitLength > 16 {
+			return nil, fmt.Errorf("supportedGADShapes length %d violates SIZE (7..16)", (*v.SupportedGADShapes).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedGADShapes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2454,6 +2649,9 @@ func (v *LCSProvideSubscriberLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_supportedgadshapes...)
 	}
 	if v.LcsReferenceNumber != nil {
+		if len(*v.LcsReferenceNumber) < 1 || len(*v.LcsReferenceNumber) > 1 {
+			return nil, fmt.Errorf("lcs-ReferenceNumber length %d violates SIZE (1)", len(*v.LcsReferenceNumber))
+		}
 		enc_lcsreferencenumber, encodeErr_enc_lcsreferencenumber := ber.EncodeOctetString([]byte(*v.LcsReferenceNumber))
 		if encodeErr_enc_lcsreferencenumber != nil {
 			return nil, fmt.Errorf("encoding lcs-ReferenceNumber: %w", encodeErr_enc_lcsreferencenumber)
@@ -2511,6 +2709,9 @@ func (v *LCSProvideSubscriberLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_areaeventinfo...)
 	}
 	if v.HGmlcAddress != nil {
+		if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+			return nil, fmt.Errorf("h-gmlc-Address length %d violates SIZE (5..17)", len(*v.HGmlcAddress))
+		}
 		enc_hgmlcaddress, encodeErr_enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
 		if encodeErr_enc_hgmlcaddress != nil {
 			return nil, fmt.Errorf("encoding h-gmlc-Address: %w", encodeErr_enc_hgmlcaddress)
@@ -2623,6 +2824,12 @@ func (v *LCSProvideSubscriberLocationArg) UnmarshalBER(data []byte, opts ...ber.
 	}
 
 	offset += n
+	if len(v.MlcNumber) < 1 || len(v.MlcNumber) > 9 {
+		return fmt.Errorf("mlc-Number length %d violates SIZE (1..9)", len(v.MlcNumber))
+	}
+	if len(v.MlcNumber) < 1 || len(v.MlcNumber) > 20 {
+		return fmt.Errorf("mlc-Number length %d violates SIZE (1..20)", len(v.MlcNumber))
+	}
 	// Decode lcs-ClientID
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -2698,6 +2905,9 @@ func (v *LCSProvideSubscriberLocationArg) UnmarshalBER(data []byte, opts ...ber.
 				}
 
 				offset += n_imsi
+				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+				}
 			}
 		}
 	}
@@ -2721,6 +2931,12 @@ func (v *LCSProvideSubscriberLocationArg) UnmarshalBER(data []byte, opts ...ber.
 				}
 
 				offset += n_msisdn
+				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+					return fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+				}
+				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+					return fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+				}
 			}
 		}
 	}
@@ -2744,6 +2960,9 @@ func (v *LCSProvideSubscriberLocationArg) UnmarshalBER(data []byte, opts ...ber.
 				}
 
 				offset += n_lmsi
+				if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
+					return fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+				}
 			}
 		}
 	}
@@ -2767,6 +2986,9 @@ func (v *LCSProvideSubscriberLocationArg) UnmarshalBER(data []byte, opts ...ber.
 				}
 
 				offset += n_imei
+				if len(*v.Imei) < 8 || len(*v.Imei) > 8 {
+					return fmt.Errorf("imei length %d violates SIZE (8)", len(*v.Imei))
+				}
 			}
 		}
 	}
@@ -2790,6 +3012,9 @@ func (v *LCSProvideSubscriberLocationArg) UnmarshalBER(data []byte, opts ...ber.
 				}
 
 				offset += n_lcspriority
+				if len(*v.LcsPriority) < 1 || len(*v.LcsPriority) > 1 {
+					return fmt.Errorf("lcs-Priority length %d violates SIZE (1)", len(*v.LcsPriority))
+				}
 			}
 		}
 	}
@@ -2881,6 +3106,9 @@ func (v *LCSProvideSubscriberLocationArg) UnmarshalBER(data []byte, opts ...ber.
 				}
 
 				offset += n_supportedgadshapes
+				if (*v.SupportedGADShapes).BitLength < 7 || (*v.SupportedGADShapes).BitLength > 16 {
+					return fmt.Errorf("supportedGADShapes length %d violates SIZE (7..16)", (*v.SupportedGADShapes).BitLength)
+				}
 			}
 		}
 	}
@@ -2904,6 +3132,9 @@ func (v *LCSProvideSubscriberLocationArg) UnmarshalBER(data []byte, opts ...ber.
 				}
 
 				offset += n_lcsreferencenumber
+				if len(*v.LcsReferenceNumber) < 1 || len(*v.LcsReferenceNumber) > 1 {
+					return fmt.Errorf("lcs-ReferenceNumber length %d violates SIZE (1)", len(*v.LcsReferenceNumber))
+				}
 			}
 		}
 	}
@@ -3044,6 +3275,9 @@ func (v *LCSProvideSubscriberLocationArg) UnmarshalBER(data []byte, opts ...ber.
 				}
 
 				offset += n_hgmlcaddress
+				if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+					return fmt.Errorf("h-gmlc-Address length %d violates SIZE (5..17)", len(*v.HGmlcAddress))
+				}
 			}
 		}
 	}
@@ -3170,7 +3404,10 @@ func (v *LCSLocationType) MarshalBER() ([]byte, error) {
 	enc_locationestimatetype = retagged_enc_locationestimatetype
 	children = append(children, enc_locationestimatetype...)
 	if v.DeferredLocationEventType != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.DeferredLocationEventType).BitLength < 1 || (*v.DeferredLocationEventType).BitLength > 16 {
+			return nil, fmt.Errorf("deferredLocationEventType length %d violates SIZE (1..16)", (*v.DeferredLocationEventType).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.DeferredLocationEventType.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3209,7 +3446,10 @@ func (v *LCSLocationType) MarshalDER() ([]byte, error) {
 	enc_locationestimatetype = retagged_enc_locationestimatetype
 	children = append(children, enc_locationestimatetype...)
 	if v.DeferredLocationEventType != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.DeferredLocationEventType).BitLength < 1 || (*v.DeferredLocationEventType).BitLength > 16 {
+			return nil, fmt.Errorf("deferredLocationEventType length %d violates SIZE (1..16)", (*v.DeferredLocationEventType).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.DeferredLocationEventType.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3311,6 +3551,9 @@ func (v *LCSLocationType) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				}
 
 				offset += n_deferredlocationeventtype
+				if (*v.DeferredLocationEventType).BitLength < 1 || (*v.DeferredLocationEventType).BitLength > 16 {
+					return fmt.Errorf("deferredLocationEventType length %d violates SIZE (1..16)", (*v.DeferredLocationEventType).BitLength)
+				}
 			}
 		}
 	}
@@ -3363,6 +3606,9 @@ func (v *LCSLCSClientID) MarshalBER() ([]byte, error) {
 		children = append(children, enc_lcsclientexternalid...)
 	}
 	if v.LcsClientDialedByMS != nil {
+		if len(*v.LcsClientDialedByMS) < 1 || len(*v.LcsClientDialedByMS) > 20 {
+			return nil, fmt.Errorf("lcsClientDialedByMS length %d violates SIZE (1..20)", len(*v.LcsClientDialedByMS))
+		}
 		enc_lcsclientdialedbyms, encodeErr_enc_lcsclientdialedbyms := ber.EncodeOctetString([]byte(*v.LcsClientDialedByMS))
 		if encodeErr_enc_lcsclientdialedbyms != nil {
 			return nil, fmt.Errorf("encoding lcsClientDialedByMS: %w", encodeErr_enc_lcsclientdialedbyms)
@@ -3396,6 +3642,9 @@ func (v *LCSLCSClientID) MarshalBER() ([]byte, error) {
 		children = append(children, enc_lcsclientname...)
 	}
 	if v.LcsAPN != nil {
+		if len(*v.LcsAPN) < 2 || len(*v.LcsAPN) > 63 {
+			return nil, fmt.Errorf("lcsAPN length %d violates SIZE (2..63)", len(*v.LcsAPN))
+		}
 		enc_lcsapn, encodeErr_enc_lcsapn := ber.EncodeOctetString([]byte(*v.LcsAPN))
 		if encodeErr_enc_lcsapn != nil {
 			return nil, fmt.Errorf("encoding lcsAPN: %w", encodeErr_enc_lcsapn)
@@ -3455,6 +3704,9 @@ func (v *LCSLCSClientID) MarshalDER() ([]byte, error) {
 		children = append(children, enc_lcsclientexternalid...)
 	}
 	if v.LcsClientDialedByMS != nil {
+		if len(*v.LcsClientDialedByMS) < 1 || len(*v.LcsClientDialedByMS) > 20 {
+			return nil, fmt.Errorf("lcsClientDialedByMS length %d violates SIZE (1..20)", len(*v.LcsClientDialedByMS))
+		}
 		enc_lcsclientdialedbyms, encodeErr_enc_lcsclientdialedbyms := ber.EncodeOctetString([]byte(*v.LcsClientDialedByMS))
 		if encodeErr_enc_lcsclientdialedbyms != nil {
 			return nil, fmt.Errorf("encoding lcsClientDialedByMS: %w", encodeErr_enc_lcsclientdialedbyms)
@@ -3488,6 +3740,9 @@ func (v *LCSLCSClientID) MarshalDER() ([]byte, error) {
 		children = append(children, enc_lcsclientname...)
 	}
 	if v.LcsAPN != nil {
+		if len(*v.LcsAPN) < 2 || len(*v.LcsAPN) > 63 {
+			return nil, fmt.Errorf("lcsAPN length %d violates SIZE (2..63)", len(*v.LcsAPN))
+		}
 		enc_lcsapn, encodeErr_enc_lcsapn := ber.EncodeOctetString([]byte(*v.LcsAPN))
 		if encodeErr_enc_lcsapn != nil {
 			return nil, fmt.Errorf("encoding lcsAPN: %w", encodeErr_enc_lcsapn)
@@ -3621,6 +3876,9 @@ func (v *LCSLCSClientID) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_lcsclientdialedbyms
+				if len(*v.LcsClientDialedByMS) < 1 || len(*v.LcsClientDialedByMS) > 20 {
+					return fmt.Errorf("lcsClientDialedByMS length %d violates SIZE (1..20)", len(*v.LcsClientDialedByMS))
+				}
 			}
 		}
 	}
@@ -3703,6 +3961,9 @@ func (v *LCSLCSClientID) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_lcsapn
+				if len(*v.LcsAPN) < 2 || len(*v.LcsAPN) > 63 {
+					return fmt.Errorf("lcsAPN length %d violates SIZE (2..63)", len(*v.LcsAPN))
+				}
 			}
 		}
 	}
@@ -3766,6 +4027,9 @@ func (v *LCSLCSClientID) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 // MarshalBER encodes LCSLCSClientName to BER format.
 func (v *LCSLCSClientName) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.DataCodingScheme) < 1 || len(v.DataCodingScheme) > 1 {
+		return nil, fmt.Errorf("dataCodingScheme length %d violates SIZE (1)", len(v.DataCodingScheme))
+	}
 	enc_datacodingscheme, encodeErr_enc_datacodingscheme := ber.EncodeOctetString([]byte(v.DataCodingScheme))
 	if encodeErr_enc_datacodingscheme != nil {
 		return nil, fmt.Errorf("encoding dataCodingScheme: %w", encodeErr_enc_datacodingscheme)
@@ -3776,6 +4040,12 @@ func (v *LCSLCSClientName) MarshalBER() ([]byte, error) {
 	}
 	enc_datacodingscheme = retagged_enc_datacodingscheme
 	children = append(children, enc_datacodingscheme...)
+	if len(v.NameString) < 1 || len(v.NameString) > 63 {
+		return nil, fmt.Errorf("nameString length %d violates SIZE (1..63)", len(v.NameString))
+	}
+	if len(v.NameString) < 1 || len(v.NameString) > 160 {
+		return nil, fmt.Errorf("nameString length %d violates SIZE (1..160)", len(v.NameString))
+	}
 	enc_namestring, encodeErr_enc_namestring := ber.EncodeOctetString([]byte(v.NameString))
 	if encodeErr_enc_namestring != nil {
 		return nil, fmt.Errorf("encoding nameString: %w", encodeErr_enc_namestring)
@@ -3811,6 +4081,9 @@ func (v *LCSLCSClientName) MarshalBER() ([]byte, error) {
 // MarshalDER encodes LCSLCSClientName to DER format.
 func (v *LCSLCSClientName) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.DataCodingScheme) < 1 || len(v.DataCodingScheme) > 1 {
+		return nil, fmt.Errorf("dataCodingScheme length %d violates SIZE (1)", len(v.DataCodingScheme))
+	}
 	enc_datacodingscheme, encodeErr_enc_datacodingscheme := ber.EncodeOctetString([]byte(v.DataCodingScheme))
 	if encodeErr_enc_datacodingscheme != nil {
 		return nil, fmt.Errorf("encoding dataCodingScheme: %w", encodeErr_enc_datacodingscheme)
@@ -3821,6 +4094,12 @@ func (v *LCSLCSClientName) MarshalDER() ([]byte, error) {
 	}
 	enc_datacodingscheme = retagged_enc_datacodingscheme
 	children = append(children, enc_datacodingscheme...)
+	if len(v.NameString) < 1 || len(v.NameString) > 63 {
+		return nil, fmt.Errorf("nameString length %d violates SIZE (1..63)", len(v.NameString))
+	}
+	if len(v.NameString) < 1 || len(v.NameString) > 160 {
+		return nil, fmt.Errorf("nameString length %d violates SIZE (1..160)", len(v.NameString))
+	}
 	enc_namestring, encodeErr_enc_namestring := ber.EncodeOctetString([]byte(v.NameString))
 	if encodeErr_enc_namestring != nil {
 		return nil, fmt.Errorf("encoding nameString: %w", encodeErr_enc_namestring)
@@ -3894,6 +4173,9 @@ func (v *LCSLCSClientName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 	}
 
 	offset += n_datacodingscheme
+	if len(v.DataCodingScheme) < 1 || len(v.DataCodingScheme) > 1 {
+		return fmt.Errorf("dataCodingScheme length %d violates SIZE (1)", len(v.DataCodingScheme))
+	}
 	// Decode nameString
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field nameString")
@@ -3917,6 +4199,12 @@ func (v *LCSLCSClientName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 	}
 
 	offset += n_namestring
+	if len(v.NameString) < 1 || len(v.NameString) > 63 {
+		return fmt.Errorf("nameString length %d violates SIZE (1..63)", len(v.NameString))
+	}
+	if len(v.NameString) < 1 || len(v.NameString) > 160 {
+		return fmt.Errorf("nameString length %d violates SIZE (1..160)", len(v.NameString))
+	}
 	// Decode lcs-FormatIndicator
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -3974,6 +4262,9 @@ func (v *LCSLCSClientName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 // MarshalBER encodes LCSLCSRequestorID to BER format.
 func (v *LCSLCSRequestorID) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.DataCodingScheme) < 1 || len(v.DataCodingScheme) > 1 {
+		return nil, fmt.Errorf("dataCodingScheme length %d violates SIZE (1)", len(v.DataCodingScheme))
+	}
 	enc_datacodingscheme, encodeErr_enc_datacodingscheme := ber.EncodeOctetString([]byte(v.DataCodingScheme))
 	if encodeErr_enc_datacodingscheme != nil {
 		return nil, fmt.Errorf("encoding dataCodingScheme: %w", encodeErr_enc_datacodingscheme)
@@ -3984,6 +4275,12 @@ func (v *LCSLCSRequestorID) MarshalBER() ([]byte, error) {
 	}
 	enc_datacodingscheme = retagged_enc_datacodingscheme
 	children = append(children, enc_datacodingscheme...)
+	if len(v.RequestorIDString) < 1 || len(v.RequestorIDString) > 63 {
+		return nil, fmt.Errorf("requestorIDString length %d violates SIZE (1..63)", len(v.RequestorIDString))
+	}
+	if len(v.RequestorIDString) < 1 || len(v.RequestorIDString) > 160 {
+		return nil, fmt.Errorf("requestorIDString length %d violates SIZE (1..160)", len(v.RequestorIDString))
+	}
 	enc_requestoridstring, encodeErr_enc_requestoridstring := ber.EncodeOctetString([]byte(v.RequestorIDString))
 	if encodeErr_enc_requestoridstring != nil {
 		return nil, fmt.Errorf("encoding requestorIDString: %w", encodeErr_enc_requestoridstring)
@@ -4019,6 +4316,9 @@ func (v *LCSLCSRequestorID) MarshalBER() ([]byte, error) {
 // MarshalDER encodes LCSLCSRequestorID to DER format.
 func (v *LCSLCSRequestorID) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.DataCodingScheme) < 1 || len(v.DataCodingScheme) > 1 {
+		return nil, fmt.Errorf("dataCodingScheme length %d violates SIZE (1)", len(v.DataCodingScheme))
+	}
 	enc_datacodingscheme, encodeErr_enc_datacodingscheme := ber.EncodeOctetString([]byte(v.DataCodingScheme))
 	if encodeErr_enc_datacodingscheme != nil {
 		return nil, fmt.Errorf("encoding dataCodingScheme: %w", encodeErr_enc_datacodingscheme)
@@ -4029,6 +4329,12 @@ func (v *LCSLCSRequestorID) MarshalDER() ([]byte, error) {
 	}
 	enc_datacodingscheme = retagged_enc_datacodingscheme
 	children = append(children, enc_datacodingscheme...)
+	if len(v.RequestorIDString) < 1 || len(v.RequestorIDString) > 63 {
+		return nil, fmt.Errorf("requestorIDString length %d violates SIZE (1..63)", len(v.RequestorIDString))
+	}
+	if len(v.RequestorIDString) < 1 || len(v.RequestorIDString) > 160 {
+		return nil, fmt.Errorf("requestorIDString length %d violates SIZE (1..160)", len(v.RequestorIDString))
+	}
 	enc_requestoridstring, encodeErr_enc_requestoridstring := ber.EncodeOctetString([]byte(v.RequestorIDString))
 	if encodeErr_enc_requestoridstring != nil {
 		return nil, fmt.Errorf("encoding requestorIDString: %w", encodeErr_enc_requestoridstring)
@@ -4102,6 +4408,9 @@ func (v *LCSLCSRequestorID) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	}
 
 	offset += n_datacodingscheme
+	if len(v.DataCodingScheme) < 1 || len(v.DataCodingScheme) > 1 {
+		return fmt.Errorf("dataCodingScheme length %d violates SIZE (1)", len(v.DataCodingScheme))
+	}
 	// Decode requestorIDString
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field requestorIDString")
@@ -4126,6 +4435,12 @@ func (v *LCSLCSRequestorID) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	}
 
 	offset += n_requestoridstring
+	if len(v.RequestorIDString) < 1 || len(v.RequestorIDString) > 63 {
+		return fmt.Errorf("requestorIDString length %d violates SIZE (1..63)", len(v.RequestorIDString))
+	}
+	if len(v.RequestorIDString) < 1 || len(v.RequestorIDString) > 160 {
+		return fmt.Errorf("requestorIDString length %d violates SIZE (1..160)", len(v.RequestorIDString))
+	}
 	// Decode lcs-FormatIndicator
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -4184,6 +4499,9 @@ func (v *LCSLCSRequestorID) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 func (v *LCSLCSQoS) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.HorizontalAccuracy != nil {
+		if len(*v.HorizontalAccuracy) < 1 || len(*v.HorizontalAccuracy) > 1 {
+			return nil, fmt.Errorf("horizontal-accuracy length %d violates SIZE (1)", len(*v.HorizontalAccuracy))
+		}
 		enc_horizontalaccuracy, encodeErr_enc_horizontalaccuracy := ber.EncodeOctetString([]byte(*v.HorizontalAccuracy))
 		if encodeErr_enc_horizontalaccuracy != nil {
 			return nil, fmt.Errorf("encoding horizontal-accuracy: %w", encodeErr_enc_horizontalaccuracy)
@@ -4205,6 +4523,9 @@ func (v *LCSLCSQoS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_verticalcoordinaterequest...)
 	}
 	if v.VerticalAccuracy != nil {
+		if len(*v.VerticalAccuracy) < 1 || len(*v.VerticalAccuracy) > 1 {
+			return nil, fmt.Errorf("vertical-accuracy length %d violates SIZE (1)", len(*v.VerticalAccuracy))
+		}
 		enc_verticalaccuracy, encodeErr_enc_verticalaccuracy := ber.EncodeOctetString([]byte(*v.VerticalAccuracy))
 		if encodeErr_enc_verticalaccuracy != nil {
 			return nil, fmt.Errorf("encoding vertical-accuracy: %w", encodeErr_enc_verticalaccuracy)
@@ -4275,6 +4596,9 @@ func (v *LCSLCSQoS) MarshalBER() ([]byte, error) {
 func (v *LCSLCSQoS) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.HorizontalAccuracy != nil {
+		if len(*v.HorizontalAccuracy) < 1 || len(*v.HorizontalAccuracy) > 1 {
+			return nil, fmt.Errorf("horizontal-accuracy length %d violates SIZE (1)", len(*v.HorizontalAccuracy))
+		}
 		enc_horizontalaccuracy, encodeErr_enc_horizontalaccuracy := ber.EncodeOctetString([]byte(*v.HorizontalAccuracy))
 		if encodeErr_enc_horizontalaccuracy != nil {
 			return nil, fmt.Errorf("encoding horizontal-accuracy: %w", encodeErr_enc_horizontalaccuracy)
@@ -4296,6 +4620,9 @@ func (v *LCSLCSQoS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_verticalcoordinaterequest...)
 	}
 	if v.VerticalAccuracy != nil {
+		if len(*v.VerticalAccuracy) < 1 || len(*v.VerticalAccuracy) > 1 {
+			return nil, fmt.Errorf("vertical-accuracy length %d violates SIZE (1)", len(*v.VerticalAccuracy))
+		}
 		enc_verticalaccuracy, encodeErr_enc_verticalaccuracy := ber.EncodeOctetString([]byte(*v.VerticalAccuracy))
 		if encodeErr_enc_verticalaccuracy != nil {
 			return nil, fmt.Errorf("encoding vertical-accuracy: %w", encodeErr_enc_verticalaccuracy)
@@ -4400,6 +4727,9 @@ func (v *LCSLCSQoS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_horizontalaccuracy
+				if len(*v.HorizontalAccuracy) < 1 || len(*v.HorizontalAccuracy) > 1 {
+					return fmt.Errorf("horizontal-accuracy length %d violates SIZE (1)", len(*v.HorizontalAccuracy))
+				}
 			}
 		}
 	}
@@ -4450,6 +4780,9 @@ func (v *LCSLCSQoS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_verticalaccuracy
+				if len(*v.VerticalAccuracy) < 1 || len(*v.VerticalAccuracy) > 1 {
+					return fmt.Errorf("vertical-accuracy length %d violates SIZE (1)", len(*v.VerticalAccuracy))
+				}
 			}
 		}
 	}
@@ -4692,6 +5025,9 @@ func (v *LCSResponseTime) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 // MarshalBER encodes LCSLCSCodeword to BER format.
 func (v *LCSLCSCodeword) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.DataCodingScheme) < 1 || len(v.DataCodingScheme) > 1 {
+		return nil, fmt.Errorf("dataCodingScheme length %d violates SIZE (1)", len(v.DataCodingScheme))
+	}
 	enc_datacodingscheme, encodeErr_enc_datacodingscheme := ber.EncodeOctetString([]byte(v.DataCodingScheme))
 	if encodeErr_enc_datacodingscheme != nil {
 		return nil, fmt.Errorf("encoding dataCodingScheme: %w", encodeErr_enc_datacodingscheme)
@@ -4702,6 +5038,12 @@ func (v *LCSLCSCodeword) MarshalBER() ([]byte, error) {
 	}
 	enc_datacodingscheme = retagged_enc_datacodingscheme
 	children = append(children, enc_datacodingscheme...)
+	if len(v.LcsCodewordString) < 1 || len(v.LcsCodewordString) > 20 {
+		return nil, fmt.Errorf("lcsCodewordString length %d violates SIZE (1..20)", len(v.LcsCodewordString))
+	}
+	if len(v.LcsCodewordString) < 1 || len(v.LcsCodewordString) > 160 {
+		return nil, fmt.Errorf("lcsCodewordString length %d violates SIZE (1..160)", len(v.LcsCodewordString))
+	}
 	enc_lcscodewordstring, encodeErr_enc_lcscodewordstring := ber.EncodeOctetString([]byte(v.LcsCodewordString))
 	if encodeErr_enc_lcscodewordstring != nil {
 		return nil, fmt.Errorf("encoding lcsCodewordString: %w", encodeErr_enc_lcscodewordstring)
@@ -4728,6 +5070,9 @@ func (v *LCSLCSCodeword) MarshalBER() ([]byte, error) {
 // MarshalDER encodes LCSLCSCodeword to DER format.
 func (v *LCSLCSCodeword) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.DataCodingScheme) < 1 || len(v.DataCodingScheme) > 1 {
+		return nil, fmt.Errorf("dataCodingScheme length %d violates SIZE (1)", len(v.DataCodingScheme))
+	}
 	enc_datacodingscheme, encodeErr_enc_datacodingscheme := ber.EncodeOctetString([]byte(v.DataCodingScheme))
 	if encodeErr_enc_datacodingscheme != nil {
 		return nil, fmt.Errorf("encoding dataCodingScheme: %w", encodeErr_enc_datacodingscheme)
@@ -4738,6 +5083,12 @@ func (v *LCSLCSCodeword) MarshalDER() ([]byte, error) {
 	}
 	enc_datacodingscheme = retagged_enc_datacodingscheme
 	children = append(children, enc_datacodingscheme...)
+	if len(v.LcsCodewordString) < 1 || len(v.LcsCodewordString) > 20 {
+		return nil, fmt.Errorf("lcsCodewordString length %d violates SIZE (1..20)", len(v.LcsCodewordString))
+	}
+	if len(v.LcsCodewordString) < 1 || len(v.LcsCodewordString) > 160 {
+		return nil, fmt.Errorf("lcsCodewordString length %d violates SIZE (1..160)", len(v.LcsCodewordString))
+	}
 	enc_lcscodewordstring, encodeErr_enc_lcscodewordstring := ber.EncodeOctetString([]byte(v.LcsCodewordString))
 	if encodeErr_enc_lcscodewordstring != nil {
 		return nil, fmt.Errorf("encoding lcsCodewordString: %w", encodeErr_enc_lcscodewordstring)
@@ -4802,6 +5153,9 @@ func (v *LCSLCSCodeword) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 	}
 
 	offset += n_datacodingscheme
+	if len(v.DataCodingScheme) < 1 || len(v.DataCodingScheme) > 1 {
+		return fmt.Errorf("dataCodingScheme length %d violates SIZE (1)", len(v.DataCodingScheme))
+	}
 	// Decode lcsCodewordString
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field lcsCodewordString")
@@ -4826,6 +5180,12 @@ func (v *LCSLCSCodeword) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 	}
 
 	offset += n_lcscodewordstring
+	if len(v.LcsCodewordString) < 1 || len(v.LcsCodewordString) > 20 {
+		return fmt.Errorf("lcsCodewordString length %d violates SIZE (1..20)", len(v.LcsCodewordString))
+	}
+	if len(v.LcsCodewordString) < 1 || len(v.LcsCodewordString) > 160 {
+		return fmt.Errorf("lcsCodewordString length %d violates SIZE (1..160)", len(v.LcsCodewordString))
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -5234,6 +5594,9 @@ func (v *LCSAreaEventInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 // MarshalBER encodes LCSAreaDefinition to BER format.
 func (v *LCSAreaDefinition) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.AreaList) < 1 || len(v.AreaList) > 10 {
+		return nil, fmt.Errorf("areaList length %d violates SIZE (1..10)", len(v.AreaList))
+	}
 	enc_arealist, err := MarshalBERLCSAreaList(v.AreaList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding areaList: %w", err)
@@ -5275,6 +5638,9 @@ func (v *LCSAreaDefinition) MarshalBER() ([]byte, error) {
 // MarshalDER encodes LCSAreaDefinition to DER format.
 func (v *LCSAreaDefinition) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.AreaList) < 1 || len(v.AreaList) > 10 {
+		return nil, fmt.Errorf("areaList length %d violates SIZE (1..10)", len(v.AreaList))
+	}
 	enc_arealist, err := MarshalDERLCSAreaList(v.AreaList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding areaList: %w", err)
@@ -5358,6 +5724,9 @@ func (v *LCSAreaDefinition) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	}
 
 	offset += n_arealist
+	if len(v.AreaList) < 1 || len(v.AreaList) > 10 {
+		return fmt.Errorf("areaList length %d violates SIZE (1..10)", len(v.AreaList))
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -5478,6 +5847,9 @@ func (v *LCSArea) MarshalBER() ([]byte, error) {
 	}
 	enc_areatype = retagged_enc_areatype
 	children = append(children, enc_areatype...)
+	if len(v.AreaIdentification) < 2 || len(v.AreaIdentification) > 7 {
+		return nil, fmt.Errorf("areaIdentification length %d violates SIZE (2..7)", len(v.AreaIdentification))
+	}
 	enc_areaidentification, encodeErr_enc_areaidentification := ber.EncodeOctetString([]byte(v.AreaIdentification))
 	if encodeErr_enc_areaidentification != nil {
 		return nil, fmt.Errorf("encoding areaIdentification: %w", encodeErr_enc_areaidentification)
@@ -5511,6 +5883,9 @@ func (v *LCSArea) MarshalDER() ([]byte, error) {
 	}
 	enc_areatype = retagged_enc_areatype
 	children = append(children, enc_areatype...)
+	if len(v.AreaIdentification) < 2 || len(v.AreaIdentification) > 7 {
+		return nil, fmt.Errorf("areaIdentification length %d violates SIZE (2..7)", len(v.AreaIdentification))
+	}
 	enc_areaidentification, encodeErr_enc_areaidentification := ber.EncodeOctetString([]byte(v.AreaIdentification))
 	if encodeErr_enc_areaidentification != nil {
 		return nil, fmt.Errorf("encoding areaIdentification: %w", encodeErr_enc_areaidentification)
@@ -5602,6 +5977,9 @@ func (v *LCSArea) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_areaidentification
+	if len(v.AreaIdentification) < 2 || len(v.AreaIdentification) > 7 {
+		return fmt.Errorf("areaIdentification length %d violates SIZE (2..7)", len(v.AreaIdentification))
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -5921,6 +6299,9 @@ func (v *LCSReportingPLMNList) MarshalBER() ([]byte, error) {
 		enc_plmnlistprioritized = retagged_enc_plmnlistprioritized
 		children = append(children, enc_plmnlistprioritized...)
 	}
+	if len(v.PlmnList) < 1 || len(v.PlmnList) > 20 {
+		return nil, fmt.Errorf("plmn-List length %d violates SIZE (1..20)", len(v.PlmnList))
+	}
 	enc_plmnlist, err := MarshalBERLCSPLMNList(v.PlmnList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding plmn-List: %w", err)
@@ -5970,6 +6351,9 @@ func (v *LCSReportingPLMNList) MarshalDER() ([]byte, error) {
 		}
 		enc_plmnlistprioritized = retagged_enc_plmnlistprioritized
 		children = append(children, enc_plmnlistprioritized...)
+	}
+	if len(v.PlmnList) < 1 || len(v.PlmnList) > 20 {
+		return nil, fmt.Errorf("plmn-List length %d violates SIZE (1..20)", len(v.PlmnList))
 	}
 	enc_plmnlist, err := MarshalDERLCSPLMNList(v.PlmnList)
 	if err != nil {
@@ -6080,6 +6464,9 @@ func (v *LCSReportingPLMNList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	}
 
 	offset += n_plmnlist
+	if len(v.PlmnList) < 1 || len(v.PlmnList) > 20 {
+		return fmt.Errorf("plmn-List length %d violates SIZE (1..20)", len(v.PlmnList))
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -6193,6 +6580,9 @@ func UnmarshalBERLCSPLMNList(data []byte, opts ...ber.DecodeOption) (LCSPLMNList
 // MarshalBER encodes LCSReportingPLMN to BER format.
 func (v *LCSReportingPLMN) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.PlmnId) < 3 || len(v.PlmnId) > 3 {
+		return nil, fmt.Errorf("plmn-Id length %d violates SIZE (3)", len(v.PlmnId))
+	}
 	enc_plmnid, encodeErr_enc_plmnid := ber.EncodeOctetString([]byte(v.PlmnId))
 	if encodeErr_enc_plmnid != nil {
 		return nil, fmt.Errorf("encoding plmn-Id: %w", encodeErr_enc_plmnid)
@@ -6237,6 +6627,9 @@ func (v *LCSReportingPLMN) MarshalBER() ([]byte, error) {
 // MarshalDER encodes LCSReportingPLMN to DER format.
 func (v *LCSReportingPLMN) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.PlmnId) < 3 || len(v.PlmnId) > 3 {
+		return nil, fmt.Errorf("plmn-Id length %d violates SIZE (3)", len(v.PlmnId))
+	}
 	enc_plmnid, encodeErr_enc_plmnid := ber.EncodeOctetString([]byte(v.PlmnId))
 	if encodeErr_enc_plmnid != nil {
 		return nil, fmt.Errorf("encoding plmn-Id: %w", encodeErr_enc_plmnid)
@@ -6318,6 +6711,9 @@ func (v *LCSReportingPLMN) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 	}
 
 	offset += n_plmnid
+	if len(v.PlmnId) < 3 || len(v.PlmnId) > 3 {
+		return fmt.Errorf("plmn-Id length %d violates SIZE (3)", len(v.PlmnId))
+	}
 	// Decode ran-Technology
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -6401,6 +6797,9 @@ func (v *LCSReportingPLMN) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 // MarshalBER encodes LCSProvideSubscriberLocationRes to BER format.
 func (v *LCSProvideSubscriberLocationRes) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.LocationEstimate) < 1 || len(v.LocationEstimate) > 20 {
+		return nil, fmt.Errorf("locationEstimate length %d violates SIZE (1..20)", len(v.LocationEstimate))
+	}
 	enc_locationestimate, encodeErr_enc_locationestimate := ber.EncodeOctetString([]byte(v.LocationEstimate))
 	if encodeErr_enc_locationestimate != nil {
 		return nil, fmt.Errorf("encoding locationEstimate: %w", encodeErr_enc_locationestimate)
@@ -6428,6 +6827,9 @@ func (v *LCSProvideSubscriberLocationRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.AddLocationEstimate != nil {
+		if len(*v.AddLocationEstimate) < 1 || len(*v.AddLocationEstimate) > 91 {
+			return nil, fmt.Errorf("add-LocationEstimate length %d violates SIZE (1..91)", len(*v.AddLocationEstimate))
+		}
 		enc_addlocationestimate, encodeErr_enc_addlocationestimate := ber.EncodeOctetString([]byte(*v.AddLocationEstimate))
 		if encodeErr_enc_addlocationestimate != nil {
 			return nil, fmt.Errorf("encoding add-LocationEstimate: %w", encodeErr_enc_addlocationestimate)
@@ -6449,6 +6851,9 @@ func (v *LCSProvideSubscriberLocationRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_deferredmtlrresponseindicator...)
 	}
 	if v.GeranPositioningData != nil {
+		if len(*v.GeranPositioningData) < 2 || len(*v.GeranPositioningData) > 10 {
+			return nil, fmt.Errorf("geranPositioningData length %d violates SIZE (2..10)", len(*v.GeranPositioningData))
+		}
 		enc_geranpositioningdata, encodeErr_enc_geranpositioningdata := ber.EncodeOctetString([]byte(*v.GeranPositioningData))
 		if encodeErr_enc_geranpositioningdata != nil {
 			return nil, fmt.Errorf("encoding geranPositioningData: %w", encodeErr_enc_geranpositioningdata)
@@ -6461,6 +6866,9 @@ func (v *LCSProvideSubscriberLocationRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_geranpositioningdata...)
 	}
 	if v.UtranPositioningData != nil {
+		if len(*v.UtranPositioningData) < 3 || len(*v.UtranPositioningData) > 11 {
+			return nil, fmt.Errorf("utranPositioningData length %d violates SIZE (3..11)", len(*v.UtranPositioningData))
+		}
 		enc_utranpositioningdata, encodeErr_enc_utranpositioningdata := ber.EncodeOctetString([]byte(*v.UtranPositioningData))
 		if encodeErr_enc_utranpositioningdata != nil {
 			return nil, fmt.Errorf("encoding utranPositioningData: %w", encodeErr_enc_utranpositioningdata)
@@ -6505,6 +6913,9 @@ func (v *LCSProvideSubscriberLocationRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_accuracyfulfilmentindicator...)
 	}
 	if v.VelocityEstimate != nil {
+		if len(*v.VelocityEstimate) < 4 || len(*v.VelocityEstimate) > 7 {
+			return nil, fmt.Errorf("velocityEstimate length %d violates SIZE (4..7)", len(*v.VelocityEstimate))
+		}
 		enc_velocityestimate, encodeErr_enc_velocityestimate := ber.EncodeOctetString([]byte(*v.VelocityEstimate))
 		if encodeErr_enc_velocityestimate != nil {
 			return nil, fmt.Errorf("encoding velocityEstimate: %w", encodeErr_enc_velocityestimate)
@@ -6526,6 +6937,9 @@ func (v *LCSProvideSubscriberLocationRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_molrshortcircuitindicator...)
 	}
 	if v.GeranGANSSpositioningData != nil {
+		if len(*v.GeranGANSSpositioningData) < 2 || len(*v.GeranGANSSpositioningData) > 10 {
+			return nil, fmt.Errorf("geranGANSSpositioningData length %d violates SIZE (2..10)", len(*v.GeranGANSSpositioningData))
+		}
 		enc_gerangansspositioningdata, encodeErr_enc_gerangansspositioningdata := ber.EncodeOctetString([]byte(*v.GeranGANSSpositioningData))
 		if encodeErr_enc_gerangansspositioningdata != nil {
 			return nil, fmt.Errorf("encoding geranGANSSpositioningData: %w", encodeErr_enc_gerangansspositioningdata)
@@ -6538,6 +6952,9 @@ func (v *LCSProvideSubscriberLocationRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_gerangansspositioningdata...)
 	}
 	if v.UtranGANSSpositioningData != nil {
+		if len(*v.UtranGANSSpositioningData) < 1 || len(*v.UtranGANSSpositioningData) > 9 {
+			return nil, fmt.Errorf("utranGANSSpositioningData length %d violates SIZE (1..9)", len(*v.UtranGANSSpositioningData))
+		}
 		enc_utrangansspositioningdata, encodeErr_enc_utrangansspositioningdata := ber.EncodeOctetString([]byte(*v.UtranGANSSpositioningData))
 		if encodeErr_enc_utrangansspositioningdata != nil {
 			return nil, fmt.Errorf("encoding utranGANSSpositioningData: %w", encodeErr_enc_utrangansspositioningdata)
@@ -6564,6 +6981,9 @@ func (v *LCSProvideSubscriberLocationRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_targetservingnodeforhandover...)
 	}
 	if v.UtranAdditionalPositioningData != nil {
+		if len(*v.UtranAdditionalPositioningData) < 1 || len(*v.UtranAdditionalPositioningData) > 8 {
+			return nil, fmt.Errorf("utranAdditionalPositioningData length %d violates SIZE (1..8)", len(*v.UtranAdditionalPositioningData))
+		}
 		enc_utranadditionalpositioningdata, encodeErr_enc_utranadditionalpositioningdata := ber.EncodeOctetString([]byte(*v.UtranAdditionalPositioningData))
 		if encodeErr_enc_utranadditionalpositioningdata != nil {
 			return nil, fmt.Errorf("encoding utranAdditionalPositioningData: %w", encodeErr_enc_utranadditionalpositioningdata)
@@ -6612,6 +7032,9 @@ func (v *LCSProvideSubscriberLocationRes) MarshalBER() ([]byte, error) {
 // MarshalDER encodes LCSProvideSubscriberLocationRes to DER format.
 func (v *LCSProvideSubscriberLocationRes) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.LocationEstimate) < 1 || len(v.LocationEstimate) > 20 {
+		return nil, fmt.Errorf("locationEstimate length %d violates SIZE (1..20)", len(v.LocationEstimate))
+	}
 	enc_locationestimate, encodeErr_enc_locationestimate := ber.EncodeOctetString([]byte(v.LocationEstimate))
 	if encodeErr_enc_locationestimate != nil {
 		return nil, fmt.Errorf("encoding locationEstimate: %w", encodeErr_enc_locationestimate)
@@ -6639,6 +7062,9 @@ func (v *LCSProvideSubscriberLocationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.AddLocationEstimate != nil {
+		if len(*v.AddLocationEstimate) < 1 || len(*v.AddLocationEstimate) > 91 {
+			return nil, fmt.Errorf("add-LocationEstimate length %d violates SIZE (1..91)", len(*v.AddLocationEstimate))
+		}
 		enc_addlocationestimate, encodeErr_enc_addlocationestimate := ber.EncodeOctetString([]byte(*v.AddLocationEstimate))
 		if encodeErr_enc_addlocationestimate != nil {
 			return nil, fmt.Errorf("encoding add-LocationEstimate: %w", encodeErr_enc_addlocationestimate)
@@ -6660,6 +7086,9 @@ func (v *LCSProvideSubscriberLocationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_deferredmtlrresponseindicator...)
 	}
 	if v.GeranPositioningData != nil {
+		if len(*v.GeranPositioningData) < 2 || len(*v.GeranPositioningData) > 10 {
+			return nil, fmt.Errorf("geranPositioningData length %d violates SIZE (2..10)", len(*v.GeranPositioningData))
+		}
 		enc_geranpositioningdata, encodeErr_enc_geranpositioningdata := ber.EncodeOctetString([]byte(*v.GeranPositioningData))
 		if encodeErr_enc_geranpositioningdata != nil {
 			return nil, fmt.Errorf("encoding geranPositioningData: %w", encodeErr_enc_geranpositioningdata)
@@ -6672,6 +7101,9 @@ func (v *LCSProvideSubscriberLocationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_geranpositioningdata...)
 	}
 	if v.UtranPositioningData != nil {
+		if len(*v.UtranPositioningData) < 3 || len(*v.UtranPositioningData) > 11 {
+			return nil, fmt.Errorf("utranPositioningData length %d violates SIZE (3..11)", len(*v.UtranPositioningData))
+		}
 		enc_utranpositioningdata, encodeErr_enc_utranpositioningdata := ber.EncodeOctetString([]byte(*v.UtranPositioningData))
 		if encodeErr_enc_utranpositioningdata != nil {
 			return nil, fmt.Errorf("encoding utranPositioningData: %w", encodeErr_enc_utranpositioningdata)
@@ -6716,6 +7148,9 @@ func (v *LCSProvideSubscriberLocationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_accuracyfulfilmentindicator...)
 	}
 	if v.VelocityEstimate != nil {
+		if len(*v.VelocityEstimate) < 4 || len(*v.VelocityEstimate) > 7 {
+			return nil, fmt.Errorf("velocityEstimate length %d violates SIZE (4..7)", len(*v.VelocityEstimate))
+		}
 		enc_velocityestimate, encodeErr_enc_velocityestimate := ber.EncodeOctetString([]byte(*v.VelocityEstimate))
 		if encodeErr_enc_velocityestimate != nil {
 			return nil, fmt.Errorf("encoding velocityEstimate: %w", encodeErr_enc_velocityestimate)
@@ -6737,6 +7172,9 @@ func (v *LCSProvideSubscriberLocationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_molrshortcircuitindicator...)
 	}
 	if v.GeranGANSSpositioningData != nil {
+		if len(*v.GeranGANSSpositioningData) < 2 || len(*v.GeranGANSSpositioningData) > 10 {
+			return nil, fmt.Errorf("geranGANSSpositioningData length %d violates SIZE (2..10)", len(*v.GeranGANSSpositioningData))
+		}
 		enc_gerangansspositioningdata, encodeErr_enc_gerangansspositioningdata := ber.EncodeOctetString([]byte(*v.GeranGANSSpositioningData))
 		if encodeErr_enc_gerangansspositioningdata != nil {
 			return nil, fmt.Errorf("encoding geranGANSSpositioningData: %w", encodeErr_enc_gerangansspositioningdata)
@@ -6749,6 +7187,9 @@ func (v *LCSProvideSubscriberLocationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_gerangansspositioningdata...)
 	}
 	if v.UtranGANSSpositioningData != nil {
+		if len(*v.UtranGANSSpositioningData) < 1 || len(*v.UtranGANSSpositioningData) > 9 {
+			return nil, fmt.Errorf("utranGANSSpositioningData length %d violates SIZE (1..9)", len(*v.UtranGANSSpositioningData))
+		}
 		enc_utrangansspositioningdata, encodeErr_enc_utrangansspositioningdata := ber.EncodeOctetString([]byte(*v.UtranGANSSpositioningData))
 		if encodeErr_enc_utrangansspositioningdata != nil {
 			return nil, fmt.Errorf("encoding utranGANSSpositioningData: %w", encodeErr_enc_utrangansspositioningdata)
@@ -6775,6 +7216,9 @@ func (v *LCSProvideSubscriberLocationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_targetservingnodeforhandover...)
 	}
 	if v.UtranAdditionalPositioningData != nil {
+		if len(*v.UtranAdditionalPositioningData) < 1 || len(*v.UtranAdditionalPositioningData) > 8 {
+			return nil, fmt.Errorf("utranAdditionalPositioningData length %d violates SIZE (1..8)", len(*v.UtranAdditionalPositioningData))
+		}
 		enc_utranadditionalpositioningdata, encodeErr_enc_utranadditionalpositioningdata := ber.EncodeOctetString([]byte(*v.UtranAdditionalPositioningData))
 		if encodeErr_enc_utranadditionalpositioningdata != nil {
 			return nil, fmt.Errorf("encoding utranAdditionalPositioningData: %w", encodeErr_enc_utranadditionalpositioningdata)
@@ -6852,6 +7296,9 @@ func (v *LCSProvideSubscriberLocationRes) UnmarshalBER(data []byte, opts ...ber.
 	}
 
 	offset += n
+	if len(v.LocationEstimate) < 1 || len(v.LocationEstimate) > 20 {
+		return fmt.Errorf("locationEstimate length %d violates SIZE (1..20)", len(v.LocationEstimate))
+	}
 	// Decode ageOfLocationEstimate
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -6930,6 +7377,9 @@ func (v *LCSProvideSubscriberLocationRes) UnmarshalBER(data []byte, opts ...ber.
 				}
 
 				offset += n_addlocationestimate
+				if len(*v.AddLocationEstimate) < 1 || len(*v.AddLocationEstimate) > 91 {
+					return fmt.Errorf("add-LocationEstimate length %d violates SIZE (1..91)", len(*v.AddLocationEstimate))
+				}
 			}
 		}
 	}
@@ -6979,6 +7429,9 @@ func (v *LCSProvideSubscriberLocationRes) UnmarshalBER(data []byte, opts ...ber.
 				}
 
 				offset += n_geranpositioningdata
+				if len(*v.GeranPositioningData) < 2 || len(*v.GeranPositioningData) > 10 {
+					return fmt.Errorf("geranPositioningData length %d violates SIZE (2..10)", len(*v.GeranPositioningData))
+				}
 			}
 		}
 	}
@@ -7002,6 +7455,9 @@ func (v *LCSProvideSubscriberLocationRes) UnmarshalBER(data []byte, opts ...ber.
 				}
 
 				offset += n_utranpositioningdata
+				if len(*v.UtranPositioningData) < 3 || len(*v.UtranPositioningData) > 11 {
+					return fmt.Errorf("utranPositioningData length %d violates SIZE (3..11)", len(*v.UtranPositioningData))
+				}
 			}
 		}
 	}
@@ -7105,6 +7561,9 @@ func (v *LCSProvideSubscriberLocationRes) UnmarshalBER(data []byte, opts ...ber.
 				}
 
 				offset += n_velocityestimate
+				if len(*v.VelocityEstimate) < 4 || len(*v.VelocityEstimate) > 7 {
+					return fmt.Errorf("velocityEstimate length %d violates SIZE (4..7)", len(*v.VelocityEstimate))
+				}
 			}
 		}
 	}
@@ -7155,6 +7614,9 @@ func (v *LCSProvideSubscriberLocationRes) UnmarshalBER(data []byte, opts ...ber.
 				}
 
 				offset += n_gerangansspositioningdata
+				if len(*v.GeranGANSSpositioningData) < 2 || len(*v.GeranGANSSpositioningData) > 10 {
+					return fmt.Errorf("geranGANSSpositioningData length %d violates SIZE (2..10)", len(*v.GeranGANSSpositioningData))
+				}
 			}
 		}
 	}
@@ -7179,6 +7641,9 @@ func (v *LCSProvideSubscriberLocationRes) UnmarshalBER(data []byte, opts ...ber.
 				}
 
 				offset += n_utrangansspositioningdata
+				if len(*v.UtranGANSSpositioningData) < 1 || len(*v.UtranGANSSpositioningData) > 9 {
+					return fmt.Errorf("utranGANSSpositioningData length %d violates SIZE (1..9)", len(*v.UtranGANSSpositioningData))
+				}
 			}
 		}
 	}
@@ -7231,6 +7696,9 @@ func (v *LCSProvideSubscriberLocationRes) UnmarshalBER(data []byte, opts ...ber.
 				}
 
 				offset += n_utranadditionalpositioningdata
+				if len(*v.UtranAdditionalPositioningData) < 1 || len(*v.UtranAdditionalPositioningData) > 8 {
+					return fmt.Errorf("utranAdditionalPositioningData length %d violates SIZE (1..8)", len(*v.UtranAdditionalPositioningData))
+				}
 			}
 		}
 	}
@@ -7327,6 +7795,12 @@ func (v *LCSSubscriberLocationReportArg) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_lcslocationinfo...)
 	if v.Msisdn != nil {
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+		}
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
 			return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
@@ -7339,6 +7813,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_msisdn...)
 	}
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -7351,6 +7828,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if v.Imei != nil {
+		if len(*v.Imei) < 8 || len(*v.Imei) > 8 {
+			return nil, fmt.Errorf("imei length %d violates SIZE (8)", len(*v.Imei))
+		}
 		enc_imei, encodeErr_enc_imei := ber.EncodeOctetString([]byte(*v.Imei))
 		if encodeErr_enc_imei != nil {
 			return nil, fmt.Errorf("encoding imei: %w", encodeErr_enc_imei)
@@ -7363,6 +7843,12 @@ func (v *LCSSubscriberLocationReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imei...)
 	}
 	if v.NaESRD != nil {
+		if len(*v.NaESRD) < 1 || len(*v.NaESRD) > 9 {
+			return nil, fmt.Errorf("na-ESRD length %d violates SIZE (1..9)", len(*v.NaESRD))
+		}
+		if len(*v.NaESRD) < 1 || len(*v.NaESRD) > 20 {
+			return nil, fmt.Errorf("na-ESRD length %d violates SIZE (1..20)", len(*v.NaESRD))
+		}
 		enc_naesrd, encodeErr_enc_naesrd := ber.EncodeOctetString([]byte(*v.NaESRD))
 		if encodeErr_enc_naesrd != nil {
 			return nil, fmt.Errorf("encoding na-ESRD: %w", encodeErr_enc_naesrd)
@@ -7375,6 +7861,12 @@ func (v *LCSSubscriberLocationReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_naesrd...)
 	}
 	if v.NaESRK != nil {
+		if len(*v.NaESRK) < 1 || len(*v.NaESRK) > 9 {
+			return nil, fmt.Errorf("na-ESRK length %d violates SIZE (1..9)", len(*v.NaESRK))
+		}
+		if len(*v.NaESRK) < 1 || len(*v.NaESRK) > 20 {
+			return nil, fmt.Errorf("na-ESRK length %d violates SIZE (1..20)", len(*v.NaESRK))
+		}
 		enc_naesrk, encodeErr_enc_naesrk := ber.EncodeOctetString([]byte(*v.NaESRK))
 		if encodeErr_enc_naesrk != nil {
 			return nil, fmt.Errorf("encoding na-ESRK: %w", encodeErr_enc_naesrk)
@@ -7387,6 +7879,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_naesrk...)
 	}
 	if v.LocationEstimate != nil {
+		if len(*v.LocationEstimate) < 1 || len(*v.LocationEstimate) > 20 {
+			return nil, fmt.Errorf("locationEstimate length %d violates SIZE (1..20)", len(*v.LocationEstimate))
+		}
 		enc_locationestimate, encodeErr_enc_locationestimate := ber.EncodeOctetString([]byte(*v.LocationEstimate))
 		if encodeErr_enc_locationestimate != nil {
 			return nil, fmt.Errorf("encoding locationEstimate: %w", encodeErr_enc_locationestimate)
@@ -7420,6 +7915,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_slrargextensioncontainer...)
 	}
 	if v.AddLocationEstimate != nil {
+		if len(*v.AddLocationEstimate) < 1 || len(*v.AddLocationEstimate) > 91 {
+			return nil, fmt.Errorf("add-LocationEstimate length %d violates SIZE (1..91)", len(*v.AddLocationEstimate))
+		}
 		enc_addlocationestimate, encodeErr_enc_addlocationestimate := ber.EncodeOctetString([]byte(*v.AddLocationEstimate))
 		if encodeErr_enc_addlocationestimate != nil {
 			return nil, fmt.Errorf("encoding add-LocationEstimate: %w", encodeErr_enc_addlocationestimate)
@@ -7444,6 +7942,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_deferredmtlrdata...)
 	}
 	if v.LcsReferenceNumber != nil {
+		if len(*v.LcsReferenceNumber) < 1 || len(*v.LcsReferenceNumber) > 1 {
+			return nil, fmt.Errorf("lcs-ReferenceNumber length %d violates SIZE (1)", len(*v.LcsReferenceNumber))
+		}
 		enc_lcsreferencenumber, encodeErr_enc_lcsreferencenumber := ber.EncodeOctetString([]byte(*v.LcsReferenceNumber))
 		if encodeErr_enc_lcsreferencenumber != nil {
 			return nil, fmt.Errorf("encoding lcs-ReferenceNumber: %w", encodeErr_enc_lcsreferencenumber)
@@ -7456,6 +7957,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_lcsreferencenumber...)
 	}
 	if v.GeranPositioningData != nil {
+		if len(*v.GeranPositioningData) < 2 || len(*v.GeranPositioningData) > 10 {
+			return nil, fmt.Errorf("geranPositioningData length %d violates SIZE (2..10)", len(*v.GeranPositioningData))
+		}
 		enc_geranpositioningdata, encodeErr_enc_geranpositioningdata := ber.EncodeOctetString([]byte(*v.GeranPositioningData))
 		if encodeErr_enc_geranpositioningdata != nil {
 			return nil, fmt.Errorf("encoding geranPositioningData: %w", encodeErr_enc_geranpositioningdata)
@@ -7468,6 +7972,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_geranpositioningdata...)
 	}
 	if v.UtranPositioningData != nil {
+		if len(*v.UtranPositioningData) < 3 || len(*v.UtranPositioningData) > 11 {
+			return nil, fmt.Errorf("utranPositioningData length %d violates SIZE (3..11)", len(*v.UtranPositioningData))
+		}
 		enc_utranpositioningdata, encodeErr_enc_utranpositioningdata := ber.EncodeOctetString([]byte(*v.UtranPositioningData))
 		if encodeErr_enc_utranpositioningdata != nil {
 			return nil, fmt.Errorf("encoding utranPositioningData: %w", encodeErr_enc_utranpositioningdata)
@@ -7494,6 +8001,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_cellidorsai...)
 	}
 	if v.HGmlcAddress != nil {
+		if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+			return nil, fmt.Errorf("h-gmlc-Address length %d violates SIZE (5..17)", len(*v.HGmlcAddress))
+		}
 		enc_hgmlcaddress, encodeErr_enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
 		if encodeErr_enc_hgmlcaddress != nil {
 			return nil, fmt.Errorf("encoding h-gmlc-Address: %w", encodeErr_enc_hgmlcaddress)
@@ -7542,6 +8052,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_accuracyfulfilmentindicator...)
 	}
 	if v.VelocityEstimate != nil {
+		if len(*v.VelocityEstimate) < 4 || len(*v.VelocityEstimate) > 7 {
+			return nil, fmt.Errorf("velocityEstimate length %d violates SIZE (4..7)", len(*v.VelocityEstimate))
+		}
 		enc_velocityestimate, encodeErr_enc_velocityestimate := ber.EncodeOctetString([]byte(*v.VelocityEstimate))
 		if encodeErr_enc_velocityestimate != nil {
 			return nil, fmt.Errorf("encoding velocityEstimate: %w", encodeErr_enc_velocityestimate)
@@ -7584,6 +8097,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_molrshortcircuitindicator...)
 	}
 	if v.GeranGANSSpositioningData != nil {
+		if len(*v.GeranGANSSpositioningData) < 2 || len(*v.GeranGANSSpositioningData) > 10 {
+			return nil, fmt.Errorf("geranGANSSpositioningData length %d violates SIZE (2..10)", len(*v.GeranGANSSpositioningData))
+		}
 		enc_gerangansspositioningdata, encodeErr_enc_gerangansspositioningdata := ber.EncodeOctetString([]byte(*v.GeranGANSSpositioningData))
 		if encodeErr_enc_gerangansspositioningdata != nil {
 			return nil, fmt.Errorf("encoding geranGANSSpositioningData: %w", encodeErr_enc_gerangansspositioningdata)
@@ -7596,6 +8112,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_gerangansspositioningdata...)
 	}
 	if v.UtranGANSSpositioningData != nil {
+		if len(*v.UtranGANSSpositioningData) < 1 || len(*v.UtranGANSSpositioningData) > 9 {
+			return nil, fmt.Errorf("utranGANSSpositioningData length %d violates SIZE (1..9)", len(*v.UtranGANSSpositioningData))
+		}
 		enc_utrangansspositioningdata, encodeErr_enc_utrangansspositioningdata := ber.EncodeOctetString([]byte(*v.UtranGANSSpositioningData))
 		if encodeErr_enc_utrangansspositioningdata != nil {
 			return nil, fmt.Errorf("encoding utranGANSSpositioningData: %w", encodeErr_enc_utrangansspositioningdata)
@@ -7622,6 +8141,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_targetservingnodeforhandover...)
 	}
 	if v.UtranAdditionalPositioningData != nil {
+		if len(*v.UtranAdditionalPositioningData) < 1 || len(*v.UtranAdditionalPositioningData) > 8 {
+			return nil, fmt.Errorf("utranAdditionalPositioningData length %d violates SIZE (1..8)", len(*v.UtranAdditionalPositioningData))
+		}
 		enc_utranadditionalpositioningdata, encodeErr_enc_utranadditionalpositioningdata := ber.EncodeOctetString([]byte(*v.UtranAdditionalPositioningData))
 		if encodeErr_enc_utranadditionalpositioningdata != nil {
 			return nil, fmt.Errorf("encoding utranAdditionalPositioningData: %w", encodeErr_enc_utranadditionalpositioningdata)
@@ -7683,6 +8205,12 @@ func (v *LCSSubscriberLocationReportArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_lcslocationinfo...)
 	if v.Msisdn != nil {
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+		}
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
 			return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
@@ -7695,6 +8223,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_msisdn...)
 	}
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -7707,6 +8238,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if v.Imei != nil {
+		if len(*v.Imei) < 8 || len(*v.Imei) > 8 {
+			return nil, fmt.Errorf("imei length %d violates SIZE (8)", len(*v.Imei))
+		}
 		enc_imei, encodeErr_enc_imei := ber.EncodeOctetString([]byte(*v.Imei))
 		if encodeErr_enc_imei != nil {
 			return nil, fmt.Errorf("encoding imei: %w", encodeErr_enc_imei)
@@ -7719,6 +8253,12 @@ func (v *LCSSubscriberLocationReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imei...)
 	}
 	if v.NaESRD != nil {
+		if len(*v.NaESRD) < 1 || len(*v.NaESRD) > 9 {
+			return nil, fmt.Errorf("na-ESRD length %d violates SIZE (1..9)", len(*v.NaESRD))
+		}
+		if len(*v.NaESRD) < 1 || len(*v.NaESRD) > 20 {
+			return nil, fmt.Errorf("na-ESRD length %d violates SIZE (1..20)", len(*v.NaESRD))
+		}
 		enc_naesrd, encodeErr_enc_naesrd := ber.EncodeOctetString([]byte(*v.NaESRD))
 		if encodeErr_enc_naesrd != nil {
 			return nil, fmt.Errorf("encoding na-ESRD: %w", encodeErr_enc_naesrd)
@@ -7731,6 +8271,12 @@ func (v *LCSSubscriberLocationReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_naesrd...)
 	}
 	if v.NaESRK != nil {
+		if len(*v.NaESRK) < 1 || len(*v.NaESRK) > 9 {
+			return nil, fmt.Errorf("na-ESRK length %d violates SIZE (1..9)", len(*v.NaESRK))
+		}
+		if len(*v.NaESRK) < 1 || len(*v.NaESRK) > 20 {
+			return nil, fmt.Errorf("na-ESRK length %d violates SIZE (1..20)", len(*v.NaESRK))
+		}
 		enc_naesrk, encodeErr_enc_naesrk := ber.EncodeOctetString([]byte(*v.NaESRK))
 		if encodeErr_enc_naesrk != nil {
 			return nil, fmt.Errorf("encoding na-ESRK: %w", encodeErr_enc_naesrk)
@@ -7743,6 +8289,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_naesrk...)
 	}
 	if v.LocationEstimate != nil {
+		if len(*v.LocationEstimate) < 1 || len(*v.LocationEstimate) > 20 {
+			return nil, fmt.Errorf("locationEstimate length %d violates SIZE (1..20)", len(*v.LocationEstimate))
+		}
 		enc_locationestimate, encodeErr_enc_locationestimate := ber.EncodeOctetString([]byte(*v.LocationEstimate))
 		if encodeErr_enc_locationestimate != nil {
 			return nil, fmt.Errorf("encoding locationEstimate: %w", encodeErr_enc_locationestimate)
@@ -7776,6 +8325,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_slrargextensioncontainer...)
 	}
 	if v.AddLocationEstimate != nil {
+		if len(*v.AddLocationEstimate) < 1 || len(*v.AddLocationEstimate) > 91 {
+			return nil, fmt.Errorf("add-LocationEstimate length %d violates SIZE (1..91)", len(*v.AddLocationEstimate))
+		}
 		enc_addlocationestimate, encodeErr_enc_addlocationestimate := ber.EncodeOctetString([]byte(*v.AddLocationEstimate))
 		if encodeErr_enc_addlocationestimate != nil {
 			return nil, fmt.Errorf("encoding add-LocationEstimate: %w", encodeErr_enc_addlocationestimate)
@@ -7800,6 +8352,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_deferredmtlrdata...)
 	}
 	if v.LcsReferenceNumber != nil {
+		if len(*v.LcsReferenceNumber) < 1 || len(*v.LcsReferenceNumber) > 1 {
+			return nil, fmt.Errorf("lcs-ReferenceNumber length %d violates SIZE (1)", len(*v.LcsReferenceNumber))
+		}
 		enc_lcsreferencenumber, encodeErr_enc_lcsreferencenumber := ber.EncodeOctetString([]byte(*v.LcsReferenceNumber))
 		if encodeErr_enc_lcsreferencenumber != nil {
 			return nil, fmt.Errorf("encoding lcs-ReferenceNumber: %w", encodeErr_enc_lcsreferencenumber)
@@ -7812,6 +8367,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_lcsreferencenumber...)
 	}
 	if v.GeranPositioningData != nil {
+		if len(*v.GeranPositioningData) < 2 || len(*v.GeranPositioningData) > 10 {
+			return nil, fmt.Errorf("geranPositioningData length %d violates SIZE (2..10)", len(*v.GeranPositioningData))
+		}
 		enc_geranpositioningdata, encodeErr_enc_geranpositioningdata := ber.EncodeOctetString([]byte(*v.GeranPositioningData))
 		if encodeErr_enc_geranpositioningdata != nil {
 			return nil, fmt.Errorf("encoding geranPositioningData: %w", encodeErr_enc_geranpositioningdata)
@@ -7824,6 +8382,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_geranpositioningdata...)
 	}
 	if v.UtranPositioningData != nil {
+		if len(*v.UtranPositioningData) < 3 || len(*v.UtranPositioningData) > 11 {
+			return nil, fmt.Errorf("utranPositioningData length %d violates SIZE (3..11)", len(*v.UtranPositioningData))
+		}
 		enc_utranpositioningdata, encodeErr_enc_utranpositioningdata := ber.EncodeOctetString([]byte(*v.UtranPositioningData))
 		if encodeErr_enc_utranpositioningdata != nil {
 			return nil, fmt.Errorf("encoding utranPositioningData: %w", encodeErr_enc_utranpositioningdata)
@@ -7850,6 +8411,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_cellidorsai...)
 	}
 	if v.HGmlcAddress != nil {
+		if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+			return nil, fmt.Errorf("h-gmlc-Address length %d violates SIZE (5..17)", len(*v.HGmlcAddress))
+		}
 		enc_hgmlcaddress, encodeErr_enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
 		if encodeErr_enc_hgmlcaddress != nil {
 			return nil, fmt.Errorf("encoding h-gmlc-Address: %w", encodeErr_enc_hgmlcaddress)
@@ -7898,6 +8462,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_accuracyfulfilmentindicator...)
 	}
 	if v.VelocityEstimate != nil {
+		if len(*v.VelocityEstimate) < 4 || len(*v.VelocityEstimate) > 7 {
+			return nil, fmt.Errorf("velocityEstimate length %d violates SIZE (4..7)", len(*v.VelocityEstimate))
+		}
 		enc_velocityestimate, encodeErr_enc_velocityestimate := ber.EncodeOctetString([]byte(*v.VelocityEstimate))
 		if encodeErr_enc_velocityestimate != nil {
 			return nil, fmt.Errorf("encoding velocityEstimate: %w", encodeErr_enc_velocityestimate)
@@ -7940,6 +8507,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_molrshortcircuitindicator...)
 	}
 	if v.GeranGANSSpositioningData != nil {
+		if len(*v.GeranGANSSpositioningData) < 2 || len(*v.GeranGANSSpositioningData) > 10 {
+			return nil, fmt.Errorf("geranGANSSpositioningData length %d violates SIZE (2..10)", len(*v.GeranGANSSpositioningData))
+		}
 		enc_gerangansspositioningdata, encodeErr_enc_gerangansspositioningdata := ber.EncodeOctetString([]byte(*v.GeranGANSSpositioningData))
 		if encodeErr_enc_gerangansspositioningdata != nil {
 			return nil, fmt.Errorf("encoding geranGANSSpositioningData: %w", encodeErr_enc_gerangansspositioningdata)
@@ -7952,6 +8522,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_gerangansspositioningdata...)
 	}
 	if v.UtranGANSSpositioningData != nil {
+		if len(*v.UtranGANSSpositioningData) < 1 || len(*v.UtranGANSSpositioningData) > 9 {
+			return nil, fmt.Errorf("utranGANSSpositioningData length %d violates SIZE (1..9)", len(*v.UtranGANSSpositioningData))
+		}
 		enc_utrangansspositioningdata, encodeErr_enc_utrangansspositioningdata := ber.EncodeOctetString([]byte(*v.UtranGANSSpositioningData))
 		if encodeErr_enc_utrangansspositioningdata != nil {
 			return nil, fmt.Errorf("encoding utranGANSSpositioningData: %w", encodeErr_enc_utrangansspositioningdata)
@@ -7978,6 +8551,9 @@ func (v *LCSSubscriberLocationReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_targetservingnodeforhandover...)
 	}
 	if v.UtranAdditionalPositioningData != nil {
+		if len(*v.UtranAdditionalPositioningData) < 1 || len(*v.UtranAdditionalPositioningData) > 8 {
+			return nil, fmt.Errorf("utranAdditionalPositioningData length %d violates SIZE (1..8)", len(*v.UtranAdditionalPositioningData))
+		}
 		enc_utranadditionalpositioningdata, encodeErr_enc_utranadditionalpositioningdata := ber.EncodeOctetString([]byte(*v.UtranAdditionalPositioningData))
 		if encodeErr_enc_utranadditionalpositioningdata != nil {
 			return nil, fmt.Errorf("encoding utranAdditionalPositioningData: %w", encodeErr_enc_utranadditionalpositioningdata)
@@ -8121,6 +8697,12 @@ func (v *LCSSubscriberLocationReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_msisdn
+				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+					return fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+				}
+				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+					return fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+				}
 			}
 		}
 	}
@@ -8144,6 +8726,9 @@ func (v *LCSSubscriberLocationReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_imsi
+				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+				}
 			}
 		}
 	}
@@ -8167,6 +8752,9 @@ func (v *LCSSubscriberLocationReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_imei
+				if len(*v.Imei) < 8 || len(*v.Imei) > 8 {
+					return fmt.Errorf("imei length %d violates SIZE (8)", len(*v.Imei))
+				}
 			}
 		}
 	}
@@ -8190,6 +8778,12 @@ func (v *LCSSubscriberLocationReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_naesrd
+				if len(*v.NaESRD) < 1 || len(*v.NaESRD) > 9 {
+					return fmt.Errorf("na-ESRD length %d violates SIZE (1..9)", len(*v.NaESRD))
+				}
+				if len(*v.NaESRD) < 1 || len(*v.NaESRD) > 20 {
+					return fmt.Errorf("na-ESRD length %d violates SIZE (1..20)", len(*v.NaESRD))
+				}
 			}
 		}
 	}
@@ -8213,6 +8807,12 @@ func (v *LCSSubscriberLocationReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_naesrk
+				if len(*v.NaESRK) < 1 || len(*v.NaESRK) > 9 {
+					return fmt.Errorf("na-ESRK length %d violates SIZE (1..9)", len(*v.NaESRK))
+				}
+				if len(*v.NaESRK) < 1 || len(*v.NaESRK) > 20 {
+					return fmt.Errorf("na-ESRK length %d violates SIZE (1..20)", len(*v.NaESRK))
+				}
 			}
 		}
 	}
@@ -8236,6 +8836,9 @@ func (v *LCSSubscriberLocationReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_locationestimate
+				if len(*v.LocationEstimate) < 1 || len(*v.LocationEstimate) > 20 {
+					return fmt.Errorf("locationEstimate length %d violates SIZE (1..20)", len(*v.LocationEstimate))
+				}
 			}
 		}
 	}
@@ -8318,6 +8921,9 @@ func (v *LCSSubscriberLocationReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_addlocationestimate
+				if len(*v.AddLocationEstimate) < 1 || len(*v.AddLocationEstimate) > 91 {
+					return fmt.Errorf("add-LocationEstimate length %d violates SIZE (1..91)", len(*v.AddLocationEstimate))
+				}
 			}
 		}
 	}
@@ -8372,6 +8978,9 @@ func (v *LCSSubscriberLocationReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_lcsreferencenumber
+				if len(*v.LcsReferenceNumber) < 1 || len(*v.LcsReferenceNumber) > 1 {
+					return fmt.Errorf("lcs-ReferenceNumber length %d violates SIZE (1)", len(*v.LcsReferenceNumber))
+				}
 			}
 		}
 	}
@@ -8396,6 +9005,9 @@ func (v *LCSSubscriberLocationReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_geranpositioningdata
+				if len(*v.GeranPositioningData) < 2 || len(*v.GeranPositioningData) > 10 {
+					return fmt.Errorf("geranPositioningData length %d violates SIZE (2..10)", len(*v.GeranPositioningData))
+				}
 			}
 		}
 	}
@@ -8420,6 +9032,9 @@ func (v *LCSSubscriberLocationReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_utranpositioningdata
+				if len(*v.UtranPositioningData) < 3 || len(*v.UtranPositioningData) > 11 {
+					return fmt.Errorf("utranPositioningData length %d violates SIZE (3..11)", len(*v.UtranPositioningData))
+				}
 			}
 		}
 	}
@@ -8470,6 +9085,9 @@ func (v *LCSSubscriberLocationReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_hgmlcaddress
+				if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+					return fmt.Errorf("h-gmlc-Address length %d violates SIZE (5..17)", len(*v.HGmlcAddress))
+				}
 			}
 		}
 	}
@@ -8599,6 +9217,9 @@ func (v *LCSSubscriberLocationReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_velocityestimate
+				if len(*v.VelocityEstimate) < 4 || len(*v.VelocityEstimate) > 7 {
+					return fmt.Errorf("velocityEstimate length %d violates SIZE (4..7)", len(*v.VelocityEstimate))
+				}
 			}
 		}
 	}
@@ -8706,6 +9327,9 @@ func (v *LCSSubscriberLocationReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_gerangansspositioningdata
+				if len(*v.GeranGANSSpositioningData) < 2 || len(*v.GeranGANSSpositioningData) > 10 {
+					return fmt.Errorf("geranGANSSpositioningData length %d violates SIZE (2..10)", len(*v.GeranGANSSpositioningData))
+				}
 			}
 		}
 	}
@@ -8730,6 +9354,9 @@ func (v *LCSSubscriberLocationReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_utrangansspositioningdata
+				if len(*v.UtranGANSSpositioningData) < 1 || len(*v.UtranGANSSpositioningData) > 9 {
+					return fmt.Errorf("utranGANSSpositioningData length %d violates SIZE (1..9)", len(*v.UtranGANSSpositioningData))
+				}
 			}
 		}
 	}
@@ -8782,6 +9409,9 @@ func (v *LCSSubscriberLocationReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_utranadditionalpositioningdata
+				if len(*v.UtranAdditionalPositioningData) < 1 || len(*v.UtranAdditionalPositioningData) > 8 {
+					return fmt.Errorf("utranAdditionalPositioningData length %d violates SIZE (1..8)", len(*v.UtranAdditionalPositioningData))
+				}
 			}
 		}
 	}
@@ -8865,7 +9495,10 @@ func (v *LCSSubscriberLocationReportArg) UnmarshalBER(data []byte, opts ...ber.D
 // MarshalBER encodes LCSDeferredmtLrData to BER format.
 func (v *LCSDeferredmtLrData) MarshalBER() ([]byte, error) {
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	if (v.DeferredLocationEventType).BitLength < 1 || (v.DeferredLocationEventType).BitLength > 16 {
+		return nil, fmt.Errorf("deferredLocationEventType length %d violates SIZE (1..16)", (v.DeferredLocationEventType).BitLength)
+	}
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.DeferredLocationEventType.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -8911,7 +9544,10 @@ func (v *LCSDeferredmtLrData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes LCSDeferredmtLrData to DER format.
 func (v *LCSDeferredmtLrData) MarshalDER() ([]byte, error) {
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	if (v.DeferredLocationEventType).BitLength < 1 || (v.DeferredLocationEventType).BitLength > 16 {
+		return nil, fmt.Errorf("deferredLocationEventType length %d violates SIZE (1..16)", (v.DeferredLocationEventType).BitLength)
+	}
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.DeferredLocationEventType.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -8990,6 +9626,9 @@ func (v *LCSDeferredmtLrData) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	}
 
 	offset += n
+	if (v.DeferredLocationEventType).BitLength < 1 || (v.DeferredLocationEventType).BitLength > 16 {
+		return fmt.Errorf("deferredLocationEventType length %d violates SIZE (1..16)", (v.DeferredLocationEventType).BitLength)
+	}
 	// Decode terminationCause
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -9086,6 +9725,12 @@ func (v *LCSServingNodeAddress) MarshalBER() ([]byte, error) {
 		if encodeErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding msc-Number: %w", encodeErr_enc_0)
 		}
+		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 9 {
+			return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..9)", len(*v.MscNumber))
+		}
+		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 20 {
+			return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..20)", len(*v.MscNumber))
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding msc-Number: %w", tagErr_enc_0)
@@ -9100,6 +9745,12 @@ func (v *LCSServingNodeAddress) MarshalBER() ([]byte, error) {
 		if encodeErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding sgsn-Number: %w", encodeErr_enc_1)
 		}
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+		}
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding sgsn-Number: %w", tagErr_enc_1)
@@ -9113,6 +9764,9 @@ func (v *LCSServingNodeAddress) MarshalBER() ([]byte, error) {
 		enc_2, encodeErr_enc_2 := ber.EncodeOctetString([]byte(*v.MmeNumber))
 		if encodeErr_enc_2 != nil {
 			return nil, fmt.Errorf("encoding mme-Number: %w", encodeErr_enc_2)
+		}
+		if len(*v.MmeNumber) < 9 || len(*v.MmeNumber) > 255 {
+			return nil, fmt.Errorf("mme-Number length %d violates SIZE (9..255)", len(*v.MmeNumber))
 		}
 		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_2)
 		if tagErr_enc_2 != nil {
@@ -9168,6 +9822,12 @@ func (v *LCSServingNodeAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		}
 		tmp := ISDNAddressString3(rawVal)
 		v.MscNumber = &tmp
+		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 9 {
+			return fmt.Errorf("msc-Number length %d violates SIZE (1..9)", len(*v.MscNumber))
+		}
+		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 20 {
+			return fmt.Errorf("msc-Number length %d violates SIZE (1..20)", len(*v.MscNumber))
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 		v.Choice = LCSServingNodeAddressChoiceSgsnNumber
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -9176,6 +9836,12 @@ func (v *LCSServingNodeAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		}
 		tmp := ISDNAddressString3(rawVal)
 		v.SgsnNumber = &tmp
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+			return fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+		}
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+			return fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
 		v.Choice = LCSServingNodeAddressChoiceMmeNumber
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -9184,6 +9850,9 @@ func (v *LCSServingNodeAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		}
 		tmp := CommonDataTypesDiameterIdentity(rawVal)
 		v.MmeNumber = &tmp
+		if len(*v.MmeNumber) < 9 || len(*v.MmeNumber) > 255 {
+			return fmt.Errorf("mme-Number length %d violates SIZE (9..255)", len(*v.MmeNumber))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for LCSServingNodeAddress CHOICE", peekTag)
 	}
@@ -9201,6 +9870,12 @@ func (v *LCSSubscriberLocationReportRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.NaESRK != nil {
+		if len(*v.NaESRK) < 1 || len(*v.NaESRK) > 9 {
+			return nil, fmt.Errorf("na-ESRK length %d violates SIZE (1..9)", len(*v.NaESRK))
+		}
+		if len(*v.NaESRK) < 1 || len(*v.NaESRK) > 20 {
+			return nil, fmt.Errorf("na-ESRK length %d violates SIZE (1..20)", len(*v.NaESRK))
+		}
 		enc_naesrk, encodeErr_enc_naesrk := ber.EncodeOctetString([]byte(*v.NaESRK))
 		if encodeErr_enc_naesrk != nil {
 			return nil, fmt.Errorf("encoding na-ESRK: %w", encodeErr_enc_naesrk)
@@ -9213,6 +9888,12 @@ func (v *LCSSubscriberLocationReportRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_naesrk...)
 	}
 	if v.NaESRD != nil {
+		if len(*v.NaESRD) < 1 || len(*v.NaESRD) > 9 {
+			return nil, fmt.Errorf("na-ESRD length %d violates SIZE (1..9)", len(*v.NaESRD))
+		}
+		if len(*v.NaESRD) < 1 || len(*v.NaESRD) > 20 {
+			return nil, fmt.Errorf("na-ESRD length %d violates SIZE (1..20)", len(*v.NaESRD))
+		}
 		enc_naesrd, encodeErr_enc_naesrd := ber.EncodeOctetString([]byte(*v.NaESRD))
 		if encodeErr_enc_naesrd != nil {
 			return nil, fmt.Errorf("encoding na-ESRD: %w", encodeErr_enc_naesrd)
@@ -9225,6 +9906,9 @@ func (v *LCSSubscriberLocationReportRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_naesrd...)
 	}
 	if v.HGmlcAddress != nil {
+		if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+			return nil, fmt.Errorf("h-gmlc-Address length %d violates SIZE (5..17)", len(*v.HGmlcAddress))
+		}
 		enc_hgmlcaddress, encodeErr_enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
 		if encodeErr_enc_hgmlcaddress != nil {
 			return nil, fmt.Errorf("encoding h-gmlc-Address: %w", encodeErr_enc_hgmlcaddress)
@@ -9258,6 +9942,9 @@ func (v *LCSSubscriberLocationReportRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_reportingplmnlist...)
 	}
 	if v.LcsReferenceNumber != nil {
+		if len(*v.LcsReferenceNumber) < 1 || len(*v.LcsReferenceNumber) > 1 {
+			return nil, fmt.Errorf("lcs-ReferenceNumber length %d violates SIZE (1)", len(*v.LcsReferenceNumber))
+		}
 		enc_lcsreferencenumber, encodeErr_enc_lcsreferencenumber := ber.EncodeOctetString([]byte(*v.LcsReferenceNumber))
 		if encodeErr_enc_lcsreferencenumber != nil {
 			return nil, fmt.Errorf("encoding lcs-ReferenceNumber: %w", encodeErr_enc_lcsreferencenumber)
@@ -9293,6 +9980,12 @@ func (v *LCSSubscriberLocationReportRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.NaESRK != nil {
+		if len(*v.NaESRK) < 1 || len(*v.NaESRK) > 9 {
+			return nil, fmt.Errorf("na-ESRK length %d violates SIZE (1..9)", len(*v.NaESRK))
+		}
+		if len(*v.NaESRK) < 1 || len(*v.NaESRK) > 20 {
+			return nil, fmt.Errorf("na-ESRK length %d violates SIZE (1..20)", len(*v.NaESRK))
+		}
 		enc_naesrk, encodeErr_enc_naesrk := ber.EncodeOctetString([]byte(*v.NaESRK))
 		if encodeErr_enc_naesrk != nil {
 			return nil, fmt.Errorf("encoding na-ESRK: %w", encodeErr_enc_naesrk)
@@ -9305,6 +9998,12 @@ func (v *LCSSubscriberLocationReportRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_naesrk...)
 	}
 	if v.NaESRD != nil {
+		if len(*v.NaESRD) < 1 || len(*v.NaESRD) > 9 {
+			return nil, fmt.Errorf("na-ESRD length %d violates SIZE (1..9)", len(*v.NaESRD))
+		}
+		if len(*v.NaESRD) < 1 || len(*v.NaESRD) > 20 {
+			return nil, fmt.Errorf("na-ESRD length %d violates SIZE (1..20)", len(*v.NaESRD))
+		}
 		enc_naesrd, encodeErr_enc_naesrd := ber.EncodeOctetString([]byte(*v.NaESRD))
 		if encodeErr_enc_naesrd != nil {
 			return nil, fmt.Errorf("encoding na-ESRD: %w", encodeErr_enc_naesrd)
@@ -9317,6 +10016,9 @@ func (v *LCSSubscriberLocationReportRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_naesrd...)
 	}
 	if v.HGmlcAddress != nil {
+		if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+			return nil, fmt.Errorf("h-gmlc-Address length %d violates SIZE (5..17)", len(*v.HGmlcAddress))
+		}
 		enc_hgmlcaddress, encodeErr_enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
 		if encodeErr_enc_hgmlcaddress != nil {
 			return nil, fmt.Errorf("encoding h-gmlc-Address: %w", encodeErr_enc_hgmlcaddress)
@@ -9350,6 +10052,9 @@ func (v *LCSSubscriberLocationReportRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_reportingplmnlist...)
 	}
 	if v.LcsReferenceNumber != nil {
+		if len(*v.LcsReferenceNumber) < 1 || len(*v.LcsReferenceNumber) > 1 {
+			return nil, fmt.Errorf("lcs-ReferenceNumber length %d violates SIZE (1)", len(*v.LcsReferenceNumber))
+		}
 		enc_lcsreferencenumber, encodeErr_enc_lcsreferencenumber := ber.EncodeOctetString([]byte(*v.LcsReferenceNumber))
 		if encodeErr_enc_lcsreferencenumber != nil {
 			return nil, fmt.Errorf("encoding lcs-ReferenceNumber: %w", encodeErr_enc_lcsreferencenumber)
@@ -9442,6 +10147,12 @@ func (v *LCSSubscriberLocationReportRes) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_naesrk
+				if len(*v.NaESRK) < 1 || len(*v.NaESRK) > 9 {
+					return fmt.Errorf("na-ESRK length %d violates SIZE (1..9)", len(*v.NaESRK))
+				}
+				if len(*v.NaESRK) < 1 || len(*v.NaESRK) > 20 {
+					return fmt.Errorf("na-ESRK length %d violates SIZE (1..20)", len(*v.NaESRK))
+				}
 			}
 		}
 	}
@@ -9465,6 +10176,12 @@ func (v *LCSSubscriberLocationReportRes) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_naesrd
+				if len(*v.NaESRD) < 1 || len(*v.NaESRD) > 9 {
+					return fmt.Errorf("na-ESRD length %d violates SIZE (1..9)", len(*v.NaESRD))
+				}
+				if len(*v.NaESRD) < 1 || len(*v.NaESRD) > 20 {
+					return fmt.Errorf("na-ESRD length %d violates SIZE (1..20)", len(*v.NaESRD))
+				}
 			}
 		}
 	}
@@ -9488,6 +10205,9 @@ func (v *LCSSubscriberLocationReportRes) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_hgmlcaddress
+				if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+					return fmt.Errorf("h-gmlc-Address length %d violates SIZE (5..17)", len(*v.HGmlcAddress))
+				}
 			}
 		}
 	}
@@ -9568,6 +10288,9 @@ func (v *LCSSubscriberLocationReportRes) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_lcsreferencenumber
+				if len(*v.LcsReferenceNumber) < 1 || len(*v.LcsReferenceNumber) > 1 {
+					return fmt.Errorf("lcs-ReferenceNumber length %d violates SIZE (1)", len(*v.LcsReferenceNumber))
+				}
 			}
 		}
 	}

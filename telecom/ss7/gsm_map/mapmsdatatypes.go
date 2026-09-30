@@ -4398,11 +4398,20 @@ type CancelVcsgLocationRes struct {
 // MarshalBER encodes UpdateLocationArg to BER format.
 func (v *UpdateLocationArg) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
 	}
 	children = append(children, enc_imsi...)
+	if len(v.MscNumber) < 1 || len(v.MscNumber) > 9 {
+		return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..9)", len(v.MscNumber))
+	}
+	if len(v.MscNumber) < 1 || len(v.MscNumber) > 20 {
+		return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..20)", len(v.MscNumber))
+	}
 	enc_mscnumber, encodeErr_enc_mscnumber := ber.EncodeOctetString([]byte(v.MscNumber))
 	if encodeErr_enc_mscnumber != nil {
 		return nil, fmt.Errorf("encoding msc-Number: %w", encodeErr_enc_mscnumber)
@@ -4413,12 +4422,21 @@ func (v *UpdateLocationArg) MarshalBER() ([]byte, error) {
 	}
 	enc_mscnumber = retagged_enc_mscnumber
 	children = append(children, enc_mscnumber...)
+	if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 9 {
+		return nil, fmt.Errorf("vlr-Number length %d violates SIZE (1..9)", len(v.VlrNumber))
+	}
+	if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 20 {
+		return nil, fmt.Errorf("vlr-Number length %d violates SIZE (1..20)", len(v.VlrNumber))
+	}
 	enc_vlrnumber, encodeErr_enc_vlrnumber := ber.EncodeOctetString([]byte(v.VlrNumber))
 	if encodeErr_enc_vlrnumber != nil {
 		return nil, fmt.Errorf("encoding vlr-Number: %w", encodeErr_enc_vlrnumber)
 	}
 	children = append(children, enc_vlrnumber...)
 	if v.Lmsi != nil {
+		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
+			return nil, fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+		}
 		enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
 		if encodeErr_enc_lmsi != nil {
 			return nil, fmt.Errorf("encoding lmsi: %w", encodeErr_enc_lmsi)
@@ -4468,6 +4486,9 @@ func (v *UpdateLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_cslcsnotsupportedbyue...)
 	}
 	if v.VGmlcAddress != nil {
+		if len(*v.VGmlcAddress) < 5 || len(*v.VGmlcAddress) > 17 {
+			return nil, fmt.Errorf("v-gmlc-Address length %d violates SIZE (5..17)", len(*v.VGmlcAddress))
+		}
 		enc_vgmlcaddress, encodeErr_enc_vgmlcaddress := ber.EncodeOctetString([]byte(*v.VGmlcAddress))
 		if encodeErr_enc_vgmlcaddress != nil {
 			return nil, fmt.Errorf("encoding v-gmlc-Address: %w", encodeErr_enc_vgmlcaddress)
@@ -4492,6 +4513,9 @@ func (v *UpdateLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_addinfo...)
 	}
 	if v.PagingArea != nil {
+		if len(v.PagingArea) < 1 || len(v.PagingArea) > 5 {
+			return nil, fmt.Errorf("pagingArea length %d violates SIZE (1..5)", len(v.PagingArea))
+		}
 		enc_pagingarea, err := MarshalBERPagingArea(v.PagingArea)
 		if err != nil {
 			return nil, fmt.Errorf("encoding pagingArea: %w", err)
@@ -4537,6 +4561,9 @@ func (v *UpdateLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_restorationindicator...)
 	}
 	if v.EplmnList != nil {
+		if len(v.EplmnList) < 1 || len(v.EplmnList) > 50 {
+			return nil, fmt.Errorf("eplmn-List length %d violates SIZE (1..50)", len(v.EplmnList))
+		}
 		enc_eplmnlist, err := MarshalBEREPLMNList(v.EplmnList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eplmn-List: %w", err)
@@ -4591,11 +4618,20 @@ func (v *UpdateLocationArg) MarshalBER() ([]byte, error) {
 // MarshalDER encodes UpdateLocationArg to DER format.
 func (v *UpdateLocationArg) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
 	}
 	children = append(children, enc_imsi...)
+	if len(v.MscNumber) < 1 || len(v.MscNumber) > 9 {
+		return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..9)", len(v.MscNumber))
+	}
+	if len(v.MscNumber) < 1 || len(v.MscNumber) > 20 {
+		return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..20)", len(v.MscNumber))
+	}
 	enc_mscnumber, encodeErr_enc_mscnumber := ber.EncodeOctetString([]byte(v.MscNumber))
 	if encodeErr_enc_mscnumber != nil {
 		return nil, fmt.Errorf("encoding msc-Number: %w", encodeErr_enc_mscnumber)
@@ -4606,12 +4642,21 @@ func (v *UpdateLocationArg) MarshalDER() ([]byte, error) {
 	}
 	enc_mscnumber = retagged_enc_mscnumber
 	children = append(children, enc_mscnumber...)
+	if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 9 {
+		return nil, fmt.Errorf("vlr-Number length %d violates SIZE (1..9)", len(v.VlrNumber))
+	}
+	if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 20 {
+		return nil, fmt.Errorf("vlr-Number length %d violates SIZE (1..20)", len(v.VlrNumber))
+	}
 	enc_vlrnumber, encodeErr_enc_vlrnumber := ber.EncodeOctetString([]byte(v.VlrNumber))
 	if encodeErr_enc_vlrnumber != nil {
 		return nil, fmt.Errorf("encoding vlr-Number: %w", encodeErr_enc_vlrnumber)
 	}
 	children = append(children, enc_vlrnumber...)
 	if v.Lmsi != nil {
+		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
+			return nil, fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+		}
 		enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
 		if encodeErr_enc_lmsi != nil {
 			return nil, fmt.Errorf("encoding lmsi: %w", encodeErr_enc_lmsi)
@@ -4661,6 +4706,9 @@ func (v *UpdateLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_cslcsnotsupportedbyue...)
 	}
 	if v.VGmlcAddress != nil {
+		if len(*v.VGmlcAddress) < 5 || len(*v.VGmlcAddress) > 17 {
+			return nil, fmt.Errorf("v-gmlc-Address length %d violates SIZE (5..17)", len(*v.VGmlcAddress))
+		}
 		enc_vgmlcaddress, encodeErr_enc_vgmlcaddress := ber.EncodeOctetString([]byte(*v.VGmlcAddress))
 		if encodeErr_enc_vgmlcaddress != nil {
 			return nil, fmt.Errorf("encoding v-gmlc-Address: %w", encodeErr_enc_vgmlcaddress)
@@ -4685,6 +4733,9 @@ func (v *UpdateLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_addinfo...)
 	}
 	if v.PagingArea != nil {
+		if len(v.PagingArea) < 1 || len(v.PagingArea) > 5 {
+			return nil, fmt.Errorf("pagingArea length %d violates SIZE (1..5)", len(v.PagingArea))
+		}
 		enc_pagingarea, err := MarshalDERPagingArea(v.PagingArea)
 		if err != nil {
 			return nil, fmt.Errorf("encoding pagingArea: %w", err)
@@ -4715,6 +4766,9 @@ func (v *UpdateLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_restorationindicator...)
 	}
 	if v.EplmnList != nil {
+		if len(v.EplmnList) < 1 || len(v.EplmnList) > 50 {
+			return nil, fmt.Errorf("eplmn-List length %d violates SIZE (1..50)", len(v.EplmnList))
+		}
 		enc_eplmnlist, err := MarshalDEREPLMNList(v.EplmnList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eplmn-List: %w", err)
@@ -4783,6 +4837,9 @@ func (v *UpdateLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	}
 
 	offset += n
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	// Decode msc-Number
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field msc-Number")
@@ -4806,6 +4863,12 @@ func (v *UpdateLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	}
 
 	offset += n_mscnumber
+	if len(v.MscNumber) < 1 || len(v.MscNumber) > 9 {
+		return fmt.Errorf("msc-Number length %d violates SIZE (1..9)", len(v.MscNumber))
+	}
+	if len(v.MscNumber) < 1 || len(v.MscNumber) > 20 {
+		return fmt.Errorf("msc-Number length %d violates SIZE (1..20)", len(v.MscNumber))
+	}
 	// Decode vlr-Number
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field vlr-Number")
@@ -4821,6 +4884,12 @@ func (v *UpdateLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	}
 
 	offset += n
+	if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 9 {
+		return fmt.Errorf("vlr-Number length %d violates SIZE (1..9)", len(v.VlrNumber))
+	}
+	if len(v.VlrNumber) < 1 || len(v.VlrNumber) > 20 {
+		return fmt.Errorf("vlr-Number length %d violates SIZE (1..20)", len(v.VlrNumber))
+	}
 	// Decode lmsi
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -4841,6 +4910,9 @@ func (v *UpdateLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 				}
 
 				offset += n_lmsi
+				if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
+					return fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+				}
 			}
 		}
 	}
@@ -4977,6 +5049,9 @@ func (v *UpdateLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 				}
 
 				offset += n_vgmlcaddress
+				if len(*v.VGmlcAddress) < 5 || len(*v.VGmlcAddress) > 17 {
+					return fmt.Errorf("v-gmlc-Address length %d violates SIZE (5..17)", len(*v.VGmlcAddress))
+				}
 			}
 		}
 	}
@@ -5049,6 +5124,9 @@ func (v *UpdateLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 				}
 
 				offset += n_pagingarea
+				if len(v.PagingArea) < 1 || len(v.PagingArea) > 5 {
+					return fmt.Errorf("pagingArea length %d violates SIZE (1..5)", len(v.PagingArea))
+				}
 			}
 		}
 	}
@@ -5143,6 +5221,9 @@ func (v *UpdateLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 				}
 
 				offset += n_eplmnlist
+				if len(v.EplmnList) < 1 || len(v.EplmnList) > 50 {
+					return fmt.Errorf("eplmn-List length %d violates SIZE (1..50)", len(v.EplmnList))
+				}
 			}
 		}
 	}
@@ -5207,7 +5288,10 @@ func (v *UpdateLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 func (v *VLRCapability) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.SupportedCamelPhases != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedCamelPhases).BitLength < 1 || (*v.SupportedCamelPhases).BitLength > 16 {
+			return nil, fmt.Errorf("supportedCamelPhases length %d violates SIZE (1..16)", (*v.SupportedCamelPhases).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5271,7 +5355,10 @@ func (v *VLRCapability) MarshalBER() ([]byte, error) {
 		children = append(children, enc_longftnsupported...)
 	}
 	if v.SupportedLCSCapabilitySets != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedLCSCapabilitySets).BitLength < 2 || (*v.SupportedLCSCapabilitySets).BitLength > 16 {
+			return nil, fmt.Errorf("supportedLCS-CapabilitySets length %d violates SIZE (2..16)", (*v.SupportedLCSCapabilitySets).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5287,7 +5374,10 @@ func (v *VLRCapability) MarshalBER() ([]byte, error) {
 		children = append(children, enc_supportedlcscapabilitysets...)
 	}
 	if v.OfferedCamel4CSIs != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.OfferedCamel4CSIs).BitLength < 7 || (*v.OfferedCamel4CSIs).BitLength > 16 {
+			return nil, fmt.Errorf("offeredCamel4CSIs length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIs).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5303,7 +5393,10 @@ func (v *VLRCapability) MarshalBER() ([]byte, error) {
 		children = append(children, enc_offeredcamel4csis...)
 	}
 	if v.SupportedRATTypesIndicator != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedRATTypesIndicator).BitLength < 2 || (*v.SupportedRATTypesIndicator).BitLength > 8 {
+			return nil, fmt.Errorf("supportedRAT-TypesIndicator length %d violates SIZE (2..8)", (*v.SupportedRATTypesIndicator).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5371,7 +5464,10 @@ func (v *VLRCapability) MarshalBER() ([]byte, error) {
 func (v *VLRCapability) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.SupportedCamelPhases != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedCamelPhases).BitLength < 1 || (*v.SupportedCamelPhases).BitLength > 16 {
+			return nil, fmt.Errorf("supportedCamelPhases length %d violates SIZE (1..16)", (*v.SupportedCamelPhases).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5435,7 +5531,10 @@ func (v *VLRCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_longftnsupported...)
 	}
 	if v.SupportedLCSCapabilitySets != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedLCSCapabilitySets).BitLength < 2 || (*v.SupportedLCSCapabilitySets).BitLength > 16 {
+			return nil, fmt.Errorf("supportedLCS-CapabilitySets length %d violates SIZE (2..16)", (*v.SupportedLCSCapabilitySets).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5451,7 +5550,10 @@ func (v *VLRCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_supportedlcscapabilitysets...)
 	}
 	if v.OfferedCamel4CSIs != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.OfferedCamel4CSIs).BitLength < 7 || (*v.OfferedCamel4CSIs).BitLength > 16 {
+			return nil, fmt.Errorf("offeredCamel4CSIs length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIs).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5467,7 +5569,10 @@ func (v *VLRCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_offeredcamel4csis...)
 	}
 	if v.SupportedRATTypesIndicator != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedRATTypesIndicator).BitLength < 2 || (*v.SupportedRATTypesIndicator).BitLength > 8 {
+			return nil, fmt.Errorf("supportedRAT-TypesIndicator length %d violates SIZE (2..8)", (*v.SupportedRATTypesIndicator).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5577,6 +5682,9 @@ func (v *VLRCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 				}
 
 				offset += n_supportedcamelphases
+				if (*v.SupportedCamelPhases).BitLength < 1 || (*v.SupportedCamelPhases).BitLength > 16 {
+					return fmt.Errorf("supportedCamelPhases length %d violates SIZE (1..16)", (*v.SupportedCamelPhases).BitLength)
+				}
 			}
 		}
 	}
@@ -5748,6 +5856,9 @@ func (v *VLRCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 				}
 
 				offset += n_supportedlcscapabilitysets
+				if (*v.SupportedLCSCapabilitySets).BitLength < 2 || (*v.SupportedLCSCapabilitySets).BitLength > 16 {
+					return fmt.Errorf("supportedLCS-CapabilitySets length %d violates SIZE (2..16)", (*v.SupportedLCSCapabilitySets).BitLength)
+				}
 			}
 		}
 	}
@@ -5780,6 +5891,9 @@ func (v *VLRCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 				}
 
 				offset += n_offeredcamel4csis
+				if (*v.OfferedCamel4CSIs).BitLength < 7 || (*v.OfferedCamel4CSIs).BitLength > 16 {
+					return fmt.Errorf("offeredCamel4CSIs length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIs).BitLength)
+				}
 			}
 		}
 	}
@@ -5812,6 +5926,9 @@ func (v *VLRCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 				}
 
 				offset += n_supportedrattypesindicator
+				if (*v.SupportedRATTypesIndicator).BitLength < 2 || (*v.SupportedRATTypesIndicator).BitLength > 8 {
+					return fmt.Errorf("supportedRAT-TypesIndicator length %d violates SIZE (2..8)", (*v.SupportedRATTypesIndicator).BitLength)
+				}
 			}
 		}
 	}
@@ -5964,6 +6081,9 @@ func (v *SuperChargerInfo) MarshalBER() ([]byte, error) {
 		if encodeErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding subscriberDataStored: %w", encodeErr_enc_1)
 		}
+		if len(*v.SubscriberDataStored) < 1 || len(*v.SubscriberDataStored) > 6 {
+			return nil, fmt.Errorf("subscriberDataStored length %d violates SIZE (1..6)", len(*v.SubscriberDataStored))
+		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding subscriberDataStored: %w", tagErr_enc_1)
@@ -6028,6 +6148,9 @@ func (v *SuperChargerInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 		}
 		tmp := AgeIndicator(rawVal)
 		v.SubscriberDataStored = &tmp
+		if len(*v.SubscriberDataStored) < 1 || len(*v.SubscriberDataStored) > 6 {
+			return fmt.Errorf("subscriberDataStored length %d violates SIZE (1..6)", len(*v.SubscriberDataStored))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for SuperChargerInfo CHOICE", peekTag)
 	}
@@ -6037,6 +6160,12 @@ func (v *SuperChargerInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 // MarshalBER encodes UpdateLocationRes to BER format.
 func (v *UpdateLocationRes) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
+		return nil, fmt.Errorf("hlr-Number length %d violates SIZE (1..9)", len(v.HlrNumber))
+	}
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
+		return nil, fmt.Errorf("hlr-Number length %d violates SIZE (1..20)", len(v.HlrNumber))
+	}
 	enc_hlrnumber, encodeErr_enc_hlrnumber := ber.EncodeOctetString([]byte(v.HlrNumber))
 	if encodeErr_enc_hlrnumber != nil {
 		return nil, fmt.Errorf("encoding hlr-Number: %w", encodeErr_enc_hlrnumber)
@@ -6078,6 +6207,12 @@ func (v *UpdateLocationRes) MarshalBER() ([]byte, error) {
 // MarshalDER encodes UpdateLocationRes to DER format.
 func (v *UpdateLocationRes) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
+		return nil, fmt.Errorf("hlr-Number length %d violates SIZE (1..9)", len(v.HlrNumber))
+	}
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
+		return nil, fmt.Errorf("hlr-Number length %d violates SIZE (1..20)", len(v.HlrNumber))
+	}
 	enc_hlrnumber, encodeErr_enc_hlrnumber := ber.EncodeOctetString([]byte(v.HlrNumber))
 	if encodeErr_enc_hlrnumber != nil {
 		return nil, fmt.Errorf("encoding hlr-Number: %w", encodeErr_enc_hlrnumber)
@@ -6148,6 +6283,12 @@ func (v *UpdateLocationRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	}
 
 	offset += n
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
+		return fmt.Errorf("hlr-Number length %d violates SIZE (1..9)", len(v.HlrNumber))
+	}
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
+		return fmt.Errorf("hlr-Number length %d violates SIZE (1..20)", len(v.HlrNumber))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -6253,6 +6394,9 @@ func (v *UpdateLocationRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 // MarshalBER encodes ADDInfo to BER format.
 func (v *ADDInfo) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Imeisv) < 8 || len(v.Imeisv) > 8 {
+		return nil, fmt.Errorf("imeisv length %d violates SIZE (8)", len(v.Imeisv))
+	}
 	enc_imeisv, encodeErr_enc_imeisv := ber.EncodeOctetString([]byte(v.Imeisv))
 	if encodeErr_enc_imeisv != nil {
 		return nil, fmt.Errorf("encoding imeisv: %w", encodeErr_enc_imeisv)
@@ -6288,6 +6432,9 @@ func (v *ADDInfo) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ADDInfo to DER format.
 func (v *ADDInfo) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Imeisv) < 8 || len(v.Imeisv) > 8 {
+		return nil, fmt.Errorf("imeisv length %d violates SIZE (8)", len(v.Imeisv))
+	}
 	enc_imeisv, encodeErr_enc_imeisv := ber.EncodeOctetString([]byte(v.Imeisv))
 	if encodeErr_enc_imeisv != nil {
 		return nil, fmt.Errorf("encoding imeisv: %w", encodeErr_enc_imeisv)
@@ -6360,6 +6507,9 @@ func (v *ADDInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_imeisv
+	if len(v.Imeisv) < 8 || len(v.Imeisv) > 8 {
+		return fmt.Errorf("imeisv length %d violates SIZE (8)", len(v.Imeisv))
+	}
 	// Decode skipSubscriberDataUpdate
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -6507,6 +6657,9 @@ func (v *LocationArea) MarshalBER() ([]byte, error) {
 		if encodeErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding laiFixedLength: %w", encodeErr_enc_0)
 		}
+		if len(*v.LaiFixedLength) < 5 || len(*v.LaiFixedLength) > 5 {
+			return nil, fmt.Errorf("laiFixedLength length %d violates SIZE (5)", len(*v.LaiFixedLength))
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding laiFixedLength: %w", tagErr_enc_0)
@@ -6520,6 +6673,9 @@ func (v *LocationArea) MarshalBER() ([]byte, error) {
 		enc_1, encodeErr_enc_1 := ber.EncodeOctetString([]byte(*v.Lac))
 		if encodeErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding lac: %w", encodeErr_enc_1)
+		}
+		if len(*v.Lac) < 2 || len(*v.Lac) > 2 {
+			return nil, fmt.Errorf("lac length %d violates SIZE (2)", len(*v.Lac))
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
@@ -6575,6 +6731,9 @@ func (v *LocationArea) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 		}
 		tmp := LAIFixedLength(rawVal)
 		v.LaiFixedLength = &tmp
+		if len(*v.LaiFixedLength) < 5 || len(*v.LaiFixedLength) > 5 {
+			return fmt.Errorf("laiFixedLength length %d violates SIZE (5)", len(*v.LaiFixedLength))
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 		v.Choice = LocationAreaChoiceLac
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -6583,6 +6742,9 @@ func (v *LocationArea) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 		}
 		tmp := LAC(rawVal)
 		v.Lac = &tmp
+		if len(*v.Lac) < 2 || len(*v.Lac) > 2 {
+			return fmt.Errorf("lac length %d violates SIZE (2)", len(*v.Lac))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for LocationArea CHOICE", peekTag)
 	}
@@ -6636,6 +6798,12 @@ func (v *CancelLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mtrfsupportedandnotauthorized...)
 	}
 	if v.NewMSCNumber != nil {
+		if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 9 {
+			return nil, fmt.Errorf("newMSC-Number length %d violates SIZE (1..9)", len(*v.NewMSCNumber))
+		}
+		if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 20 {
+			return nil, fmt.Errorf("newMSC-Number length %d violates SIZE (1..20)", len(*v.NewMSCNumber))
+		}
 		enc_newmscnumber, encodeErr_enc_newmscnumber := ber.EncodeOctetString([]byte(*v.NewMSCNumber))
 		if encodeErr_enc_newmscnumber != nil {
 			return nil, fmt.Errorf("encoding newMSC-Number: %w", encodeErr_enc_newmscnumber)
@@ -6648,6 +6816,12 @@ func (v *CancelLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_newmscnumber...)
 	}
 	if v.NewVLRNumber != nil {
+		if len(*v.NewVLRNumber) < 1 || len(*v.NewVLRNumber) > 9 {
+			return nil, fmt.Errorf("newVLR-Number length %d violates SIZE (1..9)", len(*v.NewVLRNumber))
+		}
+		if len(*v.NewVLRNumber) < 1 || len(*v.NewVLRNumber) > 20 {
+			return nil, fmt.Errorf("newVLR-Number length %d violates SIZE (1..20)", len(*v.NewVLRNumber))
+		}
 		enc_newvlrnumber, encodeErr_enc_newvlrnumber := ber.EncodeOctetString([]byte(*v.NewVLRNumber))
 		if encodeErr_enc_newvlrnumber != nil {
 			return nil, fmt.Errorf("encoding newVLR-Number: %w", encodeErr_enc_newvlrnumber)
@@ -6660,6 +6834,9 @@ func (v *CancelLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_newvlrnumber...)
 	}
 	if v.NewLmsi != nil {
+		if len(*v.NewLmsi) < 4 || len(*v.NewLmsi) > 4 {
+			return nil, fmt.Errorf("new-lmsi length %d violates SIZE (4)", len(*v.NewLmsi))
+		}
 		enc_newlmsi, encodeErr_enc_newlmsi := ber.EncodeOctetString([]byte(*v.NewLmsi))
 		if encodeErr_enc_newlmsi != nil {
 			return nil, fmt.Errorf("encoding new-lmsi: %w", encodeErr_enc_newlmsi)
@@ -6740,6 +6917,12 @@ func (v *CancelLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mtrfsupportedandnotauthorized...)
 	}
 	if v.NewMSCNumber != nil {
+		if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 9 {
+			return nil, fmt.Errorf("newMSC-Number length %d violates SIZE (1..9)", len(*v.NewMSCNumber))
+		}
+		if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 20 {
+			return nil, fmt.Errorf("newMSC-Number length %d violates SIZE (1..20)", len(*v.NewMSCNumber))
+		}
 		enc_newmscnumber, encodeErr_enc_newmscnumber := ber.EncodeOctetString([]byte(*v.NewMSCNumber))
 		if encodeErr_enc_newmscnumber != nil {
 			return nil, fmt.Errorf("encoding newMSC-Number: %w", encodeErr_enc_newmscnumber)
@@ -6752,6 +6935,12 @@ func (v *CancelLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_newmscnumber...)
 	}
 	if v.NewVLRNumber != nil {
+		if len(*v.NewVLRNumber) < 1 || len(*v.NewVLRNumber) > 9 {
+			return nil, fmt.Errorf("newVLR-Number length %d violates SIZE (1..9)", len(*v.NewVLRNumber))
+		}
+		if len(*v.NewVLRNumber) < 1 || len(*v.NewVLRNumber) > 20 {
+			return nil, fmt.Errorf("newVLR-Number length %d violates SIZE (1..20)", len(*v.NewVLRNumber))
+		}
 		enc_newvlrnumber, encodeErr_enc_newvlrnumber := ber.EncodeOctetString([]byte(*v.NewVLRNumber))
 		if encodeErr_enc_newvlrnumber != nil {
 			return nil, fmt.Errorf("encoding newVLR-Number: %w", encodeErr_enc_newvlrnumber)
@@ -6764,6 +6953,9 @@ func (v *CancelLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_newvlrnumber...)
 	}
 	if v.NewLmsi != nil {
+		if len(*v.NewLmsi) < 4 || len(*v.NewLmsi) > 4 {
+			return nil, fmt.Errorf("new-lmsi length %d violates SIZE (4)", len(*v.NewLmsi))
+		}
 		enc_newlmsi, encodeErr_enc_newlmsi := ber.EncodeOctetString([]byte(*v.NewLmsi))
 		if encodeErr_enc_newlmsi != nil {
 			return nil, fmt.Errorf("encoding new-lmsi: %w", encodeErr_enc_newlmsi)
@@ -6995,6 +7187,12 @@ func (v *CancelLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 				}
 
 				offset += n_newmscnumber
+				if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 9 {
+					return fmt.Errorf("newMSC-Number length %d violates SIZE (1..9)", len(*v.NewMSCNumber))
+				}
+				if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 20 {
+					return fmt.Errorf("newMSC-Number length %d violates SIZE (1..20)", len(*v.NewMSCNumber))
+				}
 			}
 		}
 	}
@@ -7018,6 +7216,12 @@ func (v *CancelLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 				}
 
 				offset += n_newvlrnumber
+				if len(*v.NewVLRNumber) < 1 || len(*v.NewVLRNumber) > 9 {
+					return fmt.Errorf("newVLR-Number length %d violates SIZE (1..9)", len(*v.NewVLRNumber))
+				}
+				if len(*v.NewVLRNumber) < 1 || len(*v.NewVLRNumber) > 20 {
+					return fmt.Errorf("newVLR-Number length %d violates SIZE (1..20)", len(*v.NewVLRNumber))
+				}
 			}
 		}
 	}
@@ -7041,6 +7245,9 @@ func (v *CancelLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 				}
 
 				offset += n_newlmsi
+				if len(*v.NewLmsi) < 4 || len(*v.NewLmsi) > 4 {
+					return fmt.Errorf("new-lmsi length %d violates SIZE (4)", len(*v.NewLmsi))
+				}
 			}
 		}
 	}
@@ -7219,12 +7426,21 @@ func (v *CancelLocationRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 // MarshalBER encodes PurgeMSArg to BER format.
 func (v *PurgeMSArg) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
 	}
 	children = append(children, enc_imsi...)
 	if v.VlrNumber != nil {
+		if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 9 {
+			return nil, fmt.Errorf("vlr-Number length %d violates SIZE (1..9)", len(*v.VlrNumber))
+		}
+		if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 20 {
+			return nil, fmt.Errorf("vlr-Number length %d violates SIZE (1..20)", len(*v.VlrNumber))
+		}
 		enc_vlrnumber, encodeErr_enc_vlrnumber := ber.EncodeOctetString([]byte(*v.VlrNumber))
 		if encodeErr_enc_vlrnumber != nil {
 			return nil, fmt.Errorf("encoding vlr-Number: %w", encodeErr_enc_vlrnumber)
@@ -7237,6 +7453,12 @@ func (v *PurgeMSArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_vlrnumber...)
 	}
 	if v.SgsnNumber != nil {
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+		}
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+		}
 		enc_sgsnnumber, encodeErr_enc_sgsnnumber := ber.EncodeOctetString([]byte(*v.SgsnNumber))
 		if encodeErr_enc_sgsnnumber != nil {
 			return nil, fmt.Errorf("encoding sgsn-Number: %w", encodeErr_enc_sgsnnumber)
@@ -7307,12 +7529,21 @@ func (v *PurgeMSArg) MarshalBER() ([]byte, error) {
 // MarshalDER encodes PurgeMSArg to DER format.
 func (v *PurgeMSArg) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
 	}
 	children = append(children, enc_imsi...)
 	if v.VlrNumber != nil {
+		if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 9 {
+			return nil, fmt.Errorf("vlr-Number length %d violates SIZE (1..9)", len(*v.VlrNumber))
+		}
+		if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 20 {
+			return nil, fmt.Errorf("vlr-Number length %d violates SIZE (1..20)", len(*v.VlrNumber))
+		}
 		enc_vlrnumber, encodeErr_enc_vlrnumber := ber.EncodeOctetString([]byte(*v.VlrNumber))
 		if encodeErr_enc_vlrnumber != nil {
 			return nil, fmt.Errorf("encoding vlr-Number: %w", encodeErr_enc_vlrnumber)
@@ -7325,6 +7556,12 @@ func (v *PurgeMSArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_vlrnumber...)
 	}
 	if v.SgsnNumber != nil {
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+		}
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+		}
 		enc_sgsnnumber, encodeErr_enc_sgsnnumber := ber.EncodeOctetString([]byte(*v.SgsnNumber))
 		if encodeErr_enc_sgsnnumber != nil {
 			return nil, fmt.Errorf("encoding sgsn-Number: %w", encodeErr_enc_sgsnnumber)
@@ -7432,6 +7669,9 @@ func (v *PurgeMSArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	// Decode vlr-Number
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -7452,6 +7692,12 @@ func (v *PurgeMSArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_vlrnumber
+				if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 9 {
+					return fmt.Errorf("vlr-Number length %d violates SIZE (1..9)", len(*v.VlrNumber))
+				}
+				if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 20 {
+					return fmt.Errorf("vlr-Number length %d violates SIZE (1..20)", len(*v.VlrNumber))
+				}
 			}
 		}
 	}
@@ -7476,6 +7722,12 @@ func (v *PurgeMSArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_sgsnnumber
+				if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+					return fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+				}
+				if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+					return fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+				}
 			}
 		}
 	}
@@ -7884,6 +8136,9 @@ func (v *PurgeMSRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes SendIdentificationArg to BER format.
 func (v *SendIdentificationArg) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Tmsi) < 1 || len(v.Tmsi) > 4 {
+		return nil, fmt.Errorf("tmsi length %d violates SIZE (1..4)", len(v.Tmsi))
+	}
 	enc_tmsi, encodeErr_enc_tmsi := ber.EncodeOctetString([]byte(v.Tmsi))
 	if encodeErr_enc_tmsi != nil {
 		return nil, fmt.Errorf("encoding tmsi: %w", encodeErr_enc_tmsi)
@@ -7905,6 +8160,12 @@ func (v *SendIdentificationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.MscNumber != nil {
+		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 9 {
+			return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..9)", len(*v.MscNumber))
+		}
+		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 20 {
+			return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..20)", len(*v.MscNumber))
+		}
 		enc_mscnumber, encodeErr_enc_mscnumber := ber.EncodeOctetString([]byte(*v.MscNumber))
 		if encodeErr_enc_mscnumber != nil {
 			return nil, fmt.Errorf("encoding msc-Number: %w", encodeErr_enc_mscnumber)
@@ -7912,6 +8173,9 @@ func (v *SendIdentificationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mscnumber...)
 	}
 	if v.PreviousLAI != nil {
+		if len(*v.PreviousLAI) < 5 || len(*v.PreviousLAI) > 5 {
+			return nil, fmt.Errorf("previous-LAI length %d violates SIZE (5)", len(*v.PreviousLAI))
+		}
 		enc_previouslai, encodeErr_enc_previouslai := ber.EncodeOctetString([]byte(*v.PreviousLAI))
 		if encodeErr_enc_previouslai != nil {
 			return nil, fmt.Errorf("encoding previous-LAI: %w", encodeErr_enc_previouslai)
@@ -7942,6 +8206,12 @@ func (v *SendIdentificationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mtroamingforwardingsupported...)
 	}
 	if v.NewVLRNumber != nil {
+		if len(*v.NewVLRNumber) < 1 || len(*v.NewVLRNumber) > 9 {
+			return nil, fmt.Errorf("newVLR-Number length %d violates SIZE (1..9)", len(*v.NewVLRNumber))
+		}
+		if len(*v.NewVLRNumber) < 1 || len(*v.NewVLRNumber) > 20 {
+			return nil, fmt.Errorf("newVLR-Number length %d violates SIZE (1..20)", len(*v.NewVLRNumber))
+		}
 		enc_newvlrnumber, encodeErr_enc_newvlrnumber := ber.EncodeOctetString([]byte(*v.NewVLRNumber))
 		if encodeErr_enc_newvlrnumber != nil {
 			return nil, fmt.Errorf("encoding newVLR-Number: %w", encodeErr_enc_newvlrnumber)
@@ -7954,6 +8224,9 @@ func (v *SendIdentificationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_newvlrnumber...)
 	}
 	if v.NewLmsi != nil {
+		if len(*v.NewLmsi) < 4 || len(*v.NewLmsi) > 4 {
+			return nil, fmt.Errorf("new-lmsi length %d violates SIZE (4)", len(*v.NewLmsi))
+		}
 		enc_newlmsi, encodeErr_enc_newlmsi := ber.EncodeOctetString([]byte(*v.NewLmsi))
 		if encodeErr_enc_newlmsi != nil {
 			return nil, fmt.Errorf("encoding new-lmsi: %w", encodeErr_enc_newlmsi)
@@ -7981,6 +8254,9 @@ func (v *SendIdentificationArg) MarshalBER() ([]byte, error) {
 // MarshalDER encodes SendIdentificationArg to DER format.
 func (v *SendIdentificationArg) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Tmsi) < 1 || len(v.Tmsi) > 4 {
+		return nil, fmt.Errorf("tmsi length %d violates SIZE (1..4)", len(v.Tmsi))
+	}
 	enc_tmsi, encodeErr_enc_tmsi := ber.EncodeOctetString([]byte(v.Tmsi))
 	if encodeErr_enc_tmsi != nil {
 		return nil, fmt.Errorf("encoding tmsi: %w", encodeErr_enc_tmsi)
@@ -8002,6 +8278,12 @@ func (v *SendIdentificationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.MscNumber != nil {
+		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 9 {
+			return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..9)", len(*v.MscNumber))
+		}
+		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 20 {
+			return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..20)", len(*v.MscNumber))
+		}
 		enc_mscnumber, encodeErr_enc_mscnumber := ber.EncodeOctetString([]byte(*v.MscNumber))
 		if encodeErr_enc_mscnumber != nil {
 			return nil, fmt.Errorf("encoding msc-Number: %w", encodeErr_enc_mscnumber)
@@ -8009,6 +8291,9 @@ func (v *SendIdentificationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mscnumber...)
 	}
 	if v.PreviousLAI != nil {
+		if len(*v.PreviousLAI) < 5 || len(*v.PreviousLAI) > 5 {
+			return nil, fmt.Errorf("previous-LAI length %d violates SIZE (5)", len(*v.PreviousLAI))
+		}
 		enc_previouslai, encodeErr_enc_previouslai := ber.EncodeOctetString([]byte(*v.PreviousLAI))
 		if encodeErr_enc_previouslai != nil {
 			return nil, fmt.Errorf("encoding previous-LAI: %w", encodeErr_enc_previouslai)
@@ -8039,6 +8324,12 @@ func (v *SendIdentificationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mtroamingforwardingsupported...)
 	}
 	if v.NewVLRNumber != nil {
+		if len(*v.NewVLRNumber) < 1 || len(*v.NewVLRNumber) > 9 {
+			return nil, fmt.Errorf("newVLR-Number length %d violates SIZE (1..9)", len(*v.NewVLRNumber))
+		}
+		if len(*v.NewVLRNumber) < 1 || len(*v.NewVLRNumber) > 20 {
+			return nil, fmt.Errorf("newVLR-Number length %d violates SIZE (1..20)", len(*v.NewVLRNumber))
+		}
 		enc_newvlrnumber, encodeErr_enc_newvlrnumber := ber.EncodeOctetString([]byte(*v.NewVLRNumber))
 		if encodeErr_enc_newvlrnumber != nil {
 			return nil, fmt.Errorf("encoding newVLR-Number: %w", encodeErr_enc_newvlrnumber)
@@ -8051,6 +8342,9 @@ func (v *SendIdentificationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_newvlrnumber...)
 	}
 	if v.NewLmsi != nil {
+		if len(*v.NewLmsi) < 4 || len(*v.NewLmsi) > 4 {
+			return nil, fmt.Errorf("new-lmsi length %d violates SIZE (4)", len(*v.NewLmsi))
+		}
 		enc_newlmsi, encodeErr_enc_newlmsi := ber.EncodeOctetString([]byte(*v.NewLmsi))
 		if encodeErr_enc_newlmsi != nil {
 			return nil, fmt.Errorf("encoding new-lmsi: %w", encodeErr_enc_newlmsi)
@@ -8107,6 +8401,9 @@ func (v *SendIdentificationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}
 
 	offset += n
+	if len(v.Tmsi) < 1 || len(v.Tmsi) > 4 {
+		return fmt.Errorf("tmsi length %d violates SIZE (1..4)", len(v.Tmsi))
+	}
 	// Decode numberOfRequestedVectors
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -8194,6 +8491,12 @@ func (v *SendIdentificationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n
+				if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 9 {
+					return fmt.Errorf("msc-Number length %d violates SIZE (1..9)", len(*v.MscNumber))
+				}
+				if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 20 {
+					return fmt.Errorf("msc-Number length %d violates SIZE (1..20)", len(*v.MscNumber))
+				}
 			}
 		}
 	}
@@ -8217,6 +8520,9 @@ func (v *SendIdentificationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_previouslai
+				if len(*v.PreviousLAI) < 5 || len(*v.PreviousLAI) > 5 {
+					return fmt.Errorf("previous-LAI length %d violates SIZE (5)", len(*v.PreviousLAI))
+				}
 			}
 		}
 	}
@@ -8293,6 +8599,12 @@ func (v *SendIdentificationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_newvlrnumber
+				if len(*v.NewVLRNumber) < 1 || len(*v.NewVLRNumber) > 9 {
+					return fmt.Errorf("newVLR-Number length %d violates SIZE (1..9)", len(*v.NewVLRNumber))
+				}
+				if len(*v.NewVLRNumber) < 1 || len(*v.NewVLRNumber) > 20 {
+					return fmt.Errorf("newVLR-Number length %d violates SIZE (1..20)", len(*v.NewVLRNumber))
+				}
 			}
 		}
 	}
@@ -8316,6 +8628,9 @@ func (v *SendIdentificationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_newlmsi
+				if len(*v.NewLmsi) < 4 || len(*v.NewLmsi) > 4 {
+					return fmt.Errorf("new-lmsi length %d violates SIZE (4)", len(*v.NewLmsi))
+				}
 			}
 		}
 	}
@@ -8349,6 +8664,9 @@ func (v *SendIdentificationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 func (v *SendIdentificationRes) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -8389,6 +8707,9 @@ func (v *SendIdentificationRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.LastUsedLtePLMNId != nil {
+		if len(*v.LastUsedLtePLMNId) < 3 || len(*v.LastUsedLtePLMNId) > 3 {
+			return nil, fmt.Errorf("lastUsedLtePLMN-Id length %d violates SIZE (3)", len(*v.LastUsedLtePLMNId))
+		}
 		enc_lastusedlteplmnid, encodeErr_enc_lastusedlteplmnid := ber.EncodeOctetString([]byte(*v.LastUsedLtePLMNId))
 		if encodeErr_enc_lastusedlteplmnid != nil {
 			return nil, fmt.Errorf("encoding lastUsedLtePLMN-Id: %w", encodeErr_enc_lastusedlteplmnid)
@@ -8426,6 +8747,9 @@ func (v *SendIdentificationRes) MarshalBER() ([]byte, error) {
 func (v *SendIdentificationRes) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -8466,6 +8790,9 @@ func (v *SendIdentificationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.LastUsedLtePLMNId != nil {
+		if len(*v.LastUsedLtePLMNId) < 3 || len(*v.LastUsedLtePLMNId) > 3 {
+			return nil, fmt.Errorf("lastUsedLtePLMN-Id length %d violates SIZE (3)", len(*v.LastUsedLtePLMNId))
+		}
 		enc_lastusedlteplmnid, encodeErr_enc_lastusedlteplmnid := ber.EncodeOctetString([]byte(*v.LastUsedLtePLMNId))
 		if encodeErr_enc_lastusedlteplmnid != nil {
 			return nil, fmt.Errorf("encoding lastUsedLtePLMN-Id: %w", encodeErr_enc_lastusedlteplmnid)
@@ -8541,6 +8868,9 @@ func (v *SendIdentificationRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n
+				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+				}
 			}
 		}
 	}
@@ -8655,6 +8985,9 @@ func (v *SendIdentificationRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_lastusedlteplmnid
+				if len(*v.LastUsedLtePLMNId) < 3 || len(*v.LastUsedLtePLMNId) > 3 {
+					return fmt.Errorf("lastUsedLtePLMN-Id length %d violates SIZE (3)", len(*v.LastUsedLtePLMNId))
+				}
 			}
 		}
 	}
@@ -8718,6 +9051,9 @@ func (v *AuthenticationSetList) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding tripletList: %w", err)
 		}
+		if len(v.TripletList) < 1 || len(v.TripletList) > 5 {
+			return nil, fmt.Errorf("tripletList length %d violates SIZE (1..5)", len(v.TripletList))
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding tripletList: %w", tagErr_enc_0)
@@ -8728,6 +9064,9 @@ func (v *AuthenticationSetList) MarshalBER() ([]byte, error) {
 		enc_1, err := MarshalBERQuintupletList(v.QuintupletList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding quintupletList: %w", err)
+		}
+		if len(v.QuintupletList) < 1 || len(v.QuintupletList) > 5 {
+			return nil, fmt.Errorf("quintupletList length %d violates SIZE (1..5)", len(v.QuintupletList))
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
@@ -8748,6 +9087,9 @@ func (v *AuthenticationSetList) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding tripletList: %w", err)
 		}
+		if len(v.TripletList) < 1 || len(v.TripletList) > 5 {
+			return nil, fmt.Errorf("tripletList length %d violates SIZE (1..5)", len(v.TripletList))
+		}
 		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_der_0)
 		if tagErr_enc_der_0 != nil {
 			return nil, fmt.Errorf("encoding tripletList: %w", tagErr_enc_der_0)
@@ -8761,6 +9103,9 @@ func (v *AuthenticationSetList) MarshalDER() ([]byte, error) {
 		enc_der_1, err := MarshalDERQuintupletList(v.QuintupletList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding quintupletList: %w", err)
+		}
+		if len(v.QuintupletList) < 1 || len(v.QuintupletList) > 5 {
+			return nil, fmt.Errorf("quintupletList length %d violates SIZE (1..5)", len(v.QuintupletList))
 		}
 		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_1)
 		if tagErr_enc_der_1 != nil {
@@ -8820,6 +9165,9 @@ func (v *AuthenticationSetList) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 			return fmt.Errorf("decoding tripletList: %w", unmErr)
 		}
 		v.TripletList = dec
+		if len(v.TripletList) < 1 || len(v.TripletList) > 5 {
+			return fmt.Errorf("tripletList length %d violates SIZE (1..5)", len(v.TripletList))
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = AuthenticationSetListChoiceQuintupletList
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -8835,6 +9183,9 @@ func (v *AuthenticationSetList) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 			return fmt.Errorf("decoding quintupletList: %w", unmErr)
 		}
 		v.QuintupletList = dec
+		if len(v.QuintupletList) < 1 || len(v.QuintupletList) > 5 {
+			return fmt.Errorf("quintupletList length %d violates SIZE (1..5)", len(v.QuintupletList))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for AuthenticationSetList CHOICE", peekTag)
 	}
@@ -9012,16 +9363,25 @@ func UnmarshalBERQuintupletList(data []byte, opts ...ber.DecodeOption) (Quintupl
 // MarshalBER encodes AuthenticationTriplet to BER format.
 func (v *AuthenticationTriplet) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Rand) < 16 || len(v.Rand) > 16 {
+		return nil, fmt.Errorf("rand length %d violates SIZE (16)", len(v.Rand))
+	}
 	enc_rand, encodeErr_enc_rand := ber.EncodeOctetString([]byte(v.Rand))
 	if encodeErr_enc_rand != nil {
 		return nil, fmt.Errorf("encoding rand: %w", encodeErr_enc_rand)
 	}
 	children = append(children, enc_rand...)
+	if len(v.Sres) < 4 || len(v.Sres) > 4 {
+		return nil, fmt.Errorf("sres length %d violates SIZE (4)", len(v.Sres))
+	}
 	enc_sres, encodeErr_enc_sres := ber.EncodeOctetString([]byte(v.Sres))
 	if encodeErr_enc_sres != nil {
 		return nil, fmt.Errorf("encoding sres: %w", encodeErr_enc_sres)
 	}
 	children = append(children, enc_sres...)
+	if len(v.Kc) < 8 || len(v.Kc) > 8 {
+		return nil, fmt.Errorf("kc length %d violates SIZE (8)", len(v.Kc))
+	}
 	enc_kc, encodeErr_enc_kc := ber.EncodeOctetString([]byte(v.Kc))
 	if encodeErr_enc_kc != nil {
 		return nil, fmt.Errorf("encoding kc: %w", encodeErr_enc_kc)
@@ -9043,16 +9403,25 @@ func (v *AuthenticationTriplet) MarshalBER() ([]byte, error) {
 // MarshalDER encodes AuthenticationTriplet to DER format.
 func (v *AuthenticationTriplet) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Rand) < 16 || len(v.Rand) > 16 {
+		return nil, fmt.Errorf("rand length %d violates SIZE (16)", len(v.Rand))
+	}
 	enc_rand, encodeErr_enc_rand := ber.EncodeOctetString([]byte(v.Rand))
 	if encodeErr_enc_rand != nil {
 		return nil, fmt.Errorf("encoding rand: %w", encodeErr_enc_rand)
 	}
 	children = append(children, enc_rand...)
+	if len(v.Sres) < 4 || len(v.Sres) > 4 {
+		return nil, fmt.Errorf("sres length %d violates SIZE (4)", len(v.Sres))
+	}
 	enc_sres, encodeErr_enc_sres := ber.EncodeOctetString([]byte(v.Sres))
 	if encodeErr_enc_sres != nil {
 		return nil, fmt.Errorf("encoding sres: %w", encodeErr_enc_sres)
 	}
 	children = append(children, enc_sres...)
+	if len(v.Kc) < 8 || len(v.Kc) > 8 {
+		return nil, fmt.Errorf("kc length %d violates SIZE (8)", len(v.Kc))
+	}
 	enc_kc, encodeErr_enc_kc := ber.EncodeOctetString([]byte(v.Kc))
 	if encodeErr_enc_kc != nil {
 		return nil, fmt.Errorf("encoding kc: %w", encodeErr_enc_kc)
@@ -9103,6 +9472,9 @@ func (v *AuthenticationTriplet) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}
 
 	offset += n
+	if len(v.Rand) < 16 || len(v.Rand) > 16 {
+		return fmt.Errorf("rand length %d violates SIZE (16)", len(v.Rand))
+	}
 	// Decode sres
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field sres")
@@ -9118,6 +9490,9 @@ func (v *AuthenticationTriplet) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}
 
 	offset += n
+	if len(v.Sres) < 4 || len(v.Sres) > 4 {
+		return fmt.Errorf("sres length %d violates SIZE (4)", len(v.Sres))
+	}
 	// Decode kc
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field kc")
@@ -9133,6 +9508,9 @@ func (v *AuthenticationTriplet) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}
 
 	offset += n
+	if len(v.Kc) < 8 || len(v.Kc) > 8 {
+		return fmt.Errorf("kc length %d violates SIZE (8)", len(v.Kc))
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -9162,26 +9540,41 @@ func (v *AuthenticationTriplet) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 // MarshalBER encodes AuthenticationQuintuplet to BER format.
 func (v *AuthenticationQuintuplet) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Rand) < 16 || len(v.Rand) > 16 {
+		return nil, fmt.Errorf("rand length %d violates SIZE (16)", len(v.Rand))
+	}
 	enc_rand, encodeErr_enc_rand := ber.EncodeOctetString([]byte(v.Rand))
 	if encodeErr_enc_rand != nil {
 		return nil, fmt.Errorf("encoding rand: %w", encodeErr_enc_rand)
 	}
 	children = append(children, enc_rand...)
+	if len(v.Xres) < 4 || len(v.Xres) > 16 {
+		return nil, fmt.Errorf("xres length %d violates SIZE (4..16)", len(v.Xres))
+	}
 	enc_xres, encodeErr_enc_xres := ber.EncodeOctetString([]byte(v.Xres))
 	if encodeErr_enc_xres != nil {
 		return nil, fmt.Errorf("encoding xres: %w", encodeErr_enc_xres)
 	}
 	children = append(children, enc_xres...)
+	if len(v.Ck) < 16 || len(v.Ck) > 16 {
+		return nil, fmt.Errorf("ck length %d violates SIZE (16)", len(v.Ck))
+	}
 	enc_ck, encodeErr_enc_ck := ber.EncodeOctetString([]byte(v.Ck))
 	if encodeErr_enc_ck != nil {
 		return nil, fmt.Errorf("encoding ck: %w", encodeErr_enc_ck)
 	}
 	children = append(children, enc_ck...)
+	if len(v.Ik) < 16 || len(v.Ik) > 16 {
+		return nil, fmt.Errorf("ik length %d violates SIZE (16)", len(v.Ik))
+	}
 	enc_ik, encodeErr_enc_ik := ber.EncodeOctetString([]byte(v.Ik))
 	if encodeErr_enc_ik != nil {
 		return nil, fmt.Errorf("encoding ik: %w", encodeErr_enc_ik)
 	}
 	children = append(children, enc_ik...)
+	if len(v.Autn) < 16 || len(v.Autn) > 16 {
+		return nil, fmt.Errorf("autn length %d violates SIZE (16)", len(v.Autn))
+	}
 	enc_autn, encodeErr_enc_autn := ber.EncodeOctetString([]byte(v.Autn))
 	if encodeErr_enc_autn != nil {
 		return nil, fmt.Errorf("encoding autn: %w", encodeErr_enc_autn)
@@ -9203,26 +9596,41 @@ func (v *AuthenticationQuintuplet) MarshalBER() ([]byte, error) {
 // MarshalDER encodes AuthenticationQuintuplet to DER format.
 func (v *AuthenticationQuintuplet) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Rand) < 16 || len(v.Rand) > 16 {
+		return nil, fmt.Errorf("rand length %d violates SIZE (16)", len(v.Rand))
+	}
 	enc_rand, encodeErr_enc_rand := ber.EncodeOctetString([]byte(v.Rand))
 	if encodeErr_enc_rand != nil {
 		return nil, fmt.Errorf("encoding rand: %w", encodeErr_enc_rand)
 	}
 	children = append(children, enc_rand...)
+	if len(v.Xres) < 4 || len(v.Xres) > 16 {
+		return nil, fmt.Errorf("xres length %d violates SIZE (4..16)", len(v.Xres))
+	}
 	enc_xres, encodeErr_enc_xres := ber.EncodeOctetString([]byte(v.Xres))
 	if encodeErr_enc_xres != nil {
 		return nil, fmt.Errorf("encoding xres: %w", encodeErr_enc_xres)
 	}
 	children = append(children, enc_xres...)
+	if len(v.Ck) < 16 || len(v.Ck) > 16 {
+		return nil, fmt.Errorf("ck length %d violates SIZE (16)", len(v.Ck))
+	}
 	enc_ck, encodeErr_enc_ck := ber.EncodeOctetString([]byte(v.Ck))
 	if encodeErr_enc_ck != nil {
 		return nil, fmt.Errorf("encoding ck: %w", encodeErr_enc_ck)
 	}
 	children = append(children, enc_ck...)
+	if len(v.Ik) < 16 || len(v.Ik) > 16 {
+		return nil, fmt.Errorf("ik length %d violates SIZE (16)", len(v.Ik))
+	}
 	enc_ik, encodeErr_enc_ik := ber.EncodeOctetString([]byte(v.Ik))
 	if encodeErr_enc_ik != nil {
 		return nil, fmt.Errorf("encoding ik: %w", encodeErr_enc_ik)
 	}
 	children = append(children, enc_ik...)
+	if len(v.Autn) < 16 || len(v.Autn) > 16 {
+		return nil, fmt.Errorf("autn length %d violates SIZE (16)", len(v.Autn))
+	}
 	enc_autn, encodeErr_enc_autn := ber.EncodeOctetString([]byte(v.Autn))
 	if encodeErr_enc_autn != nil {
 		return nil, fmt.Errorf("encoding autn: %w", encodeErr_enc_autn)
@@ -9273,6 +9681,9 @@ func (v *AuthenticationQuintuplet) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}
 
 	offset += n
+	if len(v.Rand) < 16 || len(v.Rand) > 16 {
+		return fmt.Errorf("rand length %d violates SIZE (16)", len(v.Rand))
+	}
 	// Decode xres
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field xres")
@@ -9288,6 +9699,9 @@ func (v *AuthenticationQuintuplet) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}
 
 	offset += n
+	if len(v.Xres) < 4 || len(v.Xres) > 16 {
+		return fmt.Errorf("xres length %d violates SIZE (4..16)", len(v.Xres))
+	}
 	// Decode ck
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field ck")
@@ -9303,6 +9717,9 @@ func (v *AuthenticationQuintuplet) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}
 
 	offset += n
+	if len(v.Ck) < 16 || len(v.Ck) > 16 {
+		return fmt.Errorf("ck length %d violates SIZE (16)", len(v.Ck))
+	}
 	// Decode ik
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field ik")
@@ -9318,6 +9735,9 @@ func (v *AuthenticationQuintuplet) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}
 
 	offset += n
+	if len(v.Ik) < 16 || len(v.Ik) > 16 {
+		return fmt.Errorf("ik length %d violates SIZE (16)", len(v.Ik))
+	}
 	// Decode autn
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field autn")
@@ -9333,6 +9753,9 @@ func (v *AuthenticationQuintuplet) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}
 
 	offset += n
+	if len(v.Autn) < 16 || len(v.Autn) > 16 {
+		return fmt.Errorf("autn length %d violates SIZE (16)", len(v.Autn))
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -9505,11 +9928,17 @@ func (v *CurrentSecurityContext) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 // MarshalBER encodes GSMSecurityContextData to BER format.
 func (v *GSMSecurityContextData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Kc) < 8 || len(v.Kc) > 8 {
+		return nil, fmt.Errorf("kc length %d violates SIZE (8)", len(v.Kc))
+	}
 	enc_kc, encodeErr_enc_kc := ber.EncodeOctetString([]byte(v.Kc))
 	if encodeErr_enc_kc != nil {
 		return nil, fmt.Errorf("encoding kc: %w", encodeErr_enc_kc)
 	}
 	children = append(children, enc_kc...)
+	if len(v.Cksn) < 1 || len(v.Cksn) > 1 {
+		return nil, fmt.Errorf("cksn length %d violates SIZE (1)", len(v.Cksn))
+	}
 	enc_cksn, encodeErr_enc_cksn := ber.EncodeOctetString([]byte(v.Cksn))
 	if encodeErr_enc_cksn != nil {
 		return nil, fmt.Errorf("encoding cksn: %w", encodeErr_enc_cksn)
@@ -9531,11 +9960,17 @@ func (v *GSMSecurityContextData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes GSMSecurityContextData to DER format.
 func (v *GSMSecurityContextData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Kc) < 8 || len(v.Kc) > 8 {
+		return nil, fmt.Errorf("kc length %d violates SIZE (8)", len(v.Kc))
+	}
 	enc_kc, encodeErr_enc_kc := ber.EncodeOctetString([]byte(v.Kc))
 	if encodeErr_enc_kc != nil {
 		return nil, fmt.Errorf("encoding kc: %w", encodeErr_enc_kc)
 	}
 	children = append(children, enc_kc...)
+	if len(v.Cksn) < 1 || len(v.Cksn) > 1 {
+		return nil, fmt.Errorf("cksn length %d violates SIZE (1)", len(v.Cksn))
+	}
 	enc_cksn, encodeErr_enc_cksn := ber.EncodeOctetString([]byte(v.Cksn))
 	if encodeErr_enc_cksn != nil {
 		return nil, fmt.Errorf("encoding cksn: %w", encodeErr_enc_cksn)
@@ -9586,6 +10021,9 @@ func (v *GSMSecurityContextData) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	}
 
 	offset += n
+	if len(v.Kc) < 8 || len(v.Kc) > 8 {
+		return fmt.Errorf("kc length %d violates SIZE (8)", len(v.Kc))
+	}
 	// Decode cksn
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field cksn")
@@ -9601,6 +10039,9 @@ func (v *GSMSecurityContextData) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	}
 
 	offset += n
+	if len(v.Cksn) < 1 || len(v.Cksn) > 1 {
+		return fmt.Errorf("cksn length %d violates SIZE (1)", len(v.Cksn))
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -9630,16 +10071,25 @@ func (v *GSMSecurityContextData) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 // MarshalBER encodes UMTSSecurityContextData to BER format.
 func (v *UMTSSecurityContextData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Ck) < 16 || len(v.Ck) > 16 {
+		return nil, fmt.Errorf("ck length %d violates SIZE (16)", len(v.Ck))
+	}
 	enc_ck, encodeErr_enc_ck := ber.EncodeOctetString([]byte(v.Ck))
 	if encodeErr_enc_ck != nil {
 		return nil, fmt.Errorf("encoding ck: %w", encodeErr_enc_ck)
 	}
 	children = append(children, enc_ck...)
+	if len(v.Ik) < 16 || len(v.Ik) > 16 {
+		return nil, fmt.Errorf("ik length %d violates SIZE (16)", len(v.Ik))
+	}
 	enc_ik, encodeErr_enc_ik := ber.EncodeOctetString([]byte(v.Ik))
 	if encodeErr_enc_ik != nil {
 		return nil, fmt.Errorf("encoding ik: %w", encodeErr_enc_ik)
 	}
 	children = append(children, enc_ik...)
+	if len(v.Ksi) < 1 || len(v.Ksi) > 1 {
+		return nil, fmt.Errorf("ksi length %d violates SIZE (1)", len(v.Ksi))
+	}
 	enc_ksi, encodeErr_enc_ksi := ber.EncodeOctetString([]byte(v.Ksi))
 	if encodeErr_enc_ksi != nil {
 		return nil, fmt.Errorf("encoding ksi: %w", encodeErr_enc_ksi)
@@ -9661,16 +10111,25 @@ func (v *UMTSSecurityContextData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes UMTSSecurityContextData to DER format.
 func (v *UMTSSecurityContextData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Ck) < 16 || len(v.Ck) > 16 {
+		return nil, fmt.Errorf("ck length %d violates SIZE (16)", len(v.Ck))
+	}
 	enc_ck, encodeErr_enc_ck := ber.EncodeOctetString([]byte(v.Ck))
 	if encodeErr_enc_ck != nil {
 		return nil, fmt.Errorf("encoding ck: %w", encodeErr_enc_ck)
 	}
 	children = append(children, enc_ck...)
+	if len(v.Ik) < 16 || len(v.Ik) > 16 {
+		return nil, fmt.Errorf("ik length %d violates SIZE (16)", len(v.Ik))
+	}
 	enc_ik, encodeErr_enc_ik := ber.EncodeOctetString([]byte(v.Ik))
 	if encodeErr_enc_ik != nil {
 		return nil, fmt.Errorf("encoding ik: %w", encodeErr_enc_ik)
 	}
 	children = append(children, enc_ik...)
+	if len(v.Ksi) < 1 || len(v.Ksi) > 1 {
+		return nil, fmt.Errorf("ksi length %d violates SIZE (1)", len(v.Ksi))
+	}
 	enc_ksi, encodeErr_enc_ksi := ber.EncodeOctetString([]byte(v.Ksi))
 	if encodeErr_enc_ksi != nil {
 		return nil, fmt.Errorf("encoding ksi: %w", encodeErr_enc_ksi)
@@ -9721,6 +10180,9 @@ func (v *UMTSSecurityContextData) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}
 
 	offset += n
+	if len(v.Ck) < 16 || len(v.Ck) > 16 {
+		return fmt.Errorf("ck length %d violates SIZE (16)", len(v.Ck))
+	}
 	// Decode ik
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field ik")
@@ -9736,6 +10198,9 @@ func (v *UMTSSecurityContextData) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}
 
 	offset += n
+	if len(v.Ik) < 16 || len(v.Ik) > 16 {
+		return fmt.Errorf("ik length %d violates SIZE (16)", len(v.Ik))
+	}
 	// Decode ksi
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field ksi")
@@ -9751,6 +10216,9 @@ func (v *UMTSSecurityContextData) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}
 
 	offset += n
+	if len(v.Ksi) < 1 || len(v.Ksi) > 1 {
+		return fmt.Errorf("ksi length %d violates SIZE (1)", len(v.Ksi))
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -9780,6 +10248,9 @@ func (v *UMTSSecurityContextData) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 // MarshalBER encodes AuthenticationFailureReportArg to BER format.
 func (v *AuthenticationFailureReportArg) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -9808,6 +10279,9 @@ func (v *AuthenticationFailureReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_accesstype...)
 	}
 	if v.Rand != nil {
+		if len(*v.Rand) < 16 || len(*v.Rand) > 16 {
+			return nil, fmt.Errorf("rand length %d violates SIZE (16)", len(*v.Rand))
+		}
 		enc_rand, encodeErr_enc_rand := ber.EncodeOctetString([]byte(*v.Rand))
 		if encodeErr_enc_rand != nil {
 			return nil, fmt.Errorf("encoding rand: %w", encodeErr_enc_rand)
@@ -9815,6 +10289,12 @@ func (v *AuthenticationFailureReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_rand...)
 	}
 	if v.VlrNumber != nil {
+		if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 9 {
+			return nil, fmt.Errorf("vlr-Number length %d violates SIZE (1..9)", len(*v.VlrNumber))
+		}
+		if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 20 {
+			return nil, fmt.Errorf("vlr-Number length %d violates SIZE (1..20)", len(*v.VlrNumber))
+		}
 		enc_vlrnumber, encodeErr_enc_vlrnumber := ber.EncodeOctetString([]byte(*v.VlrNumber))
 		if encodeErr_enc_vlrnumber != nil {
 			return nil, fmt.Errorf("encoding vlr-Number: %w", encodeErr_enc_vlrnumber)
@@ -9827,6 +10307,12 @@ func (v *AuthenticationFailureReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_vlrnumber...)
 	}
 	if v.SgsnNumber != nil {
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+		}
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+		}
 		enc_sgsnnumber, encodeErr_enc_sgsnnumber := ber.EncodeOctetString([]byte(*v.SgsnNumber))
 		if encodeErr_enc_sgsnnumber != nil {
 			return nil, fmt.Errorf("encoding sgsn-Number: %w", encodeErr_enc_sgsnnumber)
@@ -9854,6 +10340,9 @@ func (v *AuthenticationFailureReportArg) MarshalBER() ([]byte, error) {
 // MarshalDER encodes AuthenticationFailureReportArg to DER format.
 func (v *AuthenticationFailureReportArg) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -9877,6 +10366,9 @@ func (v *AuthenticationFailureReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_accesstype...)
 	}
 	if v.Rand != nil {
+		if len(*v.Rand) < 16 || len(*v.Rand) > 16 {
+			return nil, fmt.Errorf("rand length %d violates SIZE (16)", len(*v.Rand))
+		}
 		enc_rand, encodeErr_enc_rand := ber.EncodeOctetString([]byte(*v.Rand))
 		if encodeErr_enc_rand != nil {
 			return nil, fmt.Errorf("encoding rand: %w", encodeErr_enc_rand)
@@ -9884,6 +10376,12 @@ func (v *AuthenticationFailureReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_rand...)
 	}
 	if v.VlrNumber != nil {
+		if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 9 {
+			return nil, fmt.Errorf("vlr-Number length %d violates SIZE (1..9)", len(*v.VlrNumber))
+		}
+		if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 20 {
+			return nil, fmt.Errorf("vlr-Number length %d violates SIZE (1..20)", len(*v.VlrNumber))
+		}
 		enc_vlrnumber, encodeErr_enc_vlrnumber := ber.EncodeOctetString([]byte(*v.VlrNumber))
 		if encodeErr_enc_vlrnumber != nil {
 			return nil, fmt.Errorf("encoding vlr-Number: %w", encodeErr_enc_vlrnumber)
@@ -9896,6 +10394,12 @@ func (v *AuthenticationFailureReportArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_vlrnumber...)
 	}
 	if v.SgsnNumber != nil {
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+		}
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+		}
 		enc_sgsnnumber, encodeErr_enc_sgsnnumber := ber.EncodeOctetString([]byte(*v.SgsnNumber))
 		if encodeErr_enc_sgsnnumber != nil {
 			return nil, fmt.Errorf("encoding sgsn-Number: %w", encodeErr_enc_sgsnnumber)
@@ -9952,6 +10456,9 @@ func (v *AuthenticationFailureReportArg) UnmarshalBER(data []byte, opts ...ber.D
 	}
 
 	offset += n
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	// Decode failureCause
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field failureCause")
@@ -10055,6 +10562,9 @@ func (v *AuthenticationFailureReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n
+				if len(*v.Rand) < 16 || len(*v.Rand) > 16 {
+					return fmt.Errorf("rand length %d violates SIZE (16)", len(*v.Rand))
+				}
 			}
 		}
 	}
@@ -10078,6 +10588,12 @@ func (v *AuthenticationFailureReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_vlrnumber
+				if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 9 {
+					return fmt.Errorf("vlr-Number length %d violates SIZE (1..9)", len(*v.VlrNumber))
+				}
+				if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 20 {
+					return fmt.Errorf("vlr-Number length %d violates SIZE (1..20)", len(*v.VlrNumber))
+				}
 			}
 		}
 	}
@@ -10101,6 +10617,12 @@ func (v *AuthenticationFailureReportArg) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_sgsnnumber
+				if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+					return fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+				}
+				if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+					return fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+				}
 			}
 		}
 	}
@@ -10253,16 +10775,28 @@ func (v *AuthenticationFailureReportRes) UnmarshalBER(data []byte, opts ...ber.D
 // MarshalBER encodes UpdateGprsLocationArg to BER format.
 func (v *UpdateGprsLocationArg) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
 	}
 	children = append(children, enc_imsi...)
+	if len(v.SgsnNumber) < 1 || len(v.SgsnNumber) > 9 {
+		return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(v.SgsnNumber))
+	}
+	if len(v.SgsnNumber) < 1 || len(v.SgsnNumber) > 20 {
+		return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(v.SgsnNumber))
+	}
 	enc_sgsnnumber, encodeErr_enc_sgsnnumber := ber.EncodeOctetString([]byte(v.SgsnNumber))
 	if encodeErr_enc_sgsnnumber != nil {
 		return nil, fmt.Errorf("encoding sgsn-Number: %w", encodeErr_enc_sgsnnumber)
 	}
 	children = append(children, enc_sgsnnumber...)
+	if len(v.SgsnAddress) < 5 || len(v.SgsnAddress) > 17 {
+		return nil, fmt.Errorf("sgsn-Address length %d violates SIZE (5..17)", len(v.SgsnAddress))
+	}
 	enc_sgsnaddress, encodeErr_enc_sgsnaddress := ber.EncodeOctetString([]byte(v.SgsnAddress))
 	if encodeErr_enc_sgsnaddress != nil {
 		return nil, fmt.Errorf("encoding sgsn-Address: %w", encodeErr_enc_sgsnaddress)
@@ -10306,6 +10840,9 @@ func (v *UpdateGprsLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_pslcsnotsupportedbyue...)
 	}
 	if v.VGmlcAddress != nil {
+		if len(*v.VGmlcAddress) < 5 || len(*v.VGmlcAddress) > 17 {
+			return nil, fmt.Errorf("v-gmlc-Address length %d violates SIZE (5..17)", len(*v.VGmlcAddress))
+		}
 		enc_vgmlcaddress, encodeErr_enc_vgmlcaddress := ber.EncodeOctetString([]byte(*v.VGmlcAddress))
 		if encodeErr_enc_vgmlcaddress != nil {
 			return nil, fmt.Errorf("encoding v-gmlc-Address: %w", encodeErr_enc_vgmlcaddress)
@@ -10425,6 +10962,9 @@ func (v *UpdateGprsLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_uesrvcccapability...)
 	}
 	if v.EplmnList != nil {
+		if len(v.EplmnList) < 1 || len(v.EplmnList) > 50 {
+			return nil, fmt.Errorf("eplmn-List length %d violates SIZE (1..50)", len(v.EplmnList))
+		}
 		enc_eplmnlist, err := MarshalBEREPLMNList(v.EplmnList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eplmn-List: %w", err)
@@ -10452,6 +10992,12 @@ func (v *UpdateGprsLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_eplmnlist...)
 	}
 	if v.MmeNumberforMTSMS != nil {
+		if len(*v.MmeNumberforMTSMS) < 1 || len(*v.MmeNumberforMTSMS) > 9 {
+			return nil, fmt.Errorf("mmeNumberforMTSMS length %d violates SIZE (1..9)", len(*v.MmeNumberforMTSMS))
+		}
+		if len(*v.MmeNumberforMTSMS) < 1 || len(*v.MmeNumberforMTSMS) > 20 {
+			return nil, fmt.Errorf("mmeNumberforMTSMS length %d violates SIZE (1..20)", len(*v.MmeNumberforMTSMS))
+		}
 		enc_mmenumberformtsms, encodeErr_enc_mmenumberformtsms := ber.EncodeOctetString([]byte(*v.MmeNumberforMTSMS))
 		if encodeErr_enc_mmenumberformtsms != nil {
 			return nil, fmt.Errorf("encoding mmeNumberforMTSMS: %w", encodeErr_enc_mmenumberformtsms)
@@ -10491,6 +11037,9 @@ func (v *UpdateGprsLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_removalofmmeregistrationforsms...)
 	}
 	if v.SgsnName != nil {
+		if len(*v.SgsnName) < 9 || len(*v.SgsnName) > 255 {
+			return nil, fmt.Errorf("sgsn-Name length %d violates SIZE (9..255)", len(*v.SgsnName))
+		}
 		enc_sgsnname, encodeErr_enc_sgsnname := ber.EncodeOctetString([]byte(*v.SgsnName))
 		if encodeErr_enc_sgsnname != nil {
 			return nil, fmt.Errorf("encoding sgsn-Name: %w", encodeErr_enc_sgsnname)
@@ -10503,6 +11052,9 @@ func (v *UpdateGprsLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_sgsnname...)
 	}
 	if v.SgsnRealm != nil {
+		if len(*v.SgsnRealm) < 9 || len(*v.SgsnRealm) > 255 {
+			return nil, fmt.Errorf("sgsn-Realm length %d violates SIZE (9..255)", len(*v.SgsnRealm))
+		}
 		enc_sgsnrealm, encodeErr_enc_sgsnrealm := ber.EncodeOctetString([]byte(*v.SgsnRealm))
 		if encodeErr_enc_sgsnrealm != nil {
 			return nil, fmt.Errorf("encoding sgsn-Realm: %w", encodeErr_enc_sgsnrealm)
@@ -10524,6 +11076,9 @@ func (v *UpdateGprsLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_lgdsupportindicator...)
 	}
 	if v.AdjacentPLMNList != nil {
+		if len(v.AdjacentPLMNList) < 1 || len(v.AdjacentPLMNList) > 50 {
+			return nil, fmt.Errorf("adjacentPLMN-List length %d violates SIZE (1..50)", len(v.AdjacentPLMNList))
+		}
 		enc_adjacentplmnlist, err := MarshalBERAdjacentPLMNList(v.AdjacentPLMNList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding adjacentPLMN-List: %w", err)
@@ -10566,16 +11121,28 @@ func (v *UpdateGprsLocationArg) MarshalBER() ([]byte, error) {
 // MarshalDER encodes UpdateGprsLocationArg to DER format.
 func (v *UpdateGprsLocationArg) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
 	}
 	children = append(children, enc_imsi...)
+	if len(v.SgsnNumber) < 1 || len(v.SgsnNumber) > 9 {
+		return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(v.SgsnNumber))
+	}
+	if len(v.SgsnNumber) < 1 || len(v.SgsnNumber) > 20 {
+		return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(v.SgsnNumber))
+	}
 	enc_sgsnnumber, encodeErr_enc_sgsnnumber := ber.EncodeOctetString([]byte(v.SgsnNumber))
 	if encodeErr_enc_sgsnnumber != nil {
 		return nil, fmt.Errorf("encoding sgsn-Number: %w", encodeErr_enc_sgsnnumber)
 	}
 	children = append(children, enc_sgsnnumber...)
+	if len(v.SgsnAddress) < 5 || len(v.SgsnAddress) > 17 {
+		return nil, fmt.Errorf("sgsn-Address length %d violates SIZE (5..17)", len(v.SgsnAddress))
+	}
 	enc_sgsnaddress, encodeErr_enc_sgsnaddress := ber.EncodeOctetString([]byte(v.SgsnAddress))
 	if encodeErr_enc_sgsnaddress != nil {
 		return nil, fmt.Errorf("encoding sgsn-Address: %w", encodeErr_enc_sgsnaddress)
@@ -10619,6 +11186,9 @@ func (v *UpdateGprsLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_pslcsnotsupportedbyue...)
 	}
 	if v.VGmlcAddress != nil {
+		if len(*v.VGmlcAddress) < 5 || len(*v.VGmlcAddress) > 17 {
+			return nil, fmt.Errorf("v-gmlc-Address length %d violates SIZE (5..17)", len(*v.VGmlcAddress))
+		}
 		enc_vgmlcaddress, encodeErr_enc_vgmlcaddress := ber.EncodeOctetString([]byte(*v.VGmlcAddress))
 		if encodeErr_enc_vgmlcaddress != nil {
 			return nil, fmt.Errorf("encoding v-gmlc-Address: %w", encodeErr_enc_vgmlcaddress)
@@ -10738,6 +11308,9 @@ func (v *UpdateGprsLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_uesrvcccapability...)
 	}
 	if v.EplmnList != nil {
+		if len(v.EplmnList) < 1 || len(v.EplmnList) > 50 {
+			return nil, fmt.Errorf("eplmn-List length %d violates SIZE (1..50)", len(v.EplmnList))
+		}
 		enc_eplmnlist, err := MarshalDEREPLMNList(v.EplmnList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eplmn-List: %w", err)
@@ -10750,6 +11323,12 @@ func (v *UpdateGprsLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_eplmnlist...)
 	}
 	if v.MmeNumberforMTSMS != nil {
+		if len(*v.MmeNumberforMTSMS) < 1 || len(*v.MmeNumberforMTSMS) > 9 {
+			return nil, fmt.Errorf("mmeNumberforMTSMS length %d violates SIZE (1..9)", len(*v.MmeNumberforMTSMS))
+		}
+		if len(*v.MmeNumberforMTSMS) < 1 || len(*v.MmeNumberforMTSMS) > 20 {
+			return nil, fmt.Errorf("mmeNumberforMTSMS length %d violates SIZE (1..20)", len(*v.MmeNumberforMTSMS))
+		}
 		enc_mmenumberformtsms, encodeErr_enc_mmenumberformtsms := ber.EncodeOctetString([]byte(*v.MmeNumberforMTSMS))
 		if encodeErr_enc_mmenumberformtsms != nil {
 			return nil, fmt.Errorf("encoding mmeNumberforMTSMS: %w", encodeErr_enc_mmenumberformtsms)
@@ -10789,6 +11368,9 @@ func (v *UpdateGprsLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_removalofmmeregistrationforsms...)
 	}
 	if v.SgsnName != nil {
+		if len(*v.SgsnName) < 9 || len(*v.SgsnName) > 255 {
+			return nil, fmt.Errorf("sgsn-Name length %d violates SIZE (9..255)", len(*v.SgsnName))
+		}
 		enc_sgsnname, encodeErr_enc_sgsnname := ber.EncodeOctetString([]byte(*v.SgsnName))
 		if encodeErr_enc_sgsnname != nil {
 			return nil, fmt.Errorf("encoding sgsn-Name: %w", encodeErr_enc_sgsnname)
@@ -10801,6 +11383,9 @@ func (v *UpdateGprsLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sgsnname...)
 	}
 	if v.SgsnRealm != nil {
+		if len(*v.SgsnRealm) < 9 || len(*v.SgsnRealm) > 255 {
+			return nil, fmt.Errorf("sgsn-Realm length %d violates SIZE (9..255)", len(*v.SgsnRealm))
+		}
 		enc_sgsnrealm, encodeErr_enc_sgsnrealm := ber.EncodeOctetString([]byte(*v.SgsnRealm))
 		if encodeErr_enc_sgsnrealm != nil {
 			return nil, fmt.Errorf("encoding sgsn-Realm: %w", encodeErr_enc_sgsnrealm)
@@ -10822,6 +11407,9 @@ func (v *UpdateGprsLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_lgdsupportindicator...)
 	}
 	if v.AdjacentPLMNList != nil {
+		if len(v.AdjacentPLMNList) < 1 || len(v.AdjacentPLMNList) > 50 {
+			return nil, fmt.Errorf("adjacentPLMN-List length %d violates SIZE (1..50)", len(v.AdjacentPLMNList))
+		}
 		enc_adjacentplmnlist, err := MarshalDERAdjacentPLMNList(v.AdjacentPLMNList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding adjacentPLMN-List: %w", err)
@@ -10878,6 +11466,9 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}
 
 	offset += n
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	// Decode sgsn-Number
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field sgsn-Number")
@@ -10893,6 +11484,12 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}
 
 	offset += n
+	if len(v.SgsnNumber) < 1 || len(v.SgsnNumber) > 9 {
+		return fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(v.SgsnNumber))
+	}
+	if len(v.SgsnNumber) < 1 || len(v.SgsnNumber) > 20 {
+		return fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(v.SgsnNumber))
+	}
 	// Decode sgsn-Address
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field sgsn-Address")
@@ -10908,6 +11505,9 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}
 
 	offset += n
+	if len(v.SgsnAddress) < 5 || len(v.SgsnAddress) > 17 {
+		return fmt.Errorf("sgsn-Address length %d violates SIZE (5..17)", len(v.SgsnAddress))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -11041,6 +11641,9 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_vgmlcaddress
+				if len(*v.VGmlcAddress) < 5 || len(*v.VGmlcAddress) > 17 {
+					return fmt.Errorf("v-gmlc-Address length %d violates SIZE (5..17)", len(*v.VGmlcAddress))
+				}
 			}
 		}
 	}
@@ -11376,6 +11979,9 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_eplmnlist
+				if len(v.EplmnList) < 1 || len(v.EplmnList) > 50 {
+					return fmt.Errorf("eplmn-List length %d violates SIZE (1..50)", len(v.EplmnList))
+				}
 			}
 		}
 	}
@@ -11400,6 +12006,12 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_mmenumberformtsms
+				if len(*v.MmeNumberforMTSMS) < 1 || len(*v.MmeNumberforMTSMS) > 9 {
+					return fmt.Errorf("mmeNumberforMTSMS length %d violates SIZE (1..9)", len(*v.MmeNumberforMTSMS))
+				}
+				if len(*v.MmeNumberforMTSMS) < 1 || len(*v.MmeNumberforMTSMS) > 20 {
+					return fmt.Errorf("mmeNumberforMTSMS length %d violates SIZE (1..20)", len(*v.MmeNumberforMTSMS))
+				}
 			}
 		}
 	}
@@ -11502,6 +12114,9 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_sgsnname
+				if len(*v.SgsnName) < 9 || len(*v.SgsnName) > 255 {
+					return fmt.Errorf("sgsn-Name length %d violates SIZE (9..255)", len(*v.SgsnName))
+				}
 			}
 		}
 	}
@@ -11525,6 +12140,9 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_sgsnrealm
+				if len(*v.SgsnRealm) < 9 || len(*v.SgsnRealm) > 255 {
+					return fmt.Errorf("sgsn-Realm length %d violates SIZE (9..255)", len(*v.SgsnRealm))
+				}
 			}
 		}
 	}
@@ -11594,6 +12212,9 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_adjacentplmnlist
+				if len(v.AdjacentPLMNList) < 1 || len(v.AdjacentPLMNList) > 50 {
+					return fmt.Errorf("adjacentPLMN-List length %d violates SIZE (1..50)", len(v.AdjacentPLMNList))
+				}
 			}
 		}
 	}
@@ -11641,13 +12262,16 @@ func (v *EPSInfo) MarshalBER() ([]byte, error) {
 		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case EPSInfoChoiceIsrInformation:
-		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2101
+		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2202
 		if v.IsrInformation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeBitString(v.IsrInformation.Bytes, (8-(v.IsrInformation.BitLength%8))%8)
 		if encodeErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding isr-Information: %w", encodeErr_enc_1)
+		}
+		if (*v.IsrInformation).BitLength < 3 || (*v.IsrInformation).BitLength > 8 {
+			return nil, fmt.Errorf("isr-Information length %d violates SIZE (3..8)", (*v.IsrInformation).BitLength)
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
@@ -11745,6 +12369,9 @@ func (v *EPSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		}
 		tmp := runtime.BitString{Bytes: bsBytes, BitLength: bsBitLength}
 		v.IsrInformation = &tmp
+		if (*v.IsrInformation).BitLength < 3 || (*v.IsrInformation).BitLength > 8 {
+			return fmt.Errorf("isr-Information length %d violates SIZE (3..8)", (*v.IsrInformation).BitLength)
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for EPSInfo CHOICE", peekTag)
 	}
@@ -11755,6 +12382,9 @@ func (v *EPSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 func (v *PDNGWUpdate) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.Apn != nil {
+		if len(*v.Apn) < 2 || len(*v.Apn) > 63 {
+			return nil, fmt.Errorf("apn length %d violates SIZE (2..63)", len(*v.Apn))
+		}
 		enc_apn, encodeErr_enc_apn := ber.EncodeOctetString([]byte(*v.Apn))
 		if encodeErr_enc_apn != nil {
 			return nil, fmt.Errorf("encoding apn: %w", encodeErr_enc_apn)
@@ -11816,6 +12446,9 @@ func (v *PDNGWUpdate) MarshalBER() ([]byte, error) {
 func (v *PDNGWUpdate) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.Apn != nil {
+		if len(*v.Apn) < 2 || len(*v.Apn) > 63 {
+			return nil, fmt.Errorf("apn length %d violates SIZE (2..63)", len(*v.Apn))
+		}
 		enc_apn, encodeErr_enc_apn := ber.EncodeOctetString([]byte(*v.Apn))
 		if encodeErr_enc_apn != nil {
 			return nil, fmt.Errorf("encoding apn: %w", encodeErr_enc_apn)
@@ -11910,6 +12543,9 @@ func (v *PDNGWUpdate) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 				}
 
 				offset += n_apn
+				if len(*v.Apn) < 2 || len(*v.Apn) > 63 {
+					return fmt.Errorf("apn length %d violates SIZE (2..63)", len(*v.Apn))
+				}
 			}
 		}
 	}
@@ -12071,7 +12707,10 @@ func (v *SGSNCapability) MarshalBER() ([]byte, error) {
 		children = append(children, enc_gprsenhancementssupportindicator...)
 	}
 	if v.SupportedCamelPhases != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedCamelPhases).BitLength < 1 || (*v.SupportedCamelPhases).BitLength > 16 {
+			return nil, fmt.Errorf("supportedCamelPhases length %d violates SIZE (1..16)", (*v.SupportedCamelPhases).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -12087,7 +12726,10 @@ func (v *SGSNCapability) MarshalBER() ([]byte, error) {
 		children = append(children, enc_supportedcamelphases...)
 	}
 	if v.SupportedLCSCapabilitySets != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedLCSCapabilitySets).BitLength < 2 || (*v.SupportedLCSCapabilitySets).BitLength > 16 {
+			return nil, fmt.Errorf("supportedLCS-CapabilitySets length %d violates SIZE (2..16)", (*v.SupportedLCSCapabilitySets).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -12103,7 +12745,10 @@ func (v *SGSNCapability) MarshalBER() ([]byte, error) {
 		children = append(children, enc_supportedlcscapabilitysets...)
 	}
 	if v.OfferedCamel4CSIs != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.OfferedCamel4CSIs).BitLength < 7 || (*v.OfferedCamel4CSIs).BitLength > 16 {
+			return nil, fmt.Errorf("offeredCamel4CSIs length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIs).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -12128,7 +12773,10 @@ func (v *SGSNCapability) MarshalBER() ([]byte, error) {
 		children = append(children, enc_smscallbarringsupportindicator...)
 	}
 	if v.SupportedRATTypesIndicator != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedRATTypesIndicator).BitLength < 2 || (*v.SupportedRATTypesIndicator).BitLength > 8 {
+			return nil, fmt.Errorf("supportedRAT-TypesIndicator length %d violates SIZE (2..8)", (*v.SupportedRATTypesIndicator).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -12144,7 +12792,10 @@ func (v *SGSNCapability) MarshalBER() ([]byte, error) {
 		children = append(children, enc_supportedrattypesindicator...)
 	}
 	if v.SupportedFeatures != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedFeatures).BitLength < 26 || (*v.SupportedFeatures).BitLength > 40 {
+			return nil, fmt.Errorf("supportedFeatures length %d violates SIZE (26..40)", (*v.SupportedFeatures).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -12219,7 +12870,10 @@ func (v *SGSNCapability) MarshalBER() ([]byte, error) {
 		children = append(children, enc_resetidssupported...)
 	}
 	if v.ExtSupportedFeatures != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.ExtSupportedFeatures).BitLength < 1 || (*v.ExtSupportedFeatures).BitLength > 40 {
+			return nil, fmt.Errorf("ext-SupportedFeatures length %d violates SIZE (1..40)", (*v.ExtSupportedFeatures).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ExtSupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -12290,7 +12944,10 @@ func (v *SGSNCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_gprsenhancementssupportindicator...)
 	}
 	if v.SupportedCamelPhases != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedCamelPhases).BitLength < 1 || (*v.SupportedCamelPhases).BitLength > 16 {
+			return nil, fmt.Errorf("supportedCamelPhases length %d violates SIZE (1..16)", (*v.SupportedCamelPhases).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -12306,7 +12963,10 @@ func (v *SGSNCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_supportedcamelphases...)
 	}
 	if v.SupportedLCSCapabilitySets != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedLCSCapabilitySets).BitLength < 2 || (*v.SupportedLCSCapabilitySets).BitLength > 16 {
+			return nil, fmt.Errorf("supportedLCS-CapabilitySets length %d violates SIZE (2..16)", (*v.SupportedLCSCapabilitySets).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -12322,7 +12982,10 @@ func (v *SGSNCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_supportedlcscapabilitysets...)
 	}
 	if v.OfferedCamel4CSIs != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.OfferedCamel4CSIs).BitLength < 7 || (*v.OfferedCamel4CSIs).BitLength > 16 {
+			return nil, fmt.Errorf("offeredCamel4CSIs length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIs).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -12347,7 +13010,10 @@ func (v *SGSNCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_smscallbarringsupportindicator...)
 	}
 	if v.SupportedRATTypesIndicator != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedRATTypesIndicator).BitLength < 2 || (*v.SupportedRATTypesIndicator).BitLength > 8 {
+			return nil, fmt.Errorf("supportedRAT-TypesIndicator length %d violates SIZE (2..8)", (*v.SupportedRATTypesIndicator).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -12363,7 +13029,10 @@ func (v *SGSNCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_supportedrattypesindicator...)
 	}
 	if v.SupportedFeatures != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedFeatures).BitLength < 26 || (*v.SupportedFeatures).BitLength > 40 {
+			return nil, fmt.Errorf("supportedFeatures length %d violates SIZE (26..40)", (*v.SupportedFeatures).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -12433,7 +13102,10 @@ func (v *SGSNCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_resetidssupported...)
 	}
 	if v.ExtSupportedFeatures != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.ExtSupportedFeatures).BitLength < 1 || (*v.ExtSupportedFeatures).BitLength > 40 {
+			return nil, fmt.Errorf("ext-SupportedFeatures length %d violates SIZE (1..40)", (*v.ExtSupportedFeatures).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ExtSupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -12611,6 +13283,9 @@ func (v *SGSNCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_supportedcamelphases
+				if (*v.SupportedCamelPhases).BitLength < 1 || (*v.SupportedCamelPhases).BitLength > 16 {
+					return fmt.Errorf("supportedCamelPhases length %d violates SIZE (1..16)", (*v.SupportedCamelPhases).BitLength)
+				}
 			}
 		}
 	}
@@ -12643,6 +13318,9 @@ func (v *SGSNCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_supportedlcscapabilitysets
+				if (*v.SupportedLCSCapabilitySets).BitLength < 2 || (*v.SupportedLCSCapabilitySets).BitLength > 16 {
+					return fmt.Errorf("supportedLCS-CapabilitySets length %d violates SIZE (2..16)", (*v.SupportedLCSCapabilitySets).BitLength)
+				}
 			}
 		}
 	}
@@ -12675,6 +13353,9 @@ func (v *SGSNCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_offeredcamel4csis
+				if (*v.OfferedCamel4CSIs).BitLength < 7 || (*v.OfferedCamel4CSIs).BitLength > 16 {
+					return fmt.Errorf("offeredCamel4CSIs length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIs).BitLength)
+				}
 			}
 		}
 	}
@@ -12733,6 +13414,9 @@ func (v *SGSNCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_supportedrattypesindicator
+				if (*v.SupportedRATTypesIndicator).BitLength < 2 || (*v.SupportedRATTypesIndicator).BitLength > 8 {
+					return fmt.Errorf("supportedRAT-TypesIndicator length %d violates SIZE (2..8)", (*v.SupportedRATTypesIndicator).BitLength)
+				}
 			}
 		}
 	}
@@ -12765,6 +13449,9 @@ func (v *SGSNCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_supportedfeatures
+				if (*v.SupportedFeatures).BitLength < 26 || (*v.SupportedFeatures).BitLength > 40 {
+					return fmt.Errorf("supportedFeatures length %d violates SIZE (26..40)", (*v.SupportedFeatures).BitLength)
+				}
 			}
 		}
 	}
@@ -12957,6 +13644,9 @@ func (v *SGSNCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_extsupportedfeatures
+				if (*v.ExtSupportedFeatures).BitLength < 1 || (*v.ExtSupportedFeatures).BitLength > 40 {
+					return fmt.Errorf("ext-SupportedFeatures length %d violates SIZE (1..40)", (*v.ExtSupportedFeatures).BitLength)
+				}
 			}
 		}
 	}
@@ -12989,6 +13679,12 @@ func (v *SGSNCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 // MarshalBER encodes UpdateGprsLocationRes to BER format.
 func (v *UpdateGprsLocationRes) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
+		return nil, fmt.Errorf("hlr-Number length %d violates SIZE (1..9)", len(v.HlrNumber))
+	}
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
+		return nil, fmt.Errorf("hlr-Number length %d violates SIZE (1..20)", len(v.HlrNumber))
+	}
 	enc_hlrnumber, encodeErr_enc_hlrnumber := ber.EncodeOctetString([]byte(v.HlrNumber))
 	if encodeErr_enc_hlrnumber != nil {
 		return nil, fmt.Errorf("encoding hlr-Number: %w", encodeErr_enc_hlrnumber)
@@ -13039,6 +13735,12 @@ func (v *UpdateGprsLocationRes) MarshalBER() ([]byte, error) {
 // MarshalDER encodes UpdateGprsLocationRes to DER format.
 func (v *UpdateGprsLocationRes) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
+		return nil, fmt.Errorf("hlr-Number length %d violates SIZE (1..9)", len(v.HlrNumber))
+	}
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
+		return nil, fmt.Errorf("hlr-Number length %d violates SIZE (1..20)", len(v.HlrNumber))
+	}
 	enc_hlrnumber, encodeErr_enc_hlrnumber := ber.EncodeOctetString([]byte(v.HlrNumber))
 	if encodeErr_enc_hlrnumber != nil {
 		return nil, fmt.Errorf("encoding hlr-Number: %w", encodeErr_enc_hlrnumber)
@@ -13118,6 +13820,12 @@ func (v *UpdateGprsLocationRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}
 
 	offset += n
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
+		return fmt.Errorf("hlr-Number length %d violates SIZE (1..9)", len(v.HlrNumber))
+	}
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
+		return fmt.Errorf("hlr-Number length %d violates SIZE (1..20)", len(v.HlrNumber))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -13405,6 +14113,9 @@ func (v *ForwardAccessSignallingArg) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_anapdu...)
 	if v.IntegrityProtectionInfo != nil {
+		if len(*v.IntegrityProtectionInfo) < 18 || len(*v.IntegrityProtectionInfo) > 100 {
+			return nil, fmt.Errorf("integrityProtectionInfo length %d violates SIZE (18..100)", len(*v.IntegrityProtectionInfo))
+		}
 		enc_integrityprotectioninfo, encodeErr_enc_integrityprotectioninfo := ber.EncodeOctetString([]byte(*v.IntegrityProtectionInfo))
 		if encodeErr_enc_integrityprotectioninfo != nil {
 			return nil, fmt.Errorf("encoding integrityProtectionInfo: %w", encodeErr_enc_integrityprotectioninfo)
@@ -13417,6 +14128,9 @@ func (v *ForwardAccessSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_integrityprotectioninfo...)
 	}
 	if v.EncryptionInfo != nil {
+		if len(*v.EncryptionInfo) < 18 || len(*v.EncryptionInfo) > 100 {
+			return nil, fmt.Errorf("encryptionInfo length %d violates SIZE (18..100)", len(*v.EncryptionInfo))
+		}
 		enc_encryptioninfo, encodeErr_enc_encryptioninfo := ber.EncodeOctetString([]byte(*v.EncryptionInfo))
 		if encodeErr_enc_encryptioninfo != nil {
 			return nil, fmt.Errorf("encoding encryptionInfo: %w", encodeErr_enc_encryptioninfo)
@@ -13438,6 +14152,9 @@ func (v *ForwardAccessSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_keystatus...)
 	}
 	if v.AllowedGSMAlgorithms != nil {
+		if len(*v.AllowedGSMAlgorithms) < 1 || len(*v.AllowedGSMAlgorithms) > 1 {
+			return nil, fmt.Errorf("allowedGSM-Algorithms length %d violates SIZE (1)", len(*v.AllowedGSMAlgorithms))
+		}
 		enc_allowedgsmalgorithms, encodeErr_enc_allowedgsmalgorithms := ber.EncodeOctetString([]byte(*v.AllowedGSMAlgorithms))
 		if encodeErr_enc_allowedgsmalgorithms != nil {
 			return nil, fmt.Errorf("encoding allowedGSM-Algorithms: %w", encodeErr_enc_allowedgsmalgorithms)
@@ -13462,6 +14179,9 @@ func (v *ForwardAccessSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_allowedumtsalgorithms...)
 	}
 	if v.RadioResourceInformation != nil {
+		if len(*v.RadioResourceInformation) < 3 || len(*v.RadioResourceInformation) > 13 {
+			return nil, fmt.Errorf("radioResourceInformation length %d violates SIZE (3..13)", len(*v.RadioResourceInformation))
+		}
 		enc_radioresourceinformation, encodeErr_enc_radioresourceinformation := ber.EncodeOctetString([]byte(*v.RadioResourceInformation))
 		if encodeErr_enc_radioresourceinformation != nil {
 			return nil, fmt.Errorf("encoding radioResourceInformation: %w", encodeErr_enc_radioresourceinformation)
@@ -13486,6 +14206,9 @@ func (v *ForwardAccessSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.RadioResourceList != nil {
+		if len(v.RadioResourceList) < 1 || len(v.RadioResourceList) > 7 {
+			return nil, fmt.Errorf("radioResourceList length %d violates SIZE (1..7)", len(v.RadioResourceList))
+		}
 		enc_radioresourcelist, err := MarshalBERRadioResourceList(v.RadioResourceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding radioResourceList: %w", err)
@@ -13513,6 +14236,9 @@ func (v *ForwardAccessSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_radioresourcelist...)
 	}
 	if v.BssmapServiceHandover != nil {
+		if len(*v.BssmapServiceHandover) < 1 || len(*v.BssmapServiceHandover) > 1 {
+			return nil, fmt.Errorf("bssmap-ServiceHandover length %d violates SIZE (1)", len(*v.BssmapServiceHandover))
+		}
 		enc_bssmapservicehandover, encodeErr_enc_bssmapservicehandover := ber.EncodeOctetString([]byte(*v.BssmapServiceHandover))
 		if encodeErr_enc_bssmapservicehandover != nil {
 			return nil, fmt.Errorf("encoding bssmap-ServiceHandover: %w", encodeErr_enc_bssmapservicehandover)
@@ -13525,6 +14251,9 @@ func (v *ForwardAccessSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_bssmapservicehandover...)
 	}
 	if v.RanapServiceHandover != nil {
+		if len(*v.RanapServiceHandover) < 1 || len(*v.RanapServiceHandover) > 1 {
+			return nil, fmt.Errorf("ranap-ServiceHandover length %d violates SIZE (1)", len(*v.RanapServiceHandover))
+		}
 		enc_ranapservicehandover, encodeErr_enc_ranapservicehandover := ber.EncodeOctetString([]byte(*v.RanapServiceHandover))
 		if encodeErr_enc_ranapservicehandover != nil {
 			return nil, fmt.Errorf("encoding ranap-ServiceHandover: %w", encodeErr_enc_ranapservicehandover)
@@ -13537,6 +14266,9 @@ func (v *ForwardAccessSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ranapservicehandover...)
 	}
 	if v.BssmapServiceHandoverList != nil {
+		if len(v.BssmapServiceHandoverList) < 1 || len(v.BssmapServiceHandoverList) > 7 {
+			return nil, fmt.Errorf("bssmap-ServiceHandoverList length %d violates SIZE (1..7)", len(v.BssmapServiceHandoverList))
+		}
 		enc_bssmapservicehandoverlist, err := MarshalBERBSSMAPServiceHandoverList(v.BssmapServiceHandoverList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding bssmap-ServiceHandoverList: %w", err)
@@ -13564,6 +14296,9 @@ func (v *ForwardAccessSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_bssmapservicehandoverlist...)
 	}
 	if v.CurrentlyUsedCodec != nil {
+		if len(*v.CurrentlyUsedCodec) < 1 || len(*v.CurrentlyUsedCodec) > 4 {
+			return nil, fmt.Errorf("currentlyUsedCodec length %d violates SIZE (1..4)", len(*v.CurrentlyUsedCodec))
+		}
 		enc_currentlyusedcodec, encodeErr_enc_currentlyusedcodec := ber.EncodeOctetString([]byte(*v.CurrentlyUsedCodec))
 		if encodeErr_enc_currentlyusedcodec != nil {
 			return nil, fmt.Errorf("encoding currentlyUsedCodec: %w", encodeErr_enc_currentlyusedcodec)
@@ -13597,6 +14332,9 @@ func (v *ForwardAccessSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_rabconfigurationindicator...)
 	}
 	if v.IuSelectedCodec != nil {
+		if len(*v.IuSelectedCodec) < 1 || len(*v.IuSelectedCodec) > 4 {
+			return nil, fmt.Errorf("iuSelectedCodec length %d violates SIZE (1..4)", len(*v.IuSelectedCodec))
+		}
 		enc_iuselectedcodec, encodeErr_enc_iuselectedcodec := ber.EncodeOctetString([]byte(*v.IuSelectedCodec))
 		if encodeErr_enc_iuselectedcodec != nil {
 			return nil, fmt.Errorf("encoding iuSelectedCodec: %w", encodeErr_enc_iuselectedcodec)
@@ -13609,6 +14347,9 @@ func (v *ForwardAccessSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_iuselectedcodec...)
 	}
 	if v.AlternativeChannelType != nil {
+		if len(*v.AlternativeChannelType) < 3 || len(*v.AlternativeChannelType) > 13 {
+			return nil, fmt.Errorf("alternativeChannelType length %d violates SIZE (3..13)", len(*v.AlternativeChannelType))
+		}
 		enc_alternativechanneltype, encodeErr_enc_alternativechanneltype := ber.EncodeOctetString([]byte(*v.AlternativeChannelType))
 		if encodeErr_enc_alternativechanneltype != nil {
 			return nil, fmt.Errorf("encoding alternativeChannelType: %w", encodeErr_enc_alternativechanneltype)
@@ -13645,6 +14386,9 @@ func (v *ForwardAccessSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_aoipsupportedcodecslistanchor...)
 	}
 	if v.AoipSelectedCodecTarget != nil {
+		if len(*v.AoipSelectedCodecTarget) < 1 || len(*v.AoipSelectedCodecTarget) > 3 {
+			return nil, fmt.Errorf("aoipSelectedCodecTarget length %d violates SIZE (1..3)", len(*v.AoipSelectedCodecTarget))
+		}
 		enc_aoipselectedcodectarget, encodeErr_enc_aoipselectedcodectarget := ber.EncodeOctetString([]byte(*v.AoipSelectedCodecTarget))
 		if encodeErr_enc_aoipselectedcodectarget != nil {
 			return nil, fmt.Errorf("encoding aoipSelectedCodecTarget: %w", encodeErr_enc_aoipselectedcodectarget)
@@ -13669,6 +14413,9 @@ func (v *ForwardAccessSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_uesbiiu...)
 	}
 	if v.Imeisv != nil {
+		if len(*v.Imeisv) < 8 || len(*v.Imeisv) > 8 {
+			return nil, fmt.Errorf("imeisv length %d violates SIZE (8)", len(*v.Imeisv))
+		}
 		enc_imeisv, encodeErr_enc_imeisv := ber.EncodeOctetString([]byte(*v.Imeisv))
 		if encodeErr_enc_imeisv != nil {
 			return nil, fmt.Errorf("encoding imeisv: %w", encodeErr_enc_imeisv)
@@ -13702,6 +14449,9 @@ func (v *ForwardAccessSignallingArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_anapdu...)
 	if v.IntegrityProtectionInfo != nil {
+		if len(*v.IntegrityProtectionInfo) < 18 || len(*v.IntegrityProtectionInfo) > 100 {
+			return nil, fmt.Errorf("integrityProtectionInfo length %d violates SIZE (18..100)", len(*v.IntegrityProtectionInfo))
+		}
 		enc_integrityprotectioninfo, encodeErr_enc_integrityprotectioninfo := ber.EncodeOctetString([]byte(*v.IntegrityProtectionInfo))
 		if encodeErr_enc_integrityprotectioninfo != nil {
 			return nil, fmt.Errorf("encoding integrityProtectionInfo: %w", encodeErr_enc_integrityprotectioninfo)
@@ -13714,6 +14464,9 @@ func (v *ForwardAccessSignallingArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_integrityprotectioninfo...)
 	}
 	if v.EncryptionInfo != nil {
+		if len(*v.EncryptionInfo) < 18 || len(*v.EncryptionInfo) > 100 {
+			return nil, fmt.Errorf("encryptionInfo length %d violates SIZE (18..100)", len(*v.EncryptionInfo))
+		}
 		enc_encryptioninfo, encodeErr_enc_encryptioninfo := ber.EncodeOctetString([]byte(*v.EncryptionInfo))
 		if encodeErr_enc_encryptioninfo != nil {
 			return nil, fmt.Errorf("encoding encryptionInfo: %w", encodeErr_enc_encryptioninfo)
@@ -13735,6 +14488,9 @@ func (v *ForwardAccessSignallingArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_keystatus...)
 	}
 	if v.AllowedGSMAlgorithms != nil {
+		if len(*v.AllowedGSMAlgorithms) < 1 || len(*v.AllowedGSMAlgorithms) > 1 {
+			return nil, fmt.Errorf("allowedGSM-Algorithms length %d violates SIZE (1)", len(*v.AllowedGSMAlgorithms))
+		}
 		enc_allowedgsmalgorithms, encodeErr_enc_allowedgsmalgorithms := ber.EncodeOctetString([]byte(*v.AllowedGSMAlgorithms))
 		if encodeErr_enc_allowedgsmalgorithms != nil {
 			return nil, fmt.Errorf("encoding allowedGSM-Algorithms: %w", encodeErr_enc_allowedgsmalgorithms)
@@ -13759,6 +14515,9 @@ func (v *ForwardAccessSignallingArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_allowedumtsalgorithms...)
 	}
 	if v.RadioResourceInformation != nil {
+		if len(*v.RadioResourceInformation) < 3 || len(*v.RadioResourceInformation) > 13 {
+			return nil, fmt.Errorf("radioResourceInformation length %d violates SIZE (3..13)", len(*v.RadioResourceInformation))
+		}
 		enc_radioresourceinformation, encodeErr_enc_radioresourceinformation := ber.EncodeOctetString([]byte(*v.RadioResourceInformation))
 		if encodeErr_enc_radioresourceinformation != nil {
 			return nil, fmt.Errorf("encoding radioResourceInformation: %w", encodeErr_enc_radioresourceinformation)
@@ -13783,6 +14542,9 @@ func (v *ForwardAccessSignallingArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.RadioResourceList != nil {
+		if len(v.RadioResourceList) < 1 || len(v.RadioResourceList) > 7 {
+			return nil, fmt.Errorf("radioResourceList length %d violates SIZE (1..7)", len(v.RadioResourceList))
+		}
 		enc_radioresourcelist, err := MarshalDERRadioResourceList(v.RadioResourceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding radioResourceList: %w", err)
@@ -13795,6 +14557,9 @@ func (v *ForwardAccessSignallingArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_radioresourcelist...)
 	}
 	if v.BssmapServiceHandover != nil {
+		if len(*v.BssmapServiceHandover) < 1 || len(*v.BssmapServiceHandover) > 1 {
+			return nil, fmt.Errorf("bssmap-ServiceHandover length %d violates SIZE (1)", len(*v.BssmapServiceHandover))
+		}
 		enc_bssmapservicehandover, encodeErr_enc_bssmapservicehandover := ber.EncodeOctetString([]byte(*v.BssmapServiceHandover))
 		if encodeErr_enc_bssmapservicehandover != nil {
 			return nil, fmt.Errorf("encoding bssmap-ServiceHandover: %w", encodeErr_enc_bssmapservicehandover)
@@ -13807,6 +14572,9 @@ func (v *ForwardAccessSignallingArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_bssmapservicehandover...)
 	}
 	if v.RanapServiceHandover != nil {
+		if len(*v.RanapServiceHandover) < 1 || len(*v.RanapServiceHandover) > 1 {
+			return nil, fmt.Errorf("ranap-ServiceHandover length %d violates SIZE (1)", len(*v.RanapServiceHandover))
+		}
 		enc_ranapservicehandover, encodeErr_enc_ranapservicehandover := ber.EncodeOctetString([]byte(*v.RanapServiceHandover))
 		if encodeErr_enc_ranapservicehandover != nil {
 			return nil, fmt.Errorf("encoding ranap-ServiceHandover: %w", encodeErr_enc_ranapservicehandover)
@@ -13819,6 +14587,9 @@ func (v *ForwardAccessSignallingArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ranapservicehandover...)
 	}
 	if v.BssmapServiceHandoverList != nil {
+		if len(v.BssmapServiceHandoverList) < 1 || len(v.BssmapServiceHandoverList) > 7 {
+			return nil, fmt.Errorf("bssmap-ServiceHandoverList length %d violates SIZE (1..7)", len(v.BssmapServiceHandoverList))
+		}
 		enc_bssmapservicehandoverlist, err := MarshalDERBSSMAPServiceHandoverList(v.BssmapServiceHandoverList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding bssmap-ServiceHandoverList: %w", err)
@@ -13831,6 +14602,9 @@ func (v *ForwardAccessSignallingArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_bssmapservicehandoverlist...)
 	}
 	if v.CurrentlyUsedCodec != nil {
+		if len(*v.CurrentlyUsedCodec) < 1 || len(*v.CurrentlyUsedCodec) > 4 {
+			return nil, fmt.Errorf("currentlyUsedCodec length %d violates SIZE (1..4)", len(*v.CurrentlyUsedCodec))
+		}
 		enc_currentlyusedcodec, encodeErr_enc_currentlyusedcodec := ber.EncodeOctetString([]byte(*v.CurrentlyUsedCodec))
 		if encodeErr_enc_currentlyusedcodec != nil {
 			return nil, fmt.Errorf("encoding currentlyUsedCodec: %w", encodeErr_enc_currentlyusedcodec)
@@ -13864,6 +14638,9 @@ func (v *ForwardAccessSignallingArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_rabconfigurationindicator...)
 	}
 	if v.IuSelectedCodec != nil {
+		if len(*v.IuSelectedCodec) < 1 || len(*v.IuSelectedCodec) > 4 {
+			return nil, fmt.Errorf("iuSelectedCodec length %d violates SIZE (1..4)", len(*v.IuSelectedCodec))
+		}
 		enc_iuselectedcodec, encodeErr_enc_iuselectedcodec := ber.EncodeOctetString([]byte(*v.IuSelectedCodec))
 		if encodeErr_enc_iuselectedcodec != nil {
 			return nil, fmt.Errorf("encoding iuSelectedCodec: %w", encodeErr_enc_iuselectedcodec)
@@ -13876,6 +14653,9 @@ func (v *ForwardAccessSignallingArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_iuselectedcodec...)
 	}
 	if v.AlternativeChannelType != nil {
+		if len(*v.AlternativeChannelType) < 3 || len(*v.AlternativeChannelType) > 13 {
+			return nil, fmt.Errorf("alternativeChannelType length %d violates SIZE (3..13)", len(*v.AlternativeChannelType))
+		}
 		enc_alternativechanneltype, encodeErr_enc_alternativechanneltype := ber.EncodeOctetString([]byte(*v.AlternativeChannelType))
 		if encodeErr_enc_alternativechanneltype != nil {
 			return nil, fmt.Errorf("encoding alternativeChannelType: %w", encodeErr_enc_alternativechanneltype)
@@ -13912,6 +14692,9 @@ func (v *ForwardAccessSignallingArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_aoipsupportedcodecslistanchor...)
 	}
 	if v.AoipSelectedCodecTarget != nil {
+		if len(*v.AoipSelectedCodecTarget) < 1 || len(*v.AoipSelectedCodecTarget) > 3 {
+			return nil, fmt.Errorf("aoipSelectedCodecTarget length %d violates SIZE (1..3)", len(*v.AoipSelectedCodecTarget))
+		}
 		enc_aoipselectedcodectarget, encodeErr_enc_aoipselectedcodectarget := ber.EncodeOctetString([]byte(*v.AoipSelectedCodecTarget))
 		if encodeErr_enc_aoipselectedcodectarget != nil {
 			return nil, fmt.Errorf("encoding aoipSelectedCodecTarget: %w", encodeErr_enc_aoipselectedcodectarget)
@@ -13936,6 +14719,9 @@ func (v *ForwardAccessSignallingArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_uesbiiu...)
 	}
 	if v.Imeisv != nil {
+		if len(*v.Imeisv) < 8 || len(*v.Imeisv) > 8 {
+			return nil, fmt.Errorf("imeisv length %d violates SIZE (8)", len(*v.Imeisv))
+		}
 		enc_imeisv, encodeErr_enc_imeisv := ber.EncodeOctetString([]byte(*v.Imeisv))
 		if encodeErr_enc_imeisv != nil {
 			return nil, fmt.Errorf("encoding imeisv: %w", encodeErr_enc_imeisv)
@@ -14029,6 +14815,9 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				}
 
 				offset += n_integrityprotectioninfo
+				if len(*v.IntegrityProtectionInfo) < 18 || len(*v.IntegrityProtectionInfo) > 100 {
+					return fmt.Errorf("integrityProtectionInfo length %d violates SIZE (18..100)", len(*v.IntegrityProtectionInfo))
+				}
 			}
 		}
 	}
@@ -14052,6 +14841,9 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				}
 
 				offset += n_encryptioninfo
+				if len(*v.EncryptionInfo) < 18 || len(*v.EncryptionInfo) > 100 {
+					return fmt.Errorf("encryptionInfo length %d violates SIZE (18..100)", len(*v.EncryptionInfo))
+				}
 			}
 		}
 	}
@@ -14103,6 +14895,9 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				}
 
 				offset += n_allowedgsmalgorithms
+				if len(*v.AllowedGSMAlgorithms) < 1 || len(*v.AllowedGSMAlgorithms) > 1 {
+					return fmt.Errorf("allowedGSM-Algorithms length %d violates SIZE (1)", len(*v.AllowedGSMAlgorithms))
+				}
 			}
 		}
 	}
@@ -14158,6 +14953,9 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				}
 
 				offset += n_radioresourceinformation
+				if len(*v.RadioResourceInformation) < 3 || len(*v.RadioResourceInformation) > 13 {
+					return fmt.Errorf("radioResourceInformation length %d violates SIZE (3..13)", len(*v.RadioResourceInformation))
+				}
 			}
 		}
 	}
@@ -14231,6 +15029,9 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				}
 
 				offset += n_radioresourcelist
+				if len(v.RadioResourceList) < 1 || len(v.RadioResourceList) > 7 {
+					return fmt.Errorf("radioResourceList length %d violates SIZE (1..7)", len(v.RadioResourceList))
+				}
 			}
 		}
 	}
@@ -14255,6 +15056,9 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				}
 
 				offset += n_bssmapservicehandover
+				if len(*v.BssmapServiceHandover) < 1 || len(*v.BssmapServiceHandover) > 1 {
+					return fmt.Errorf("bssmap-ServiceHandover length %d violates SIZE (1)", len(*v.BssmapServiceHandover))
+				}
 			}
 		}
 	}
@@ -14279,6 +15083,9 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				}
 
 				offset += n_ranapservicehandover
+				if len(*v.RanapServiceHandover) < 1 || len(*v.RanapServiceHandover) > 1 {
+					return fmt.Errorf("ranap-ServiceHandover length %d violates SIZE (1)", len(*v.RanapServiceHandover))
+				}
 			}
 		}
 	}
@@ -14322,6 +15129,9 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				}
 
 				offset += n_bssmapservicehandoverlist
+				if len(v.BssmapServiceHandoverList) < 1 || len(v.BssmapServiceHandoverList) > 7 {
+					return fmt.Errorf("bssmap-ServiceHandoverList length %d violates SIZE (1..7)", len(v.BssmapServiceHandoverList))
+				}
 			}
 		}
 	}
@@ -14346,6 +15156,9 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				}
 
 				offset += n_currentlyusedcodec
+				if len(*v.CurrentlyUsedCodec) < 1 || len(*v.CurrentlyUsedCodec) > 4 {
+					return fmt.Errorf("currentlyUsedCodec length %d violates SIZE (1..4)", len(*v.CurrentlyUsedCodec))
+				}
 			}
 		}
 	}
@@ -14426,6 +15239,9 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				}
 
 				offset += n_iuselectedcodec
+				if len(*v.IuSelectedCodec) < 1 || len(*v.IuSelectedCodec) > 4 {
+					return fmt.Errorf("iuSelectedCodec length %d violates SIZE (1..4)", len(*v.IuSelectedCodec))
+				}
 			}
 		}
 	}
@@ -14450,6 +15266,9 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				}
 
 				offset += n_alternativechanneltype
+				if len(*v.AlternativeChannelType) < 3 || len(*v.AlternativeChannelType) > 13 {
+					return fmt.Errorf("alternativeChannelType length %d violates SIZE (3..13)", len(*v.AlternativeChannelType))
+				}
 			}
 		}
 	}
@@ -14536,6 +15355,9 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				}
 
 				offset += n_aoipselectedcodectarget
+				if len(*v.AoipSelectedCodecTarget) < 1 || len(*v.AoipSelectedCodecTarget) > 3 {
+					return fmt.Errorf("aoipSelectedCodecTarget length %d violates SIZE (1..3)", len(*v.AoipSelectedCodecTarget))
+				}
 			}
 		}
 	}
@@ -14589,6 +15411,9 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				}
 
 				offset += n_imeisv
+				if len(*v.Imeisv) < 8 || len(*v.Imeisv) > 8 {
+					return fmt.Errorf("imeisv length %d violates SIZE (8)", len(*v.Imeisv))
+				}
 			}
 		}
 	}
@@ -14622,6 +15447,9 @@ func (v *ForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 func (v *AllowedUMTSAlgorithms) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.IntegrityProtectionAlgorithms != nil {
+		if len(*v.IntegrityProtectionAlgorithms) < 1 || len(*v.IntegrityProtectionAlgorithms) > 9 {
+			return nil, fmt.Errorf("integrityProtectionAlgorithms length %d violates SIZE (1..9)", len(*v.IntegrityProtectionAlgorithms))
+		}
 		enc_integrityprotectionalgorithms, encodeErr_enc_integrityprotectionalgorithms := ber.EncodeOctetString([]byte(*v.IntegrityProtectionAlgorithms))
 		if encodeErr_enc_integrityprotectionalgorithms != nil {
 			return nil, fmt.Errorf("encoding integrityProtectionAlgorithms: %w", encodeErr_enc_integrityprotectionalgorithms)
@@ -14634,6 +15462,9 @@ func (v *AllowedUMTSAlgorithms) MarshalBER() ([]byte, error) {
 		children = append(children, enc_integrityprotectionalgorithms...)
 	}
 	if v.EncryptionAlgorithms != nil {
+		if len(*v.EncryptionAlgorithms) < 1 || len(*v.EncryptionAlgorithms) > 9 {
+			return nil, fmt.Errorf("encryptionAlgorithms length %d violates SIZE (1..9)", len(*v.EncryptionAlgorithms))
+		}
 		enc_encryptionalgorithms, encodeErr_enc_encryptionalgorithms := ber.EncodeOctetString([]byte(*v.EncryptionAlgorithms))
 		if encodeErr_enc_encryptionalgorithms != nil {
 			return nil, fmt.Errorf("encoding encryptionAlgorithms: %w", encodeErr_enc_encryptionalgorithms)
@@ -14674,6 +15505,9 @@ func (v *AllowedUMTSAlgorithms) MarshalBER() ([]byte, error) {
 func (v *AllowedUMTSAlgorithms) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.IntegrityProtectionAlgorithms != nil {
+		if len(*v.IntegrityProtectionAlgorithms) < 1 || len(*v.IntegrityProtectionAlgorithms) > 9 {
+			return nil, fmt.Errorf("integrityProtectionAlgorithms length %d violates SIZE (1..9)", len(*v.IntegrityProtectionAlgorithms))
+		}
 		enc_integrityprotectionalgorithms, encodeErr_enc_integrityprotectionalgorithms := ber.EncodeOctetString([]byte(*v.IntegrityProtectionAlgorithms))
 		if encodeErr_enc_integrityprotectionalgorithms != nil {
 			return nil, fmt.Errorf("encoding integrityProtectionAlgorithms: %w", encodeErr_enc_integrityprotectionalgorithms)
@@ -14686,6 +15520,9 @@ func (v *AllowedUMTSAlgorithms) MarshalDER() ([]byte, error) {
 		children = append(children, enc_integrityprotectionalgorithms...)
 	}
 	if v.EncryptionAlgorithms != nil {
+		if len(*v.EncryptionAlgorithms) < 1 || len(*v.EncryptionAlgorithms) > 9 {
+			return nil, fmt.Errorf("encryptionAlgorithms length %d violates SIZE (1..9)", len(*v.EncryptionAlgorithms))
+		}
 		enc_encryptionalgorithms, encodeErr_enc_encryptionalgorithms := ber.EncodeOctetString([]byte(*v.EncryptionAlgorithms))
 		if encodeErr_enc_encryptionalgorithms != nil {
 			return nil, fmt.Errorf("encoding encryptionAlgorithms: %w", encodeErr_enc_encryptionalgorithms)
@@ -14760,6 +15597,9 @@ func (v *AllowedUMTSAlgorithms) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_integrityprotectionalgorithms
+				if len(*v.IntegrityProtectionAlgorithms) < 1 || len(*v.IntegrityProtectionAlgorithms) > 9 {
+					return fmt.Errorf("integrityProtectionAlgorithms length %d violates SIZE (1..9)", len(*v.IntegrityProtectionAlgorithms))
+				}
 			}
 		}
 	}
@@ -14784,6 +15624,9 @@ func (v *AllowedUMTSAlgorithms) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_encryptionalgorithms
+				if len(*v.EncryptionAlgorithms) < 1 || len(*v.EncryptionAlgorithms) > 9 {
+					return fmt.Errorf("encryptionAlgorithms length %d violates SIZE (1..9)", len(*v.EncryptionAlgorithms))
+				}
 			}
 		}
 	}
@@ -14848,6 +15691,9 @@ func (v *AllowedUMTSAlgorithms) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.TargetCellId != nil {
+		if len(*v.TargetCellId) < 5 || len(*v.TargetCellId) > 7 {
+			return nil, fmt.Errorf("targetCellId length %d violates SIZE (5..7)", len(*v.TargetCellId))
+		}
 		enc_targetcellid, encodeErr_enc_targetcellid := ber.EncodeOctetString([]byte(*v.TargetCellId))
 		if encodeErr_enc_targetcellid != nil {
 			return nil, fmt.Errorf("encoding targetCellId: %w", encodeErr_enc_targetcellid)
@@ -14864,6 +15710,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_honumbernotrequired...)
 	}
 	if v.TargetRNCId != nil {
+		if len(*v.TargetRNCId) < 7 || len(*v.TargetRNCId) > 7 {
+			return nil, fmt.Errorf("targetRNCId length %d violates SIZE (7)", len(*v.TargetRNCId))
+		}
 		enc_targetrncid, encodeErr_enc_targetrncid := ber.EncodeOctetString([]byte(*v.TargetRNCId))
 		if encodeErr_enc_targetrncid != nil {
 			return nil, fmt.Errorf("encoding targetRNCId: %w", encodeErr_enc_targetrncid)
@@ -14897,6 +15746,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_multiplebearerrequested...)
 	}
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -14909,6 +15761,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if v.IntegrityProtectionInfo != nil {
+		if len(*v.IntegrityProtectionInfo) < 18 || len(*v.IntegrityProtectionInfo) > 100 {
+			return nil, fmt.Errorf("integrityProtectionInfo length %d violates SIZE (18..100)", len(*v.IntegrityProtectionInfo))
+		}
 		enc_integrityprotectioninfo, encodeErr_enc_integrityprotectioninfo := ber.EncodeOctetString([]byte(*v.IntegrityProtectionInfo))
 		if encodeErr_enc_integrityprotectioninfo != nil {
 			return nil, fmt.Errorf("encoding integrityProtectionInfo: %w", encodeErr_enc_integrityprotectioninfo)
@@ -14921,6 +15776,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_integrityprotectioninfo...)
 	}
 	if v.EncryptionInfo != nil {
+		if len(*v.EncryptionInfo) < 18 || len(*v.EncryptionInfo) > 100 {
+			return nil, fmt.Errorf("encryptionInfo length %d violates SIZE (18..100)", len(*v.EncryptionInfo))
+		}
 		enc_encryptioninfo, encodeErr_enc_encryptioninfo := ber.EncodeOctetString([]byte(*v.EncryptionInfo))
 		if encodeErr_enc_encryptioninfo != nil {
 			return nil, fmt.Errorf("encoding encryptionInfo: %w", encodeErr_enc_encryptioninfo)
@@ -14933,6 +15791,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_encryptioninfo...)
 	}
 	if v.RadioResourceInformation != nil {
+		if len(*v.RadioResourceInformation) < 3 || len(*v.RadioResourceInformation) > 13 {
+			return nil, fmt.Errorf("radioResourceInformation length %d violates SIZE (3..13)", len(*v.RadioResourceInformation))
+		}
 		enc_radioresourceinformation, encodeErr_enc_radioresourceinformation := ber.EncodeOctetString([]byte(*v.RadioResourceInformation))
 		if encodeErr_enc_radioresourceinformation != nil {
 			return nil, fmt.Errorf("encoding radioResourceInformation: %w", encodeErr_enc_radioresourceinformation)
@@ -14945,6 +15806,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_radioresourceinformation...)
 	}
 	if v.AllowedGSMAlgorithms != nil {
+		if len(*v.AllowedGSMAlgorithms) < 1 || len(*v.AllowedGSMAlgorithms) > 1 {
+			return nil, fmt.Errorf("allowedGSM-Algorithms length %d violates SIZE (1)", len(*v.AllowedGSMAlgorithms))
+		}
 		enc_allowedgsmalgorithms, encodeErr_enc_allowedgsmalgorithms := ber.EncodeOctetString([]byte(*v.AllowedGSMAlgorithms))
 		if encodeErr_enc_allowedgsmalgorithms != nil {
 			return nil, fmt.Errorf("encoding allowedGSM-Algorithms: %w", encodeErr_enc_allowedgsmalgorithms)
@@ -14969,6 +15833,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_allowedumtsalgorithms...)
 	}
 	if v.RadioResourceList != nil {
+		if len(v.RadioResourceList) < 1 || len(v.RadioResourceList) > 7 {
+			return nil, fmt.Errorf("radioResourceList length %d violates SIZE (1..7)", len(v.RadioResourceList))
+		}
 		enc_radioresourcelist, err := MarshalBERRadioResourceList(v.RadioResourceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding radioResourceList: %w", err)
@@ -15017,6 +15884,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_rabid...)
 	}
 	if v.BssmapServiceHandover != nil {
+		if len(*v.BssmapServiceHandover) < 1 || len(*v.BssmapServiceHandover) > 1 {
+			return nil, fmt.Errorf("bssmap-ServiceHandover length %d violates SIZE (1)", len(*v.BssmapServiceHandover))
+		}
 		enc_bssmapservicehandover, encodeErr_enc_bssmapservicehandover := ber.EncodeOctetString([]byte(*v.BssmapServiceHandover))
 		if encodeErr_enc_bssmapservicehandover != nil {
 			return nil, fmt.Errorf("encoding bssmap-ServiceHandover: %w", encodeErr_enc_bssmapservicehandover)
@@ -15029,6 +15899,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_bssmapservicehandover...)
 	}
 	if v.RanapServiceHandover != nil {
+		if len(*v.RanapServiceHandover) < 1 || len(*v.RanapServiceHandover) > 1 {
+			return nil, fmt.Errorf("ranap-ServiceHandover length %d violates SIZE (1)", len(*v.RanapServiceHandover))
+		}
 		enc_ranapservicehandover, encodeErr_enc_ranapservicehandover := ber.EncodeOctetString([]byte(*v.RanapServiceHandover))
 		if encodeErr_enc_ranapservicehandover != nil {
 			return nil, fmt.Errorf("encoding ranap-ServiceHandover: %w", encodeErr_enc_ranapservicehandover)
@@ -15041,6 +15914,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ranapservicehandover...)
 	}
 	if v.BssmapServiceHandoverList != nil {
+		if len(v.BssmapServiceHandoverList) < 1 || len(v.BssmapServiceHandoverList) > 7 {
+			return nil, fmt.Errorf("bssmap-ServiceHandoverList length %d violates SIZE (1..7)", len(v.BssmapServiceHandoverList))
+		}
 		enc_bssmapservicehandoverlist, err := MarshalBERBSSMAPServiceHandoverList(v.BssmapServiceHandoverList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding bssmap-ServiceHandoverList: %w", err)
@@ -15068,6 +15944,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_bssmapservicehandoverlist...)
 	}
 	if v.AsciCallReference != nil {
+		if len(*v.AsciCallReference) < 1 || len(*v.AsciCallReference) > 8 {
+			return nil, fmt.Errorf("asciCallReference length %d violates SIZE (1..8)", len(*v.AsciCallReference))
+		}
 		enc_ascicallreference, encodeErr_enc_ascicallreference := ber.EncodeOctetString([]byte(*v.AsciCallReference))
 		if encodeErr_enc_ascicallreference != nil {
 			return nil, fmt.Errorf("encoding asciCallReference: %w", encodeErr_enc_ascicallreference)
@@ -15080,6 +15959,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ascicallreference...)
 	}
 	if v.GeranClassmark != nil {
+		if len(*v.GeranClassmark) < 2 || len(*v.GeranClassmark) > 87 {
+			return nil, fmt.Errorf("geran-classmark length %d violates SIZE (2..87)", len(*v.GeranClassmark))
+		}
 		enc_geranclassmark, encodeErr_enc_geranclassmark := ber.EncodeOctetString([]byte(*v.GeranClassmark))
 		if encodeErr_enc_geranclassmark != nil {
 			return nil, fmt.Errorf("encoding geran-classmark: %w", encodeErr_enc_geranclassmark)
@@ -15092,6 +15974,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_geranclassmark...)
 	}
 	if v.IuCurrentlyUsedCodec != nil {
+		if len(*v.IuCurrentlyUsedCodec) < 1 || len(*v.IuCurrentlyUsedCodec) > 4 {
+			return nil, fmt.Errorf("iuCurrentlyUsedCodec length %d violates SIZE (1..4)", len(*v.IuCurrentlyUsedCodec))
+		}
 		enc_iucurrentlyusedcodec, encodeErr_enc_iucurrentlyusedcodec := ber.EncodeOctetString([]byte(*v.IuCurrentlyUsedCodec))
 		if encodeErr_enc_iucurrentlyusedcodec != nil {
 			return nil, fmt.Errorf("encoding iuCurrentlyUsedCodec: %w", encodeErr_enc_iucurrentlyusedcodec)
@@ -15137,6 +16022,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_uesbiiu...)
 	}
 	if v.Imeisv != nil {
+		if len(*v.Imeisv) < 8 || len(*v.Imeisv) > 8 {
+			return nil, fmt.Errorf("imeisv length %d violates SIZE (8)", len(*v.Imeisv))
+		}
 		enc_imeisv, encodeErr_enc_imeisv := ber.EncodeOctetString([]byte(*v.Imeisv))
 		if encodeErr_enc_imeisv != nil {
 			return nil, fmt.Errorf("encoding imeisv: %w", encodeErr_enc_imeisv)
@@ -15149,6 +16037,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imeisv...)
 	}
 	if v.AlternativeChannelType != nil {
+		if len(*v.AlternativeChannelType) < 3 || len(*v.AlternativeChannelType) > 13 {
+			return nil, fmt.Errorf("alternativeChannelType length %d violates SIZE (3..13)", len(*v.AlternativeChannelType))
+		}
 		enc_alternativechanneltype, encodeErr_enc_alternativechanneltype := ber.EncodeOctetString([]byte(*v.AlternativeChannelType))
 		if encodeErr_enc_alternativechanneltype != nil {
 			return nil, fmt.Errorf("encoding alternativeChannelType: %w", encodeErr_enc_alternativechanneltype)
@@ -15185,6 +16076,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_aoipsupportedcodecslistanchor...)
 	}
 	if v.RegionalSubscriptionData != nil {
+		if len(v.RegionalSubscriptionData) < 1 || len(v.RegionalSubscriptionData) > 10 {
+			return nil, fmt.Errorf("regionalSubscriptionData length %d violates SIZE (1..10)", len(v.RegionalSubscriptionData))
+		}
 		enc_regionalsubscriptiondata, err := MarshalBERZoneCodeList(v.RegionalSubscriptionData)
 		if err != nil {
 			return nil, fmt.Errorf("encoding regionalSubscriptionData: %w", err)
@@ -15212,6 +16106,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_regionalsubscriptiondata...)
 	}
 	if v.LclsGlobalCallReference != nil {
+		if len(*v.LclsGlobalCallReference) < 13 || len(*v.LclsGlobalCallReference) > 15 {
+			return nil, fmt.Errorf("lclsGlobalCallReference length %d violates SIZE (13..15)", len(*v.LclsGlobalCallReference))
+		}
 		enc_lclsglobalcallreference, encodeErr_enc_lclsglobalcallreference := ber.EncodeOctetString([]byte(*v.LclsGlobalCallReference))
 		if encodeErr_enc_lclsglobalcallreference != nil {
 			return nil, fmt.Errorf("encoding lclsGlobalCallReference: %w", encodeErr_enc_lclsglobalcallreference)
@@ -15224,7 +16121,10 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_lclsglobalcallreference...)
 	}
 	if v.LclsNegotiation != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.LclsNegotiation).BitLength < 2 || (*v.LclsNegotiation).BitLength > 8 {
+			return nil, fmt.Errorf("lcls-Negotiation length %d violates SIZE (2..8)", (*v.LclsNegotiation).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.LclsNegotiation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15240,7 +16140,10 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_lclsnegotiation...)
 	}
 	if v.LclsConfigurationPreference != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.LclsConfigurationPreference).BitLength < 4 || (*v.LclsConfigurationPreference).BitLength > 8 {
+			return nil, fmt.Errorf("lcls-Configuration-Preference length %d violates SIZE (4..8)", (*v.LclsConfigurationPreference).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.LclsConfigurationPreference.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15256,6 +16159,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_lclsconfigurationpreference...)
 	}
 	if v.CsgSubscriptionDataList != nil {
+		if len(v.CsgSubscriptionDataList) < 1 || len(v.CsgSubscriptionDataList) > 50 {
+			return nil, fmt.Errorf("csg-SubscriptionDataList length %d violates SIZE (1..50)", len(v.CsgSubscriptionDataList))
+		}
 		enc_csgsubscriptiondatalist, err := MarshalBERCSGSubscriptionDataList(v.CsgSubscriptionDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding csg-SubscriptionDataList: %w", err)
@@ -15299,6 +16205,9 @@ func (v *PrepareHOArg) MarshalBER() ([]byte, error) {
 func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.TargetCellId != nil {
+		if len(*v.TargetCellId) < 5 || len(*v.TargetCellId) > 7 {
+			return nil, fmt.Errorf("targetCellId length %d violates SIZE (5..7)", len(*v.TargetCellId))
+		}
 		enc_targetcellid, encodeErr_enc_targetcellid := ber.EncodeOctetString([]byte(*v.TargetCellId))
 		if encodeErr_enc_targetcellid != nil {
 			return nil, fmt.Errorf("encoding targetCellId: %w", encodeErr_enc_targetcellid)
@@ -15315,6 +16224,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_honumbernotrequired...)
 	}
 	if v.TargetRNCId != nil {
+		if len(*v.TargetRNCId) < 7 || len(*v.TargetRNCId) > 7 {
+			return nil, fmt.Errorf("targetRNCId length %d violates SIZE (7)", len(*v.TargetRNCId))
+		}
 		enc_targetrncid, encodeErr_enc_targetrncid := ber.EncodeOctetString([]byte(*v.TargetRNCId))
 		if encodeErr_enc_targetrncid != nil {
 			return nil, fmt.Errorf("encoding targetRNCId: %w", encodeErr_enc_targetrncid)
@@ -15348,6 +16260,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_multiplebearerrequested...)
 	}
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -15360,6 +16275,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if v.IntegrityProtectionInfo != nil {
+		if len(*v.IntegrityProtectionInfo) < 18 || len(*v.IntegrityProtectionInfo) > 100 {
+			return nil, fmt.Errorf("integrityProtectionInfo length %d violates SIZE (18..100)", len(*v.IntegrityProtectionInfo))
+		}
 		enc_integrityprotectioninfo, encodeErr_enc_integrityprotectioninfo := ber.EncodeOctetString([]byte(*v.IntegrityProtectionInfo))
 		if encodeErr_enc_integrityprotectioninfo != nil {
 			return nil, fmt.Errorf("encoding integrityProtectionInfo: %w", encodeErr_enc_integrityprotectioninfo)
@@ -15372,6 +16290,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_integrityprotectioninfo...)
 	}
 	if v.EncryptionInfo != nil {
+		if len(*v.EncryptionInfo) < 18 || len(*v.EncryptionInfo) > 100 {
+			return nil, fmt.Errorf("encryptionInfo length %d violates SIZE (18..100)", len(*v.EncryptionInfo))
+		}
 		enc_encryptioninfo, encodeErr_enc_encryptioninfo := ber.EncodeOctetString([]byte(*v.EncryptionInfo))
 		if encodeErr_enc_encryptioninfo != nil {
 			return nil, fmt.Errorf("encoding encryptionInfo: %w", encodeErr_enc_encryptioninfo)
@@ -15384,6 +16305,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_encryptioninfo...)
 	}
 	if v.RadioResourceInformation != nil {
+		if len(*v.RadioResourceInformation) < 3 || len(*v.RadioResourceInformation) > 13 {
+			return nil, fmt.Errorf("radioResourceInformation length %d violates SIZE (3..13)", len(*v.RadioResourceInformation))
+		}
 		enc_radioresourceinformation, encodeErr_enc_radioresourceinformation := ber.EncodeOctetString([]byte(*v.RadioResourceInformation))
 		if encodeErr_enc_radioresourceinformation != nil {
 			return nil, fmt.Errorf("encoding radioResourceInformation: %w", encodeErr_enc_radioresourceinformation)
@@ -15396,6 +16320,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_radioresourceinformation...)
 	}
 	if v.AllowedGSMAlgorithms != nil {
+		if len(*v.AllowedGSMAlgorithms) < 1 || len(*v.AllowedGSMAlgorithms) > 1 {
+			return nil, fmt.Errorf("allowedGSM-Algorithms length %d violates SIZE (1)", len(*v.AllowedGSMAlgorithms))
+		}
 		enc_allowedgsmalgorithms, encodeErr_enc_allowedgsmalgorithms := ber.EncodeOctetString([]byte(*v.AllowedGSMAlgorithms))
 		if encodeErr_enc_allowedgsmalgorithms != nil {
 			return nil, fmt.Errorf("encoding allowedGSM-Algorithms: %w", encodeErr_enc_allowedgsmalgorithms)
@@ -15420,6 +16347,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_allowedumtsalgorithms...)
 	}
 	if v.RadioResourceList != nil {
+		if len(v.RadioResourceList) < 1 || len(v.RadioResourceList) > 7 {
+			return nil, fmt.Errorf("radioResourceList length %d violates SIZE (1..7)", len(v.RadioResourceList))
+		}
 		enc_radioresourcelist, err := MarshalDERRadioResourceList(v.RadioResourceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding radioResourceList: %w", err)
@@ -15453,6 +16383,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_rabid...)
 	}
 	if v.BssmapServiceHandover != nil {
+		if len(*v.BssmapServiceHandover) < 1 || len(*v.BssmapServiceHandover) > 1 {
+			return nil, fmt.Errorf("bssmap-ServiceHandover length %d violates SIZE (1)", len(*v.BssmapServiceHandover))
+		}
 		enc_bssmapservicehandover, encodeErr_enc_bssmapservicehandover := ber.EncodeOctetString([]byte(*v.BssmapServiceHandover))
 		if encodeErr_enc_bssmapservicehandover != nil {
 			return nil, fmt.Errorf("encoding bssmap-ServiceHandover: %w", encodeErr_enc_bssmapservicehandover)
@@ -15465,6 +16398,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_bssmapservicehandover...)
 	}
 	if v.RanapServiceHandover != nil {
+		if len(*v.RanapServiceHandover) < 1 || len(*v.RanapServiceHandover) > 1 {
+			return nil, fmt.Errorf("ranap-ServiceHandover length %d violates SIZE (1)", len(*v.RanapServiceHandover))
+		}
 		enc_ranapservicehandover, encodeErr_enc_ranapservicehandover := ber.EncodeOctetString([]byte(*v.RanapServiceHandover))
 		if encodeErr_enc_ranapservicehandover != nil {
 			return nil, fmt.Errorf("encoding ranap-ServiceHandover: %w", encodeErr_enc_ranapservicehandover)
@@ -15477,6 +16413,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ranapservicehandover...)
 	}
 	if v.BssmapServiceHandoverList != nil {
+		if len(v.BssmapServiceHandoverList) < 1 || len(v.BssmapServiceHandoverList) > 7 {
+			return nil, fmt.Errorf("bssmap-ServiceHandoverList length %d violates SIZE (1..7)", len(v.BssmapServiceHandoverList))
+		}
 		enc_bssmapservicehandoverlist, err := MarshalDERBSSMAPServiceHandoverList(v.BssmapServiceHandoverList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding bssmap-ServiceHandoverList: %w", err)
@@ -15489,6 +16428,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_bssmapservicehandoverlist...)
 	}
 	if v.AsciCallReference != nil {
+		if len(*v.AsciCallReference) < 1 || len(*v.AsciCallReference) > 8 {
+			return nil, fmt.Errorf("asciCallReference length %d violates SIZE (1..8)", len(*v.AsciCallReference))
+		}
 		enc_ascicallreference, encodeErr_enc_ascicallreference := ber.EncodeOctetString([]byte(*v.AsciCallReference))
 		if encodeErr_enc_ascicallreference != nil {
 			return nil, fmt.Errorf("encoding asciCallReference: %w", encodeErr_enc_ascicallreference)
@@ -15501,6 +16443,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ascicallreference...)
 	}
 	if v.GeranClassmark != nil {
+		if len(*v.GeranClassmark) < 2 || len(*v.GeranClassmark) > 87 {
+			return nil, fmt.Errorf("geran-classmark length %d violates SIZE (2..87)", len(*v.GeranClassmark))
+		}
 		enc_geranclassmark, encodeErr_enc_geranclassmark := ber.EncodeOctetString([]byte(*v.GeranClassmark))
 		if encodeErr_enc_geranclassmark != nil {
 			return nil, fmt.Errorf("encoding geran-classmark: %w", encodeErr_enc_geranclassmark)
@@ -15513,6 +16458,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_geranclassmark...)
 	}
 	if v.IuCurrentlyUsedCodec != nil {
+		if len(*v.IuCurrentlyUsedCodec) < 1 || len(*v.IuCurrentlyUsedCodec) > 4 {
+			return nil, fmt.Errorf("iuCurrentlyUsedCodec length %d violates SIZE (1..4)", len(*v.IuCurrentlyUsedCodec))
+		}
 		enc_iucurrentlyusedcodec, encodeErr_enc_iucurrentlyusedcodec := ber.EncodeOctetString([]byte(*v.IuCurrentlyUsedCodec))
 		if encodeErr_enc_iucurrentlyusedcodec != nil {
 			return nil, fmt.Errorf("encoding iuCurrentlyUsedCodec: %w", encodeErr_enc_iucurrentlyusedcodec)
@@ -15558,6 +16506,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_uesbiiu...)
 	}
 	if v.Imeisv != nil {
+		if len(*v.Imeisv) < 8 || len(*v.Imeisv) > 8 {
+			return nil, fmt.Errorf("imeisv length %d violates SIZE (8)", len(*v.Imeisv))
+		}
 		enc_imeisv, encodeErr_enc_imeisv := ber.EncodeOctetString([]byte(*v.Imeisv))
 		if encodeErr_enc_imeisv != nil {
 			return nil, fmt.Errorf("encoding imeisv: %w", encodeErr_enc_imeisv)
@@ -15570,6 +16521,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imeisv...)
 	}
 	if v.AlternativeChannelType != nil {
+		if len(*v.AlternativeChannelType) < 3 || len(*v.AlternativeChannelType) > 13 {
+			return nil, fmt.Errorf("alternativeChannelType length %d violates SIZE (3..13)", len(*v.AlternativeChannelType))
+		}
 		enc_alternativechanneltype, encodeErr_enc_alternativechanneltype := ber.EncodeOctetString([]byte(*v.AlternativeChannelType))
 		if encodeErr_enc_alternativechanneltype != nil {
 			return nil, fmt.Errorf("encoding alternativeChannelType: %w", encodeErr_enc_alternativechanneltype)
@@ -15606,6 +16560,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_aoipsupportedcodecslistanchor...)
 	}
 	if v.RegionalSubscriptionData != nil {
+		if len(v.RegionalSubscriptionData) < 1 || len(v.RegionalSubscriptionData) > 10 {
+			return nil, fmt.Errorf("regionalSubscriptionData length %d violates SIZE (1..10)", len(v.RegionalSubscriptionData))
+		}
 		enc_regionalsubscriptiondata, err := MarshalDERZoneCodeList(v.RegionalSubscriptionData)
 		if err != nil {
 			return nil, fmt.Errorf("encoding regionalSubscriptionData: %w", err)
@@ -15618,6 +16575,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_regionalsubscriptiondata...)
 	}
 	if v.LclsGlobalCallReference != nil {
+		if len(*v.LclsGlobalCallReference) < 13 || len(*v.LclsGlobalCallReference) > 15 {
+			return nil, fmt.Errorf("lclsGlobalCallReference length %d violates SIZE (13..15)", len(*v.LclsGlobalCallReference))
+		}
 		enc_lclsglobalcallreference, encodeErr_enc_lclsglobalcallreference := ber.EncodeOctetString([]byte(*v.LclsGlobalCallReference))
 		if encodeErr_enc_lclsglobalcallreference != nil {
 			return nil, fmt.Errorf("encoding lclsGlobalCallReference: %w", encodeErr_enc_lclsglobalcallreference)
@@ -15630,7 +16590,10 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_lclsglobalcallreference...)
 	}
 	if v.LclsNegotiation != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.LclsNegotiation).BitLength < 2 || (*v.LclsNegotiation).BitLength > 8 {
+			return nil, fmt.Errorf("lcls-Negotiation length %d violates SIZE (2..8)", (*v.LclsNegotiation).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.LclsNegotiation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15646,7 +16609,10 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_lclsnegotiation...)
 	}
 	if v.LclsConfigurationPreference != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.LclsConfigurationPreference).BitLength < 4 || (*v.LclsConfigurationPreference).BitLength > 8 {
+			return nil, fmt.Errorf("lcls-Configuration-Preference length %d violates SIZE (4..8)", (*v.LclsConfigurationPreference).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.LclsConfigurationPreference.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15662,6 +16628,9 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_lclsconfigurationpreference...)
 	}
 	if v.CsgSubscriptionDataList != nil {
+		if len(v.CsgSubscriptionDataList) < 1 || len(v.CsgSubscriptionDataList) > 50 {
+			return nil, fmt.Errorf("csg-SubscriptionDataList length %d violates SIZE (1..50)", len(v.CsgSubscriptionDataList))
+		}
 		enc_csgsubscriptiondatalist, err := MarshalDERCSGSubscriptionDataList(v.CsgSubscriptionDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding csg-SubscriptionDataList: %w", err)
@@ -15732,6 +16701,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_targetcellid
+				if len(*v.TargetCellId) < 5 || len(*v.TargetCellId) > 7 {
+					return fmt.Errorf("targetCellId length %d violates SIZE (5..7)", len(*v.TargetCellId))
+				}
 			}
 		}
 	}
@@ -15775,6 +16747,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_targetrncid
+				if len(*v.TargetRNCId) < 7 || len(*v.TargetRNCId) > 7 {
+					return fmt.Errorf("targetRNCId length %d violates SIZE (7)", len(*v.TargetRNCId))
+				}
 			}
 		}
 	}
@@ -15854,6 +16829,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_imsi
+				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+				}
 			}
 		}
 	}
@@ -15878,6 +16856,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_integrityprotectioninfo
+				if len(*v.IntegrityProtectionInfo) < 18 || len(*v.IntegrityProtectionInfo) > 100 {
+					return fmt.Errorf("integrityProtectionInfo length %d violates SIZE (18..100)", len(*v.IntegrityProtectionInfo))
+				}
 			}
 		}
 	}
@@ -15902,6 +16883,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_encryptioninfo
+				if len(*v.EncryptionInfo) < 18 || len(*v.EncryptionInfo) > 100 {
+					return fmt.Errorf("encryptionInfo length %d violates SIZE (18..100)", len(*v.EncryptionInfo))
+				}
 			}
 		}
 	}
@@ -15926,6 +16910,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_radioresourceinformation
+				if len(*v.RadioResourceInformation) < 3 || len(*v.RadioResourceInformation) > 13 {
+					return fmt.Errorf("radioResourceInformation length %d violates SIZE (3..13)", len(*v.RadioResourceInformation))
+				}
 			}
 		}
 	}
@@ -15950,6 +16937,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_allowedgsmalgorithms
+				if len(*v.AllowedGSMAlgorithms) < 1 || len(*v.AllowedGSMAlgorithms) > 1 {
+					return fmt.Errorf("allowedGSM-Algorithms length %d violates SIZE (1)", len(*v.AllowedGSMAlgorithms))
+				}
 			}
 		}
 	}
@@ -16024,6 +17014,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_radioresourcelist
+				if len(v.RadioResourceList) < 1 || len(v.RadioResourceList) > 7 {
+					return fmt.Errorf("radioResourceList length %d violates SIZE (1..7)", len(v.RadioResourceList))
+				}
 			}
 		}
 	}
@@ -16106,6 +17099,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_bssmapservicehandover
+				if len(*v.BssmapServiceHandover) < 1 || len(*v.BssmapServiceHandover) > 1 {
+					return fmt.Errorf("bssmap-ServiceHandover length %d violates SIZE (1)", len(*v.BssmapServiceHandover))
+				}
 			}
 		}
 	}
@@ -16130,6 +17126,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_ranapservicehandover
+				if len(*v.RanapServiceHandover) < 1 || len(*v.RanapServiceHandover) > 1 {
+					return fmt.Errorf("ranap-ServiceHandover length %d violates SIZE (1)", len(*v.RanapServiceHandover))
+				}
 			}
 		}
 	}
@@ -16173,6 +17172,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_bssmapservicehandoverlist
+				if len(v.BssmapServiceHandoverList) < 1 || len(v.BssmapServiceHandoverList) > 7 {
+					return fmt.Errorf("bssmap-ServiceHandoverList length %d violates SIZE (1..7)", len(v.BssmapServiceHandoverList))
+				}
 			}
 		}
 	}
@@ -16197,6 +17199,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_ascicallreference
+				if len(*v.AsciCallReference) < 1 || len(*v.AsciCallReference) > 8 {
+					return fmt.Errorf("asciCallReference length %d violates SIZE (1..8)", len(*v.AsciCallReference))
+				}
 			}
 		}
 	}
@@ -16221,6 +17226,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_geranclassmark
+				if len(*v.GeranClassmark) < 2 || len(*v.GeranClassmark) > 87 {
+					return fmt.Errorf("geran-classmark length %d violates SIZE (2..87)", len(*v.GeranClassmark))
+				}
 			}
 		}
 	}
@@ -16245,6 +17253,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_iucurrentlyusedcodec
+				if len(*v.IuCurrentlyUsedCodec) < 1 || len(*v.IuCurrentlyUsedCodec) > 4 {
+					return fmt.Errorf("iuCurrentlyUsedCodec length %d violates SIZE (1..4)", len(*v.IuCurrentlyUsedCodec))
+				}
 			}
 		}
 	}
@@ -16355,6 +17366,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_imeisv
+				if len(*v.Imeisv) < 8 || len(*v.Imeisv) > 8 {
+					return fmt.Errorf("imeisv length %d violates SIZE (8)", len(*v.Imeisv))
+				}
 			}
 		}
 	}
@@ -16379,6 +17393,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_alternativechanneltype
+				if len(*v.AlternativeChannelType) < 3 || len(*v.AlternativeChannelType) > 13 {
+					return fmt.Errorf("alternativeChannelType length %d violates SIZE (3..13)", len(*v.AlternativeChannelType))
+				}
 			}
 		}
 	}
@@ -16484,6 +17501,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_regionalsubscriptiondata
+				if len(v.RegionalSubscriptionData) < 1 || len(v.RegionalSubscriptionData) > 10 {
+					return fmt.Errorf("regionalSubscriptionData length %d violates SIZE (1..10)", len(v.RegionalSubscriptionData))
+				}
 			}
 		}
 	}
@@ -16508,6 +17528,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_lclsglobalcallreference
+				if len(*v.LclsGlobalCallReference) < 13 || len(*v.LclsGlobalCallReference) > 15 {
+					return fmt.Errorf("lclsGlobalCallReference length %d violates SIZE (13..15)", len(*v.LclsGlobalCallReference))
+				}
 			}
 		}
 	}
@@ -16540,6 +17563,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_lclsnegotiation
+				if (*v.LclsNegotiation).BitLength < 2 || (*v.LclsNegotiation).BitLength > 8 {
+					return fmt.Errorf("lcls-Negotiation length %d violates SIZE (2..8)", (*v.LclsNegotiation).BitLength)
+				}
 			}
 		}
 	}
@@ -16572,6 +17598,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_lclsconfigurationpreference
+				if (*v.LclsConfigurationPreference).BitLength < 4 || (*v.LclsConfigurationPreference).BitLength > 8 {
+					return fmt.Errorf("lcls-Configuration-Preference length %d violates SIZE (4..8)", (*v.LclsConfigurationPreference).BitLength)
+				}
 			}
 		}
 	}
@@ -16615,6 +17644,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_csgsubscriptiondatalist
+				if len(v.CsgSubscriptionDataList) < 1 || len(v.CsgSubscriptionDataList) > 50 {
+					return fmt.Errorf("csg-SubscriptionDataList length %d violates SIZE (1..50)", len(v.CsgSubscriptionDataList))
+				}
 			}
 		}
 	}
@@ -16731,6 +17763,9 @@ func UnmarshalBERBSSMAPServiceHandoverList(data []byte, opts ...ber.DecodeOption
 // MarshalBER encodes BSSMAPServiceHandoverInfo to BER format.
 func (v *BSSMAPServiceHandoverInfo) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.BssmapServiceHandover) < 1 || len(v.BssmapServiceHandover) > 1 {
+		return nil, fmt.Errorf("bssmap-ServiceHandover length %d violates SIZE (1)", len(v.BssmapServiceHandover))
+	}
 	enc_bssmapservicehandover, encodeErr_enc_bssmapservicehandover := ber.EncodeOctetString([]byte(v.BssmapServiceHandover))
 	if encodeErr_enc_bssmapservicehandover != nil {
 		return nil, fmt.Errorf("encoding bssmap-ServiceHandover: %w", encodeErr_enc_bssmapservicehandover)
@@ -16754,6 +17789,9 @@ func (v *BSSMAPServiceHandoverInfo) MarshalBER() ([]byte, error) {
 // MarshalDER encodes BSSMAPServiceHandoverInfo to DER format.
 func (v *BSSMAPServiceHandoverInfo) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.BssmapServiceHandover) < 1 || len(v.BssmapServiceHandover) > 1 {
+		return nil, fmt.Errorf("bssmap-ServiceHandover length %d violates SIZE (1)", len(v.BssmapServiceHandover))
+	}
 	enc_bssmapservicehandover, encodeErr_enc_bssmapservicehandover := ber.EncodeOctetString([]byte(v.BssmapServiceHandover))
 	if encodeErr_enc_bssmapservicehandover != nil {
 		return nil, fmt.Errorf("encoding bssmap-ServiceHandover: %w", encodeErr_enc_bssmapservicehandover)
@@ -16806,6 +17844,9 @@ func (v *BSSMAPServiceHandoverInfo) UnmarshalBER(data []byte, opts ...ber.Decode
 	}
 
 	offset += n
+	if len(v.BssmapServiceHandover) < 1 || len(v.BssmapServiceHandover) > 1 {
+		return fmt.Errorf("bssmap-ServiceHandover length %d violates SIZE (1)", len(v.BssmapServiceHandover))
+	}
 	// Decode rab-Id
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field rab-Id")
@@ -16934,6 +17975,9 @@ func UnmarshalBERRadioResourceList(data []byte, opts ...ber.DecodeOption) (Radio
 // MarshalBER encodes RadioResource to BER format.
 func (v *RadioResource) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.RadioResourceInformation) < 3 || len(v.RadioResourceInformation) > 13 {
+		return nil, fmt.Errorf("radioResourceInformation length %d violates SIZE (3..13)", len(v.RadioResourceInformation))
+	}
 	enc_radioresourceinformation, encodeErr_enc_radioresourceinformation := ber.EncodeOctetString([]byte(v.RadioResourceInformation))
 	if encodeErr_enc_radioresourceinformation != nil {
 		return nil, fmt.Errorf("encoding radioResourceInformation: %w", encodeErr_enc_radioresourceinformation)
@@ -16957,6 +18001,9 @@ func (v *RadioResource) MarshalBER() ([]byte, error) {
 // MarshalDER encodes RadioResource to DER format.
 func (v *RadioResource) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.RadioResourceInformation) < 3 || len(v.RadioResourceInformation) > 13 {
+		return nil, fmt.Errorf("radioResourceInformation length %d violates SIZE (3..13)", len(v.RadioResourceInformation))
+	}
 	enc_radioresourceinformation, encodeErr_enc_radioresourceinformation := ber.EncodeOctetString([]byte(v.RadioResourceInformation))
 	if encodeErr_enc_radioresourceinformation != nil {
 		return nil, fmt.Errorf("encoding radioResourceInformation: %w", encodeErr_enc_radioresourceinformation)
@@ -17009,6 +18056,9 @@ func (v *RadioResource) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 	}
 
 	offset += n
+	if len(v.RadioResourceInformation) < 3 || len(v.RadioResourceInformation) > 13 {
+		return fmt.Errorf("radioResourceInformation length %d violates SIZE (3..13)", len(v.RadioResourceInformation))
+	}
 	// Decode rab-Id
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field rab-Id")
@@ -17054,6 +18104,12 @@ func (v *RadioResource) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 func (v *PrepareHORes) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.HandoverNumber != nil {
+		if len(*v.HandoverNumber) < 1 || len(*v.HandoverNumber) > 9 {
+			return nil, fmt.Errorf("handoverNumber length %d violates SIZE (1..9)", len(*v.HandoverNumber))
+		}
+		if len(*v.HandoverNumber) < 1 || len(*v.HandoverNumber) > 20 {
+			return nil, fmt.Errorf("handoverNumber length %d violates SIZE (1..20)", len(*v.HandoverNumber))
+		}
 		enc_handovernumber, encodeErr_enc_handovernumber := ber.EncodeOctetString([]byte(*v.HandoverNumber))
 		if encodeErr_enc_handovernumber != nil {
 			return nil, fmt.Errorf("encoding handoverNumber: %w", encodeErr_enc_handovernumber)
@@ -17066,6 +18122,9 @@ func (v *PrepareHORes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_handovernumber...)
 	}
 	if v.RelocationNumberList != nil {
+		if len(v.RelocationNumberList) < 1 || len(v.RelocationNumberList) > 7 {
+			return nil, fmt.Errorf("relocationNumberList length %d violates SIZE (1..7)", len(v.RelocationNumberList))
+		}
 		enc_relocationnumberlist, err := MarshalBERRelocationNumberList(v.RelocationNumberList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding relocationNumberList: %w", err)
@@ -17154,6 +18213,9 @@ func (v *PrepareHORes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.IuSelectedCodec != nil {
+		if len(*v.IuSelectedCodec) < 1 || len(*v.IuSelectedCodec) > 4 {
+			return nil, fmt.Errorf("iuSelectedCodec length %d violates SIZE (1..4)", len(*v.IuSelectedCodec))
+		}
 		enc_iuselectedcodec, encodeErr_enc_iuselectedcodec := ber.EncodeOctetString([]byte(*v.IuSelectedCodec))
 		if encodeErr_enc_iuselectedcodec != nil {
 			return nil, fmt.Errorf("encoding iuSelectedCodec: %w", encodeErr_enc_iuselectedcodec)
@@ -17178,6 +18240,9 @@ func (v *PrepareHORes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_iuavailablecodecslist...)
 	}
 	if v.AoipSelectedCodecTarget != nil {
+		if len(*v.AoipSelectedCodecTarget) < 1 || len(*v.AoipSelectedCodecTarget) > 3 {
+			return nil, fmt.Errorf("aoipSelectedCodecTarget length %d violates SIZE (1..3)", len(*v.AoipSelectedCodecTarget))
+		}
 		enc_aoipselectedcodectarget, encodeErr_enc_aoipselectedcodectarget := ber.EncodeOctetString([]byte(*v.AoipSelectedCodecTarget))
 		if encodeErr_enc_aoipselectedcodectarget != nil {
 			return nil, fmt.Errorf("encoding aoipSelectedCodecTarget: %w", encodeErr_enc_aoipselectedcodectarget)
@@ -17218,6 +18283,12 @@ func (v *PrepareHORes) MarshalBER() ([]byte, error) {
 func (v *PrepareHORes) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.HandoverNumber != nil {
+		if len(*v.HandoverNumber) < 1 || len(*v.HandoverNumber) > 9 {
+			return nil, fmt.Errorf("handoverNumber length %d violates SIZE (1..9)", len(*v.HandoverNumber))
+		}
+		if len(*v.HandoverNumber) < 1 || len(*v.HandoverNumber) > 20 {
+			return nil, fmt.Errorf("handoverNumber length %d violates SIZE (1..20)", len(*v.HandoverNumber))
+		}
 		enc_handovernumber, encodeErr_enc_handovernumber := ber.EncodeOctetString([]byte(*v.HandoverNumber))
 		if encodeErr_enc_handovernumber != nil {
 			return nil, fmt.Errorf("encoding handoverNumber: %w", encodeErr_enc_handovernumber)
@@ -17230,6 +18301,9 @@ func (v *PrepareHORes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_handovernumber...)
 	}
 	if v.RelocationNumberList != nil {
+		if len(v.RelocationNumberList) < 1 || len(v.RelocationNumberList) > 7 {
+			return nil, fmt.Errorf("relocationNumberList length %d violates SIZE (1..7)", len(v.RelocationNumberList))
+		}
 		enc_relocationnumberlist, err := MarshalDERRelocationNumberList(v.RelocationNumberList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding relocationNumberList: %w", err)
@@ -17303,6 +18377,9 @@ func (v *PrepareHORes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.IuSelectedCodec != nil {
+		if len(*v.IuSelectedCodec) < 1 || len(*v.IuSelectedCodec) > 4 {
+			return nil, fmt.Errorf("iuSelectedCodec length %d violates SIZE (1..4)", len(*v.IuSelectedCodec))
+		}
 		enc_iuselectedcodec, encodeErr_enc_iuselectedcodec := ber.EncodeOctetString([]byte(*v.IuSelectedCodec))
 		if encodeErr_enc_iuselectedcodec != nil {
 			return nil, fmt.Errorf("encoding iuSelectedCodec: %w", encodeErr_enc_iuselectedcodec)
@@ -17327,6 +18404,9 @@ func (v *PrepareHORes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_iuavailablecodecslist...)
 	}
 	if v.AoipSelectedCodecTarget != nil {
+		if len(*v.AoipSelectedCodecTarget) < 1 || len(*v.AoipSelectedCodecTarget) > 3 {
+			return nil, fmt.Errorf("aoipSelectedCodecTarget length %d violates SIZE (1..3)", len(*v.AoipSelectedCodecTarget))
+		}
 		enc_aoipselectedcodectarget, encodeErr_enc_aoipselectedcodectarget := ber.EncodeOctetString([]byte(*v.AoipSelectedCodecTarget))
 		if encodeErr_enc_aoipselectedcodectarget != nil {
 			return nil, fmt.Errorf("encoding aoipSelectedCodecTarget: %w", encodeErr_enc_aoipselectedcodectarget)
@@ -17409,6 +18489,12 @@ func (v *PrepareHORes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_handovernumber
+				if len(*v.HandoverNumber) < 1 || len(*v.HandoverNumber) > 9 {
+					return fmt.Errorf("handoverNumber length %d violates SIZE (1..9)", len(*v.HandoverNumber))
+				}
+				if len(*v.HandoverNumber) < 1 || len(*v.HandoverNumber) > 20 {
+					return fmt.Errorf("handoverNumber length %d violates SIZE (1..20)", len(*v.HandoverNumber))
+				}
 			}
 		}
 	}
@@ -17452,6 +18538,9 @@ func (v *PrepareHORes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_relocationnumberlist
+				if len(v.RelocationNumberList) < 1 || len(v.RelocationNumberList) > 7 {
+					return fmt.Errorf("relocationNumberList length %d violates SIZE (1..7)", len(v.RelocationNumberList))
+				}
 			}
 		}
 	}
@@ -17646,6 +18735,9 @@ func (v *PrepareHORes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_iuselectedcodec
+				if len(*v.IuSelectedCodec) < 1 || len(*v.IuSelectedCodec) > 4 {
+					return fmt.Errorf("iuSelectedCodec length %d violates SIZE (1..4)", len(*v.IuSelectedCodec))
+				}
 			}
 		}
 	}
@@ -17701,6 +18793,9 @@ func (v *PrepareHORes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_aoipselectedcodectarget
+				if len(*v.AoipSelectedCodecTarget) < 1 || len(*v.AoipSelectedCodecTarget) > 3 {
+					return fmt.Errorf("aoipSelectedCodecTarget length %d violates SIZE (1..3)", len(*v.AoipSelectedCodecTarget))
+				}
 			}
 		}
 	}
@@ -17765,6 +18860,9 @@ func (v *PrepareHORes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 func (v *SelectedUMTSAlgorithms) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.IntegrityProtectionAlgorithm != nil {
+		if len(*v.IntegrityProtectionAlgorithm) < 1 || len(*v.IntegrityProtectionAlgorithm) > 1 {
+			return nil, fmt.Errorf("integrityProtectionAlgorithm length %d violates SIZE (1)", len(*v.IntegrityProtectionAlgorithm))
+		}
 		enc_integrityprotectionalgorithm, encodeErr_enc_integrityprotectionalgorithm := ber.EncodeOctetString([]byte(*v.IntegrityProtectionAlgorithm))
 		if encodeErr_enc_integrityprotectionalgorithm != nil {
 			return nil, fmt.Errorf("encoding integrityProtectionAlgorithm: %w", encodeErr_enc_integrityprotectionalgorithm)
@@ -17777,6 +18875,9 @@ func (v *SelectedUMTSAlgorithms) MarshalBER() ([]byte, error) {
 		children = append(children, enc_integrityprotectionalgorithm...)
 	}
 	if v.EncryptionAlgorithm != nil {
+		if len(*v.EncryptionAlgorithm) < 1 || len(*v.EncryptionAlgorithm) > 1 {
+			return nil, fmt.Errorf("encryptionAlgorithm length %d violates SIZE (1)", len(*v.EncryptionAlgorithm))
+		}
 		enc_encryptionalgorithm, encodeErr_enc_encryptionalgorithm := ber.EncodeOctetString([]byte(*v.EncryptionAlgorithm))
 		if encodeErr_enc_encryptionalgorithm != nil {
 			return nil, fmt.Errorf("encoding encryptionAlgorithm: %w", encodeErr_enc_encryptionalgorithm)
@@ -17817,6 +18918,9 @@ func (v *SelectedUMTSAlgorithms) MarshalBER() ([]byte, error) {
 func (v *SelectedUMTSAlgorithms) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.IntegrityProtectionAlgorithm != nil {
+		if len(*v.IntegrityProtectionAlgorithm) < 1 || len(*v.IntegrityProtectionAlgorithm) > 1 {
+			return nil, fmt.Errorf("integrityProtectionAlgorithm length %d violates SIZE (1)", len(*v.IntegrityProtectionAlgorithm))
+		}
 		enc_integrityprotectionalgorithm, encodeErr_enc_integrityprotectionalgorithm := ber.EncodeOctetString([]byte(*v.IntegrityProtectionAlgorithm))
 		if encodeErr_enc_integrityprotectionalgorithm != nil {
 			return nil, fmt.Errorf("encoding integrityProtectionAlgorithm: %w", encodeErr_enc_integrityprotectionalgorithm)
@@ -17829,6 +18933,9 @@ func (v *SelectedUMTSAlgorithms) MarshalDER() ([]byte, error) {
 		children = append(children, enc_integrityprotectionalgorithm...)
 	}
 	if v.EncryptionAlgorithm != nil {
+		if len(*v.EncryptionAlgorithm) < 1 || len(*v.EncryptionAlgorithm) > 1 {
+			return nil, fmt.Errorf("encryptionAlgorithm length %d violates SIZE (1)", len(*v.EncryptionAlgorithm))
+		}
 		enc_encryptionalgorithm, encodeErr_enc_encryptionalgorithm := ber.EncodeOctetString([]byte(*v.EncryptionAlgorithm))
 		if encodeErr_enc_encryptionalgorithm != nil {
 			return nil, fmt.Errorf("encoding encryptionAlgorithm: %w", encodeErr_enc_encryptionalgorithm)
@@ -17903,6 +19010,9 @@ func (v *SelectedUMTSAlgorithms) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_integrityprotectionalgorithm
+				if len(*v.IntegrityProtectionAlgorithm) < 1 || len(*v.IntegrityProtectionAlgorithm) > 1 {
+					return fmt.Errorf("integrityProtectionAlgorithm length %d violates SIZE (1)", len(*v.IntegrityProtectionAlgorithm))
+				}
 			}
 		}
 	}
@@ -17927,6 +19037,9 @@ func (v *SelectedUMTSAlgorithms) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_encryptionalgorithm
+				if len(*v.EncryptionAlgorithm) < 1 || len(*v.EncryptionAlgorithm) > 1 {
+					return fmt.Errorf("encryptionAlgorithm length %d violates SIZE (1)", len(*v.EncryptionAlgorithm))
+				}
 			}
 		}
 	}
@@ -17991,6 +19104,9 @@ func (v *SelectedUMTSAlgorithms) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 func (v *ChosenRadioResourceInformation) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.ChosenChannelInfo != nil {
+		if len(*v.ChosenChannelInfo) < 1 || len(*v.ChosenChannelInfo) > 1 {
+			return nil, fmt.Errorf("chosenChannelInfo length %d violates SIZE (1)", len(*v.ChosenChannelInfo))
+		}
 		enc_chosenchannelinfo, encodeErr_enc_chosenchannelinfo := ber.EncodeOctetString([]byte(*v.ChosenChannelInfo))
 		if encodeErr_enc_chosenchannelinfo != nil {
 			return nil, fmt.Errorf("encoding chosenChannelInfo: %w", encodeErr_enc_chosenchannelinfo)
@@ -18003,6 +19119,9 @@ func (v *ChosenRadioResourceInformation) MarshalBER() ([]byte, error) {
 		children = append(children, enc_chosenchannelinfo...)
 	}
 	if v.ChosenSpeechVersion != nil {
+		if len(*v.ChosenSpeechVersion) < 1 || len(*v.ChosenSpeechVersion) > 1 {
+			return nil, fmt.Errorf("chosenSpeechVersion length %d violates SIZE (1)", len(*v.ChosenSpeechVersion))
+		}
 		enc_chosenspeechversion, encodeErr_enc_chosenspeechversion := ber.EncodeOctetString([]byte(*v.ChosenSpeechVersion))
 		if encodeErr_enc_chosenspeechversion != nil {
 			return nil, fmt.Errorf("encoding chosenSpeechVersion: %w", encodeErr_enc_chosenspeechversion)
@@ -18031,6 +19150,9 @@ func (v *ChosenRadioResourceInformation) MarshalBER() ([]byte, error) {
 func (v *ChosenRadioResourceInformation) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.ChosenChannelInfo != nil {
+		if len(*v.ChosenChannelInfo) < 1 || len(*v.ChosenChannelInfo) > 1 {
+			return nil, fmt.Errorf("chosenChannelInfo length %d violates SIZE (1)", len(*v.ChosenChannelInfo))
+		}
 		enc_chosenchannelinfo, encodeErr_enc_chosenchannelinfo := ber.EncodeOctetString([]byte(*v.ChosenChannelInfo))
 		if encodeErr_enc_chosenchannelinfo != nil {
 			return nil, fmt.Errorf("encoding chosenChannelInfo: %w", encodeErr_enc_chosenchannelinfo)
@@ -18043,6 +19165,9 @@ func (v *ChosenRadioResourceInformation) MarshalDER() ([]byte, error) {
 		children = append(children, enc_chosenchannelinfo...)
 	}
 	if v.ChosenSpeechVersion != nil {
+		if len(*v.ChosenSpeechVersion) < 1 || len(*v.ChosenSpeechVersion) > 1 {
+			return nil, fmt.Errorf("chosenSpeechVersion length %d violates SIZE (1)", len(*v.ChosenSpeechVersion))
+		}
 		enc_chosenspeechversion, encodeErr_enc_chosenspeechversion := ber.EncodeOctetString([]byte(*v.ChosenSpeechVersion))
 		if encodeErr_enc_chosenspeechversion != nil {
 			return nil, fmt.Errorf("encoding chosenSpeechVersion: %w", encodeErr_enc_chosenspeechversion)
@@ -18104,6 +19229,9 @@ func (v *ChosenRadioResourceInformation) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_chosenchannelinfo
+				if len(*v.ChosenChannelInfo) < 1 || len(*v.ChosenChannelInfo) > 1 {
+					return fmt.Errorf("chosenChannelInfo length %d violates SIZE (1)", len(*v.ChosenChannelInfo))
+				}
 			}
 		}
 	}
@@ -18127,6 +19255,9 @@ func (v *ChosenRadioResourceInformation) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_chosenspeechversion
+				if len(*v.ChosenSpeechVersion) < 1 || len(*v.ChosenSpeechVersion) > 1 {
+					return fmt.Errorf("chosenSpeechVersion length %d violates SIZE (1)", len(*v.ChosenSpeechVersion))
+				}
 			}
 		}
 	}
@@ -18160,6 +19291,9 @@ func (v *ChosenRadioResourceInformation) UnmarshalBER(data []byte, opts ...ber.D
 func (v *PrepareSubsequentHOArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.TargetCellId != nil {
+		if len(*v.TargetCellId) < 5 || len(*v.TargetCellId) > 7 {
+			return nil, fmt.Errorf("targetCellId length %d violates SIZE (5..7)", len(*v.TargetCellId))
+		}
 		enc_targetcellid, encodeErr_enc_targetcellid := ber.EncodeOctetString([]byte(*v.TargetCellId))
 		if encodeErr_enc_targetcellid != nil {
 			return nil, fmt.Errorf("encoding targetCellId: %w", encodeErr_enc_targetcellid)
@@ -18170,6 +19304,12 @@ func (v *PrepareSubsequentHOArg) MarshalBER() ([]byte, error) {
 		}
 		enc_targetcellid = retagged_enc_targetcellid
 		children = append(children, enc_targetcellid...)
+	}
+	if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 9 {
+		return nil, fmt.Errorf("targetMSC-Number length %d violates SIZE (1..9)", len(v.TargetMSCNumber))
+	}
+	if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 20 {
+		return nil, fmt.Errorf("targetMSC-Number length %d violates SIZE (1..20)", len(v.TargetMSCNumber))
 	}
 	enc_targetmscnumber, encodeErr_enc_targetmscnumber := ber.EncodeOctetString([]byte(v.TargetMSCNumber))
 	if encodeErr_enc_targetmscnumber != nil {
@@ -18182,6 +19322,9 @@ func (v *PrepareSubsequentHOArg) MarshalBER() ([]byte, error) {
 	enc_targetmscnumber = retagged_enc_targetmscnumber
 	children = append(children, enc_targetmscnumber...)
 	if v.TargetRNCId != nil {
+		if len(*v.TargetRNCId) < 7 || len(*v.TargetRNCId) > 7 {
+			return nil, fmt.Errorf("targetRNCId length %d violates SIZE (7)", len(*v.TargetRNCId))
+		}
 		enc_targetrncid, encodeErr_enc_targetrncid := ber.EncodeOctetString([]byte(*v.TargetRNCId))
 		if encodeErr_enc_targetrncid != nil {
 			return nil, fmt.Errorf("encoding targetRNCId: %w", encodeErr_enc_targetrncid)
@@ -18227,6 +19370,9 @@ func (v *PrepareSubsequentHOArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.GeranClassmark != nil {
+		if len(*v.GeranClassmark) < 2 || len(*v.GeranClassmark) > 87 {
+			return nil, fmt.Errorf("geran-classmark length %d violates SIZE (2..87)", len(*v.GeranClassmark))
+		}
 		enc_geranclassmark, encodeErr_enc_geranclassmark := ber.EncodeOctetString([]byte(*v.GeranClassmark))
 		if encodeErr_enc_geranclassmark != nil {
 			return nil, fmt.Errorf("encoding geran-classmark: %w", encodeErr_enc_geranclassmark)
@@ -18264,6 +19410,9 @@ func (v *PrepareSubsequentHOArg) MarshalBER() ([]byte, error) {
 func (v *PrepareSubsequentHOArg) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.TargetCellId != nil {
+		if len(*v.TargetCellId) < 5 || len(*v.TargetCellId) > 7 {
+			return nil, fmt.Errorf("targetCellId length %d violates SIZE (5..7)", len(*v.TargetCellId))
+		}
 		enc_targetcellid, encodeErr_enc_targetcellid := ber.EncodeOctetString([]byte(*v.TargetCellId))
 		if encodeErr_enc_targetcellid != nil {
 			return nil, fmt.Errorf("encoding targetCellId: %w", encodeErr_enc_targetcellid)
@@ -18274,6 +19423,12 @@ func (v *PrepareSubsequentHOArg) MarshalDER() ([]byte, error) {
 		}
 		enc_targetcellid = retagged_enc_targetcellid
 		children = append(children, enc_targetcellid...)
+	}
+	if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 9 {
+		return nil, fmt.Errorf("targetMSC-Number length %d violates SIZE (1..9)", len(v.TargetMSCNumber))
+	}
+	if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 20 {
+		return nil, fmt.Errorf("targetMSC-Number length %d violates SIZE (1..20)", len(v.TargetMSCNumber))
 	}
 	enc_targetmscnumber, encodeErr_enc_targetmscnumber := ber.EncodeOctetString([]byte(v.TargetMSCNumber))
 	if encodeErr_enc_targetmscnumber != nil {
@@ -18286,6 +19441,9 @@ func (v *PrepareSubsequentHOArg) MarshalDER() ([]byte, error) {
 	enc_targetmscnumber = retagged_enc_targetmscnumber
 	children = append(children, enc_targetmscnumber...)
 	if v.TargetRNCId != nil {
+		if len(*v.TargetRNCId) < 7 || len(*v.TargetRNCId) > 7 {
+			return nil, fmt.Errorf("targetRNCId length %d violates SIZE (7)", len(*v.TargetRNCId))
+		}
 		enc_targetrncid, encodeErr_enc_targetrncid := ber.EncodeOctetString([]byte(*v.TargetRNCId))
 		if encodeErr_enc_targetrncid != nil {
 			return nil, fmt.Errorf("encoding targetRNCId: %w", encodeErr_enc_targetrncid)
@@ -18331,6 +19489,9 @@ func (v *PrepareSubsequentHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.GeranClassmark != nil {
+		if len(*v.GeranClassmark) < 2 || len(*v.GeranClassmark) > 87 {
+			return nil, fmt.Errorf("geran-classmark length %d violates SIZE (2..87)", len(*v.GeranClassmark))
+		}
 		enc_geranclassmark, encodeErr_enc_geranclassmark := ber.EncodeOctetString([]byte(*v.GeranClassmark))
 		if encodeErr_enc_geranclassmark != nil {
 			return nil, fmt.Errorf("encoding geran-classmark: %w", encodeErr_enc_geranclassmark)
@@ -18409,6 +19570,9 @@ func (v *PrepareSubsequentHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_targetcellid
+				if len(*v.TargetCellId) < 5 || len(*v.TargetCellId) > 7 {
+					return fmt.Errorf("targetCellId length %d violates SIZE (5..7)", len(*v.TargetCellId))
+				}
 			}
 		}
 	}
@@ -18435,6 +19599,12 @@ func (v *PrepareSubsequentHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	}
 
 	offset += n_targetmscnumber
+	if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 9 {
+		return fmt.Errorf("targetMSC-Number length %d violates SIZE (1..9)", len(v.TargetMSCNumber))
+	}
+	if len(v.TargetMSCNumber) < 1 || len(v.TargetMSCNumber) > 20 {
+		return fmt.Errorf("targetMSC-Number length %d violates SIZE (1..20)", len(v.TargetMSCNumber))
+	}
 	// Decode targetRNCId
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -18455,6 +19625,9 @@ func (v *PrepareSubsequentHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_targetrncid
+				if len(*v.TargetRNCId) < 7 || len(*v.TargetRNCId) > 7 {
+					return fmt.Errorf("targetRNCId length %d violates SIZE (7)", len(*v.TargetRNCId))
+				}
 			}
 		}
 	}
@@ -18567,6 +19740,9 @@ func (v *PrepareSubsequentHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_geranclassmark
+				if len(*v.GeranClassmark) < 2 || len(*v.GeranClassmark) > 87 {
+					return fmt.Errorf("geran-classmark length %d violates SIZE (2..87)", len(*v.GeranClassmark))
+				}
 			}
 		}
 	}
@@ -18814,6 +19990,9 @@ func (v *ProcessAccessSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_selectedumtsalgorithms...)
 	}
 	if v.SelectedGSMAlgorithm != nil {
+		if len(*v.SelectedGSMAlgorithm) < 1 || len(*v.SelectedGSMAlgorithm) > 1 {
+			return nil, fmt.Errorf("selectedGSM-Algorithm length %d violates SIZE (1)", len(*v.SelectedGSMAlgorithm))
+		}
 		enc_selectedgsmalgorithm, encodeErr_enc_selectedgsmalgorithm := ber.EncodeOctetString([]byte(*v.SelectedGSMAlgorithm))
 		if encodeErr_enc_selectedgsmalgorithm != nil {
 			return nil, fmt.Errorf("encoding selectedGSM-Algorithm: %w", encodeErr_enc_selectedgsmalgorithm)
@@ -18859,6 +20038,9 @@ func (v *ProcessAccessSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.IUSelectedCodec != nil {
+		if len(*v.IUSelectedCodec) < 1 || len(*v.IUSelectedCodec) > 4 {
+			return nil, fmt.Errorf("iUSelectedCodec length %d violates SIZE (1..4)", len(*v.IUSelectedCodec))
+		}
 		enc_iuselectedcodec, encodeErr_enc_iuselectedcodec := ber.EncodeOctetString([]byte(*v.IUSelectedCodec))
 		if encodeErr_enc_iuselectedcodec != nil {
 			return nil, fmt.Errorf("encoding iUSelectedCodec: %w", encodeErr_enc_iuselectedcodec)
@@ -18883,6 +20065,9 @@ func (v *ProcessAccessSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_iuavailablecodecslist...)
 	}
 	if v.AoipSelectedCodecTarget != nil {
+		if len(*v.AoipSelectedCodecTarget) < 1 || len(*v.AoipSelectedCodecTarget) > 3 {
+			return nil, fmt.Errorf("aoipSelectedCodecTarget length %d violates SIZE (1..3)", len(*v.AoipSelectedCodecTarget))
+		}
 		enc_aoipselectedcodectarget, encodeErr_enc_aoipselectedcodectarget := ber.EncodeOctetString([]byte(*v.AoipSelectedCodecTarget))
 		if encodeErr_enc_aoipselectedcodectarget != nil {
 			return nil, fmt.Errorf("encoding aoipSelectedCodecTarget: %w", encodeErr_enc_aoipselectedcodectarget)
@@ -18940,6 +20125,9 @@ func (v *ProcessAccessSignallingArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_selectedumtsalgorithms...)
 	}
 	if v.SelectedGSMAlgorithm != nil {
+		if len(*v.SelectedGSMAlgorithm) < 1 || len(*v.SelectedGSMAlgorithm) > 1 {
+			return nil, fmt.Errorf("selectedGSM-Algorithm length %d violates SIZE (1)", len(*v.SelectedGSMAlgorithm))
+		}
 		enc_selectedgsmalgorithm, encodeErr_enc_selectedgsmalgorithm := ber.EncodeOctetString([]byte(*v.SelectedGSMAlgorithm))
 		if encodeErr_enc_selectedgsmalgorithm != nil {
 			return nil, fmt.Errorf("encoding selectedGSM-Algorithm: %w", encodeErr_enc_selectedgsmalgorithm)
@@ -18985,6 +20173,9 @@ func (v *ProcessAccessSignallingArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.IUSelectedCodec != nil {
+		if len(*v.IUSelectedCodec) < 1 || len(*v.IUSelectedCodec) > 4 {
+			return nil, fmt.Errorf("iUSelectedCodec length %d violates SIZE (1..4)", len(*v.IUSelectedCodec))
+		}
 		enc_iuselectedcodec, encodeErr_enc_iuselectedcodec := ber.EncodeOctetString([]byte(*v.IUSelectedCodec))
 		if encodeErr_enc_iuselectedcodec != nil {
 			return nil, fmt.Errorf("encoding iUSelectedCodec: %w", encodeErr_enc_iuselectedcodec)
@@ -19009,6 +20200,9 @@ func (v *ProcessAccessSignallingArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_iuavailablecodecslist...)
 	}
 	if v.AoipSelectedCodecTarget != nil {
+		if len(*v.AoipSelectedCodecTarget) < 1 || len(*v.AoipSelectedCodecTarget) > 3 {
+			return nil, fmt.Errorf("aoipSelectedCodecTarget length %d violates SIZE (1..3)", len(*v.AoipSelectedCodecTarget))
+		}
 		enc_aoipselectedcodectarget, encodeErr_enc_aoipselectedcodectarget := ber.EncodeOctetString([]byte(*v.AoipSelectedCodecTarget))
 		if encodeErr_enc_aoipselectedcodectarget != nil {
 			return nil, fmt.Errorf("encoding aoipSelectedCodecTarget: %w", encodeErr_enc_aoipselectedcodectarget)
@@ -19145,6 +20339,9 @@ func (v *ProcessAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				}
 
 				offset += n_selectedgsmalgorithm
+				if len(*v.SelectedGSMAlgorithm) < 1 || len(*v.SelectedGSMAlgorithm) > 1 {
+					return fmt.Errorf("selectedGSM-Algorithm length %d violates SIZE (1)", len(*v.SelectedGSMAlgorithm))
+				}
 			}
 		}
 	}
@@ -19257,6 +20454,9 @@ func (v *ProcessAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				}
 
 				offset += n_iuselectedcodec
+				if len(*v.IUSelectedCodec) < 1 || len(*v.IUSelectedCodec) > 4 {
+					return fmt.Errorf("iUSelectedCodec length %d violates SIZE (1..4)", len(*v.IUSelectedCodec))
+				}
 			}
 		}
 	}
@@ -19312,6 +20512,9 @@ func (v *ProcessAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				}
 
 				offset += n_aoipselectedcodectarget
+				if len(*v.AoipSelectedCodecTarget) < 1 || len(*v.AoipSelectedCodecTarget) > 3 {
+					return fmt.Errorf("aoipSelectedCodecTarget length %d violates SIZE (1..3)", len(*v.AoipSelectedCodecTarget))
+				}
 			}
 		}
 	}
@@ -19375,6 +20578,9 @@ func (v *ProcessAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Decod
 // MarshalBER encodes AoIPCodecsList to BER format.
 func (v *AoIPCodecsList) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Codec1) < 1 || len(v.Codec1) > 3 {
+		return nil, fmt.Errorf("codec1 length %d violates SIZE (1..3)", len(v.Codec1))
+	}
 	enc_codec1, encodeErr_enc_codec1 := ber.EncodeOctetString([]byte(v.Codec1))
 	if encodeErr_enc_codec1 != nil {
 		return nil, fmt.Errorf("encoding codec1: %w", encodeErr_enc_codec1)
@@ -19386,6 +20592,9 @@ func (v *AoIPCodecsList) MarshalBER() ([]byte, error) {
 	enc_codec1 = retagged_enc_codec1
 	children = append(children, enc_codec1...)
 	if v.Codec2 != nil {
+		if len(*v.Codec2) < 1 || len(*v.Codec2) > 3 {
+			return nil, fmt.Errorf("codec2 length %d violates SIZE (1..3)", len(*v.Codec2))
+		}
 		enc_codec2, encodeErr_enc_codec2 := ber.EncodeOctetString([]byte(*v.Codec2))
 		if encodeErr_enc_codec2 != nil {
 			return nil, fmt.Errorf("encoding codec2: %w", encodeErr_enc_codec2)
@@ -19398,6 +20607,9 @@ func (v *AoIPCodecsList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_codec2...)
 	}
 	if v.Codec3 != nil {
+		if len(*v.Codec3) < 1 || len(*v.Codec3) > 3 {
+			return nil, fmt.Errorf("codec3 length %d violates SIZE (1..3)", len(*v.Codec3))
+		}
 		enc_codec3, encodeErr_enc_codec3 := ber.EncodeOctetString([]byte(*v.Codec3))
 		if encodeErr_enc_codec3 != nil {
 			return nil, fmt.Errorf("encoding codec3: %w", encodeErr_enc_codec3)
@@ -19410,6 +20622,9 @@ func (v *AoIPCodecsList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_codec3...)
 	}
 	if v.Codec4 != nil {
+		if len(*v.Codec4) < 1 || len(*v.Codec4) > 3 {
+			return nil, fmt.Errorf("codec4 length %d violates SIZE (1..3)", len(*v.Codec4))
+		}
 		enc_codec4, encodeErr_enc_codec4 := ber.EncodeOctetString([]byte(*v.Codec4))
 		if encodeErr_enc_codec4 != nil {
 			return nil, fmt.Errorf("encoding codec4: %w", encodeErr_enc_codec4)
@@ -19422,6 +20637,9 @@ func (v *AoIPCodecsList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_codec4...)
 	}
 	if v.Codec5 != nil {
+		if len(*v.Codec5) < 1 || len(*v.Codec5) > 3 {
+			return nil, fmt.Errorf("codec5 length %d violates SIZE (1..3)", len(*v.Codec5))
+		}
 		enc_codec5, encodeErr_enc_codec5 := ber.EncodeOctetString([]byte(*v.Codec5))
 		if encodeErr_enc_codec5 != nil {
 			return nil, fmt.Errorf("encoding codec5: %w", encodeErr_enc_codec5)
@@ -19434,6 +20652,9 @@ func (v *AoIPCodecsList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_codec5...)
 	}
 	if v.Codec6 != nil {
+		if len(*v.Codec6) < 1 || len(*v.Codec6) > 3 {
+			return nil, fmt.Errorf("codec6 length %d violates SIZE (1..3)", len(*v.Codec6))
+		}
 		enc_codec6, encodeErr_enc_codec6 := ber.EncodeOctetString([]byte(*v.Codec6))
 		if encodeErr_enc_codec6 != nil {
 			return nil, fmt.Errorf("encoding codec6: %w", encodeErr_enc_codec6)
@@ -19446,6 +20667,9 @@ func (v *AoIPCodecsList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_codec6...)
 	}
 	if v.Codec7 != nil {
+		if len(*v.Codec7) < 1 || len(*v.Codec7) > 3 {
+			return nil, fmt.Errorf("codec7 length %d violates SIZE (1..3)", len(*v.Codec7))
+		}
 		enc_codec7, encodeErr_enc_codec7 := ber.EncodeOctetString([]byte(*v.Codec7))
 		if encodeErr_enc_codec7 != nil {
 			return nil, fmt.Errorf("encoding codec7: %w", encodeErr_enc_codec7)
@@ -19458,6 +20682,9 @@ func (v *AoIPCodecsList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_codec7...)
 	}
 	if v.Codec8 != nil {
+		if len(*v.Codec8) < 1 || len(*v.Codec8) > 3 {
+			return nil, fmt.Errorf("codec8 length %d violates SIZE (1..3)", len(*v.Codec8))
+		}
 		enc_codec8, encodeErr_enc_codec8 := ber.EncodeOctetString([]byte(*v.Codec8))
 		if encodeErr_enc_codec8 != nil {
 			return nil, fmt.Errorf("encoding codec8: %w", encodeErr_enc_codec8)
@@ -19497,6 +20724,9 @@ func (v *AoIPCodecsList) MarshalBER() ([]byte, error) {
 // MarshalDER encodes AoIPCodecsList to DER format.
 func (v *AoIPCodecsList) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Codec1) < 1 || len(v.Codec1) > 3 {
+		return nil, fmt.Errorf("codec1 length %d violates SIZE (1..3)", len(v.Codec1))
+	}
 	enc_codec1, encodeErr_enc_codec1 := ber.EncodeOctetString([]byte(v.Codec1))
 	if encodeErr_enc_codec1 != nil {
 		return nil, fmt.Errorf("encoding codec1: %w", encodeErr_enc_codec1)
@@ -19508,6 +20738,9 @@ func (v *AoIPCodecsList) MarshalDER() ([]byte, error) {
 	enc_codec1 = retagged_enc_codec1
 	children = append(children, enc_codec1...)
 	if v.Codec2 != nil {
+		if len(*v.Codec2) < 1 || len(*v.Codec2) > 3 {
+			return nil, fmt.Errorf("codec2 length %d violates SIZE (1..3)", len(*v.Codec2))
+		}
 		enc_codec2, encodeErr_enc_codec2 := ber.EncodeOctetString([]byte(*v.Codec2))
 		if encodeErr_enc_codec2 != nil {
 			return nil, fmt.Errorf("encoding codec2: %w", encodeErr_enc_codec2)
@@ -19520,6 +20753,9 @@ func (v *AoIPCodecsList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_codec2...)
 	}
 	if v.Codec3 != nil {
+		if len(*v.Codec3) < 1 || len(*v.Codec3) > 3 {
+			return nil, fmt.Errorf("codec3 length %d violates SIZE (1..3)", len(*v.Codec3))
+		}
 		enc_codec3, encodeErr_enc_codec3 := ber.EncodeOctetString([]byte(*v.Codec3))
 		if encodeErr_enc_codec3 != nil {
 			return nil, fmt.Errorf("encoding codec3: %w", encodeErr_enc_codec3)
@@ -19532,6 +20768,9 @@ func (v *AoIPCodecsList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_codec3...)
 	}
 	if v.Codec4 != nil {
+		if len(*v.Codec4) < 1 || len(*v.Codec4) > 3 {
+			return nil, fmt.Errorf("codec4 length %d violates SIZE (1..3)", len(*v.Codec4))
+		}
 		enc_codec4, encodeErr_enc_codec4 := ber.EncodeOctetString([]byte(*v.Codec4))
 		if encodeErr_enc_codec4 != nil {
 			return nil, fmt.Errorf("encoding codec4: %w", encodeErr_enc_codec4)
@@ -19544,6 +20783,9 @@ func (v *AoIPCodecsList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_codec4...)
 	}
 	if v.Codec5 != nil {
+		if len(*v.Codec5) < 1 || len(*v.Codec5) > 3 {
+			return nil, fmt.Errorf("codec5 length %d violates SIZE (1..3)", len(*v.Codec5))
+		}
 		enc_codec5, encodeErr_enc_codec5 := ber.EncodeOctetString([]byte(*v.Codec5))
 		if encodeErr_enc_codec5 != nil {
 			return nil, fmt.Errorf("encoding codec5: %w", encodeErr_enc_codec5)
@@ -19556,6 +20798,9 @@ func (v *AoIPCodecsList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_codec5...)
 	}
 	if v.Codec6 != nil {
+		if len(*v.Codec6) < 1 || len(*v.Codec6) > 3 {
+			return nil, fmt.Errorf("codec6 length %d violates SIZE (1..3)", len(*v.Codec6))
+		}
 		enc_codec6, encodeErr_enc_codec6 := ber.EncodeOctetString([]byte(*v.Codec6))
 		if encodeErr_enc_codec6 != nil {
 			return nil, fmt.Errorf("encoding codec6: %w", encodeErr_enc_codec6)
@@ -19568,6 +20813,9 @@ func (v *AoIPCodecsList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_codec6...)
 	}
 	if v.Codec7 != nil {
+		if len(*v.Codec7) < 1 || len(*v.Codec7) > 3 {
+			return nil, fmt.Errorf("codec7 length %d violates SIZE (1..3)", len(*v.Codec7))
+		}
 		enc_codec7, encodeErr_enc_codec7 := ber.EncodeOctetString([]byte(*v.Codec7))
 		if encodeErr_enc_codec7 != nil {
 			return nil, fmt.Errorf("encoding codec7: %w", encodeErr_enc_codec7)
@@ -19580,6 +20828,9 @@ func (v *AoIPCodecsList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_codec7...)
 	}
 	if v.Codec8 != nil {
+		if len(*v.Codec8) < 1 || len(*v.Codec8) > 3 {
+			return nil, fmt.Errorf("codec8 length %d violates SIZE (1..3)", len(*v.Codec8))
+		}
 		enc_codec8, encodeErr_enc_codec8 := ber.EncodeOctetString([]byte(*v.Codec8))
 		if encodeErr_enc_codec8 != nil {
 			return nil, fmt.Errorf("encoding codec8: %w", encodeErr_enc_codec8)
@@ -19656,6 +20907,9 @@ func (v *AoIPCodecsList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 	}
 
 	offset += n_codec1
+	if len(v.Codec1) < 1 || len(v.Codec1) > 3 {
+		return fmt.Errorf("codec1 length %d violates SIZE (1..3)", len(v.Codec1))
+	}
 	// Decode codec2
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -19676,6 +20930,9 @@ func (v *AoIPCodecsList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_codec2
+				if len(*v.Codec2) < 1 || len(*v.Codec2) > 3 {
+					return fmt.Errorf("codec2 length %d violates SIZE (1..3)", len(*v.Codec2))
+				}
 			}
 		}
 	}
@@ -19699,6 +20956,9 @@ func (v *AoIPCodecsList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_codec3
+				if len(*v.Codec3) < 1 || len(*v.Codec3) > 3 {
+					return fmt.Errorf("codec3 length %d violates SIZE (1..3)", len(*v.Codec3))
+				}
 			}
 		}
 	}
@@ -19722,6 +20982,9 @@ func (v *AoIPCodecsList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_codec4
+				if len(*v.Codec4) < 1 || len(*v.Codec4) > 3 {
+					return fmt.Errorf("codec4 length %d violates SIZE (1..3)", len(*v.Codec4))
+				}
 			}
 		}
 	}
@@ -19745,6 +21008,9 @@ func (v *AoIPCodecsList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_codec5
+				if len(*v.Codec5) < 1 || len(*v.Codec5) > 3 {
+					return fmt.Errorf("codec5 length %d violates SIZE (1..3)", len(*v.Codec5))
+				}
 			}
 		}
 	}
@@ -19768,6 +21034,9 @@ func (v *AoIPCodecsList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_codec6
+				if len(*v.Codec6) < 1 || len(*v.Codec6) > 3 {
+					return fmt.Errorf("codec6 length %d violates SIZE (1..3)", len(*v.Codec6))
+				}
 			}
 		}
 	}
@@ -19791,6 +21060,9 @@ func (v *AoIPCodecsList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_codec7
+				if len(*v.Codec7) < 1 || len(*v.Codec7) > 3 {
+					return fmt.Errorf("codec7 length %d violates SIZE (1..3)", len(*v.Codec7))
+				}
 			}
 		}
 	}
@@ -19814,6 +21086,9 @@ func (v *AoIPCodecsList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_codec8
+				if len(*v.Codec8) < 1 || len(*v.Codec8) > 3 {
+					return fmt.Errorf("codec8 length %d violates SIZE (1..3)", len(*v.Codec8))
+				}
 			}
 		}
 	}
@@ -20115,6 +21390,9 @@ func (v *SupportedCodecsList) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 // MarshalBER encodes CodecList to BER format.
 func (v *CodecList) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Codec1) < 1 || len(v.Codec1) > 4 {
+		return nil, fmt.Errorf("codec1 length %d violates SIZE (1..4)", len(v.Codec1))
+	}
 	enc_codec1, encodeErr_enc_codec1 := ber.EncodeOctetString([]byte(v.Codec1))
 	if encodeErr_enc_codec1 != nil {
 		return nil, fmt.Errorf("encoding codec1: %w", encodeErr_enc_codec1)
@@ -20126,6 +21404,9 @@ func (v *CodecList) MarshalBER() ([]byte, error) {
 	enc_codec1 = retagged_enc_codec1
 	children = append(children, enc_codec1...)
 	if v.Codec2 != nil {
+		if len(*v.Codec2) < 1 || len(*v.Codec2) > 4 {
+			return nil, fmt.Errorf("codec2 length %d violates SIZE (1..4)", len(*v.Codec2))
+		}
 		enc_codec2, encodeErr_enc_codec2 := ber.EncodeOctetString([]byte(*v.Codec2))
 		if encodeErr_enc_codec2 != nil {
 			return nil, fmt.Errorf("encoding codec2: %w", encodeErr_enc_codec2)
@@ -20138,6 +21419,9 @@ func (v *CodecList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_codec2...)
 	}
 	if v.Codec3 != nil {
+		if len(*v.Codec3) < 1 || len(*v.Codec3) > 4 {
+			return nil, fmt.Errorf("codec3 length %d violates SIZE (1..4)", len(*v.Codec3))
+		}
 		enc_codec3, encodeErr_enc_codec3 := ber.EncodeOctetString([]byte(*v.Codec3))
 		if encodeErr_enc_codec3 != nil {
 			return nil, fmt.Errorf("encoding codec3: %w", encodeErr_enc_codec3)
@@ -20150,6 +21434,9 @@ func (v *CodecList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_codec3...)
 	}
 	if v.Codec4 != nil {
+		if len(*v.Codec4) < 1 || len(*v.Codec4) > 4 {
+			return nil, fmt.Errorf("codec4 length %d violates SIZE (1..4)", len(*v.Codec4))
+		}
 		enc_codec4, encodeErr_enc_codec4 := ber.EncodeOctetString([]byte(*v.Codec4))
 		if encodeErr_enc_codec4 != nil {
 			return nil, fmt.Errorf("encoding codec4: %w", encodeErr_enc_codec4)
@@ -20162,6 +21449,9 @@ func (v *CodecList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_codec4...)
 	}
 	if v.Codec5 != nil {
+		if len(*v.Codec5) < 1 || len(*v.Codec5) > 4 {
+			return nil, fmt.Errorf("codec5 length %d violates SIZE (1..4)", len(*v.Codec5))
+		}
 		enc_codec5, encodeErr_enc_codec5 := ber.EncodeOctetString([]byte(*v.Codec5))
 		if encodeErr_enc_codec5 != nil {
 			return nil, fmt.Errorf("encoding codec5: %w", encodeErr_enc_codec5)
@@ -20174,6 +21464,9 @@ func (v *CodecList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_codec5...)
 	}
 	if v.Codec6 != nil {
+		if len(*v.Codec6) < 1 || len(*v.Codec6) > 4 {
+			return nil, fmt.Errorf("codec6 length %d violates SIZE (1..4)", len(*v.Codec6))
+		}
 		enc_codec6, encodeErr_enc_codec6 := ber.EncodeOctetString([]byte(*v.Codec6))
 		if encodeErr_enc_codec6 != nil {
 			return nil, fmt.Errorf("encoding codec6: %w", encodeErr_enc_codec6)
@@ -20186,6 +21479,9 @@ func (v *CodecList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_codec6...)
 	}
 	if v.Codec7 != nil {
+		if len(*v.Codec7) < 1 || len(*v.Codec7) > 4 {
+			return nil, fmt.Errorf("codec7 length %d violates SIZE (1..4)", len(*v.Codec7))
+		}
 		enc_codec7, encodeErr_enc_codec7 := ber.EncodeOctetString([]byte(*v.Codec7))
 		if encodeErr_enc_codec7 != nil {
 			return nil, fmt.Errorf("encoding codec7: %w", encodeErr_enc_codec7)
@@ -20198,6 +21494,9 @@ func (v *CodecList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_codec7...)
 	}
 	if v.Codec8 != nil {
+		if len(*v.Codec8) < 1 || len(*v.Codec8) > 4 {
+			return nil, fmt.Errorf("codec8 length %d violates SIZE (1..4)", len(*v.Codec8))
+		}
 		enc_codec8, encodeErr_enc_codec8 := ber.EncodeOctetString([]byte(*v.Codec8))
 		if encodeErr_enc_codec8 != nil {
 			return nil, fmt.Errorf("encoding codec8: %w", encodeErr_enc_codec8)
@@ -20237,6 +21536,9 @@ func (v *CodecList) MarshalBER() ([]byte, error) {
 // MarshalDER encodes CodecList to DER format.
 func (v *CodecList) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Codec1) < 1 || len(v.Codec1) > 4 {
+		return nil, fmt.Errorf("codec1 length %d violates SIZE (1..4)", len(v.Codec1))
+	}
 	enc_codec1, encodeErr_enc_codec1 := ber.EncodeOctetString([]byte(v.Codec1))
 	if encodeErr_enc_codec1 != nil {
 		return nil, fmt.Errorf("encoding codec1: %w", encodeErr_enc_codec1)
@@ -20248,6 +21550,9 @@ func (v *CodecList) MarshalDER() ([]byte, error) {
 	enc_codec1 = retagged_enc_codec1
 	children = append(children, enc_codec1...)
 	if v.Codec2 != nil {
+		if len(*v.Codec2) < 1 || len(*v.Codec2) > 4 {
+			return nil, fmt.Errorf("codec2 length %d violates SIZE (1..4)", len(*v.Codec2))
+		}
 		enc_codec2, encodeErr_enc_codec2 := ber.EncodeOctetString([]byte(*v.Codec2))
 		if encodeErr_enc_codec2 != nil {
 			return nil, fmt.Errorf("encoding codec2: %w", encodeErr_enc_codec2)
@@ -20260,6 +21565,9 @@ func (v *CodecList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_codec2...)
 	}
 	if v.Codec3 != nil {
+		if len(*v.Codec3) < 1 || len(*v.Codec3) > 4 {
+			return nil, fmt.Errorf("codec3 length %d violates SIZE (1..4)", len(*v.Codec3))
+		}
 		enc_codec3, encodeErr_enc_codec3 := ber.EncodeOctetString([]byte(*v.Codec3))
 		if encodeErr_enc_codec3 != nil {
 			return nil, fmt.Errorf("encoding codec3: %w", encodeErr_enc_codec3)
@@ -20272,6 +21580,9 @@ func (v *CodecList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_codec3...)
 	}
 	if v.Codec4 != nil {
+		if len(*v.Codec4) < 1 || len(*v.Codec4) > 4 {
+			return nil, fmt.Errorf("codec4 length %d violates SIZE (1..4)", len(*v.Codec4))
+		}
 		enc_codec4, encodeErr_enc_codec4 := ber.EncodeOctetString([]byte(*v.Codec4))
 		if encodeErr_enc_codec4 != nil {
 			return nil, fmt.Errorf("encoding codec4: %w", encodeErr_enc_codec4)
@@ -20284,6 +21595,9 @@ func (v *CodecList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_codec4...)
 	}
 	if v.Codec5 != nil {
+		if len(*v.Codec5) < 1 || len(*v.Codec5) > 4 {
+			return nil, fmt.Errorf("codec5 length %d violates SIZE (1..4)", len(*v.Codec5))
+		}
 		enc_codec5, encodeErr_enc_codec5 := ber.EncodeOctetString([]byte(*v.Codec5))
 		if encodeErr_enc_codec5 != nil {
 			return nil, fmt.Errorf("encoding codec5: %w", encodeErr_enc_codec5)
@@ -20296,6 +21610,9 @@ func (v *CodecList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_codec5...)
 	}
 	if v.Codec6 != nil {
+		if len(*v.Codec6) < 1 || len(*v.Codec6) > 4 {
+			return nil, fmt.Errorf("codec6 length %d violates SIZE (1..4)", len(*v.Codec6))
+		}
 		enc_codec6, encodeErr_enc_codec6 := ber.EncodeOctetString([]byte(*v.Codec6))
 		if encodeErr_enc_codec6 != nil {
 			return nil, fmt.Errorf("encoding codec6: %w", encodeErr_enc_codec6)
@@ -20308,6 +21625,9 @@ func (v *CodecList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_codec6...)
 	}
 	if v.Codec7 != nil {
+		if len(*v.Codec7) < 1 || len(*v.Codec7) > 4 {
+			return nil, fmt.Errorf("codec7 length %d violates SIZE (1..4)", len(*v.Codec7))
+		}
 		enc_codec7, encodeErr_enc_codec7 := ber.EncodeOctetString([]byte(*v.Codec7))
 		if encodeErr_enc_codec7 != nil {
 			return nil, fmt.Errorf("encoding codec7: %w", encodeErr_enc_codec7)
@@ -20320,6 +21640,9 @@ func (v *CodecList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_codec7...)
 	}
 	if v.Codec8 != nil {
+		if len(*v.Codec8) < 1 || len(*v.Codec8) > 4 {
+			return nil, fmt.Errorf("codec8 length %d violates SIZE (1..4)", len(*v.Codec8))
+		}
 		enc_codec8, encodeErr_enc_codec8 := ber.EncodeOctetString([]byte(*v.Codec8))
 		if encodeErr_enc_codec8 != nil {
 			return nil, fmt.Errorf("encoding codec8: %w", encodeErr_enc_codec8)
@@ -20396,6 +21719,9 @@ func (v *CodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_codec1
+	if len(v.Codec1) < 1 || len(v.Codec1) > 4 {
+		return fmt.Errorf("codec1 length %d violates SIZE (1..4)", len(v.Codec1))
+	}
 	// Decode codec2
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -20416,6 +21742,9 @@ func (v *CodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_codec2
+				if len(*v.Codec2) < 1 || len(*v.Codec2) > 4 {
+					return fmt.Errorf("codec2 length %d violates SIZE (1..4)", len(*v.Codec2))
+				}
 			}
 		}
 	}
@@ -20439,6 +21768,9 @@ func (v *CodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_codec3
+				if len(*v.Codec3) < 1 || len(*v.Codec3) > 4 {
+					return fmt.Errorf("codec3 length %d violates SIZE (1..4)", len(*v.Codec3))
+				}
 			}
 		}
 	}
@@ -20462,6 +21794,9 @@ func (v *CodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_codec4
+				if len(*v.Codec4) < 1 || len(*v.Codec4) > 4 {
+					return fmt.Errorf("codec4 length %d violates SIZE (1..4)", len(*v.Codec4))
+				}
 			}
 		}
 	}
@@ -20485,6 +21820,9 @@ func (v *CodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_codec5
+				if len(*v.Codec5) < 1 || len(*v.Codec5) > 4 {
+					return fmt.Errorf("codec5 length %d violates SIZE (1..4)", len(*v.Codec5))
+				}
 			}
 		}
 	}
@@ -20508,6 +21846,9 @@ func (v *CodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_codec6
+				if len(*v.Codec6) < 1 || len(*v.Codec6) > 4 {
+					return fmt.Errorf("codec6 length %d violates SIZE (1..4)", len(*v.Codec6))
+				}
 			}
 		}
 	}
@@ -20531,6 +21872,9 @@ func (v *CodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_codec7
+				if len(*v.Codec7) < 1 || len(*v.Codec7) > 4 {
+					return fmt.Errorf("codec7 length %d violates SIZE (1..4)", len(*v.Codec7))
+				}
 			}
 		}
 	}
@@ -20554,6 +21898,9 @@ func (v *CodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_codec8
+				if len(*v.Codec8) < 1 || len(*v.Codec8) > 4 {
+					return fmt.Errorf("codec8 length %d violates SIZE (1..4)", len(*v.Codec8))
+				}
 			}
 		}
 	}
@@ -21002,6 +22349,12 @@ func UnmarshalBERRelocationNumberList(data []byte, opts ...ber.DecodeOption) (Re
 // MarshalBER encodes RelocationNumber to BER format.
 func (v *RelocationNumber) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.HandoverNumber) < 1 || len(v.HandoverNumber) > 9 {
+		return nil, fmt.Errorf("handoverNumber length %d violates SIZE (1..9)", len(v.HandoverNumber))
+	}
+	if len(v.HandoverNumber) < 1 || len(v.HandoverNumber) > 20 {
+		return nil, fmt.Errorf("handoverNumber length %d violates SIZE (1..20)", len(v.HandoverNumber))
+	}
 	enc_handovernumber, encodeErr_enc_handovernumber := ber.EncodeOctetString([]byte(v.HandoverNumber))
 	if encodeErr_enc_handovernumber != nil {
 		return nil, fmt.Errorf("encoding handoverNumber: %w", encodeErr_enc_handovernumber)
@@ -21025,6 +22378,12 @@ func (v *RelocationNumber) MarshalBER() ([]byte, error) {
 // MarshalDER encodes RelocationNumber to DER format.
 func (v *RelocationNumber) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.HandoverNumber) < 1 || len(v.HandoverNumber) > 9 {
+		return nil, fmt.Errorf("handoverNumber length %d violates SIZE (1..9)", len(v.HandoverNumber))
+	}
+	if len(v.HandoverNumber) < 1 || len(v.HandoverNumber) > 20 {
+		return nil, fmt.Errorf("handoverNumber length %d violates SIZE (1..20)", len(v.HandoverNumber))
+	}
 	enc_handovernumber, encodeErr_enc_handovernumber := ber.EncodeOctetString([]byte(v.HandoverNumber))
 	if encodeErr_enc_handovernumber != nil {
 		return nil, fmt.Errorf("encoding handoverNumber: %w", encodeErr_enc_handovernumber)
@@ -21077,6 +22436,12 @@ func (v *RelocationNumber) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 	}
 
 	offset += n
+	if len(v.HandoverNumber) < 1 || len(v.HandoverNumber) > 9 {
+		return fmt.Errorf("handoverNumber length %d violates SIZE (1..9)", len(v.HandoverNumber))
+	}
+	if len(v.HandoverNumber) < 1 || len(v.HandoverNumber) > 20 {
+		return fmt.Errorf("handoverNumber length %d violates SIZE (1..20)", len(v.HandoverNumber))
+	}
 	// Decode rab-Id
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field rab-Id")
@@ -21121,6 +22486,9 @@ func (v *RelocationNumber) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 // MarshalBER encodes SendAuthenticationInfoArg to BER format.
 func (v *SendAuthenticationInfoArg) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -21175,6 +22543,9 @@ func (v *SendAuthenticationInfoArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_requestingnodetype...)
 	}
 	if v.RequestingPLMNId != nil {
+		if len(*v.RequestingPLMNId) < 3 || len(*v.RequestingPLMNId) > 3 {
+			return nil, fmt.Errorf("requestingPLMN-Id length %d violates SIZE (3)", len(*v.RequestingPLMNId))
+		}
 		enc_requestingplmnid, encodeErr_enc_requestingplmnid := ber.EncodeOctetString([]byte(*v.RequestingPLMNId))
 		if encodeErr_enc_requestingplmnid != nil {
 			return nil, fmt.Errorf("encoding requestingPLMN-Id: %w", encodeErr_enc_requestingplmnid)
@@ -21229,6 +22600,9 @@ func (v *SendAuthenticationInfoArg) MarshalBER() ([]byte, error) {
 // MarshalDER encodes SendAuthenticationInfoArg to DER format.
 func (v *SendAuthenticationInfoArg) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -21283,6 +22657,9 @@ func (v *SendAuthenticationInfoArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_requestingnodetype...)
 	}
 	if v.RequestingPLMNId != nil {
+		if len(*v.RequestingPLMNId) < 3 || len(*v.RequestingPLMNId) > 3 {
+			return nil, fmt.Errorf("requestingPLMN-Id length %d violates SIZE (3)", len(*v.RequestingPLMNId))
+		}
 		enc_requestingplmnid, encodeErr_enc_requestingplmnid := ber.EncodeOctetString([]byte(*v.RequestingPLMNId))
 		if encodeErr_enc_requestingplmnid != nil {
 			return nil, fmt.Errorf("encoding requestingPLMN-Id: %w", encodeErr_enc_requestingplmnid)
@@ -21374,6 +22751,9 @@ func (v *SendAuthenticationInfoArg) UnmarshalBER(data []byte, opts ...ber.Decode
 	}
 
 	offset += n_imsi
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	// Decode numberOfRequestedVectors
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field numberOfRequestedVectors")
@@ -21544,6 +22924,9 @@ func (v *SendAuthenticationInfoArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_requestingplmnid
+				if len(*v.RequestingPLMNId) < 3 || len(*v.RequestingPLMNId) > 3 {
+					return fmt.Errorf("requestingPLMN-Id length %d violates SIZE (3)", len(*v.RequestingPLMNId))
+				}
 			}
 		}
 	}
@@ -21656,11 +23039,17 @@ func (v *SendAuthenticationInfoArg) UnmarshalBER(data []byte, opts ...ber.Decode
 // MarshalBER encodes ReSynchronisationInfo to BER format.
 func (v *ReSynchronisationInfo) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Rand) < 16 || len(v.Rand) > 16 {
+		return nil, fmt.Errorf("rand length %d violates SIZE (16)", len(v.Rand))
+	}
 	enc_rand, encodeErr_enc_rand := ber.EncodeOctetString([]byte(v.Rand))
 	if encodeErr_enc_rand != nil {
 		return nil, fmt.Errorf("encoding rand: %w", encodeErr_enc_rand)
 	}
 	children = append(children, enc_rand...)
+	if len(v.Auts) < 14 || len(v.Auts) > 14 {
+		return nil, fmt.Errorf("auts length %d violates SIZE (14)", len(v.Auts))
+	}
 	enc_auts, encodeErr_enc_auts := ber.EncodeOctetString([]byte(v.Auts))
 	if encodeErr_enc_auts != nil {
 		return nil, fmt.Errorf("encoding auts: %w", encodeErr_enc_auts)
@@ -21682,11 +23071,17 @@ func (v *ReSynchronisationInfo) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ReSynchronisationInfo to DER format.
 func (v *ReSynchronisationInfo) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Rand) < 16 || len(v.Rand) > 16 {
+		return nil, fmt.Errorf("rand length %d violates SIZE (16)", len(v.Rand))
+	}
 	enc_rand, encodeErr_enc_rand := ber.EncodeOctetString([]byte(v.Rand))
 	if encodeErr_enc_rand != nil {
 		return nil, fmt.Errorf("encoding rand: %w", encodeErr_enc_rand)
 	}
 	children = append(children, enc_rand...)
+	if len(v.Auts) < 14 || len(v.Auts) > 14 {
+		return nil, fmt.Errorf("auts length %d violates SIZE (14)", len(v.Auts))
+	}
 	enc_auts, encodeErr_enc_auts := ber.EncodeOctetString([]byte(v.Auts))
 	if encodeErr_enc_auts != nil {
 		return nil, fmt.Errorf("encoding auts: %w", encodeErr_enc_auts)
@@ -21737,6 +23132,9 @@ func (v *ReSynchronisationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}
 
 	offset += n
+	if len(v.Rand) < 16 || len(v.Rand) > 16 {
+		return fmt.Errorf("rand length %d violates SIZE (16)", len(v.Rand))
+	}
 	// Decode auts
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field auts")
@@ -21752,6 +23150,9 @@ func (v *ReSynchronisationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}
 
 	offset += n
+	if len(v.Auts) < 14 || len(v.Auts) > 14 {
+		return fmt.Errorf("auts length %d violates SIZE (14)", len(v.Auts))
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -21796,6 +23197,9 @@ func (v *SendAuthenticationInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.EpsAuthenticationSetList != nil {
+		if len(v.EpsAuthenticationSetList) < 1 || len(v.EpsAuthenticationSetList) > 5 {
+			return nil, fmt.Errorf("eps-AuthenticationSetList length %d violates SIZE (1..5)", len(v.EpsAuthenticationSetList))
+		}
 		enc_epsauthenticationsetlist, err := MarshalBEREPSAuthenticationSetList(v.EpsAuthenticationSetList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eps-AuthenticationSetList: %w", err)
@@ -21823,6 +23227,9 @@ func (v *SendAuthenticationInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_epsauthenticationsetlist...)
 	}
 	if v.UeUsageType != nil {
+		if len(*v.UeUsageType) < 4 || len(*v.UeUsageType) > 4 {
+			return nil, fmt.Errorf("ueUsageType length %d violates SIZE (4)", len(*v.UeUsageType))
+		}
 		enc_ueusagetype, encodeErr_enc_ueusagetype := ber.EncodeOctetString([]byte(*v.UeUsageType))
 		if encodeErr_enc_ueusagetype != nil {
 			return nil, fmt.Errorf("encoding ueUsageType: %w", encodeErr_enc_ueusagetype)
@@ -21865,6 +23272,9 @@ func (v *SendAuthenticationInfoRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.EpsAuthenticationSetList != nil {
+		if len(v.EpsAuthenticationSetList) < 1 || len(v.EpsAuthenticationSetList) > 5 {
+			return nil, fmt.Errorf("eps-AuthenticationSetList length %d violates SIZE (1..5)", len(v.EpsAuthenticationSetList))
+		}
 		enc_epsauthenticationsetlist, err := MarshalDEREPSAuthenticationSetList(v.EpsAuthenticationSetList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eps-AuthenticationSetList: %w", err)
@@ -21877,6 +23287,9 @@ func (v *SendAuthenticationInfoRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_epsauthenticationsetlist...)
 	}
 	if v.UeUsageType != nil {
+		if len(*v.UeUsageType) < 4 || len(*v.UeUsageType) > 4 {
+			return nil, fmt.Errorf("ueUsageType length %d violates SIZE (4)", len(*v.UeUsageType))
+		}
 		enc_ueusagetype, encodeErr_enc_ueusagetype := ber.EncodeOctetString([]byte(*v.UeUsageType))
 		if encodeErr_enc_ueusagetype != nil {
 			return nil, fmt.Errorf("encoding ueUsageType: %w", encodeErr_enc_ueusagetype)
@@ -22028,6 +23441,9 @@ func (v *SendAuthenticationInfoRes) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_epsauthenticationsetlist
+				if len(v.EpsAuthenticationSetList) < 1 || len(v.EpsAuthenticationSetList) > 5 {
+					return fmt.Errorf("eps-AuthenticationSetList length %d violates SIZE (1..5)", len(v.EpsAuthenticationSetList))
+				}
 			}
 		}
 	}
@@ -22051,6 +23467,9 @@ func (v *SendAuthenticationInfoRes) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_ueusagetype
+				if len(*v.UeUsageType) < 4 || len(*v.UeUsageType) > 4 {
+					return fmt.Errorf("ueUsageType length %d violates SIZE (4)", len(*v.UeUsageType))
+				}
 			}
 		}
 	}
@@ -22167,21 +23586,33 @@ func UnmarshalBEREPSAuthenticationSetList(data []byte, opts ...ber.DecodeOption)
 // MarshalBER encodes EPCAV to BER format.
 func (v *EPCAV) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Rand) < 16 || len(v.Rand) > 16 {
+		return nil, fmt.Errorf("rand length %d violates SIZE (16)", len(v.Rand))
+	}
 	enc_rand, encodeErr_enc_rand := ber.EncodeOctetString([]byte(v.Rand))
 	if encodeErr_enc_rand != nil {
 		return nil, fmt.Errorf("encoding rand: %w", encodeErr_enc_rand)
 	}
 	children = append(children, enc_rand...)
+	if len(v.Xres) < 4 || len(v.Xres) > 16 {
+		return nil, fmt.Errorf("xres length %d violates SIZE (4..16)", len(v.Xres))
+	}
 	enc_xres, encodeErr_enc_xres := ber.EncodeOctetString([]byte(v.Xres))
 	if encodeErr_enc_xres != nil {
 		return nil, fmt.Errorf("encoding xres: %w", encodeErr_enc_xres)
 	}
 	children = append(children, enc_xres...)
+	if len(v.Autn) < 16 || len(v.Autn) > 16 {
+		return nil, fmt.Errorf("autn length %d violates SIZE (16)", len(v.Autn))
+	}
 	enc_autn, encodeErr_enc_autn := ber.EncodeOctetString([]byte(v.Autn))
 	if encodeErr_enc_autn != nil {
 		return nil, fmt.Errorf("encoding autn: %w", encodeErr_enc_autn)
 	}
 	children = append(children, enc_autn...)
+	if len(v.Kasme) < 32 || len(v.Kasme) > 32 {
+		return nil, fmt.Errorf("kasme length %d violates SIZE (32)", len(v.Kasme))
+	}
 	enc_kasme, encodeErr_enc_kasme := ber.EncodeOctetString([]byte(v.Kasme))
 	if encodeErr_enc_kasme != nil {
 		return nil, fmt.Errorf("encoding kasme: %w", encodeErr_enc_kasme)
@@ -22210,21 +23641,33 @@ func (v *EPCAV) MarshalBER() ([]byte, error) {
 // MarshalDER encodes EPCAV to DER format.
 func (v *EPCAV) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Rand) < 16 || len(v.Rand) > 16 {
+		return nil, fmt.Errorf("rand length %d violates SIZE (16)", len(v.Rand))
+	}
 	enc_rand, encodeErr_enc_rand := ber.EncodeOctetString([]byte(v.Rand))
 	if encodeErr_enc_rand != nil {
 		return nil, fmt.Errorf("encoding rand: %w", encodeErr_enc_rand)
 	}
 	children = append(children, enc_rand...)
+	if len(v.Xres) < 4 || len(v.Xres) > 16 {
+		return nil, fmt.Errorf("xres length %d violates SIZE (4..16)", len(v.Xres))
+	}
 	enc_xres, encodeErr_enc_xres := ber.EncodeOctetString([]byte(v.Xres))
 	if encodeErr_enc_xres != nil {
 		return nil, fmt.Errorf("encoding xres: %w", encodeErr_enc_xres)
 	}
 	children = append(children, enc_xres...)
+	if len(v.Autn) < 16 || len(v.Autn) > 16 {
+		return nil, fmt.Errorf("autn length %d violates SIZE (16)", len(v.Autn))
+	}
 	enc_autn, encodeErr_enc_autn := ber.EncodeOctetString([]byte(v.Autn))
 	if encodeErr_enc_autn != nil {
 		return nil, fmt.Errorf("encoding autn: %w", encodeErr_enc_autn)
 	}
 	children = append(children, enc_autn...)
+	if len(v.Kasme) < 32 || len(v.Kasme) > 32 {
+		return nil, fmt.Errorf("kasme length %d violates SIZE (32)", len(v.Kasme))
+	}
 	enc_kasme, encodeErr_enc_kasme := ber.EncodeOctetString([]byte(v.Kasme))
 	if encodeErr_enc_kasme != nil {
 		return nil, fmt.Errorf("encoding kasme: %w", encodeErr_enc_kasme)
@@ -22282,6 +23725,9 @@ func (v *EPCAV) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n
+	if len(v.Rand) < 16 || len(v.Rand) > 16 {
+		return fmt.Errorf("rand length %d violates SIZE (16)", len(v.Rand))
+	}
 	// Decode xres
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field xres")
@@ -22297,6 +23743,9 @@ func (v *EPCAV) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n
+	if len(v.Xres) < 4 || len(v.Xres) > 16 {
+		return fmt.Errorf("xres length %d violates SIZE (4..16)", len(v.Xres))
+	}
 	// Decode autn
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field autn")
@@ -22312,6 +23761,9 @@ func (v *EPCAV) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n
+	if len(v.Autn) < 16 || len(v.Autn) > 16 {
+		return fmt.Errorf("autn length %d violates SIZE (16)", len(v.Autn))
+	}
 	// Decode kasme
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field kasme")
@@ -22327,6 +23779,9 @@ func (v *EPCAV) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n
+	if len(v.Kasme) < 32 || len(v.Kasme) > 32 {
+		return fmt.Errorf("kasme length %d violates SIZE (32)", len(v.Kasme))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -22387,12 +23842,18 @@ func (v *EPCAV) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes CheckIMEIArg to BER format.
 func (v *CheckIMEIArg) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Imei) < 8 || len(v.Imei) > 8 {
+		return nil, fmt.Errorf("imei length %d violates SIZE (8)", len(v.Imei))
+	}
 	enc_imei, encodeErr_enc_imei := ber.EncodeOctetString([]byte(v.Imei))
 	if encodeErr_enc_imei != nil {
 		return nil, fmt.Errorf("encoding imei: %w", encodeErr_enc_imei)
 	}
 	children = append(children, enc_imei...)
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	if (v.RequestedEquipmentInfo).BitLength < 2 || (v.RequestedEquipmentInfo).BitLength > 8 {
+		return nil, fmt.Errorf("requestedEquipmentInfo length %d violates SIZE (2..8)", (v.RequestedEquipmentInfo).BitLength)
+	}
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.RequestedEquipmentInfo.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -22424,12 +23885,18 @@ func (v *CheckIMEIArg) MarshalBER() ([]byte, error) {
 // MarshalDER encodes CheckIMEIArg to DER format.
 func (v *CheckIMEIArg) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Imei) < 8 || len(v.Imei) > 8 {
+		return nil, fmt.Errorf("imei length %d violates SIZE (8)", len(v.Imei))
+	}
 	enc_imei, encodeErr_enc_imei := ber.EncodeOctetString([]byte(v.Imei))
 	if encodeErr_enc_imei != nil {
 		return nil, fmt.Errorf("encoding imei: %w", encodeErr_enc_imei)
 	}
 	children = append(children, enc_imei...)
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	if (v.RequestedEquipmentInfo).BitLength < 2 || (v.RequestedEquipmentInfo).BitLength > 8 {
+		return nil, fmt.Errorf("requestedEquipmentInfo length %d violates SIZE (2..8)", (v.RequestedEquipmentInfo).BitLength)
+	}
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.RequestedEquipmentInfo.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -22490,6 +23957,9 @@ func (v *CheckIMEIArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 	}
 
 	offset += n
+	if len(v.Imei) < 8 || len(v.Imei) > 8 {
+		return fmt.Errorf("imei length %d violates SIZE (8)", len(v.Imei))
+	}
 	// Decode requestedEquipmentInfo
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field requestedEquipmentInfo")
@@ -22509,6 +23979,9 @@ func (v *CheckIMEIArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 	}
 
 	offset += n
+	if (v.RequestedEquipmentInfo).BitLength < 2 || (v.RequestedEquipmentInfo).BitLength > 8 {
+		return fmt.Errorf("requestedEquipmentInfo length %d violates SIZE (2..8)", (v.RequestedEquipmentInfo).BitLength)
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -22771,7 +24244,10 @@ func (v *CheckIMEIRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 func (v *UESBIIu) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.UesbiIuA != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.UesbiIuA).BitLength < 1 || (*v.UesbiIuA).BitLength > 128 {
+			return nil, fmt.Errorf("uesbi-IuA length %d violates SIZE (1..128)", (*v.UesbiIuA).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.UesbiIuA.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -22787,7 +24263,10 @@ func (v *UESBIIu) MarshalBER() ([]byte, error) {
 		children = append(children, enc_uesbiiua...)
 	}
 	if v.UesbiIuB != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.UesbiIuB).BitLength < 1 || (*v.UesbiIuB).BitLength > 128 {
+			return nil, fmt.Errorf("uesbi-IuB length %d violates SIZE (1..128)", (*v.UesbiIuB).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.UesbiIuB.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -22819,7 +24298,10 @@ func (v *UESBIIu) MarshalBER() ([]byte, error) {
 func (v *UESBIIu) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.UesbiIuA != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.UesbiIuA).BitLength < 1 || (*v.UesbiIuA).BitLength > 128 {
+			return nil, fmt.Errorf("uesbi-IuA length %d violates SIZE (1..128)", (*v.UesbiIuA).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.UesbiIuA.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -22835,7 +24317,10 @@ func (v *UESBIIu) MarshalDER() ([]byte, error) {
 		children = append(children, enc_uesbiiua...)
 	}
 	if v.UesbiIuB != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.UesbiIuB).BitLength < 1 || (*v.UesbiIuB).BitLength > 128 {
+			return nil, fmt.Errorf("uesbi-IuB length %d violates SIZE (1..128)", (*v.UesbiIuB).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.UesbiIuB.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -22908,6 +24393,9 @@ func (v *UESBIIu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_uesbiiua
+				if (*v.UesbiIuA).BitLength < 1 || (*v.UesbiIuA).BitLength > 128 {
+					return fmt.Errorf("uesbi-IuA length %d violates SIZE (1..128)", (*v.UesbiIuA).BitLength)
+				}
 			}
 		}
 	}
@@ -22939,6 +24427,9 @@ func (v *UESBIIu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_uesbiiub
+				if (*v.UesbiIuB).BitLength < 1 || (*v.UesbiIuB).BitLength > 128 {
+					return fmt.Errorf("uesbi-IuB length %d violates SIZE (1..128)", (*v.UesbiIuB).BitLength)
+				}
 			}
 		}
 	}
@@ -22972,6 +24463,9 @@ func (v *UESBIIu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -22984,6 +24478,12 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if v.Msisdn != nil {
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+		}
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
 			return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
@@ -22996,6 +24496,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_msisdn...)
 	}
 	if v.Category != nil {
+		if len(*v.Category) < 1 || len(*v.Category) > 1 {
+			return nil, fmt.Errorf("category length %d violates SIZE (1)", len(*v.Category))
+		}
 		enc_category, encodeErr_enc_category := ber.EncodeOctetString([]byte(*v.Category))
 		if encodeErr_enc_category != nil {
 			return nil, fmt.Errorf("encoding category: %w", encodeErr_enc_category)
@@ -23017,6 +24520,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_subscriberstatus...)
 	}
 	if v.BearerServiceList != nil {
+		if len(v.BearerServiceList) < 1 || len(v.BearerServiceList) > 50 {
+			return nil, fmt.Errorf("bearerServiceList length %d violates SIZE (1..50)", len(v.BearerServiceList))
+		}
 		enc_bearerservicelist, err := MarshalBERBearerServiceList(v.BearerServiceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding bearerServiceList: %w", err)
@@ -23044,6 +24550,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_bearerservicelist...)
 	}
 	if v.TeleserviceList != nil {
+		if len(v.TeleserviceList) < 1 || len(v.TeleserviceList) > 20 {
+			return nil, fmt.Errorf("teleserviceList length %d violates SIZE (1..20)", len(v.TeleserviceList))
+		}
 		enc_teleservicelist, err := MarshalBERTeleserviceList(v.TeleserviceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding teleserviceList: %w", err)
@@ -23071,6 +24580,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_teleservicelist...)
 	}
 	if v.ProvisionedSS != nil {
+		if len(v.ProvisionedSS) < 1 || len(v.ProvisionedSS) > 30 {
+			return nil, fmt.Errorf("provisionedSS length %d violates SIZE (1..30)", len(v.ProvisionedSS))
+		}
 		enc_provisionedss, err := MarshalBERExtSSInfoList(v.ProvisionedSS)
 		if err != nil {
 			return nil, fmt.Errorf("encoding provisionedSS: %w", err)
@@ -23119,6 +24631,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_roamingrestrictionduetounsupportedfeature...)
 	}
 	if v.RegionalSubscriptionData != nil {
+		if len(v.RegionalSubscriptionData) < 1 || len(v.RegionalSubscriptionData) > 10 {
+			return nil, fmt.Errorf("regionalSubscriptionData length %d violates SIZE (1..10)", len(v.RegionalSubscriptionData))
+		}
 		enc_regionalsubscriptiondata, err := MarshalBERZoneCodeList(v.RegionalSubscriptionData)
 		if err != nil {
 			return nil, fmt.Errorf("encoding regionalSubscriptionData: %w", err)
@@ -23146,6 +24661,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_regionalsubscriptiondata...)
 	}
 	if v.VbsSubscriptionData != nil {
+		if len(v.VbsSubscriptionData) < 1 || len(v.VbsSubscriptionData) > 50 {
+			return nil, fmt.Errorf("vbsSubscriptionData length %d violates SIZE (1..50)", len(v.VbsSubscriptionData))
+		}
 		enc_vbssubscriptiondata, err := MarshalBERVBSDataList(v.VbsSubscriptionData)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vbsSubscriptionData: %w", err)
@@ -23173,6 +24691,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_vbssubscriptiondata...)
 	}
 	if v.VgcsSubscriptionData != nil {
+		if len(v.VgcsSubscriptionData) < 1 || len(v.VgcsSubscriptionData) > 50 {
+			return nil, fmt.Errorf("vgcsSubscriptionData length %d violates SIZE (1..50)", len(v.VgcsSubscriptionData))
+		}
 		enc_vgcssubscriptiondata, err := MarshalBERVGCSDataList(v.VgcsSubscriptionData)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vgcsSubscriptionData: %w", err)
@@ -23308,6 +24829,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_istalerttimer...)
 	}
 	if v.SuperChargerSupportedInHLR != nil {
+		if len(*v.SuperChargerSupportedInHLR) < 1 || len(*v.SuperChargerSupportedInHLR) > 6 {
+			return nil, fmt.Errorf("superChargerSupportedInHLR length %d violates SIZE (1..6)", len(*v.SuperChargerSupportedInHLR))
+		}
 		enc_superchargersupportedinhlr, encodeErr_enc_superchargersupportedinhlr := ber.EncodeOctetString([]byte(*v.SuperChargerSupportedInHLR))
 		if encodeErr_enc_superchargersupportedinhlr != nil {
 			return nil, fmt.Errorf("encoding superChargerSupportedInHLR: %w", encodeErr_enc_superchargersupportedinhlr)
@@ -23332,6 +24856,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mcssinfo...)
 	}
 	if v.CsAllocationRetentionPriority != nil {
+		if len(*v.CsAllocationRetentionPriority) < 1 || len(*v.CsAllocationRetentionPriority) > 1 {
+			return nil, fmt.Errorf("cs-AllocationRetentionPriority length %d violates SIZE (1)", len(*v.CsAllocationRetentionPriority))
+		}
 		enc_csallocationretentionpriority, encodeErr_enc_csallocationretentionpriority := ber.EncodeOctetString([]byte(*v.CsAllocationRetentionPriority))
 		if encodeErr_enc_csallocationretentionpriority != nil {
 			return nil, fmt.Errorf("encoding cs-AllocationRetentionPriority: %w", encodeErr_enc_csallocationretentionpriority)
@@ -23356,6 +24883,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_sgsncamelsubscriptioninfo...)
 	}
 	if v.ChargingCharacteristics != nil {
+		if len(*v.ChargingCharacteristics) < 2 || len(*v.ChargingCharacteristics) > 2 {
+			return nil, fmt.Errorf("chargingCharacteristics length %d violates SIZE (2)", len(*v.ChargingCharacteristics))
+		}
 		enc_chargingcharacteristics, encodeErr_enc_chargingcharacteristics := ber.EncodeOctetString([]byte(*v.ChargingCharacteristics))
 		if encodeErr_enc_chargingcharacteristics != nil {
 			return nil, fmt.Errorf("encoding chargingCharacteristics: %w", encodeErr_enc_chargingcharacteristics)
@@ -23368,7 +24898,10 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_chargingcharacteristics...)
 	}
 	if v.AccessRestrictionData != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.AccessRestrictionData).BitLength < 2 || (*v.AccessRestrictionData).BitLength > 8 {
+			return nil, fmt.Errorf("accessRestrictionData length %d violates SIZE (2..8)", (*v.AccessRestrictionData).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.AccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -23410,6 +24943,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_epssubscriptiondata...)
 	}
 	if v.CsgSubscriptionDataList != nil {
+		if len(v.CsgSubscriptionDataList) < 1 || len(v.CsgSubscriptionDataList) > 50 {
+			return nil, fmt.Errorf("csg-SubscriptionDataList length %d violates SIZE (1..50)", len(v.CsgSubscriptionDataList))
+		}
 		enc_csgsubscriptiondatalist, err := MarshalBERCSGSubscriptionDataList(v.CsgSubscriptionDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding csg-SubscriptionDataList: %w", err)
@@ -23446,6 +24982,12 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_uereachabilityrequestindicator...)
 	}
 	if v.SgsnNumber != nil {
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+		}
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+		}
 		enc_sgsnnumber, encodeErr_enc_sgsnnumber := ber.EncodeOctetString([]byte(*v.SgsnNumber))
 		if encodeErr_enc_sgsnnumber != nil {
 			return nil, fmt.Errorf("encoding sgsn-Number: %w", encodeErr_enc_sgsnnumber)
@@ -23458,6 +25000,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_sgsnnumber...)
 	}
 	if v.MmeName != nil {
+		if len(*v.MmeName) < 9 || len(*v.MmeName) > 255 {
+			return nil, fmt.Errorf("mme-Name length %d violates SIZE (9..255)", len(*v.MmeName))
+		}
 		enc_mmename, encodeErr_enc_mmename := ber.EncodeOctetString([]byte(*v.MmeName))
 		if encodeErr_enc_mmename != nil {
 			return nil, fmt.Errorf("encoding mme-Name: %w", encodeErr_enc_mmename)
@@ -23511,6 +25056,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_subscribedperiodiclautimer...)
 	}
 	if v.VplmnCsgSubscriptionDataList != nil {
+		if len(v.VplmnCsgSubscriptionDataList) < 1 || len(v.VplmnCsgSubscriptionDataList) > 50 {
+			return nil, fmt.Errorf("vplmn-Csg-SubscriptionDataList length %d violates SIZE (1..50)", len(v.VplmnCsgSubscriptionDataList))
+		}
 		enc_vplmncsgsubscriptiondatalist, err := MarshalBERVPLMNCSGSubscriptionDataList(v.VplmnCsgSubscriptionDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vplmn-Csg-SubscriptionDataList: %w", err)
@@ -23538,6 +25086,12 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_vplmncsgsubscriptiondatalist...)
 	}
 	if v.AdditionalMSISDN != nil {
+		if len(*v.AdditionalMSISDN) < 1 || len(*v.AdditionalMSISDN) > 9 {
+			return nil, fmt.Errorf("additionalMSISDN length %d violates SIZE (1..9)", len(*v.AdditionalMSISDN))
+		}
+		if len(*v.AdditionalMSISDN) < 1 || len(*v.AdditionalMSISDN) > 20 {
+			return nil, fmt.Errorf("additionalMSISDN length %d violates SIZE (1..20)", len(*v.AdditionalMSISDN))
+		}
 		enc_additionalmsisdn, encodeErr_enc_additionalmsisdn := ber.EncodeOctetString([]byte(*v.AdditionalMSISDN))
 		if encodeErr_enc_additionalmsisdn != nil {
 			return nil, fmt.Errorf("encoding additionalMSISDN: %w", encodeErr_enc_additionalmsisdn)
@@ -23586,6 +25140,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_pcscfrestorationrequest...)
 	}
 	if v.AdjacentAccessRestrictionDataList != nil {
+		if len(v.AdjacentAccessRestrictionDataList) < 1 || len(v.AdjacentAccessRestrictionDataList) > 50 {
+			return nil, fmt.Errorf("adjacentAccessRestrictionDataList length %d violates SIZE (1..50)", len(v.AdjacentAccessRestrictionDataList))
+		}
 		enc_adjacentaccessrestrictiondatalist, err := MarshalBERAdjacentAccessRestrictionDataList(v.AdjacentAccessRestrictionDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding adjacentAccessRestrictionDataList: %w", err)
@@ -23613,6 +25170,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_adjacentaccessrestrictiondatalist...)
 	}
 	if v.ImsiGroupIdList != nil {
+		if len(v.ImsiGroupIdList) < 1 || len(v.ImsiGroupIdList) > 50 {
+			return nil, fmt.Errorf("imsi-Group-Id-List length %d violates SIZE (1..50)", len(v.ImsiGroupIdList))
+		}
 		enc_imsigroupidlist, err := MarshalBERIMSIGroupIdList(v.ImsiGroupIdList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding imsi-Group-Id-List: %w", err)
@@ -23640,6 +25200,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imsigroupidlist...)
 	}
 	if v.UeUsageType != nil {
+		if len(*v.UeUsageType) < 4 || len(*v.UeUsageType) > 4 {
+			return nil, fmt.Errorf("ueUsageType length %d violates SIZE (4)", len(*v.UeUsageType))
+		}
 		enc_ueusagetype, encodeErr_enc_ueusagetype := ber.EncodeOctetString([]byte(*v.UeUsageType))
 		if encodeErr_enc_ueusagetype != nil {
 			return nil, fmt.Errorf("encoding ueUsageType: %w", encodeErr_enc_ueusagetype)
@@ -23670,6 +25233,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_dlbufferingsuggestedpacketcount...)
 	}
 	if v.ResetIdList != nil {
+		if len(v.ResetIdList) < 1 || len(v.ResetIdList) > 50 {
+			return nil, fmt.Errorf("reset-Id-List length %d violates SIZE (1..50)", len(v.ResetIdList))
+		}
 		enc_resetidlist, err := MarshalBERResetIdList(v.ResetIdList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding reset-Id-List: %w", err)
@@ -23697,6 +25263,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_resetidlist...)
 	}
 	if v.EDRXCycleLengthList != nil {
+		if len(v.EDRXCycleLengthList) < 1 || len(v.EDRXCycleLengthList) > 8 {
+			return nil, fmt.Errorf("eDRX-Cycle-Length-List length %d violates SIZE (1..8)", len(v.EDRXCycleLengthList))
+		}
 		enc_edrxcyclelengthlist, err := MarshalBEREDRXCycleLengthList(v.EDRXCycleLengthList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eDRX-Cycle-Length-List: %w", err)
@@ -23724,7 +25293,10 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_edrxcyclelengthlist...)
 	}
 	if v.ExtAccessRestrictionData != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.ExtAccessRestrictionData).BitLength < 1 || (*v.ExtAccessRestrictionData).BitLength > 32 {
+			return nil, fmt.Errorf("ext-AccessRestrictionData length %d violates SIZE (1..32)", (*v.ExtAccessRestrictionData).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ExtAccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -23765,6 +25337,9 @@ func (v *InsertSubscriberDataArg) MarshalBER() ([]byte, error) {
 func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -23777,6 +25352,12 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if v.Msisdn != nil {
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+		}
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
 			return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
@@ -23789,6 +25370,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_msisdn...)
 	}
 	if v.Category != nil {
+		if len(*v.Category) < 1 || len(*v.Category) > 1 {
+			return nil, fmt.Errorf("category length %d violates SIZE (1)", len(*v.Category))
+		}
 		enc_category, encodeErr_enc_category := ber.EncodeOctetString([]byte(*v.Category))
 		if encodeErr_enc_category != nil {
 			return nil, fmt.Errorf("encoding category: %w", encodeErr_enc_category)
@@ -23810,6 +25394,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_subscriberstatus...)
 	}
 	if v.BearerServiceList != nil {
+		if len(v.BearerServiceList) < 1 || len(v.BearerServiceList) > 50 {
+			return nil, fmt.Errorf("bearerServiceList length %d violates SIZE (1..50)", len(v.BearerServiceList))
+		}
 		enc_bearerservicelist, err := MarshalDERBearerServiceList(v.BearerServiceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding bearerServiceList: %w", err)
@@ -23822,6 +25409,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_bearerservicelist...)
 	}
 	if v.TeleserviceList != nil {
+		if len(v.TeleserviceList) < 1 || len(v.TeleserviceList) > 20 {
+			return nil, fmt.Errorf("teleserviceList length %d violates SIZE (1..20)", len(v.TeleserviceList))
+		}
 		enc_teleservicelist, err := MarshalDERTeleserviceList(v.TeleserviceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding teleserviceList: %w", err)
@@ -23834,6 +25424,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_teleservicelist...)
 	}
 	if v.ProvisionedSS != nil {
+		if len(v.ProvisionedSS) < 1 || len(v.ProvisionedSS) > 30 {
+			return nil, fmt.Errorf("provisionedSS length %d violates SIZE (1..30)", len(v.ProvisionedSS))
+		}
 		enc_provisionedss, err := MarshalDERExtSSInfoList(v.ProvisionedSS)
 		if err != nil {
 			return nil, fmt.Errorf("encoding provisionedSS: %w", err)
@@ -23867,6 +25460,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_roamingrestrictionduetounsupportedfeature...)
 	}
 	if v.RegionalSubscriptionData != nil {
+		if len(v.RegionalSubscriptionData) < 1 || len(v.RegionalSubscriptionData) > 10 {
+			return nil, fmt.Errorf("regionalSubscriptionData length %d violates SIZE (1..10)", len(v.RegionalSubscriptionData))
+		}
 		enc_regionalsubscriptiondata, err := MarshalDERZoneCodeList(v.RegionalSubscriptionData)
 		if err != nil {
 			return nil, fmt.Errorf("encoding regionalSubscriptionData: %w", err)
@@ -23879,6 +25475,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_regionalsubscriptiondata...)
 	}
 	if v.VbsSubscriptionData != nil {
+		if len(v.VbsSubscriptionData) < 1 || len(v.VbsSubscriptionData) > 50 {
+			return nil, fmt.Errorf("vbsSubscriptionData length %d violates SIZE (1..50)", len(v.VbsSubscriptionData))
+		}
 		enc_vbssubscriptiondata, err := MarshalDERVBSDataList(v.VbsSubscriptionData)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vbsSubscriptionData: %w", err)
@@ -23891,6 +25490,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_vbssubscriptiondata...)
 	}
 	if v.VgcsSubscriptionData != nil {
+		if len(v.VgcsSubscriptionData) < 1 || len(v.VgcsSubscriptionData) > 50 {
+			return nil, fmt.Errorf("vgcsSubscriptionData length %d violates SIZE (1..50)", len(v.VgcsSubscriptionData))
+		}
 		enc_vgcssubscriptiondata, err := MarshalDERVGCSDataList(v.VgcsSubscriptionData)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vgcsSubscriptionData: %w", err)
@@ -24011,6 +25613,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_istalerttimer...)
 	}
 	if v.SuperChargerSupportedInHLR != nil {
+		if len(*v.SuperChargerSupportedInHLR) < 1 || len(*v.SuperChargerSupportedInHLR) > 6 {
+			return nil, fmt.Errorf("superChargerSupportedInHLR length %d violates SIZE (1..6)", len(*v.SuperChargerSupportedInHLR))
+		}
 		enc_superchargersupportedinhlr, encodeErr_enc_superchargersupportedinhlr := ber.EncodeOctetString([]byte(*v.SuperChargerSupportedInHLR))
 		if encodeErr_enc_superchargersupportedinhlr != nil {
 			return nil, fmt.Errorf("encoding superChargerSupportedInHLR: %w", encodeErr_enc_superchargersupportedinhlr)
@@ -24035,6 +25640,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mcssinfo...)
 	}
 	if v.CsAllocationRetentionPriority != nil {
+		if len(*v.CsAllocationRetentionPriority) < 1 || len(*v.CsAllocationRetentionPriority) > 1 {
+			return nil, fmt.Errorf("cs-AllocationRetentionPriority length %d violates SIZE (1)", len(*v.CsAllocationRetentionPriority))
+		}
 		enc_csallocationretentionpriority, encodeErr_enc_csallocationretentionpriority := ber.EncodeOctetString([]byte(*v.CsAllocationRetentionPriority))
 		if encodeErr_enc_csallocationretentionpriority != nil {
 			return nil, fmt.Errorf("encoding cs-AllocationRetentionPriority: %w", encodeErr_enc_csallocationretentionpriority)
@@ -24059,6 +25667,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sgsncamelsubscriptioninfo...)
 	}
 	if v.ChargingCharacteristics != nil {
+		if len(*v.ChargingCharacteristics) < 2 || len(*v.ChargingCharacteristics) > 2 {
+			return nil, fmt.Errorf("chargingCharacteristics length %d violates SIZE (2)", len(*v.ChargingCharacteristics))
+		}
 		enc_chargingcharacteristics, encodeErr_enc_chargingcharacteristics := ber.EncodeOctetString([]byte(*v.ChargingCharacteristics))
 		if encodeErr_enc_chargingcharacteristics != nil {
 			return nil, fmt.Errorf("encoding chargingCharacteristics: %w", encodeErr_enc_chargingcharacteristics)
@@ -24071,7 +25682,10 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_chargingcharacteristics...)
 	}
 	if v.AccessRestrictionData != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.AccessRestrictionData).BitLength < 2 || (*v.AccessRestrictionData).BitLength > 8 {
+			return nil, fmt.Errorf("accessRestrictionData length %d violates SIZE (2..8)", (*v.AccessRestrictionData).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.AccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -24108,6 +25722,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_epssubscriptiondata...)
 	}
 	if v.CsgSubscriptionDataList != nil {
+		if len(v.CsgSubscriptionDataList) < 1 || len(v.CsgSubscriptionDataList) > 50 {
+			return nil, fmt.Errorf("csg-SubscriptionDataList length %d violates SIZE (1..50)", len(v.CsgSubscriptionDataList))
+		}
 		enc_csgsubscriptiondatalist, err := MarshalDERCSGSubscriptionDataList(v.CsgSubscriptionDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding csg-SubscriptionDataList: %w", err)
@@ -24129,6 +25746,12 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_uereachabilityrequestindicator...)
 	}
 	if v.SgsnNumber != nil {
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+		}
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+		}
 		enc_sgsnnumber, encodeErr_enc_sgsnnumber := ber.EncodeOctetString([]byte(*v.SgsnNumber))
 		if encodeErr_enc_sgsnnumber != nil {
 			return nil, fmt.Errorf("encoding sgsn-Number: %w", encodeErr_enc_sgsnnumber)
@@ -24141,6 +25764,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sgsnnumber...)
 	}
 	if v.MmeName != nil {
+		if len(*v.MmeName) < 9 || len(*v.MmeName) > 255 {
+			return nil, fmt.Errorf("mme-Name length %d violates SIZE (9..255)", len(*v.MmeName))
+		}
 		enc_mmename, encodeErr_enc_mmename := ber.EncodeOctetString([]byte(*v.MmeName))
 		if encodeErr_enc_mmename != nil {
 			return nil, fmt.Errorf("encoding mme-Name: %w", encodeErr_enc_mmename)
@@ -24189,6 +25815,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_subscribedperiodiclautimer...)
 	}
 	if v.VplmnCsgSubscriptionDataList != nil {
+		if len(v.VplmnCsgSubscriptionDataList) < 1 || len(v.VplmnCsgSubscriptionDataList) > 50 {
+			return nil, fmt.Errorf("vplmn-Csg-SubscriptionDataList length %d violates SIZE (1..50)", len(v.VplmnCsgSubscriptionDataList))
+		}
 		enc_vplmncsgsubscriptiondatalist, err := MarshalDERVPLMNCSGSubscriptionDataList(v.VplmnCsgSubscriptionDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vplmn-Csg-SubscriptionDataList: %w", err)
@@ -24201,6 +25830,12 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_vplmncsgsubscriptiondatalist...)
 	}
 	if v.AdditionalMSISDN != nil {
+		if len(*v.AdditionalMSISDN) < 1 || len(*v.AdditionalMSISDN) > 9 {
+			return nil, fmt.Errorf("additionalMSISDN length %d violates SIZE (1..9)", len(*v.AdditionalMSISDN))
+		}
+		if len(*v.AdditionalMSISDN) < 1 || len(*v.AdditionalMSISDN) > 20 {
+			return nil, fmt.Errorf("additionalMSISDN length %d violates SIZE (1..20)", len(*v.AdditionalMSISDN))
+		}
 		enc_additionalmsisdn, encodeErr_enc_additionalmsisdn := ber.EncodeOctetString([]byte(*v.AdditionalMSISDN))
 		if encodeErr_enc_additionalmsisdn != nil {
 			return nil, fmt.Errorf("encoding additionalMSISDN: %w", encodeErr_enc_additionalmsisdn)
@@ -24249,6 +25884,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_pcscfrestorationrequest...)
 	}
 	if v.AdjacentAccessRestrictionDataList != nil {
+		if len(v.AdjacentAccessRestrictionDataList) < 1 || len(v.AdjacentAccessRestrictionDataList) > 50 {
+			return nil, fmt.Errorf("adjacentAccessRestrictionDataList length %d violates SIZE (1..50)", len(v.AdjacentAccessRestrictionDataList))
+		}
 		enc_adjacentaccessrestrictiondatalist, err := MarshalDERAdjacentAccessRestrictionDataList(v.AdjacentAccessRestrictionDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding adjacentAccessRestrictionDataList: %w", err)
@@ -24261,6 +25899,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_adjacentaccessrestrictiondatalist...)
 	}
 	if v.ImsiGroupIdList != nil {
+		if len(v.ImsiGroupIdList) < 1 || len(v.ImsiGroupIdList) > 50 {
+			return nil, fmt.Errorf("imsi-Group-Id-List length %d violates SIZE (1..50)", len(v.ImsiGroupIdList))
+		}
 		enc_imsigroupidlist, err := MarshalDERIMSIGroupIdList(v.ImsiGroupIdList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding imsi-Group-Id-List: %w", err)
@@ -24273,6 +25914,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imsigroupidlist...)
 	}
 	if v.UeUsageType != nil {
+		if len(*v.UeUsageType) < 4 || len(*v.UeUsageType) > 4 {
+			return nil, fmt.Errorf("ueUsageType length %d violates SIZE (4)", len(*v.UeUsageType))
+		}
 		enc_ueusagetype, encodeErr_enc_ueusagetype := ber.EncodeOctetString([]byte(*v.UeUsageType))
 		if encodeErr_enc_ueusagetype != nil {
 			return nil, fmt.Errorf("encoding ueUsageType: %w", encodeErr_enc_ueusagetype)
@@ -24303,6 +25947,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_dlbufferingsuggestedpacketcount...)
 	}
 	if v.ResetIdList != nil {
+		if len(v.ResetIdList) < 1 || len(v.ResetIdList) > 50 {
+			return nil, fmt.Errorf("reset-Id-List length %d violates SIZE (1..50)", len(v.ResetIdList))
+		}
 		enc_resetidlist, err := MarshalDERResetIdList(v.ResetIdList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding reset-Id-List: %w", err)
@@ -24315,6 +25962,9 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_resetidlist...)
 	}
 	if v.EDRXCycleLengthList != nil {
+		if len(v.EDRXCycleLengthList) < 1 || len(v.EDRXCycleLengthList) > 8 {
+			return nil, fmt.Errorf("eDRX-Cycle-Length-List length %d violates SIZE (1..8)", len(v.EDRXCycleLengthList))
+		}
 		enc_edrxcyclelengthlist, err := MarshalDEREDRXCycleLengthList(v.EDRXCycleLengthList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eDRX-Cycle-Length-List: %w", err)
@@ -24327,7 +25977,10 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_edrxcyclelengthlist...)
 	}
 	if v.ExtAccessRestrictionData != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.ExtAccessRestrictionData).BitLength < 1 || (*v.ExtAccessRestrictionData).BitLength > 32 {
+			return nil, fmt.Errorf("ext-AccessRestrictionData length %d violates SIZE (1..32)", (*v.ExtAccessRestrictionData).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ExtAccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -24401,6 +26054,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_imsi
+				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+				}
 			}
 		}
 	}
@@ -24424,6 +26080,12 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_msisdn
+				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+					return fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+				}
+				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+					return fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+				}
 			}
 		}
 	}
@@ -24447,6 +26109,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_category
+				if len(*v.Category) < 1 || len(*v.Category) > 1 {
+					return fmt.Errorf("category length %d violates SIZE (1)", len(*v.Category))
+				}
 			}
 		}
 	}
@@ -24517,6 +26182,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_bearerservicelist
+				if len(v.BearerServiceList) < 1 || len(v.BearerServiceList) > 50 {
+					return fmt.Errorf("bearerServiceList length %d violates SIZE (1..50)", len(v.BearerServiceList))
+				}
 			}
 		}
 	}
@@ -24559,6 +26227,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_teleservicelist
+				if len(v.TeleserviceList) < 1 || len(v.TeleserviceList) > 20 {
+					return fmt.Errorf("teleserviceList length %d violates SIZE (1..20)", len(v.TeleserviceList))
+				}
 			}
 		}
 	}
@@ -24601,6 +26272,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_provisionedss
+				if len(v.ProvisionedSS) < 1 || len(v.ProvisionedSS) > 30 {
+					return fmt.Errorf("provisionedSS length %d violates SIZE (1..30)", len(v.ProvisionedSS))
+				}
 			}
 		}
 	}
@@ -24700,6 +26374,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_regionalsubscriptiondata
+				if len(v.RegionalSubscriptionData) < 1 || len(v.RegionalSubscriptionData) > 10 {
+					return fmt.Errorf("regionalSubscriptionData length %d violates SIZE (1..10)", len(v.RegionalSubscriptionData))
+				}
 			}
 		}
 	}
@@ -24743,6 +26420,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_vbssubscriptiondata
+				if len(v.VbsSubscriptionData) < 1 || len(v.VbsSubscriptionData) > 50 {
+					return fmt.Errorf("vbsSubscriptionData length %d violates SIZE (1..50)", len(v.VbsSubscriptionData))
+				}
 			}
 		}
 	}
@@ -24786,6 +26466,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_vgcssubscriptiondata
+				if len(v.VgcsSubscriptionData) < 1 || len(v.VgcsSubscriptionData) > 50 {
+					return fmt.Errorf("vgcsSubscriptionData length %d violates SIZE (1..50)", len(v.VgcsSubscriptionData))
+				}
 			}
 		}
 	}
@@ -25099,6 +26782,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_superchargersupportedinhlr
+				if len(*v.SuperChargerSupportedInHLR) < 1 || len(*v.SuperChargerSupportedInHLR) > 6 {
+					return fmt.Errorf("superChargerSupportedInHLR length %d violates SIZE (1..6)", len(*v.SuperChargerSupportedInHLR))
+				}
 			}
 		}
 	}
@@ -25153,6 +26839,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_csallocationretentionpriority
+				if len(*v.CsAllocationRetentionPriority) < 1 || len(*v.CsAllocationRetentionPriority) > 1 {
+					return fmt.Errorf("cs-AllocationRetentionPriority length %d violates SIZE (1)", len(*v.CsAllocationRetentionPriority))
+				}
 			}
 		}
 	}
@@ -25208,6 +26897,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_chargingcharacteristics
+				if len(*v.ChargingCharacteristics) < 2 || len(*v.ChargingCharacteristics) > 2 {
+					return fmt.Errorf("chargingCharacteristics length %d violates SIZE (2)", len(*v.ChargingCharacteristics))
+				}
 			}
 		}
 	}
@@ -25240,6 +26932,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_accessrestrictiondata
+				if (*v.AccessRestrictionData).BitLength < 2 || (*v.AccessRestrictionData).BitLength > 8 {
+					return fmt.Errorf("accessRestrictionData length %d violates SIZE (2..8)", (*v.AccessRestrictionData).BitLength)
+				}
 			}
 		}
 	}
@@ -25343,6 +27038,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_csgsubscriptiondatalist
+				if len(v.CsgSubscriptionDataList) < 1 || len(v.CsgSubscriptionDataList) > 50 {
+					return fmt.Errorf("csg-SubscriptionDataList length %d violates SIZE (1..50)", len(v.CsgSubscriptionDataList))
+				}
 			}
 		}
 	}
@@ -25392,6 +27090,12 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_sgsnnumber
+				if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+					return fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+				}
+				if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+					return fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+				}
 			}
 		}
 	}
@@ -25415,6 +27119,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_mmename
+				if len(*v.MmeName) < 9 || len(*v.MmeName) > 255 {
+					return fmt.Errorf("mme-Name length %d violates SIZE (9..255)", len(*v.MmeName))
+				}
 			}
 		}
 	}
@@ -25568,6 +27275,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_vplmncsgsubscriptiondatalist
+				if len(v.VplmnCsgSubscriptionDataList) < 1 || len(v.VplmnCsgSubscriptionDataList) > 50 {
+					return fmt.Errorf("vplmn-Csg-SubscriptionDataList length %d violates SIZE (1..50)", len(v.VplmnCsgSubscriptionDataList))
+				}
 			}
 		}
 	}
@@ -25591,6 +27301,12 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_additionalmsisdn
+				if len(*v.AdditionalMSISDN) < 1 || len(*v.AdditionalMSISDN) > 9 {
+					return fmt.Errorf("additionalMSISDN length %d violates SIZE (1..9)", len(*v.AdditionalMSISDN))
+				}
+				if len(*v.AdditionalMSISDN) < 1 || len(*v.AdditionalMSISDN) > 20 {
+					return fmt.Errorf("additionalMSISDN length %d violates SIZE (1..20)", len(*v.AdditionalMSISDN))
+				}
 			}
 		}
 	}
@@ -25737,6 +27453,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_adjacentaccessrestrictiondatalist
+				if len(v.AdjacentAccessRestrictionDataList) < 1 || len(v.AdjacentAccessRestrictionDataList) > 50 {
+					return fmt.Errorf("adjacentAccessRestrictionDataList length %d violates SIZE (1..50)", len(v.AdjacentAccessRestrictionDataList))
+				}
 			}
 		}
 	}
@@ -25779,6 +27498,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_imsigroupidlist
+				if len(v.ImsiGroupIdList) < 1 || len(v.ImsiGroupIdList) > 50 {
+					return fmt.Errorf("imsi-Group-Id-List length %d violates SIZE (1..50)", len(v.ImsiGroupIdList))
+				}
 			}
 		}
 	}
@@ -25802,6 +27524,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_ueusagetype
+				if len(*v.UeUsageType) < 4 || len(*v.UeUsageType) > 4 {
+					return fmt.Errorf("ueUsageType length %d violates SIZE (4)", len(*v.UeUsageType))
+				}
 			}
 		}
 	}
@@ -25898,6 +27623,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_resetidlist
+				if len(v.ResetIdList) < 1 || len(v.ResetIdList) > 50 {
+					return fmt.Errorf("reset-Id-List length %d violates SIZE (1..50)", len(v.ResetIdList))
+				}
 			}
 		}
 	}
@@ -25941,6 +27669,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_edrxcyclelengthlist
+				if len(v.EDRXCycleLengthList) < 1 || len(v.EDRXCycleLengthList) > 8 {
+					return fmt.Errorf("eDRX-Cycle-Length-List length %d violates SIZE (1..8)", len(v.EDRXCycleLengthList))
+				}
 			}
 		}
 	}
@@ -25973,6 +27704,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_extaccessrestrictiondata
+				if (*v.ExtAccessRestrictionData).BitLength < 1 || (*v.ExtAccessRestrictionData).BitLength > 32 {
+					return fmt.Errorf("ext-AccessRestrictionData length %d violates SIZE (1..32)", (*v.ExtAccessRestrictionData).BitLength)
+				}
 			}
 		}
 	}
@@ -26122,6 +27856,9 @@ func (v *EDRXCycleLength) MarshalBER() ([]byte, error) {
 	}
 	enc_rattype = retagged_enc_rattype
 	children = append(children, enc_rattype...)
+	if len(v.EDRXCycleLengthValue) < 1 || len(v.EDRXCycleLengthValue) > 1 {
+		return nil, fmt.Errorf("eDRX-Cycle-Length-Value length %d violates SIZE (1)", len(v.EDRXCycleLengthValue))
+	}
 	enc_edrxcyclelengthvalue, encodeErr_enc_edrxcyclelengthvalue := ber.EncodeOctetString([]byte(v.EDRXCycleLengthValue))
 	if encodeErr_enc_edrxcyclelengthvalue != nil {
 		return nil, fmt.Errorf("encoding eDRX-Cycle-Length-Value: %w", encodeErr_enc_edrxcyclelengthvalue)
@@ -26155,6 +27892,9 @@ func (v *EDRXCycleLength) MarshalDER() ([]byte, error) {
 	}
 	enc_rattype = retagged_enc_rattype
 	children = append(children, enc_rattype...)
+	if len(v.EDRXCycleLengthValue) < 1 || len(v.EDRXCycleLengthValue) > 1 {
+		return nil, fmt.Errorf("eDRX-Cycle-Length-Value length %d violates SIZE (1)", len(v.EDRXCycleLengthValue))
+	}
 	enc_edrxcyclelengthvalue, encodeErr_enc_edrxcyclelengthvalue := ber.EncodeOctetString([]byte(v.EDRXCycleLengthValue))
 	if encodeErr_enc_edrxcyclelengthvalue != nil {
 		return nil, fmt.Errorf("encoding eDRX-Cycle-Length-Value: %w", encodeErr_enc_edrxcyclelengthvalue)
@@ -26246,6 +27986,9 @@ func (v *EDRXCycleLength) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 	}
 
 	offset += n_edrxcyclelengthvalue
+	if len(v.EDRXCycleLengthValue) < 1 || len(v.EDRXCycleLengthValue) > 1 {
+		return fmt.Errorf("eDRX-Cycle-Length-Value length %d violates SIZE (1)", len(v.EDRXCycleLengthValue))
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -26441,6 +28184,9 @@ func (v *IMSIGroupId) MarshalBER() ([]byte, error) {
 	}
 	enc_groupserviceid = retagged_enc_groupserviceid
 	children = append(children, enc_groupserviceid...)
+	if len(v.PlmnId) < 3 || len(v.PlmnId) > 3 {
+		return nil, fmt.Errorf("plmnId length %d violates SIZE (3)", len(v.PlmnId))
+	}
 	enc_plmnid, encodeErr_enc_plmnid := ber.EncodeOctetString([]byte(v.PlmnId))
 	if encodeErr_enc_plmnid != nil {
 		return nil, fmt.Errorf("encoding plmnId: %w", encodeErr_enc_plmnid)
@@ -26451,6 +28197,9 @@ func (v *IMSIGroupId) MarshalBER() ([]byte, error) {
 	}
 	enc_plmnid = retagged_enc_plmnid
 	children = append(children, enc_plmnid...)
+	if len(v.LocalGroupID) < 1 || len(v.LocalGroupID) > 10 {
+		return nil, fmt.Errorf("local-Group-ID length %d violates SIZE (1..10)", len(v.LocalGroupID))
+	}
 	enc_localgroupid, encodeErr_enc_localgroupid := ber.EncodeOctetString([]byte(v.LocalGroupID))
 	if encodeErr_enc_localgroupid != nil {
 		return nil, fmt.Errorf("encoding local-Group-ID: %w", encodeErr_enc_localgroupid)
@@ -26484,6 +28233,9 @@ func (v *IMSIGroupId) MarshalDER() ([]byte, error) {
 	}
 	enc_groupserviceid = retagged_enc_groupserviceid
 	children = append(children, enc_groupserviceid...)
+	if len(v.PlmnId) < 3 || len(v.PlmnId) > 3 {
+		return nil, fmt.Errorf("plmnId length %d violates SIZE (3)", len(v.PlmnId))
+	}
 	enc_plmnid, encodeErr_enc_plmnid := ber.EncodeOctetString([]byte(v.PlmnId))
 	if encodeErr_enc_plmnid != nil {
 		return nil, fmt.Errorf("encoding plmnId: %w", encodeErr_enc_plmnid)
@@ -26494,6 +28246,9 @@ func (v *IMSIGroupId) MarshalDER() ([]byte, error) {
 	}
 	enc_plmnid = retagged_enc_plmnid
 	children = append(children, enc_plmnid...)
+	if len(v.LocalGroupID) < 1 || len(v.LocalGroupID) > 10 {
+		return nil, fmt.Errorf("local-Group-ID length %d violates SIZE (1..10)", len(v.LocalGroupID))
+	}
 	enc_localgroupid, encodeErr_enc_localgroupid := ber.EncodeOctetString([]byte(v.LocalGroupID))
 	if encodeErr_enc_localgroupid != nil {
 		return nil, fmt.Errorf("encoding local-Group-ID: %w", encodeErr_enc_localgroupid)
@@ -26585,6 +28340,9 @@ func (v *IMSIGroupId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 	}
 
 	offset += n_plmnid
+	if len(v.PlmnId) < 3 || len(v.PlmnId) > 3 {
+		return fmt.Errorf("plmnId length %d violates SIZE (3)", len(v.PlmnId))
+	}
 	// Decode local-Group-ID
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field local-Group-ID")
@@ -26609,6 +28367,9 @@ func (v *IMSIGroupId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 	}
 
 	offset += n_localgroupid
+	if len(v.LocalGroupID) < 1 || len(v.LocalGroupID) > 10 {
+		return fmt.Errorf("local-Group-ID length %d violates SIZE (1..10)", len(v.LocalGroupID))
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -26722,7 +28483,10 @@ func UnmarshalBERCSGSubscriptionDataList(data []byte, opts ...ber.DecodeOption) 
 // MarshalBER encodes CSGSubscriptionData to BER format.
 func (v *CSGSubscriptionData) MarshalBER() ([]byte, error) {
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	if (v.CsgId).BitLength < 27 || (v.CsgId).BitLength > 27 {
+		return nil, fmt.Errorf("csg-Id length %d violates SIZE (27)", (v.CsgId).BitLength)
+	}
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.CsgId.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -26732,6 +28496,9 @@ func (v *CSGSubscriptionData) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_csgid...)
 	if v.ExpirationDate != nil {
+		if len(*v.ExpirationDate) < 4 || len(*v.ExpirationDate) > 4 {
+			return nil, fmt.Errorf("expirationDate length %d violates SIZE (4)", len(*v.ExpirationDate))
+		}
 		enc_expirationdate, encodeErr_enc_expirationdate := ber.EncodeOctetString([]byte(*v.ExpirationDate))
 		if encodeErr_enc_expirationdate != nil {
 			return nil, fmt.Errorf("encoding expirationDate: %w", encodeErr_enc_expirationdate)
@@ -26746,6 +28513,9 @@ func (v *CSGSubscriptionData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.LipaAllowedAPNList != nil {
+		if len(v.LipaAllowedAPNList) < 1 || len(v.LipaAllowedAPNList) > 50 {
+			return nil, fmt.Errorf("lipa-AllowedAPNList length %d violates SIZE (1..50)", len(v.LipaAllowedAPNList))
+		}
 		enc_lipaallowedapnlist, err := MarshalBERLIPAAllowedAPNList(v.LipaAllowedAPNList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding lipa-AllowedAPNList: %w", err)
@@ -26773,6 +28543,9 @@ func (v *CSGSubscriptionData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_lipaallowedapnlist...)
 	}
 	if v.PlmnId != nil {
+		if len(*v.PlmnId) < 3 || len(*v.PlmnId) > 3 {
+			return nil, fmt.Errorf("plmn-Id length %d violates SIZE (3)", len(*v.PlmnId))
+		}
 		enc_plmnid, encodeErr_enc_plmnid := ber.EncodeOctetString([]byte(*v.PlmnId))
 		if encodeErr_enc_plmnid != nil {
 			return nil, fmt.Errorf("encoding plmn-Id: %w", encodeErr_enc_plmnid)
@@ -26800,7 +28573,10 @@ func (v *CSGSubscriptionData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes CSGSubscriptionData to DER format.
 func (v *CSGSubscriptionData) MarshalDER() ([]byte, error) {
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	if (v.CsgId).BitLength < 27 || (v.CsgId).BitLength > 27 {
+		return nil, fmt.Errorf("csg-Id length %d violates SIZE (27)", (v.CsgId).BitLength)
+	}
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.CsgId.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -26810,6 +28586,9 @@ func (v *CSGSubscriptionData) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_csgid...)
 	if v.ExpirationDate != nil {
+		if len(*v.ExpirationDate) < 4 || len(*v.ExpirationDate) > 4 {
+			return nil, fmt.Errorf("expirationDate length %d violates SIZE (4)", len(*v.ExpirationDate))
+		}
 		enc_expirationdate, encodeErr_enc_expirationdate := ber.EncodeOctetString([]byte(*v.ExpirationDate))
 		if encodeErr_enc_expirationdate != nil {
 			return nil, fmt.Errorf("encoding expirationDate: %w", encodeErr_enc_expirationdate)
@@ -26824,6 +28603,9 @@ func (v *CSGSubscriptionData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.LipaAllowedAPNList != nil {
+		if len(v.LipaAllowedAPNList) < 1 || len(v.LipaAllowedAPNList) > 50 {
+			return nil, fmt.Errorf("lipa-AllowedAPNList length %d violates SIZE (1..50)", len(v.LipaAllowedAPNList))
+		}
 		enc_lipaallowedapnlist, err := MarshalDERLIPAAllowedAPNList(v.LipaAllowedAPNList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding lipa-AllowedAPNList: %w", err)
@@ -26836,6 +28618,9 @@ func (v *CSGSubscriptionData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_lipaallowedapnlist...)
 	}
 	if v.PlmnId != nil {
+		if len(*v.PlmnId) < 3 || len(*v.PlmnId) > 3 {
+			return nil, fmt.Errorf("plmn-Id length %d violates SIZE (3)", len(*v.PlmnId))
+		}
 		enc_plmnid, encodeErr_enc_plmnid := ber.EncodeOctetString([]byte(*v.PlmnId))
 		if encodeErr_enc_plmnid != nil {
 			return nil, fmt.Errorf("encoding plmn-Id: %w", encodeErr_enc_plmnid)
@@ -26896,6 +28681,9 @@ func (v *CSGSubscriptionData) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	}
 
 	offset += n
+	if (v.CsgId).BitLength < 27 || (v.CsgId).BitLength > 27 {
+		return fmt.Errorf("csg-Id length %d violates SIZE (27)", (v.CsgId).BitLength)
+	}
 	// Decode expirationDate
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -26913,6 +28701,9 @@ func (v *CSGSubscriptionData) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n
+				if len(*v.ExpirationDate) < 4 || len(*v.ExpirationDate) > 4 {
+					return fmt.Errorf("expirationDate length %d violates SIZE (4)", len(*v.ExpirationDate))
+				}
 			}
 		}
 	}
@@ -26987,6 +28778,9 @@ func (v *CSGSubscriptionData) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_lipaallowedapnlist
+				if len(v.LipaAllowedAPNList) < 1 || len(v.LipaAllowedAPNList) > 50 {
+					return fmt.Errorf("lipa-AllowedAPNList length %d violates SIZE (1..50)", len(v.LipaAllowedAPNList))
+				}
 			}
 		}
 	}
@@ -27010,6 +28804,9 @@ func (v *CSGSubscriptionData) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_plmnid
+				if len(*v.PlmnId) < 3 || len(*v.PlmnId) > 3 {
+					return fmt.Errorf("plmn-Id length %d violates SIZE (3)", len(*v.PlmnId))
+				}
 			}
 		}
 	}
@@ -27202,6 +28999,9 @@ func UnmarshalBERLIPAAllowedAPNList(data []byte, opts ...ber.DecodeOption) (LIPA
 func (v *EPSSubscriptionData) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.ApnOiReplacement != nil {
+		if len(*v.ApnOiReplacement) < 9 || len(*v.ApnOiReplacement) > 100 {
+			return nil, fmt.Errorf("apn-oi-Replacement length %d violates SIZE (9..100)", len(*v.ApnOiReplacement))
+		}
 		enc_apnoireplacement, encodeErr_enc_apnoireplacement := ber.EncodeOctetString([]byte(*v.ApnOiReplacement))
 		if encodeErr_enc_apnoireplacement != nil {
 			return nil, fmt.Errorf("encoding apn-oi-Replacement: %w", encodeErr_enc_apnoireplacement)
@@ -27247,6 +29047,12 @@ func (v *EPSSubscriptionData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_apnconfigurationprofile...)
 	}
 	if v.StnSr != nil {
+		if len(*v.StnSr) < 1 || len(*v.StnSr) > 9 {
+			return nil, fmt.Errorf("stn-sr length %d violates SIZE (1..9)", len(*v.StnSr))
+		}
+		if len(*v.StnSr) < 1 || len(*v.StnSr) > 20 {
+			return nil, fmt.Errorf("stn-sr length %d violates SIZE (1..20)", len(*v.StnSr))
+		}
 		enc_stnsr, encodeErr_enc_stnsr := ber.EncodeOctetString([]byte(*v.StnSr))
 		if encodeErr_enc_stnsr != nil {
 			return nil, fmt.Errorf("encoding stn-sr: %w", encodeErr_enc_stnsr)
@@ -27314,6 +29120,9 @@ func (v *EPSSubscriptionData) MarshalBER() ([]byte, error) {
 func (v *EPSSubscriptionData) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.ApnOiReplacement != nil {
+		if len(*v.ApnOiReplacement) < 9 || len(*v.ApnOiReplacement) > 100 {
+			return nil, fmt.Errorf("apn-oi-Replacement length %d violates SIZE (9..100)", len(*v.ApnOiReplacement))
+		}
 		enc_apnoireplacement, encodeErr_enc_apnoireplacement := ber.EncodeOctetString([]byte(*v.ApnOiReplacement))
 		if encodeErr_enc_apnoireplacement != nil {
 			return nil, fmt.Errorf("encoding apn-oi-Replacement: %w", encodeErr_enc_apnoireplacement)
@@ -27359,6 +29168,12 @@ func (v *EPSSubscriptionData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_apnconfigurationprofile...)
 	}
 	if v.StnSr != nil {
+		if len(*v.StnSr) < 1 || len(*v.StnSr) > 9 {
+			return nil, fmt.Errorf("stn-sr length %d violates SIZE (1..9)", len(*v.StnSr))
+		}
+		if len(*v.StnSr) < 1 || len(*v.StnSr) > 20 {
+			return nil, fmt.Errorf("stn-sr length %d violates SIZE (1..20)", len(*v.StnSr))
+		}
 		enc_stnsr, encodeErr_enc_stnsr := ber.EncodeOctetString([]byte(*v.StnSr))
 		if encodeErr_enc_stnsr != nil {
 			return nil, fmt.Errorf("encoding stn-sr: %w", encodeErr_enc_stnsr)
@@ -27460,6 +29275,9 @@ func (v *EPSSubscriptionData) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_apnoireplacement
+				if len(*v.ApnOiReplacement) < 9 || len(*v.ApnOiReplacement) > 100 {
+					return fmt.Errorf("apn-oi-Replacement length %d violates SIZE (9..100)", len(*v.ApnOiReplacement))
+				}
 			}
 		}
 	}
@@ -27571,6 +29389,12 @@ func (v *EPSSubscriptionData) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_stnsr
+				if len(*v.StnSr) < 1 || len(*v.StnSr) > 9 {
+					return fmt.Errorf("stn-sr length %d violates SIZE (1..9)", len(*v.StnSr))
+				}
+				if len(*v.StnSr) < 1 || len(*v.StnSr) > 20 {
+					return fmt.Errorf("stn-sr length %d violates SIZE (1..20)", len(*v.StnSr))
+				}
 			}
 		}
 	}
@@ -27716,6 +29540,9 @@ func (v *APNConfigurationProfile) MarshalBER() ([]byte, error) {
 		enc_completedatalistincluded := ber.EncodeNull()
 		children = append(children, enc_completedatalistincluded...)
 	}
+	if len(v.EpsDataList) < 1 || len(v.EpsDataList) > 50 {
+		return nil, fmt.Errorf("epsDataList length %d violates SIZE (1..50)", len(v.EpsDataList))
+	}
 	enc_epsdatalist, err := MarshalBEREPSDataList(v.EpsDataList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding epsDataList: %w", err)
@@ -27783,6 +29610,9 @@ func (v *APNConfigurationProfile) MarshalDER() ([]byte, error) {
 	if v.CompleteDataListIncluded != nil {
 		enc_completedatalistincluded := ber.EncodeNull()
 		children = append(children, enc_completedatalistincluded...)
+	}
+	if len(v.EpsDataList) < 1 || len(v.EpsDataList) > 50 {
+		return nil, fmt.Errorf("epsDataList length %d violates SIZE (1..50)", len(v.EpsDataList))
 	}
 	enc_epsdatalist, err := MarshalDEREPSDataList(v.EpsDataList)
 	if err != nil {
@@ -27922,6 +29752,9 @@ func (v *APNConfigurationProfile) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}
 
 	offset += n_epsdatalist
+	if len(v.EpsDataList) < 1 || len(v.EpsDataList) > 50 {
+		return fmt.Errorf("epsDataList length %d violates SIZE (1..50)", len(v.EpsDataList))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -28101,6 +29934,9 @@ func (v *APNConfiguration) MarshalBER() ([]byte, error) {
 	}
 	enc_contextid = retagged_enc_contextid
 	children = append(children, enc_contextid...)
+	if len(v.PdnType) < 1 || len(v.PdnType) > 1 {
+		return nil, fmt.Errorf("pdn-Type length %d violates SIZE (1)", len(v.PdnType))
+	}
 	enc_pdntype, encodeErr_enc_pdntype := ber.EncodeOctetString([]byte(v.PdnType))
 	if encodeErr_enc_pdntype != nil {
 		return nil, fmt.Errorf("encoding pdn-Type: %w", encodeErr_enc_pdntype)
@@ -28112,6 +29948,9 @@ func (v *APNConfiguration) MarshalBER() ([]byte, error) {
 	enc_pdntype = retagged_enc_pdntype
 	children = append(children, enc_pdntype...)
 	if v.ServedPartyIPIPv4Address != nil {
+		if len(*v.ServedPartyIPIPv4Address) < 1 || len(*v.ServedPartyIPIPv4Address) > 16 {
+			return nil, fmt.Errorf("servedPartyIP-IPv4-Address length %d violates SIZE (1..16)", len(*v.ServedPartyIPIPv4Address))
+		}
 		enc_servedpartyipipv4address, encodeErr_enc_servedpartyipipv4address := ber.EncodeOctetString([]byte(*v.ServedPartyIPIPv4Address))
 		if encodeErr_enc_servedpartyipipv4address != nil {
 			return nil, fmt.Errorf("encoding servedPartyIP-IPv4-Address: %w", encodeErr_enc_servedpartyipipv4address)
@@ -28122,6 +29961,9 @@ func (v *APNConfiguration) MarshalBER() ([]byte, error) {
 		}
 		enc_servedpartyipipv4address = retagged_enc_servedpartyipipv4address
 		children = append(children, enc_servedpartyipipv4address...)
+	}
+	if len(v.Apn) < 2 || len(v.Apn) > 63 {
+		return nil, fmt.Errorf("apn length %d violates SIZE (2..63)", len(v.Apn))
 	}
 	enc_apn, encodeErr_enc_apn := ber.EncodeOctetString([]byte(v.Apn))
 	if encodeErr_enc_apn != nil {
@@ -28174,6 +30016,9 @@ func (v *APNConfiguration) MarshalBER() ([]byte, error) {
 		children = append(children, enc_vplmnaddressallowed...)
 	}
 	if v.ChargingCharacteristics != nil {
+		if len(*v.ChargingCharacteristics) < 2 || len(*v.ChargingCharacteristics) > 2 {
+			return nil, fmt.Errorf("chargingCharacteristics length %d violates SIZE (2)", len(*v.ChargingCharacteristics))
+		}
 		enc_chargingcharacteristics, encodeErr_enc_chargingcharacteristics := ber.EncodeOctetString([]byte(*v.ChargingCharacteristics))
 		if encodeErr_enc_chargingcharacteristics != nil {
 			return nil, fmt.Errorf("encoding chargingCharacteristics: %w", encodeErr_enc_chargingcharacteristics)
@@ -28198,6 +30043,9 @@ func (v *APNConfiguration) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ambr...)
 	}
 	if v.SpecificAPNInfoList != nil {
+		if len(v.SpecificAPNInfoList) < 1 || len(v.SpecificAPNInfoList) > 50 {
+			return nil, fmt.Errorf("specificAPNInfoList length %d violates SIZE (1..50)", len(v.SpecificAPNInfoList))
+		}
 		enc_specificapninfolist, err := MarshalBERSpecificAPNInfoList(v.SpecificAPNInfoList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding specificAPNInfoList: %w", err)
@@ -28237,6 +30085,9 @@ func (v *APNConfiguration) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.ServedPartyIPIPv6Address != nil {
+		if len(*v.ServedPartyIPIPv6Address) < 1 || len(*v.ServedPartyIPIPv6Address) > 16 {
+			return nil, fmt.Errorf("servedPartyIP-IPv6-Address length %d violates SIZE (1..16)", len(*v.ServedPartyIPIPv6Address))
+		}
 		enc_servedpartyipipv6address, encodeErr_enc_servedpartyipipv6address := ber.EncodeOctetString([]byte(*v.ServedPartyIPIPv6Address))
 		if encodeErr_enc_servedpartyipipv6address != nil {
 			return nil, fmt.Errorf("encoding servedPartyIP-IPv6-Address: %w", encodeErr_enc_servedpartyipipv6address)
@@ -28249,6 +30100,9 @@ func (v *APNConfiguration) MarshalBER() ([]byte, error) {
 		children = append(children, enc_servedpartyipipv6address...)
 	}
 	if v.ApnOiReplacement != nil {
+		if len(*v.ApnOiReplacement) < 9 || len(*v.ApnOiReplacement) > 100 {
+			return nil, fmt.Errorf("apn-oi-Replacement length %d violates SIZE (9..100)", len(*v.ApnOiReplacement))
+		}
 		enc_apnoireplacement, encodeErr_enc_apnoireplacement := ber.EncodeOctetString([]byte(*v.ApnOiReplacement))
 		if encodeErr_enc_apnoireplacement != nil {
 			return nil, fmt.Errorf("encoding apn-oi-Replacement: %w", encodeErr_enc_apnoireplacement)
@@ -28279,6 +30133,9 @@ func (v *APNConfiguration) MarshalBER() ([]byte, error) {
 		children = append(children, enc_lipapermission...)
 	}
 	if v.RestorationPriority != nil {
+		if len(*v.RestorationPriority) < 1 || len(*v.RestorationPriority) > 1 {
+			return nil, fmt.Errorf("restoration-Priority length %d violates SIZE (1)", len(*v.RestorationPriority))
+		}
 		enc_restorationpriority, encodeErr_enc_restorationpriority := ber.EncodeOctetString([]byte(*v.RestorationPriority))
 		if encodeErr_enc_restorationpriority != nil {
 			return nil, fmt.Errorf("encoding restoration-Priority: %w", encodeErr_enc_restorationpriority)
@@ -28330,6 +30187,9 @@ func (v *APNConfiguration) MarshalBER() ([]byte, error) {
 		children = append(children, enc_niddmechanism...)
 	}
 	if v.SCEFID != nil {
+		if len(*v.SCEFID) < 9 || len(*v.SCEFID) > 255 {
+			return nil, fmt.Errorf("sCEF-ID length %d violates SIZE (9..255)", len(*v.SCEFID))
+		}
 		enc_scefid, encodeErr_enc_scefid := ber.EncodeOctetString([]byte(*v.SCEFID))
 		if encodeErr_enc_scefid != nil {
 			return nil, fmt.Errorf("encoding sCEF-ID: %w", encodeErr_enc_scefid)
@@ -28373,6 +30233,9 @@ func (v *APNConfiguration) MarshalDER() ([]byte, error) {
 	}
 	enc_contextid = retagged_enc_contextid
 	children = append(children, enc_contextid...)
+	if len(v.PdnType) < 1 || len(v.PdnType) > 1 {
+		return nil, fmt.Errorf("pdn-Type length %d violates SIZE (1)", len(v.PdnType))
+	}
 	enc_pdntype, encodeErr_enc_pdntype := ber.EncodeOctetString([]byte(v.PdnType))
 	if encodeErr_enc_pdntype != nil {
 		return nil, fmt.Errorf("encoding pdn-Type: %w", encodeErr_enc_pdntype)
@@ -28384,6 +30247,9 @@ func (v *APNConfiguration) MarshalDER() ([]byte, error) {
 	enc_pdntype = retagged_enc_pdntype
 	children = append(children, enc_pdntype...)
 	if v.ServedPartyIPIPv4Address != nil {
+		if len(*v.ServedPartyIPIPv4Address) < 1 || len(*v.ServedPartyIPIPv4Address) > 16 {
+			return nil, fmt.Errorf("servedPartyIP-IPv4-Address length %d violates SIZE (1..16)", len(*v.ServedPartyIPIPv4Address))
+		}
 		enc_servedpartyipipv4address, encodeErr_enc_servedpartyipipv4address := ber.EncodeOctetString([]byte(*v.ServedPartyIPIPv4Address))
 		if encodeErr_enc_servedpartyipipv4address != nil {
 			return nil, fmt.Errorf("encoding servedPartyIP-IPv4-Address: %w", encodeErr_enc_servedpartyipipv4address)
@@ -28394,6 +30260,9 @@ func (v *APNConfiguration) MarshalDER() ([]byte, error) {
 		}
 		enc_servedpartyipipv4address = retagged_enc_servedpartyipipv4address
 		children = append(children, enc_servedpartyipipv4address...)
+	}
+	if len(v.Apn) < 2 || len(v.Apn) > 63 {
+		return nil, fmt.Errorf("apn length %d violates SIZE (2..63)", len(v.Apn))
 	}
 	enc_apn, encodeErr_enc_apn := ber.EncodeOctetString([]byte(v.Apn))
 	if encodeErr_enc_apn != nil {
@@ -28446,6 +30315,9 @@ func (v *APNConfiguration) MarshalDER() ([]byte, error) {
 		children = append(children, enc_vplmnaddressallowed...)
 	}
 	if v.ChargingCharacteristics != nil {
+		if len(*v.ChargingCharacteristics) < 2 || len(*v.ChargingCharacteristics) > 2 {
+			return nil, fmt.Errorf("chargingCharacteristics length %d violates SIZE (2)", len(*v.ChargingCharacteristics))
+		}
 		enc_chargingcharacteristics, encodeErr_enc_chargingcharacteristics := ber.EncodeOctetString([]byte(*v.ChargingCharacteristics))
 		if encodeErr_enc_chargingcharacteristics != nil {
 			return nil, fmt.Errorf("encoding chargingCharacteristics: %w", encodeErr_enc_chargingcharacteristics)
@@ -28470,6 +30342,9 @@ func (v *APNConfiguration) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ambr...)
 	}
 	if v.SpecificAPNInfoList != nil {
+		if len(v.SpecificAPNInfoList) < 1 || len(v.SpecificAPNInfoList) > 50 {
+			return nil, fmt.Errorf("specificAPNInfoList length %d violates SIZE (1..50)", len(v.SpecificAPNInfoList))
+		}
 		enc_specificapninfolist, err := MarshalDERSpecificAPNInfoList(v.SpecificAPNInfoList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding specificAPNInfoList: %w", err)
@@ -28494,6 +30369,9 @@ func (v *APNConfiguration) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.ServedPartyIPIPv6Address != nil {
+		if len(*v.ServedPartyIPIPv6Address) < 1 || len(*v.ServedPartyIPIPv6Address) > 16 {
+			return nil, fmt.Errorf("servedPartyIP-IPv6-Address length %d violates SIZE (1..16)", len(*v.ServedPartyIPIPv6Address))
+		}
 		enc_servedpartyipipv6address, encodeErr_enc_servedpartyipipv6address := ber.EncodeOctetString([]byte(*v.ServedPartyIPIPv6Address))
 		if encodeErr_enc_servedpartyipipv6address != nil {
 			return nil, fmt.Errorf("encoding servedPartyIP-IPv6-Address: %w", encodeErr_enc_servedpartyipipv6address)
@@ -28506,6 +30384,9 @@ func (v *APNConfiguration) MarshalDER() ([]byte, error) {
 		children = append(children, enc_servedpartyipipv6address...)
 	}
 	if v.ApnOiReplacement != nil {
+		if len(*v.ApnOiReplacement) < 9 || len(*v.ApnOiReplacement) > 100 {
+			return nil, fmt.Errorf("apn-oi-Replacement length %d violates SIZE (9..100)", len(*v.ApnOiReplacement))
+		}
 		enc_apnoireplacement, encodeErr_enc_apnoireplacement := ber.EncodeOctetString([]byte(*v.ApnOiReplacement))
 		if encodeErr_enc_apnoireplacement != nil {
 			return nil, fmt.Errorf("encoding apn-oi-Replacement: %w", encodeErr_enc_apnoireplacement)
@@ -28536,6 +30417,9 @@ func (v *APNConfiguration) MarshalDER() ([]byte, error) {
 		children = append(children, enc_lipapermission...)
 	}
 	if v.RestorationPriority != nil {
+		if len(*v.RestorationPriority) < 1 || len(*v.RestorationPriority) > 1 {
+			return nil, fmt.Errorf("restoration-Priority length %d violates SIZE (1)", len(*v.RestorationPriority))
+		}
 		enc_restorationpriority, encodeErr_enc_restorationpriority := ber.EncodeOctetString([]byte(*v.RestorationPriority))
 		if encodeErr_enc_restorationpriority != nil {
 			return nil, fmt.Errorf("encoding restoration-Priority: %w", encodeErr_enc_restorationpriority)
@@ -28587,6 +30471,9 @@ func (v *APNConfiguration) MarshalDER() ([]byte, error) {
 		children = append(children, enc_niddmechanism...)
 	}
 	if v.SCEFID != nil {
+		if len(*v.SCEFID) < 9 || len(*v.SCEFID) > 255 {
+			return nil, fmt.Errorf("sCEF-ID length %d violates SIZE (9..255)", len(*v.SCEFID))
+		}
 		enc_scefid, encodeErr_enc_scefid := ber.EncodeOctetString([]byte(*v.SCEFID))
 		if encodeErr_enc_scefid != nil {
 			return nil, fmt.Errorf("encoding sCEF-ID: %w", encodeErr_enc_scefid)
@@ -28687,6 +30574,9 @@ func (v *APNConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 	}
 
 	offset += n_pdntype
+	if len(v.PdnType) < 1 || len(v.PdnType) > 1 {
+		return fmt.Errorf("pdn-Type length %d violates SIZE (1)", len(v.PdnType))
+	}
 	// Decode servedPartyIP-IPv4-Address
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -28708,6 +30598,9 @@ func (v *APNConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 
 				offset += n_servedpartyipipv4address
+				if len(*v.ServedPartyIPIPv4Address) < 1 || len(*v.ServedPartyIPIPv4Address) > 16 {
+					return fmt.Errorf("servedPartyIP-IPv4-Address length %d violates SIZE (1..16)", len(*v.ServedPartyIPIPv4Address))
+				}
 			}
 		}
 	}
@@ -28734,6 +30627,9 @@ func (v *APNConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 	}
 
 	offset += n_apn
+	if len(v.Apn) < 2 || len(v.Apn) > 63 {
+		return fmt.Errorf("apn length %d violates SIZE (2..63)", len(v.Apn))
+	}
 	// Decode eps-qos-Subscribed
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field eps-qos-Subscribed")
@@ -28870,6 +30766,9 @@ func (v *APNConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 
 				offset += n_chargingcharacteristics
+				if len(*v.ChargingCharacteristics) < 2 || len(*v.ChargingCharacteristics) > 2 {
+					return fmt.Errorf("chargingCharacteristics length %d violates SIZE (2)", len(*v.ChargingCharacteristics))
+				}
 			}
 		}
 	}
@@ -28943,6 +30842,9 @@ func (v *APNConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 
 				offset += n_specificapninfolist
+				if len(v.SpecificAPNInfoList) < 1 || len(v.SpecificAPNInfoList) > 50 {
+					return fmt.Errorf("specificAPNInfoList length %d violates SIZE (1..50)", len(v.SpecificAPNInfoList))
+				}
 			}
 		}
 	}
@@ -28998,6 +30900,9 @@ func (v *APNConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 
 				offset += n_servedpartyipipv6address
+				if len(*v.ServedPartyIPIPv6Address) < 1 || len(*v.ServedPartyIPIPv6Address) > 16 {
+					return fmt.Errorf("servedPartyIP-IPv6-Address length %d violates SIZE (1..16)", len(*v.ServedPartyIPIPv6Address))
+				}
 			}
 		}
 	}
@@ -29022,6 +30927,9 @@ func (v *APNConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 
 				offset += n_apnoireplacement
+				if len(*v.ApnOiReplacement) < 9 || len(*v.ApnOiReplacement) > 100 {
+					return fmt.Errorf("apn-oi-Replacement length %d violates SIZE (9..100)", len(*v.ApnOiReplacement))
+				}
 			}
 		}
 	}
@@ -29102,6 +31010,9 @@ func (v *APNConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 
 				offset += n_restorationpriority
+				if len(*v.RestorationPriority) < 1 || len(*v.RestorationPriority) > 1 {
+					return fmt.Errorf("restoration-Priority length %d violates SIZE (1)", len(*v.RestorationPriority))
+				}
 			}
 		}
 	}
@@ -29238,6 +31149,9 @@ func (v *APNConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 
 				offset += n_scefid
+				if len(*v.SCEFID) < 9 || len(*v.SCEFID) > 255 {
+					return fmt.Errorf("sCEF-ID length %d violates SIZE (9..255)", len(*v.SCEFID))
+				}
 			}
 		}
 	}
@@ -29944,6 +31858,9 @@ func UnmarshalBERSpecificAPNInfoList(data []byte, opts ...ber.DecodeOption) (Spe
 // MarshalBER encodes SpecificAPNInfo to BER format.
 func (v *SpecificAPNInfo) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Apn) < 2 || len(v.Apn) > 63 {
+		return nil, fmt.Errorf("apn length %d violates SIZE (2..63)", len(v.Apn))
+	}
 	enc_apn, encodeErr_enc_apn := ber.EncodeOctetString([]byte(v.Apn))
 	if encodeErr_enc_apn != nil {
 		return nil, fmt.Errorf("encoding apn: %w", encodeErr_enc_apn)
@@ -29992,6 +31909,9 @@ func (v *SpecificAPNInfo) MarshalBER() ([]byte, error) {
 // MarshalDER encodes SpecificAPNInfo to DER format.
 func (v *SpecificAPNInfo) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Apn) < 2 || len(v.Apn) > 63 {
+		return nil, fmt.Errorf("apn length %d violates SIZE (2..63)", len(v.Apn))
+	}
 	enc_apn, encodeErr_enc_apn := ber.EncodeOctetString([]byte(v.Apn))
 	if encodeErr_enc_apn != nil {
 		return nil, fmt.Errorf("encoding apn: %w", encodeErr_enc_apn)
@@ -30077,6 +31997,9 @@ func (v *SpecificAPNInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 	}
 
 	offset += n_apn
+	if len(v.Apn) < 2 || len(v.Apn) > 63 {
+		return fmt.Errorf("apn length %d violates SIZE (2..63)", len(v.Apn))
+	}
 	// Decode pdn-gw-Identity
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field pdn-gw-Identity")
@@ -30456,6 +32379,9 @@ func (v *AllocationRetentionPriority) UnmarshalBER(data []byte, opts ...ber.Deco
 func (v *PDNGWIdentity) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.PdnGwIpv4Address != nil {
+		if len(*v.PdnGwIpv4Address) < 1 || len(*v.PdnGwIpv4Address) > 16 {
+			return nil, fmt.Errorf("pdn-gw-ipv4-Address length %d violates SIZE (1..16)", len(*v.PdnGwIpv4Address))
+		}
 		enc_pdngwipv4address, encodeErr_enc_pdngwipv4address := ber.EncodeOctetString([]byte(*v.PdnGwIpv4Address))
 		if encodeErr_enc_pdngwipv4address != nil {
 			return nil, fmt.Errorf("encoding pdn-gw-ipv4-Address: %w", encodeErr_enc_pdngwipv4address)
@@ -30468,6 +32394,9 @@ func (v *PDNGWIdentity) MarshalBER() ([]byte, error) {
 		children = append(children, enc_pdngwipv4address...)
 	}
 	if v.PdnGwIpv6Address != nil {
+		if len(*v.PdnGwIpv6Address) < 1 || len(*v.PdnGwIpv6Address) > 16 {
+			return nil, fmt.Errorf("pdn-gw-ipv6-Address length %d violates SIZE (1..16)", len(*v.PdnGwIpv6Address))
+		}
 		enc_pdngwipv6address, encodeErr_enc_pdngwipv6address := ber.EncodeOctetString([]byte(*v.PdnGwIpv6Address))
 		if encodeErr_enc_pdngwipv6address != nil {
 			return nil, fmt.Errorf("encoding pdn-gw-ipv6-Address: %w", encodeErr_enc_pdngwipv6address)
@@ -30480,6 +32409,9 @@ func (v *PDNGWIdentity) MarshalBER() ([]byte, error) {
 		children = append(children, enc_pdngwipv6address...)
 	}
 	if v.PdnGwName != nil {
+		if len(*v.PdnGwName) < 9 || len(*v.PdnGwName) > 255 {
+			return nil, fmt.Errorf("pdn-gw-name length %d violates SIZE (9..255)", len(*v.PdnGwName))
+		}
 		enc_pdngwname, encodeErr_enc_pdngwname := ber.EncodeOctetString([]byte(*v.PdnGwName))
 		if encodeErr_enc_pdngwname != nil {
 			return nil, fmt.Errorf("encoding pdn-gw-name: %w", encodeErr_enc_pdngwname)
@@ -30520,6 +32452,9 @@ func (v *PDNGWIdentity) MarshalBER() ([]byte, error) {
 func (v *PDNGWIdentity) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.PdnGwIpv4Address != nil {
+		if len(*v.PdnGwIpv4Address) < 1 || len(*v.PdnGwIpv4Address) > 16 {
+			return nil, fmt.Errorf("pdn-gw-ipv4-Address length %d violates SIZE (1..16)", len(*v.PdnGwIpv4Address))
+		}
 		enc_pdngwipv4address, encodeErr_enc_pdngwipv4address := ber.EncodeOctetString([]byte(*v.PdnGwIpv4Address))
 		if encodeErr_enc_pdngwipv4address != nil {
 			return nil, fmt.Errorf("encoding pdn-gw-ipv4-Address: %w", encodeErr_enc_pdngwipv4address)
@@ -30532,6 +32467,9 @@ func (v *PDNGWIdentity) MarshalDER() ([]byte, error) {
 		children = append(children, enc_pdngwipv4address...)
 	}
 	if v.PdnGwIpv6Address != nil {
+		if len(*v.PdnGwIpv6Address) < 1 || len(*v.PdnGwIpv6Address) > 16 {
+			return nil, fmt.Errorf("pdn-gw-ipv6-Address length %d violates SIZE (1..16)", len(*v.PdnGwIpv6Address))
+		}
 		enc_pdngwipv6address, encodeErr_enc_pdngwipv6address := ber.EncodeOctetString([]byte(*v.PdnGwIpv6Address))
 		if encodeErr_enc_pdngwipv6address != nil {
 			return nil, fmt.Errorf("encoding pdn-gw-ipv6-Address: %w", encodeErr_enc_pdngwipv6address)
@@ -30544,6 +32482,9 @@ func (v *PDNGWIdentity) MarshalDER() ([]byte, error) {
 		children = append(children, enc_pdngwipv6address...)
 	}
 	if v.PdnGwName != nil {
+		if len(*v.PdnGwName) < 9 || len(*v.PdnGwName) > 255 {
+			return nil, fmt.Errorf("pdn-gw-name length %d violates SIZE (9..255)", len(*v.PdnGwName))
+		}
 		enc_pdngwname, encodeErr_enc_pdngwname := ber.EncodeOctetString([]byte(*v.PdnGwName))
 		if encodeErr_enc_pdngwname != nil {
 			return nil, fmt.Errorf("encoding pdn-gw-name: %w", encodeErr_enc_pdngwname)
@@ -30618,6 +32559,9 @@ func (v *PDNGWIdentity) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 				}
 
 				offset += n_pdngwipv4address
+				if len(*v.PdnGwIpv4Address) < 1 || len(*v.PdnGwIpv4Address) > 16 {
+					return fmt.Errorf("pdn-gw-ipv4-Address length %d violates SIZE (1..16)", len(*v.PdnGwIpv4Address))
+				}
 			}
 		}
 	}
@@ -30642,6 +32586,9 @@ func (v *PDNGWIdentity) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 				}
 
 				offset += n_pdngwipv6address
+				if len(*v.PdnGwIpv6Address) < 1 || len(*v.PdnGwIpv6Address) > 16 {
+					return fmt.Errorf("pdn-gw-ipv6-Address length %d violates SIZE (1..16)", len(*v.PdnGwIpv6Address))
+				}
 			}
 		}
 	}
@@ -30665,6 +32612,9 @@ func (v *PDNGWIdentity) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 				}
 
 				offset += n_pdngwname
+				if len(*v.PdnGwName) < 9 || len(*v.PdnGwName) > 255 {
+					return fmt.Errorf("pdn-gw-name length %d violates SIZE (9..255)", len(*v.PdnGwName))
+				}
 			}
 		}
 	}
@@ -31034,6 +32984,9 @@ func UnmarshalBERAdjacentAccessRestrictionDataList(data []byte, opts ...ber.Deco
 // MarshalBER encodes AdjacentAccessRestrictionData to BER format.
 func (v *AdjacentAccessRestrictionData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.PlmnId) < 3 || len(v.PlmnId) > 3 {
+		return nil, fmt.Errorf("plmnId length %d violates SIZE (3)", len(v.PlmnId))
+	}
 	enc_plmnid, encodeErr_enc_plmnid := ber.EncodeOctetString([]byte(v.PlmnId))
 	if encodeErr_enc_plmnid != nil {
 		return nil, fmt.Errorf("encoding plmnId: %w", encodeErr_enc_plmnid)
@@ -31044,7 +32997,10 @@ func (v *AdjacentAccessRestrictionData) MarshalBER() ([]byte, error) {
 	}
 	enc_plmnid = retagged_enc_plmnid
 	children = append(children, enc_plmnid...)
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	if (v.AccessRestrictionData).BitLength < 2 || (v.AccessRestrictionData).BitLength > 8 {
+		return nil, fmt.Errorf("accessRestrictionData length %d violates SIZE (2..8)", (v.AccessRestrictionData).BitLength)
+	}
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.AccessRestrictionData.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -31059,7 +33015,10 @@ func (v *AdjacentAccessRestrictionData) MarshalBER() ([]byte, error) {
 	enc_accessrestrictiondata = retagged_enc_accessrestrictiondata
 	children = append(children, enc_accessrestrictiondata...)
 	if v.ExtAccessRestrictionData != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.ExtAccessRestrictionData).BitLength < 1 || (*v.ExtAccessRestrictionData).BitLength > 32 {
+			return nil, fmt.Errorf("ext-AccessRestrictionData length %d violates SIZE (1..32)", (*v.ExtAccessRestrictionData).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ExtAccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -31090,6 +33049,9 @@ func (v *AdjacentAccessRestrictionData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes AdjacentAccessRestrictionData to DER format.
 func (v *AdjacentAccessRestrictionData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.PlmnId) < 3 || len(v.PlmnId) > 3 {
+		return nil, fmt.Errorf("plmnId length %d violates SIZE (3)", len(v.PlmnId))
+	}
 	enc_plmnid, encodeErr_enc_plmnid := ber.EncodeOctetString([]byte(v.PlmnId))
 	if encodeErr_enc_plmnid != nil {
 		return nil, fmt.Errorf("encoding plmnId: %w", encodeErr_enc_plmnid)
@@ -31100,7 +33062,10 @@ func (v *AdjacentAccessRestrictionData) MarshalDER() ([]byte, error) {
 	}
 	enc_plmnid = retagged_enc_plmnid
 	children = append(children, enc_plmnid...)
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	if (v.AccessRestrictionData).BitLength < 2 || (v.AccessRestrictionData).BitLength > 8 {
+		return nil, fmt.Errorf("accessRestrictionData length %d violates SIZE (2..8)", (v.AccessRestrictionData).BitLength)
+	}
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.AccessRestrictionData.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -31115,7 +33080,10 @@ func (v *AdjacentAccessRestrictionData) MarshalDER() ([]byte, error) {
 	enc_accessrestrictiondata = retagged_enc_accessrestrictiondata
 	children = append(children, enc_accessrestrictiondata...)
 	if v.ExtAccessRestrictionData != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.ExtAccessRestrictionData).BitLength < 1 || (*v.ExtAccessRestrictionData).BitLength > 32 {
+			return nil, fmt.Errorf("ext-AccessRestrictionData length %d violates SIZE (1..32)", (*v.ExtAccessRestrictionData).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ExtAccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -31183,6 +33151,9 @@ func (v *AdjacentAccessRestrictionData) UnmarshalBER(data []byte, opts ...ber.De
 	}
 
 	offset += n_plmnid
+	if len(v.PlmnId) < 3 || len(v.PlmnId) > 3 {
+		return fmt.Errorf("plmnId length %d violates SIZE (3)", len(v.PlmnId))
+	}
 	// Decode accessRestrictionData
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field accessRestrictionData")
@@ -31215,6 +33186,9 @@ func (v *AdjacentAccessRestrictionData) UnmarshalBER(data []byte, opts ...ber.De
 	}
 
 	offset += n_accessrestrictiondata
+	if (v.AccessRestrictionData).BitLength < 2 || (v.AccessRestrictionData).BitLength > 8 {
+		return fmt.Errorf("accessRestrictionData length %d violates SIZE (2..8)", (v.AccessRestrictionData).BitLength)
+	}
 	// Decode ext-AccessRestrictionData
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -31244,6 +33218,9 @@ func (v *AdjacentAccessRestrictionData) UnmarshalBER(data []byte, opts ...ber.De
 				}
 
 				offset += n_extaccessrestrictiondata
+				if (*v.ExtAccessRestrictionData).BitLength < 1 || (*v.ExtAccessRestrictionData).BitLength > 32 {
+					return fmt.Errorf("ext-AccessRestrictionData length %d violates SIZE (1..32)", (*v.ExtAccessRestrictionData).BitLength)
+				}
 			}
 		}
 	}
@@ -31277,6 +33254,9 @@ func (v *AdjacentAccessRestrictionData) UnmarshalBER(data []byte, opts ...ber.De
 func (v *LCSInformation) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.GmlcList != nil {
+		if len(v.GmlcList) < 1 || len(v.GmlcList) > 5 {
+			return nil, fmt.Errorf("gmlc-List length %d violates SIZE (1..5)", len(v.GmlcList))
+		}
 		enc_gmlclist, err := MarshalBERGMLCList(v.GmlcList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding gmlc-List: %w", err)
@@ -31304,6 +33284,9 @@ func (v *LCSInformation) MarshalBER() ([]byte, error) {
 		children = append(children, enc_gmlclist...)
 	}
 	if v.LcsPrivacyExceptionList != nil {
+		if len(v.LcsPrivacyExceptionList) < 1 || len(v.LcsPrivacyExceptionList) > 4 {
+			return nil, fmt.Errorf("lcs-PrivacyExceptionList length %d violates SIZE (1..4)", len(v.LcsPrivacyExceptionList))
+		}
 		enc_lcsprivacyexceptionlist, err := MarshalBERLCSPrivacyExceptionList(v.LcsPrivacyExceptionList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding lcs-PrivacyExceptionList: %w", err)
@@ -31331,6 +33314,9 @@ func (v *LCSInformation) MarshalBER() ([]byte, error) {
 		children = append(children, enc_lcsprivacyexceptionlist...)
 	}
 	if v.MolrList != nil {
+		if len(v.MolrList) < 1 || len(v.MolrList) > 3 {
+			return nil, fmt.Errorf("molr-List length %d violates SIZE (1..3)", len(v.MolrList))
+		}
 		enc_molrlist, err := MarshalBERMOLRList(v.MolrList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding molr-List: %w", err)
@@ -31358,6 +33344,9 @@ func (v *LCSInformation) MarshalBER() ([]byte, error) {
 		children = append(children, enc_molrlist...)
 	}
 	if v.AddLcsPrivacyExceptionList != nil {
+		if len(v.AddLcsPrivacyExceptionList) < 1 || len(v.AddLcsPrivacyExceptionList) > 4 {
+			return nil, fmt.Errorf("add-lcs-PrivacyExceptionList length %d violates SIZE (1..4)", len(v.AddLcsPrivacyExceptionList))
+		}
 		enc_addlcsprivacyexceptionlist, err := MarshalBERLCSPrivacyExceptionList(v.AddLcsPrivacyExceptionList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding add-lcs-PrivacyExceptionList: %w", err)
@@ -31401,6 +33390,9 @@ func (v *LCSInformation) MarshalBER() ([]byte, error) {
 func (v *LCSInformation) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.GmlcList != nil {
+		if len(v.GmlcList) < 1 || len(v.GmlcList) > 5 {
+			return nil, fmt.Errorf("gmlc-List length %d violates SIZE (1..5)", len(v.GmlcList))
+		}
 		enc_gmlclist, err := MarshalDERGMLCList(v.GmlcList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding gmlc-List: %w", err)
@@ -31413,6 +33405,9 @@ func (v *LCSInformation) MarshalDER() ([]byte, error) {
 		children = append(children, enc_gmlclist...)
 	}
 	if v.LcsPrivacyExceptionList != nil {
+		if len(v.LcsPrivacyExceptionList) < 1 || len(v.LcsPrivacyExceptionList) > 4 {
+			return nil, fmt.Errorf("lcs-PrivacyExceptionList length %d violates SIZE (1..4)", len(v.LcsPrivacyExceptionList))
+		}
 		enc_lcsprivacyexceptionlist, err := MarshalDERLCSPrivacyExceptionList(v.LcsPrivacyExceptionList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding lcs-PrivacyExceptionList: %w", err)
@@ -31425,6 +33420,9 @@ func (v *LCSInformation) MarshalDER() ([]byte, error) {
 		children = append(children, enc_lcsprivacyexceptionlist...)
 	}
 	if v.MolrList != nil {
+		if len(v.MolrList) < 1 || len(v.MolrList) > 3 {
+			return nil, fmt.Errorf("molr-List length %d violates SIZE (1..3)", len(v.MolrList))
+		}
 		enc_molrlist, err := MarshalDERMOLRList(v.MolrList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding molr-List: %w", err)
@@ -31437,6 +33435,9 @@ func (v *LCSInformation) MarshalDER() ([]byte, error) {
 		children = append(children, enc_molrlist...)
 	}
 	if v.AddLcsPrivacyExceptionList != nil {
+		if len(v.AddLcsPrivacyExceptionList) < 1 || len(v.AddLcsPrivacyExceptionList) > 4 {
+			return nil, fmt.Errorf("add-lcs-PrivacyExceptionList length %d violates SIZE (1..4)", len(v.AddLcsPrivacyExceptionList))
+		}
 		enc_addlcsprivacyexceptionlist, err := MarshalDERLCSPrivacyExceptionList(v.AddLcsPrivacyExceptionList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding add-lcs-PrivacyExceptionList: %w", err)
@@ -31517,6 +33518,9 @@ func (v *LCSInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_gmlclist
+				if len(v.GmlcList) < 1 || len(v.GmlcList) > 5 {
+					return fmt.Errorf("gmlc-List length %d violates SIZE (1..5)", len(v.GmlcList))
+				}
 			}
 		}
 	}
@@ -31560,6 +33564,9 @@ func (v *LCSInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_lcsprivacyexceptionlist
+				if len(v.LcsPrivacyExceptionList) < 1 || len(v.LcsPrivacyExceptionList) > 4 {
+					return fmt.Errorf("lcs-PrivacyExceptionList length %d violates SIZE (1..4)", len(v.LcsPrivacyExceptionList))
+				}
 			}
 		}
 	}
@@ -31602,6 +33609,9 @@ func (v *LCSInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_molrlist
+				if len(v.MolrList) < 1 || len(v.MolrList) > 3 {
+					return fmt.Errorf("molr-List length %d violates SIZE (1..3)", len(v.MolrList))
+				}
 			}
 		}
 	}
@@ -31645,6 +33655,9 @@ func (v *LCSInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_addlcsprivacyexceptionlist
+				if len(v.AddLcsPrivacyExceptionList) < 1 || len(v.AddLcsPrivacyExceptionList) > 4 {
+					return fmt.Errorf("add-lcs-PrivacyExceptionList length %d violates SIZE (1..4)", len(v.AddLcsPrivacyExceptionList))
+				}
 			}
 		}
 	}
@@ -31838,6 +33851,9 @@ func (v *PDPContext) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_pdpcontextid := ber.EncodeInteger(int64(v.PdpContextId))
 	children = append(children, enc_pdpcontextid...)
+	if len(v.PdpType) < 2 || len(v.PdpType) > 2 {
+		return nil, fmt.Errorf("pdp-Type length %d violates SIZE (2)", len(v.PdpType))
+	}
 	enc_pdptype, encodeErr_enc_pdptype := ber.EncodeOctetString([]byte(v.PdpType))
 	if encodeErr_enc_pdptype != nil {
 		return nil, fmt.Errorf("encoding pdp-Type: %w", encodeErr_enc_pdptype)
@@ -31849,6 +33865,9 @@ func (v *PDPContext) MarshalBER() ([]byte, error) {
 	enc_pdptype = retagged_enc_pdptype
 	children = append(children, enc_pdptype...)
 	if v.PdpAddress != nil {
+		if len(*v.PdpAddress) < 1 || len(*v.PdpAddress) > 16 {
+			return nil, fmt.Errorf("pdp-Address length %d violates SIZE (1..16)", len(*v.PdpAddress))
+		}
 		enc_pdpaddress, encodeErr_enc_pdpaddress := ber.EncodeOctetString([]byte(*v.PdpAddress))
 		if encodeErr_enc_pdpaddress != nil {
 			return nil, fmt.Errorf("encoding pdp-Address: %w", encodeErr_enc_pdpaddress)
@@ -31859,6 +33878,9 @@ func (v *PDPContext) MarshalBER() ([]byte, error) {
 		}
 		enc_pdpaddress = retagged_enc_pdpaddress
 		children = append(children, enc_pdpaddress...)
+	}
+	if len(v.QosSubscribed) < 3 || len(v.QosSubscribed) > 3 {
+		return nil, fmt.Errorf("qos-Subscribed length %d violates SIZE (3)", len(v.QosSubscribed))
 	}
 	enc_qossubscribed, encodeErr_enc_qossubscribed := ber.EncodeOctetString([]byte(v.QosSubscribed))
 	if encodeErr_enc_qossubscribed != nil {
@@ -31878,6 +33900,9 @@ func (v *PDPContext) MarshalBER() ([]byte, error) {
 		}
 		enc_vplmnaddressallowed = retagged_enc_vplmnaddressallowed
 		children = append(children, enc_vplmnaddressallowed...)
+	}
+	if len(v.Apn) < 2 || len(v.Apn) > 63 {
+		return nil, fmt.Errorf("apn length %d violates SIZE (2..63)", len(v.Apn))
 	}
 	enc_apn, encodeErr_enc_apn := ber.EncodeOctetString([]byte(v.Apn))
 	if encodeErr_enc_apn != nil {
@@ -31902,6 +33927,9 @@ func (v *PDPContext) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.ExtQoSSubscribed != nil {
+		if len(*v.ExtQoSSubscribed) < 1 || len(*v.ExtQoSSubscribed) > 9 {
+			return nil, fmt.Errorf("ext-QoS-Subscribed length %d violates SIZE (1..9)", len(*v.ExtQoSSubscribed))
+		}
 		enc_extqossubscribed, encodeErr_enc_extqossubscribed := ber.EncodeOctetString([]byte(*v.ExtQoSSubscribed))
 		if encodeErr_enc_extqossubscribed != nil {
 			return nil, fmt.Errorf("encoding ext-QoS-Subscribed: %w", encodeErr_enc_extqossubscribed)
@@ -31914,6 +33942,9 @@ func (v *PDPContext) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extqossubscribed...)
 	}
 	if v.PdpChargingCharacteristics != nil {
+		if len(*v.PdpChargingCharacteristics) < 2 || len(*v.PdpChargingCharacteristics) > 2 {
+			return nil, fmt.Errorf("pdp-ChargingCharacteristics length %d violates SIZE (2)", len(*v.PdpChargingCharacteristics))
+		}
 		enc_pdpchargingcharacteristics, encodeErr_enc_pdpchargingcharacteristics := ber.EncodeOctetString([]byte(*v.PdpChargingCharacteristics))
 		if encodeErr_enc_pdpchargingcharacteristics != nil {
 			return nil, fmt.Errorf("encoding pdp-ChargingCharacteristics: %w", encodeErr_enc_pdpchargingcharacteristics)
@@ -31926,6 +33957,9 @@ func (v *PDPContext) MarshalBER() ([]byte, error) {
 		children = append(children, enc_pdpchargingcharacteristics...)
 	}
 	if v.Ext2QoSSubscribed != nil {
+		if len(*v.Ext2QoSSubscribed) < 1 || len(*v.Ext2QoSSubscribed) > 3 {
+			return nil, fmt.Errorf("ext2-QoS-Subscribed length %d violates SIZE (1..3)", len(*v.Ext2QoSSubscribed))
+		}
 		enc_ext2qossubscribed, encodeErr_enc_ext2qossubscribed := ber.EncodeOctetString([]byte(*v.Ext2QoSSubscribed))
 		if encodeErr_enc_ext2qossubscribed != nil {
 			return nil, fmt.Errorf("encoding ext2-QoS-Subscribed: %w", encodeErr_enc_ext2qossubscribed)
@@ -31938,6 +33972,9 @@ func (v *PDPContext) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ext2qossubscribed...)
 	}
 	if v.Ext3QoSSubscribed != nil {
+		if len(*v.Ext3QoSSubscribed) < 1 || len(*v.Ext3QoSSubscribed) > 2 {
+			return nil, fmt.Errorf("ext3-QoS-Subscribed length %d violates SIZE (1..2)", len(*v.Ext3QoSSubscribed))
+		}
 		enc_ext3qossubscribed, encodeErr_enc_ext3qossubscribed := ber.EncodeOctetString([]byte(*v.Ext3QoSSubscribed))
 		if encodeErr_enc_ext3qossubscribed != nil {
 			return nil, fmt.Errorf("encoding ext3-QoS-Subscribed: %w", encodeErr_enc_ext3qossubscribed)
@@ -31950,6 +33987,9 @@ func (v *PDPContext) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ext3qossubscribed...)
 	}
 	if v.Ext4QoSSubscribed != nil {
+		if len(*v.Ext4QoSSubscribed) < 1 || len(*v.Ext4QoSSubscribed) > 1 {
+			return nil, fmt.Errorf("ext4-QoS-Subscribed length %d violates SIZE (1)", len(*v.Ext4QoSSubscribed))
+		}
 		enc_ext4qossubscribed, encodeErr_enc_ext4qossubscribed := ber.EncodeOctetString([]byte(*v.Ext4QoSSubscribed))
 		if encodeErr_enc_ext4qossubscribed != nil {
 			return nil, fmt.Errorf("encoding ext4-QoS-Subscribed: %w", encodeErr_enc_ext4qossubscribed)
@@ -31962,6 +34002,9 @@ func (v *PDPContext) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ext4qossubscribed...)
 	}
 	if v.ApnOiReplacement != nil {
+		if len(*v.ApnOiReplacement) < 9 || len(*v.ApnOiReplacement) > 100 {
+			return nil, fmt.Errorf("apn-oi-Replacement length %d violates SIZE (9..100)", len(*v.ApnOiReplacement))
+		}
 		enc_apnoireplacement, encodeErr_enc_apnoireplacement := ber.EncodeOctetString([]byte(*v.ApnOiReplacement))
 		if encodeErr_enc_apnoireplacement != nil {
 			return nil, fmt.Errorf("encoding apn-oi-Replacement: %w", encodeErr_enc_apnoireplacement)
@@ -31974,6 +34017,9 @@ func (v *PDPContext) MarshalBER() ([]byte, error) {
 		children = append(children, enc_apnoireplacement...)
 	}
 	if v.ExtPdpType != nil {
+		if len(*v.ExtPdpType) < 2 || len(*v.ExtPdpType) > 2 {
+			return nil, fmt.Errorf("ext-pdp-Type length %d violates SIZE (2)", len(*v.ExtPdpType))
+		}
 		enc_extpdptype, encodeErr_enc_extpdptype := ber.EncodeOctetString([]byte(*v.ExtPdpType))
 		if encodeErr_enc_extpdptype != nil {
 			return nil, fmt.Errorf("encoding ext-pdp-Type: %w", encodeErr_enc_extpdptype)
@@ -31986,6 +34032,9 @@ func (v *PDPContext) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extpdptype...)
 	}
 	if v.ExtPdpAddress != nil {
+		if len(*v.ExtPdpAddress) < 1 || len(*v.ExtPdpAddress) > 16 {
+			return nil, fmt.Errorf("ext-pdp-Address length %d violates SIZE (1..16)", len(*v.ExtPdpAddress))
+		}
 		enc_extpdpaddress, encodeErr_enc_extpdpaddress := ber.EncodeOctetString([]byte(*v.ExtPdpAddress))
 		if encodeErr_enc_extpdpaddress != nil {
 			return nil, fmt.Errorf("encoding ext-pdp-Address: %w", encodeErr_enc_extpdpaddress)
@@ -32028,6 +34077,9 @@ func (v *PDPContext) MarshalBER() ([]byte, error) {
 		children = append(children, enc_lipapermission...)
 	}
 	if v.RestorationPriority != nil {
+		if len(*v.RestorationPriority) < 1 || len(*v.RestorationPriority) > 1 {
+			return nil, fmt.Errorf("restoration-Priority length %d violates SIZE (1)", len(*v.RestorationPriority))
+		}
 		enc_restorationpriority, encodeErr_enc_restorationpriority := ber.EncodeOctetString([]byte(*v.RestorationPriority))
 		if encodeErr_enc_restorationpriority != nil {
 			return nil, fmt.Errorf("encoding restoration-Priority: %w", encodeErr_enc_restorationpriority)
@@ -32058,6 +34110,9 @@ func (v *PDPContext) MarshalBER() ([]byte, error) {
 		children = append(children, enc_niddmechanism...)
 	}
 	if v.SCEFID != nil {
+		if len(*v.SCEFID) < 9 || len(*v.SCEFID) > 255 {
+			return nil, fmt.Errorf("sCEF-ID length %d violates SIZE (9..255)", len(*v.SCEFID))
+		}
 		enc_scefid, encodeErr_enc_scefid := ber.EncodeOctetString([]byte(*v.SCEFID))
 		if encodeErr_enc_scefid != nil {
 			return nil, fmt.Errorf("encoding sCEF-ID: %w", encodeErr_enc_scefid)
@@ -32087,6 +34142,9 @@ func (v *PDPContext) MarshalDER() ([]byte, error) {
 	var children []byte
 	enc_pdpcontextid := ber.EncodeInteger(int64(v.PdpContextId))
 	children = append(children, enc_pdpcontextid...)
+	if len(v.PdpType) < 2 || len(v.PdpType) > 2 {
+		return nil, fmt.Errorf("pdp-Type length %d violates SIZE (2)", len(v.PdpType))
+	}
 	enc_pdptype, encodeErr_enc_pdptype := ber.EncodeOctetString([]byte(v.PdpType))
 	if encodeErr_enc_pdptype != nil {
 		return nil, fmt.Errorf("encoding pdp-Type: %w", encodeErr_enc_pdptype)
@@ -32098,6 +34156,9 @@ func (v *PDPContext) MarshalDER() ([]byte, error) {
 	enc_pdptype = retagged_enc_pdptype
 	children = append(children, enc_pdptype...)
 	if v.PdpAddress != nil {
+		if len(*v.PdpAddress) < 1 || len(*v.PdpAddress) > 16 {
+			return nil, fmt.Errorf("pdp-Address length %d violates SIZE (1..16)", len(*v.PdpAddress))
+		}
 		enc_pdpaddress, encodeErr_enc_pdpaddress := ber.EncodeOctetString([]byte(*v.PdpAddress))
 		if encodeErr_enc_pdpaddress != nil {
 			return nil, fmt.Errorf("encoding pdp-Address: %w", encodeErr_enc_pdpaddress)
@@ -32108,6 +34169,9 @@ func (v *PDPContext) MarshalDER() ([]byte, error) {
 		}
 		enc_pdpaddress = retagged_enc_pdpaddress
 		children = append(children, enc_pdpaddress...)
+	}
+	if len(v.QosSubscribed) < 3 || len(v.QosSubscribed) > 3 {
+		return nil, fmt.Errorf("qos-Subscribed length %d violates SIZE (3)", len(v.QosSubscribed))
 	}
 	enc_qossubscribed, encodeErr_enc_qossubscribed := ber.EncodeOctetString([]byte(v.QosSubscribed))
 	if encodeErr_enc_qossubscribed != nil {
@@ -32127,6 +34191,9 @@ func (v *PDPContext) MarshalDER() ([]byte, error) {
 		}
 		enc_vplmnaddressallowed = retagged_enc_vplmnaddressallowed
 		children = append(children, enc_vplmnaddressallowed...)
+	}
+	if len(v.Apn) < 2 || len(v.Apn) > 63 {
+		return nil, fmt.Errorf("apn length %d violates SIZE (2..63)", len(v.Apn))
 	}
 	enc_apn, encodeErr_enc_apn := ber.EncodeOctetString([]byte(v.Apn))
 	if encodeErr_enc_apn != nil {
@@ -32151,6 +34218,9 @@ func (v *PDPContext) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.ExtQoSSubscribed != nil {
+		if len(*v.ExtQoSSubscribed) < 1 || len(*v.ExtQoSSubscribed) > 9 {
+			return nil, fmt.Errorf("ext-QoS-Subscribed length %d violates SIZE (1..9)", len(*v.ExtQoSSubscribed))
+		}
 		enc_extqossubscribed, encodeErr_enc_extqossubscribed := ber.EncodeOctetString([]byte(*v.ExtQoSSubscribed))
 		if encodeErr_enc_extqossubscribed != nil {
 			return nil, fmt.Errorf("encoding ext-QoS-Subscribed: %w", encodeErr_enc_extqossubscribed)
@@ -32163,6 +34233,9 @@ func (v *PDPContext) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extqossubscribed...)
 	}
 	if v.PdpChargingCharacteristics != nil {
+		if len(*v.PdpChargingCharacteristics) < 2 || len(*v.PdpChargingCharacteristics) > 2 {
+			return nil, fmt.Errorf("pdp-ChargingCharacteristics length %d violates SIZE (2)", len(*v.PdpChargingCharacteristics))
+		}
 		enc_pdpchargingcharacteristics, encodeErr_enc_pdpchargingcharacteristics := ber.EncodeOctetString([]byte(*v.PdpChargingCharacteristics))
 		if encodeErr_enc_pdpchargingcharacteristics != nil {
 			return nil, fmt.Errorf("encoding pdp-ChargingCharacteristics: %w", encodeErr_enc_pdpchargingcharacteristics)
@@ -32175,6 +34248,9 @@ func (v *PDPContext) MarshalDER() ([]byte, error) {
 		children = append(children, enc_pdpchargingcharacteristics...)
 	}
 	if v.Ext2QoSSubscribed != nil {
+		if len(*v.Ext2QoSSubscribed) < 1 || len(*v.Ext2QoSSubscribed) > 3 {
+			return nil, fmt.Errorf("ext2-QoS-Subscribed length %d violates SIZE (1..3)", len(*v.Ext2QoSSubscribed))
+		}
 		enc_ext2qossubscribed, encodeErr_enc_ext2qossubscribed := ber.EncodeOctetString([]byte(*v.Ext2QoSSubscribed))
 		if encodeErr_enc_ext2qossubscribed != nil {
 			return nil, fmt.Errorf("encoding ext2-QoS-Subscribed: %w", encodeErr_enc_ext2qossubscribed)
@@ -32187,6 +34263,9 @@ func (v *PDPContext) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ext2qossubscribed...)
 	}
 	if v.Ext3QoSSubscribed != nil {
+		if len(*v.Ext3QoSSubscribed) < 1 || len(*v.Ext3QoSSubscribed) > 2 {
+			return nil, fmt.Errorf("ext3-QoS-Subscribed length %d violates SIZE (1..2)", len(*v.Ext3QoSSubscribed))
+		}
 		enc_ext3qossubscribed, encodeErr_enc_ext3qossubscribed := ber.EncodeOctetString([]byte(*v.Ext3QoSSubscribed))
 		if encodeErr_enc_ext3qossubscribed != nil {
 			return nil, fmt.Errorf("encoding ext3-QoS-Subscribed: %w", encodeErr_enc_ext3qossubscribed)
@@ -32199,6 +34278,9 @@ func (v *PDPContext) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ext3qossubscribed...)
 	}
 	if v.Ext4QoSSubscribed != nil {
+		if len(*v.Ext4QoSSubscribed) < 1 || len(*v.Ext4QoSSubscribed) > 1 {
+			return nil, fmt.Errorf("ext4-QoS-Subscribed length %d violates SIZE (1)", len(*v.Ext4QoSSubscribed))
+		}
 		enc_ext4qossubscribed, encodeErr_enc_ext4qossubscribed := ber.EncodeOctetString([]byte(*v.Ext4QoSSubscribed))
 		if encodeErr_enc_ext4qossubscribed != nil {
 			return nil, fmt.Errorf("encoding ext4-QoS-Subscribed: %w", encodeErr_enc_ext4qossubscribed)
@@ -32211,6 +34293,9 @@ func (v *PDPContext) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ext4qossubscribed...)
 	}
 	if v.ApnOiReplacement != nil {
+		if len(*v.ApnOiReplacement) < 9 || len(*v.ApnOiReplacement) > 100 {
+			return nil, fmt.Errorf("apn-oi-Replacement length %d violates SIZE (9..100)", len(*v.ApnOiReplacement))
+		}
 		enc_apnoireplacement, encodeErr_enc_apnoireplacement := ber.EncodeOctetString([]byte(*v.ApnOiReplacement))
 		if encodeErr_enc_apnoireplacement != nil {
 			return nil, fmt.Errorf("encoding apn-oi-Replacement: %w", encodeErr_enc_apnoireplacement)
@@ -32223,6 +34308,9 @@ func (v *PDPContext) MarshalDER() ([]byte, error) {
 		children = append(children, enc_apnoireplacement...)
 	}
 	if v.ExtPdpType != nil {
+		if len(*v.ExtPdpType) < 2 || len(*v.ExtPdpType) > 2 {
+			return nil, fmt.Errorf("ext-pdp-Type length %d violates SIZE (2)", len(*v.ExtPdpType))
+		}
 		enc_extpdptype, encodeErr_enc_extpdptype := ber.EncodeOctetString([]byte(*v.ExtPdpType))
 		if encodeErr_enc_extpdptype != nil {
 			return nil, fmt.Errorf("encoding ext-pdp-Type: %w", encodeErr_enc_extpdptype)
@@ -32235,6 +34323,9 @@ func (v *PDPContext) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extpdptype...)
 	}
 	if v.ExtPdpAddress != nil {
+		if len(*v.ExtPdpAddress) < 1 || len(*v.ExtPdpAddress) > 16 {
+			return nil, fmt.Errorf("ext-pdp-Address length %d violates SIZE (1..16)", len(*v.ExtPdpAddress))
+		}
 		enc_extpdpaddress, encodeErr_enc_extpdpaddress := ber.EncodeOctetString([]byte(*v.ExtPdpAddress))
 		if encodeErr_enc_extpdpaddress != nil {
 			return nil, fmt.Errorf("encoding ext-pdp-Address: %w", encodeErr_enc_extpdpaddress)
@@ -32277,6 +34368,9 @@ func (v *PDPContext) MarshalDER() ([]byte, error) {
 		children = append(children, enc_lipapermission...)
 	}
 	if v.RestorationPriority != nil {
+		if len(*v.RestorationPriority) < 1 || len(*v.RestorationPriority) > 1 {
+			return nil, fmt.Errorf("restoration-Priority length %d violates SIZE (1)", len(*v.RestorationPriority))
+		}
 		enc_restorationpriority, encodeErr_enc_restorationpriority := ber.EncodeOctetString([]byte(*v.RestorationPriority))
 		if encodeErr_enc_restorationpriority != nil {
 			return nil, fmt.Errorf("encoding restoration-Priority: %w", encodeErr_enc_restorationpriority)
@@ -32307,6 +34401,9 @@ func (v *PDPContext) MarshalDER() ([]byte, error) {
 		children = append(children, enc_niddmechanism...)
 	}
 	if v.SCEFID != nil {
+		if len(*v.SCEFID) < 9 || len(*v.SCEFID) > 255 {
+			return nil, fmt.Errorf("sCEF-ID length %d violates SIZE (9..255)", len(*v.SCEFID))
+		}
 		enc_scefid, encodeErr_enc_scefid := ber.EncodeOctetString([]byte(*v.SCEFID))
 		if encodeErr_enc_scefid != nil {
 			return nil, fmt.Errorf("encoding sCEF-ID: %w", encodeErr_enc_scefid)
@@ -32386,6 +34483,9 @@ func (v *PDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_pdptype
+	if len(v.PdpType) < 2 || len(v.PdpType) > 2 {
+		return fmt.Errorf("pdp-Type length %d violates SIZE (2)", len(v.PdpType))
+	}
 	// Decode pdp-Address
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -32407,6 +34507,9 @@ func (v *PDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_pdpaddress
+				if len(*v.PdpAddress) < 1 || len(*v.PdpAddress) > 16 {
+					return fmt.Errorf("pdp-Address length %d violates SIZE (1..16)", len(*v.PdpAddress))
+				}
 			}
 		}
 	}
@@ -32434,6 +34537,9 @@ func (v *PDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_qossubscribed
+	if len(v.QosSubscribed) < 3 || len(v.QosSubscribed) > 3 {
+		return fmt.Errorf("qos-Subscribed length %d violates SIZE (3)", len(v.QosSubscribed))
+	}
 	// Decode vplmnAddressAllowed
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -32483,6 +34589,9 @@ func (v *PDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_apn
+	if len(v.Apn) < 2 || len(v.Apn) > 63 {
+		return fmt.Errorf("apn length %d violates SIZE (2..63)", len(v.Apn))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -32535,6 +34644,9 @@ func (v *PDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_extqossubscribed
+				if len(*v.ExtQoSSubscribed) < 1 || len(*v.ExtQoSSubscribed) > 9 {
+					return fmt.Errorf("ext-QoS-Subscribed length %d violates SIZE (1..9)", len(*v.ExtQoSSubscribed))
+				}
 			}
 		}
 	}
@@ -32559,6 +34671,9 @@ func (v *PDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_pdpchargingcharacteristics
+				if len(*v.PdpChargingCharacteristics) < 2 || len(*v.PdpChargingCharacteristics) > 2 {
+					return fmt.Errorf("pdp-ChargingCharacteristics length %d violates SIZE (2)", len(*v.PdpChargingCharacteristics))
+				}
 			}
 		}
 	}
@@ -32583,6 +34698,9 @@ func (v *PDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_ext2qossubscribed
+				if len(*v.Ext2QoSSubscribed) < 1 || len(*v.Ext2QoSSubscribed) > 3 {
+					return fmt.Errorf("ext2-QoS-Subscribed length %d violates SIZE (1..3)", len(*v.Ext2QoSSubscribed))
+				}
 			}
 		}
 	}
@@ -32607,6 +34725,9 @@ func (v *PDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_ext3qossubscribed
+				if len(*v.Ext3QoSSubscribed) < 1 || len(*v.Ext3QoSSubscribed) > 2 {
+					return fmt.Errorf("ext3-QoS-Subscribed length %d violates SIZE (1..2)", len(*v.Ext3QoSSubscribed))
+				}
 			}
 		}
 	}
@@ -32631,6 +34752,9 @@ func (v *PDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_ext4qossubscribed
+				if len(*v.Ext4QoSSubscribed) < 1 || len(*v.Ext4QoSSubscribed) > 1 {
+					return fmt.Errorf("ext4-QoS-Subscribed length %d violates SIZE (1)", len(*v.Ext4QoSSubscribed))
+				}
 			}
 		}
 	}
@@ -32655,6 +34779,9 @@ func (v *PDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_apnoireplacement
+				if len(*v.ApnOiReplacement) < 9 || len(*v.ApnOiReplacement) > 100 {
+					return fmt.Errorf("apn-oi-Replacement length %d violates SIZE (9..100)", len(*v.ApnOiReplacement))
+				}
 			}
 		}
 	}
@@ -32679,6 +34806,9 @@ func (v *PDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_extpdptype
+				if len(*v.ExtPdpType) < 2 || len(*v.ExtPdpType) > 2 {
+					return fmt.Errorf("ext-pdp-Type length %d violates SIZE (2)", len(*v.ExtPdpType))
+				}
 			}
 		}
 	}
@@ -32703,6 +34833,9 @@ func (v *PDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_extpdpaddress
+				if len(*v.ExtPdpAddress) < 1 || len(*v.ExtPdpAddress) > 16 {
+					return fmt.Errorf("ext-pdp-Address length %d violates SIZE (1..16)", len(*v.ExtPdpAddress))
+				}
 			}
 		}
 	}
@@ -32813,6 +34946,9 @@ func (v *PDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_restorationpriority
+				if len(*v.RestorationPriority) < 1 || len(*v.RestorationPriority) > 1 {
+					return fmt.Errorf("restoration-Priority length %d violates SIZE (1)", len(*v.RestorationPriority))
+				}
 			}
 		}
 	}
@@ -32892,6 +35028,9 @@ func (v *PDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_scefid
+				if len(*v.SCEFID) < 9 || len(*v.SCEFID) > 255 {
+					return fmt.Errorf("sCEF-ID length %d violates SIZE (9..255)", len(*v.SCEFID))
+				}
 			}
 		}
 	}
@@ -32927,6 +35066,9 @@ func (v *GPRSSubscriptionData) MarshalBER() ([]byte, error) {
 	if v.CompleteDataListIncluded != nil {
 		enc_completedatalistincluded := ber.EncodeNull()
 		children = append(children, enc_completedatalistincluded...)
+	}
+	if len(v.GprsDataList) < 1 || len(v.GprsDataList) > 50 {
+		return nil, fmt.Errorf("gprsDataList length %d violates SIZE (1..50)", len(v.GprsDataList))
 	}
 	enc_gprsdatalist, err := MarshalBERGPRSDataList(v.GprsDataList)
 	if err != nil {
@@ -32966,6 +35108,9 @@ func (v *GPRSSubscriptionData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.ApnOiReplacement != nil {
+		if len(*v.ApnOiReplacement) < 9 || len(*v.ApnOiReplacement) > 100 {
+			return nil, fmt.Errorf("apn-oi-Replacement length %d violates SIZE (9..100)", len(*v.ApnOiReplacement))
+		}
 		enc_apnoireplacement, encodeErr_enc_apnoireplacement := ber.EncodeOctetString([]byte(*v.ApnOiReplacement))
 		if encodeErr_enc_apnoireplacement != nil {
 			return nil, fmt.Errorf("encoding apn-oi-Replacement: %w", encodeErr_enc_apnoireplacement)
@@ -32997,6 +35142,9 @@ func (v *GPRSSubscriptionData) MarshalDER() ([]byte, error) {
 		enc_completedatalistincluded := ber.EncodeNull()
 		children = append(children, enc_completedatalistincluded...)
 	}
+	if len(v.GprsDataList) < 1 || len(v.GprsDataList) > 50 {
+		return nil, fmt.Errorf("gprsDataList length %d violates SIZE (1..50)", len(v.GprsDataList))
+	}
 	enc_gprsdatalist, err := MarshalDERGPRSDataList(v.GprsDataList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding gprsDataList: %w", err)
@@ -33020,6 +35168,9 @@ func (v *GPRSSubscriptionData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.ApnOiReplacement != nil {
+		if len(*v.ApnOiReplacement) < 9 || len(*v.ApnOiReplacement) > 100 {
+			return nil, fmt.Errorf("apn-oi-Replacement length %d violates SIZE (9..100)", len(*v.ApnOiReplacement))
+		}
 		enc_apnoireplacement, encodeErr_enc_apnoireplacement := ber.EncodeOctetString([]byte(*v.ApnOiReplacement))
 		if encodeErr_enc_apnoireplacement != nil {
 			return nil, fmt.Errorf("encoding apn-oi-Replacement: %w", encodeErr_enc_apnoireplacement)
@@ -33123,6 +35274,9 @@ func (v *GPRSSubscriptionData) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	}
 
 	offset += n_gprsdatalist
+	if len(v.GprsDataList) < 1 || len(v.GprsDataList) > 50 {
+		return fmt.Errorf("gprsDataList length %d violates SIZE (1..50)", len(v.GprsDataList))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -33175,6 +35329,9 @@ func (v *GPRSSubscriptionData) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 
 				offset += n_apnoireplacement
+				if len(*v.ApnOiReplacement) < 9 || len(*v.ApnOiReplacement) > 100 {
+					return fmt.Errorf("apn-oi-Replacement length %d violates SIZE (9..100)", len(*v.ApnOiReplacement))
+				}
 			}
 		}
 	}
@@ -33256,6 +35413,9 @@ func (v *SGSNCAMELSubscriptionInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mtsmscsi...)
 	}
 	if v.MtSmsCAMELTDPCriteriaList != nil {
+		if len(v.MtSmsCAMELTDPCriteriaList) < 1 || len(v.MtSmsCAMELTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("mt-smsCAMELTDP-CriteriaList length %d violates SIZE (1..10)", len(v.MtSmsCAMELTDPCriteriaList))
+		}
 		enc_mtsmscameltdpcriterialist, err := MarshalBERMTSmsCAMELTDPCriteriaList(v.MtSmsCAMELTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding mt-smsCAMELTDP-CriteriaList: %w", err)
@@ -33359,6 +35519,9 @@ func (v *SGSNCAMELSubscriptionInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mtsmscsi...)
 	}
 	if v.MtSmsCAMELTDPCriteriaList != nil {
+		if len(v.MtSmsCAMELTDPCriteriaList) < 1 || len(v.MtSmsCAMELTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("mt-smsCAMELTDP-CriteriaList length %d violates SIZE (1..10)", len(v.MtSmsCAMELTDPCriteriaList))
+		}
 		enc_mtsmscameltdpcriterialist, err := MarshalDERMTSmsCAMELTDPCriteriaList(v.MtSmsCAMELTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding mt-smsCAMELTDP-CriteriaList: %w", err)
@@ -33573,6 +35736,9 @@ func (v *SGSNCAMELSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_mtsmscameltdpcriterialist
+				if len(v.MtSmsCAMELTDPCriteriaList) < 1 || len(v.MtSmsCAMELTDPCriteriaList) > 10 {
+					return fmt.Errorf("mt-smsCAMELTDP-CriteriaList length %d violates SIZE (1..10)", len(v.MtSmsCAMELTDPCriteriaList))
+				}
 			}
 		}
 	}
@@ -33636,6 +35802,9 @@ func (v *SGSNCAMELSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.Decode
 func (v *GPRSCSI) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.GprsCamelTDPDataList != nil {
+		if len(v.GprsCamelTDPDataList) < 1 || len(v.GprsCamelTDPDataList) > 10 {
+			return nil, fmt.Errorf("gprs-CamelTDPDataList length %d violates SIZE (1..10)", len(v.GprsCamelTDPDataList))
+		}
 		enc_gprscameltdpdatalist, err := MarshalBERGPRSCamelTDPDataList(v.GprsCamelTDPDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding gprs-CamelTDPDataList: %w", err)
@@ -33718,6 +35887,9 @@ func (v *GPRSCSI) MarshalBER() ([]byte, error) {
 func (v *GPRSCSI) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.GprsCamelTDPDataList != nil {
+		if len(v.GprsCamelTDPDataList) < 1 || len(v.GprsCamelTDPDataList) > 10 {
+			return nil, fmt.Errorf("gprs-CamelTDPDataList length %d violates SIZE (1..10)", len(v.GprsCamelTDPDataList))
+		}
 		enc_gprscameltdpdatalist, err := MarshalDERGPRSCamelTDPDataList(v.GprsCamelTDPDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding gprs-CamelTDPDataList: %w", err)
@@ -33838,6 +36010,9 @@ func (v *GPRSCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_gprscameltdpdatalist
+				if len(v.GprsCamelTDPDataList) < 1 || len(v.GprsCamelTDPDataList) > 10 {
+					return fmt.Errorf("gprs-CamelTDPDataList length %d violates SIZE (1..10)", len(v.GprsCamelTDPDataList))
+				}
 			}
 		}
 	}
@@ -34079,6 +36254,12 @@ func (v *GPRSCamelTDPData) MarshalBER() ([]byte, error) {
 	}
 	enc_servicekey = retagged_enc_servicekey
 	children = append(children, enc_servicekey...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -34138,6 +36319,12 @@ func (v *GPRSCamelTDPData) MarshalDER() ([]byte, error) {
 	}
 	enc_servicekey = retagged_enc_servicekey
 	children = append(children, enc_servicekey...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -34276,6 +36463,12 @@ func (v *GPRSCamelTDPData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 	}
 
 	offset += n_gsmscfaddress
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	// Decode defaultSessionHandling
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field defaultSessionHandling")
@@ -34448,6 +36641,9 @@ func UnmarshalBERLSADataList(data []byte, opts ...ber.DecodeOption) (LSADataList
 // MarshalBER encodes LSAData to BER format.
 func (v *LSAData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.LsaIdentity) < 3 || len(v.LsaIdentity) > 3 {
+		return nil, fmt.Errorf("lsaIdentity length %d violates SIZE (3)", len(v.LsaIdentity))
+	}
 	enc_lsaidentity, encodeErr_enc_lsaidentity := ber.EncodeOctetString([]byte(v.LsaIdentity))
 	if encodeErr_enc_lsaidentity != nil {
 		return nil, fmt.Errorf("encoding lsaIdentity: %w", encodeErr_enc_lsaidentity)
@@ -34458,6 +36654,9 @@ func (v *LSAData) MarshalBER() ([]byte, error) {
 	}
 	enc_lsaidentity = retagged_enc_lsaidentity
 	children = append(children, enc_lsaidentity...)
+	if len(v.LsaAttributes) < 1 || len(v.LsaAttributes) > 1 {
+		return nil, fmt.Errorf("lsaAttributes length %d violates SIZE (1)", len(v.LsaAttributes))
+	}
 	enc_lsaattributes, encodeErr_enc_lsaattributes := ber.EncodeOctetString([]byte(v.LsaAttributes))
 	if encodeErr_enc_lsaattributes != nil {
 		return nil, fmt.Errorf("encoding lsaAttributes: %w", encodeErr_enc_lsaattributes)
@@ -34505,6 +36704,9 @@ func (v *LSAData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes LSAData to DER format.
 func (v *LSAData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.LsaIdentity) < 3 || len(v.LsaIdentity) > 3 {
+		return nil, fmt.Errorf("lsaIdentity length %d violates SIZE (3)", len(v.LsaIdentity))
+	}
 	enc_lsaidentity, encodeErr_enc_lsaidentity := ber.EncodeOctetString([]byte(v.LsaIdentity))
 	if encodeErr_enc_lsaidentity != nil {
 		return nil, fmt.Errorf("encoding lsaIdentity: %w", encodeErr_enc_lsaidentity)
@@ -34515,6 +36717,9 @@ func (v *LSAData) MarshalDER() ([]byte, error) {
 	}
 	enc_lsaidentity = retagged_enc_lsaidentity
 	children = append(children, enc_lsaidentity...)
+	if len(v.LsaAttributes) < 1 || len(v.LsaAttributes) > 1 {
+		return nil, fmt.Errorf("lsaAttributes length %d violates SIZE (1)", len(v.LsaAttributes))
+	}
 	enc_lsaattributes, encodeErr_enc_lsaattributes := ber.EncodeOctetString([]byte(v.LsaAttributes))
 	if encodeErr_enc_lsaattributes != nil {
 		return nil, fmt.Errorf("encoding lsaAttributes: %w", encodeErr_enc_lsaattributes)
@@ -34600,6 +36805,9 @@ func (v *LSAData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_lsaidentity
+	if len(v.LsaIdentity) < 3 || len(v.LsaIdentity) > 3 {
+		return fmt.Errorf("lsaIdentity length %d violates SIZE (3)", len(v.LsaIdentity))
+	}
 	// Decode lsaAttributes
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field lsaAttributes")
@@ -34624,6 +36832,9 @@ func (v *LSAData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_lsaattributes
+	if len(v.LsaAttributes) < 1 || len(v.LsaAttributes) > 1 {
+		return fmt.Errorf("lsaAttributes length %d violates SIZE (1)", len(v.LsaAttributes))
+	}
 	// Decode lsaActiveModeIndicator
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -34724,6 +36935,9 @@ func (v *LSAInformation) MarshalBER() ([]byte, error) {
 		children = append(children, enc_lsaonlyaccessindicator...)
 	}
 	if v.LsaDataList != nil {
+		if len(v.LsaDataList) < 1 || len(v.LsaDataList) > 20 {
+			return nil, fmt.Errorf("lsaDataList length %d violates SIZE (1..20)", len(v.LsaDataList))
+		}
 		enc_lsadatalist, err := MarshalBERLSADataList(v.LsaDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding lsaDataList: %w", err)
@@ -34792,6 +37006,9 @@ func (v *LSAInformation) MarshalDER() ([]byte, error) {
 		children = append(children, enc_lsaonlyaccessindicator...)
 	}
 	if v.LsaDataList != nil {
+		if len(v.LsaDataList) < 1 || len(v.LsaDataList) > 20 {
+			return nil, fmt.Errorf("lsaDataList length %d violates SIZE (1..20)", len(v.LsaDataList))
+		}
 		enc_lsadatalist, err := MarshalDERLSADataList(v.LsaDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding lsaDataList: %w", err)
@@ -34931,6 +37148,9 @@ func (v *LSAInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_lsadatalist
+				if len(v.LsaDataList) < 1 || len(v.LsaDataList) > 20 {
+					return fmt.Errorf("lsaDataList length %d violates SIZE (1..20)", len(v.LsaDataList))
+				}
 			}
 		}
 	}
@@ -34995,6 +37215,12 @@ func (v *LSAInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 func (v *SubscriberData) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.Msisdn != nil {
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+		}
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
 			return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
@@ -35007,6 +37233,9 @@ func (v *SubscriberData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_msisdn...)
 	}
 	if v.Category != nil {
+		if len(*v.Category) < 1 || len(*v.Category) > 1 {
+			return nil, fmt.Errorf("category length %d violates SIZE (1)", len(*v.Category))
+		}
 		enc_category, encodeErr_enc_category := ber.EncodeOctetString([]byte(*v.Category))
 		if encodeErr_enc_category != nil {
 			return nil, fmt.Errorf("encoding category: %w", encodeErr_enc_category)
@@ -35028,6 +37257,9 @@ func (v *SubscriberData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_subscriberstatus...)
 	}
 	if v.BearerServiceList != nil {
+		if len(v.BearerServiceList) < 1 || len(v.BearerServiceList) > 50 {
+			return nil, fmt.Errorf("bearerServiceList length %d violates SIZE (1..50)", len(v.BearerServiceList))
+		}
 		enc_bearerservicelist, err := MarshalBERBearerServiceList(v.BearerServiceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding bearerServiceList: %w", err)
@@ -35055,6 +37287,9 @@ func (v *SubscriberData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_bearerservicelist...)
 	}
 	if v.TeleserviceList != nil {
+		if len(v.TeleserviceList) < 1 || len(v.TeleserviceList) > 20 {
+			return nil, fmt.Errorf("teleserviceList length %d violates SIZE (1..20)", len(v.TeleserviceList))
+		}
 		enc_teleservicelist, err := MarshalBERTeleserviceList(v.TeleserviceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding teleserviceList: %w", err)
@@ -35082,6 +37317,9 @@ func (v *SubscriberData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_teleservicelist...)
 	}
 	if v.ProvisionedSS != nil {
+		if len(v.ProvisionedSS) < 1 || len(v.ProvisionedSS) > 30 {
+			return nil, fmt.Errorf("provisionedSS length %d violates SIZE (1..30)", len(v.ProvisionedSS))
+		}
 		enc_provisionedss, err := MarshalBERExtSSInfoList(v.ProvisionedSS)
 		if err != nil {
 			return nil, fmt.Errorf("encoding provisionedSS: %w", err)
@@ -35130,6 +37368,9 @@ func (v *SubscriberData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_roamingrestrictionduetounsupportedfeature...)
 	}
 	if v.RegionalSubscriptionData != nil {
+		if len(v.RegionalSubscriptionData) < 1 || len(v.RegionalSubscriptionData) > 10 {
+			return nil, fmt.Errorf("regionalSubscriptionData length %d violates SIZE (1..10)", len(v.RegionalSubscriptionData))
+		}
 		enc_regionalsubscriptiondata, err := MarshalBERZoneCodeList(v.RegionalSubscriptionData)
 		if err != nil {
 			return nil, fmt.Errorf("encoding regionalSubscriptionData: %w", err)
@@ -35157,6 +37398,9 @@ func (v *SubscriberData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_regionalsubscriptiondata...)
 	}
 	if v.VbsSubscriptionData != nil {
+		if len(v.VbsSubscriptionData) < 1 || len(v.VbsSubscriptionData) > 50 {
+			return nil, fmt.Errorf("vbsSubscriptionData length %d violates SIZE (1..50)", len(v.VbsSubscriptionData))
+		}
 		enc_vbssubscriptiondata, err := MarshalBERVBSDataList(v.VbsSubscriptionData)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vbsSubscriptionData: %w", err)
@@ -35184,6 +37428,9 @@ func (v *SubscriberData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_vbssubscriptiondata...)
 	}
 	if v.VgcsSubscriptionData != nil {
+		if len(v.VgcsSubscriptionData) < 1 || len(v.VgcsSubscriptionData) > 50 {
+			return nil, fmt.Errorf("vgcsSubscriptionData length %d violates SIZE (1..50)", len(v.VgcsSubscriptionData))
+		}
 		enc_vgcssubscriptiondata, err := MarshalBERVGCSDataList(v.VgcsSubscriptionData)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vgcsSubscriptionData: %w", err)
@@ -35229,6 +37476,12 @@ func (v *SubscriberData) MarshalBER() ([]byte, error) {
 func (v *SubscriberData) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.Msisdn != nil {
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+		}
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
 			return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
@@ -35241,6 +37494,9 @@ func (v *SubscriberData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_msisdn...)
 	}
 	if v.Category != nil {
+		if len(*v.Category) < 1 || len(*v.Category) > 1 {
+			return nil, fmt.Errorf("category length %d violates SIZE (1)", len(*v.Category))
+		}
 		enc_category, encodeErr_enc_category := ber.EncodeOctetString([]byte(*v.Category))
 		if encodeErr_enc_category != nil {
 			return nil, fmt.Errorf("encoding category: %w", encodeErr_enc_category)
@@ -35262,6 +37518,9 @@ func (v *SubscriberData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_subscriberstatus...)
 	}
 	if v.BearerServiceList != nil {
+		if len(v.BearerServiceList) < 1 || len(v.BearerServiceList) > 50 {
+			return nil, fmt.Errorf("bearerServiceList length %d violates SIZE (1..50)", len(v.BearerServiceList))
+		}
 		enc_bearerservicelist, err := MarshalDERBearerServiceList(v.BearerServiceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding bearerServiceList: %w", err)
@@ -35274,6 +37533,9 @@ func (v *SubscriberData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_bearerservicelist...)
 	}
 	if v.TeleserviceList != nil {
+		if len(v.TeleserviceList) < 1 || len(v.TeleserviceList) > 20 {
+			return nil, fmt.Errorf("teleserviceList length %d violates SIZE (1..20)", len(v.TeleserviceList))
+		}
 		enc_teleservicelist, err := MarshalDERTeleserviceList(v.TeleserviceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding teleserviceList: %w", err)
@@ -35286,6 +37548,9 @@ func (v *SubscriberData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_teleservicelist...)
 	}
 	if v.ProvisionedSS != nil {
+		if len(v.ProvisionedSS) < 1 || len(v.ProvisionedSS) > 30 {
+			return nil, fmt.Errorf("provisionedSS length %d violates SIZE (1..30)", len(v.ProvisionedSS))
+		}
 		enc_provisionedss, err := MarshalDERExtSSInfoList(v.ProvisionedSS)
 		if err != nil {
 			return nil, fmt.Errorf("encoding provisionedSS: %w", err)
@@ -35319,6 +37584,9 @@ func (v *SubscriberData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_roamingrestrictionduetounsupportedfeature...)
 	}
 	if v.RegionalSubscriptionData != nil {
+		if len(v.RegionalSubscriptionData) < 1 || len(v.RegionalSubscriptionData) > 10 {
+			return nil, fmt.Errorf("regionalSubscriptionData length %d violates SIZE (1..10)", len(v.RegionalSubscriptionData))
+		}
 		enc_regionalsubscriptiondata, err := MarshalDERZoneCodeList(v.RegionalSubscriptionData)
 		if err != nil {
 			return nil, fmt.Errorf("encoding regionalSubscriptionData: %w", err)
@@ -35331,6 +37599,9 @@ func (v *SubscriberData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_regionalsubscriptiondata...)
 	}
 	if v.VbsSubscriptionData != nil {
+		if len(v.VbsSubscriptionData) < 1 || len(v.VbsSubscriptionData) > 50 {
+			return nil, fmt.Errorf("vbsSubscriptionData length %d violates SIZE (1..50)", len(v.VbsSubscriptionData))
+		}
 		enc_vbssubscriptiondata, err := MarshalDERVBSDataList(v.VbsSubscriptionData)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vbsSubscriptionData: %w", err)
@@ -35343,6 +37614,9 @@ func (v *SubscriberData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_vbssubscriptiondata...)
 	}
 	if v.VgcsSubscriptionData != nil {
+		if len(v.VgcsSubscriptionData) < 1 || len(v.VgcsSubscriptionData) > 50 {
+			return nil, fmt.Errorf("vgcsSubscriptionData length %d violates SIZE (1..50)", len(v.VgcsSubscriptionData))
+		}
 		enc_vgcssubscriptiondata, err := MarshalDERVGCSDataList(v.VgcsSubscriptionData)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vgcsSubscriptionData: %w", err)
@@ -35410,6 +37684,12 @@ func (v *SubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_msisdn
+				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+					return fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+				}
+				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+					return fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+				}
 			}
 		}
 	}
@@ -35433,6 +37713,9 @@ func (v *SubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_category
+				if len(*v.Category) < 1 || len(*v.Category) > 1 {
+					return fmt.Errorf("category length %d violates SIZE (1)", len(*v.Category))
+				}
 			}
 		}
 	}
@@ -35504,6 +37787,9 @@ func (v *SubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_bearerservicelist
+				if len(v.BearerServiceList) < 1 || len(v.BearerServiceList) > 50 {
+					return fmt.Errorf("bearerServiceList length %d violates SIZE (1..50)", len(v.BearerServiceList))
+				}
 			}
 		}
 	}
@@ -35547,6 +37833,9 @@ func (v *SubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_teleservicelist
+				if len(v.TeleserviceList) < 1 || len(v.TeleserviceList) > 20 {
+					return fmt.Errorf("teleserviceList length %d violates SIZE (1..20)", len(v.TeleserviceList))
+				}
 			}
 		}
 	}
@@ -35590,6 +37879,9 @@ func (v *SubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_provisionedss
+				if len(v.ProvisionedSS) < 1 || len(v.ProvisionedSS) > 30 {
+					return fmt.Errorf("provisionedSS length %d violates SIZE (1..30)", len(v.ProvisionedSS))
+				}
 			}
 		}
 	}
@@ -35689,6 +37981,9 @@ func (v *SubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_regionalsubscriptiondata
+				if len(v.RegionalSubscriptionData) < 1 || len(v.RegionalSubscriptionData) > 10 {
+					return fmt.Errorf("regionalSubscriptionData length %d violates SIZE (1..10)", len(v.RegionalSubscriptionData))
+				}
 			}
 		}
 	}
@@ -35732,6 +38027,9 @@ func (v *SubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_vbssubscriptiondata
+				if len(v.VbsSubscriptionData) < 1 || len(v.VbsSubscriptionData) > 50 {
+					return fmt.Errorf("vbsSubscriptionData length %d violates SIZE (1..50)", len(v.VbsSubscriptionData))
+				}
 			}
 		}
 	}
@@ -35775,6 +38073,9 @@ func (v *SubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_vgcssubscriptiondata
+				if len(v.VgcsSubscriptionData) < 1 || len(v.VgcsSubscriptionData) > 50 {
+					return fmt.Errorf("vgcsSubscriptionData length %d violates SIZE (1..50)", len(v.VgcsSubscriptionData))
+				}
 			}
 		}
 	}
@@ -35968,7 +38269,10 @@ func UnmarshalBERTeleserviceList(data []byte, opts ...ber.DecodeOption) (Teleser
 // MarshalBER encodes ODBData to BER format.
 func (v *ODBData) MarshalBER() ([]byte, error) {
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	if (v.OdbGeneralData).BitLength < 15 || (v.OdbGeneralData).BitLength > 32 {
+		return nil, fmt.Errorf("odb-GeneralData length %d violates SIZE (15..32)", (v.OdbGeneralData).BitLength)
+	}
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.OdbGeneralData.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -35978,7 +38282,10 @@ func (v *ODBData) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_odbgeneraldata...)
 	if v.OdbHPLMNData != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.OdbHPLMNData).BitLength < 4 || (*v.OdbHPLMNData).BitLength > 32 {
+			return nil, fmt.Errorf("odb-HPLMN-Data length %d violates SIZE (4..32)", (*v.OdbHPLMNData).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OdbHPLMNData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -36011,7 +38318,10 @@ func (v *ODBData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ODBData to DER format.
 func (v *ODBData) MarshalDER() ([]byte, error) {
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	if (v.OdbGeneralData).BitLength < 15 || (v.OdbGeneralData).BitLength > 32 {
+		return nil, fmt.Errorf("odb-GeneralData length %d violates SIZE (15..32)", (v.OdbGeneralData).BitLength)
+	}
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.OdbGeneralData.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -36021,7 +38331,10 @@ func (v *ODBData) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_odbgeneraldata...)
 	if v.OdbHPLMNData != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.OdbHPLMNData).BitLength < 4 || (*v.OdbHPLMNData).BitLength > 32 {
+			return nil, fmt.Errorf("odb-HPLMN-Data length %d violates SIZE (4..32)", (*v.OdbHPLMNData).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OdbHPLMNData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -36087,6 +38400,9 @@ func (v *ODBData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n
+	if (v.OdbGeneralData).BitLength < 15 || (v.OdbGeneralData).BitLength > 32 {
+		return fmt.Errorf("odb-GeneralData length %d violates SIZE (15..32)", (v.OdbGeneralData).BitLength)
+	}
 	// Decode odb-HPLMN-Data
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -36108,6 +38424,9 @@ func (v *ODBData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n
+				if (*v.OdbHPLMNData).BitLength < 4 || (*v.OdbHPLMNData).BitLength > 32 {
+					return fmt.Errorf("odb-HPLMN-Data length %d violates SIZE (4..32)", (*v.OdbHPLMNData).BitLength)
+				}
 			}
 		}
 	}
@@ -36536,11 +38855,17 @@ func (v *ExtSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes ExtForwInfo to BER format.
 func (v *ExtForwInfo) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
 	}
 	children = append(children, enc_sscode...)
+	if len(v.ForwardingFeatureList) < 1 || len(v.ForwardingFeatureList) > 32 {
+		return nil, fmt.Errorf("forwardingFeatureList length %d violates SIZE (1..32)", len(v.ForwardingFeatureList))
+	}
 	enc_forwardingfeaturelist, err := MarshalBERExtForwFeatureList(v.ForwardingFeatureList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding forwardingFeatureList: %w", err)
@@ -36574,11 +38899,17 @@ func (v *ExtForwInfo) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ExtForwInfo to DER format.
 func (v *ExtForwInfo) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
 	}
 	children = append(children, enc_sscode...)
+	if len(v.ForwardingFeatureList) < 1 || len(v.ForwardingFeatureList) > 32 {
+		return nil, fmt.Errorf("forwardingFeatureList length %d violates SIZE (1..32)", len(v.ForwardingFeatureList))
+	}
 	enc_forwardingfeaturelist, err := MarshalDERExtForwFeatureList(v.ForwardingFeatureList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding forwardingFeatureList: %w", err)
@@ -36641,6 +38972,9 @@ func (v *ExtForwInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 	}
 
 	offset += n
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	// Decode forwardingFeatureList
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field forwardingFeatureList")
@@ -36676,6 +39010,9 @@ func (v *ExtForwInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 	}
 
 	offset += n_forwardingfeaturelist
+	if len(v.ForwardingFeatureList) < 1 || len(v.ForwardingFeatureList) > 32 {
+		return fmt.Errorf("forwardingFeatureList length %d violates SIZE (1..32)", len(v.ForwardingFeatureList))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -36827,6 +39164,9 @@ func (v *ExtForwFeature) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_basicservice...)
 	}
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -36838,6 +39178,12 @@ func (v *ExtForwFeature) MarshalBER() ([]byte, error) {
 	enc_ssstatus = retagged_enc_ssstatus
 	children = append(children, enc_ssstatus...)
 	if v.ForwardedToNumber != nil {
+		if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 9 {
+			return nil, fmt.Errorf("forwardedToNumber length %d violates SIZE (1..9)", len(*v.ForwardedToNumber))
+		}
+		if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 20 {
+			return nil, fmt.Errorf("forwardedToNumber length %d violates SIZE (1..20)", len(*v.ForwardedToNumber))
+		}
 		enc_forwardedtonumber, encodeErr_enc_forwardedtonumber := ber.EncodeOctetString([]byte(*v.ForwardedToNumber))
 		if encodeErr_enc_forwardedtonumber != nil {
 			return nil, fmt.Errorf("encoding forwardedToNumber: %w", encodeErr_enc_forwardedtonumber)
@@ -36850,6 +39196,9 @@ func (v *ExtForwFeature) MarshalBER() ([]byte, error) {
 		children = append(children, enc_forwardedtonumber...)
 	}
 	if v.ForwardedToSubaddress != nil {
+		if len(*v.ForwardedToSubaddress) < 1 || len(*v.ForwardedToSubaddress) > 21 {
+			return nil, fmt.Errorf("forwardedToSubaddress length %d violates SIZE (1..21)", len(*v.ForwardedToSubaddress))
+		}
 		enc_forwardedtosubaddress, encodeErr_enc_forwardedtosubaddress := ber.EncodeOctetString([]byte(*v.ForwardedToSubaddress))
 		if encodeErr_enc_forwardedtosubaddress != nil {
 			return nil, fmt.Errorf("encoding forwardedToSubaddress: %w", encodeErr_enc_forwardedtosubaddress)
@@ -36862,6 +39211,9 @@ func (v *ExtForwFeature) MarshalBER() ([]byte, error) {
 		children = append(children, enc_forwardedtosubaddress...)
 	}
 	if v.ForwardingOptions != nil {
+		if len(*v.ForwardingOptions) < 1 || len(*v.ForwardingOptions) > 5 {
+			return nil, fmt.Errorf("forwardingOptions length %d violates SIZE (1..5)", len(*v.ForwardingOptions))
+		}
 		enc_forwardingoptions, encodeErr_enc_forwardingoptions := ber.EncodeOctetString([]byte(*v.ForwardingOptions))
 		if encodeErr_enc_forwardingoptions != nil {
 			return nil, fmt.Errorf("encoding forwardingOptions: %w", encodeErr_enc_forwardingoptions)
@@ -36895,6 +39247,12 @@ func (v *ExtForwFeature) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.LongForwardedToNumber != nil {
+		if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 15 {
+			return nil, fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..15)", len(*v.LongForwardedToNumber))
+		}
+		if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 20 {
+			return nil, fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..20)", len(*v.LongForwardedToNumber))
+		}
 		enc_longforwardedtonumber, encodeErr_enc_longforwardedtonumber := ber.EncodeOctetString([]byte(*v.LongForwardedToNumber))
 		if encodeErr_enc_longforwardedtonumber != nil {
 			return nil, fmt.Errorf("encoding longForwardedToNumber: %w", encodeErr_enc_longforwardedtonumber)
@@ -36929,6 +39287,9 @@ func (v *ExtForwFeature) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, enc_basicservice...)
 	}
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -36940,6 +39301,12 @@ func (v *ExtForwFeature) MarshalDER() ([]byte, error) {
 	enc_ssstatus = retagged_enc_ssstatus
 	children = append(children, enc_ssstatus...)
 	if v.ForwardedToNumber != nil {
+		if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 9 {
+			return nil, fmt.Errorf("forwardedToNumber length %d violates SIZE (1..9)", len(*v.ForwardedToNumber))
+		}
+		if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 20 {
+			return nil, fmt.Errorf("forwardedToNumber length %d violates SIZE (1..20)", len(*v.ForwardedToNumber))
+		}
 		enc_forwardedtonumber, encodeErr_enc_forwardedtonumber := ber.EncodeOctetString([]byte(*v.ForwardedToNumber))
 		if encodeErr_enc_forwardedtonumber != nil {
 			return nil, fmt.Errorf("encoding forwardedToNumber: %w", encodeErr_enc_forwardedtonumber)
@@ -36952,6 +39319,9 @@ func (v *ExtForwFeature) MarshalDER() ([]byte, error) {
 		children = append(children, enc_forwardedtonumber...)
 	}
 	if v.ForwardedToSubaddress != nil {
+		if len(*v.ForwardedToSubaddress) < 1 || len(*v.ForwardedToSubaddress) > 21 {
+			return nil, fmt.Errorf("forwardedToSubaddress length %d violates SIZE (1..21)", len(*v.ForwardedToSubaddress))
+		}
 		enc_forwardedtosubaddress, encodeErr_enc_forwardedtosubaddress := ber.EncodeOctetString([]byte(*v.ForwardedToSubaddress))
 		if encodeErr_enc_forwardedtosubaddress != nil {
 			return nil, fmt.Errorf("encoding forwardedToSubaddress: %w", encodeErr_enc_forwardedtosubaddress)
@@ -36964,6 +39334,9 @@ func (v *ExtForwFeature) MarshalDER() ([]byte, error) {
 		children = append(children, enc_forwardedtosubaddress...)
 	}
 	if v.ForwardingOptions != nil {
+		if len(*v.ForwardingOptions) < 1 || len(*v.ForwardingOptions) > 5 {
+			return nil, fmt.Errorf("forwardingOptions length %d violates SIZE (1..5)", len(*v.ForwardingOptions))
+		}
 		enc_forwardingoptions, encodeErr_enc_forwardingoptions := ber.EncodeOctetString([]byte(*v.ForwardingOptions))
 		if encodeErr_enc_forwardingoptions != nil {
 			return nil, fmt.Errorf("encoding forwardingOptions: %w", encodeErr_enc_forwardingoptions)
@@ -36997,6 +39370,12 @@ func (v *ExtForwFeature) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.LongForwardedToNumber != nil {
+		if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 15 {
+			return nil, fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..15)", len(*v.LongForwardedToNumber))
+		}
+		if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 20 {
+			return nil, fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..20)", len(*v.LongForwardedToNumber))
+		}
 		enc_longforwardedtonumber, encodeErr_enc_longforwardedtonumber := ber.EncodeOctetString([]byte(*v.LongForwardedToNumber))
 		if encodeErr_enc_longforwardedtonumber != nil {
 			return nil, fmt.Errorf("encoding longForwardedToNumber: %w", encodeErr_enc_longforwardedtonumber)
@@ -37092,6 +39471,9 @@ func (v *ExtForwFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 	}
 
 	offset += n_ssstatus
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	// Decode forwardedToNumber
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -37113,6 +39495,12 @@ func (v *ExtForwFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_forwardedtonumber
+				if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 9 {
+					return fmt.Errorf("forwardedToNumber length %d violates SIZE (1..9)", len(*v.ForwardedToNumber))
+				}
+				if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 20 {
+					return fmt.Errorf("forwardedToNumber length %d violates SIZE (1..20)", len(*v.ForwardedToNumber))
+				}
 			}
 		}
 	}
@@ -37137,6 +39525,9 @@ func (v *ExtForwFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_forwardedtosubaddress
+				if len(*v.ForwardedToSubaddress) < 1 || len(*v.ForwardedToSubaddress) > 21 {
+					return fmt.Errorf("forwardedToSubaddress length %d violates SIZE (1..21)", len(*v.ForwardedToSubaddress))
+				}
 			}
 		}
 	}
@@ -37161,6 +39552,9 @@ func (v *ExtForwFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_forwardingoptions
+				if len(*v.ForwardingOptions) < 1 || len(*v.ForwardingOptions) > 5 {
+					return fmt.Errorf("forwardingOptions length %d violates SIZE (1..5)", len(*v.ForwardingOptions))
+				}
 			}
 		}
 	}
@@ -37244,6 +39638,12 @@ func (v *ExtForwFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_longforwardedtonumber
+				if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 15 {
+					return fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..15)", len(*v.LongForwardedToNumber))
+				}
+				if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 20 {
+					return fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..20)", len(*v.LongForwardedToNumber))
+				}
 			}
 		}
 	}
@@ -37276,11 +39676,17 @@ func (v *ExtForwFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 // MarshalBER encodes ExtCallBarInfo to BER format.
 func (v *ExtCallBarInfo) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
 	}
 	children = append(children, enc_sscode...)
+	if len(v.CallBarringFeatureList) < 1 || len(v.CallBarringFeatureList) > 32 {
+		return nil, fmt.Errorf("callBarringFeatureList length %d violates SIZE (1..32)", len(v.CallBarringFeatureList))
+	}
 	enc_callbarringfeaturelist, err := MarshalBERExtCallBarFeatureList(v.CallBarringFeatureList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding callBarringFeatureList: %w", err)
@@ -37309,11 +39715,17 @@ func (v *ExtCallBarInfo) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ExtCallBarInfo to DER format.
 func (v *ExtCallBarInfo) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
 	}
 	children = append(children, enc_sscode...)
+	if len(v.CallBarringFeatureList) < 1 || len(v.CallBarringFeatureList) > 32 {
+		return nil, fmt.Errorf("callBarringFeatureList length %d violates SIZE (1..32)", len(v.CallBarringFeatureList))
+	}
 	enc_callbarringfeaturelist, err := MarshalDERExtCallBarFeatureList(v.CallBarringFeatureList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding callBarringFeatureList: %w", err)
@@ -37371,6 +39783,9 @@ func (v *ExtCallBarInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 	}
 
 	offset += n
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	// Decode callBarringFeatureList
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field callBarringFeatureList")
@@ -37406,6 +39821,9 @@ func (v *ExtCallBarInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 	}
 
 	offset += n_callbarringfeaturelist
+	if len(v.CallBarringFeatureList) < 1 || len(v.CallBarringFeatureList) > 32 {
+		return fmt.Errorf("callBarringFeatureList length %d violates SIZE (1..32)", len(v.CallBarringFeatureList))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -37557,6 +39975,9 @@ func (v *ExtCallBarringFeature) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_basicservice...)
 	}
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -37596,6 +40017,9 @@ func (v *ExtCallBarringFeature) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding basicService: %w", err)
 		}
 		children = append(children, enc_basicservice...)
+	}
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
 	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
@@ -37696,6 +40120,9 @@ func (v *ExtCallBarringFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}
 
 	offset += n_ssstatus
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -37756,12 +40183,18 @@ func (v *ExtCallBarringFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 // MarshalBER encodes CUGInfo to BER format.
 func (v *CUGInfo) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.CugSubscriptionList) > 10 {
+		return nil, fmt.Errorf("cug-SubscriptionList length %d violates SIZE (0..10)", len(v.CugSubscriptionList))
+	}
 	enc_cugsubscriptionlist, err := MarshalBERCUGSubscriptionList(v.CugSubscriptionList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding cug-SubscriptionList: %w", err)
 	}
 	children = append(children, enc_cugsubscriptionlist...)
 	if v.CugFeatureList != nil {
+		if len(v.CugFeatureList) < 1 || len(v.CugFeatureList) > 32 {
+			return nil, fmt.Errorf("cug-FeatureList length %d violates SIZE (1..32)", len(v.CugFeatureList))
+		}
 		enc_cugfeaturelist, err := MarshalBERCUGFeatureList(v.CugFeatureList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cug-FeatureList: %w", err)
@@ -37796,12 +40229,18 @@ func (v *CUGInfo) MarshalBER() ([]byte, error) {
 // MarshalDER encodes CUGInfo to DER format.
 func (v *CUGInfo) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.CugSubscriptionList) > 10 {
+		return nil, fmt.Errorf("cug-SubscriptionList length %d violates SIZE (0..10)", len(v.CugSubscriptionList))
+	}
 	enc_cugsubscriptionlist, err := MarshalDERCUGSubscriptionList(v.CugSubscriptionList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding cug-SubscriptionList: %w", err)
 	}
 	children = append(children, enc_cugsubscriptionlist...)
 	if v.CugFeatureList != nil {
+		if len(v.CugFeatureList) < 1 || len(v.CugFeatureList) > 32 {
+			return nil, fmt.Errorf("cug-FeatureList length %d violates SIZE (1..32)", len(v.CugFeatureList))
+		}
 		enc_cugfeaturelist, err := MarshalDERCUGFeatureList(v.CugFeatureList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cug-FeatureList: %w", err)
@@ -37885,6 +40324,9 @@ func (v *CUGInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_cugsubscriptionlist
+	if len(v.CugSubscriptionList) > 10 {
+		return fmt.Errorf("cug-SubscriptionList length %d violates SIZE (0..10)", len(v.CugSubscriptionList))
+	}
 	// Decode cug-FeatureList
 	v.CugFeatureListIndef_ = false
 	if offset < len(content) {
@@ -37921,6 +40363,9 @@ func (v *CUGInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_cugfeaturelist
+				if len(v.CugFeatureList) < 1 || len(v.CugFeatureList) > 32 {
+					return fmt.Errorf("cug-FeatureList length %d violates SIZE (1..32)", len(v.CugFeatureList))
+				}
 			}
 		}
 	}
@@ -38070,6 +40515,9 @@ func (v *CUGSubscription) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_cugindex := ber.EncodeInteger(int64(v.CugIndex))
 	children = append(children, enc_cugindex...)
+	if len(v.CugInterlock) < 4 || len(v.CugInterlock) > 4 {
+		return nil, fmt.Errorf("cug-Interlock length %d violates SIZE (4)", len(v.CugInterlock))
+	}
 	enc_cuginterlock, encodeErr_enc_cuginterlock := ber.EncodeOctetString([]byte(v.CugInterlock))
 	if encodeErr_enc_cuginterlock != nil {
 		return nil, fmt.Errorf("encoding cug-Interlock: %w", encodeErr_enc_cuginterlock)
@@ -38078,6 +40526,9 @@ func (v *CUGSubscription) MarshalBER() ([]byte, error) {
 	enc_intracugoptions := ber.EncodeEnumerated(int64(v.IntraCUGOptions))
 	children = append(children, enc_intracugoptions...)
 	if v.BasicServiceGroupList != nil {
+		if len(v.BasicServiceGroupList) < 1 || len(v.BasicServiceGroupList) > 32 {
+			return nil, fmt.Errorf("basicServiceGroupList length %d violates SIZE (1..32)", len(v.BasicServiceGroupList))
+		}
 		enc_basicservicegrouplist, err := MarshalBERExtBasicServiceGroupList(v.BasicServiceGroupList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceGroupList: %w", err)
@@ -38114,6 +40565,9 @@ func (v *CUGSubscription) MarshalDER() ([]byte, error) {
 	var children []byte
 	enc_cugindex := ber.EncodeInteger(int64(v.CugIndex))
 	children = append(children, enc_cugindex...)
+	if len(v.CugInterlock) < 4 || len(v.CugInterlock) > 4 {
+		return nil, fmt.Errorf("cug-Interlock length %d violates SIZE (4)", len(v.CugInterlock))
+	}
 	enc_cuginterlock, encodeErr_enc_cuginterlock := ber.EncodeOctetString([]byte(v.CugInterlock))
 	if encodeErr_enc_cuginterlock != nil {
 		return nil, fmt.Errorf("encoding cug-Interlock: %w", encodeErr_enc_cuginterlock)
@@ -38122,6 +40576,9 @@ func (v *CUGSubscription) MarshalDER() ([]byte, error) {
 	enc_intracugoptions := ber.EncodeEnumerated(int64(v.IntraCUGOptions))
 	children = append(children, enc_intracugoptions...)
 	if v.BasicServiceGroupList != nil {
+		if len(v.BasicServiceGroupList) < 1 || len(v.BasicServiceGroupList) > 32 {
+			return nil, fmt.Errorf("basicServiceGroupList length %d violates SIZE (1..32)", len(v.BasicServiceGroupList))
+		}
 		enc_basicservicegrouplist, err := MarshalDERExtBasicServiceGroupList(v.BasicServiceGroupList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceGroupList: %w", err)
@@ -38200,6 +40657,9 @@ func (v *CUGSubscription) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 	}
 
 	offset += n
+	if len(v.CugInterlock) < 4 || len(v.CugInterlock) > 4 {
+		return fmt.Errorf("cug-Interlock length %d violates SIZE (4)", len(v.CugInterlock))
+	}
 	// Decode intraCUG-Options
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field intraCUG-Options")
@@ -38251,6 +40711,9 @@ func (v *CUGSubscription) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				}
 
 				offset += n_basicservicegrouplist
+				if len(v.BasicServiceGroupList) < 1 || len(v.BasicServiceGroupList) > 32 {
+					return fmt.Errorf("basicServiceGroupList length %d violates SIZE (1..32)", len(v.BasicServiceGroupList))
+				}
 			}
 		}
 	}
@@ -38493,6 +40956,9 @@ func (v *CUGFeature) MarshalBER() ([]byte, error) {
 		enc_preferentialcugindicator := ber.EncodeInteger(int64(*v.PreferentialCUGIndicator))
 		children = append(children, enc_preferentialcugindicator...)
 	}
+	if len(v.InterCUGRestrictions) < 1 || len(v.InterCUGRestrictions) > 1 {
+		return nil, fmt.Errorf("interCUG-Restrictions length %d violates SIZE (1)", len(v.InterCUGRestrictions))
+	}
 	enc_intercugrestrictions, encodeErr_enc_intercugrestrictions := ber.EncodeOctetString([]byte(v.InterCUGRestrictions))
 	if encodeErr_enc_intercugrestrictions != nil {
 		return nil, fmt.Errorf("encoding interCUG-Restrictions: %w", encodeErr_enc_intercugrestrictions)
@@ -38531,6 +40997,9 @@ func (v *CUGFeature) MarshalDER() ([]byte, error) {
 	if v.PreferentialCUGIndicator != nil {
 		enc_preferentialcugindicator := ber.EncodeInteger(int64(*v.PreferentialCUGIndicator))
 		children = append(children, enc_preferentialcugindicator...)
+	}
+	if len(v.InterCUGRestrictions) < 1 || len(v.InterCUGRestrictions) > 1 {
+		return nil, fmt.Errorf("interCUG-Restrictions length %d violates SIZE (1)", len(v.InterCUGRestrictions))
 	}
 	enc_intercugrestrictions, encodeErr_enc_intercugrestrictions := ber.EncodeOctetString([]byte(v.InterCUGRestrictions))
 	if encodeErr_enc_intercugrestrictions != nil {
@@ -38640,6 +41109,9 @@ func (v *CUGFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n
+	if len(v.InterCUGRestrictions) < 1 || len(v.InterCUGRestrictions) > 1 {
+		return fmt.Errorf("interCUG-Restrictions length %d violates SIZE (1)", len(v.InterCUGRestrictions))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -38700,11 +41172,17 @@ func (v *CUGFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes ExtSSData to BER format.
 func (v *ExtSSData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
 	}
 	children = append(children, enc_sscode...)
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -38723,6 +41201,9 @@ func (v *ExtSSData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_sssubscriptionoption...)
 	}
 	if v.BasicServiceGroupList != nil {
+		if len(v.BasicServiceGroupList) < 1 || len(v.BasicServiceGroupList) > 32 {
+			return nil, fmt.Errorf("basicServiceGroupList length %d violates SIZE (1..32)", len(v.BasicServiceGroupList))
+		}
 		enc_basicservicegrouplist, err := MarshalBERExtBasicServiceGroupList(v.BasicServiceGroupList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceGroupList: %w", err)
@@ -38757,11 +41238,17 @@ func (v *ExtSSData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ExtSSData to DER format.
 func (v *ExtSSData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
 	}
 	children = append(children, enc_sscode...)
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -38780,6 +41267,9 @@ func (v *ExtSSData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sssubscriptionoption...)
 	}
 	if v.BasicServiceGroupList != nil {
+		if len(v.BasicServiceGroupList) < 1 || len(v.BasicServiceGroupList) > 32 {
+			return nil, fmt.Errorf("basicServiceGroupList length %d violates SIZE (1..32)", len(v.BasicServiceGroupList))
+		}
 		enc_basicservicegrouplist, err := MarshalDERExtBasicServiceGroupList(v.BasicServiceGroupList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceGroupList: %w", err)
@@ -38843,6 +41333,9 @@ func (v *ExtSSData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	// Decode ss-Status
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field ss-Status")
@@ -38866,6 +41359,9 @@ func (v *ExtSSData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_ssstatus
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	// Decode ss-SubscriptionOption
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -38933,6 +41429,9 @@ func (v *ExtSSData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_basicservicegrouplist
+				if len(v.BasicServiceGroupList) < 1 || len(v.BasicServiceGroupList) > 32 {
+					return fmt.Errorf("basicServiceGroupList length %d violates SIZE (1..32)", len(v.BasicServiceGroupList))
+				}
 			}
 		}
 	}
@@ -39080,11 +41579,17 @@ func UnmarshalBERLCSPrivacyExceptionList(data []byte, opts ...ber.DecodeOption) 
 // MarshalBER encodes LCSPrivacyClass to BER format.
 func (v *LCSPrivacyClass) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
 	}
 	children = append(children, enc_sscode...)
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -39100,6 +41605,9 @@ func (v *LCSPrivacyClass) MarshalBER() ([]byte, error) {
 		children = append(children, enc_notificationtomsuser...)
 	}
 	if v.ExternalClientList != nil {
+		if len(v.ExternalClientList) > 5 {
+			return nil, fmt.Errorf("externalClientList length %d violates SIZE (0..5)", len(v.ExternalClientList))
+		}
 		enc_externalclientlist, err := MarshalBERExternalClientList(v.ExternalClientList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding externalClientList: %w", err)
@@ -39127,6 +41635,9 @@ func (v *LCSPrivacyClass) MarshalBER() ([]byte, error) {
 		children = append(children, enc_externalclientlist...)
 	}
 	if v.PlmnClientList != nil {
+		if len(v.PlmnClientList) < 1 || len(v.PlmnClientList) > 5 {
+			return nil, fmt.Errorf("plmnClientList length %d violates SIZE (1..5)", len(v.PlmnClientList))
+		}
 		enc_plmnclientlist, err := MarshalBERPLMNClientList(v.PlmnClientList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding plmnClientList: %w", err)
@@ -39166,6 +41677,9 @@ func (v *LCSPrivacyClass) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.ExtExternalClientList != nil {
+		if len(v.ExtExternalClientList) < 1 || len(v.ExtExternalClientList) > 35 {
+			return nil, fmt.Errorf("ext-externalClientList length %d violates SIZE (1..35)", len(v.ExtExternalClientList))
+		}
 		enc_extexternalclientlist, err := MarshalBERExtExternalClientList(v.ExtExternalClientList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ext-externalClientList: %w", err)
@@ -39193,6 +41707,9 @@ func (v *LCSPrivacyClass) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extexternalclientlist...)
 	}
 	if v.ServiceTypeList != nil {
+		if len(v.ServiceTypeList) < 1 || len(v.ServiceTypeList) > 32 {
+			return nil, fmt.Errorf("serviceTypeList length %d violates SIZE (1..32)", len(v.ServiceTypeList))
+		}
 		enc_servicetypelist, err := MarshalBERServiceTypeList(v.ServiceTypeList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding serviceTypeList: %w", err)
@@ -39235,11 +41752,17 @@ func (v *LCSPrivacyClass) MarshalBER() ([]byte, error) {
 // MarshalDER encodes LCSPrivacyClass to DER format.
 func (v *LCSPrivacyClass) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
 	}
 	children = append(children, enc_sscode...)
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -39255,6 +41778,9 @@ func (v *LCSPrivacyClass) MarshalDER() ([]byte, error) {
 		children = append(children, enc_notificationtomsuser...)
 	}
 	if v.ExternalClientList != nil {
+		if len(v.ExternalClientList) > 5 {
+			return nil, fmt.Errorf("externalClientList length %d violates SIZE (0..5)", len(v.ExternalClientList))
+		}
 		enc_externalclientlist, err := MarshalDERExternalClientList(v.ExternalClientList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding externalClientList: %w", err)
@@ -39267,6 +41793,9 @@ func (v *LCSPrivacyClass) MarshalDER() ([]byte, error) {
 		children = append(children, enc_externalclientlist...)
 	}
 	if v.PlmnClientList != nil {
+		if len(v.PlmnClientList) < 1 || len(v.PlmnClientList) > 5 {
+			return nil, fmt.Errorf("plmnClientList length %d violates SIZE (1..5)", len(v.PlmnClientList))
+		}
 		enc_plmnclientlist, err := MarshalDERPLMNClientList(v.PlmnClientList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding plmnClientList: %w", err)
@@ -39291,6 +41820,9 @@ func (v *LCSPrivacyClass) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.ExtExternalClientList != nil {
+		if len(v.ExtExternalClientList) < 1 || len(v.ExtExternalClientList) > 35 {
+			return nil, fmt.Errorf("ext-externalClientList length %d violates SIZE (1..35)", len(v.ExtExternalClientList))
+		}
 		enc_extexternalclientlist, err := MarshalDERExtExternalClientList(v.ExtExternalClientList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ext-externalClientList: %w", err)
@@ -39303,6 +41835,9 @@ func (v *LCSPrivacyClass) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extexternalclientlist...)
 	}
 	if v.ServiceTypeList != nil {
+		if len(v.ServiceTypeList) < 1 || len(v.ServiceTypeList) > 32 {
+			return nil, fmt.Errorf("serviceTypeList length %d violates SIZE (1..32)", len(v.ServiceTypeList))
+		}
 		enc_servicetypelist, err := MarshalDERServiceTypeList(v.ServiceTypeList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding serviceTypeList: %w", err)
@@ -39359,6 +41894,9 @@ func (v *LCSPrivacyClass) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 	}
 
 	offset += n
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	// Decode ss-Status
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field ss-Status")
@@ -39374,6 +41912,9 @@ func (v *LCSPrivacyClass) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 	}
 
 	offset += n
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	// Decode notificationToMSUser
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -39442,6 +41983,9 @@ func (v *LCSPrivacyClass) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				}
 
 				offset += n_externalclientlist
+				if len(v.ExternalClientList) > 5 {
+					return fmt.Errorf("externalClientList length %d violates SIZE (0..5)", len(v.ExternalClientList))
+				}
 			}
 		}
 	}
@@ -39485,6 +42029,9 @@ func (v *LCSPrivacyClass) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				}
 
 				offset += n_plmnclientlist
+				if len(v.PlmnClientList) < 1 || len(v.PlmnClientList) > 5 {
+					return fmt.Errorf("plmnClientList length %d violates SIZE (1..5)", len(v.PlmnClientList))
+				}
 			}
 		}
 	}
@@ -39559,6 +42106,9 @@ func (v *LCSPrivacyClass) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				}
 
 				offset += n_extexternalclientlist
+				if len(v.ExtExternalClientList) < 1 || len(v.ExtExternalClientList) > 35 {
+					return fmt.Errorf("ext-externalClientList length %d violates SIZE (1..35)", len(v.ExtExternalClientList))
+				}
 			}
 		}
 	}
@@ -39602,6 +42152,9 @@ func (v *LCSPrivacyClass) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				}
 
 				offset += n_servicetypelist
+				if len(v.ServiceTypeList) < 1 || len(v.ServiceTypeList) > 32 {
+					return fmt.Errorf("serviceTypeList length %d violates SIZE (1..32)", len(v.ServiceTypeList))
+				}
 			}
 		}
 	}
@@ -40535,11 +43088,17 @@ func UnmarshalBERMOLRList(data []byte, opts ...ber.DecodeOption) (MOLRList, erro
 // MarshalBER encodes MOLRClass to BER format.
 func (v *MOLRClass) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
 	}
 	children = append(children, enc_sscode...)
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -40573,11 +43132,17 @@ func (v *MOLRClass) MarshalBER() ([]byte, error) {
 // MarshalDER encodes MOLRClass to DER format.
 func (v *MOLRClass) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
 	}
 	children = append(children, enc_sscode...)
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -40640,6 +43205,9 @@ func (v *MOLRClass) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	// Decode ss-Status
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field ss-Status")
@@ -40655,6 +43223,9 @@ func (v *MOLRClass) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -40791,6 +43362,9 @@ func UnmarshalBERZoneCodeList(data []byte, opts ...ber.DecodeOption) (ZoneCodeLi
 func (v *InsertSubscriberDataRes) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.TeleserviceList != nil {
+		if len(v.TeleserviceList) < 1 || len(v.TeleserviceList) > 20 {
+			return nil, fmt.Errorf("teleserviceList length %d violates SIZE (1..20)", len(v.TeleserviceList))
+		}
 		enc_teleservicelist, err := MarshalBERTeleserviceList(v.TeleserviceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding teleserviceList: %w", err)
@@ -40818,6 +43392,9 @@ func (v *InsertSubscriberDataRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_teleservicelist...)
 	}
 	if v.BearerServiceList != nil {
+		if len(v.BearerServiceList) < 1 || len(v.BearerServiceList) > 50 {
+			return nil, fmt.Errorf("bearerServiceList length %d violates SIZE (1..50)", len(v.BearerServiceList))
+		}
 		enc_bearerservicelist, err := MarshalBERBearerServiceList(v.BearerServiceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding bearerServiceList: %w", err)
@@ -40845,6 +43422,9 @@ func (v *InsertSubscriberDataRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_bearerservicelist...)
 	}
 	if v.SsList != nil {
+		if len(v.SsList) < 1 || len(v.SsList) > 30 {
+			return nil, fmt.Errorf("ss-List length %d violates SIZE (1..30)", len(v.SsList))
+		}
 		enc_sslist, err := MarshalBERSSList(v.SsList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ss-List: %w", err)
@@ -40872,7 +43452,10 @@ func (v *InsertSubscriberDataRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_sslist...)
 	}
 	if v.OdbGeneralData != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.OdbGeneralData).BitLength < 15 || (*v.OdbGeneralData).BitLength > 32 {
+			return nil, fmt.Errorf("odb-GeneralData length %d violates SIZE (15..32)", (*v.OdbGeneralData).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OdbGeneralData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -40897,7 +43480,10 @@ func (v *InsertSubscriberDataRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_regionalsubscriptionresponse...)
 	}
 	if v.SupportedCamelPhases != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedCamelPhases).BitLength < 1 || (*v.SupportedCamelPhases).BitLength > 16 {
+			return nil, fmt.Errorf("supportedCamelPhases length %d violates SIZE (1..16)", (*v.SupportedCamelPhases).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -40925,7 +43511,10 @@ func (v *InsertSubscriberDataRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.OfferedCamel4CSIs != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.OfferedCamel4CSIs).BitLength < 7 || (*v.OfferedCamel4CSIs).BitLength > 16 {
+			return nil, fmt.Errorf("offeredCamel4CSIs length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIs).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -40941,7 +43530,10 @@ func (v *InsertSubscriberDataRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_offeredcamel4csis...)
 	}
 	if v.SupportedFeatures != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedFeatures).BitLength < 26 || (*v.SupportedFeatures).BitLength > 40 {
+			return nil, fmt.Errorf("supportedFeatures length %d violates SIZE (26..40)", (*v.SupportedFeatures).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -40957,7 +43549,10 @@ func (v *InsertSubscriberDataRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_supportedfeatures...)
 	}
 	if v.ExtSupportedFeatures != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.ExtSupportedFeatures).BitLength < 1 || (*v.ExtSupportedFeatures).BitLength > 40 {
+			return nil, fmt.Errorf("ext-SupportedFeatures length %d violates SIZE (1..40)", (*v.ExtSupportedFeatures).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ExtSupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -40989,6 +43584,9 @@ func (v *InsertSubscriberDataRes) MarshalBER() ([]byte, error) {
 func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.TeleserviceList != nil {
+		if len(v.TeleserviceList) < 1 || len(v.TeleserviceList) > 20 {
+			return nil, fmt.Errorf("teleserviceList length %d violates SIZE (1..20)", len(v.TeleserviceList))
+		}
 		enc_teleservicelist, err := MarshalDERTeleserviceList(v.TeleserviceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding teleserviceList: %w", err)
@@ -41001,6 +43599,9 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_teleservicelist...)
 	}
 	if v.BearerServiceList != nil {
+		if len(v.BearerServiceList) < 1 || len(v.BearerServiceList) > 50 {
+			return nil, fmt.Errorf("bearerServiceList length %d violates SIZE (1..50)", len(v.BearerServiceList))
+		}
 		enc_bearerservicelist, err := MarshalDERBearerServiceList(v.BearerServiceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding bearerServiceList: %w", err)
@@ -41013,6 +43614,9 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_bearerservicelist...)
 	}
 	if v.SsList != nil {
+		if len(v.SsList) < 1 || len(v.SsList) > 30 {
+			return nil, fmt.Errorf("ss-List length %d violates SIZE (1..30)", len(v.SsList))
+		}
 		enc_sslist, err := MarshalDERSSList(v.SsList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ss-List: %w", err)
@@ -41025,7 +43629,10 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sslist...)
 	}
 	if v.OdbGeneralData != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.OdbGeneralData).BitLength < 15 || (*v.OdbGeneralData).BitLength > 32 {
+			return nil, fmt.Errorf("odb-GeneralData length %d violates SIZE (15..32)", (*v.OdbGeneralData).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OdbGeneralData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -41050,7 +43657,10 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_regionalsubscriptionresponse...)
 	}
 	if v.SupportedCamelPhases != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedCamelPhases).BitLength < 1 || (*v.SupportedCamelPhases).BitLength > 16 {
+			return nil, fmt.Errorf("supportedCamelPhases length %d violates SIZE (1..16)", (*v.SupportedCamelPhases).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -41078,7 +43688,10 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.OfferedCamel4CSIs != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.OfferedCamel4CSIs).BitLength < 7 || (*v.OfferedCamel4CSIs).BitLength > 16 {
+			return nil, fmt.Errorf("offeredCamel4CSIs length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIs).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -41094,7 +43707,10 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_offeredcamel4csis...)
 	}
 	if v.SupportedFeatures != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedFeatures).BitLength < 26 || (*v.SupportedFeatures).BitLength > 40 {
+			return nil, fmt.Errorf("supportedFeatures length %d violates SIZE (26..40)", (*v.SupportedFeatures).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -41110,7 +43726,10 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_supportedfeatures...)
 	}
 	if v.ExtSupportedFeatures != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.ExtSupportedFeatures).BitLength < 1 || (*v.ExtSupportedFeatures).BitLength > 40 {
+			return nil, fmt.Errorf("ext-SupportedFeatures length %d violates SIZE (1..40)", (*v.ExtSupportedFeatures).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ExtSupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -41194,6 +43813,9 @@ func (v *InsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_teleservicelist
+				if len(v.TeleserviceList) < 1 || len(v.TeleserviceList) > 20 {
+					return fmt.Errorf("teleserviceList length %d violates SIZE (1..20)", len(v.TeleserviceList))
+				}
 			}
 		}
 	}
@@ -41237,6 +43859,9 @@ func (v *InsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_bearerservicelist
+				if len(v.BearerServiceList) < 1 || len(v.BearerServiceList) > 50 {
+					return fmt.Errorf("bearerServiceList length %d violates SIZE (1..50)", len(v.BearerServiceList))
+				}
 			}
 		}
 	}
@@ -41279,6 +43904,9 @@ func (v *InsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_sslist
+				if len(v.SsList) < 1 || len(v.SsList) > 30 {
+					return fmt.Errorf("ss-List length %d violates SIZE (1..30)", len(v.SsList))
+				}
 			}
 		}
 	}
@@ -41310,6 +43938,9 @@ func (v *InsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_odbgeneraldata
+				if (*v.OdbGeneralData).BitLength < 15 || (*v.OdbGeneralData).BitLength > 32 {
+					return fmt.Errorf("odb-GeneralData length %d violates SIZE (15..32)", (*v.OdbGeneralData).BitLength)
+				}
 			}
 		}
 	}
@@ -41370,6 +44001,9 @@ func (v *InsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_supportedcamelphases
+				if (*v.SupportedCamelPhases).BitLength < 1 || (*v.SupportedCamelPhases).BitLength > 16 {
+					return fmt.Errorf("supportedCamelPhases length %d violates SIZE (1..16)", (*v.SupportedCamelPhases).BitLength)
+				}
 			}
 		}
 	}
@@ -41433,6 +44067,9 @@ func (v *InsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_offeredcamel4csis
+				if (*v.OfferedCamel4CSIs).BitLength < 7 || (*v.OfferedCamel4CSIs).BitLength > 16 {
+					return fmt.Errorf("offeredCamel4CSIs length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIs).BitLength)
+				}
 			}
 		}
 	}
@@ -41465,6 +44102,9 @@ func (v *InsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_supportedfeatures
+				if (*v.SupportedFeatures).BitLength < 26 || (*v.SupportedFeatures).BitLength > 40 {
+					return fmt.Errorf("supportedFeatures length %d violates SIZE (26..40)", (*v.SupportedFeatures).BitLength)
+				}
 			}
 		}
 	}
@@ -41497,6 +44137,9 @@ func (v *InsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_extsupportedfeatures
+				if (*v.ExtSupportedFeatures).BitLength < 1 || (*v.ExtSupportedFeatures).BitLength > 40 {
+					return fmt.Errorf("ext-SupportedFeatures length %d violates SIZE (1..40)", (*v.ExtSupportedFeatures).BitLength)
+				}
 			}
 		}
 	}
@@ -41529,6 +44172,9 @@ func (v *InsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 // MarshalBER encodes DeleteSubscriberDataArg to BER format.
 func (v *DeleteSubscriberDataArg) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -41540,6 +44186,9 @@ func (v *DeleteSubscriberDataArg) MarshalBER() ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if v.BasicServiceList != nil {
+		if len(v.BasicServiceList) < 1 || len(v.BasicServiceList) > 70 {
+			return nil, fmt.Errorf("basicServiceList length %d violates SIZE (1..70)", len(v.BasicServiceList))
+		}
 		enc_basicservicelist, err := MarshalBERBasicServiceList(v.BasicServiceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceList: %w", err)
@@ -41567,6 +44216,9 @@ func (v *DeleteSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_basicservicelist...)
 	}
 	if v.SsList != nil {
+		if len(v.SsList) < 1 || len(v.SsList) > 30 {
+			return nil, fmt.Errorf("ss-List length %d violates SIZE (1..30)", len(v.SsList))
+		}
 		enc_sslist, err := MarshalBERSSList(v.SsList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ss-List: %w", err)
@@ -41603,6 +44255,9 @@ func (v *DeleteSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_roamingrestrictionduetounsupportedfeature...)
 	}
 	if v.RegionalSubscriptionIdentifier != nil {
+		if len(*v.RegionalSubscriptionIdentifier) < 2 || len(*v.RegionalSubscriptionIdentifier) > 2 {
+			return nil, fmt.Errorf("regionalSubscriptionIdentifier length %d violates SIZE (2)", len(*v.RegionalSubscriptionIdentifier))
+		}
 		enc_regionalsubscriptionidentifier, encodeErr_enc_regionalsubscriptionidentifier := ber.EncodeOctetString([]byte(*v.RegionalSubscriptionIdentifier))
 		if encodeErr_enc_regionalsubscriptionidentifier != nil {
 			return nil, fmt.Errorf("encoding regionalSubscriptionIdentifier: %w", encodeErr_enc_regionalsubscriptionidentifier)
@@ -41709,7 +44364,10 @@ func (v *DeleteSubscriberDataArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_istinformationwithdraw...)
 	}
 	if v.SpecificCSIWithdraw != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SpecificCSIWithdraw).BitLength < 8 || (*v.SpecificCSIWithdraw).BitLength > 32 {
+			return nil, fmt.Errorf("specificCSI-Withdraw length %d violates SIZE (8..32)", (*v.SpecificCSIWithdraw).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SpecificCSIWithdraw.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -41898,6 +44556,9 @@ func (v *DeleteSubscriberDataArg) MarshalBER() ([]byte, error) {
 // MarshalDER encodes DeleteSubscriberDataArg to DER format.
 func (v *DeleteSubscriberDataArg) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -41909,6 +44570,9 @@ func (v *DeleteSubscriberDataArg) MarshalDER() ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if v.BasicServiceList != nil {
+		if len(v.BasicServiceList) < 1 || len(v.BasicServiceList) > 70 {
+			return nil, fmt.Errorf("basicServiceList length %d violates SIZE (1..70)", len(v.BasicServiceList))
+		}
 		enc_basicservicelist, err := MarshalDERBasicServiceList(v.BasicServiceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceList: %w", err)
@@ -41921,6 +44585,9 @@ func (v *DeleteSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_basicservicelist...)
 	}
 	if v.SsList != nil {
+		if len(v.SsList) < 1 || len(v.SsList) > 30 {
+			return nil, fmt.Errorf("ss-List length %d violates SIZE (1..30)", len(v.SsList))
+		}
 		enc_sslist, err := MarshalDERSSList(v.SsList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ss-List: %w", err)
@@ -41942,6 +44609,9 @@ func (v *DeleteSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_roamingrestrictionduetounsupportedfeature...)
 	}
 	if v.RegionalSubscriptionIdentifier != nil {
+		if len(*v.RegionalSubscriptionIdentifier) < 2 || len(*v.RegionalSubscriptionIdentifier) > 2 {
+			return nil, fmt.Errorf("regionalSubscriptionIdentifier length %d violates SIZE (2)", len(*v.RegionalSubscriptionIdentifier))
+		}
 		enc_regionalsubscriptionidentifier, encodeErr_enc_regionalsubscriptionidentifier := ber.EncodeOctetString([]byte(*v.RegionalSubscriptionIdentifier))
 		if encodeErr_enc_regionalsubscriptionidentifier != nil {
 			return nil, fmt.Errorf("encoding regionalSubscriptionIdentifier: %w", encodeErr_enc_regionalsubscriptionidentifier)
@@ -42048,7 +44718,10 @@ func (v *DeleteSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_istinformationwithdraw...)
 	}
 	if v.SpecificCSIWithdraw != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SpecificCSIWithdraw).BitLength < 8 || (*v.SpecificCSIWithdraw).BitLength > 32 {
+			return nil, fmt.Errorf("specificCSI-Withdraw length %d violates SIZE (8..32)", (*v.SpecificCSIWithdraw).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SpecificCSIWithdraw.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -42274,6 +44947,9 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}
 
 	offset += n_imsi
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	// Decode basicServiceList
 	v.BasicServiceListIndef_ = false
 	if offset < len(content) {
@@ -42313,6 +44989,9 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_basicservicelist
+				if len(v.BasicServiceList) < 1 || len(v.BasicServiceList) > 70 {
+					return fmt.Errorf("basicServiceList length %d violates SIZE (1..70)", len(v.BasicServiceList))
+				}
 			}
 		}
 	}
@@ -42355,6 +45034,9 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_sslist
+				if len(v.SsList) < 1 || len(v.SsList) > 30 {
+					return fmt.Errorf("ss-List length %d violates SIZE (1..30)", len(v.SsList))
+				}
 			}
 		}
 	}
@@ -42405,6 +45087,9 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_regionalsubscriptionidentifier
+				if len(*v.RegionalSubscriptionIdentifier) < 2 || len(*v.RegionalSubscriptionIdentifier) > 2 {
+					return fmt.Errorf("regionalSubscriptionIdentifier length %d violates SIZE (2)", len(*v.RegionalSubscriptionIdentifier))
+				}
 			}
 		}
 	}
@@ -42679,6 +45364,9 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_specificcsiwithdraw
+				if (*v.SpecificCSIWithdraw).BitLength < 8 || (*v.SpecificCSIWithdraw).BitLength > 32 {
+					return fmt.Errorf("specificCSI-Withdraw length %d violates SIZE (8..32)", (*v.SpecificCSIWithdraw).BitLength)
+				}
 			}
 		}
 	}
@@ -43161,6 +45849,9 @@ func (v *GPRSSubscriptionDataWithdraw) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding contextIdList: %w", err)
 		}
+		if len(v.ContextIdList) < 1 || len(v.ContextIdList) > 50 {
+			return nil, fmt.Errorf("contextIdList length %d violates SIZE (1..50)", len(v.ContextIdList))
+		}
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for GPRSSubscriptionDataWithdraw", v.Choice)
@@ -43174,6 +45865,9 @@ func (v *GPRSSubscriptionDataWithdraw) MarshalDER() ([]byte, error) {
 		enc_der_1, err := MarshalDERContextIdList(v.ContextIdList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding contextIdList: %w", err)
+		}
+		if len(v.ContextIdList) < 1 || len(v.ContextIdList) > 50 {
+			return nil, fmt.Errorf("contextIdList length %d violates SIZE (1..50)", len(v.ContextIdList))
 		}
 		if derErr := ber.ValidateDEREncodedElement(enc_der_1); derErr != nil {
 			return nil, fmt.Errorf("encoding contextIdList as DER: %w", derErr)
@@ -43226,6 +45920,9 @@ func (v *GPRSSubscriptionDataWithdraw) UnmarshalBER(data []byte, opts ...ber.Dec
 			return fmt.Errorf("decoding contextIdList: %w", unmErr)
 		}
 		v.ContextIdList = dec
+		if len(v.ContextIdList) < 1 || len(v.ContextIdList) > 50 {
+			return fmt.Errorf("contextIdList length %d violates SIZE (1..50)", len(v.ContextIdList))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for GPRSSubscriptionDataWithdraw CHOICE", peekTag)
 	}
@@ -43243,6 +45940,9 @@ func (v *EPSSubscriptionDataWithdraw) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding contextIdList: %w", err)
 		}
+		if len(v.ContextIdList) < 1 || len(v.ContextIdList) > 50 {
+			return nil, fmt.Errorf("contextIdList length %d violates SIZE (1..50)", len(v.ContextIdList))
+		}
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for EPSSubscriptionDataWithdraw", v.Choice)
@@ -43256,6 +45956,9 @@ func (v *EPSSubscriptionDataWithdraw) MarshalDER() ([]byte, error) {
 		enc_der_1, err := MarshalDERContextIdList(v.ContextIdList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding contextIdList: %w", err)
+		}
+		if len(v.ContextIdList) < 1 || len(v.ContextIdList) > 50 {
+			return nil, fmt.Errorf("contextIdList length %d violates SIZE (1..50)", len(v.ContextIdList))
 		}
 		if derErr := ber.ValidateDEREncodedElement(enc_der_1); derErr != nil {
 			return nil, fmt.Errorf("encoding contextIdList as DER: %w", derErr)
@@ -43308,6 +46011,9 @@ func (v *EPSSubscriptionDataWithdraw) UnmarshalBER(data []byte, opts ...ber.Deco
 			return fmt.Errorf("decoding contextIdList: %w", unmErr)
 		}
 		v.ContextIdList = dec
+		if len(v.ContextIdList) < 1 || len(v.ContextIdList) > 50 {
+			return fmt.Errorf("contextIdList length %d violates SIZE (1..50)", len(v.ContextIdList))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for EPSSubscriptionDataWithdraw CHOICE", peekTag)
 	}
@@ -43392,6 +46098,9 @@ func (v *LSAInformationWithdraw) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding lsaIdentityList: %w", err)
 		}
+		if len(v.LsaIdentityList) < 1 || len(v.LsaIdentityList) > 20 {
+			return nil, fmt.Errorf("lsaIdentityList length %d violates SIZE (1..20)", len(v.LsaIdentityList))
+		}
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for LSAInformationWithdraw", v.Choice)
@@ -43405,6 +46114,9 @@ func (v *LSAInformationWithdraw) MarshalDER() ([]byte, error) {
 		enc_der_1, err := MarshalDERLSAIdentityList(v.LsaIdentityList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding lsaIdentityList: %w", err)
+		}
+		if len(v.LsaIdentityList) < 1 || len(v.LsaIdentityList) > 20 {
+			return nil, fmt.Errorf("lsaIdentityList length %d violates SIZE (1..20)", len(v.LsaIdentityList))
 		}
 		if derErr := ber.ValidateDEREncodedElement(enc_der_1); derErr != nil {
 			return nil, fmt.Errorf("encoding lsaIdentityList as DER: %w", derErr)
@@ -43457,6 +46169,9 @@ func (v *LSAInformationWithdraw) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 			return fmt.Errorf("decoding lsaIdentityList: %w", unmErr)
 		}
 		v.LsaIdentityList = dec
+		if len(v.LsaIdentityList) < 1 || len(v.LsaIdentityList) > 20 {
+			return fmt.Errorf("lsaIdentityList length %d violates SIZE (1..20)", len(v.LsaIdentityList))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for LSAInformationWithdraw CHOICE", peekTag)
 	}
@@ -43828,6 +46543,9 @@ func (v *VlrCamelSubscriptionInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_sscsi...)
 	}
 	if v.OBcsmCamelTDPCriteriaList != nil {
+		if len(v.OBcsmCamelTDPCriteriaList) < 1 || len(v.OBcsmCamelTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("o-BcsmCamelTDP-CriteriaList length %d violates SIZE (1..10)", len(v.OBcsmCamelTDPCriteriaList))
+		}
 		enc_obcsmcameltdpcriterialist, err := MarshalBEROBcsmCamelTDPCriteriaList(v.OBcsmCamelTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding o-BcsmCamelTDP-CriteriaList: %w", err)
@@ -43900,6 +46618,9 @@ func (v *VlrCamelSubscriptionInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_vtcsi...)
 	}
 	if v.TBCSMCAMELTDPCriteriaList != nil {
+		if len(v.TBCSMCAMELTDPCriteriaList) < 1 || len(v.TBCSMCAMELTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("t-BCSM-CAMEL-TDP-CriteriaList length %d violates SIZE (1..10)", len(v.TBCSMCAMELTDPCriteriaList))
+		}
 		enc_tbcsmcameltdpcriterialist, err := MarshalBERTBCSMCAMELTDPCriteriaList(v.TBCSMCAMELTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding t-BCSM-CAMEL-TDP-CriteriaList: %w", err)
@@ -43951,6 +46672,9 @@ func (v *VlrCamelSubscriptionInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mtsmscsi...)
 	}
 	if v.MtSmsCAMELTDPCriteriaList != nil {
+		if len(v.MtSmsCAMELTDPCriteriaList) < 1 || len(v.MtSmsCAMELTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("mt-smsCAMELTDP-CriteriaList length %d violates SIZE (1..10)", len(v.MtSmsCAMELTDPCriteriaList))
+		}
 		enc_mtsmscameltdpcriterialist, err := MarshalBERMTSmsCAMELTDPCriteriaList(v.MtSmsCAMELTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding mt-smsCAMELTDP-CriteriaList: %w", err)
@@ -44030,6 +46754,9 @@ func (v *VlrCamelSubscriptionInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sscsi...)
 	}
 	if v.OBcsmCamelTDPCriteriaList != nil {
+		if len(v.OBcsmCamelTDPCriteriaList) < 1 || len(v.OBcsmCamelTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("o-BcsmCamelTDP-CriteriaList length %d violates SIZE (1..10)", len(v.OBcsmCamelTDPCriteriaList))
+		}
 		enc_obcsmcameltdpcriterialist, err := MarshalDEROBcsmCamelTDPCriteriaList(v.OBcsmCamelTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding o-BcsmCamelTDP-CriteriaList: %w", err)
@@ -44087,6 +46814,9 @@ func (v *VlrCamelSubscriptionInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_vtcsi...)
 	}
 	if v.TBCSMCAMELTDPCriteriaList != nil {
+		if len(v.TBCSMCAMELTDPCriteriaList) < 1 || len(v.TBCSMCAMELTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("t-BCSM-CAMEL-TDP-CriteriaList length %d violates SIZE (1..10)", len(v.TBCSMCAMELTDPCriteriaList))
+		}
 		enc_tbcsmcameltdpcriterialist, err := MarshalDERTBCSMCAMELTDPCriteriaList(v.TBCSMCAMELTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding t-BCSM-CAMEL-TDP-CriteriaList: %w", err)
@@ -44123,6 +46853,9 @@ func (v *VlrCamelSubscriptionInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mtsmscsi...)
 	}
 	if v.MtSmsCAMELTDPCriteriaList != nil {
+		if len(v.MtSmsCAMELTDPCriteriaList) < 1 || len(v.MtSmsCAMELTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("mt-smsCAMELTDP-CriteriaList length %d violates SIZE (1..10)", len(v.MtSmsCAMELTDPCriteriaList))
+		}
 		enc_mtsmscameltdpcriterialist, err := MarshalDERMTSmsCAMELTDPCriteriaList(v.MtSmsCAMELTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding mt-smsCAMELTDP-CriteriaList: %w", err)
@@ -44295,6 +47028,9 @@ func (v *VlrCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 
 				offset += n_obcsmcameltdpcriterialist
+				if len(v.OBcsmCamelTDPCriteriaList) < 1 || len(v.OBcsmCamelTDPCriteriaList) > 10 {
+					return fmt.Errorf("o-BcsmCamelTDP-CriteriaList length %d violates SIZE (1..10)", len(v.OBcsmCamelTDPCriteriaList))
+				}
 			}
 		}
 	}
@@ -44453,6 +47189,9 @@ func (v *VlrCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 
 				offset += n_tbcsmcameltdpcriterialist
+				if len(v.TBCSMCAMELTDPCriteriaList) < 1 || len(v.TBCSMCAMELTDPCriteriaList) > 10 {
+					return fmt.Errorf("t-BCSM-CAMEL-TDP-CriteriaList length %d violates SIZE (1..10)", len(v.TBCSMCAMELTDPCriteriaList))
+				}
 			}
 		}
 	}
@@ -44556,6 +47295,9 @@ func (v *VlrCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 
 				offset += n_mtsmscameltdpcriterialist
+				if len(v.MtSmsCAMELTDPCriteriaList) < 1 || len(v.MtSmsCAMELTDPCriteriaList) > 10 {
+					return fmt.Errorf("mt-smsCAMELTDP-CriteriaList length %d violates SIZE (1..10)", len(v.MtSmsCAMELTDPCriteriaList))
+				}
 			}
 		}
 	}
@@ -44675,6 +47417,9 @@ func (v *MTSmsCAMELTDPCriteria) MarshalBER() ([]byte, error) {
 	enc_smstriggerdetectionpoint := ber.EncodeEnumerated(int64(v.SmsTriggerDetectionPoint))
 	children = append(children, enc_smstriggerdetectionpoint...)
 	if v.TpduTypeCriterion != nil {
+		if len(v.TpduTypeCriterion) < 1 || len(v.TpduTypeCriterion) > 5 {
+			return nil, fmt.Errorf("tpdu-TypeCriterion length %d violates SIZE (1..5)", len(v.TpduTypeCriterion))
+		}
 		enc_tpdutypecriterion, err := MarshalBERTPDUTypeCriterion(v.TpduTypeCriterion)
 		if err != nil {
 			return nil, fmt.Errorf("encoding tpdu-TypeCriterion: %w", err)
@@ -44720,6 +47465,9 @@ func (v *MTSmsCAMELTDPCriteria) MarshalDER() ([]byte, error) {
 	enc_smstriggerdetectionpoint := ber.EncodeEnumerated(int64(v.SmsTriggerDetectionPoint))
 	children = append(children, enc_smstriggerdetectionpoint...)
 	if v.TpduTypeCriterion != nil {
+		if len(v.TpduTypeCriterion) < 1 || len(v.TpduTypeCriterion) > 5 {
+			return nil, fmt.Errorf("tpdu-TypeCriterion length %d violates SIZE (1..5)", len(v.TpduTypeCriterion))
+		}
 		enc_tpdutypecriterion, err := MarshalDERTPDUTypeCriterion(v.TpduTypeCriterion)
 		if err != nil {
 			return nil, fmt.Errorf("encoding tpdu-TypeCriterion: %w", err)
@@ -44816,6 +47564,9 @@ func (v *MTSmsCAMELTDPCriteria) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_tpdutypecriterion
+				if len(v.TpduTypeCriterion) < 1 || len(v.TpduTypeCriterion) > 5 {
+					return fmt.Errorf("tpdu-TypeCriterion length %d violates SIZE (1..5)", len(v.TpduTypeCriterion))
+				}
 			}
 		}
 	}
@@ -44916,6 +47667,9 @@ func UnmarshalBERTPDUTypeCriterion(data []byte, opts ...ber.DecodeOption) (TPDUT
 func (v *DCSI) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.DpAnalysedInfoCriteriaList != nil {
+		if len(v.DpAnalysedInfoCriteriaList) < 1 || len(v.DpAnalysedInfoCriteriaList) > 10 {
+			return nil, fmt.Errorf("dp-AnalysedInfoCriteriaList length %d violates SIZE (1..10)", len(v.DpAnalysedInfoCriteriaList))
+		}
 		enc_dpanalysedinfocriterialist, err := MarshalBERDPAnalysedInfoCriteriaList(v.DpAnalysedInfoCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding dp-AnalysedInfoCriteriaList: %w", err)
@@ -44998,6 +47752,9 @@ func (v *DCSI) MarshalBER() ([]byte, error) {
 func (v *DCSI) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.DpAnalysedInfoCriteriaList != nil {
+		if len(v.DpAnalysedInfoCriteriaList) < 1 || len(v.DpAnalysedInfoCriteriaList) > 10 {
+			return nil, fmt.Errorf("dp-AnalysedInfoCriteriaList length %d violates SIZE (1..10)", len(v.DpAnalysedInfoCriteriaList))
+		}
 		enc_dpanalysedinfocriterialist, err := MarshalDERDPAnalysedInfoCriteriaList(v.DpAnalysedInfoCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding dp-AnalysedInfoCriteriaList: %w", err)
@@ -45118,6 +47875,9 @@ func (v *DCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_dpanalysedinfocriterialist
+				if len(v.DpAnalysedInfoCriteriaList) < 1 || len(v.DpAnalysedInfoCriteriaList) > 10 {
+					return fmt.Errorf("dp-AnalysedInfoCriteriaList length %d violates SIZE (1..10)", len(v.DpAnalysedInfoCriteriaList))
+				}
 			}
 		}
 	}
@@ -45345,6 +48105,12 @@ func UnmarshalBERDPAnalysedInfoCriteriaList(data []byte, opts ...ber.DecodeOptio
 // MarshalBER encodes DPAnalysedInfoCriterium to BER format.
 func (v *DPAnalysedInfoCriterium) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.DialledNumber) < 1 || len(v.DialledNumber) > 9 {
+		return nil, fmt.Errorf("dialledNumber length %d violates SIZE (1..9)", len(v.DialledNumber))
+	}
+	if len(v.DialledNumber) < 1 || len(v.DialledNumber) > 20 {
+		return nil, fmt.Errorf("dialledNumber length %d violates SIZE (1..20)", len(v.DialledNumber))
+	}
 	enc_diallednumber, encodeErr_enc_diallednumber := ber.EncodeOctetString([]byte(v.DialledNumber))
 	if encodeErr_enc_diallednumber != nil {
 		return nil, fmt.Errorf("encoding dialledNumber: %w", encodeErr_enc_diallednumber)
@@ -45352,6 +48118,12 @@ func (v *DPAnalysedInfoCriterium) MarshalBER() ([]byte, error) {
 	children = append(children, enc_diallednumber...)
 	enc_servicekey := ber.EncodeInteger(int64(v.ServiceKey))
 	children = append(children, enc_servicekey...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -45382,6 +48154,12 @@ func (v *DPAnalysedInfoCriterium) MarshalBER() ([]byte, error) {
 // MarshalDER encodes DPAnalysedInfoCriterium to DER format.
 func (v *DPAnalysedInfoCriterium) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.DialledNumber) < 1 || len(v.DialledNumber) > 9 {
+		return nil, fmt.Errorf("dialledNumber length %d violates SIZE (1..9)", len(v.DialledNumber))
+	}
+	if len(v.DialledNumber) < 1 || len(v.DialledNumber) > 20 {
+		return nil, fmt.Errorf("dialledNumber length %d violates SIZE (1..20)", len(v.DialledNumber))
+	}
 	enc_diallednumber, encodeErr_enc_diallednumber := ber.EncodeOctetString([]byte(v.DialledNumber))
 	if encodeErr_enc_diallednumber != nil {
 		return nil, fmt.Errorf("encoding dialledNumber: %w", encodeErr_enc_diallednumber)
@@ -45389,6 +48167,12 @@ func (v *DPAnalysedInfoCriterium) MarshalDER() ([]byte, error) {
 	children = append(children, enc_diallednumber...)
 	enc_servicekey := ber.EncodeInteger(int64(v.ServiceKey))
 	children = append(children, enc_servicekey...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -45448,6 +48232,12 @@ func (v *DPAnalysedInfoCriterium) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}
 
 	offset += n
+	if len(v.DialledNumber) < 1 || len(v.DialledNumber) > 9 {
+		return fmt.Errorf("dialledNumber length %d violates SIZE (1..9)", len(v.DialledNumber))
+	}
+	if len(v.DialledNumber) < 1 || len(v.DialledNumber) > 20 {
+		return fmt.Errorf("dialledNumber length %d violates SIZE (1..20)", len(v.DialledNumber))
+	}
 	// Decode serviceKey
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field serviceKey")
@@ -45478,6 +48268,12 @@ func (v *DPAnalysedInfoCriterium) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}
 
 	offset += n
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	// Decode defaultCallHandling
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field defaultCallHandling")
@@ -45796,11 +48592,20 @@ func (v *SSCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes SSCamelData to BER format.
 func (v *SSCamelData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.SsEventList) < 1 || len(v.SsEventList) > 10 {
+		return nil, fmt.Errorf("ss-EventList length %d violates SIZE (1..10)", len(v.SsEventList))
+	}
 	enc_sseventlist, err := MarshalBERSSEventList(v.SsEventList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding ss-EventList: %w", err)
 	}
 	children = append(children, enc_sseventlist...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -45834,11 +48639,20 @@ func (v *SSCamelData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes SSCamelData to DER format.
 func (v *SSCamelData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.SsEventList) < 1 || len(v.SsEventList) > 10 {
+		return nil, fmt.Errorf("ss-EventList length %d violates SIZE (1..10)", len(v.SsEventList))
+	}
 	enc_sseventlist, err := MarshalDERSSEventList(v.SsEventList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding ss-EventList: %w", err)
 	}
 	children = append(children, enc_sseventlist...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -45921,6 +48735,9 @@ func (v *SSCamelData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 	}
 
 	offset += n_sseventlist
+	if len(v.SsEventList) < 1 || len(v.SsEventList) > 10 {
+		return fmt.Errorf("ss-EventList length %d violates SIZE (1..10)", len(v.SsEventList))
+	}
 	// Decode gsmSCF-Address
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field gsmSCF-Address")
@@ -45936,6 +48753,12 @@ func (v *SSCamelData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 	}
 
 	offset += n
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -46071,6 +48894,9 @@ func UnmarshalBERSSEventList(data []byte, opts ...ber.DecodeOption) (SSEventList
 // MarshalBER encodes OCSI to BER format.
 func (v *OCSI) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.OBcsmCamelTDPDataList) < 1 || len(v.OBcsmCamelTDPDataList) > 10 {
+		return nil, fmt.Errorf("o-BcsmCamelTDPDataList length %d violates SIZE (1..10)", len(v.OBcsmCamelTDPDataList))
+	}
 	enc_obcsmcameltdpdatalist, err := MarshalBEROBcsmCamelTDPDataList(v.OBcsmCamelTDPDataList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding o-BcsmCamelTDPDataList: %w", err)
@@ -46126,6 +48952,9 @@ func (v *OCSI) MarshalBER() ([]byte, error) {
 // MarshalDER encodes OCSI to DER format.
 func (v *OCSI) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.OBcsmCamelTDPDataList) < 1 || len(v.OBcsmCamelTDPDataList) > 10 {
+		return nil, fmt.Errorf("o-BcsmCamelTDPDataList length %d violates SIZE (1..10)", len(v.OBcsmCamelTDPDataList))
+	}
 	enc_obcsmcameltdpdatalist, err := MarshalDEROBcsmCamelTDPDataList(v.OBcsmCamelTDPDataList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding o-BcsmCamelTDPDataList: %w", err)
@@ -46230,6 +49059,9 @@ func (v *OCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_obcsmcameltdpdatalist
+	if len(v.OBcsmCamelTDPDataList) < 1 || len(v.OBcsmCamelTDPDataList) > 10 {
+		return fmt.Errorf("o-BcsmCamelTDPDataList length %d violates SIZE (1..10)", len(v.OBcsmCamelTDPDataList))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -46458,6 +49290,12 @@ func (v *OBcsmCamelTDPData) MarshalBER() ([]byte, error) {
 	children = append(children, enc_obcsmtriggerdetectionpoint...)
 	enc_servicekey := ber.EncodeInteger(int64(v.ServiceKey))
 	children = append(children, enc_servicekey...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -46507,6 +49345,12 @@ func (v *OBcsmCamelTDPData) MarshalDER() ([]byte, error) {
 	children = append(children, enc_obcsmtriggerdetectionpoint...)
 	enc_servicekey := ber.EncodeInteger(int64(v.ServiceKey))
 	children = append(children, enc_servicekey...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -46619,6 +49463,12 @@ func (v *OBcsmCamelTDPData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	}
 
 	offset += n_gsmscfaddress
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	// Decode defaultCallHandling
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field defaultCallHandling")
@@ -46890,6 +49740,9 @@ func (v *OBcsmCamelTDPCriteria) MarshalBER() ([]byte, error) {
 		children = append(children, enc_destinationnumbercriteria...)
 	}
 	if v.BasicServiceCriteria != nil {
+		if len(v.BasicServiceCriteria) < 1 || len(v.BasicServiceCriteria) > 5 {
+			return nil, fmt.Errorf("basicServiceCriteria length %d violates SIZE (1..5)", len(v.BasicServiceCriteria))
+		}
 		enc_basicservicecriteria, err := MarshalBERBasicServiceCriteria(v.BasicServiceCriteria)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceCriteria: %w", err)
@@ -46926,6 +49779,9 @@ func (v *OBcsmCamelTDPCriteria) MarshalBER() ([]byte, error) {
 		children = append(children, enc_calltypecriteria...)
 	}
 	if v.OCauseValueCriteria != nil {
+		if len(v.OCauseValueCriteria) < 1 || len(v.OCauseValueCriteria) > 5 {
+			return nil, fmt.Errorf("o-CauseValueCriteria length %d violates SIZE (1..5)", len(v.OCauseValueCriteria))
+		}
 		enc_ocausevaluecriteria, err := MarshalBEROCauseValueCriteria(v.OCauseValueCriteria)
 		if err != nil {
 			return nil, fmt.Errorf("encoding o-CauseValueCriteria: %w", err)
@@ -46995,6 +49851,9 @@ func (v *OBcsmCamelTDPCriteria) MarshalDER() ([]byte, error) {
 		children = append(children, enc_destinationnumbercriteria...)
 	}
 	if v.BasicServiceCriteria != nil {
+		if len(v.BasicServiceCriteria) < 1 || len(v.BasicServiceCriteria) > 5 {
+			return nil, fmt.Errorf("basicServiceCriteria length %d violates SIZE (1..5)", len(v.BasicServiceCriteria))
+		}
 		enc_basicservicecriteria, err := MarshalDERBasicServiceCriteria(v.BasicServiceCriteria)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceCriteria: %w", err)
@@ -47016,6 +49875,9 @@ func (v *OBcsmCamelTDPCriteria) MarshalDER() ([]byte, error) {
 		children = append(children, enc_calltypecriteria...)
 	}
 	if v.OCauseValueCriteria != nil {
+		if len(v.OCauseValueCriteria) < 1 || len(v.OCauseValueCriteria) > 5 {
+			return nil, fmt.Errorf("o-CauseValueCriteria length %d violates SIZE (1..5)", len(v.OCauseValueCriteria))
+		}
 		enc_ocausevaluecriteria, err := MarshalDEROCauseValueCriteria(v.OCauseValueCriteria)
 		if err != nil {
 			return nil, fmt.Errorf("encoding o-CauseValueCriteria: %w", err)
@@ -47155,6 +50017,9 @@ func (v *OBcsmCamelTDPCriteria) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_basicservicecriteria
+				if len(v.BasicServiceCriteria) < 1 || len(v.BasicServiceCriteria) > 5 {
+					return fmt.Errorf("basicServiceCriteria length %d violates SIZE (1..5)", len(v.BasicServiceCriteria))
+				}
 			}
 		}
 	}
@@ -47226,6 +50091,9 @@ func (v *OBcsmCamelTDPCriteria) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_ocausevaluecriteria
+				if len(v.OCauseValueCriteria) < 1 || len(v.OCauseValueCriteria) > 5 {
+					return fmt.Errorf("o-CauseValueCriteria length %d violates SIZE (1..5)", len(v.OCauseValueCriteria))
+				}
 			}
 		}
 	}
@@ -47292,6 +50160,9 @@ func (v *TBCSMCAMELTDPCriteria) MarshalBER() ([]byte, error) {
 	enc_tbcsmtriggerdetectionpoint := ber.EncodeEnumerated(int64(v.TBCSMTriggerDetectionPoint))
 	children = append(children, enc_tbcsmtriggerdetectionpoint...)
 	if v.BasicServiceCriteria != nil {
+		if len(v.BasicServiceCriteria) < 1 || len(v.BasicServiceCriteria) > 5 {
+			return nil, fmt.Errorf("basicServiceCriteria length %d violates SIZE (1..5)", len(v.BasicServiceCriteria))
+		}
 		enc_basicservicecriteria, err := MarshalBERBasicServiceCriteria(v.BasicServiceCriteria)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceCriteria: %w", err)
@@ -47319,6 +50190,9 @@ func (v *TBCSMCAMELTDPCriteria) MarshalBER() ([]byte, error) {
 		children = append(children, enc_basicservicecriteria...)
 	}
 	if v.TCauseValueCriteria != nil {
+		if len(v.TCauseValueCriteria) < 1 || len(v.TCauseValueCriteria) > 5 {
+			return nil, fmt.Errorf("t-CauseValueCriteria length %d violates SIZE (1..5)", len(v.TCauseValueCriteria))
+		}
 		enc_tcausevaluecriteria, err := MarshalBERTCauseValueCriteria(v.TCauseValueCriteria)
 		if err != nil {
 			return nil, fmt.Errorf("encoding t-CauseValueCriteria: %w", err)
@@ -47364,6 +50238,9 @@ func (v *TBCSMCAMELTDPCriteria) MarshalDER() ([]byte, error) {
 	enc_tbcsmtriggerdetectionpoint := ber.EncodeEnumerated(int64(v.TBCSMTriggerDetectionPoint))
 	children = append(children, enc_tbcsmtriggerdetectionpoint...)
 	if v.BasicServiceCriteria != nil {
+		if len(v.BasicServiceCriteria) < 1 || len(v.BasicServiceCriteria) > 5 {
+			return nil, fmt.Errorf("basicServiceCriteria length %d violates SIZE (1..5)", len(v.BasicServiceCriteria))
+		}
 		enc_basicservicecriteria, err := MarshalDERBasicServiceCriteria(v.BasicServiceCriteria)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceCriteria: %w", err)
@@ -47376,6 +50253,9 @@ func (v *TBCSMCAMELTDPCriteria) MarshalDER() ([]byte, error) {
 		children = append(children, enc_basicservicecriteria...)
 	}
 	if v.TCauseValueCriteria != nil {
+		if len(v.TCauseValueCriteria) < 1 || len(v.TCauseValueCriteria) > 5 {
+			return nil, fmt.Errorf("t-CauseValueCriteria length %d violates SIZE (1..5)", len(v.TCauseValueCriteria))
+		}
 		enc_tcausevaluecriteria, err := MarshalDERTCauseValueCriteria(v.TCauseValueCriteria)
 		if err != nil {
 			return nil, fmt.Errorf("encoding t-CauseValueCriteria: %w", err)
@@ -47472,6 +50352,9 @@ func (v *TBCSMCAMELTDPCriteria) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_basicservicecriteria
+				if len(v.BasicServiceCriteria) < 1 || len(v.BasicServiceCriteria) > 5 {
+					return fmt.Errorf("basicServiceCriteria length %d violates SIZE (1..5)", len(v.BasicServiceCriteria))
+				}
 			}
 		}
 	}
@@ -47515,6 +50398,9 @@ func (v *TBCSMCAMELTDPCriteria) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_tcausevaluecriteria
+				if len(v.TCauseValueCriteria) < 1 || len(v.TCauseValueCriteria) > 5 {
+					return fmt.Errorf("t-CauseValueCriteria length %d violates SIZE (1..5)", len(v.TCauseValueCriteria))
+				}
 			}
 		}
 	}
@@ -47555,6 +50441,9 @@ func (v *DestinationNumberCriteria) MarshalBER() ([]byte, error) {
 	enc_matchtype = retagged_enc_matchtype
 	children = append(children, enc_matchtype...)
 	if v.DestinationNumberList != nil {
+		if len(v.DestinationNumberList) < 1 || len(v.DestinationNumberList) > 10 {
+			return nil, fmt.Errorf("destinationNumberList length %d violates SIZE (1..10)", len(v.DestinationNumberList))
+		}
 		enc_destinationnumberlist, err := MarshalBERDestinationNumberList(v.DestinationNumberList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding destinationNumberList: %w", err)
@@ -47582,6 +50471,9 @@ func (v *DestinationNumberCriteria) MarshalBER() ([]byte, error) {
 		children = append(children, enc_destinationnumberlist...)
 	}
 	if v.DestinationNumberLengthList != nil {
+		if len(v.DestinationNumberLengthList) < 1 || len(v.DestinationNumberLengthList) > 3 {
+			return nil, fmt.Errorf("destinationNumberLengthList length %d violates SIZE (1..3)", len(v.DestinationNumberLengthList))
+		}
 		enc_destinationnumberlengthlist, err := MarshalBERDestinationNumberLengthList(v.DestinationNumberLengthList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding destinationNumberLengthList: %w", err)
@@ -47632,6 +50524,9 @@ func (v *DestinationNumberCriteria) MarshalDER() ([]byte, error) {
 	enc_matchtype = retagged_enc_matchtype
 	children = append(children, enc_matchtype...)
 	if v.DestinationNumberList != nil {
+		if len(v.DestinationNumberList) < 1 || len(v.DestinationNumberList) > 10 {
+			return nil, fmt.Errorf("destinationNumberList length %d violates SIZE (1..10)", len(v.DestinationNumberList))
+		}
 		enc_destinationnumberlist, err := MarshalDERDestinationNumberList(v.DestinationNumberList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding destinationNumberList: %w", err)
@@ -47644,6 +50539,9 @@ func (v *DestinationNumberCriteria) MarshalDER() ([]byte, error) {
 		children = append(children, enc_destinationnumberlist...)
 	}
 	if v.DestinationNumberLengthList != nil {
+		if len(v.DestinationNumberLengthList) < 1 || len(v.DestinationNumberLengthList) > 3 {
+			return nil, fmt.Errorf("destinationNumberLengthList length %d violates SIZE (1..3)", len(v.DestinationNumberLengthList))
+		}
 		enc_destinationnumberlengthlist, err := MarshalDERDestinationNumberLengthList(v.DestinationNumberLengthList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding destinationNumberLengthList: %w", err)
@@ -47752,6 +50650,9 @@ func (v *DestinationNumberCriteria) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_destinationnumberlist
+				if len(v.DestinationNumberList) < 1 || len(v.DestinationNumberList) > 10 {
+					return fmt.Errorf("destinationNumberList length %d violates SIZE (1..10)", len(v.DestinationNumberList))
+				}
 			}
 		}
 	}
@@ -47795,6 +50696,9 @@ func (v *DestinationNumberCriteria) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_destinationnumberlengthlist
+				if len(v.DestinationNumberLengthList) < 1 || len(v.DestinationNumberLengthList) > 3 {
+					return fmt.Errorf("destinationNumberLengthList length %d violates SIZE (1..3)", len(v.DestinationNumberLengthList))
+				}
 			}
 		}
 	}
@@ -48204,6 +51108,9 @@ func UnmarshalBERTCauseValueCriteria(data []byte, opts ...ber.DecodeOption) (TCa
 func (v *SMSCSI) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.SmsCAMELTDPDataList != nil {
+		if len(v.SmsCAMELTDPDataList) < 1 || len(v.SmsCAMELTDPDataList) > 10 {
+			return nil, fmt.Errorf("sms-CAMEL-TDP-DataList length %d violates SIZE (1..10)", len(v.SmsCAMELTDPDataList))
+		}
 		enc_smscameltdpdatalist, err := MarshalBERSMSCAMELTDPDataList(v.SmsCAMELTDPDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding sms-CAMEL-TDP-DataList: %w", err)
@@ -48286,6 +51193,9 @@ func (v *SMSCSI) MarshalBER() ([]byte, error) {
 func (v *SMSCSI) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.SmsCAMELTDPDataList != nil {
+		if len(v.SmsCAMELTDPDataList) < 1 || len(v.SmsCAMELTDPDataList) > 10 {
+			return nil, fmt.Errorf("sms-CAMEL-TDP-DataList length %d violates SIZE (1..10)", len(v.SmsCAMELTDPDataList))
+		}
 		enc_smscameltdpdatalist, err := MarshalDERSMSCAMELTDPDataList(v.SmsCAMELTDPDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding sms-CAMEL-TDP-DataList: %w", err)
@@ -48406,6 +51316,9 @@ func (v *SMSCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_smscameltdpdatalist
+				if len(v.SmsCAMELTDPDataList) < 1 || len(v.SmsCAMELTDPDataList) > 10 {
+					return fmt.Errorf("sms-CAMEL-TDP-DataList length %d violates SIZE (1..10)", len(v.SmsCAMELTDPDataList))
+				}
 			}
 		}
 	}
@@ -48647,6 +51560,12 @@ func (v *SMSCAMELTDPData) MarshalBER() ([]byte, error) {
 	}
 	enc_servicekey = retagged_enc_servicekey
 	children = append(children, enc_servicekey...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -48706,6 +51625,12 @@ func (v *SMSCAMELTDPData) MarshalDER() ([]byte, error) {
 	}
 	enc_servicekey = retagged_enc_servicekey
 	children = append(children, enc_servicekey...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -48844,6 +51769,12 @@ func (v *SMSCAMELTDPData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 	}
 
 	offset += n_gsmscfaddress
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	// Decode defaultSMS-Handling
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field defaultSMS-Handling")
@@ -48932,6 +51863,9 @@ func (v *SMSCAMELTDPData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 // MarshalBER encodes MCSI to BER format.
 func (v *MCSI) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.MobilityTriggers) < 1 || len(v.MobilityTriggers) > 10 {
+		return nil, fmt.Errorf("mobilityTriggers length %d violates SIZE (1..10)", len(v.MobilityTriggers))
+	}
 	enc_mobilitytriggers, err := MarshalBERMobilityTriggers(v.MobilityTriggers)
 	if err != nil {
 		return nil, fmt.Errorf("encoding mobilityTriggers: %w", err)
@@ -48939,6 +51873,12 @@ func (v *MCSI) MarshalBER() ([]byte, error) {
 	children = append(children, enc_mobilitytriggers...)
 	enc_servicekey := ber.EncodeInteger(int64(v.ServiceKey))
 	children = append(children, enc_servicekey...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -48995,6 +51935,9 @@ func (v *MCSI) MarshalBER() ([]byte, error) {
 // MarshalDER encodes MCSI to DER format.
 func (v *MCSI) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.MobilityTriggers) < 1 || len(v.MobilityTriggers) > 10 {
+		return nil, fmt.Errorf("mobilityTriggers length %d violates SIZE (1..10)", len(v.MobilityTriggers))
+	}
 	enc_mobilitytriggers, err := MarshalDERMobilityTriggers(v.MobilityTriggers)
 	if err != nil {
 		return nil, fmt.Errorf("encoding mobilityTriggers: %w", err)
@@ -49002,6 +51945,12 @@ func (v *MCSI) MarshalDER() ([]byte, error) {
 	children = append(children, enc_mobilitytriggers...)
 	enc_servicekey := ber.EncodeInteger(int64(v.ServiceKey))
 	children = append(children, enc_servicekey...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -49107,6 +52056,9 @@ func (v *MCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_mobilitytriggers
+	if len(v.MobilityTriggers) < 1 || len(v.MobilityTriggers) > 10 {
+		return fmt.Errorf("mobilityTriggers length %d violates SIZE (1..10)", len(v.MobilityTriggers))
+	}
 	// Decode serviceKey
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field serviceKey")
@@ -49146,6 +52098,12 @@ func (v *MCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_gsmscfaddress
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -49258,6 +52216,9 @@ func (v *MCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes MGCSI to BER format.
 func (v *MGCSI) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.MobilityTriggers) < 1 || len(v.MobilityTriggers) > 10 {
+		return nil, fmt.Errorf("mobilityTriggers length %d violates SIZE (1..10)", len(v.MobilityTriggers))
+	}
 	enc_mobilitytriggers, err := MarshalBERMobilityTriggers(v.MobilityTriggers)
 	if err != nil {
 		return nil, fmt.Errorf("encoding mobilityTriggers: %w", err)
@@ -49265,6 +52226,12 @@ func (v *MGCSI) MarshalBER() ([]byte, error) {
 	children = append(children, enc_mobilitytriggers...)
 	enc_servicekey := ber.EncodeInteger(int64(v.ServiceKey))
 	children = append(children, enc_servicekey...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -49321,6 +52288,9 @@ func (v *MGCSI) MarshalBER() ([]byte, error) {
 // MarshalDER encodes MGCSI to DER format.
 func (v *MGCSI) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.MobilityTriggers) < 1 || len(v.MobilityTriggers) > 10 {
+		return nil, fmt.Errorf("mobilityTriggers length %d violates SIZE (1..10)", len(v.MobilityTriggers))
+	}
 	enc_mobilitytriggers, err := MarshalDERMobilityTriggers(v.MobilityTriggers)
 	if err != nil {
 		return nil, fmt.Errorf("encoding mobilityTriggers: %w", err)
@@ -49328,6 +52298,12 @@ func (v *MGCSI) MarshalDER() ([]byte, error) {
 	children = append(children, enc_mobilitytriggers...)
 	enc_servicekey := ber.EncodeInteger(int64(v.ServiceKey))
 	children = append(children, enc_servicekey...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -49433,6 +52409,9 @@ func (v *MGCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_mobilitytriggers
+	if len(v.MobilityTriggers) < 1 || len(v.MobilityTriggers) > 10 {
+		return fmt.Errorf("mobilityTriggers length %d violates SIZE (1..10)", len(v.MobilityTriggers))
+	}
 	// Decode serviceKey
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field serviceKey")
@@ -49472,6 +52451,12 @@ func (v *MGCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_gsmscfaddress
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -49659,6 +52644,9 @@ func UnmarshalBERMobilityTriggers(data []byte, opts ...ber.DecodeOption) (Mobili
 // MarshalBER encodes TCSI to BER format.
 func (v *TCSI) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.TBcsmCamelTDPDataList) < 1 || len(v.TBcsmCamelTDPDataList) > 10 {
+		return nil, fmt.Errorf("t-BcsmCamelTDPDataList length %d violates SIZE (1..10)", len(v.TBcsmCamelTDPDataList))
+	}
 	enc_tbcsmcameltdpdatalist, err := MarshalBERTBcsmCamelTDPDataList(v.TBcsmCamelTDPDataList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding t-BcsmCamelTDPDataList: %w", err)
@@ -49714,6 +52702,9 @@ func (v *TCSI) MarshalBER() ([]byte, error) {
 // MarshalDER encodes TCSI to DER format.
 func (v *TCSI) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.TBcsmCamelTDPDataList) < 1 || len(v.TBcsmCamelTDPDataList) > 10 {
+		return nil, fmt.Errorf("t-BcsmCamelTDPDataList length %d violates SIZE (1..10)", len(v.TBcsmCamelTDPDataList))
+	}
 	enc_tbcsmcameltdpdatalist, err := MarshalDERTBcsmCamelTDPDataList(v.TBcsmCamelTDPDataList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding t-BcsmCamelTDPDataList: %w", err)
@@ -49818,6 +52809,9 @@ func (v *TCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_tbcsmcameltdpdatalist
+	if len(v.TBcsmCamelTDPDataList) < 1 || len(v.TBcsmCamelTDPDataList) > 10 {
+		return fmt.Errorf("t-BcsmCamelTDPDataList length %d violates SIZE (1..10)", len(v.TBcsmCamelTDPDataList))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -50046,6 +53040,12 @@ func (v *TBcsmCamelTDPData) MarshalBER() ([]byte, error) {
 	children = append(children, enc_tbcsmtriggerdetectionpoint...)
 	enc_servicekey := ber.EncodeInteger(int64(v.ServiceKey))
 	children = append(children, enc_servicekey...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -50095,6 +53095,12 @@ func (v *TBcsmCamelTDPData) MarshalDER() ([]byte, error) {
 	children = append(children, enc_tbcsmtriggerdetectionpoint...)
 	enc_servicekey := ber.EncodeInteger(int64(v.ServiceKey))
 	children = append(children, enc_servicekey...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -50207,6 +53213,12 @@ func (v *TBcsmCamelTDPData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	}
 
 	offset += n_gsmscfaddress
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	// Decode defaultCallHandling
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field defaultCallHandling")
@@ -50295,6 +53307,9 @@ func (v *TBcsmCamelTDPData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 // MarshalBER encodes SendRoutingInfoForGprsArg to BER format.
 func (v *SendRoutingInfoForGprsArg) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -50306,6 +53321,9 @@ func (v *SendRoutingInfoForGprsArg) MarshalBER() ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if v.GgsnAddress != nil {
+		if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+			return nil, fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+		}
 		enc_ggsnaddress, encodeErr_enc_ggsnaddress := ber.EncodeOctetString([]byte(*v.GgsnAddress))
 		if encodeErr_enc_ggsnaddress != nil {
 			return nil, fmt.Errorf("encoding ggsn-Address: %w", encodeErr_enc_ggsnaddress)
@@ -50316,6 +53334,12 @@ func (v *SendRoutingInfoForGprsArg) MarshalBER() ([]byte, error) {
 		}
 		enc_ggsnaddress = retagged_enc_ggsnaddress
 		children = append(children, enc_ggsnaddress...)
+	}
+	if len(v.GgsnNumber) < 1 || len(v.GgsnNumber) > 9 {
+		return nil, fmt.Errorf("ggsn-Number length %d violates SIZE (1..9)", len(v.GgsnNumber))
+	}
+	if len(v.GgsnNumber) < 1 || len(v.GgsnNumber) > 20 {
+		return nil, fmt.Errorf("ggsn-Number length %d violates SIZE (1..20)", len(v.GgsnNumber))
 	}
 	enc_ggsnnumber, encodeErr_enc_ggsnnumber := ber.EncodeOctetString([]byte(v.GgsnNumber))
 	if encodeErr_enc_ggsnnumber != nil {
@@ -50355,6 +53379,9 @@ func (v *SendRoutingInfoForGprsArg) MarshalBER() ([]byte, error) {
 // MarshalDER encodes SendRoutingInfoForGprsArg to DER format.
 func (v *SendRoutingInfoForGprsArg) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -50366,6 +53393,9 @@ func (v *SendRoutingInfoForGprsArg) MarshalDER() ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if v.GgsnAddress != nil {
+		if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+			return nil, fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+		}
 		enc_ggsnaddress, encodeErr_enc_ggsnaddress := ber.EncodeOctetString([]byte(*v.GgsnAddress))
 		if encodeErr_enc_ggsnaddress != nil {
 			return nil, fmt.Errorf("encoding ggsn-Address: %w", encodeErr_enc_ggsnaddress)
@@ -50376,6 +53406,12 @@ func (v *SendRoutingInfoForGprsArg) MarshalDER() ([]byte, error) {
 		}
 		enc_ggsnaddress = retagged_enc_ggsnaddress
 		children = append(children, enc_ggsnaddress...)
+	}
+	if len(v.GgsnNumber) < 1 || len(v.GgsnNumber) > 9 {
+		return nil, fmt.Errorf("ggsn-Number length %d violates SIZE (1..9)", len(v.GgsnNumber))
+	}
+	if len(v.GgsnNumber) < 1 || len(v.GgsnNumber) > 20 {
+		return nil, fmt.Errorf("ggsn-Number length %d violates SIZE (1..20)", len(v.GgsnNumber))
 	}
 	enc_ggsnnumber, encodeErr_enc_ggsnnumber := ber.EncodeOctetString([]byte(v.GgsnNumber))
 	if encodeErr_enc_ggsnnumber != nil {
@@ -50452,6 +53488,9 @@ func (v *SendRoutingInfoForGprsArg) UnmarshalBER(data []byte, opts ...ber.Decode
 	}
 
 	offset += n_imsi
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	// Decode ggsn-Address
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -50472,6 +53511,9 @@ func (v *SendRoutingInfoForGprsArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_ggsnaddress
+				if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+					return fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+				}
 			}
 		}
 	}
@@ -50498,6 +53540,12 @@ func (v *SendRoutingInfoForGprsArg) UnmarshalBER(data []byte, opts ...ber.Decode
 	}
 
 	offset += n_ggsnnumber
+	if len(v.GgsnNumber) < 1 || len(v.GgsnNumber) > 9 {
+		return fmt.Errorf("ggsn-Number length %d violates SIZE (1..9)", len(v.GgsnNumber))
+	}
+	if len(v.GgsnNumber) < 1 || len(v.GgsnNumber) > 20 {
+		return fmt.Errorf("ggsn-Number length %d violates SIZE (1..20)", len(v.GgsnNumber))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -50558,6 +53606,9 @@ func (v *SendRoutingInfoForGprsArg) UnmarshalBER(data []byte, opts ...ber.Decode
 // MarshalBER encodes SendRoutingInfoForGprsRes to BER format.
 func (v *SendRoutingInfoForGprsRes) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.SgsnAddress) < 5 || len(v.SgsnAddress) > 17 {
+		return nil, fmt.Errorf("sgsn-Address length %d violates SIZE (5..17)", len(v.SgsnAddress))
+	}
 	enc_sgsnaddress, encodeErr_enc_sgsnaddress := ber.EncodeOctetString([]byte(v.SgsnAddress))
 	if encodeErr_enc_sgsnaddress != nil {
 		return nil, fmt.Errorf("encoding sgsn-Address: %w", encodeErr_enc_sgsnaddress)
@@ -50569,6 +53620,9 @@ func (v *SendRoutingInfoForGprsRes) MarshalBER() ([]byte, error) {
 	enc_sgsnaddress = retagged_enc_sgsnaddress
 	children = append(children, enc_sgsnaddress...)
 	if v.GgsnAddress != nil {
+		if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+			return nil, fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+		}
 		enc_ggsnaddress, encodeErr_enc_ggsnaddress := ber.EncodeOctetString([]byte(*v.GgsnAddress))
 		if encodeErr_enc_ggsnaddress != nil {
 			return nil, fmt.Errorf("encoding ggsn-Address: %w", encodeErr_enc_ggsnaddress)
@@ -50617,6 +53671,9 @@ func (v *SendRoutingInfoForGprsRes) MarshalBER() ([]byte, error) {
 // MarshalDER encodes SendRoutingInfoForGprsRes to DER format.
 func (v *SendRoutingInfoForGprsRes) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.SgsnAddress) < 5 || len(v.SgsnAddress) > 17 {
+		return nil, fmt.Errorf("sgsn-Address length %d violates SIZE (5..17)", len(v.SgsnAddress))
+	}
 	enc_sgsnaddress, encodeErr_enc_sgsnaddress := ber.EncodeOctetString([]byte(v.SgsnAddress))
 	if encodeErr_enc_sgsnaddress != nil {
 		return nil, fmt.Errorf("encoding sgsn-Address: %w", encodeErr_enc_sgsnaddress)
@@ -50628,6 +53685,9 @@ func (v *SendRoutingInfoForGprsRes) MarshalDER() ([]byte, error) {
 	enc_sgsnaddress = retagged_enc_sgsnaddress
 	children = append(children, enc_sgsnaddress...)
 	if v.GgsnAddress != nil {
+		if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+			return nil, fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+		}
 		enc_ggsnaddress, encodeErr_enc_ggsnaddress := ber.EncodeOctetString([]byte(*v.GgsnAddress))
 		if encodeErr_enc_ggsnaddress != nil {
 			return nil, fmt.Errorf("encoding ggsn-Address: %w", encodeErr_enc_ggsnaddress)
@@ -50713,6 +53773,9 @@ func (v *SendRoutingInfoForGprsRes) UnmarshalBER(data []byte, opts ...ber.Decode
 	}
 
 	offset += n_sgsnaddress
+	if len(v.SgsnAddress) < 5 || len(v.SgsnAddress) > 17 {
+		return fmt.Errorf("sgsn-Address length %d violates SIZE (5..17)", len(v.SgsnAddress))
+	}
 	// Decode ggsn-Address
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -50733,6 +53796,9 @@ func (v *SendRoutingInfoForGprsRes) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_ggsnaddress
+				if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+					return fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+				}
 			}
 		}
 	}
@@ -50824,6 +53890,9 @@ func (v *SendRoutingInfoForGprsRes) UnmarshalBER(data []byte, opts ...ber.Decode
 // MarshalBER encodes FailureReportArg to BER format.
 func (v *FailureReportArg) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -50834,6 +53903,12 @@ func (v *FailureReportArg) MarshalBER() ([]byte, error) {
 	}
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
+	if len(v.GgsnNumber) < 1 || len(v.GgsnNumber) > 9 {
+		return nil, fmt.Errorf("ggsn-Number length %d violates SIZE (1..9)", len(v.GgsnNumber))
+	}
+	if len(v.GgsnNumber) < 1 || len(v.GgsnNumber) > 20 {
+		return nil, fmt.Errorf("ggsn-Number length %d violates SIZE (1..20)", len(v.GgsnNumber))
+	}
 	enc_ggsnnumber, encodeErr_enc_ggsnnumber := ber.EncodeOctetString([]byte(v.GgsnNumber))
 	if encodeErr_enc_ggsnnumber != nil {
 		return nil, fmt.Errorf("encoding ggsn-Number: %w", encodeErr_enc_ggsnnumber)
@@ -50845,6 +53920,9 @@ func (v *FailureReportArg) MarshalBER() ([]byte, error) {
 	enc_ggsnnumber = retagged_enc_ggsnnumber
 	children = append(children, enc_ggsnnumber...)
 	if v.GgsnAddress != nil {
+		if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+			return nil, fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+		}
 		enc_ggsnaddress, encodeErr_enc_ggsnaddress := ber.EncodeOctetString([]byte(*v.GgsnAddress))
 		if encodeErr_enc_ggsnaddress != nil {
 			return nil, fmt.Errorf("encoding ggsn-Address: %w", encodeErr_enc_ggsnaddress)
@@ -50884,6 +53962,9 @@ func (v *FailureReportArg) MarshalBER() ([]byte, error) {
 // MarshalDER encodes FailureReportArg to DER format.
 func (v *FailureReportArg) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -50894,6 +53975,12 @@ func (v *FailureReportArg) MarshalDER() ([]byte, error) {
 	}
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
+	if len(v.GgsnNumber) < 1 || len(v.GgsnNumber) > 9 {
+		return nil, fmt.Errorf("ggsn-Number length %d violates SIZE (1..9)", len(v.GgsnNumber))
+	}
+	if len(v.GgsnNumber) < 1 || len(v.GgsnNumber) > 20 {
+		return nil, fmt.Errorf("ggsn-Number length %d violates SIZE (1..20)", len(v.GgsnNumber))
+	}
 	enc_ggsnnumber, encodeErr_enc_ggsnnumber := ber.EncodeOctetString([]byte(v.GgsnNumber))
 	if encodeErr_enc_ggsnnumber != nil {
 		return nil, fmt.Errorf("encoding ggsn-Number: %w", encodeErr_enc_ggsnnumber)
@@ -50905,6 +53992,9 @@ func (v *FailureReportArg) MarshalDER() ([]byte, error) {
 	enc_ggsnnumber = retagged_enc_ggsnnumber
 	children = append(children, enc_ggsnnumber...)
 	if v.GgsnAddress != nil {
+		if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+			return nil, fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+		}
 		enc_ggsnaddress, encodeErr_enc_ggsnaddress := ber.EncodeOctetString([]byte(*v.GgsnAddress))
 		if encodeErr_enc_ggsnaddress != nil {
 			return nil, fmt.Errorf("encoding ggsn-Address: %w", encodeErr_enc_ggsnaddress)
@@ -50981,6 +54071,9 @@ func (v *FailureReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 	}
 
 	offset += n_imsi
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	// Decode ggsn-Number
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field ggsn-Number")
@@ -51004,6 +54097,12 @@ func (v *FailureReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 	}
 
 	offset += n_ggsnnumber
+	if len(v.GgsnNumber) < 1 || len(v.GgsnNumber) > 9 {
+		return fmt.Errorf("ggsn-Number length %d violates SIZE (1..9)", len(v.GgsnNumber))
+	}
+	if len(v.GgsnNumber) < 1 || len(v.GgsnNumber) > 20 {
+		return fmt.Errorf("ggsn-Number length %d violates SIZE (1..20)", len(v.GgsnNumber))
+	}
 	// Decode ggsn-Address
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -51025,6 +54124,9 @@ func (v *FailureReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 
 				offset += n_ggsnaddress
+				if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+					return fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+				}
 			}
 		}
 	}
@@ -51089,6 +54191,9 @@ func (v *FailureReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 func (v *FailureReportRes) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.GgsnAddress != nil {
+		if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+			return nil, fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+		}
 		enc_ggsnaddress, encodeErr_enc_ggsnaddress := ber.EncodeOctetString([]byte(*v.GgsnAddress))
 		if encodeErr_enc_ggsnaddress != nil {
 			return nil, fmt.Errorf("encoding ggsn-Address: %w", encodeErr_enc_ggsnaddress)
@@ -51129,6 +54234,9 @@ func (v *FailureReportRes) MarshalBER() ([]byte, error) {
 func (v *FailureReportRes) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.GgsnAddress != nil {
+		if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+			return nil, fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+		}
 		enc_ggsnaddress, encodeErr_enc_ggsnaddress := ber.EncodeOctetString([]byte(*v.GgsnAddress))
 		if encodeErr_enc_ggsnaddress != nil {
 			return nil, fmt.Errorf("encoding ggsn-Address: %w", encodeErr_enc_ggsnaddress)
@@ -51203,6 +54311,9 @@ func (v *FailureReportRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 
 				offset += n_ggsnaddress
+				if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+					return fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+				}
 			}
 		}
 	}
@@ -51266,6 +54377,9 @@ func (v *FailureReportRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 // MarshalBER encodes NoteMsPresentForGprsArg to BER format.
 func (v *NoteMsPresentForGprsArg) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -51276,6 +54390,9 @@ func (v *NoteMsPresentForGprsArg) MarshalBER() ([]byte, error) {
 	}
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
+	if len(v.SgsnAddress) < 5 || len(v.SgsnAddress) > 17 {
+		return nil, fmt.Errorf("sgsn-Address length %d violates SIZE (5..17)", len(v.SgsnAddress))
+	}
 	enc_sgsnaddress, encodeErr_enc_sgsnaddress := ber.EncodeOctetString([]byte(v.SgsnAddress))
 	if encodeErr_enc_sgsnaddress != nil {
 		return nil, fmt.Errorf("encoding sgsn-Address: %w", encodeErr_enc_sgsnaddress)
@@ -51287,6 +54404,9 @@ func (v *NoteMsPresentForGprsArg) MarshalBER() ([]byte, error) {
 	enc_sgsnaddress = retagged_enc_sgsnaddress
 	children = append(children, enc_sgsnaddress...)
 	if v.GgsnAddress != nil {
+		if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+			return nil, fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+		}
 		enc_ggsnaddress, encodeErr_enc_ggsnaddress := ber.EncodeOctetString([]byte(*v.GgsnAddress))
 		if encodeErr_enc_ggsnaddress != nil {
 			return nil, fmt.Errorf("encoding ggsn-Address: %w", encodeErr_enc_ggsnaddress)
@@ -51326,6 +54446,9 @@ func (v *NoteMsPresentForGprsArg) MarshalBER() ([]byte, error) {
 // MarshalDER encodes NoteMsPresentForGprsArg to DER format.
 func (v *NoteMsPresentForGprsArg) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -51336,6 +54459,9 @@ func (v *NoteMsPresentForGprsArg) MarshalDER() ([]byte, error) {
 	}
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
+	if len(v.SgsnAddress) < 5 || len(v.SgsnAddress) > 17 {
+		return nil, fmt.Errorf("sgsn-Address length %d violates SIZE (5..17)", len(v.SgsnAddress))
+	}
 	enc_sgsnaddress, encodeErr_enc_sgsnaddress := ber.EncodeOctetString([]byte(v.SgsnAddress))
 	if encodeErr_enc_sgsnaddress != nil {
 		return nil, fmt.Errorf("encoding sgsn-Address: %w", encodeErr_enc_sgsnaddress)
@@ -51347,6 +54473,9 @@ func (v *NoteMsPresentForGprsArg) MarshalDER() ([]byte, error) {
 	enc_sgsnaddress = retagged_enc_sgsnaddress
 	children = append(children, enc_sgsnaddress...)
 	if v.GgsnAddress != nil {
+		if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+			return nil, fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+		}
 		enc_ggsnaddress, encodeErr_enc_ggsnaddress := ber.EncodeOctetString([]byte(*v.GgsnAddress))
 		if encodeErr_enc_ggsnaddress != nil {
 			return nil, fmt.Errorf("encoding ggsn-Address: %w", encodeErr_enc_ggsnaddress)
@@ -51423,6 +54552,9 @@ func (v *NoteMsPresentForGprsArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}
 
 	offset += n_imsi
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	// Decode sgsn-Address
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field sgsn-Address")
@@ -51446,6 +54578,9 @@ func (v *NoteMsPresentForGprsArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}
 
 	offset += n_sgsnaddress
+	if len(v.SgsnAddress) < 5 || len(v.SgsnAddress) > 17 {
+		return fmt.Errorf("sgsn-Address length %d violates SIZE (5..17)", len(v.SgsnAddress))
+	}
 	// Decode ggsn-Address
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -51466,6 +54601,9 @@ func (v *NoteMsPresentForGprsArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_ggsnaddress
+				if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+					return fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+				}
 			}
 		}
 	}
@@ -51665,6 +54803,9 @@ func (v *ResetArg) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_sendingnodenumber...)
 	if v.HlrList != nil {
+		if len(v.HlrList) < 1 || len(v.HlrList) > 50 {
+			return nil, fmt.Errorf("hlr-List length %d violates SIZE (1..50)", len(v.HlrList))
+		}
 		enc_hlrlist, err := MarshalBERHLRList(v.HlrList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding hlr-List: %w", err)
@@ -51684,6 +54825,9 @@ func (v *ResetArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.ResetIdList != nil {
+		if len(v.ResetIdList) < 1 || len(v.ResetIdList) > 50 {
+			return nil, fmt.Errorf("reset-Id-List length %d violates SIZE (1..50)", len(v.ResetIdList))
+		}
 		enc_resetidlist, err := MarshalBERResetIdList(v.ResetIdList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding reset-Id-List: %w", err)
@@ -51756,6 +54900,9 @@ func (v *ResetArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_sendingnodenumber...)
 	if v.HlrList != nil {
+		if len(v.HlrList) < 1 || len(v.HlrList) > 50 {
+			return nil, fmt.Errorf("hlr-List length %d violates SIZE (1..50)", len(v.HlrList))
+		}
 		enc_hlrlist, err := MarshalDERHLRList(v.HlrList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding hlr-List: %w", err)
@@ -51775,6 +54922,9 @@ func (v *ResetArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.ResetIdList != nil {
+		if len(v.ResetIdList) < 1 || len(v.ResetIdList) > 50 {
+			return nil, fmt.Errorf("reset-Id-List length %d violates SIZE (1..50)", len(v.ResetIdList))
+		}
 		enc_resetidlist, err := MarshalDERResetIdList(v.ResetIdList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding reset-Id-List: %w", err)
@@ -51901,6 +55051,9 @@ func (v *ResetArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_hlrlist
+				if len(v.HlrList) < 1 || len(v.HlrList) > 50 {
+					return fmt.Errorf("hlr-List length %d violates SIZE (1..50)", len(v.HlrList))
+				}
 			}
 		}
 	}
@@ -51975,6 +55128,9 @@ func (v *ResetArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_resetidlist
+				if len(v.ResetIdList) < 1 || len(v.ResetIdList) > 50 {
+					return fmt.Errorf("reset-Id-List length %d violates SIZE (1..50)", len(v.ResetIdList))
+				}
 			}
 		}
 	}
@@ -52077,6 +55233,12 @@ func (v *SendingNodeNumber) MarshalBER() ([]byte, error) {
 		if encodeErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding hlr-Number: %w", encodeErr_enc_0)
 		}
+		if len(*v.HlrNumber) < 1 || len(*v.HlrNumber) > 9 {
+			return nil, fmt.Errorf("hlr-Number length %d violates SIZE (1..9)", len(*v.HlrNumber))
+		}
+		if len(*v.HlrNumber) < 1 || len(*v.HlrNumber) > 20 {
+			return nil, fmt.Errorf("hlr-Number length %d violates SIZE (1..20)", len(*v.HlrNumber))
+		}
 		return enc_0, nil
 	case SendingNodeNumberChoiceCssNumber:
 		if v.CssNumber == nil {
@@ -52085,6 +55247,12 @@ func (v *SendingNodeNumber) MarshalBER() ([]byte, error) {
 		enc_1, encodeErr_enc_1 := ber.EncodeOctetString([]byte(*v.CssNumber))
 		if encodeErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding css-Number: %w", encodeErr_enc_1)
+		}
+		if len(*v.CssNumber) < 1 || len(*v.CssNumber) > 9 {
+			return nil, fmt.Errorf("css-Number length %d violates SIZE (1..9)", len(*v.CssNumber))
+		}
+		if len(*v.CssNumber) < 1 || len(*v.CssNumber) > 20 {
+			return nil, fmt.Errorf("css-Number length %d violates SIZE (1..20)", len(*v.CssNumber))
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
@@ -52140,6 +55308,12 @@ func (v *SendingNodeNumber) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 		}
 		tmp := ISDNAddressString(decVal)
 		v.HlrNumber = &tmp
+		if len(*v.HlrNumber) < 1 || len(*v.HlrNumber) > 9 {
+			return fmt.Errorf("hlr-Number length %d violates SIZE (1..9)", len(*v.HlrNumber))
+		}
+		if len(*v.HlrNumber) < 1 || len(*v.HlrNumber) > 20 {
+			return fmt.Errorf("hlr-Number length %d violates SIZE (1..20)", len(*v.HlrNumber))
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 		v.Choice = SendingNodeNumberChoiceCssNumber
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -52148,6 +55322,12 @@ func (v *SendingNodeNumber) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 		}
 		tmp := ISDNAddressString(rawVal)
 		v.CssNumber = &tmp
+		if len(*v.CssNumber) < 1 || len(*v.CssNumber) > 9 {
+			return fmt.Errorf("css-Number length %d violates SIZE (1..9)", len(*v.CssNumber))
+		}
+		if len(*v.CssNumber) < 1 || len(*v.CssNumber) > 20 {
+			return fmt.Errorf("css-Number length %d violates SIZE (1..20)", len(*v.CssNumber))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for SendingNodeNumber CHOICE", peekTag)
 	}
@@ -52157,12 +55337,18 @@ func (v *SendingNodeNumber) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 // MarshalBER encodes RestoreDataArg to BER format.
 func (v *RestoreDataArg) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
 	}
 	children = append(children, enc_imsi...)
 	if v.Lmsi != nil {
+		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
+			return nil, fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+		}
 		enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
 		if encodeErr_enc_lmsi != nil {
 			return nil, fmt.Errorf("encoding lmsi: %w", encodeErr_enc_lmsi)
@@ -52213,12 +55399,18 @@ func (v *RestoreDataArg) MarshalBER() ([]byte, error) {
 // MarshalDER encodes RestoreDataArg to DER format.
 func (v *RestoreDataArg) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
 	}
 	children = append(children, enc_imsi...)
 	if v.Lmsi != nil {
+		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
+			return nil, fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+		}
 		enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
 		if encodeErr_enc_lmsi != nil {
 			return nil, fmt.Errorf("encoding lmsi: %w", encodeErr_enc_lmsi)
@@ -52298,6 +55490,9 @@ func (v *RestoreDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 	}
 
 	offset += n
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	// Decode lmsi
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -52315,6 +55510,9 @@ func (v *RestoreDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n
+				if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
+					return fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+				}
 			}
 		}
 	}
@@ -52435,6 +55633,12 @@ func (v *RestoreDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 // MarshalBER encodes RestoreDataRes to BER format.
 func (v *RestoreDataRes) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
+		return nil, fmt.Errorf("hlr-Number length %d violates SIZE (1..9)", len(v.HlrNumber))
+	}
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
+		return nil, fmt.Errorf("hlr-Number length %d violates SIZE (1..20)", len(v.HlrNumber))
+	}
 	enc_hlrnumber, encodeErr_enc_hlrnumber := ber.EncodeOctetString([]byte(v.HlrNumber))
 	if encodeErr_enc_hlrnumber != nil {
 		return nil, fmt.Errorf("encoding hlr-Number: %w", encodeErr_enc_hlrnumber)
@@ -52467,6 +55671,12 @@ func (v *RestoreDataRes) MarshalBER() ([]byte, error) {
 // MarshalDER encodes RestoreDataRes to DER format.
 func (v *RestoreDataRes) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
+		return nil, fmt.Errorf("hlr-Number length %d violates SIZE (1..9)", len(v.HlrNumber))
+	}
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
+		return nil, fmt.Errorf("hlr-Number length %d violates SIZE (1..20)", len(v.HlrNumber))
+	}
 	enc_hlrnumber, encodeErr_enc_hlrnumber := ber.EncodeOctetString([]byte(v.HlrNumber))
 	if encodeErr_enc_hlrnumber != nil {
 		return nil, fmt.Errorf("encoding hlr-Number: %w", encodeErr_enc_hlrnumber)
@@ -52528,6 +55738,12 @@ func (v *RestoreDataRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 	}
 
 	offset += n
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 9 {
+		return fmt.Errorf("hlr-Number length %d violates SIZE (1..9)", len(v.HlrNumber))
+	}
+	if len(v.HlrNumber) < 1 || len(v.HlrNumber) > 20 {
+		return fmt.Errorf("hlr-Number length %d violates SIZE (1..20)", len(v.HlrNumber))
+	}
 	// Decode msNotReachable
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -52775,6 +55991,9 @@ func UnmarshalBERVGCSDataList(data []byte, opts ...ber.DecodeOption) (VGCSDataLi
 // MarshalBER encodes VoiceGroupCallData to BER format.
 func (v *VoiceGroupCallData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.GroupId) < 3 || len(v.GroupId) > 3 {
+		return nil, fmt.Errorf("groupId length %d violates SIZE (3)", len(v.GroupId))
+	}
 	enc_groupid, encodeErr_enc_groupid := ber.EncodeOctetString([]byte(v.GroupId))
 	if encodeErr_enc_groupid != nil {
 		return nil, fmt.Errorf("encoding groupId: %w", encodeErr_enc_groupid)
@@ -52788,7 +56007,10 @@ func (v *VoiceGroupCallData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.AdditionalSubscriptions != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.AdditionalSubscriptions).BitLength < 3 || (*v.AdditionalSubscriptions).BitLength > 8 {
+			return nil, fmt.Errorf("additionalSubscriptions length %d violates SIZE (3..8)", (*v.AdditionalSubscriptions).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.AdditionalSubscriptions.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -52799,7 +56021,10 @@ func (v *VoiceGroupCallData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_additionalsubscriptions...)
 	}
 	if v.AdditionalInfo != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
+			return nil, fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -52815,6 +56040,9 @@ func (v *VoiceGroupCallData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_additionalinfo...)
 	}
 	if v.LongGroupId != nil {
+		if len(*v.LongGroupId) < 4 || len(*v.LongGroupId) > 4 {
+			return nil, fmt.Errorf("longGroupId length %d violates SIZE (4)", len(*v.LongGroupId))
+		}
 		enc_longgroupid, encodeErr_enc_longgroupid := ber.EncodeOctetString([]byte(*v.LongGroupId))
 		if encodeErr_enc_longgroupid != nil {
 			return nil, fmt.Errorf("encoding longGroupId: %w", encodeErr_enc_longgroupid)
@@ -52842,6 +56070,9 @@ func (v *VoiceGroupCallData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes VoiceGroupCallData to DER format.
 func (v *VoiceGroupCallData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.GroupId) < 3 || len(v.GroupId) > 3 {
+		return nil, fmt.Errorf("groupId length %d violates SIZE (3)", len(v.GroupId))
+	}
 	enc_groupid, encodeErr_enc_groupid := ber.EncodeOctetString([]byte(v.GroupId))
 	if encodeErr_enc_groupid != nil {
 		return nil, fmt.Errorf("encoding groupId: %w", encodeErr_enc_groupid)
@@ -52855,7 +56086,10 @@ func (v *VoiceGroupCallData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.AdditionalSubscriptions != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.AdditionalSubscriptions).BitLength < 3 || (*v.AdditionalSubscriptions).BitLength > 8 {
+			return nil, fmt.Errorf("additionalSubscriptions length %d violates SIZE (3..8)", (*v.AdditionalSubscriptions).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.AdditionalSubscriptions.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -52866,7 +56100,10 @@ func (v *VoiceGroupCallData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_additionalsubscriptions...)
 	}
 	if v.AdditionalInfo != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
+			return nil, fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -52882,6 +56119,9 @@ func (v *VoiceGroupCallData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_additionalinfo...)
 	}
 	if v.LongGroupId != nil {
+		if len(*v.LongGroupId) < 4 || len(*v.LongGroupId) > 4 {
+			return nil, fmt.Errorf("longGroupId length %d violates SIZE (4)", len(*v.LongGroupId))
+		}
 		enc_longgroupid, encodeErr_enc_longgroupid := ber.EncodeOctetString([]byte(*v.LongGroupId))
 		if encodeErr_enc_longgroupid != nil {
 			return nil, fmt.Errorf("encoding longGroupId: %w", encodeErr_enc_longgroupid)
@@ -52938,6 +56178,9 @@ func (v *VoiceGroupCallData) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	}
 
 	offset += n
+	if len(v.GroupId) < 3 || len(v.GroupId) > 3 {
+		return fmt.Errorf("groupId length %d violates SIZE (3)", len(v.GroupId))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -52990,6 +56233,9 @@ func (v *VoiceGroupCallData) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n
+				if (*v.AdditionalSubscriptions).BitLength < 3 || (*v.AdditionalSubscriptions).BitLength > 8 {
+					return fmt.Errorf("additionalSubscriptions length %d violates SIZE (3..8)", (*v.AdditionalSubscriptions).BitLength)
+				}
 			}
 		}
 	}
@@ -53022,6 +56268,9 @@ func (v *VoiceGroupCallData) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_additionalinfo
+				if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
+					return fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+				}
 			}
 		}
 	}
@@ -53045,6 +56294,9 @@ func (v *VoiceGroupCallData) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_longgroupid
+				if len(*v.LongGroupId) < 4 || len(*v.LongGroupId) > 4 {
+					return fmt.Errorf("longGroupId length %d violates SIZE (4)", len(*v.LongGroupId))
+				}
 			}
 		}
 	}
@@ -53077,6 +56329,9 @@ func (v *VoiceGroupCallData) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 // MarshalBER encodes VoiceBroadcastData to BER format.
 func (v *VoiceBroadcastData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Groupid) < 3 || len(v.Groupid) > 3 {
+		return nil, fmt.Errorf("groupid length %d violates SIZE (3)", len(v.Groupid))
+	}
 	enc_groupid, encodeErr_enc_groupid := ber.EncodeOctetString([]byte(v.Groupid))
 	if encodeErr_enc_groupid != nil {
 		return nil, fmt.Errorf("encoding groupid: %w", encodeErr_enc_groupid)
@@ -53094,6 +56349,9 @@ func (v *VoiceBroadcastData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.LongGroupId != nil {
+		if len(*v.LongGroupId) < 4 || len(*v.LongGroupId) > 4 {
+			return nil, fmt.Errorf("longGroupId length %d violates SIZE (4)", len(*v.LongGroupId))
+		}
 		enc_longgroupid, encodeErr_enc_longgroupid := ber.EncodeOctetString([]byte(*v.LongGroupId))
 		if encodeErr_enc_longgroupid != nil {
 			return nil, fmt.Errorf("encoding longGroupId: %w", encodeErr_enc_longgroupid)
@@ -53121,6 +56379,9 @@ func (v *VoiceBroadcastData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes VoiceBroadcastData to DER format.
 func (v *VoiceBroadcastData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Groupid) < 3 || len(v.Groupid) > 3 {
+		return nil, fmt.Errorf("groupid length %d violates SIZE (3)", len(v.Groupid))
+	}
 	enc_groupid, encodeErr_enc_groupid := ber.EncodeOctetString([]byte(v.Groupid))
 	if encodeErr_enc_groupid != nil {
 		return nil, fmt.Errorf("encoding groupid: %w", encodeErr_enc_groupid)
@@ -53138,6 +56399,9 @@ func (v *VoiceBroadcastData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.LongGroupId != nil {
+		if len(*v.LongGroupId) < 4 || len(*v.LongGroupId) > 4 {
+			return nil, fmt.Errorf("longGroupId length %d violates SIZE (4)", len(*v.LongGroupId))
+		}
 		enc_longgroupid, encodeErr_enc_longgroupid := ber.EncodeOctetString([]byte(*v.LongGroupId))
 		if encodeErr_enc_longgroupid != nil {
 			return nil, fmt.Errorf("encoding longGroupId: %w", encodeErr_enc_longgroupid)
@@ -53194,6 +56458,9 @@ func (v *VoiceBroadcastData) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	}
 
 	offset += n
+	if len(v.Groupid) < 3 || len(v.Groupid) > 3 {
+		return fmt.Errorf("groupid length %d violates SIZE (3)", len(v.Groupid))
+	}
 	// Decode broadcastInitEntitlement
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -53264,6 +56531,9 @@ func (v *VoiceBroadcastData) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_longgroupid
+				if len(*v.LongGroupId) < 4 || len(*v.LongGroupId) > 4 {
+					return fmt.Errorf("longGroupId length %d violates SIZE (4)", len(*v.LongGroupId))
+				}
 			}
 		}
 	}
@@ -53296,6 +56566,9 @@ func (v *VoiceBroadcastData) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 // MarshalBER encodes ProvideSubscriberInfoArg to BER format.
 func (v *ProvideSubscriberInfoArg) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -53307,6 +56580,9 @@ func (v *ProvideSubscriberInfoArg) MarshalBER() ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if v.Lmsi != nil {
+		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
+			return nil, fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+		}
 		enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
 		if encodeErr_enc_lmsi != nil {
 			return nil, fmt.Errorf("encoding lmsi: %w", encodeErr_enc_lmsi)
@@ -53365,6 +56641,9 @@ func (v *ProvideSubscriberInfoArg) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ProvideSubscriberInfoArg to DER format.
 func (v *ProvideSubscriberInfoArg) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -53376,6 +56655,9 @@ func (v *ProvideSubscriberInfoArg) MarshalDER() ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if v.Lmsi != nil {
+		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
+			return nil, fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+		}
 		enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
 		if encodeErr_enc_lmsi != nil {
 			return nil, fmt.Errorf("encoding lmsi: %w", encodeErr_enc_lmsi)
@@ -53471,6 +56753,9 @@ func (v *ProvideSubscriberInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}
 
 	offset += n_imsi
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	// Decode lmsi
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -53491,6 +56776,9 @@ func (v *ProvideSubscriberInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 
 				offset += n_lmsi
+				if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
+					return fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+				}
 			}
 		}
 	}
@@ -53828,6 +57116,9 @@ func (v *SubscriberInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_pssubscriberstate...)
 	}
 	if v.Imei != nil {
+		if len(*v.Imei) < 8 || len(*v.Imei) > 8 {
+			return nil, fmt.Errorf("imei length %d violates SIZE (8)", len(*v.Imei))
+		}
 		enc_imei, encodeErr_enc_imei := ber.EncodeOctetString([]byte(*v.Imei))
 		if encodeErr_enc_imei != nil {
 			return nil, fmt.Errorf("encoding imei: %w", encodeErr_enc_imei)
@@ -53840,6 +57131,9 @@ func (v *SubscriberInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imei...)
 	}
 	if v.MsClassmark2 != nil {
+		if len(*v.MsClassmark2) < 3 || len(*v.MsClassmark2) > 3 {
+			return nil, fmt.Errorf("ms-Classmark2 length %d violates SIZE (3)", len(*v.MsClassmark2))
+		}
 		enc_msclassmark2, encodeErr_enc_msclassmark2 := ber.EncodeOctetString([]byte(*v.MsClassmark2))
 		if encodeErr_enc_msclassmark2 != nil {
 			return nil, fmt.Errorf("encoding ms-Classmark2: %w", encodeErr_enc_msclassmark2)
@@ -53885,6 +57179,9 @@ func (v *SubscriberInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imsvoiceoverpssessionsindication...)
 	}
 	if v.LastUEActivityTime != nil {
+		if len(*v.LastUEActivityTime) < 4 || len(*v.LastUEActivityTime) > 4 {
+			return nil, fmt.Errorf("lastUE-ActivityTime length %d violates SIZE (4)", len(*v.LastUEActivityTime))
+		}
 		enc_lastueactivitytime, encodeErr_enc_lastueactivitytime := ber.EncodeOctetString([]byte(*v.LastUEActivityTime))
 		if encodeErr_enc_lastueactivitytime != nil {
 			return nil, fmt.Errorf("encoding lastUE-ActivityTime: %w", encodeErr_enc_lastueactivitytime)
@@ -53932,6 +57229,9 @@ func (v *SubscriberInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_locationinformationeps...)
 	}
 	if v.TimeZone != nil {
+		if len(*v.TimeZone) < 2 || len(*v.TimeZone) > 3 {
+			return nil, fmt.Errorf("timeZone length %d violates SIZE (2..3)", len(*v.TimeZone))
+		}
 		enc_timezone, encodeErr_enc_timezone := ber.EncodeOctetString([]byte(*v.TimeZone))
 		if encodeErr_enc_timezone != nil {
 			return nil, fmt.Errorf("encoding timeZone: %w", encodeErr_enc_timezone)
@@ -54045,6 +57345,9 @@ func (v *SubscriberInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_pssubscriberstate...)
 	}
 	if v.Imei != nil {
+		if len(*v.Imei) < 8 || len(*v.Imei) > 8 {
+			return nil, fmt.Errorf("imei length %d violates SIZE (8)", len(*v.Imei))
+		}
 		enc_imei, encodeErr_enc_imei := ber.EncodeOctetString([]byte(*v.Imei))
 		if encodeErr_enc_imei != nil {
 			return nil, fmt.Errorf("encoding imei: %w", encodeErr_enc_imei)
@@ -54057,6 +57360,9 @@ func (v *SubscriberInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imei...)
 	}
 	if v.MsClassmark2 != nil {
+		if len(*v.MsClassmark2) < 3 || len(*v.MsClassmark2) > 3 {
+			return nil, fmt.Errorf("ms-Classmark2 length %d violates SIZE (3)", len(*v.MsClassmark2))
+		}
 		enc_msclassmark2, encodeErr_enc_msclassmark2 := ber.EncodeOctetString([]byte(*v.MsClassmark2))
 		if encodeErr_enc_msclassmark2 != nil {
 			return nil, fmt.Errorf("encoding ms-Classmark2: %w", encodeErr_enc_msclassmark2)
@@ -54102,6 +57408,9 @@ func (v *SubscriberInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imsvoiceoverpssessionsindication...)
 	}
 	if v.LastUEActivityTime != nil {
+		if len(*v.LastUEActivityTime) < 4 || len(*v.LastUEActivityTime) > 4 {
+			return nil, fmt.Errorf("lastUE-ActivityTime length %d violates SIZE (4)", len(*v.LastUEActivityTime))
+		}
 		enc_lastueactivitytime, encodeErr_enc_lastueactivitytime := ber.EncodeOctetString([]byte(*v.LastUEActivityTime))
 		if encodeErr_enc_lastueactivitytime != nil {
 			return nil, fmt.Errorf("encoding lastUE-ActivityTime: %w", encodeErr_enc_lastueactivitytime)
@@ -54149,6 +57458,9 @@ func (v *SubscriberInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_locationinformationeps...)
 	}
 	if v.TimeZone != nil {
+		if len(*v.TimeZone) < 2 || len(*v.TimeZone) > 3 {
+			return nil, fmt.Errorf("timeZone length %d violates SIZE (2..3)", len(*v.TimeZone))
+		}
 		enc_timezone, encodeErr_enc_timezone := ber.EncodeOctetString([]byte(*v.TimeZone))
 		if encodeErr_enc_timezone != nil {
 			return nil, fmt.Errorf("encoding timeZone: %w", encodeErr_enc_timezone)
@@ -54380,6 +57692,9 @@ func (v *SubscriberInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_imei
+				if len(*v.Imei) < 8 || len(*v.Imei) > 8 {
+					return fmt.Errorf("imei length %d violates SIZE (8)", len(*v.Imei))
+				}
 			}
 		}
 	}
@@ -54404,6 +57719,9 @@ func (v *SubscriberInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_msclassmark2
+				if len(*v.MsClassmark2) < 3 || len(*v.MsClassmark2) > 3 {
+					return fmt.Errorf("ms-Classmark2 length %d violates SIZE (3)", len(*v.MsClassmark2))
+				}
 			}
 		}
 	}
@@ -54517,6 +57835,9 @@ func (v *SubscriberInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_lastueactivitytime
+				if len(*v.LastUEActivityTime) < 4 || len(*v.LastUEActivityTime) > 4 {
+					return fmt.Errorf("lastUE-ActivityTime length %d violates SIZE (4)", len(*v.LastUEActivityTime))
+				}
 			}
 		}
 	}
@@ -54626,6 +57947,9 @@ func (v *SubscriberInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_timezone
+				if len(*v.TimeZone) < 2 || len(*v.TimeZone) > 3 {
+					return fmt.Errorf("timeZone length %d violates SIZE (2..3)", len(*v.TimeZone))
+				}
 			}
 		}
 	}
@@ -54718,6 +58042,9 @@ func (v *SubscriberInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 func (v *MNPInfoRes) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.RouteingNumber != nil {
+		if len(*v.RouteingNumber) < 1 || len(*v.RouteingNumber) > 5 {
+			return nil, fmt.Errorf("routeingNumber length %d violates SIZE (1..5)", len(*v.RouteingNumber))
+		}
 		enc_routeingnumber, encodeErr_enc_routeingnumber := ber.EncodeOctetString([]byte(*v.RouteingNumber))
 		if encodeErr_enc_routeingnumber != nil {
 			return nil, fmt.Errorf("encoding routeingNumber: %w", encodeErr_enc_routeingnumber)
@@ -54730,6 +58057,9 @@ func (v *MNPInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_routeingnumber...)
 	}
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -54742,6 +58072,12 @@ func (v *MNPInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if v.Msisdn != nil {
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+		}
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
 			return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
@@ -54791,6 +58127,9 @@ func (v *MNPInfoRes) MarshalBER() ([]byte, error) {
 func (v *MNPInfoRes) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.RouteingNumber != nil {
+		if len(*v.RouteingNumber) < 1 || len(*v.RouteingNumber) > 5 {
+			return nil, fmt.Errorf("routeingNumber length %d violates SIZE (1..5)", len(*v.RouteingNumber))
+		}
 		enc_routeingnumber, encodeErr_enc_routeingnumber := ber.EncodeOctetString([]byte(*v.RouteingNumber))
 		if encodeErr_enc_routeingnumber != nil {
 			return nil, fmt.Errorf("encoding routeingNumber: %w", encodeErr_enc_routeingnumber)
@@ -54803,6 +58142,9 @@ func (v *MNPInfoRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_routeingnumber...)
 	}
 	if v.Imsi != nil {
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -54815,6 +58157,12 @@ func (v *MNPInfoRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if v.Msisdn != nil {
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+		}
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
 			return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
@@ -54898,6 +58246,9 @@ func (v *MNPInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_routeingnumber
+				if len(*v.RouteingNumber) < 1 || len(*v.RouteingNumber) > 5 {
+					return fmt.Errorf("routeingNumber length %d violates SIZE (1..5)", len(*v.RouteingNumber))
+				}
 			}
 		}
 	}
@@ -54921,6 +58272,9 @@ func (v *MNPInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_imsi
+				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+				}
 			}
 		}
 	}
@@ -54944,6 +58298,12 @@ func (v *MNPInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_msisdn
+				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+					return fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+				}
+				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+					return fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+				}
 			}
 		}
 	}
@@ -55035,6 +58395,9 @@ func (v *MNPInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes GPRSMSClass to BER format.
 func (v *GPRSMSClass) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.MSNetworkCapability) < 1 || len(v.MSNetworkCapability) > 8 {
+		return nil, fmt.Errorf("mSNetworkCapability length %d violates SIZE (1..8)", len(v.MSNetworkCapability))
+	}
 	enc_msnetworkcapability, encodeErr_enc_msnetworkcapability := ber.EncodeOctetString([]byte(v.MSNetworkCapability))
 	if encodeErr_enc_msnetworkcapability != nil {
 		return nil, fmt.Errorf("encoding mSNetworkCapability: %w", encodeErr_enc_msnetworkcapability)
@@ -55046,6 +58409,9 @@ func (v *GPRSMSClass) MarshalBER() ([]byte, error) {
 	enc_msnetworkcapability = retagged_enc_msnetworkcapability
 	children = append(children, enc_msnetworkcapability...)
 	if v.MSRadioAccessCapability != nil {
+		if len(*v.MSRadioAccessCapability) < 1 || len(*v.MSRadioAccessCapability) > 50 {
+			return nil, fmt.Errorf("mSRadioAccessCapability length %d violates SIZE (1..50)", len(*v.MSRadioAccessCapability))
+		}
 		enc_msradioaccesscapability, encodeErr_enc_msradioaccesscapability := ber.EncodeOctetString([]byte(*v.MSRadioAccessCapability))
 		if encodeErr_enc_msradioaccesscapability != nil {
 			return nil, fmt.Errorf("encoding mSRadioAccessCapability: %w", encodeErr_enc_msradioaccesscapability)
@@ -55063,6 +58429,9 @@ func (v *GPRSMSClass) MarshalBER() ([]byte, error) {
 // MarshalDER encodes GPRSMSClass to DER format.
 func (v *GPRSMSClass) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.MSNetworkCapability) < 1 || len(v.MSNetworkCapability) > 8 {
+		return nil, fmt.Errorf("mSNetworkCapability length %d violates SIZE (1..8)", len(v.MSNetworkCapability))
+	}
 	enc_msnetworkcapability, encodeErr_enc_msnetworkcapability := ber.EncodeOctetString([]byte(v.MSNetworkCapability))
 	if encodeErr_enc_msnetworkcapability != nil {
 		return nil, fmt.Errorf("encoding mSNetworkCapability: %w", encodeErr_enc_msnetworkcapability)
@@ -55074,6 +58443,9 @@ func (v *GPRSMSClass) MarshalDER() ([]byte, error) {
 	enc_msnetworkcapability = retagged_enc_msnetworkcapability
 	children = append(children, enc_msnetworkcapability...)
 	if v.MSRadioAccessCapability != nil {
+		if len(*v.MSRadioAccessCapability) < 1 || len(*v.MSRadioAccessCapability) > 50 {
+			return nil, fmt.Errorf("mSRadioAccessCapability length %d violates SIZE (1..50)", len(*v.MSRadioAccessCapability))
+		}
 		enc_msradioaccesscapability, encodeErr_enc_msradioaccesscapability := ber.EncodeOctetString([]byte(*v.MSRadioAccessCapability))
 		if encodeErr_enc_msradioaccesscapability != nil {
 			return nil, fmt.Errorf("encoding mSRadioAccessCapability: %w", encodeErr_enc_msradioaccesscapability)
@@ -55133,6 +58505,9 @@ func (v *GPRSMSClass) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 	}
 
 	offset += n_msnetworkcapability
+	if len(v.MSNetworkCapability) < 1 || len(v.MSNetworkCapability) > 8 {
+		return fmt.Errorf("mSNetworkCapability length %d violates SIZE (1..8)", len(v.MSNetworkCapability))
+	}
 	// Decode mSRadioAccessCapability
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -55154,6 +58529,9 @@ func (v *GPRSMSClass) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 				}
 
 				offset += n_msradioaccesscapability
+				if len(*v.MSRadioAccessCapability) < 1 || len(*v.MSRadioAccessCapability) > 50 {
+					return fmt.Errorf("mSRadioAccessCapability length %d violates SIZE (1..50)", len(*v.MSRadioAccessCapability))
+				}
 			}
 		}
 	}
@@ -55260,7 +58638,10 @@ func (v *RequestedInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_tadsdata...)
 	}
 	if v.RequestedNodes != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.RequestedNodes).BitLength < 1 || (*v.RequestedNodes).BitLength > 8 {
+			return nil, fmt.Errorf("requestedNodes length %d violates SIZE (1..8)", (*v.RequestedNodes).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.RequestedNodes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -55403,7 +58784,10 @@ func (v *RequestedInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_tadsdata...)
 	}
 	if v.RequestedNodes != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.RequestedNodes).BitLength < 1 || (*v.RequestedNodes).BitLength > 8 {
+			return nil, fmt.Errorf("requestedNodes length %d violates SIZE (1..8)", (*v.RequestedNodes).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.RequestedNodes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -55759,6 +59143,9 @@ func (v *RequestedInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 				}
 
 				offset += n_requestednodes
+				if (*v.RequestedNodes).BitLength < 1 || (*v.RequestedNodes).BitLength > 8 {
+					return fmt.Errorf("requestedNodes length %d violates SIZE (1..8)", (*v.RequestedNodes).BitLength)
+				}
 			}
 		}
 	}
@@ -55848,6 +59235,9 @@ func (v *LocationInformation) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ageoflocationinformation...)
 	}
 	if v.GeographicalInformation != nil {
+		if len(*v.GeographicalInformation) < 8 || len(*v.GeographicalInformation) > 8 {
+			return nil, fmt.Errorf("geographicalInformation length %d violates SIZE (8)", len(*v.GeographicalInformation))
+		}
 		enc_geographicalinformation, encodeErr_enc_geographicalinformation := ber.EncodeOctetString([]byte(*v.GeographicalInformation))
 		if encodeErr_enc_geographicalinformation != nil {
 			return nil, fmt.Errorf("encoding geographicalInformation: %w", encodeErr_enc_geographicalinformation)
@@ -55860,6 +59250,12 @@ func (v *LocationInformation) MarshalBER() ([]byte, error) {
 		children = append(children, enc_geographicalinformation...)
 	}
 	if v.VlrNumber != nil {
+		if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 9 {
+			return nil, fmt.Errorf("vlr-number length %d violates SIZE (1..9)", len(*v.VlrNumber))
+		}
+		if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 20 {
+			return nil, fmt.Errorf("vlr-number length %d violates SIZE (1..20)", len(*v.VlrNumber))
+		}
 		enc_vlrnumber, encodeErr_enc_vlrnumber := ber.EncodeOctetString([]byte(*v.VlrNumber))
 		if encodeErr_enc_vlrnumber != nil {
 			return nil, fmt.Errorf("encoding vlr-number: %w", encodeErr_enc_vlrnumber)
@@ -55872,6 +59268,9 @@ func (v *LocationInformation) MarshalBER() ([]byte, error) {
 		children = append(children, enc_vlrnumber...)
 	}
 	if v.LocationNumber != nil {
+		if len(*v.LocationNumber) < 2 || len(*v.LocationNumber) > 10 {
+			return nil, fmt.Errorf("locationNumber length %d violates SIZE (2..10)", len(*v.LocationNumber))
+		}
 		enc_locationnumber, encodeErr_enc_locationnumber := ber.EncodeOctetString([]byte(*v.LocationNumber))
 		if encodeErr_enc_locationnumber != nil {
 			return nil, fmt.Errorf("encoding locationNumber: %w", encodeErr_enc_locationnumber)
@@ -55910,6 +59309,9 @@ func (v *LocationInformation) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.SelectedLSAId != nil {
+		if len(*v.SelectedLSAId) < 3 || len(*v.SelectedLSAId) > 3 {
+			return nil, fmt.Errorf("selectedLSA-Id length %d violates SIZE (3)", len(*v.SelectedLSAId))
+		}
 		enc_selectedlsaid, encodeErr_enc_selectedlsaid := ber.EncodeOctetString([]byte(*v.SelectedLSAId))
 		if encodeErr_enc_selectedlsaid != nil {
 			return nil, fmt.Errorf("encoding selectedLSA-Id: %w", encodeErr_enc_selectedlsaid)
@@ -55922,6 +59324,12 @@ func (v *LocationInformation) MarshalBER() ([]byte, error) {
 		children = append(children, enc_selectedlsaid...)
 	}
 	if v.MscNumber != nil {
+		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 9 {
+			return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..9)", len(*v.MscNumber))
+		}
+		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 20 {
+			return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..20)", len(*v.MscNumber))
+		}
 		enc_mscnumber, encodeErr_enc_mscnumber := ber.EncodeOctetString([]byte(*v.MscNumber))
 		if encodeErr_enc_mscnumber != nil {
 			return nil, fmt.Errorf("encoding msc-Number: %w", encodeErr_enc_mscnumber)
@@ -55934,6 +59342,9 @@ func (v *LocationInformation) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mscnumber...)
 	}
 	if v.GeodeticInformation != nil {
+		if len(*v.GeodeticInformation) < 10 || len(*v.GeodeticInformation) > 10 {
+			return nil, fmt.Errorf("geodeticInformation length %d violates SIZE (10)", len(*v.GeodeticInformation))
+		}
 		enc_geodeticinformation, encodeErr_enc_geodeticinformation := ber.EncodeOctetString([]byte(*v.GeodeticInformation))
 		if encodeErr_enc_geodeticinformation != nil {
 			return nil, fmt.Errorf("encoding geodeticInformation: %w", encodeErr_enc_geodeticinformation)
@@ -56008,6 +59419,9 @@ func (v *LocationInformation) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ageoflocationinformation...)
 	}
 	if v.GeographicalInformation != nil {
+		if len(*v.GeographicalInformation) < 8 || len(*v.GeographicalInformation) > 8 {
+			return nil, fmt.Errorf("geographicalInformation length %d violates SIZE (8)", len(*v.GeographicalInformation))
+		}
 		enc_geographicalinformation, encodeErr_enc_geographicalinformation := ber.EncodeOctetString([]byte(*v.GeographicalInformation))
 		if encodeErr_enc_geographicalinformation != nil {
 			return nil, fmt.Errorf("encoding geographicalInformation: %w", encodeErr_enc_geographicalinformation)
@@ -56020,6 +59434,12 @@ func (v *LocationInformation) MarshalDER() ([]byte, error) {
 		children = append(children, enc_geographicalinformation...)
 	}
 	if v.VlrNumber != nil {
+		if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 9 {
+			return nil, fmt.Errorf("vlr-number length %d violates SIZE (1..9)", len(*v.VlrNumber))
+		}
+		if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 20 {
+			return nil, fmt.Errorf("vlr-number length %d violates SIZE (1..20)", len(*v.VlrNumber))
+		}
 		enc_vlrnumber, encodeErr_enc_vlrnumber := ber.EncodeOctetString([]byte(*v.VlrNumber))
 		if encodeErr_enc_vlrnumber != nil {
 			return nil, fmt.Errorf("encoding vlr-number: %w", encodeErr_enc_vlrnumber)
@@ -56032,6 +59452,9 @@ func (v *LocationInformation) MarshalDER() ([]byte, error) {
 		children = append(children, enc_vlrnumber...)
 	}
 	if v.LocationNumber != nil {
+		if len(*v.LocationNumber) < 2 || len(*v.LocationNumber) > 10 {
+			return nil, fmt.Errorf("locationNumber length %d violates SIZE (2..10)", len(*v.LocationNumber))
+		}
 		enc_locationnumber, encodeErr_enc_locationnumber := ber.EncodeOctetString([]byte(*v.LocationNumber))
 		if encodeErr_enc_locationnumber != nil {
 			return nil, fmt.Errorf("encoding locationNumber: %w", encodeErr_enc_locationnumber)
@@ -56070,6 +59493,9 @@ func (v *LocationInformation) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.SelectedLSAId != nil {
+		if len(*v.SelectedLSAId) < 3 || len(*v.SelectedLSAId) > 3 {
+			return nil, fmt.Errorf("selectedLSA-Id length %d violates SIZE (3)", len(*v.SelectedLSAId))
+		}
 		enc_selectedlsaid, encodeErr_enc_selectedlsaid := ber.EncodeOctetString([]byte(*v.SelectedLSAId))
 		if encodeErr_enc_selectedlsaid != nil {
 			return nil, fmt.Errorf("encoding selectedLSA-Id: %w", encodeErr_enc_selectedlsaid)
@@ -56082,6 +59508,12 @@ func (v *LocationInformation) MarshalDER() ([]byte, error) {
 		children = append(children, enc_selectedlsaid...)
 	}
 	if v.MscNumber != nil {
+		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 9 {
+			return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..9)", len(*v.MscNumber))
+		}
+		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 20 {
+			return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..20)", len(*v.MscNumber))
+		}
 		enc_mscnumber, encodeErr_enc_mscnumber := ber.EncodeOctetString([]byte(*v.MscNumber))
 		if encodeErr_enc_mscnumber != nil {
 			return nil, fmt.Errorf("encoding msc-Number: %w", encodeErr_enc_mscnumber)
@@ -56094,6 +59526,9 @@ func (v *LocationInformation) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mscnumber...)
 	}
 	if v.GeodeticInformation != nil {
+		if len(*v.GeodeticInformation) < 10 || len(*v.GeodeticInformation) > 10 {
+			return nil, fmt.Errorf("geodeticInformation length %d violates SIZE (10)", len(*v.GeodeticInformation))
+		}
 		enc_geodeticinformation, encodeErr_enc_geodeticinformation := ber.EncodeOctetString([]byte(*v.GeodeticInformation))
 		if encodeErr_enc_geodeticinformation != nil {
 			return nil, fmt.Errorf("encoding geodeticInformation: %w", encodeErr_enc_geodeticinformation)
@@ -56218,6 +59653,9 @@ func (v *LocationInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_geographicalinformation
+				if len(*v.GeographicalInformation) < 8 || len(*v.GeographicalInformation) > 8 {
+					return fmt.Errorf("geographicalInformation length %d violates SIZE (8)", len(*v.GeographicalInformation))
+				}
 			}
 		}
 	}
@@ -56241,6 +59679,12 @@ func (v *LocationInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_vlrnumber
+				if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 9 {
+					return fmt.Errorf("vlr-number length %d violates SIZE (1..9)", len(*v.VlrNumber))
+				}
+				if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 20 {
+					return fmt.Errorf("vlr-number length %d violates SIZE (1..20)", len(*v.VlrNumber))
+				}
 			}
 		}
 	}
@@ -56264,6 +59708,9 @@ func (v *LocationInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_locationnumber
+				if len(*v.LocationNumber) < 2 || len(*v.LocationNumber) > 10 {
+					return fmt.Errorf("locationNumber length %d violates SIZE (2..10)", len(*v.LocationNumber))
+				}
 			}
 		}
 	}
@@ -56346,6 +59793,9 @@ func (v *LocationInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_selectedlsaid
+				if len(*v.SelectedLSAId) < 3 || len(*v.SelectedLSAId) > 3 {
+					return fmt.Errorf("selectedLSA-Id length %d violates SIZE (3)", len(*v.SelectedLSAId))
+				}
 			}
 		}
 	}
@@ -56369,6 +59819,12 @@ func (v *LocationInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_mscnumber
+				if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 9 {
+					return fmt.Errorf("msc-Number length %d violates SIZE (1..9)", len(*v.MscNumber))
+				}
+				if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 20 {
+					return fmt.Errorf("msc-Number length %d violates SIZE (1..20)", len(*v.MscNumber))
+				}
 			}
 		}
 	}
@@ -56393,6 +59849,9 @@ func (v *LocationInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_geodeticinformation
+				if len(*v.GeodeticInformation) < 10 || len(*v.GeodeticInformation) > 10 {
+					return fmt.Errorf("geodeticInformation length %d violates SIZE (10)", len(*v.GeodeticInformation))
+				}
 			}
 		}
 	}
@@ -56539,6 +59998,9 @@ func (v *LocationInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 func (v *LocationInformationEPS) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.EUtranCellGlobalIdentity != nil {
+		if len(*v.EUtranCellGlobalIdentity) < 7 || len(*v.EUtranCellGlobalIdentity) > 7 {
+			return nil, fmt.Errorf("e-utranCellGlobalIdentity length %d violates SIZE (7)", len(*v.EUtranCellGlobalIdentity))
+		}
 		enc_eutrancellglobalidentity, encodeErr_enc_eutrancellglobalidentity := ber.EncodeOctetString([]byte(*v.EUtranCellGlobalIdentity))
 		if encodeErr_enc_eutrancellglobalidentity != nil {
 			return nil, fmt.Errorf("encoding e-utranCellGlobalIdentity: %w", encodeErr_enc_eutrancellglobalidentity)
@@ -56551,6 +60013,9 @@ func (v *LocationInformationEPS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_eutrancellglobalidentity...)
 	}
 	if v.TrackingAreaIdentity != nil {
+		if len(*v.TrackingAreaIdentity) < 5 || len(*v.TrackingAreaIdentity) > 5 {
+			return nil, fmt.Errorf("trackingAreaIdentity length %d violates SIZE (5)", len(*v.TrackingAreaIdentity))
+		}
 		enc_trackingareaidentity, encodeErr_enc_trackingareaidentity := ber.EncodeOctetString([]byte(*v.TrackingAreaIdentity))
 		if encodeErr_enc_trackingareaidentity != nil {
 			return nil, fmt.Errorf("encoding trackingAreaIdentity: %w", encodeErr_enc_trackingareaidentity)
@@ -56575,6 +60040,9 @@ func (v *LocationInformationEPS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.GeographicalInformation != nil {
+		if len(*v.GeographicalInformation) < 8 || len(*v.GeographicalInformation) > 8 {
+			return nil, fmt.Errorf("geographicalInformation length %d violates SIZE (8)", len(*v.GeographicalInformation))
+		}
 		enc_geographicalinformation, encodeErr_enc_geographicalinformation := ber.EncodeOctetString([]byte(*v.GeographicalInformation))
 		if encodeErr_enc_geographicalinformation != nil {
 			return nil, fmt.Errorf("encoding geographicalInformation: %w", encodeErr_enc_geographicalinformation)
@@ -56587,6 +60055,9 @@ func (v *LocationInformationEPS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_geographicalinformation...)
 	}
 	if v.GeodeticInformation != nil {
+		if len(*v.GeodeticInformation) < 10 || len(*v.GeodeticInformation) > 10 {
+			return nil, fmt.Errorf("geodeticInformation length %d violates SIZE (10)", len(*v.GeodeticInformation))
+		}
 		enc_geodeticinformation, encodeErr_enc_geodeticinformation := ber.EncodeOctetString([]byte(*v.GeodeticInformation))
 		if encodeErr_enc_geodeticinformation != nil {
 			return nil, fmt.Errorf("encoding geodeticInformation: %w", encodeErr_enc_geodeticinformation)
@@ -56617,6 +60088,9 @@ func (v *LocationInformationEPS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ageoflocationinformation...)
 	}
 	if v.MmeName != nil {
+		if len(*v.MmeName) < 9 || len(*v.MmeName) > 255 {
+			return nil, fmt.Errorf("mme-Name length %d violates SIZE (9..255)", len(*v.MmeName))
+		}
 		enc_mmename, encodeErr_enc_mmename := ber.EncodeOctetString([]byte(*v.MmeName))
 		if encodeErr_enc_mmename != nil {
 			return nil, fmt.Errorf("encoding mme-Name: %w", encodeErr_enc_mmename)
@@ -56645,6 +60119,9 @@ func (v *LocationInformationEPS) MarshalBER() ([]byte, error) {
 func (v *LocationInformationEPS) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.EUtranCellGlobalIdentity != nil {
+		if len(*v.EUtranCellGlobalIdentity) < 7 || len(*v.EUtranCellGlobalIdentity) > 7 {
+			return nil, fmt.Errorf("e-utranCellGlobalIdentity length %d violates SIZE (7)", len(*v.EUtranCellGlobalIdentity))
+		}
 		enc_eutrancellglobalidentity, encodeErr_enc_eutrancellglobalidentity := ber.EncodeOctetString([]byte(*v.EUtranCellGlobalIdentity))
 		if encodeErr_enc_eutrancellglobalidentity != nil {
 			return nil, fmt.Errorf("encoding e-utranCellGlobalIdentity: %w", encodeErr_enc_eutrancellglobalidentity)
@@ -56657,6 +60134,9 @@ func (v *LocationInformationEPS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_eutrancellglobalidentity...)
 	}
 	if v.TrackingAreaIdentity != nil {
+		if len(*v.TrackingAreaIdentity) < 5 || len(*v.TrackingAreaIdentity) > 5 {
+			return nil, fmt.Errorf("trackingAreaIdentity length %d violates SIZE (5)", len(*v.TrackingAreaIdentity))
+		}
 		enc_trackingareaidentity, encodeErr_enc_trackingareaidentity := ber.EncodeOctetString([]byte(*v.TrackingAreaIdentity))
 		if encodeErr_enc_trackingareaidentity != nil {
 			return nil, fmt.Errorf("encoding trackingAreaIdentity: %w", encodeErr_enc_trackingareaidentity)
@@ -56681,6 +60161,9 @@ func (v *LocationInformationEPS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.GeographicalInformation != nil {
+		if len(*v.GeographicalInformation) < 8 || len(*v.GeographicalInformation) > 8 {
+			return nil, fmt.Errorf("geographicalInformation length %d violates SIZE (8)", len(*v.GeographicalInformation))
+		}
 		enc_geographicalinformation, encodeErr_enc_geographicalinformation := ber.EncodeOctetString([]byte(*v.GeographicalInformation))
 		if encodeErr_enc_geographicalinformation != nil {
 			return nil, fmt.Errorf("encoding geographicalInformation: %w", encodeErr_enc_geographicalinformation)
@@ -56693,6 +60176,9 @@ func (v *LocationInformationEPS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_geographicalinformation...)
 	}
 	if v.GeodeticInformation != nil {
+		if len(*v.GeodeticInformation) < 10 || len(*v.GeodeticInformation) > 10 {
+			return nil, fmt.Errorf("geodeticInformation length %d violates SIZE (10)", len(*v.GeodeticInformation))
+		}
 		enc_geodeticinformation, encodeErr_enc_geodeticinformation := ber.EncodeOctetString([]byte(*v.GeodeticInformation))
 		if encodeErr_enc_geodeticinformation != nil {
 			return nil, fmt.Errorf("encoding geodeticInformation: %w", encodeErr_enc_geodeticinformation)
@@ -56723,6 +60209,9 @@ func (v *LocationInformationEPS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ageoflocationinformation...)
 	}
 	if v.MmeName != nil {
+		if len(*v.MmeName) < 9 || len(*v.MmeName) > 255 {
+			return nil, fmt.Errorf("mme-Name length %d violates SIZE (9..255)", len(*v.MmeName))
+		}
 		enc_mmename, encodeErr_enc_mmename := ber.EncodeOctetString([]byte(*v.MmeName))
 		if encodeErr_enc_mmename != nil {
 			return nil, fmt.Errorf("encoding mme-Name: %w", encodeErr_enc_mmename)
@@ -56785,6 +60274,9 @@ func (v *LocationInformationEPS) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_eutrancellglobalidentity
+				if len(*v.EUtranCellGlobalIdentity) < 7 || len(*v.EUtranCellGlobalIdentity) > 7 {
+					return fmt.Errorf("e-utranCellGlobalIdentity length %d violates SIZE (7)", len(*v.EUtranCellGlobalIdentity))
+				}
 			}
 		}
 	}
@@ -56809,6 +60301,9 @@ func (v *LocationInformationEPS) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_trackingareaidentity
+				if len(*v.TrackingAreaIdentity) < 5 || len(*v.TrackingAreaIdentity) > 5 {
+					return fmt.Errorf("trackingAreaIdentity length %d violates SIZE (5)", len(*v.TrackingAreaIdentity))
+				}
 			}
 		}
 	}
@@ -56864,6 +60359,9 @@ func (v *LocationInformationEPS) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_geographicalinformation
+				if len(*v.GeographicalInformation) < 8 || len(*v.GeographicalInformation) > 8 {
+					return fmt.Errorf("geographicalInformation length %d violates SIZE (8)", len(*v.GeographicalInformation))
+				}
 			}
 		}
 	}
@@ -56888,6 +60386,9 @@ func (v *LocationInformationEPS) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_geodeticinformation
+				if len(*v.GeodeticInformation) < 10 || len(*v.GeodeticInformation) > 10 {
+					return fmt.Errorf("geodeticInformation length %d violates SIZE (10)", len(*v.GeodeticInformation))
+				}
 			}
 		}
 	}
@@ -56965,6 +60466,9 @@ func (v *LocationInformationEPS) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_mmename
+				if len(*v.MmeName) < 9 || len(*v.MmeName) > 255 {
+					return fmt.Errorf("mme-Name length %d violates SIZE (9..255)", len(*v.MmeName))
+				}
 			}
 		}
 	}
@@ -57012,6 +60516,9 @@ func (v *LocationInformationGPRS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_cellglobalidorserviceareaidorlai...)
 	}
 	if v.RouteingAreaIdentity != nil {
+		if len(*v.RouteingAreaIdentity) < 6 || len(*v.RouteingAreaIdentity) > 6 {
+			return nil, fmt.Errorf("routeingAreaIdentity length %d violates SIZE (6)", len(*v.RouteingAreaIdentity))
+		}
 		enc_routeingareaidentity, encodeErr_enc_routeingareaidentity := ber.EncodeOctetString([]byte(*v.RouteingAreaIdentity))
 		if encodeErr_enc_routeingareaidentity != nil {
 			return nil, fmt.Errorf("encoding routeingAreaIdentity: %w", encodeErr_enc_routeingareaidentity)
@@ -57024,6 +60531,9 @@ func (v *LocationInformationGPRS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_routeingareaidentity...)
 	}
 	if v.GeographicalInformation != nil {
+		if len(*v.GeographicalInformation) < 8 || len(*v.GeographicalInformation) > 8 {
+			return nil, fmt.Errorf("geographicalInformation length %d violates SIZE (8)", len(*v.GeographicalInformation))
+		}
 		enc_geographicalinformation, encodeErr_enc_geographicalinformation := ber.EncodeOctetString([]byte(*v.GeographicalInformation))
 		if encodeErr_enc_geographicalinformation != nil {
 			return nil, fmt.Errorf("encoding geographicalInformation: %w", encodeErr_enc_geographicalinformation)
@@ -57036,6 +60546,12 @@ func (v *LocationInformationGPRS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_geographicalinformation...)
 	}
 	if v.SgsnNumber != nil {
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+		}
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+		}
 		enc_sgsnnumber, encodeErr_enc_sgsnnumber := ber.EncodeOctetString([]byte(*v.SgsnNumber))
 		if encodeErr_enc_sgsnnumber != nil {
 			return nil, fmt.Errorf("encoding sgsn-Number: %w", encodeErr_enc_sgsnnumber)
@@ -57048,6 +60564,9 @@ func (v *LocationInformationGPRS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_sgsnnumber...)
 	}
 	if v.SelectedLSAIdentity != nil {
+		if len(*v.SelectedLSAIdentity) < 3 || len(*v.SelectedLSAIdentity) > 3 {
+			return nil, fmt.Errorf("selectedLSAIdentity length %d violates SIZE (3)", len(*v.SelectedLSAIdentity))
+		}
 		enc_selectedlsaidentity, encodeErr_enc_selectedlsaidentity := ber.EncodeOctetString([]byte(*v.SelectedLSAIdentity))
 		if encodeErr_enc_selectedlsaidentity != nil {
 			return nil, fmt.Errorf("encoding selectedLSAIdentity: %w", encodeErr_enc_selectedlsaidentity)
@@ -57081,6 +60600,9 @@ func (v *LocationInformationGPRS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_saipresent...)
 	}
 	if v.GeodeticInformation != nil {
+		if len(*v.GeodeticInformation) < 10 || len(*v.GeodeticInformation) > 10 {
+			return nil, fmt.Errorf("geodeticInformation length %d violates SIZE (10)", len(*v.GeodeticInformation))
+		}
 		enc_geodeticinformation, encodeErr_enc_geodeticinformation := ber.EncodeOctetString([]byte(*v.GeodeticInformation))
 		if encodeErr_enc_geodeticinformation != nil {
 			return nil, fmt.Errorf("encoding geodeticInformation: %w", encodeErr_enc_geodeticinformation)
@@ -57153,6 +60675,9 @@ func (v *LocationInformationGPRS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_cellglobalidorserviceareaidorlai...)
 	}
 	if v.RouteingAreaIdentity != nil {
+		if len(*v.RouteingAreaIdentity) < 6 || len(*v.RouteingAreaIdentity) > 6 {
+			return nil, fmt.Errorf("routeingAreaIdentity length %d violates SIZE (6)", len(*v.RouteingAreaIdentity))
+		}
 		enc_routeingareaidentity, encodeErr_enc_routeingareaidentity := ber.EncodeOctetString([]byte(*v.RouteingAreaIdentity))
 		if encodeErr_enc_routeingareaidentity != nil {
 			return nil, fmt.Errorf("encoding routeingAreaIdentity: %w", encodeErr_enc_routeingareaidentity)
@@ -57165,6 +60690,9 @@ func (v *LocationInformationGPRS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_routeingareaidentity...)
 	}
 	if v.GeographicalInformation != nil {
+		if len(*v.GeographicalInformation) < 8 || len(*v.GeographicalInformation) > 8 {
+			return nil, fmt.Errorf("geographicalInformation length %d violates SIZE (8)", len(*v.GeographicalInformation))
+		}
 		enc_geographicalinformation, encodeErr_enc_geographicalinformation := ber.EncodeOctetString([]byte(*v.GeographicalInformation))
 		if encodeErr_enc_geographicalinformation != nil {
 			return nil, fmt.Errorf("encoding geographicalInformation: %w", encodeErr_enc_geographicalinformation)
@@ -57177,6 +60705,12 @@ func (v *LocationInformationGPRS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_geographicalinformation...)
 	}
 	if v.SgsnNumber != nil {
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+		}
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+		}
 		enc_sgsnnumber, encodeErr_enc_sgsnnumber := ber.EncodeOctetString([]byte(*v.SgsnNumber))
 		if encodeErr_enc_sgsnnumber != nil {
 			return nil, fmt.Errorf("encoding sgsn-Number: %w", encodeErr_enc_sgsnnumber)
@@ -57189,6 +60723,9 @@ func (v *LocationInformationGPRS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sgsnnumber...)
 	}
 	if v.SelectedLSAIdentity != nil {
+		if len(*v.SelectedLSAIdentity) < 3 || len(*v.SelectedLSAIdentity) > 3 {
+			return nil, fmt.Errorf("selectedLSAIdentity length %d violates SIZE (3)", len(*v.SelectedLSAIdentity))
+		}
 		enc_selectedlsaidentity, encodeErr_enc_selectedlsaidentity := ber.EncodeOctetString([]byte(*v.SelectedLSAIdentity))
 		if encodeErr_enc_selectedlsaidentity != nil {
 			return nil, fmt.Errorf("encoding selectedLSAIdentity: %w", encodeErr_enc_selectedlsaidentity)
@@ -57222,6 +60759,9 @@ func (v *LocationInformationGPRS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_saipresent...)
 	}
 	if v.GeodeticInformation != nil {
+		if len(*v.GeodeticInformation) < 10 || len(*v.GeodeticInformation) > 10 {
+			return nil, fmt.Errorf("geodeticInformation length %d violates SIZE (10)", len(*v.GeodeticInformation))
+		}
 		enc_geodeticinformation, encodeErr_enc_geodeticinformation := ber.EncodeOctetString([]byte(*v.GeodeticInformation))
 		if encodeErr_enc_geodeticinformation != nil {
 			return nil, fmt.Errorf("encoding geodeticInformation: %w", encodeErr_enc_geodeticinformation)
@@ -57342,6 +60882,9 @@ func (v *LocationInformationGPRS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_routeingareaidentity
+				if len(*v.RouteingAreaIdentity) < 6 || len(*v.RouteingAreaIdentity) > 6 {
+					return fmt.Errorf("routeingAreaIdentity length %d violates SIZE (6)", len(*v.RouteingAreaIdentity))
+				}
 			}
 		}
 	}
@@ -57366,6 +60909,9 @@ func (v *LocationInformationGPRS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_geographicalinformation
+				if len(*v.GeographicalInformation) < 8 || len(*v.GeographicalInformation) > 8 {
+					return fmt.Errorf("geographicalInformation length %d violates SIZE (8)", len(*v.GeographicalInformation))
+				}
 			}
 		}
 	}
@@ -57389,6 +60935,12 @@ func (v *LocationInformationGPRS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_sgsnnumber
+				if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+					return fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+				}
+				if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+					return fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+				}
 			}
 		}
 	}
@@ -57413,6 +60965,9 @@ func (v *LocationInformationGPRS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_selectedlsaidentity
+				if len(*v.SelectedLSAIdentity) < 3 || len(*v.SelectedLSAIdentity) > 3 {
+					return fmt.Errorf("selectedLSAIdentity length %d violates SIZE (3)", len(*v.SelectedLSAIdentity))
+				}
 			}
 		}
 	}
@@ -57493,6 +61048,9 @@ func (v *LocationInformationGPRS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_geodeticinformation
+				if len(*v.GeodeticInformation) < 10 || len(*v.GeodeticInformation) > 10 {
+					return fmt.Errorf("geodeticInformation length %d violates SIZE (10)", len(*v.GeodeticInformation))
+				}
 			}
 		}
 	}
@@ -57611,6 +61169,9 @@ func (v *LocationInformationGPRS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 func (v *LocationInformation5GS) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.NrCellGlobalIdentity != nil {
+		if len(*v.NrCellGlobalIdentity) < 8 || len(*v.NrCellGlobalIdentity) > 8 {
+			return nil, fmt.Errorf("nrCellGlobalIdentity length %d violates SIZE (8)", len(*v.NrCellGlobalIdentity))
+		}
 		enc_nrcellglobalidentity, encodeErr_enc_nrcellglobalidentity := ber.EncodeOctetString([]byte(*v.NrCellGlobalIdentity))
 		if encodeErr_enc_nrcellglobalidentity != nil {
 			return nil, fmt.Errorf("encoding nrCellGlobalIdentity: %w", encodeErr_enc_nrcellglobalidentity)
@@ -57623,6 +61184,9 @@ func (v *LocationInformation5GS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_nrcellglobalidentity...)
 	}
 	if v.EUtranCellGlobalIdentity != nil {
+		if len(*v.EUtranCellGlobalIdentity) < 7 || len(*v.EUtranCellGlobalIdentity) > 7 {
+			return nil, fmt.Errorf("e-utranCellGlobalIdentity length %d violates SIZE (7)", len(*v.EUtranCellGlobalIdentity))
+		}
 		enc_eutrancellglobalidentity, encodeErr_enc_eutrancellglobalidentity := ber.EncodeOctetString([]byte(*v.EUtranCellGlobalIdentity))
 		if encodeErr_enc_eutrancellglobalidentity != nil {
 			return nil, fmt.Errorf("encoding e-utranCellGlobalIdentity: %w", encodeErr_enc_eutrancellglobalidentity)
@@ -57635,6 +61199,9 @@ func (v *LocationInformation5GS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_eutrancellglobalidentity...)
 	}
 	if v.GeographicalInformation != nil {
+		if len(*v.GeographicalInformation) < 8 || len(*v.GeographicalInformation) > 8 {
+			return nil, fmt.Errorf("geographicalInformation length %d violates SIZE (8)", len(*v.GeographicalInformation))
+		}
 		enc_geographicalinformation, encodeErr_enc_geographicalinformation := ber.EncodeOctetString([]byte(*v.GeographicalInformation))
 		if encodeErr_enc_geographicalinformation != nil {
 			return nil, fmt.Errorf("encoding geographicalInformation: %w", encodeErr_enc_geographicalinformation)
@@ -57647,6 +61214,9 @@ func (v *LocationInformation5GS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_geographicalinformation...)
 	}
 	if v.GeodeticInformation != nil {
+		if len(*v.GeodeticInformation) < 10 || len(*v.GeodeticInformation) > 10 {
+			return nil, fmt.Errorf("geodeticInformation length %d violates SIZE (10)", len(*v.GeodeticInformation))
+		}
 		enc_geodeticinformation, encodeErr_enc_geodeticinformation := ber.EncodeOctetString([]byte(*v.GeodeticInformation))
 		if encodeErr_enc_geodeticinformation != nil {
 			return nil, fmt.Errorf("encoding geodeticInformation: %w", encodeErr_enc_geodeticinformation)
@@ -57659,6 +61229,9 @@ func (v *LocationInformation5GS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_geodeticinformation...)
 	}
 	if v.AmfAddress != nil {
+		if len(*v.AmfAddress) < 9 || len(*v.AmfAddress) > 255 {
+			return nil, fmt.Errorf("amf-address length %d violates SIZE (9..255)", len(*v.AmfAddress))
+		}
 		enc_amfaddress, encodeErr_enc_amfaddress := ber.EncodeOctetString([]byte(*v.AmfAddress))
 		if encodeErr_enc_amfaddress != nil {
 			return nil, fmt.Errorf("encoding amf-address: %w", encodeErr_enc_amfaddress)
@@ -57671,6 +61244,9 @@ func (v *LocationInformation5GS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_amfaddress...)
 	}
 	if v.TrackingAreaIdentity != nil {
+		if len(*v.TrackingAreaIdentity) < 5 || len(*v.TrackingAreaIdentity) > 5 {
+			return nil, fmt.Errorf("trackingAreaIdentity length %d violates SIZE (5)", len(*v.TrackingAreaIdentity))
+		}
 		enc_trackingareaidentity, encodeErr_enc_trackingareaidentity := ber.EncodeOctetString([]byte(*v.TrackingAreaIdentity))
 		if encodeErr_enc_trackingareaidentity != nil {
 			return nil, fmt.Errorf("encoding trackingAreaIdentity: %w", encodeErr_enc_trackingareaidentity)
@@ -57701,6 +61277,9 @@ func (v *LocationInformation5GS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ageoflocationinformation...)
 	}
 	if v.VplmnId != nil {
+		if len(*v.VplmnId) < 3 || len(*v.VplmnId) > 3 {
+			return nil, fmt.Errorf("vplmnId length %d violates SIZE (3)", len(*v.VplmnId))
+		}
 		enc_vplmnid, encodeErr_enc_vplmnid := ber.EncodeOctetString([]byte(*v.VplmnId))
 		if encodeErr_enc_vplmnid != nil {
 			return nil, fmt.Errorf("encoding vplmnId: %w", encodeErr_enc_vplmnid)
@@ -57713,6 +61292,9 @@ func (v *LocationInformation5GS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_vplmnid...)
 	}
 	if v.LocaltimeZone != nil {
+		if len(*v.LocaltimeZone) < 2 || len(*v.LocaltimeZone) > 3 {
+			return nil, fmt.Errorf("localtimeZone length %d violates SIZE (2..3)", len(*v.LocaltimeZone))
+		}
 		enc_localtimezone, encodeErr_enc_localtimezone := ber.EncodeOctetString([]byte(*v.LocaltimeZone))
 		if encodeErr_enc_localtimezone != nil {
 			return nil, fmt.Errorf("encoding localtimeZone: %w", encodeErr_enc_localtimezone)
@@ -57746,6 +61328,9 @@ func (v *LocationInformation5GS) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.NrTrackingAreaIdentity != nil {
+		if len(*v.NrTrackingAreaIdentity) < 6 || len(*v.NrTrackingAreaIdentity) > 6 {
+			return nil, fmt.Errorf("nrTrackingAreaIdentity length %d violates SIZE (6)", len(*v.NrTrackingAreaIdentity))
+		}
 		enc_nrtrackingareaidentity, encodeErr_enc_nrtrackingareaidentity := ber.EncodeOctetString([]byte(*v.NrTrackingAreaIdentity))
 		if encodeErr_enc_nrtrackingareaidentity != nil {
 			return nil, fmt.Errorf("encoding nrTrackingAreaIdentity: %w", encodeErr_enc_nrtrackingareaidentity)
@@ -57774,6 +61359,9 @@ func (v *LocationInformation5GS) MarshalBER() ([]byte, error) {
 func (v *LocationInformation5GS) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.NrCellGlobalIdentity != nil {
+		if len(*v.NrCellGlobalIdentity) < 8 || len(*v.NrCellGlobalIdentity) > 8 {
+			return nil, fmt.Errorf("nrCellGlobalIdentity length %d violates SIZE (8)", len(*v.NrCellGlobalIdentity))
+		}
 		enc_nrcellglobalidentity, encodeErr_enc_nrcellglobalidentity := ber.EncodeOctetString([]byte(*v.NrCellGlobalIdentity))
 		if encodeErr_enc_nrcellglobalidentity != nil {
 			return nil, fmt.Errorf("encoding nrCellGlobalIdentity: %w", encodeErr_enc_nrcellglobalidentity)
@@ -57786,6 +61374,9 @@ func (v *LocationInformation5GS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_nrcellglobalidentity...)
 	}
 	if v.EUtranCellGlobalIdentity != nil {
+		if len(*v.EUtranCellGlobalIdentity) < 7 || len(*v.EUtranCellGlobalIdentity) > 7 {
+			return nil, fmt.Errorf("e-utranCellGlobalIdentity length %d violates SIZE (7)", len(*v.EUtranCellGlobalIdentity))
+		}
 		enc_eutrancellglobalidentity, encodeErr_enc_eutrancellglobalidentity := ber.EncodeOctetString([]byte(*v.EUtranCellGlobalIdentity))
 		if encodeErr_enc_eutrancellglobalidentity != nil {
 			return nil, fmt.Errorf("encoding e-utranCellGlobalIdentity: %w", encodeErr_enc_eutrancellglobalidentity)
@@ -57798,6 +61389,9 @@ func (v *LocationInformation5GS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_eutrancellglobalidentity...)
 	}
 	if v.GeographicalInformation != nil {
+		if len(*v.GeographicalInformation) < 8 || len(*v.GeographicalInformation) > 8 {
+			return nil, fmt.Errorf("geographicalInformation length %d violates SIZE (8)", len(*v.GeographicalInformation))
+		}
 		enc_geographicalinformation, encodeErr_enc_geographicalinformation := ber.EncodeOctetString([]byte(*v.GeographicalInformation))
 		if encodeErr_enc_geographicalinformation != nil {
 			return nil, fmt.Errorf("encoding geographicalInformation: %w", encodeErr_enc_geographicalinformation)
@@ -57810,6 +61404,9 @@ func (v *LocationInformation5GS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_geographicalinformation...)
 	}
 	if v.GeodeticInformation != nil {
+		if len(*v.GeodeticInformation) < 10 || len(*v.GeodeticInformation) > 10 {
+			return nil, fmt.Errorf("geodeticInformation length %d violates SIZE (10)", len(*v.GeodeticInformation))
+		}
 		enc_geodeticinformation, encodeErr_enc_geodeticinformation := ber.EncodeOctetString([]byte(*v.GeodeticInformation))
 		if encodeErr_enc_geodeticinformation != nil {
 			return nil, fmt.Errorf("encoding geodeticInformation: %w", encodeErr_enc_geodeticinformation)
@@ -57822,6 +61419,9 @@ func (v *LocationInformation5GS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_geodeticinformation...)
 	}
 	if v.AmfAddress != nil {
+		if len(*v.AmfAddress) < 9 || len(*v.AmfAddress) > 255 {
+			return nil, fmt.Errorf("amf-address length %d violates SIZE (9..255)", len(*v.AmfAddress))
+		}
 		enc_amfaddress, encodeErr_enc_amfaddress := ber.EncodeOctetString([]byte(*v.AmfAddress))
 		if encodeErr_enc_amfaddress != nil {
 			return nil, fmt.Errorf("encoding amf-address: %w", encodeErr_enc_amfaddress)
@@ -57834,6 +61434,9 @@ func (v *LocationInformation5GS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_amfaddress...)
 	}
 	if v.TrackingAreaIdentity != nil {
+		if len(*v.TrackingAreaIdentity) < 5 || len(*v.TrackingAreaIdentity) > 5 {
+			return nil, fmt.Errorf("trackingAreaIdentity length %d violates SIZE (5)", len(*v.TrackingAreaIdentity))
+		}
 		enc_trackingareaidentity, encodeErr_enc_trackingareaidentity := ber.EncodeOctetString([]byte(*v.TrackingAreaIdentity))
 		if encodeErr_enc_trackingareaidentity != nil {
 			return nil, fmt.Errorf("encoding trackingAreaIdentity: %w", encodeErr_enc_trackingareaidentity)
@@ -57864,6 +61467,9 @@ func (v *LocationInformation5GS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ageoflocationinformation...)
 	}
 	if v.VplmnId != nil {
+		if len(*v.VplmnId) < 3 || len(*v.VplmnId) > 3 {
+			return nil, fmt.Errorf("vplmnId length %d violates SIZE (3)", len(*v.VplmnId))
+		}
 		enc_vplmnid, encodeErr_enc_vplmnid := ber.EncodeOctetString([]byte(*v.VplmnId))
 		if encodeErr_enc_vplmnid != nil {
 			return nil, fmt.Errorf("encoding vplmnId: %w", encodeErr_enc_vplmnid)
@@ -57876,6 +61482,9 @@ func (v *LocationInformation5GS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_vplmnid...)
 	}
 	if v.LocaltimeZone != nil {
+		if len(*v.LocaltimeZone) < 2 || len(*v.LocaltimeZone) > 3 {
+			return nil, fmt.Errorf("localtimeZone length %d violates SIZE (2..3)", len(*v.LocaltimeZone))
+		}
 		enc_localtimezone, encodeErr_enc_localtimezone := ber.EncodeOctetString([]byte(*v.LocaltimeZone))
 		if encodeErr_enc_localtimezone != nil {
 			return nil, fmt.Errorf("encoding localtimeZone: %w", encodeErr_enc_localtimezone)
@@ -57909,6 +61518,9 @@ func (v *LocationInformation5GS) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.NrTrackingAreaIdentity != nil {
+		if len(*v.NrTrackingAreaIdentity) < 6 || len(*v.NrTrackingAreaIdentity) > 6 {
+			return nil, fmt.Errorf("nrTrackingAreaIdentity length %d violates SIZE (6)", len(*v.NrTrackingAreaIdentity))
+		}
 		enc_nrtrackingareaidentity, encodeErr_enc_nrtrackingareaidentity := ber.EncodeOctetString([]byte(*v.NrTrackingAreaIdentity))
 		if encodeErr_enc_nrtrackingareaidentity != nil {
 			return nil, fmt.Errorf("encoding nrTrackingAreaIdentity: %w", encodeErr_enc_nrtrackingareaidentity)
@@ -57971,6 +61583,9 @@ func (v *LocationInformation5GS) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_nrcellglobalidentity
+				if len(*v.NrCellGlobalIdentity) < 8 || len(*v.NrCellGlobalIdentity) > 8 {
+					return fmt.Errorf("nrCellGlobalIdentity length %d violates SIZE (8)", len(*v.NrCellGlobalIdentity))
+				}
 			}
 		}
 	}
@@ -57995,6 +61610,9 @@ func (v *LocationInformation5GS) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_eutrancellglobalidentity
+				if len(*v.EUtranCellGlobalIdentity) < 7 || len(*v.EUtranCellGlobalIdentity) > 7 {
+					return fmt.Errorf("e-utranCellGlobalIdentity length %d violates SIZE (7)", len(*v.EUtranCellGlobalIdentity))
+				}
 			}
 		}
 	}
@@ -58019,6 +61637,9 @@ func (v *LocationInformation5GS) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_geographicalinformation
+				if len(*v.GeographicalInformation) < 8 || len(*v.GeographicalInformation) > 8 {
+					return fmt.Errorf("geographicalInformation length %d violates SIZE (8)", len(*v.GeographicalInformation))
+				}
 			}
 		}
 	}
@@ -58043,6 +61664,9 @@ func (v *LocationInformation5GS) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_geodeticinformation
+				if len(*v.GeodeticInformation) < 10 || len(*v.GeodeticInformation) > 10 {
+					return fmt.Errorf("geodeticInformation length %d violates SIZE (10)", len(*v.GeodeticInformation))
+				}
 			}
 		}
 	}
@@ -58066,6 +61690,9 @@ func (v *LocationInformation5GS) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_amfaddress
+				if len(*v.AmfAddress) < 9 || len(*v.AmfAddress) > 255 {
+					return fmt.Errorf("amf-address length %d violates SIZE (9..255)", len(*v.AmfAddress))
+				}
 			}
 		}
 	}
@@ -58090,6 +61717,9 @@ func (v *LocationInformation5GS) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_trackingareaidentity
+				if len(*v.TrackingAreaIdentity) < 5 || len(*v.TrackingAreaIdentity) > 5 {
+					return fmt.Errorf("trackingAreaIdentity length %d violates SIZE (5)", len(*v.TrackingAreaIdentity))
+				}
 			}
 		}
 	}
@@ -58167,6 +61797,9 @@ func (v *LocationInformation5GS) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_vplmnid
+				if len(*v.VplmnId) < 3 || len(*v.VplmnId) > 3 {
+					return fmt.Errorf("vplmnId length %d violates SIZE (3)", len(*v.VplmnId))
+				}
 			}
 		}
 	}
@@ -58190,6 +61823,9 @@ func (v *LocationInformation5GS) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_localtimezone
+				if len(*v.LocaltimeZone) < 2 || len(*v.LocaltimeZone) > 3 {
+					return fmt.Errorf("localtimeZone length %d violates SIZE (2..3)", len(*v.LocaltimeZone))
+				}
 			}
 		}
 	}
@@ -58272,6 +61908,9 @@ func (v *LocationInformation5GS) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_nrtrackingareaidentity
+				if len(*v.NrTrackingAreaIdentity) < 6 || len(*v.NrTrackingAreaIdentity) > 6 {
+					return fmt.Errorf("nrTrackingAreaIdentity length %d violates SIZE (6)", len(*v.NrTrackingAreaIdentity))
+				}
 			}
 		}
 	}
@@ -58304,7 +61943,10 @@ func (v *LocationInformation5GS) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 // MarshalBER encodes UserCSGInformation to BER format.
 func (v *UserCSGInformation) MarshalBER() ([]byte, error) {
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	if (v.CsgId).BitLength < 27 || (v.CsgId).BitLength > 27 {
+		return nil, fmt.Errorf("csg-Id length %d violates SIZE (27)", (v.CsgId).BitLength)
+	}
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.CsgId.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -58331,6 +61973,9 @@ func (v *UserCSGInformation) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.AccessMode != nil {
+		if len(v.AccessMode) < 1 || len(v.AccessMode) > 1 {
+			return nil, fmt.Errorf("accessMode length %d violates SIZE (1)", len(v.AccessMode))
+		}
 		enc_accessmode, encodeErr_enc_accessmode := ber.EncodeOctetString(v.AccessMode)
 		if encodeErr_enc_accessmode != nil {
 			return nil, fmt.Errorf("encoding accessMode: %w", encodeErr_enc_accessmode)
@@ -58343,6 +61988,9 @@ func (v *UserCSGInformation) MarshalBER() ([]byte, error) {
 		children = append(children, enc_accessmode...)
 	}
 	if v.Cmi != nil {
+		if len(v.Cmi) < 1 || len(v.Cmi) > 1 {
+			return nil, fmt.Errorf("cmi length %d violates SIZE (1)", len(v.Cmi))
+		}
 		enc_cmi, encodeErr_enc_cmi := ber.EncodeOctetString(v.Cmi)
 		if encodeErr_enc_cmi != nil {
 			return nil, fmt.Errorf("encoding cmi: %w", encodeErr_enc_cmi)
@@ -58370,7 +62018,10 @@ func (v *UserCSGInformation) MarshalBER() ([]byte, error) {
 // MarshalDER encodes UserCSGInformation to DER format.
 func (v *UserCSGInformation) MarshalDER() ([]byte, error) {
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	if (v.CsgId).BitLength < 27 || (v.CsgId).BitLength > 27 {
+		return nil, fmt.Errorf("csg-Id length %d violates SIZE (27)", (v.CsgId).BitLength)
+	}
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.CsgId.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -58397,6 +62048,9 @@ func (v *UserCSGInformation) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.AccessMode != nil {
+		if len(v.AccessMode) < 1 || len(v.AccessMode) > 1 {
+			return nil, fmt.Errorf("accessMode length %d violates SIZE (1)", len(v.AccessMode))
+		}
 		enc_accessmode, encodeErr_enc_accessmode := ber.EncodeOctetString(v.AccessMode)
 		if encodeErr_enc_accessmode != nil {
 			return nil, fmt.Errorf("encoding accessMode: %w", encodeErr_enc_accessmode)
@@ -58409,6 +62063,9 @@ func (v *UserCSGInformation) MarshalDER() ([]byte, error) {
 		children = append(children, enc_accessmode...)
 	}
 	if v.Cmi != nil {
+		if len(v.Cmi) < 1 || len(v.Cmi) > 1 {
+			return nil, fmt.Errorf("cmi length %d violates SIZE (1)", len(v.Cmi))
+		}
 		enc_cmi, encodeErr_enc_cmi := ber.EncodeOctetString(v.Cmi)
 		if encodeErr_enc_cmi != nil {
 			return nil, fmt.Errorf("encoding cmi: %w", encodeErr_enc_cmi)
@@ -58481,6 +62138,9 @@ func (v *UserCSGInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	}
 
 	offset += n_csgid
+	if (v.CsgId).BitLength < 27 || (v.CsgId).BitLength > 27 {
+		return fmt.Errorf("csg-Id length %d violates SIZE (27)", (v.CsgId).BitLength)
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -58532,6 +62192,9 @@ func (v *UserCSGInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_accessmode
+				if len(v.AccessMode) < 1 || len(v.AccessMode) > 1 {
+					return fmt.Errorf("accessMode length %d violates SIZE (1)", len(v.AccessMode))
+				}
 			}
 		}
 	}
@@ -58555,6 +62218,9 @@ func (v *UserCSGInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_cmi
+				if len(v.Cmi) < 1 || len(v.Cmi) > 1 {
+					return fmt.Errorf("cmi length %d violates SIZE (1)", len(v.Cmi))
+				}
 			}
 		}
 	}
@@ -58741,6 +62407,9 @@ func (v *PSSubscriberState) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding ps-PDP-ActiveNotReachableForPaging: %w", err)
 		}
+		if len(v.PsPDPActiveNotReachableForPaging) < 1 || len(v.PsPDPActiveNotReachableForPaging) > 50 {
+			return nil, fmt.Errorf("ps-PDP-ActiveNotReachableForPaging length %d violates SIZE (1..50)", len(v.PsPDPActiveNotReachableForPaging))
+		}
 		retagged_enc_4, tagErr_enc_4 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_4)
 		if tagErr_enc_4 != nil {
 			return nil, fmt.Errorf("encoding ps-PDP-ActiveNotReachableForPaging: %w", tagErr_enc_4)
@@ -58751,6 +62420,9 @@ func (v *PSSubscriberState) MarshalBER() ([]byte, error) {
 		enc_5, err := MarshalBERPDPContextInfoList(v.PsPDPActiveReachableForPaging)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ps-PDP-ActiveReachableForPaging: %w", err)
+		}
+		if len(v.PsPDPActiveReachableForPaging) < 1 || len(v.PsPDPActiveReachableForPaging) > 50 {
+			return nil, fmt.Errorf("ps-PDP-ActiveReachableForPaging length %d violates SIZE (1..50)", len(v.PsPDPActiveReachableForPaging))
 		}
 		retagged_enc_5, tagErr_enc_5 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_5)
 		if tagErr_enc_5 != nil {
@@ -58777,6 +62449,9 @@ func (v *PSSubscriberState) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding ps-PDP-ActiveNotReachableForPaging: %w", err)
 		}
+		if len(v.PsPDPActiveNotReachableForPaging) < 1 || len(v.PsPDPActiveNotReachableForPaging) > 50 {
+			return nil, fmt.Errorf("ps-PDP-ActiveNotReachableForPaging length %d violates SIZE (1..50)", len(v.PsPDPActiveNotReachableForPaging))
+		}
 		retagged_enc_der_4, tagErr_enc_der_4 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_der_4)
 		if tagErr_enc_der_4 != nil {
 			return nil, fmt.Errorf("encoding ps-PDP-ActiveNotReachableForPaging: %w", tagErr_enc_der_4)
@@ -58790,6 +62465,9 @@ func (v *PSSubscriberState) MarshalDER() ([]byte, error) {
 		enc_der_5, err := MarshalDERPDPContextInfoList(v.PsPDPActiveReachableForPaging)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ps-PDP-ActiveReachableForPaging: %w", err)
+		}
+		if len(v.PsPDPActiveReachableForPaging) < 1 || len(v.PsPDPActiveReachableForPaging) > 50 {
+			return nil, fmt.Errorf("ps-PDP-ActiveReachableForPaging length %d violates SIZE (1..50)", len(v.PsPDPActiveReachableForPaging))
 		}
 		retagged_enc_der_5, tagErr_enc_der_5 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_der_5)
 		if tagErr_enc_der_5 != nil {
@@ -58889,6 +62567,9 @@ func (v *PSSubscriberState) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 			return fmt.Errorf("decoding ps-PDP-ActiveNotReachableForPaging: %w", unmErr)
 		}
 		v.PsPDPActiveNotReachableForPaging = dec
+		if len(v.PsPDPActiveNotReachableForPaging) < 1 || len(v.PsPDPActiveNotReachableForPaging) > 50 {
+			return fmt.Errorf("ps-PDP-ActiveNotReachableForPaging length %d violates SIZE (1..50)", len(v.PsPDPActiveNotReachableForPaging))
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 && peekTag.Constructed == true {
 		v.Choice = PSSubscriberStateChoicePsPDPActiveReachableForPaging
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -58904,6 +62585,9 @@ func (v *PSSubscriberState) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 			return fmt.Errorf("decoding ps-PDP-ActiveReachableForPaging: %w", unmErr)
 		}
 		v.PsPDPActiveReachableForPaging = dec
+		if len(v.PsPDPActiveReachableForPaging) < 1 || len(v.PsPDPActiveReachableForPaging) > 50 {
+			return fmt.Errorf("ps-PDP-ActiveReachableForPaging length %d violates SIZE (1..50)", len(v.PsPDPActiveReachableForPaging))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 && peekTag.Constructed == false {
 		v.Choice = PSSubscriberStateChoiceNetDetNotReachable
 		decVal, _, intErr := ber.DecodeEnumerated(choiceData, opts...)
@@ -59021,6 +62705,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		enc_pdpcontextactive = retagged_enc_pdpcontextactive
 		children = append(children, enc_pdpcontextactive...)
 	}
+	if len(v.PdpType) < 2 || len(v.PdpType) > 2 {
+		return nil, fmt.Errorf("pdp-Type length %d violates SIZE (2)", len(v.PdpType))
+	}
 	enc_pdptype, encodeErr_enc_pdptype := ber.EncodeOctetString([]byte(v.PdpType))
 	if encodeErr_enc_pdptype != nil {
 		return nil, fmt.Errorf("encoding pdp-Type: %w", encodeErr_enc_pdptype)
@@ -59032,6 +62719,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 	enc_pdptype = retagged_enc_pdptype
 	children = append(children, enc_pdptype...)
 	if v.PdpAddress != nil {
+		if len(*v.PdpAddress) < 1 || len(*v.PdpAddress) > 16 {
+			return nil, fmt.Errorf("pdp-Address length %d violates SIZE (1..16)", len(*v.PdpAddress))
+		}
 		enc_pdpaddress, encodeErr_enc_pdpaddress := ber.EncodeOctetString([]byte(*v.PdpAddress))
 		if encodeErr_enc_pdpaddress != nil {
 			return nil, fmt.Errorf("encoding pdp-Address: %w", encodeErr_enc_pdpaddress)
@@ -59044,6 +62734,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_pdpaddress...)
 	}
 	if v.ApnSubscribed != nil {
+		if len(*v.ApnSubscribed) < 2 || len(*v.ApnSubscribed) > 63 {
+			return nil, fmt.Errorf("apn-Subscribed length %d violates SIZE (2..63)", len(*v.ApnSubscribed))
+		}
 		enc_apnsubscribed, encodeErr_enc_apnsubscribed := ber.EncodeOctetString([]byte(*v.ApnSubscribed))
 		if encodeErr_enc_apnsubscribed != nil {
 			return nil, fmt.Errorf("encoding apn-Subscribed: %w", encodeErr_enc_apnsubscribed)
@@ -59056,6 +62749,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_apnsubscribed...)
 	}
 	if v.ApnInUse != nil {
+		if len(*v.ApnInUse) < 2 || len(*v.ApnInUse) > 63 {
+			return nil, fmt.Errorf("apn-InUse length %d violates SIZE (2..63)", len(*v.ApnInUse))
+		}
 		enc_apninuse, encodeErr_enc_apninuse := ber.EncodeOctetString([]byte(*v.ApnInUse))
 		if encodeErr_enc_apninuse != nil {
 			return nil, fmt.Errorf("encoding apn-InUse: %w", encodeErr_enc_apninuse)
@@ -59077,6 +62773,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_nsapi...)
 	}
 	if v.TransactionId != nil {
+		if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 2 {
+			return nil, fmt.Errorf("transactionId length %d violates SIZE (1..2)", len(*v.TransactionId))
+		}
 		enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(*v.TransactionId))
 		if encodeErr_enc_transactionid != nil {
 			return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -59089,6 +62788,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_transactionid...)
 	}
 	if v.TeidForGnAndGp != nil {
+		if len(*v.TeidForGnAndGp) < 4 || len(*v.TeidForGnAndGp) > 4 {
+			return nil, fmt.Errorf("teid-ForGnAndGp length %d violates SIZE (4)", len(*v.TeidForGnAndGp))
+		}
 		enc_teidforgnandgp, encodeErr_enc_teidforgnandgp := ber.EncodeOctetString([]byte(*v.TeidForGnAndGp))
 		if encodeErr_enc_teidforgnandgp != nil {
 			return nil, fmt.Errorf("encoding teid-ForGnAndGp: %w", encodeErr_enc_teidforgnandgp)
@@ -59101,6 +62803,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_teidforgnandgp...)
 	}
 	if v.TeidForIu != nil {
+		if len(*v.TeidForIu) < 4 || len(*v.TeidForIu) > 4 {
+			return nil, fmt.Errorf("teid-ForIu length %d violates SIZE (4)", len(*v.TeidForIu))
+		}
 		enc_teidforiu, encodeErr_enc_teidforiu := ber.EncodeOctetString([]byte(*v.TeidForIu))
 		if encodeErr_enc_teidforiu != nil {
 			return nil, fmt.Errorf("encoding teid-ForIu: %w", encodeErr_enc_teidforiu)
@@ -59113,6 +62818,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_teidforiu...)
 	}
 	if v.GgsnAddress != nil {
+		if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+			return nil, fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+		}
 		enc_ggsnaddress, encodeErr_enc_ggsnaddress := ber.EncodeOctetString([]byte(*v.GgsnAddress))
 		if encodeErr_enc_ggsnaddress != nil {
 			return nil, fmt.Errorf("encoding ggsn-Address: %w", encodeErr_enc_ggsnaddress)
@@ -59125,6 +62833,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ggsnaddress...)
 	}
 	if v.QosSubscribed != nil {
+		if len(*v.QosSubscribed) < 1 || len(*v.QosSubscribed) > 9 {
+			return nil, fmt.Errorf("qos-Subscribed length %d violates SIZE (1..9)", len(*v.QosSubscribed))
+		}
 		enc_qossubscribed, encodeErr_enc_qossubscribed := ber.EncodeOctetString([]byte(*v.QosSubscribed))
 		if encodeErr_enc_qossubscribed != nil {
 			return nil, fmt.Errorf("encoding qos-Subscribed: %w", encodeErr_enc_qossubscribed)
@@ -59137,6 +62848,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_qossubscribed...)
 	}
 	if v.QosRequested != nil {
+		if len(*v.QosRequested) < 1 || len(*v.QosRequested) > 9 {
+			return nil, fmt.Errorf("qos-Requested length %d violates SIZE (1..9)", len(*v.QosRequested))
+		}
 		enc_qosrequested, encodeErr_enc_qosrequested := ber.EncodeOctetString([]byte(*v.QosRequested))
 		if encodeErr_enc_qosrequested != nil {
 			return nil, fmt.Errorf("encoding qos-Requested: %w", encodeErr_enc_qosrequested)
@@ -59149,6 +62863,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_qosrequested...)
 	}
 	if v.QosNegotiated != nil {
+		if len(*v.QosNegotiated) < 1 || len(*v.QosNegotiated) > 9 {
+			return nil, fmt.Errorf("qos-Negotiated length %d violates SIZE (1..9)", len(*v.QosNegotiated))
+		}
 		enc_qosnegotiated, encodeErr_enc_qosnegotiated := ber.EncodeOctetString([]byte(*v.QosNegotiated))
 		if encodeErr_enc_qosnegotiated != nil {
 			return nil, fmt.Errorf("encoding qos-Negotiated: %w", encodeErr_enc_qosnegotiated)
@@ -59161,6 +62878,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_qosnegotiated...)
 	}
 	if v.ChargingId != nil {
+		if len(*v.ChargingId) < 4 || len(*v.ChargingId) > 4 {
+			return nil, fmt.Errorf("chargingId length %d violates SIZE (4)", len(*v.ChargingId))
+		}
 		enc_chargingid, encodeErr_enc_chargingid := ber.EncodeOctetString([]byte(*v.ChargingId))
 		if encodeErr_enc_chargingid != nil {
 			return nil, fmt.Errorf("encoding chargingId: %w", encodeErr_enc_chargingid)
@@ -59173,6 +62893,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_chargingid...)
 	}
 	if v.ChargingCharacteristics != nil {
+		if len(*v.ChargingCharacteristics) < 2 || len(*v.ChargingCharacteristics) > 2 {
+			return nil, fmt.Errorf("chargingCharacteristics length %d violates SIZE (2)", len(*v.ChargingCharacteristics))
+		}
 		enc_chargingcharacteristics, encodeErr_enc_chargingcharacteristics := ber.EncodeOctetString([]byte(*v.ChargingCharacteristics))
 		if encodeErr_enc_chargingcharacteristics != nil {
 			return nil, fmt.Errorf("encoding chargingCharacteristics: %w", encodeErr_enc_chargingcharacteristics)
@@ -59185,6 +62908,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_chargingcharacteristics...)
 	}
 	if v.RncAddress != nil {
+		if len(*v.RncAddress) < 5 || len(*v.RncAddress) > 17 {
+			return nil, fmt.Errorf("rnc-Address length %d violates SIZE (5..17)", len(*v.RncAddress))
+		}
 		enc_rncaddress, encodeErr_enc_rncaddress := ber.EncodeOctetString([]byte(*v.RncAddress))
 		if encodeErr_enc_rncaddress != nil {
 			return nil, fmt.Errorf("encoding rnc-Address: %w", encodeErr_enc_rncaddress)
@@ -59209,6 +62935,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.Qos2Subscribed != nil {
+		if len(*v.Qos2Subscribed) < 1 || len(*v.Qos2Subscribed) > 3 {
+			return nil, fmt.Errorf("qos2-Subscribed length %d violates SIZE (1..3)", len(*v.Qos2Subscribed))
+		}
 		enc_qos2subscribed, encodeErr_enc_qos2subscribed := ber.EncodeOctetString([]byte(*v.Qos2Subscribed))
 		if encodeErr_enc_qos2subscribed != nil {
 			return nil, fmt.Errorf("encoding qos2-Subscribed: %w", encodeErr_enc_qos2subscribed)
@@ -59221,6 +62950,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_qos2subscribed...)
 	}
 	if v.Qos2Requested != nil {
+		if len(*v.Qos2Requested) < 1 || len(*v.Qos2Requested) > 3 {
+			return nil, fmt.Errorf("qos2-Requested length %d violates SIZE (1..3)", len(*v.Qos2Requested))
+		}
 		enc_qos2requested, encodeErr_enc_qos2requested := ber.EncodeOctetString([]byte(*v.Qos2Requested))
 		if encodeErr_enc_qos2requested != nil {
 			return nil, fmt.Errorf("encoding qos2-Requested: %w", encodeErr_enc_qos2requested)
@@ -59233,6 +62965,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_qos2requested...)
 	}
 	if v.Qos2Negotiated != nil {
+		if len(*v.Qos2Negotiated) < 1 || len(*v.Qos2Negotiated) > 3 {
+			return nil, fmt.Errorf("qos2-Negotiated length %d violates SIZE (1..3)", len(*v.Qos2Negotiated))
+		}
 		enc_qos2negotiated, encodeErr_enc_qos2negotiated := ber.EncodeOctetString([]byte(*v.Qos2Negotiated))
 		if encodeErr_enc_qos2negotiated != nil {
 			return nil, fmt.Errorf("encoding qos2-Negotiated: %w", encodeErr_enc_qos2negotiated)
@@ -59245,6 +62980,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_qos2negotiated...)
 	}
 	if v.Qos3Subscribed != nil {
+		if len(*v.Qos3Subscribed) < 1 || len(*v.Qos3Subscribed) > 2 {
+			return nil, fmt.Errorf("qos3-Subscribed length %d violates SIZE (1..2)", len(*v.Qos3Subscribed))
+		}
 		enc_qos3subscribed, encodeErr_enc_qos3subscribed := ber.EncodeOctetString([]byte(*v.Qos3Subscribed))
 		if encodeErr_enc_qos3subscribed != nil {
 			return nil, fmt.Errorf("encoding qos3-Subscribed: %w", encodeErr_enc_qos3subscribed)
@@ -59257,6 +62995,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_qos3subscribed...)
 	}
 	if v.Qos3Requested != nil {
+		if len(*v.Qos3Requested) < 1 || len(*v.Qos3Requested) > 2 {
+			return nil, fmt.Errorf("qos3-Requested length %d violates SIZE (1..2)", len(*v.Qos3Requested))
+		}
 		enc_qos3requested, encodeErr_enc_qos3requested := ber.EncodeOctetString([]byte(*v.Qos3Requested))
 		if encodeErr_enc_qos3requested != nil {
 			return nil, fmt.Errorf("encoding qos3-Requested: %w", encodeErr_enc_qos3requested)
@@ -59269,6 +63010,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_qos3requested...)
 	}
 	if v.Qos3Negotiated != nil {
+		if len(*v.Qos3Negotiated) < 1 || len(*v.Qos3Negotiated) > 2 {
+			return nil, fmt.Errorf("qos3-Negotiated length %d violates SIZE (1..2)", len(*v.Qos3Negotiated))
+		}
 		enc_qos3negotiated, encodeErr_enc_qos3negotiated := ber.EncodeOctetString([]byte(*v.Qos3Negotiated))
 		if encodeErr_enc_qos3negotiated != nil {
 			return nil, fmt.Errorf("encoding qos3-Negotiated: %w", encodeErr_enc_qos3negotiated)
@@ -59281,6 +63025,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_qos3negotiated...)
 	}
 	if v.Qos4Subscribed != nil {
+		if len(*v.Qos4Subscribed) < 1 || len(*v.Qos4Subscribed) > 1 {
+			return nil, fmt.Errorf("qos4-Subscribed length %d violates SIZE (1)", len(*v.Qos4Subscribed))
+		}
 		enc_qos4subscribed, encodeErr_enc_qos4subscribed := ber.EncodeOctetString([]byte(*v.Qos4Subscribed))
 		if encodeErr_enc_qos4subscribed != nil {
 			return nil, fmt.Errorf("encoding qos4-Subscribed: %w", encodeErr_enc_qos4subscribed)
@@ -59293,6 +63040,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_qos4subscribed...)
 	}
 	if v.Qos4Requested != nil {
+		if len(*v.Qos4Requested) < 1 || len(*v.Qos4Requested) > 1 {
+			return nil, fmt.Errorf("qos4-Requested length %d violates SIZE (1)", len(*v.Qos4Requested))
+		}
 		enc_qos4requested, encodeErr_enc_qos4requested := ber.EncodeOctetString([]byte(*v.Qos4Requested))
 		if encodeErr_enc_qos4requested != nil {
 			return nil, fmt.Errorf("encoding qos4-Requested: %w", encodeErr_enc_qos4requested)
@@ -59305,6 +63055,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_qos4requested...)
 	}
 	if v.Qos4Negotiated != nil {
+		if len(*v.Qos4Negotiated) < 1 || len(*v.Qos4Negotiated) > 1 {
+			return nil, fmt.Errorf("qos4-Negotiated length %d violates SIZE (1)", len(*v.Qos4Negotiated))
+		}
 		enc_qos4negotiated, encodeErr_enc_qos4negotiated := ber.EncodeOctetString([]byte(*v.Qos4Negotiated))
 		if encodeErr_enc_qos4negotiated != nil {
 			return nil, fmt.Errorf("encoding qos4-Negotiated: %w", encodeErr_enc_qos4negotiated)
@@ -59317,6 +63070,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_qos4negotiated...)
 	}
 	if v.ExtPdpType != nil {
+		if len(*v.ExtPdpType) < 2 || len(*v.ExtPdpType) > 2 {
+			return nil, fmt.Errorf("ext-pdp-Type length %d violates SIZE (2)", len(*v.ExtPdpType))
+		}
 		enc_extpdptype, encodeErr_enc_extpdptype := ber.EncodeOctetString([]byte(*v.ExtPdpType))
 		if encodeErr_enc_extpdptype != nil {
 			return nil, fmt.Errorf("encoding ext-pdp-Type: %w", encodeErr_enc_extpdptype)
@@ -59329,6 +63085,9 @@ func (v *PDPContextInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extpdptype...)
 	}
 	if v.ExtPdpAddress != nil {
+		if len(*v.ExtPdpAddress) < 1 || len(*v.ExtPdpAddress) > 16 {
+			return nil, fmt.Errorf("ext-pdp-Address length %d violates SIZE (1..16)", len(*v.ExtPdpAddress))
+		}
 		enc_extpdpaddress, encodeErr_enc_extpdpaddress := ber.EncodeOctetString([]byte(*v.ExtPdpAddress))
 		if encodeErr_enc_extpdpaddress != nil {
 			return nil, fmt.Errorf("encoding ext-pdp-Address: %w", encodeErr_enc_extpdpaddress)
@@ -59372,6 +63131,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		enc_pdpcontextactive = retagged_enc_pdpcontextactive
 		children = append(children, enc_pdpcontextactive...)
 	}
+	if len(v.PdpType) < 2 || len(v.PdpType) > 2 {
+		return nil, fmt.Errorf("pdp-Type length %d violates SIZE (2)", len(v.PdpType))
+	}
 	enc_pdptype, encodeErr_enc_pdptype := ber.EncodeOctetString([]byte(v.PdpType))
 	if encodeErr_enc_pdptype != nil {
 		return nil, fmt.Errorf("encoding pdp-Type: %w", encodeErr_enc_pdptype)
@@ -59383,6 +63145,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 	enc_pdptype = retagged_enc_pdptype
 	children = append(children, enc_pdptype...)
 	if v.PdpAddress != nil {
+		if len(*v.PdpAddress) < 1 || len(*v.PdpAddress) > 16 {
+			return nil, fmt.Errorf("pdp-Address length %d violates SIZE (1..16)", len(*v.PdpAddress))
+		}
 		enc_pdpaddress, encodeErr_enc_pdpaddress := ber.EncodeOctetString([]byte(*v.PdpAddress))
 		if encodeErr_enc_pdpaddress != nil {
 			return nil, fmt.Errorf("encoding pdp-Address: %w", encodeErr_enc_pdpaddress)
@@ -59395,6 +63160,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_pdpaddress...)
 	}
 	if v.ApnSubscribed != nil {
+		if len(*v.ApnSubscribed) < 2 || len(*v.ApnSubscribed) > 63 {
+			return nil, fmt.Errorf("apn-Subscribed length %d violates SIZE (2..63)", len(*v.ApnSubscribed))
+		}
 		enc_apnsubscribed, encodeErr_enc_apnsubscribed := ber.EncodeOctetString([]byte(*v.ApnSubscribed))
 		if encodeErr_enc_apnsubscribed != nil {
 			return nil, fmt.Errorf("encoding apn-Subscribed: %w", encodeErr_enc_apnsubscribed)
@@ -59407,6 +63175,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_apnsubscribed...)
 	}
 	if v.ApnInUse != nil {
+		if len(*v.ApnInUse) < 2 || len(*v.ApnInUse) > 63 {
+			return nil, fmt.Errorf("apn-InUse length %d violates SIZE (2..63)", len(*v.ApnInUse))
+		}
 		enc_apninuse, encodeErr_enc_apninuse := ber.EncodeOctetString([]byte(*v.ApnInUse))
 		if encodeErr_enc_apninuse != nil {
 			return nil, fmt.Errorf("encoding apn-InUse: %w", encodeErr_enc_apninuse)
@@ -59428,6 +63199,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_nsapi...)
 	}
 	if v.TransactionId != nil {
+		if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 2 {
+			return nil, fmt.Errorf("transactionId length %d violates SIZE (1..2)", len(*v.TransactionId))
+		}
 		enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(*v.TransactionId))
 		if encodeErr_enc_transactionid != nil {
 			return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -59440,6 +63214,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_transactionid...)
 	}
 	if v.TeidForGnAndGp != nil {
+		if len(*v.TeidForGnAndGp) < 4 || len(*v.TeidForGnAndGp) > 4 {
+			return nil, fmt.Errorf("teid-ForGnAndGp length %d violates SIZE (4)", len(*v.TeidForGnAndGp))
+		}
 		enc_teidforgnandgp, encodeErr_enc_teidforgnandgp := ber.EncodeOctetString([]byte(*v.TeidForGnAndGp))
 		if encodeErr_enc_teidforgnandgp != nil {
 			return nil, fmt.Errorf("encoding teid-ForGnAndGp: %w", encodeErr_enc_teidforgnandgp)
@@ -59452,6 +63229,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_teidforgnandgp...)
 	}
 	if v.TeidForIu != nil {
+		if len(*v.TeidForIu) < 4 || len(*v.TeidForIu) > 4 {
+			return nil, fmt.Errorf("teid-ForIu length %d violates SIZE (4)", len(*v.TeidForIu))
+		}
 		enc_teidforiu, encodeErr_enc_teidforiu := ber.EncodeOctetString([]byte(*v.TeidForIu))
 		if encodeErr_enc_teidforiu != nil {
 			return nil, fmt.Errorf("encoding teid-ForIu: %w", encodeErr_enc_teidforiu)
@@ -59464,6 +63244,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_teidforiu...)
 	}
 	if v.GgsnAddress != nil {
+		if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+			return nil, fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+		}
 		enc_ggsnaddress, encodeErr_enc_ggsnaddress := ber.EncodeOctetString([]byte(*v.GgsnAddress))
 		if encodeErr_enc_ggsnaddress != nil {
 			return nil, fmt.Errorf("encoding ggsn-Address: %w", encodeErr_enc_ggsnaddress)
@@ -59476,6 +63259,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ggsnaddress...)
 	}
 	if v.QosSubscribed != nil {
+		if len(*v.QosSubscribed) < 1 || len(*v.QosSubscribed) > 9 {
+			return nil, fmt.Errorf("qos-Subscribed length %d violates SIZE (1..9)", len(*v.QosSubscribed))
+		}
 		enc_qossubscribed, encodeErr_enc_qossubscribed := ber.EncodeOctetString([]byte(*v.QosSubscribed))
 		if encodeErr_enc_qossubscribed != nil {
 			return nil, fmt.Errorf("encoding qos-Subscribed: %w", encodeErr_enc_qossubscribed)
@@ -59488,6 +63274,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_qossubscribed...)
 	}
 	if v.QosRequested != nil {
+		if len(*v.QosRequested) < 1 || len(*v.QosRequested) > 9 {
+			return nil, fmt.Errorf("qos-Requested length %d violates SIZE (1..9)", len(*v.QosRequested))
+		}
 		enc_qosrequested, encodeErr_enc_qosrequested := ber.EncodeOctetString([]byte(*v.QosRequested))
 		if encodeErr_enc_qosrequested != nil {
 			return nil, fmt.Errorf("encoding qos-Requested: %w", encodeErr_enc_qosrequested)
@@ -59500,6 +63289,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_qosrequested...)
 	}
 	if v.QosNegotiated != nil {
+		if len(*v.QosNegotiated) < 1 || len(*v.QosNegotiated) > 9 {
+			return nil, fmt.Errorf("qos-Negotiated length %d violates SIZE (1..9)", len(*v.QosNegotiated))
+		}
 		enc_qosnegotiated, encodeErr_enc_qosnegotiated := ber.EncodeOctetString([]byte(*v.QosNegotiated))
 		if encodeErr_enc_qosnegotiated != nil {
 			return nil, fmt.Errorf("encoding qos-Negotiated: %w", encodeErr_enc_qosnegotiated)
@@ -59512,6 +63304,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_qosnegotiated...)
 	}
 	if v.ChargingId != nil {
+		if len(*v.ChargingId) < 4 || len(*v.ChargingId) > 4 {
+			return nil, fmt.Errorf("chargingId length %d violates SIZE (4)", len(*v.ChargingId))
+		}
 		enc_chargingid, encodeErr_enc_chargingid := ber.EncodeOctetString([]byte(*v.ChargingId))
 		if encodeErr_enc_chargingid != nil {
 			return nil, fmt.Errorf("encoding chargingId: %w", encodeErr_enc_chargingid)
@@ -59524,6 +63319,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_chargingid...)
 	}
 	if v.ChargingCharacteristics != nil {
+		if len(*v.ChargingCharacteristics) < 2 || len(*v.ChargingCharacteristics) > 2 {
+			return nil, fmt.Errorf("chargingCharacteristics length %d violates SIZE (2)", len(*v.ChargingCharacteristics))
+		}
 		enc_chargingcharacteristics, encodeErr_enc_chargingcharacteristics := ber.EncodeOctetString([]byte(*v.ChargingCharacteristics))
 		if encodeErr_enc_chargingcharacteristics != nil {
 			return nil, fmt.Errorf("encoding chargingCharacteristics: %w", encodeErr_enc_chargingcharacteristics)
@@ -59536,6 +63334,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_chargingcharacteristics...)
 	}
 	if v.RncAddress != nil {
+		if len(*v.RncAddress) < 5 || len(*v.RncAddress) > 17 {
+			return nil, fmt.Errorf("rnc-Address length %d violates SIZE (5..17)", len(*v.RncAddress))
+		}
 		enc_rncaddress, encodeErr_enc_rncaddress := ber.EncodeOctetString([]byte(*v.RncAddress))
 		if encodeErr_enc_rncaddress != nil {
 			return nil, fmt.Errorf("encoding rnc-Address: %w", encodeErr_enc_rncaddress)
@@ -59560,6 +63361,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.Qos2Subscribed != nil {
+		if len(*v.Qos2Subscribed) < 1 || len(*v.Qos2Subscribed) > 3 {
+			return nil, fmt.Errorf("qos2-Subscribed length %d violates SIZE (1..3)", len(*v.Qos2Subscribed))
+		}
 		enc_qos2subscribed, encodeErr_enc_qos2subscribed := ber.EncodeOctetString([]byte(*v.Qos2Subscribed))
 		if encodeErr_enc_qos2subscribed != nil {
 			return nil, fmt.Errorf("encoding qos2-Subscribed: %w", encodeErr_enc_qos2subscribed)
@@ -59572,6 +63376,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_qos2subscribed...)
 	}
 	if v.Qos2Requested != nil {
+		if len(*v.Qos2Requested) < 1 || len(*v.Qos2Requested) > 3 {
+			return nil, fmt.Errorf("qos2-Requested length %d violates SIZE (1..3)", len(*v.Qos2Requested))
+		}
 		enc_qos2requested, encodeErr_enc_qos2requested := ber.EncodeOctetString([]byte(*v.Qos2Requested))
 		if encodeErr_enc_qos2requested != nil {
 			return nil, fmt.Errorf("encoding qos2-Requested: %w", encodeErr_enc_qos2requested)
@@ -59584,6 +63391,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_qos2requested...)
 	}
 	if v.Qos2Negotiated != nil {
+		if len(*v.Qos2Negotiated) < 1 || len(*v.Qos2Negotiated) > 3 {
+			return nil, fmt.Errorf("qos2-Negotiated length %d violates SIZE (1..3)", len(*v.Qos2Negotiated))
+		}
 		enc_qos2negotiated, encodeErr_enc_qos2negotiated := ber.EncodeOctetString([]byte(*v.Qos2Negotiated))
 		if encodeErr_enc_qos2negotiated != nil {
 			return nil, fmt.Errorf("encoding qos2-Negotiated: %w", encodeErr_enc_qos2negotiated)
@@ -59596,6 +63406,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_qos2negotiated...)
 	}
 	if v.Qos3Subscribed != nil {
+		if len(*v.Qos3Subscribed) < 1 || len(*v.Qos3Subscribed) > 2 {
+			return nil, fmt.Errorf("qos3-Subscribed length %d violates SIZE (1..2)", len(*v.Qos3Subscribed))
+		}
 		enc_qos3subscribed, encodeErr_enc_qos3subscribed := ber.EncodeOctetString([]byte(*v.Qos3Subscribed))
 		if encodeErr_enc_qos3subscribed != nil {
 			return nil, fmt.Errorf("encoding qos3-Subscribed: %w", encodeErr_enc_qos3subscribed)
@@ -59608,6 +63421,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_qos3subscribed...)
 	}
 	if v.Qos3Requested != nil {
+		if len(*v.Qos3Requested) < 1 || len(*v.Qos3Requested) > 2 {
+			return nil, fmt.Errorf("qos3-Requested length %d violates SIZE (1..2)", len(*v.Qos3Requested))
+		}
 		enc_qos3requested, encodeErr_enc_qos3requested := ber.EncodeOctetString([]byte(*v.Qos3Requested))
 		if encodeErr_enc_qos3requested != nil {
 			return nil, fmt.Errorf("encoding qos3-Requested: %w", encodeErr_enc_qos3requested)
@@ -59620,6 +63436,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_qos3requested...)
 	}
 	if v.Qos3Negotiated != nil {
+		if len(*v.Qos3Negotiated) < 1 || len(*v.Qos3Negotiated) > 2 {
+			return nil, fmt.Errorf("qos3-Negotiated length %d violates SIZE (1..2)", len(*v.Qos3Negotiated))
+		}
 		enc_qos3negotiated, encodeErr_enc_qos3negotiated := ber.EncodeOctetString([]byte(*v.Qos3Negotiated))
 		if encodeErr_enc_qos3negotiated != nil {
 			return nil, fmt.Errorf("encoding qos3-Negotiated: %w", encodeErr_enc_qos3negotiated)
@@ -59632,6 +63451,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_qos3negotiated...)
 	}
 	if v.Qos4Subscribed != nil {
+		if len(*v.Qos4Subscribed) < 1 || len(*v.Qos4Subscribed) > 1 {
+			return nil, fmt.Errorf("qos4-Subscribed length %d violates SIZE (1)", len(*v.Qos4Subscribed))
+		}
 		enc_qos4subscribed, encodeErr_enc_qos4subscribed := ber.EncodeOctetString([]byte(*v.Qos4Subscribed))
 		if encodeErr_enc_qos4subscribed != nil {
 			return nil, fmt.Errorf("encoding qos4-Subscribed: %w", encodeErr_enc_qos4subscribed)
@@ -59644,6 +63466,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_qos4subscribed...)
 	}
 	if v.Qos4Requested != nil {
+		if len(*v.Qos4Requested) < 1 || len(*v.Qos4Requested) > 1 {
+			return nil, fmt.Errorf("qos4-Requested length %d violates SIZE (1)", len(*v.Qos4Requested))
+		}
 		enc_qos4requested, encodeErr_enc_qos4requested := ber.EncodeOctetString([]byte(*v.Qos4Requested))
 		if encodeErr_enc_qos4requested != nil {
 			return nil, fmt.Errorf("encoding qos4-Requested: %w", encodeErr_enc_qos4requested)
@@ -59656,6 +63481,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_qos4requested...)
 	}
 	if v.Qos4Negotiated != nil {
+		if len(*v.Qos4Negotiated) < 1 || len(*v.Qos4Negotiated) > 1 {
+			return nil, fmt.Errorf("qos4-Negotiated length %d violates SIZE (1)", len(*v.Qos4Negotiated))
+		}
 		enc_qos4negotiated, encodeErr_enc_qos4negotiated := ber.EncodeOctetString([]byte(*v.Qos4Negotiated))
 		if encodeErr_enc_qos4negotiated != nil {
 			return nil, fmt.Errorf("encoding qos4-Negotiated: %w", encodeErr_enc_qos4negotiated)
@@ -59668,6 +63496,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_qos4negotiated...)
 	}
 	if v.ExtPdpType != nil {
+		if len(*v.ExtPdpType) < 2 || len(*v.ExtPdpType) > 2 {
+			return nil, fmt.Errorf("ext-pdp-Type length %d violates SIZE (2)", len(*v.ExtPdpType))
+		}
 		enc_extpdptype, encodeErr_enc_extpdptype := ber.EncodeOctetString([]byte(*v.ExtPdpType))
 		if encodeErr_enc_extpdptype != nil {
 			return nil, fmt.Errorf("encoding ext-pdp-Type: %w", encodeErr_enc_extpdptype)
@@ -59680,6 +63511,9 @@ func (v *PDPContextInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extpdptype...)
 	}
 	if v.ExtPdpAddress != nil {
+		if len(*v.ExtPdpAddress) < 1 || len(*v.ExtPdpAddress) > 16 {
+			return nil, fmt.Errorf("ext-pdp-Address length %d violates SIZE (1..16)", len(*v.ExtPdpAddress))
+		}
 		enc_extpdpaddress, encodeErr_enc_extpdpaddress := ber.EncodeOctetString([]byte(*v.ExtPdpAddress))
 		if encodeErr_enc_extpdpaddress != nil {
 			return nil, fmt.Errorf("encoding ext-pdp-Address: %w", encodeErr_enc_extpdpaddress)
@@ -59798,6 +63632,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 	}
 
 	offset += n_pdptype
+	if len(v.PdpType) < 2 || len(v.PdpType) > 2 {
+		return fmt.Errorf("pdp-Type length %d violates SIZE (2)", len(v.PdpType))
+	}
 	// Decode pdp-Address
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -59819,6 +63656,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_pdpaddress
+				if len(*v.PdpAddress) < 1 || len(*v.PdpAddress) > 16 {
+					return fmt.Errorf("pdp-Address length %d violates SIZE (1..16)", len(*v.PdpAddress))
+				}
 			}
 		}
 	}
@@ -59843,6 +63683,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_apnsubscribed
+				if len(*v.ApnSubscribed) < 2 || len(*v.ApnSubscribed) > 63 {
+					return fmt.Errorf("apn-Subscribed length %d violates SIZE (2..63)", len(*v.ApnSubscribed))
+				}
 			}
 		}
 	}
@@ -59866,6 +63709,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_apninuse
+				if len(*v.ApnInUse) < 2 || len(*v.ApnInUse) > 63 {
+					return fmt.Errorf("apn-InUse length %d violates SIZE (2..63)", len(*v.ApnInUse))
+				}
 			}
 		}
 	}
@@ -59917,6 +63763,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_transactionid
+				if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 2 {
+					return fmt.Errorf("transactionId length %d violates SIZE (1..2)", len(*v.TransactionId))
+				}
 			}
 		}
 	}
@@ -59941,6 +63790,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_teidforgnandgp
+				if len(*v.TeidForGnAndGp) < 4 || len(*v.TeidForGnAndGp) > 4 {
+					return fmt.Errorf("teid-ForGnAndGp length %d violates SIZE (4)", len(*v.TeidForGnAndGp))
+				}
 			}
 		}
 	}
@@ -59964,6 +63816,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_teidforiu
+				if len(*v.TeidForIu) < 4 || len(*v.TeidForIu) > 4 {
+					return fmt.Errorf("teid-ForIu length %d violates SIZE (4)", len(*v.TeidForIu))
+				}
 			}
 		}
 	}
@@ -59987,6 +63842,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_ggsnaddress
+				if len(*v.GgsnAddress) < 5 || len(*v.GgsnAddress) > 17 {
+					return fmt.Errorf("ggsn-Address length %d violates SIZE (5..17)", len(*v.GgsnAddress))
+				}
 			}
 		}
 	}
@@ -60011,6 +63869,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_qossubscribed
+				if len(*v.QosSubscribed) < 1 || len(*v.QosSubscribed) > 9 {
+					return fmt.Errorf("qos-Subscribed length %d violates SIZE (1..9)", len(*v.QosSubscribed))
+				}
 			}
 		}
 	}
@@ -60035,6 +63896,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_qosrequested
+				if len(*v.QosRequested) < 1 || len(*v.QosRequested) > 9 {
+					return fmt.Errorf("qos-Requested length %d violates SIZE (1..9)", len(*v.QosRequested))
+				}
 			}
 		}
 	}
@@ -60059,6 +63923,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_qosnegotiated
+				if len(*v.QosNegotiated) < 1 || len(*v.QosNegotiated) > 9 {
+					return fmt.Errorf("qos-Negotiated length %d violates SIZE (1..9)", len(*v.QosNegotiated))
+				}
 			}
 		}
 	}
@@ -60083,6 +63950,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_chargingid
+				if len(*v.ChargingId) < 4 || len(*v.ChargingId) > 4 {
+					return fmt.Errorf("chargingId length %d violates SIZE (4)", len(*v.ChargingId))
+				}
 			}
 		}
 	}
@@ -60107,6 +63977,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_chargingcharacteristics
+				if len(*v.ChargingCharacteristics) < 2 || len(*v.ChargingCharacteristics) > 2 {
+					return fmt.Errorf("chargingCharacteristics length %d violates SIZE (2)", len(*v.ChargingCharacteristics))
+				}
 			}
 		}
 	}
@@ -60131,6 +64004,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_rncaddress
+				if len(*v.RncAddress) < 5 || len(*v.RncAddress) > 17 {
+					return fmt.Errorf("rnc-Address length %d violates SIZE (5..17)", len(*v.RncAddress))
+				}
 			}
 		}
 	}
@@ -60186,6 +64062,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_qos2subscribed
+				if len(*v.Qos2Subscribed) < 1 || len(*v.Qos2Subscribed) > 3 {
+					return fmt.Errorf("qos2-Subscribed length %d violates SIZE (1..3)", len(*v.Qos2Subscribed))
+				}
 			}
 		}
 	}
@@ -60210,6 +64089,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_qos2requested
+				if len(*v.Qos2Requested) < 1 || len(*v.Qos2Requested) > 3 {
+					return fmt.Errorf("qos2-Requested length %d violates SIZE (1..3)", len(*v.Qos2Requested))
+				}
 			}
 		}
 	}
@@ -60234,6 +64116,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_qos2negotiated
+				if len(*v.Qos2Negotiated) < 1 || len(*v.Qos2Negotiated) > 3 {
+					return fmt.Errorf("qos2-Negotiated length %d violates SIZE (1..3)", len(*v.Qos2Negotiated))
+				}
 			}
 		}
 	}
@@ -60258,6 +64143,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_qos3subscribed
+				if len(*v.Qos3Subscribed) < 1 || len(*v.Qos3Subscribed) > 2 {
+					return fmt.Errorf("qos3-Subscribed length %d violates SIZE (1..2)", len(*v.Qos3Subscribed))
+				}
 			}
 		}
 	}
@@ -60282,6 +64170,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_qos3requested
+				if len(*v.Qos3Requested) < 1 || len(*v.Qos3Requested) > 2 {
+					return fmt.Errorf("qos3-Requested length %d violates SIZE (1..2)", len(*v.Qos3Requested))
+				}
 			}
 		}
 	}
@@ -60306,6 +64197,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_qos3negotiated
+				if len(*v.Qos3Negotiated) < 1 || len(*v.Qos3Negotiated) > 2 {
+					return fmt.Errorf("qos3-Negotiated length %d violates SIZE (1..2)", len(*v.Qos3Negotiated))
+				}
 			}
 		}
 	}
@@ -60330,6 +64224,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_qos4subscribed
+				if len(*v.Qos4Subscribed) < 1 || len(*v.Qos4Subscribed) > 1 {
+					return fmt.Errorf("qos4-Subscribed length %d violates SIZE (1)", len(*v.Qos4Subscribed))
+				}
 			}
 		}
 	}
@@ -60354,6 +64251,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_qos4requested
+				if len(*v.Qos4Requested) < 1 || len(*v.Qos4Requested) > 1 {
+					return fmt.Errorf("qos4-Requested length %d violates SIZE (1)", len(*v.Qos4Requested))
+				}
 			}
 		}
 	}
@@ -60378,6 +64278,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_qos4negotiated
+				if len(*v.Qos4Negotiated) < 1 || len(*v.Qos4Negotiated) > 1 {
+					return fmt.Errorf("qos4-Negotiated length %d violates SIZE (1)", len(*v.Qos4Negotiated))
+				}
 			}
 		}
 	}
@@ -60402,6 +64305,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_extpdptype
+				if len(*v.ExtPdpType) < 2 || len(*v.ExtPdpType) > 2 {
+					return fmt.Errorf("ext-pdp-Type length %d violates SIZE (2)", len(*v.ExtPdpType))
+				}
 			}
 		}
 	}
@@ -60426,6 +64332,9 @@ func (v *PDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_extpdpaddress
+				if len(*v.ExtPdpAddress) < 1 || len(*v.ExtPdpAddress) > 16 {
+					return fmt.Errorf("ext-pdp-Address length %d violates SIZE (1..16)", len(*v.ExtPdpAddress))
+				}
 			}
 		}
 	}
@@ -60480,6 +64389,12 @@ func (v *AnyTimeInterrogationArg) MarshalBER() ([]byte, error) {
 	}
 	enc_requestedinfo = retagged_enc_requestedinfo
 	children = append(children, enc_requestedinfo...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -60540,6 +64455,12 @@ func (v *AnyTimeInterrogationArg) MarshalDER() ([]byte, error) {
 	}
 	enc_requestedinfo = retagged_enc_requestedinfo
 	children = append(children, enc_requestedinfo...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -60671,6 +64592,12 @@ func (v *AnyTimeInterrogationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}
 
 	offset += n_gsmscfaddress
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -60906,6 +64833,12 @@ func (v *AnyTimeSubscriptionInterrogationArg) MarshalBER() ([]byte, error) {
 	}
 	enc_requestedsubscriptioninfo = retagged_enc_requestedsubscriptioninfo
 	children = append(children, enc_requestedsubscriptioninfo...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -60975,6 +64908,12 @@ func (v *AnyTimeSubscriptionInterrogationArg) MarshalDER() ([]byte, error) {
 	}
 	enc_requestedsubscriptioninfo = retagged_enc_requestedsubscriptioninfo
 	children = append(children, enc_requestedsubscriptioninfo...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -61115,6 +65054,12 @@ func (v *AnyTimeSubscriptionInterrogationArg) UnmarshalBER(data []byte, opts ...
 	}
 
 	offset += n_gsmscfaddress
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -61248,7 +65193,10 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_camelsubscriptioninfo...)
 	}
 	if v.SupportedVLRCAMELPhases != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedVLRCAMELPhases).BitLength < 1 || (*v.SupportedVLRCAMELPhases).BitLength > 16 {
+			return nil, fmt.Errorf("supportedVLR-CAMEL-Phases length %d violates SIZE (1..16)", (*v.SupportedVLRCAMELPhases).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedVLRCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -61264,7 +65212,10 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_supportedvlrcamelphases...)
 	}
 	if v.SupportedSGSNCAMELPhases != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedSGSNCAMELPhases).BitLength < 1 || (*v.SupportedSGSNCAMELPhases).BitLength > 16 {
+			return nil, fmt.Errorf("supportedSGSN-CAMEL-Phases length %d violates SIZE (1..16)", (*v.SupportedSGSNCAMELPhases).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedSGSNCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -61292,7 +65243,10 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.OfferedCamel4CSIsInVLR != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.OfferedCamel4CSIsInVLR).BitLength < 7 || (*v.OfferedCamel4CSIsInVLR).BitLength > 16 {
+			return nil, fmt.Errorf("offeredCamel4CSIsInVLR length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIsInVLR).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OfferedCamel4CSIsInVLR.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -61308,7 +65262,10 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_offeredcamel4csisinvlr...)
 	}
 	if v.OfferedCamel4CSIsInSGSN != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.OfferedCamel4CSIsInSGSN).BitLength < 7 || (*v.OfferedCamel4CSIsInSGSN).BitLength > 16 {
+			return nil, fmt.Errorf("offeredCamel4CSIsInSGSN length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIsInSGSN).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OfferedCamel4CSIsInSGSN.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -61324,6 +65281,9 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_offeredcamel4csisinsgsn...)
 	}
 	if v.MsisdnBSList != nil {
+		if len(v.MsisdnBSList) < 1 || len(v.MsisdnBSList) > 50 {
+			return nil, fmt.Errorf("msisdn-BS-List length %d violates SIZE (1..50)", len(v.MsisdnBSList))
+		}
 		enc_msisdnbslist, err := MarshalBERMSISDNBSList(v.MsisdnBSList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding msisdn-BS-List: %w", err)
@@ -61351,6 +65311,9 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_msisdnbslist...)
 	}
 	if v.CsgSubscriptionDataList != nil {
+		if len(v.CsgSubscriptionDataList) < 1 || len(v.CsgSubscriptionDataList) > 50 {
+			return nil, fmt.Errorf("csg-SubscriptionDataList length %d violates SIZE (1..50)", len(v.CsgSubscriptionDataList))
+		}
 		enc_csgsubscriptiondatalist, err := MarshalBERCSGSubscriptionDataList(v.CsgSubscriptionDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding csg-SubscriptionDataList: %w", err)
@@ -61502,7 +65465,10 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_camelsubscriptioninfo...)
 	}
 	if v.SupportedVLRCAMELPhases != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedVLRCAMELPhases).BitLength < 1 || (*v.SupportedVLRCAMELPhases).BitLength > 16 {
+			return nil, fmt.Errorf("supportedVLR-CAMEL-Phases length %d violates SIZE (1..16)", (*v.SupportedVLRCAMELPhases).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedVLRCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -61518,7 +65484,10 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_supportedvlrcamelphases...)
 	}
 	if v.SupportedSGSNCAMELPhases != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedSGSNCAMELPhases).BitLength < 1 || (*v.SupportedSGSNCAMELPhases).BitLength > 16 {
+			return nil, fmt.Errorf("supportedSGSN-CAMEL-Phases length %d violates SIZE (1..16)", (*v.SupportedSGSNCAMELPhases).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedSGSNCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -61546,7 +65515,10 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.OfferedCamel4CSIsInVLR != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.OfferedCamel4CSIsInVLR).BitLength < 7 || (*v.OfferedCamel4CSIsInVLR).BitLength > 16 {
+			return nil, fmt.Errorf("offeredCamel4CSIsInVLR length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIsInVLR).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OfferedCamel4CSIsInVLR.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -61562,7 +65534,10 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_offeredcamel4csisinvlr...)
 	}
 	if v.OfferedCamel4CSIsInSGSN != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.OfferedCamel4CSIsInSGSN).BitLength < 7 || (*v.OfferedCamel4CSIsInSGSN).BitLength > 16 {
+			return nil, fmt.Errorf("offeredCamel4CSIsInSGSN length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIsInSGSN).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OfferedCamel4CSIsInSGSN.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -61578,6 +65553,9 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_offeredcamel4csisinsgsn...)
 	}
 	if v.MsisdnBSList != nil {
+		if len(v.MsisdnBSList) < 1 || len(v.MsisdnBSList) > 50 {
+			return nil, fmt.Errorf("msisdn-BS-List length %d violates SIZE (1..50)", len(v.MsisdnBSList))
+		}
 		enc_msisdnbslist, err := MarshalDERMSISDNBSList(v.MsisdnBSList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding msisdn-BS-List: %w", err)
@@ -61590,6 +65568,9 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_msisdnbslist...)
 	}
 	if v.CsgSubscriptionDataList != nil {
+		if len(v.CsgSubscriptionDataList) < 1 || len(v.CsgSubscriptionDataList) > 50 {
+			return nil, fmt.Errorf("csg-SubscriptionDataList length %d violates SIZE (1..50)", len(v.CsgSubscriptionDataList))
+		}
 		enc_csgsubscriptiondatalist, err := MarshalDERCSGSubscriptionDataList(v.CsgSubscriptionDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding csg-SubscriptionDataList: %w", err)
@@ -61840,6 +65821,9 @@ func (v *AnyTimeSubscriptionInterrogationRes) UnmarshalBER(data []byte, opts ...
 				}
 
 				offset += n_supportedvlrcamelphases
+				if (*v.SupportedVLRCAMELPhases).BitLength < 1 || (*v.SupportedVLRCAMELPhases).BitLength > 16 {
+					return fmt.Errorf("supportedVLR-CAMEL-Phases length %d violates SIZE (1..16)", (*v.SupportedVLRCAMELPhases).BitLength)
+				}
 			}
 		}
 	}
@@ -61872,6 +65856,9 @@ func (v *AnyTimeSubscriptionInterrogationRes) UnmarshalBER(data []byte, opts ...
 				}
 
 				offset += n_supportedsgsncamelphases
+				if (*v.SupportedSGSNCAMELPhases).BitLength < 1 || (*v.SupportedSGSNCAMELPhases).BitLength > 16 {
+					return fmt.Errorf("supportedSGSN-CAMEL-Phases length %d violates SIZE (1..16)", (*v.SupportedSGSNCAMELPhases).BitLength)
+				}
 			}
 		}
 	}
@@ -61933,6 +65920,9 @@ func (v *AnyTimeSubscriptionInterrogationRes) UnmarshalBER(data []byte, opts ...
 				}
 
 				offset += n_offeredcamel4csisinvlr
+				if (*v.OfferedCamel4CSIsInVLR).BitLength < 7 || (*v.OfferedCamel4CSIsInVLR).BitLength > 16 {
+					return fmt.Errorf("offeredCamel4CSIsInVLR length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIsInVLR).BitLength)
+				}
 			}
 		}
 	}
@@ -61965,6 +65955,9 @@ func (v *AnyTimeSubscriptionInterrogationRes) UnmarshalBER(data []byte, opts ...
 				}
 
 				offset += n_offeredcamel4csisinsgsn
+				if (*v.OfferedCamel4CSIsInSGSN).BitLength < 7 || (*v.OfferedCamel4CSIsInSGSN).BitLength > 16 {
+					return fmt.Errorf("offeredCamel4CSIsInSGSN length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIsInSGSN).BitLength)
+				}
 			}
 		}
 	}
@@ -62007,6 +66000,9 @@ func (v *AnyTimeSubscriptionInterrogationRes) UnmarshalBER(data []byte, opts ...
 				}
 
 				offset += n_msisdnbslist
+				if len(v.MsisdnBSList) < 1 || len(v.MsisdnBSList) > 50 {
+					return fmt.Errorf("msisdn-BS-List length %d violates SIZE (1..50)", len(v.MsisdnBSList))
+				}
 			}
 		}
 	}
@@ -62050,6 +66046,9 @@ func (v *AnyTimeSubscriptionInterrogationRes) UnmarshalBER(data []byte, opts ...
 				}
 
 				offset += n_csgsubscriptiondatalist
+				if len(v.CsgSubscriptionDataList) < 1 || len(v.CsgSubscriptionDataList) > 50 {
+					return fmt.Errorf("csg-SubscriptionDataList length %d violates SIZE (1..50)", len(v.CsgSubscriptionDataList))
+				}
 			}
 		}
 	}
@@ -62232,6 +66231,9 @@ func (v *AnyTimeSubscriptionInterrogationRes) UnmarshalBER(data []byte, opts ...
 // MarshalBER encodes CallWaitingData to BER format.
 func (v *CallWaitingData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.CwFeatureList) < 1 || len(v.CwFeatureList) > 32 {
+		return nil, fmt.Errorf("cwFeatureList length %d violates SIZE (1..32)", len(v.CwFeatureList))
+	}
 	enc_cwfeaturelist, err := MarshalBERExtCwFeatureList(v.CwFeatureList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding cwFeatureList: %w", err)
@@ -62282,6 +66284,9 @@ func (v *CallWaitingData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes CallWaitingData to DER format.
 func (v *CallWaitingData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.CwFeatureList) < 1 || len(v.CwFeatureList) > 32 {
+		return nil, fmt.Errorf("cwFeatureList length %d violates SIZE (1..32)", len(v.CwFeatureList))
+	}
 	enc_cwfeaturelist, err := MarshalDERExtCwFeatureList(v.CwFeatureList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding cwFeatureList: %w", err)
@@ -62375,6 +66380,9 @@ func (v *CallWaitingData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 	}
 
 	offset += n_cwfeaturelist
+	if len(v.CwFeatureList) < 1 || len(v.CwFeatureList) > 32 {
+		return fmt.Errorf("cwFeatureList length %d violates SIZE (1..32)", len(v.CwFeatureList))
+	}
 	// Decode notificationToCSE
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -62526,6 +66534,9 @@ func (v *ExtCwFeature) MarshalBER() ([]byte, error) {
 		}
 	}
 	children = append(children, enc_basicservice...)
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -62564,6 +66575,9 @@ func (v *ExtCwFeature) MarshalDER() ([]byte, error) {
 		}
 	}
 	children = append(children, enc_basicservice...)
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -62654,6 +66668,9 @@ func (v *ExtCwFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 	}
 
 	offset += n_ssstatus
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -62683,6 +66700,9 @@ func (v *ExtCwFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 // MarshalBER encodes ClipData to BER format.
 func (v *ClipData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -62725,6 +66745,9 @@ func (v *ClipData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ClipData to DER format.
 func (v *ClipData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -62804,6 +66827,9 @@ func (v *ClipData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_ssstatus
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	// Decode overrideCategory
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field overrideCategory")
@@ -62887,6 +66913,9 @@ func (v *ClipData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes ClirData to BER format.
 func (v *ClirData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -62931,6 +66960,9 @@ func (v *ClirData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ClirData to DER format.
 func (v *ClirData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -63012,6 +67044,9 @@ func (v *ClirData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_ssstatus
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	// Decode cliRestrictionOption
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -63095,6 +67130,9 @@ func (v *ClirData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes CallHoldData to BER format.
 func (v *CallHoldData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -63130,6 +67168,9 @@ func (v *CallHoldData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes CallHoldData to DER format.
 func (v *CallHoldData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -63202,6 +67243,9 @@ func (v *CallHoldData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 	}
 
 	offset += n_ssstatus
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	// Decode notificationToCSE
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -63257,6 +67301,9 @@ func (v *CallHoldData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 // MarshalBER encodes EctData to BER format.
 func (v *EctData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -63292,6 +67339,9 @@ func (v *EctData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes EctData to DER format.
 func (v *EctData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -63364,6 +67414,9 @@ func (v *EctData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_ssstatus
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	// Decode notificationToCSE
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -64212,12 +68265,21 @@ func UnmarshalBERMSISDNBSList(data []byte, opts ...ber.DecodeOption) (MSISDNBSLi
 // MarshalBER encodes MSISDNBS to BER format.
 func (v *MSISDNBS) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
+		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(v.Msisdn))
+	}
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
+		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(v.Msisdn))
+	}
 	enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
 	if encodeErr_enc_msisdn != nil {
 		return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
 	}
 	children = append(children, enc_msisdn...)
 	if v.BasicServiceList != nil {
+		if len(v.BasicServiceList) < 1 || len(v.BasicServiceList) > 70 {
+			return nil, fmt.Errorf("basicServiceList length %d violates SIZE (1..70)", len(v.BasicServiceList))
+		}
 		enc_basicservicelist, err := MarshalBERBasicServiceList(v.BasicServiceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceList: %w", err)
@@ -64272,12 +68334,21 @@ func (v *MSISDNBS) MarshalBER() ([]byte, error) {
 // MarshalDER encodes MSISDNBS to DER format.
 func (v *MSISDNBS) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
+		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(v.Msisdn))
+	}
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
+		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(v.Msisdn))
+	}
 	enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
 	if encodeErr_enc_msisdn != nil {
 		return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
 	}
 	children = append(children, enc_msisdn...)
 	if v.BasicServiceList != nil {
+		if len(v.BasicServiceList) < 1 || len(v.BasicServiceList) > 70 {
+			return nil, fmt.Errorf("basicServiceList length %d violates SIZE (1..70)", len(v.BasicServiceList))
+		}
 		enc_basicservicelist, err := MarshalDERBasicServiceList(v.BasicServiceList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceList: %w", err)
@@ -64346,6 +68417,12 @@ func (v *MSISDNBS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
+		return fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(v.Msisdn))
+	}
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
+		return fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(v.Msisdn))
+	}
 	// Decode basicServiceList
 	v.BasicServiceListIndef_ = false
 	if offset < len(content) {
@@ -64386,6 +68463,9 @@ func (v *MSISDNBS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_basicservicelist
+				if len(v.BasicServiceList) < 1 || len(v.BasicServiceList) > 70 {
+					return fmt.Errorf("basicServiceList length %d violates SIZE (1..70)", len(v.BasicServiceList))
+				}
 			}
 		}
 	}
@@ -64449,6 +68529,9 @@ func (v *MSISDNBS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes CallForwardingData to BER format.
 func (v *CallForwardingData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.ForwardingFeatureList) < 1 || len(v.ForwardingFeatureList) > 32 {
+		return nil, fmt.Errorf("forwardingFeatureList length %d violates SIZE (1..32)", len(v.ForwardingFeatureList))
+	}
 	enc_forwardingfeaturelist, err := MarshalBERExtForwFeatureList(v.ForwardingFeatureList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding forwardingFeatureList: %w", err)
@@ -64486,6 +68569,9 @@ func (v *CallForwardingData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes CallForwardingData to DER format.
 func (v *CallForwardingData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.ForwardingFeatureList) < 1 || len(v.ForwardingFeatureList) > 32 {
+		return nil, fmt.Errorf("forwardingFeatureList length %d violates SIZE (1..32)", len(v.ForwardingFeatureList))
+	}
 	enc_forwardingfeaturelist, err := MarshalDERExtForwFeatureList(v.ForwardingFeatureList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding forwardingFeatureList: %w", err)
@@ -64572,6 +68658,9 @@ func (v *CallForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	}
 
 	offset += n_forwardingfeaturelist
+	if len(v.ForwardingFeatureList) < 1 || len(v.ForwardingFeatureList) > 32 {
+		return fmt.Errorf("forwardingFeatureList length %d violates SIZE (1..32)", len(v.ForwardingFeatureList))
+	}
 	// Decode notificationToCSE
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -64651,12 +68740,18 @@ func (v *CallForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 // MarshalBER encodes CallBarringData to BER format.
 func (v *CallBarringData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.CallBarringFeatureList) < 1 || len(v.CallBarringFeatureList) > 32 {
+		return nil, fmt.Errorf("callBarringFeatureList length %d violates SIZE (1..32)", len(v.CallBarringFeatureList))
+	}
 	enc_callbarringfeaturelist, err := MarshalBERExtCallBarFeatureList(v.CallBarringFeatureList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding callBarringFeatureList: %w", err)
 	}
 	children = append(children, enc_callbarringfeaturelist...)
 	if v.Password != nil {
+		if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
+			return nil, fmt.Errorf("password length %d violates SIZE (4)", len([]rune(*v.Password)))
+		}
 		enc_password, stringErr := ber.EncodeStringTagChecked(18, string(*v.Password))
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding password: %w", stringErr)
@@ -64694,12 +68789,18 @@ func (v *CallBarringData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes CallBarringData to DER format.
 func (v *CallBarringData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.CallBarringFeatureList) < 1 || len(v.CallBarringFeatureList) > 32 {
+		return nil, fmt.Errorf("callBarringFeatureList length %d violates SIZE (1..32)", len(v.CallBarringFeatureList))
+	}
 	enc_callbarringfeaturelist, err := MarshalDERExtCallBarFeatureList(v.CallBarringFeatureList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding callBarringFeatureList: %w", err)
 	}
 	children = append(children, enc_callbarringfeaturelist...)
 	if v.Password != nil {
+		if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
+			return nil, fmt.Errorf("password length %d violates SIZE (4)", len([]rune(*v.Password)))
+		}
 		enc_password, stringErr := ber.EncodeStringTagChecked(18, string(*v.Password))
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding password: %w", stringErr)
@@ -64786,6 +68887,9 @@ func (v *CallBarringData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 	}
 
 	offset += n_callbarringfeaturelist
+	if len(v.CallBarringFeatureList) < 1 || len(v.CallBarringFeatureList) > 32 {
+		return fmt.Errorf("callBarringFeatureList length %d violates SIZE (1..32)", len(v.CallBarringFeatureList))
+	}
 	// Decode password
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -64802,6 +68906,9 @@ func (v *CallBarringData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				}
 
 				offset += n
+				if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
+					return fmt.Errorf("password length %d violates SIZE (4)", len([]rune(*v.Password)))
+				}
 			}
 		}
 	}
@@ -65097,6 +69204,9 @@ func (v *CAMELSubscriptionInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ocsi...)
 	}
 	if v.OBcsmCamelTDPCriteriaList != nil {
+		if len(v.OBcsmCamelTDPCriteriaList) < 1 || len(v.OBcsmCamelTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("o-BcsmCamelTDP-CriteriaList length %d violates SIZE (1..10)", len(v.OBcsmCamelTDPCriteriaList))
+		}
 		enc_obcsmcameltdpcriterialist, err := MarshalBEROBcsmCamelTDPCriteriaList(v.OBcsmCamelTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding o-BcsmCamelTDP-CriteriaList: %w", err)
@@ -65148,6 +69258,9 @@ func (v *CAMELSubscriptionInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_tcsi...)
 	}
 	if v.TBCSMCAMELTDPCriteriaList != nil {
+		if len(v.TBCSMCAMELTDPCriteriaList) < 1 || len(v.TBCSMCAMELTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("t-BCSM-CAMEL-TDP-CriteriaList length %d violates SIZE (1..10)", len(v.TBCSMCAMELTDPCriteriaList))
+		}
 		enc_tbcsmcameltdpcriterialist, err := MarshalBERTBCSMCAMELTDPCriteriaList(v.TBCSMCAMELTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding t-BCSM-CAMEL-TDP-CriteriaList: %w", err)
@@ -65187,6 +69300,9 @@ func (v *CAMELSubscriptionInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_vtcsi...)
 	}
 	if v.VtBCSMCAMELTDPCriteriaList != nil {
+		if len(v.VtBCSMCAMELTDPCriteriaList) < 1 || len(v.VtBCSMCAMELTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("vt-BCSM-CAMEL-TDP-CriteriaList length %d violates SIZE (1..10)", len(v.VtBCSMCAMELTDPCriteriaList))
+		}
 		enc_vtbcsmcameltdpcriterialist, err := MarshalBERTBCSMCAMELTDPCriteriaList(v.VtBCSMCAMELTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vt-BCSM-CAMEL-TDP-CriteriaList: %w", err)
@@ -65292,7 +69408,10 @@ func (v *CAMELSubscriptionInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.SpecificCSIDeletedList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SpecificCSIDeletedList).BitLength < 8 || (*v.SpecificCSIDeletedList).BitLength > 32 {
+			return nil, fmt.Errorf("specificCSIDeletedList length %d violates SIZE (8..32)", (*v.SpecificCSIDeletedList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SpecificCSIDeletedList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -65320,6 +69439,9 @@ func (v *CAMELSubscriptionInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mtsmscsi...)
 	}
 	if v.MtSmsCAMELTDPCriteriaList != nil {
+		if len(v.MtSmsCAMELTDPCriteriaList) < 1 || len(v.MtSmsCAMELTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("mt-smsCAMELTDP-CriteriaList length %d violates SIZE (1..10)", len(v.MtSmsCAMELTDPCriteriaList))
+		}
 		enc_mtsmscameltdpcriterialist, err := MarshalBERMTSmsCAMELTDPCriteriaList(v.MtSmsCAMELTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding mt-smsCAMELTDP-CriteriaList: %w", err)
@@ -65371,6 +69493,9 @@ func (v *CAMELSubscriptionInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_oimcsi...)
 	}
 	if v.OIMBcsmCamelTDPCriteriaList != nil {
+		if len(v.OIMBcsmCamelTDPCriteriaList) < 1 || len(v.OIMBcsmCamelTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("o-IM-BcsmCamelTDP-CriteriaList length %d violates SIZE (1..10)", len(v.OIMBcsmCamelTDPCriteriaList))
+		}
 		enc_oimbcsmcameltdpcriterialist, err := MarshalBEROBcsmCamelTDPCriteriaList(v.OIMBcsmCamelTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding o-IM-BcsmCamelTDP-CriteriaList: %w", err)
@@ -65422,6 +69547,9 @@ func (v *CAMELSubscriptionInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_vtimcsi...)
 	}
 	if v.VtIMBCSMCAMELTDPCriteriaList != nil {
+		if len(v.VtIMBCSMCAMELTDPCriteriaList) < 1 || len(v.VtIMBCSMCAMELTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("vt-IM-BCSM-CAMEL-TDP-CriteriaList length %d violates SIZE (1..10)", len(v.VtIMBCSMCAMELTDPCriteriaList))
+		}
 		enc_vtimbcsmcameltdpcriterialist, err := MarshalBERTBCSMCAMELTDPCriteriaList(v.VtIMBCSMCAMELTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vt-IM-BCSM-CAMEL-TDP-CriteriaList: %w", err)
@@ -65477,6 +69605,9 @@ func (v *CAMELSubscriptionInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ocsi...)
 	}
 	if v.OBcsmCamelTDPCriteriaList != nil {
+		if len(v.OBcsmCamelTDPCriteriaList) < 1 || len(v.OBcsmCamelTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("o-BcsmCamelTDP-CriteriaList length %d violates SIZE (1..10)", len(v.OBcsmCamelTDPCriteriaList))
+		}
 		enc_obcsmcameltdpcriterialist, err := MarshalDEROBcsmCamelTDPCriteriaList(v.OBcsmCamelTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding o-BcsmCamelTDP-CriteriaList: %w", err)
@@ -65513,6 +69644,9 @@ func (v *CAMELSubscriptionInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_tcsi...)
 	}
 	if v.TBCSMCAMELTDPCriteriaList != nil {
+		if len(v.TBCSMCAMELTDPCriteriaList) < 1 || len(v.TBCSMCAMELTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("t-BCSM-CAMEL-TDP-CriteriaList length %d violates SIZE (1..10)", len(v.TBCSMCAMELTDPCriteriaList))
+		}
 		enc_tbcsmcameltdpcriterialist, err := MarshalDERTBCSMCAMELTDPCriteriaList(v.TBCSMCAMELTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding t-BCSM-CAMEL-TDP-CriteriaList: %w", err)
@@ -65537,6 +69671,9 @@ func (v *CAMELSubscriptionInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_vtcsi...)
 	}
 	if v.VtBCSMCAMELTDPCriteriaList != nil {
+		if len(v.VtBCSMCAMELTDPCriteriaList) < 1 || len(v.VtBCSMCAMELTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("vt-BCSM-CAMEL-TDP-CriteriaList length %d violates SIZE (1..10)", len(v.VtBCSMCAMELTDPCriteriaList))
+		}
 		enc_vtbcsmcameltdpcriterialist, err := MarshalDERTBCSMCAMELTDPCriteriaList(v.VtBCSMCAMELTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vt-BCSM-CAMEL-TDP-CriteriaList: %w", err)
@@ -65627,7 +69764,10 @@ func (v *CAMELSubscriptionInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.SpecificCSIDeletedList != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SpecificCSIDeletedList).BitLength < 8 || (*v.SpecificCSIDeletedList).BitLength > 32 {
+			return nil, fmt.Errorf("specificCSIDeletedList length %d violates SIZE (8..32)", (*v.SpecificCSIDeletedList).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SpecificCSIDeletedList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -65655,6 +69795,9 @@ func (v *CAMELSubscriptionInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mtsmscsi...)
 	}
 	if v.MtSmsCAMELTDPCriteriaList != nil {
+		if len(v.MtSmsCAMELTDPCriteriaList) < 1 || len(v.MtSmsCAMELTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("mt-smsCAMELTDP-CriteriaList length %d violates SIZE (1..10)", len(v.MtSmsCAMELTDPCriteriaList))
+		}
 		enc_mtsmscameltdpcriterialist, err := MarshalDERMTSmsCAMELTDPCriteriaList(v.MtSmsCAMELTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding mt-smsCAMELTDP-CriteriaList: %w", err)
@@ -65691,6 +69834,9 @@ func (v *CAMELSubscriptionInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_oimcsi...)
 	}
 	if v.OIMBcsmCamelTDPCriteriaList != nil {
+		if len(v.OIMBcsmCamelTDPCriteriaList) < 1 || len(v.OIMBcsmCamelTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("o-IM-BcsmCamelTDP-CriteriaList length %d violates SIZE (1..10)", len(v.OIMBcsmCamelTDPCriteriaList))
+		}
 		enc_oimbcsmcameltdpcriterialist, err := MarshalDEROBcsmCamelTDPCriteriaList(v.OIMBcsmCamelTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding o-IM-BcsmCamelTDP-CriteriaList: %w", err)
@@ -65727,6 +69873,9 @@ func (v *CAMELSubscriptionInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_vtimcsi...)
 	}
 	if v.VtIMBCSMCAMELTDPCriteriaList != nil {
+		if len(v.VtIMBCSMCAMELTDPCriteriaList) < 1 || len(v.VtIMBCSMCAMELTDPCriteriaList) > 10 {
+			return nil, fmt.Errorf("vt-IM-BCSM-CAMEL-TDP-CriteriaList length %d violates SIZE (1..10)", len(v.VtIMBCSMCAMELTDPCriteriaList))
+		}
 		enc_vtimbcsmcameltdpcriterialist, err := MarshalDERTBCSMCAMELTDPCriteriaList(v.VtIMBCSMCAMELTDPCriteriaList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vt-IM-BCSM-CAMEL-TDP-CriteriaList: %w", err)
@@ -65838,6 +69987,9 @@ func (v *CAMELSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_obcsmcameltdpcriterialist
+				if len(v.OBcsmCamelTDPCriteriaList) < 1 || len(v.OBcsmCamelTDPCriteriaList) > 10 {
+					return fmt.Errorf("o-BcsmCamelTDP-CriteriaList length %d violates SIZE (1..10)", len(v.OBcsmCamelTDPCriteriaList))
+				}
 			}
 		}
 	}
@@ -65941,6 +70093,9 @@ func (v *CAMELSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_tbcsmcameltdpcriterialist
+				if len(v.TBCSMCAMELTDPCriteriaList) < 1 || len(v.TBCSMCAMELTDPCriteriaList) > 10 {
+					return fmt.Errorf("t-BCSM-CAMEL-TDP-CriteriaList length %d violates SIZE (1..10)", len(v.TBCSMCAMELTDPCriteriaList))
+				}
 			}
 		}
 	}
@@ -66014,6 +70169,9 @@ func (v *CAMELSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_vtbcsmcameltdpcriterialist
+				if len(v.VtBCSMCAMELTDPCriteriaList) < 1 || len(v.VtBCSMCAMELTDPCriteriaList) > 10 {
+					return fmt.Errorf("vt-BCSM-CAMEL-TDP-CriteriaList length %d violates SIZE (1..10)", len(v.VtBCSMCAMELTDPCriteriaList))
+				}
 			}
 		}
 	}
@@ -66248,6 +70406,9 @@ func (v *CAMELSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_specificcsideletedlist
+				if (*v.SpecificCSIDeletedList).BitLength < 8 || (*v.SpecificCSIDeletedList).BitLength > 32 {
+					return fmt.Errorf("specificCSIDeletedList length %d violates SIZE (8..32)", (*v.SpecificCSIDeletedList).BitLength)
+				}
 			}
 		}
 	}
@@ -66321,6 +70482,9 @@ func (v *CAMELSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_mtsmscameltdpcriterialist
+				if len(v.MtSmsCAMELTDPCriteriaList) < 1 || len(v.MtSmsCAMELTDPCriteriaList) > 10 {
+					return fmt.Errorf("mt-smsCAMELTDP-CriteriaList length %d violates SIZE (1..10)", len(v.MtSmsCAMELTDPCriteriaList))
+				}
 			}
 		}
 	}
@@ -66424,6 +70588,9 @@ func (v *CAMELSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_oimbcsmcameltdpcriterialist
+				if len(v.OIMBcsmCamelTDPCriteriaList) < 1 || len(v.OIMBcsmCamelTDPCriteriaList) > 10 {
+					return fmt.Errorf("o-IM-BcsmCamelTDP-CriteriaList length %d violates SIZE (1..10)", len(v.OIMBcsmCamelTDPCriteriaList))
+				}
 			}
 		}
 	}
@@ -66527,6 +70694,9 @@ func (v *CAMELSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_vtimbcsmcameltdpcriterialist
+				if len(v.VtIMBCSMCAMELTDPCriteriaList) < 1 || len(v.VtIMBCSMCAMELTDPCriteriaList) > 10 {
+					return fmt.Errorf("vt-IM-BCSM-CAMEL-TDP-CriteriaList length %d violates SIZE (1..10)", len(v.VtIMBCSMCAMELTDPCriteriaList))
+				}
 			}
 		}
 	}
@@ -66571,6 +70741,12 @@ func (v *AnyTimeModificationArg) MarshalBER() ([]byte, error) {
 		}
 	}
 	children = append(children, enc_subscriberidentity...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -66663,7 +70839,10 @@ func (v *AnyTimeModificationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_modificationrequestforipsmgwdata...)
 	}
 	if v.ActivationRequestForUEReachability != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.ActivationRequestForUEReachability).BitLength < 1 || (*v.ActivationRequestForUEReachability).BitLength > 8 {
+			return nil, fmt.Errorf("activationRequestForUE-reachability length %d violates SIZE (1..8)", (*v.ActivationRequestForUEReachability).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ActivationRequestForUEReachability.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -66778,6 +70957,12 @@ func (v *AnyTimeModificationArg) MarshalDER() ([]byte, error) {
 		}
 	}
 	children = append(children, enc_subscriberidentity...)
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return nil, fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	enc_gsmscfaddress, encodeErr_enc_gsmscfaddress := ber.EncodeOctetString([]byte(v.GsmSCFAddress))
 	if encodeErr_enc_gsmscfaddress != nil {
 		return nil, fmt.Errorf("encoding gsmSCF-Address: %w", encodeErr_enc_gsmscfaddress)
@@ -66870,7 +71055,10 @@ func (v *AnyTimeModificationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_modificationrequestforipsmgwdata...)
 	}
 	if v.ActivationRequestForUEReachability != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.ActivationRequestForUEReachability).BitLength < 1 || (*v.ActivationRequestForUEReachability).BitLength > 8 {
+			return nil, fmt.Errorf("activationRequestForUE-reachability length %d violates SIZE (1..8)", (*v.ActivationRequestForUEReachability).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ActivationRequestForUEReachability.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -67037,6 +71225,12 @@ func (v *AnyTimeModificationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	}
 
 	offset += n_gsmscfaddress
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 9 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..9)", len(v.GsmSCFAddress))
+	}
+	if len(v.GsmSCFAddress) < 1 || len(v.GsmSCFAddress) > 20 {
+		return fmt.Errorf("gsmSCF-Address length %d violates SIZE (1..20)", len(v.GsmSCFAddress))
+	}
 	// Decode modificationRequestFor-CF-Info
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -67278,6 +71472,9 @@ func (v *AnyTimeModificationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_activationrequestforuereachability
+				if (*v.ActivationRequestForUEReachability).BitLength < 1 || (*v.ActivationRequestForUEReachability).BitLength > 8 {
+					return fmt.Errorf("activationRequestForUE-reachability length %d violates SIZE (1..8)", (*v.ActivationRequestForUEReachability).BitLength)
+				}
 			}
 		}
 	}
@@ -67511,6 +71708,9 @@ func (v *ModificationRequestForCWInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_basicservice...)
 	}
 	if v.SsStatus != nil {
+		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -67574,6 +71774,9 @@ func (v *ModificationRequestForCWInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_basicservice...)
 	}
 	if v.SsStatus != nil {
+		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -67683,6 +71886,9 @@ func (v *ModificationRequestForCWInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 				}
 
 				offset += n_ssstatus
+				if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+					return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+				}
 			}
 		}
 	}
@@ -67774,6 +71980,9 @@ func (v *ModificationRequestForCWInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 func (v *ModificationRequestForCHInfo) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.SsStatus != nil {
+		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -67823,6 +72032,9 @@ func (v *ModificationRequestForCHInfo) MarshalBER() ([]byte, error) {
 func (v *ModificationRequestForCHInfo) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.SsStatus != nil {
+		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -67905,6 +72117,9 @@ func (v *ModificationRequestForCHInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 				}
 
 				offset += n_ssstatus
+				if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+					return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+				}
 			}
 		}
 	}
@@ -67996,6 +72211,9 @@ func (v *ModificationRequestForCHInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 func (v *ModificationRequestForECTInfo) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.SsStatus != nil {
+		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -68045,6 +72263,9 @@ func (v *ModificationRequestForECTInfo) MarshalBER() ([]byte, error) {
 func (v *ModificationRequestForECTInfo) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.SsStatus != nil {
+		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -68127,6 +72348,9 @@ func (v *ModificationRequestForECTInfo) UnmarshalBER(data []byte, opts ...ber.De
 				}
 
 				offset += n_ssstatus
+				if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+					return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+				}
 			}
 		}
 	}
@@ -68218,6 +72442,9 @@ func (v *ModificationRequestForECTInfo) UnmarshalBER(data []byte, opts ...ber.De
 func (v *ModificationRequestForCLIRInfo) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.SsStatus != nil {
+		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -68276,6 +72503,9 @@ func (v *ModificationRequestForCLIRInfo) MarshalBER() ([]byte, error) {
 func (v *ModificationRequestForCLIRInfo) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.SsStatus != nil {
+		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -68367,6 +72597,9 @@ func (v *ModificationRequestForCLIRInfo) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_ssstatus
+				if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+					return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+				}
 			}
 		}
 	}
@@ -68487,6 +72720,9 @@ func (v *ModificationRequestForCLIRInfo) UnmarshalBER(data []byte, opts ...ber.D
 func (v *ModificationRequestForCLIPInfo) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.SsStatus != nil {
+		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -68545,6 +72781,9 @@ func (v *ModificationRequestForCLIPInfo) MarshalBER() ([]byte, error) {
 func (v *ModificationRequestForCLIPInfo) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.SsStatus != nil {
+		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -68636,6 +72875,9 @@ func (v *ModificationRequestForCLIPInfo) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_ssstatus
+				if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+					return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+				}
 			}
 		}
 	}
@@ -69041,6 +73283,9 @@ func (v *AnyTimeModificationRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ectdata...)
 	}
 	if v.ServiceCentreAddress != nil {
+		if len(*v.ServiceCentreAddress) < 1 || len(*v.ServiceCentreAddress) > 20 {
+			return nil, fmt.Errorf("serviceCentreAddress length %d violates SIZE (1..20)", len(*v.ServiceCentreAddress))
+		}
 		enc_servicecentreaddress, encodeErr_enc_servicecentreaddress := ber.EncodeOctetString([]byte(*v.ServiceCentreAddress))
 		if encodeErr_enc_servicecentreaddress != nil {
 			return nil, fmt.Errorf("encoding serviceCentreAddress: %w", encodeErr_enc_servicecentreaddress)
@@ -69179,6 +73424,9 @@ func (v *AnyTimeModificationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ectdata...)
 	}
 	if v.ServiceCentreAddress != nil {
+		if len(*v.ServiceCentreAddress) < 1 || len(*v.ServiceCentreAddress) > 20 {
+			return nil, fmt.Errorf("serviceCentreAddress length %d violates SIZE (1..20)", len(*v.ServiceCentreAddress))
+		}
 		enc_servicecentreaddress, encodeErr_enc_servicecentreaddress := ber.EncodeOctetString([]byte(*v.ServiceCentreAddress))
 		if encodeErr_enc_servicecentreaddress != nil {
 			return nil, fmt.Errorf("encoding serviceCentreAddress: %w", encodeErr_enc_servicecentreaddress)
@@ -69510,6 +73758,9 @@ func (v *AnyTimeModificationRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_servicecentreaddress
+				if len(*v.ServiceCentreAddress) < 1 || len(*v.ServiceCentreAddress) > 20 {
+					return fmt.Errorf("serviceCentreAddress length %d violates SIZE (1..20)", len(*v.ServiceCentreAddress))
+				}
 			}
 		}
 	}
@@ -69542,6 +73793,9 @@ func (v *AnyTimeModificationRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 // MarshalBER encodes ModificationRequestForCFInfo to BER format.
 func (v *ModificationRequestForCFInfo) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
@@ -69567,6 +73821,9 @@ func (v *ModificationRequestForCFInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_basicservice...)
 	}
 	if v.SsStatus != nil {
+		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -69579,6 +73836,9 @@ func (v *ModificationRequestForCFInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ssstatus...)
 	}
 	if v.ForwardedToNumber != nil {
+		if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 20 {
+			return nil, fmt.Errorf("forwardedToNumber length %d violates SIZE (1..20)", len(*v.ForwardedToNumber))
+		}
 		enc_forwardedtonumber, encodeErr_enc_forwardedtonumber := ber.EncodeOctetString([]byte(*v.ForwardedToNumber))
 		if encodeErr_enc_forwardedtonumber != nil {
 			return nil, fmt.Errorf("encoding forwardedToNumber: %w", encodeErr_enc_forwardedtonumber)
@@ -69591,6 +73851,9 @@ func (v *ModificationRequestForCFInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_forwardedtonumber...)
 	}
 	if v.ForwardedToSubaddress != nil {
+		if len(*v.ForwardedToSubaddress) < 1 || len(*v.ForwardedToSubaddress) > 21 {
+			return nil, fmt.Errorf("forwardedToSubaddress length %d violates SIZE (1..21)", len(*v.ForwardedToSubaddress))
+		}
 		enc_forwardedtosubaddress, encodeErr_enc_forwardedtosubaddress := ber.EncodeOctetString([]byte(*v.ForwardedToSubaddress))
 		if encodeErr_enc_forwardedtosubaddress != nil {
 			return nil, fmt.Errorf("encoding forwardedToSubaddress: %w", encodeErr_enc_forwardedtosubaddress)
@@ -69648,6 +73911,9 @@ func (v *ModificationRequestForCFInfo) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ModificationRequestForCFInfo to DER format.
 func (v *ModificationRequestForCFInfo) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
@@ -69673,6 +73939,9 @@ func (v *ModificationRequestForCFInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_basicservice...)
 	}
 	if v.SsStatus != nil {
+		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -69685,6 +73954,9 @@ func (v *ModificationRequestForCFInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ssstatus...)
 	}
 	if v.ForwardedToNumber != nil {
+		if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 20 {
+			return nil, fmt.Errorf("forwardedToNumber length %d violates SIZE (1..20)", len(*v.ForwardedToNumber))
+		}
 		enc_forwardedtonumber, encodeErr_enc_forwardedtonumber := ber.EncodeOctetString([]byte(*v.ForwardedToNumber))
 		if encodeErr_enc_forwardedtonumber != nil {
 			return nil, fmt.Errorf("encoding forwardedToNumber: %w", encodeErr_enc_forwardedtonumber)
@@ -69697,6 +73969,9 @@ func (v *ModificationRequestForCFInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_forwardedtonumber...)
 	}
 	if v.ForwardedToSubaddress != nil {
+		if len(*v.ForwardedToSubaddress) < 1 || len(*v.ForwardedToSubaddress) > 21 {
+			return nil, fmt.Errorf("forwardedToSubaddress length %d violates SIZE (1..21)", len(*v.ForwardedToSubaddress))
+		}
 		enc_forwardedtosubaddress, encodeErr_enc_forwardedtosubaddress := ber.EncodeOctetString([]byte(*v.ForwardedToSubaddress))
 		if encodeErr_enc_forwardedtosubaddress != nil {
 			return nil, fmt.Errorf("encoding forwardedToSubaddress: %w", encodeErr_enc_forwardedtosubaddress)
@@ -69791,6 +74066,9 @@ func (v *ModificationRequestForCFInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 	}
 
 	offset += n_sscode
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	// Decode basicService
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -69838,6 +74116,9 @@ func (v *ModificationRequestForCFInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 				}
 
 				offset += n_ssstatus
+				if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+					return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+				}
 			}
 		}
 	}
@@ -69862,6 +74143,9 @@ func (v *ModificationRequestForCFInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 				}
 
 				offset += n_forwardedtonumber
+				if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 20 {
+					return fmt.Errorf("forwardedToNumber length %d violates SIZE (1..20)", len(*v.ForwardedToNumber))
+				}
 			}
 		}
 	}
@@ -69886,6 +74170,9 @@ func (v *ModificationRequestForCFInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 				}
 
 				offset += n_forwardedtosubaddress
+				if len(*v.ForwardedToSubaddress) < 1 || len(*v.ForwardedToSubaddress) > 21 {
+					return fmt.Errorf("forwardedToSubaddress length %d violates SIZE (1..21)", len(*v.ForwardedToSubaddress))
+				}
 			}
 		}
 	}
@@ -70004,6 +74291,9 @@ func (v *ModificationRequestForCFInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 // MarshalBER encodes ModificationRequestForCBInfo to BER format.
 func (v *ModificationRequestForCBInfo) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
@@ -70029,6 +74319,9 @@ func (v *ModificationRequestForCBInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_basicservice...)
 	}
 	if v.SsStatus != nil {
+		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -70041,6 +74334,9 @@ func (v *ModificationRequestForCBInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ssstatus...)
 	}
 	if v.Password != nil {
+		if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
+			return nil, fmt.Errorf("password length %d violates SIZE (4)", len([]rune(*v.Password)))
+		}
 		enc_password, stringErr := ber.EncodeStringTagChecked(18, string(*v.Password))
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding password: %w", stringErr)
@@ -70098,6 +74394,9 @@ func (v *ModificationRequestForCBInfo) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ModificationRequestForCBInfo to DER format.
 func (v *ModificationRequestForCBInfo) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
@@ -70123,6 +74422,9 @@ func (v *ModificationRequestForCBInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_basicservice...)
 	}
 	if v.SsStatus != nil {
+		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -70135,6 +74437,9 @@ func (v *ModificationRequestForCBInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ssstatus...)
 	}
 	if v.Password != nil {
+		if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
+			return nil, fmt.Errorf("password length %d violates SIZE (4)", len([]rune(*v.Password)))
+		}
 		enc_password, stringErr := ber.EncodeStringTagChecked(18, string(*v.Password))
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding password: %w", stringErr)
@@ -70229,6 +74534,9 @@ func (v *ModificationRequestForCBInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 	}
 
 	offset += n_sscode
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	// Decode basicService
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -70276,6 +74584,9 @@ func (v *ModificationRequestForCBInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 				}
 
 				offset += n_ssstatus
+				if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 5 {
+					return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(*v.SsStatus))
+				}
 			}
 		}
 	}
@@ -70302,6 +74613,9 @@ func (v *ModificationRequestForCBInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 				}
 
 				offset += n_password
+				if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
+					return fmt.Errorf("password length %d violates SIZE (4)", len([]rune(*v.Password)))
+				}
 			}
 		}
 	}
@@ -71188,11 +75502,20 @@ func (v *ModificationRequestForIPSMGWData) UnmarshalBER(data []byte, opts ...ber
 // MarshalBER encodes NoteSubscriberDataModifiedArg to BER format.
 func (v *NoteSubscriberDataModifiedArg) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
 	}
 	children = append(children, enc_imsi...)
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
+		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(v.Msisdn))
+	}
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
+		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(v.Msisdn))
+	}
 	enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
 	if encodeErr_enc_msisdn != nil {
 		return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
@@ -71263,7 +75586,10 @@ func (v *NoteSubscriberDataModifiedArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.UeReachable != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.UeReachable).BitLength < 2 || (*v.UeReachable).BitLength > 8 {
+			return nil, fmt.Errorf("ue-reachable length %d violates SIZE (2..8)", (*v.UeReachable).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.UeReachable.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -71279,6 +75605,9 @@ func (v *NoteSubscriberDataModifiedArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_uereachable...)
 	}
 	if v.CsgSubscriptionDataList != nil {
+		if len(v.CsgSubscriptionDataList) < 1 || len(v.CsgSubscriptionDataList) > 50 {
+			return nil, fmt.Errorf("csg-SubscriptionDataList length %d violates SIZE (1..50)", len(v.CsgSubscriptionDataList))
+		}
 		enc_csgsubscriptiondatalist, err := MarshalBERCSGSubscriptionDataList(v.CsgSubscriptionDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding csg-SubscriptionDataList: %w", err)
@@ -71381,11 +75710,20 @@ func (v *NoteSubscriberDataModifiedArg) MarshalBER() ([]byte, error) {
 // MarshalDER encodes NoteSubscriberDataModifiedArg to DER format.
 func (v *NoteSubscriberDataModifiedArg) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
 	}
 	children = append(children, enc_imsi...)
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
+		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(v.Msisdn))
+	}
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
+		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(v.Msisdn))
+	}
 	enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
 	if encodeErr_enc_msisdn != nil {
 		return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
@@ -71456,7 +75794,10 @@ func (v *NoteSubscriberDataModifiedArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.UeReachable != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.UeReachable).BitLength < 2 || (*v.UeReachable).BitLength > 8 {
+			return nil, fmt.Errorf("ue-reachable length %d violates SIZE (2..8)", (*v.UeReachable).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.UeReachable.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -71472,6 +75813,9 @@ func (v *NoteSubscriberDataModifiedArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_uereachable...)
 	}
 	if v.CsgSubscriptionDataList != nil {
+		if len(v.CsgSubscriptionDataList) < 1 || len(v.CsgSubscriptionDataList) > 50 {
+			return nil, fmt.Errorf("csg-SubscriptionDataList length %d violates SIZE (1..50)", len(v.CsgSubscriptionDataList))
+		}
 		enc_csgsubscriptiondatalist, err := MarshalDERCSGSubscriptionDataList(v.CsgSubscriptionDataList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding csg-SubscriptionDataList: %w", err)
@@ -71588,6 +75932,9 @@ func (v *NoteSubscriberDataModifiedArg) UnmarshalBER(data []byte, opts ...ber.De
 	}
 
 	offset += n
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	// Decode msisdn
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field msisdn")
@@ -71603,6 +75950,12 @@ func (v *NoteSubscriberDataModifiedArg) UnmarshalBER(data []byte, opts ...ber.De
 	}
 
 	offset += n
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
+		return fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(v.Msisdn))
+	}
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
+		return fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(v.Msisdn))
+	}
 	// Decode forwardingInfoFor-CSE
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -71808,6 +76161,9 @@ func (v *NoteSubscriberDataModifiedArg) UnmarshalBER(data []byte, opts ...ber.De
 				}
 
 				offset += n_uereachable
+				if (*v.UeReachable).BitLength < 2 || (*v.UeReachable).BitLength > 8 {
+					return fmt.Errorf("ue-reachable length %d violates SIZE (2..8)", (*v.UeReachable).BitLength)
+				}
 			}
 		}
 	}
@@ -71851,6 +76207,9 @@ func (v *NoteSubscriberDataModifiedArg) UnmarshalBER(data []byte, opts ...ber.De
 				}
 
 				offset += n_csgsubscriptiondatalist
+				if len(v.CsgSubscriptionDataList) < 1 || len(v.CsgSubscriptionDataList) > 50 {
+					return fmt.Errorf("csg-SubscriptionDataList length %d violates SIZE (1..50)", len(v.CsgSubscriptionDataList))
+				}
 			}
 		}
 	}
@@ -72153,6 +76512,9 @@ func (v *NoteMMEventArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_servicekey := ber.EncodeInteger(int64(v.ServiceKey))
 	children = append(children, enc_servicekey...)
+	if len(v.EventMet) < 1 || len(v.EventMet) > 1 {
+		return nil, fmt.Errorf("eventMet length %d violates SIZE (1)", len(v.EventMet))
+	}
 	enc_eventmet, encodeErr_enc_eventmet := ber.EncodeOctetString([]byte(v.EventMet))
 	if encodeErr_enc_eventmet != nil {
 		return nil, fmt.Errorf("encoding eventMet: %w", encodeErr_enc_eventmet)
@@ -72163,6 +76525,9 @@ func (v *NoteMMEventArg) MarshalBER() ([]byte, error) {
 	}
 	enc_eventmet = retagged_enc_eventmet
 	children = append(children, enc_eventmet...)
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -72173,6 +76538,12 @@ func (v *NoteMMEventArg) MarshalBER() ([]byte, error) {
 	}
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
+		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(v.Msisdn))
+	}
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
+		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(v.Msisdn))
+	}
 	enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
 	if encodeErr_enc_msisdn != nil {
 		return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
@@ -72196,7 +76567,10 @@ func (v *NoteMMEventArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_locationinformation...)
 	}
 	if v.SupportedCAMELPhases != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedCAMELPhases).BitLength < 1 || (*v.SupportedCAMELPhases).BitLength > 16 {
+			return nil, fmt.Errorf("supportedCAMELPhases length %d violates SIZE (1..16)", (*v.SupportedCAMELPhases).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -72236,7 +76610,10 @@ func (v *NoteMMEventArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_locationinformationgprs...)
 	}
 	if v.OfferedCamel4Functionalities != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.OfferedCamel4Functionalities).BitLength < 15 || (*v.OfferedCamel4Functionalities).BitLength > 64 {
+			return nil, fmt.Errorf("offeredCamel4Functionalities length %d violates SIZE (15..64)", (*v.OfferedCamel4Functionalities).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OfferedCamel4Functionalities.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -72269,6 +76646,9 @@ func (v *NoteMMEventArg) MarshalDER() ([]byte, error) {
 	var children []byte
 	enc_servicekey := ber.EncodeInteger(int64(v.ServiceKey))
 	children = append(children, enc_servicekey...)
+	if len(v.EventMet) < 1 || len(v.EventMet) > 1 {
+		return nil, fmt.Errorf("eventMet length %d violates SIZE (1)", len(v.EventMet))
+	}
 	enc_eventmet, encodeErr_enc_eventmet := ber.EncodeOctetString([]byte(v.EventMet))
 	if encodeErr_enc_eventmet != nil {
 		return nil, fmt.Errorf("encoding eventMet: %w", encodeErr_enc_eventmet)
@@ -72279,6 +76659,9 @@ func (v *NoteMMEventArg) MarshalDER() ([]byte, error) {
 	}
 	enc_eventmet = retagged_enc_eventmet
 	children = append(children, enc_eventmet...)
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
@@ -72289,6 +76672,12 @@ func (v *NoteMMEventArg) MarshalDER() ([]byte, error) {
 	}
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
+		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(v.Msisdn))
+	}
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
+		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(v.Msisdn))
+	}
 	enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
 	if encodeErr_enc_msisdn != nil {
 		return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
@@ -72312,7 +76701,10 @@ func (v *NoteMMEventArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_locationinformation...)
 	}
 	if v.SupportedCAMELPhases != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.SupportedCAMELPhases).BitLength < 1 || (*v.SupportedCAMELPhases).BitLength > 16 {
+			return nil, fmt.Errorf("supportedCAMELPhases length %d violates SIZE (1..16)", (*v.SupportedCAMELPhases).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SupportedCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -72352,7 +76744,10 @@ func (v *NoteMMEventArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_locationinformationgprs...)
 	}
 	if v.OfferedCamel4Functionalities != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if (*v.OfferedCamel4Functionalities).BitLength < 15 || (*v.OfferedCamel4Functionalities).BitLength > 64 {
+			return nil, fmt.Errorf("offeredCamel4Functionalities length %d violates SIZE (15..64)", (*v.OfferedCamel4Functionalities).BitLength)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OfferedCamel4Functionalities.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -72435,6 +76830,9 @@ func (v *NoteMMEventArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 	}
 
 	offset += n_eventmet
+	if len(v.EventMet) < 1 || len(v.EventMet) > 1 {
+		return fmt.Errorf("eventMet length %d violates SIZE (1)", len(v.EventMet))
+	}
 	// Decode imsi
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field imsi")
@@ -72458,6 +76856,9 @@ func (v *NoteMMEventArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 	}
 
 	offset += n_imsi
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	// Decode msisdn
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field msisdn")
@@ -72481,6 +76882,12 @@ func (v *NoteMMEventArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 	}
 
 	offset += n_msisdn
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
+		return fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(v.Msisdn))
+	}
+	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
+		return fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(v.Msisdn))
+	}
 	// Decode locationInformation
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -72541,6 +76948,9 @@ func (v *NoteMMEventArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_supportedcamelphases
+				if (*v.SupportedCAMELPhases).BitLength < 1 || (*v.SupportedCAMELPhases).BitLength > 16 {
+					return fmt.Errorf("supportedCAMELPhases length %d violates SIZE (1..16)", (*v.SupportedCAMELPhases).BitLength)
+				}
 			}
 		}
 	}
@@ -72635,6 +77045,9 @@ func (v *NoteMMEventArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_offeredcamel4functionalities
+				if (*v.OfferedCamel4Functionalities).BitLength < 15 || (*v.OfferedCamel4Functionalities).BitLength > 64 {
+					return fmt.Errorf("offeredCamel4Functionalities length %d violates SIZE (15..64)", (*v.OfferedCamel4Functionalities).BitLength)
+				}
 			}
 		}
 	}
@@ -72930,6 +77343,9 @@ func (v *ExtSSInfoForCSE) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 // MarshalBER encodes ExtForwardingInfoForCSE to BER format.
 func (v *ExtForwardingInfoForCSE) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
@@ -72940,6 +77356,9 @@ func (v *ExtForwardingInfoForCSE) MarshalBER() ([]byte, error) {
 	}
 	enc_sscode = retagged_enc_sscode
 	children = append(children, enc_sscode...)
+	if len(v.ForwardingFeatureList) < 1 || len(v.ForwardingFeatureList) > 32 {
+		return nil, fmt.Errorf("forwardingFeatureList length %d violates SIZE (1..32)", len(v.ForwardingFeatureList))
+	}
 	enc_forwardingfeaturelist, err := MarshalBERExtForwFeatureList(v.ForwardingFeatureList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding forwardingFeatureList: %w", err)
@@ -73002,6 +77421,9 @@ func (v *ExtForwardingInfoForCSE) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ExtForwardingInfoForCSE to DER format.
 func (v *ExtForwardingInfoForCSE) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
@@ -73012,6 +77434,9 @@ func (v *ExtForwardingInfoForCSE) MarshalDER() ([]byte, error) {
 	}
 	enc_sscode = retagged_enc_sscode
 	children = append(children, enc_sscode...)
+	if len(v.ForwardingFeatureList) < 1 || len(v.ForwardingFeatureList) > 32 {
+		return nil, fmt.Errorf("forwardingFeatureList length %d violates SIZE (1..32)", len(v.ForwardingFeatureList))
+	}
 	enc_forwardingfeaturelist, err := MarshalDERExtForwFeatureList(v.ForwardingFeatureList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding forwardingFeatureList: %w", err)
@@ -73096,6 +77521,9 @@ func (v *ExtForwardingInfoForCSE) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}
 
 	offset += n_sscode
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	// Decode forwardingFeatureList
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field forwardingFeatureList")
@@ -73140,6 +77568,9 @@ func (v *ExtForwardingInfoForCSE) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}
 
 	offset += n_forwardingfeaturelist
+	if len(v.ForwardingFeatureList) < 1 || len(v.ForwardingFeatureList) > 32 {
+		return fmt.Errorf("forwardingFeatureList length %d violates SIZE (1..32)", len(v.ForwardingFeatureList))
+	}
 	// Decode notificationToCSE
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -73226,6 +77657,9 @@ func (v *ExtForwardingInfoForCSE) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 // MarshalBER encodes ExtCallBarringInfoForCSE to BER format.
 func (v *ExtCallBarringInfoForCSE) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
@@ -73236,6 +77670,9 @@ func (v *ExtCallBarringInfoForCSE) MarshalBER() ([]byte, error) {
 	}
 	enc_sscode = retagged_enc_sscode
 	children = append(children, enc_sscode...)
+	if len(v.CallBarringFeatureList) < 1 || len(v.CallBarringFeatureList) > 32 {
+		return nil, fmt.Errorf("callBarringFeatureList length %d violates SIZE (1..32)", len(v.CallBarringFeatureList))
+	}
 	enc_callbarringfeaturelist, err := MarshalBERExtCallBarFeatureList(v.CallBarringFeatureList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding callBarringFeatureList: %w", err)
@@ -73262,6 +77699,9 @@ func (v *ExtCallBarringInfoForCSE) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_callbarringfeaturelist...)
 	if v.Password != nil {
+		if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
+			return nil, fmt.Errorf("password length %d violates SIZE (4)", len([]rune(*v.Password)))
+		}
 		enc_password, stringErr := ber.EncodeStringTagChecked(18, string(*v.Password))
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding password: %w", stringErr)
@@ -73319,6 +77759,9 @@ func (v *ExtCallBarringInfoForCSE) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ExtCallBarringInfoForCSE to DER format.
 func (v *ExtCallBarringInfoForCSE) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
@@ -73329,6 +77772,9 @@ func (v *ExtCallBarringInfoForCSE) MarshalDER() ([]byte, error) {
 	}
 	enc_sscode = retagged_enc_sscode
 	children = append(children, enc_sscode...)
+	if len(v.CallBarringFeatureList) < 1 || len(v.CallBarringFeatureList) > 32 {
+		return nil, fmt.Errorf("callBarringFeatureList length %d violates SIZE (1..32)", len(v.CallBarringFeatureList))
+	}
 	enc_callbarringfeaturelist, err := MarshalDERExtCallBarFeatureList(v.CallBarringFeatureList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding callBarringFeatureList: %w", err)
@@ -73340,6 +77786,9 @@ func (v *ExtCallBarringInfoForCSE) MarshalDER() ([]byte, error) {
 	enc_callbarringfeaturelist = retagged_enc_callbarringfeaturelist
 	children = append(children, enc_callbarringfeaturelist...)
 	if v.Password != nil {
+		if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
+			return nil, fmt.Errorf("password length %d violates SIZE (4)", len([]rune(*v.Password)))
+		}
 		enc_password, stringErr := ber.EncodeStringTagChecked(18, string(*v.Password))
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding password: %w", stringErr)
@@ -73434,6 +77883,9 @@ func (v *ExtCallBarringInfoForCSE) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}
 
 	offset += n_sscode
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	// Decode callBarringFeatureList
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field callBarringFeatureList")
@@ -73478,6 +77930,9 @@ func (v *ExtCallBarringInfoForCSE) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}
 
 	offset += n_callbarringfeaturelist
+	if len(v.CallBarringFeatureList) < 1 || len(v.CallBarringFeatureList) > 32 {
+		return fmt.Errorf("callBarringFeatureList length %d violates SIZE (1..32)", len(v.CallBarringFeatureList))
+	}
 	// Decode password
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -73501,6 +77956,9 @@ func (v *ExtCallBarringInfoForCSE) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 
 				offset += n_password
+				if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
+					return fmt.Errorf("password length %d violates SIZE (4)", len([]rune(*v.Password)))
+				}
 			}
 		}
 	}
@@ -73618,12 +78076,21 @@ func (v *ExtCallBarringInfoForCSE) UnmarshalBER(data []byte, opts ...ber.DecodeO
 // MarshalBER encodes UpdateVcsgLocationArg to BER format.
 func (v *UpdateVcsgLocationArg) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
 	}
 	children = append(children, enc_imsi...)
 	if v.Msisdn != nil {
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+		}
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
 			return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
@@ -73636,6 +78103,12 @@ func (v *UpdateVcsgLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_msisdn...)
 	}
 	if v.VlrNumber != nil {
+		if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 9 {
+			return nil, fmt.Errorf("vlr-Number length %d violates SIZE (1..9)", len(*v.VlrNumber))
+		}
+		if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 20 {
+			return nil, fmt.Errorf("vlr-Number length %d violates SIZE (1..20)", len(*v.VlrNumber))
+		}
 		enc_vlrnumber, encodeErr_enc_vlrnumber := ber.EncodeOctetString([]byte(*v.VlrNumber))
 		if encodeErr_enc_vlrnumber != nil {
 			return nil, fmt.Errorf("encoding vlr-Number: %w", encodeErr_enc_vlrnumber)
@@ -73648,6 +78121,12 @@ func (v *UpdateVcsgLocationArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_vlrnumber...)
 	}
 	if v.SgsnNumber != nil {
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+		}
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+		}
 		enc_sgsnnumber, encodeErr_enc_sgsnnumber := ber.EncodeOctetString([]byte(*v.SgsnNumber))
 		if encodeErr_enc_sgsnnumber != nil {
 			return nil, fmt.Errorf("encoding sgsn-Number: %w", encodeErr_enc_sgsnnumber)
@@ -73682,12 +78161,21 @@ func (v *UpdateVcsgLocationArg) MarshalBER() ([]byte, error) {
 // MarshalDER encodes UpdateVcsgLocationArg to DER format.
 func (v *UpdateVcsgLocationArg) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
 	}
 	children = append(children, enc_imsi...)
 	if v.Msisdn != nil {
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+		}
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
 			return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
@@ -73700,6 +78188,12 @@ func (v *UpdateVcsgLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_msisdn...)
 	}
 	if v.VlrNumber != nil {
+		if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 9 {
+			return nil, fmt.Errorf("vlr-Number length %d violates SIZE (1..9)", len(*v.VlrNumber))
+		}
+		if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 20 {
+			return nil, fmt.Errorf("vlr-Number length %d violates SIZE (1..20)", len(*v.VlrNumber))
+		}
 		enc_vlrnumber, encodeErr_enc_vlrnumber := ber.EncodeOctetString([]byte(*v.VlrNumber))
 		if encodeErr_enc_vlrnumber != nil {
 			return nil, fmt.Errorf("encoding vlr-Number: %w", encodeErr_enc_vlrnumber)
@@ -73712,6 +78206,12 @@ func (v *UpdateVcsgLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_vlrnumber...)
 	}
 	if v.SgsnNumber != nil {
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+		}
+		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+			return nil, fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+		}
 		enc_sgsnnumber, encodeErr_enc_sgsnnumber := ber.EncodeOctetString([]byte(*v.SgsnNumber))
 		if encodeErr_enc_sgsnnumber != nil {
 			return nil, fmt.Errorf("encoding sgsn-Number: %w", encodeErr_enc_sgsnnumber)
@@ -73775,6 +78275,9 @@ func (v *UpdateVcsgLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}
 
 	offset += n
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	// Decode msisdn
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -73795,6 +78298,12 @@ func (v *UpdateVcsgLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_msisdn
+				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+					return fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+				}
+				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+					return fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+				}
 			}
 		}
 	}
@@ -73818,6 +78327,12 @@ func (v *UpdateVcsgLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_vlrnumber
+				if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 9 {
+					return fmt.Errorf("vlr-Number length %d violates SIZE (1..9)", len(*v.VlrNumber))
+				}
+				if len(*v.VlrNumber) < 1 || len(*v.VlrNumber) > 20 {
+					return fmt.Errorf("vlr-Number length %d violates SIZE (1..20)", len(*v.VlrNumber))
+				}
 			}
 		}
 	}
@@ -73841,6 +78356,12 @@ func (v *UpdateVcsgLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_sgsnnumber
+				if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
+					return fmt.Errorf("sgsn-Number length %d violates SIZE (1..9)", len(*v.SgsnNumber))
+				}
+				if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
+					return fmt.Errorf("sgsn-Number length %d violates SIZE (1..20)", len(*v.SgsnNumber))
+				}
 			}
 		}
 	}

@@ -615,6 +615,9 @@ func (v *AuthorityKeyIdentifier) MarshalBER() ([]byte, error) {
 		children = append(children, enc_keyidentifier...)
 	}
 	if v.AuthorityCertIssuer != nil {
+		if len(v.AuthorityCertIssuer) < 1 {
+			return nil, fmt.Errorf("authorityCertIssuer length %d violates SIZE (1..MAX)", len(v.AuthorityCertIssuer))
+		}
 		enc_authoritycertissuer, err := MarshalBERGeneralNames(v.AuthorityCertIssuer)
 		if err != nil {
 			return nil, fmt.Errorf("encoding authorityCertIssuer: %w", err)
@@ -672,6 +675,9 @@ func (v *AuthorityKeyIdentifier) MarshalDER() ([]byte, error) {
 		children = append(children, enc_keyidentifier...)
 	}
 	if v.AuthorityCertIssuer != nil {
+		if len(v.AuthorityCertIssuer) < 1 {
+			return nil, fmt.Errorf("authorityCertIssuer length %d violates SIZE (1..MAX)", len(v.AuthorityCertIssuer))
+		}
 		enc_authoritycertissuer, err := MarshalDERGeneralNames(v.AuthorityCertIssuer)
 		if err != nil {
 			return nil, fmt.Errorf("encoding authorityCertIssuer: %w", err)
@@ -782,6 +788,9 @@ func (v *AuthorityKeyIdentifier) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 
 				offset += n_authoritycertissuer
+				if len(v.AuthorityCertIssuer) < 1 {
+					return fmt.Errorf("authorityCertIssuer length %d violates SIZE (1..MAX)", len(v.AuthorityCertIssuer))
+				}
 			}
 		}
 	}
@@ -1055,6 +1064,9 @@ func (v *PolicyInformation) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_policyidentifier...)
 	if v.PolicyQualifiers != nil {
+		if len(v.PolicyQualifiers) < 1 {
+			return nil, fmt.Errorf("policyQualifiers length %d violates SIZE (1..MAX)", len(v.PolicyQualifiers))
+		}
 		enc_policyqualifiers, err := MarshalBERPolicyInformationPolicyQualifiers(v.PolicyQualifiers)
 		if err != nil {
 			return nil, fmt.Errorf("encoding policyQualifiers: %w", err)
@@ -1073,6 +1085,9 @@ func (v *PolicyInformation) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_policyidentifier...)
 	if v.PolicyQualifiers != nil {
+		if len(v.PolicyQualifiers) < 1 {
+			return nil, fmt.Errorf("policyQualifiers length %d violates SIZE (1..MAX)", len(v.PolicyQualifiers))
+		}
 		enc_policyqualifiers, err := MarshalDERPolicyInformationPolicyQualifiers(v.PolicyQualifiers)
 		if err != nil {
 			return nil, fmt.Errorf("encoding policyQualifiers: %w", err)
@@ -1154,6 +1169,9 @@ func (v *PolicyInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 				}
 
 				offset += n_policyqualifiers
+				if len(v.PolicyQualifiers) < 1 {
+					return fmt.Errorf("policyQualifiers length %d violates SIZE (1..MAX)", len(v.PolicyQualifiers))
+				}
 			}
 		}
 	}
@@ -1506,6 +1524,9 @@ func (v *DisplayText) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding ia5String: %w", stringErr)
 		}
+		if len([]rune(*v.Ia5String)) < 1 || len([]rune(*v.Ia5String)) > 200 {
+			return nil, fmt.Errorf("ia5String length %d violates SIZE (1..200)", len([]rune(*v.Ia5String)))
+		}
 		return enc_0, nil
 	case DisplayTextChoiceVisibleString:
 		if v.VisibleString == nil {
@@ -1514,6 +1535,9 @@ func (v *DisplayText) MarshalBER() ([]byte, error) {
 		enc_1, stringErr := ber.EncodeStringTagChecked(26, *v.VisibleString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding visibleString: %w", stringErr)
+		}
+		if len([]rune(*v.VisibleString)) < 1 || len([]rune(*v.VisibleString)) > 200 {
+			return nil, fmt.Errorf("visibleString length %d violates SIZE (1..200)", len([]rune(*v.VisibleString)))
 		}
 		return enc_1, nil
 	case DisplayTextChoiceBmpString:
@@ -1524,6 +1548,9 @@ func (v *DisplayText) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
 		}
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 200 {
+			return nil, fmt.Errorf("bmpString length %d violates SIZE (1..200)", len([]rune(*v.BmpString)))
+		}
 		return enc_2, nil
 	case DisplayTextChoiceUtf8String:
 		if v.Utf8String == nil {
@@ -1532,6 +1559,9 @@ func (v *DisplayText) MarshalBER() ([]byte, error) {
 		enc_3, stringErr := ber.EncodeStringTagChecked(12, *v.Utf8String)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
+		}
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 200 {
+			return nil, fmt.Errorf("utf8String length %d violates SIZE (1..200)", len([]rune(*v.Utf8String)))
 		}
 		return enc_3, nil
 	default:
@@ -1581,6 +1611,9 @@ func (v *DisplayText) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 			return fmt.Errorf("decoding ia5String: %w", strErr)
 		}
 		v.Ia5String = &decVal
+		if len([]rune(*v.Ia5String)) < 1 || len([]rune(*v.Ia5String)) > 200 {
+			return fmt.Errorf("ia5String length %d violates SIZE (1..200)", len([]rune(*v.Ia5String)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 26 {
 		v.Choice = DisplayTextChoiceVisibleString
 		decVal, _, strErr := ber.DecodeString(choiceData, 26, opts...)
@@ -1588,6 +1621,9 @@ func (v *DisplayText) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 			return fmt.Errorf("decoding visibleString: %w", strErr)
 		}
 		v.VisibleString = &decVal
+		if len([]rune(*v.VisibleString)) < 1 || len([]rune(*v.VisibleString)) > 200 {
+			return fmt.Errorf("visibleString length %d violates SIZE (1..200)", len([]rune(*v.VisibleString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = DisplayTextChoiceBmpString
 		decVal, _, strErr := ber.DecodeString(choiceData, 30, opts...)
@@ -1595,6 +1631,9 @@ func (v *DisplayText) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
 		v.BmpString = &decVal
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 200 {
+			return fmt.Errorf("bmpString length %d violates SIZE (1..200)", len([]rune(*v.BmpString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = DisplayTextChoiceUtf8String
 		decVal, _, strErr := ber.DecodeString(choiceData, 12, opts...)
@@ -1602,6 +1641,9 @@ func (v *DisplayText) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 200 {
+			return fmt.Errorf("utf8String length %d violates SIZE (1..200)", len([]rune(*v.Utf8String)))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for DisplayText CHOICE", peekTag)
 	}
@@ -2562,6 +2604,9 @@ func (v *BasicConstraints) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 func (v *NameConstraints) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.PermittedSubtrees != nil {
+		if len(v.PermittedSubtrees) < 1 {
+			return nil, fmt.Errorf("permittedSubtrees length %d violates SIZE (1..MAX)", len(v.PermittedSubtrees))
+		}
 		enc_permittedsubtrees, err := MarshalBERGeneralSubtrees(v.PermittedSubtrees)
 		if err != nil {
 			return nil, fmt.Errorf("encoding permittedSubtrees: %w", err)
@@ -2589,6 +2634,9 @@ func (v *NameConstraints) MarshalBER() ([]byte, error) {
 		children = append(children, enc_permittedsubtrees...)
 	}
 	if v.ExcludedSubtrees != nil {
+		if len(v.ExcludedSubtrees) < 1 {
+			return nil, fmt.Errorf("excludedSubtrees length %d violates SIZE (1..MAX)", len(v.ExcludedSubtrees))
+		}
 		enc_excludedsubtrees, err := MarshalBERGeneralSubtrees(v.ExcludedSubtrees)
 		if err != nil {
 			return nil, fmt.Errorf("encoding excludedSubtrees: %w", err)
@@ -2622,6 +2670,9 @@ func (v *NameConstraints) MarshalBER() ([]byte, error) {
 func (v *NameConstraints) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.PermittedSubtrees != nil {
+		if len(v.PermittedSubtrees) < 1 {
+			return nil, fmt.Errorf("permittedSubtrees length %d violates SIZE (1..MAX)", len(v.PermittedSubtrees))
+		}
 		enc_permittedsubtrees, err := MarshalDERGeneralSubtrees(v.PermittedSubtrees)
 		if err != nil {
 			return nil, fmt.Errorf("encoding permittedSubtrees: %w", err)
@@ -2634,6 +2685,9 @@ func (v *NameConstraints) MarshalDER() ([]byte, error) {
 		children = append(children, enc_permittedsubtrees...)
 	}
 	if v.ExcludedSubtrees != nil {
+		if len(v.ExcludedSubtrees) < 1 {
+			return nil, fmt.Errorf("excludedSubtrees length %d violates SIZE (1..MAX)", len(v.ExcludedSubtrees))
+		}
 		enc_excludedsubtrees, err := MarshalDERGeneralSubtrees(v.ExcludedSubtrees)
 		if err != nil {
 			return nil, fmt.Errorf("encoding excludedSubtrees: %w", err)
@@ -2709,6 +2763,9 @@ func (v *NameConstraints) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				}
 
 				offset += n_permittedsubtrees
+				if len(v.PermittedSubtrees) < 1 {
+					return fmt.Errorf("permittedSubtrees length %d violates SIZE (1..MAX)", len(v.PermittedSubtrees))
+				}
 			}
 		}
 	}
@@ -2752,6 +2809,9 @@ func (v *NameConstraints) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				}
 
 				offset += n_excludedsubtrees
+				if len(v.ExcludedSubtrees) < 1 {
+					return fmt.Errorf("excludedSubtrees length %d violates SIZE (1..MAX)", len(v.ExcludedSubtrees))
+				}
 			}
 		}
 	}
@@ -3254,7 +3314,7 @@ func (v *DistributionPoint) MarshalBER() ([]byte, error) {
 		children = append(children, enc_distributionpoint...)
 	}
 	if v.Reasons != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.Reasons.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3270,6 +3330,9 @@ func (v *DistributionPoint) MarshalBER() ([]byte, error) {
 		children = append(children, enc_reasons...)
 	}
 	if v.CRLIssuer != nil {
+		if len(v.CRLIssuer) < 1 {
+			return nil, fmt.Errorf("cRLIssuer length %d violates SIZE (1..MAX)", len(v.CRLIssuer))
+		}
 		enc_crlissuer, err := MarshalBERGeneralNames(v.CRLIssuer)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cRLIssuer: %w", err)
@@ -3317,7 +3380,7 @@ func (v *DistributionPoint) MarshalDER() ([]byte, error) {
 		children = append(children, enc_distributionpoint...)
 	}
 	if v.Reasons != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.Reasons.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3333,6 +3396,9 @@ func (v *DistributionPoint) MarshalDER() ([]byte, error) {
 		children = append(children, enc_reasons...)
 	}
 	if v.CRLIssuer != nil {
+		if len(v.CRLIssuer) < 1 {
+			return nil, fmt.Errorf("cRLIssuer length %d violates SIZE (1..MAX)", len(v.CRLIssuer))
+		}
 		enc_crlissuer, err := MarshalDERGeneralNames(v.CRLIssuer)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cRLIssuer: %w", err)
@@ -3466,6 +3532,9 @@ func (v *DistributionPoint) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 				}
 
 				offset += n_crlissuer
+				if len(v.CRLIssuer) < 1 {
+					return fmt.Errorf("cRLIssuer length %d violates SIZE (1..MAX)", len(v.CRLIssuer))
+				}
 			}
 		}
 	}
@@ -3483,6 +3552,9 @@ func (v *DistributionPointName) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding fullName: %w", err)
 		}
+		if len(v.FullName) < 1 {
+			return nil, fmt.Errorf("fullName length %d violates SIZE (1..MAX)", len(v.FullName))
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding fullName: %w", tagErr_enc_0)
@@ -3493,6 +3565,9 @@ func (v *DistributionPointName) MarshalBER() ([]byte, error) {
 		enc_1, err := MarshalBERRelativeDistinguishedName(v.NameRelativeToCRLIssuer)
 		if err != nil {
 			return nil, fmt.Errorf("encoding nameRelativeToCRLIssuer: %w", err)
+		}
+		if len(v.NameRelativeToCRLIssuer) < 1 {
+			return nil, fmt.Errorf("nameRelativeToCRLIssuer length %d violates SIZE (1..MAX)", len(v.NameRelativeToCRLIssuer))
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
@@ -3513,6 +3588,9 @@ func (v *DistributionPointName) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding fullName: %w", err)
 		}
+		if len(v.FullName) < 1 {
+			return nil, fmt.Errorf("fullName length %d violates SIZE (1..MAX)", len(v.FullName))
+		}
 		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_der_0)
 		if tagErr_enc_der_0 != nil {
 			return nil, fmt.Errorf("encoding fullName: %w", tagErr_enc_der_0)
@@ -3526,6 +3604,9 @@ func (v *DistributionPointName) MarshalDER() ([]byte, error) {
 		enc_der_1, err := MarshalDERRelativeDistinguishedName(v.NameRelativeToCRLIssuer)
 		if err != nil {
 			return nil, fmt.Errorf("encoding nameRelativeToCRLIssuer: %w", err)
+		}
+		if len(v.NameRelativeToCRLIssuer) < 1 {
+			return nil, fmt.Errorf("nameRelativeToCRLIssuer length %d violates SIZE (1..MAX)", len(v.NameRelativeToCRLIssuer))
 		}
 		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_1)
 		if tagErr_enc_der_1 != nil {
@@ -3585,6 +3666,9 @@ func (v *DistributionPointName) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 			return fmt.Errorf("decoding fullName: %w", unmErr)
 		}
 		v.FullName = dec
+		if len(v.FullName) < 1 {
+			return fmt.Errorf("fullName length %d violates SIZE (1..MAX)", len(v.FullName))
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = DistributionPointNameChoiceNameRelativeToCRLIssuer
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -3600,6 +3684,9 @@ func (v *DistributionPointName) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 			return fmt.Errorf("decoding nameRelativeToCRLIssuer: %w", unmErr)
 		}
 		v.NameRelativeToCRLIssuer = dec
+		if len(v.NameRelativeToCRLIssuer) < 1 {
+			return fmt.Errorf("nameRelativeToCRLIssuer length %d violates SIZE (1..MAX)", len(v.NameRelativeToCRLIssuer))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for DistributionPointName CHOICE", peekTag)
 	}
@@ -3985,7 +4072,7 @@ func (v *IssuingDistributionPoint) MarshalBER() ([]byte, error) {
 		children = append(children, enc_onlycontainscacerts...)
 	}
 	if v.OnlySomeReasons != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OnlySomeReasons.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4067,7 +4154,7 @@ func (v *IssuingDistributionPoint) MarshalDER() ([]byte, error) {
 		children = append(children, enc_onlycontainscacerts...)
 	}
 	if v.OnlySomeReasons != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.OnlySomeReasons.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}

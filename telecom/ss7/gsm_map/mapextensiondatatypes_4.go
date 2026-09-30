@@ -71,6 +71,9 @@ type SLRArgPCSExtensions4 struct {
 func (v *ExtensionContainer4) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.PrivateExtensionList != nil {
+		if len(v.PrivateExtensionList) < 1 || len(v.PrivateExtensionList) > 10 {
+			return nil, fmt.Errorf("privateExtensionList length %d violates SIZE (1..10)", len(v.PrivateExtensionList))
+		}
 		enc_privateextensionlist, err := MarshalBERPrivateExtensionList4(v.PrivateExtensionList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding privateExtensionList: %w", err)
@@ -126,6 +129,9 @@ func (v *ExtensionContainer4) MarshalBER() ([]byte, error) {
 func (v *ExtensionContainer4) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.PrivateExtensionList != nil {
+		if len(v.PrivateExtensionList) < 1 || len(v.PrivateExtensionList) > 10 {
+			return nil, fmt.Errorf("privateExtensionList length %d violates SIZE (1..10)", len(v.PrivateExtensionList))
+		}
 		enc_privateextensionlist, err := MarshalDERPrivateExtensionList4(v.PrivateExtensionList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding privateExtensionList: %w", err)
@@ -219,6 +225,9 @@ func (v *ExtensionContainer4) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_privateextensionlist
+				if len(v.PrivateExtensionList) < 1 || len(v.PrivateExtensionList) > 10 {
+					return fmt.Errorf("privateExtensionList length %d violates SIZE (1..10)", len(v.PrivateExtensionList))
+				}
 			}
 		}
 	}
@@ -282,6 +291,9 @@ func (v *ExtensionContainer4) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 func (v *SLRArgExtensionContainer4) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.PrivateExtensionList != nil {
+		if len(v.PrivateExtensionList) < 1 || len(v.PrivateExtensionList) > 10 {
+			return nil, fmt.Errorf("privateExtensionList length %d violates SIZE (1..10)", len(v.PrivateExtensionList))
+		}
 		enc_privateextensionlist, err := MarshalBERPrivateExtensionList4(v.PrivateExtensionList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding privateExtensionList: %w", err)
@@ -337,6 +349,9 @@ func (v *SLRArgExtensionContainer4) MarshalBER() ([]byte, error) {
 func (v *SLRArgExtensionContainer4) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.PrivateExtensionList != nil {
+		if len(v.PrivateExtensionList) < 1 || len(v.PrivateExtensionList) > 10 {
+			return nil, fmt.Errorf("privateExtensionList length %d violates SIZE (1..10)", len(v.PrivateExtensionList))
+		}
 		enc_privateextensionlist, err := MarshalDERPrivateExtensionList4(v.PrivateExtensionList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding privateExtensionList: %w", err)
@@ -430,6 +445,9 @@ func (v *SLRArgExtensionContainer4) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_privateextensionlist
+				if len(v.PrivateExtensionList) < 1 || len(v.PrivateExtensionList) > 10 {
+					return fmt.Errorf("privateExtensionList length %d violates SIZE (1..10)", len(v.PrivateExtensionList))
+				}
 			}
 		}
 	}

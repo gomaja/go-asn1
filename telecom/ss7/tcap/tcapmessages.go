@@ -574,6 +574,9 @@ func (v *Unidirectional) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_dialogueportion...)
 	}
+	if len(v.Components) < 1 {
+		return nil, fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+	}
 	enc_components, err := MarshalBERComponentPortion(v.Components)
 	if err != nil {
 		return nil, fmt.Errorf("encoding components: %w", err)
@@ -604,6 +607,9 @@ func (v *Unidirectional) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding dialoguePortion: %w", extErr)
 		}
 		children = append(children, enc_dialogueportion...)
+	}
+	if len(v.Components) < 1 {
+		return nil, fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
 	}
 	enc_components, err := MarshalDERComponentPortion(v.Components)
 	if err != nil {
@@ -704,6 +710,9 @@ func (v *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 	}
 
 	offset += n_components
+	if len(v.Components) < 1 {
+		return fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+	}
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "Unidirectional", Cause: ber.ErrExtraData}
 	}
@@ -713,6 +722,9 @@ func (v *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 // MarshalBER encodes Begin to BER format.
 func (v *Begin) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Otid) < 1 || len(v.Otid) > 4 {
+		return nil, fmt.Errorf("otid length %d violates SIZE (1..4)", len(v.Otid))
+	}
 	enc_otid, encodeErr_enc_otid := ber.EncodeOctetString([]byte(v.Otid))
 	if encodeErr_enc_otid != nil {
 		return nil, fmt.Errorf("encoding otid: %w", encodeErr_enc_otid)
@@ -731,6 +743,9 @@ func (v *Begin) MarshalBER() ([]byte, error) {
 		children = append(children, enc_dialogueportion...)
 	}
 	if v.Components != nil {
+		if len(v.Components) < 1 {
+			return nil, fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+		}
 		enc_components, err := MarshalBERComponentPortion(v.Components)
 		if err != nil {
 			return nil, fmt.Errorf("encoding components: %w", err)
@@ -756,6 +771,9 @@ func (v *Begin) MarshalBER() ([]byte, error) {
 // MarshalDER encodes Begin to DER format.
 func (v *Begin) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Otid) < 1 || len(v.Otid) > 4 {
+		return nil, fmt.Errorf("otid length %d violates SIZE (1..4)", len(v.Otid))
+	}
 	enc_otid, encodeErr_enc_otid := ber.EncodeOctetString([]byte(v.Otid))
 	if encodeErr_enc_otid != nil {
 		return nil, fmt.Errorf("encoding otid: %w", encodeErr_enc_otid)
@@ -774,6 +792,9 @@ func (v *Begin) MarshalDER() ([]byte, error) {
 		children = append(children, enc_dialogueportion...)
 	}
 	if v.Components != nil {
+		if len(v.Components) < 1 {
+			return nil, fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+		}
 		enc_components, err := MarshalDERComponentPortion(v.Components)
 		if err != nil {
 			return nil, fmt.Errorf("encoding components: %w", err)
@@ -827,6 +848,9 @@ func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_otid
+	if len(v.Otid) < 1 || len(v.Otid) > 4 {
+		return fmt.Errorf("otid length %d violates SIZE (1..4)", len(v.Otid))
+	}
 	// Decode dialoguePortion
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -893,6 +917,9 @@ func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_components
+				if len(v.Components) < 1 {
+					return fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+				}
 			}
 		}
 	}
@@ -905,6 +932,9 @@ func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes End to BER format.
 func (v *End) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
+		return nil, fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
 		return nil, fmt.Errorf("encoding dtid: %w", encodeErr_enc_dtid)
@@ -923,6 +953,9 @@ func (v *End) MarshalBER() ([]byte, error) {
 		children = append(children, enc_dialogueportion...)
 	}
 	if v.Components != nil {
+		if len(v.Components) < 1 {
+			return nil, fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+		}
 		enc_components, err := MarshalBERComponentPortion(v.Components)
 		if err != nil {
 			return nil, fmt.Errorf("encoding components: %w", err)
@@ -948,6 +981,9 @@ func (v *End) MarshalBER() ([]byte, error) {
 // MarshalDER encodes End to DER format.
 func (v *End) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
+		return nil, fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
 		return nil, fmt.Errorf("encoding dtid: %w", encodeErr_enc_dtid)
@@ -966,6 +1002,9 @@ func (v *End) MarshalDER() ([]byte, error) {
 		children = append(children, enc_dialogueportion...)
 	}
 	if v.Components != nil {
+		if len(v.Components) < 1 {
+			return nil, fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+		}
 		enc_components, err := MarshalDERComponentPortion(v.Components)
 		if err != nil {
 			return nil, fmt.Errorf("encoding components: %w", err)
@@ -1019,6 +1058,9 @@ func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_dtid
+	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
+		return fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+	}
 	// Decode dialoguePortion
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -1085,6 +1127,9 @@ func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_components
+				if len(v.Components) < 1 {
+					return fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+				}
 			}
 		}
 	}
@@ -1097,6 +1142,9 @@ func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes Continue to BER format.
 func (v *Continue) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Otid) < 1 || len(v.Otid) > 4 {
+		return nil, fmt.Errorf("otid length %d violates SIZE (1..4)", len(v.Otid))
+	}
 	enc_otid, encodeErr_enc_otid := ber.EncodeOctetString([]byte(v.Otid))
 	if encodeErr_enc_otid != nil {
 		return nil, fmt.Errorf("encoding otid: %w", encodeErr_enc_otid)
@@ -1107,6 +1155,9 @@ func (v *Continue) MarshalBER() ([]byte, error) {
 	}
 	enc_otid = retagged_enc_otid
 	children = append(children, enc_otid...)
+	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
+		return nil, fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
 		return nil, fmt.Errorf("encoding dtid: %w", encodeErr_enc_dtid)
@@ -1125,6 +1176,9 @@ func (v *Continue) MarshalBER() ([]byte, error) {
 		children = append(children, enc_dialogueportion...)
 	}
 	if v.Components != nil {
+		if len(v.Components) < 1 {
+			return nil, fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+		}
 		enc_components, err := MarshalBERComponentPortion(v.Components)
 		if err != nil {
 			return nil, fmt.Errorf("encoding components: %w", err)
@@ -1150,6 +1204,9 @@ func (v *Continue) MarshalBER() ([]byte, error) {
 // MarshalDER encodes Continue to DER format.
 func (v *Continue) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Otid) < 1 || len(v.Otid) > 4 {
+		return nil, fmt.Errorf("otid length %d violates SIZE (1..4)", len(v.Otid))
+	}
 	enc_otid, encodeErr_enc_otid := ber.EncodeOctetString([]byte(v.Otid))
 	if encodeErr_enc_otid != nil {
 		return nil, fmt.Errorf("encoding otid: %w", encodeErr_enc_otid)
@@ -1160,6 +1217,9 @@ func (v *Continue) MarshalDER() ([]byte, error) {
 	}
 	enc_otid = retagged_enc_otid
 	children = append(children, enc_otid...)
+	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
+		return nil, fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
 		return nil, fmt.Errorf("encoding dtid: %w", encodeErr_enc_dtid)
@@ -1178,6 +1238,9 @@ func (v *Continue) MarshalDER() ([]byte, error) {
 		children = append(children, enc_dialogueportion...)
 	}
 	if v.Components != nil {
+		if len(v.Components) < 1 {
+			return nil, fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+		}
 		enc_components, err := MarshalDERComponentPortion(v.Components)
 		if err != nil {
 			return nil, fmt.Errorf("encoding components: %w", err)
@@ -1231,6 +1294,9 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_otid
+	if len(v.Otid) < 1 || len(v.Otid) > 4 {
+		return fmt.Errorf("otid length %d violates SIZE (1..4)", len(v.Otid))
+	}
 	// Decode dtid
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field dtid")
@@ -1254,6 +1320,9 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_dtid
+	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
+		return fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+	}
 	// Decode dialoguePortion
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -1320,6 +1389,9 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_components
+				if len(v.Components) < 1 {
+					return fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+				}
 			}
 		}
 	}
@@ -1332,6 +1404,9 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes Abort to BER format.
 func (v *Abort) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
+		return nil, fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
 		return nil, fmt.Errorf("encoding dtid: %w", encodeErr_enc_dtid)
@@ -1355,6 +1430,9 @@ func (v *Abort) MarshalBER() ([]byte, error) {
 // MarshalDER encodes Abort to DER format.
 func (v *Abort) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
+		return nil, fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
 		return nil, fmt.Errorf("encoding dtid: %w", encodeErr_enc_dtid)
@@ -1419,6 +1497,9 @@ func (v *Abort) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_dtid
+	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
+		return fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+	}
 	// Decode reason
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])

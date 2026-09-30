@@ -619,6 +619,9 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 func (v *MAPOpenInfo) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.DestinationReference != nil {
+		if len(*v.DestinationReference) < 1 || len(*v.DestinationReference) > 20 {
+			return nil, fmt.Errorf("destinationReference length %d violates SIZE (1..20)", len(*v.DestinationReference))
+		}
 		enc_destinationreference, encodeErr_enc_destinationreference := ber.EncodeOctetString([]byte(*v.DestinationReference))
 		if encodeErr_enc_destinationreference != nil {
 			return nil, fmt.Errorf("encoding destinationReference: %w", encodeErr_enc_destinationreference)
@@ -631,6 +634,9 @@ func (v *MAPOpenInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_destinationreference...)
 	}
 	if v.OriginationReference != nil {
+		if len(*v.OriginationReference) < 1 || len(*v.OriginationReference) > 20 {
+			return nil, fmt.Errorf("originationReference length %d violates SIZE (1..20)", len(*v.OriginationReference))
+		}
 		enc_originationreference, encodeErr_enc_originationreference := ber.EncodeOctetString([]byte(*v.OriginationReference))
 		if encodeErr_enc_originationreference != nil {
 			return nil, fmt.Errorf("encoding originationReference: %w", encodeErr_enc_originationreference)
@@ -666,6 +672,9 @@ func (v *MAPOpenInfo) MarshalBER() ([]byte, error) {
 func (v *MAPOpenInfo) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.DestinationReference != nil {
+		if len(*v.DestinationReference) < 1 || len(*v.DestinationReference) > 20 {
+			return nil, fmt.Errorf("destinationReference length %d violates SIZE (1..20)", len(*v.DestinationReference))
+		}
 		enc_destinationreference, encodeErr_enc_destinationreference := ber.EncodeOctetString([]byte(*v.DestinationReference))
 		if encodeErr_enc_destinationreference != nil {
 			return nil, fmt.Errorf("encoding destinationReference: %w", encodeErr_enc_destinationreference)
@@ -678,6 +687,9 @@ func (v *MAPOpenInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_destinationreference...)
 	}
 	if v.OriginationReference != nil {
+		if len(*v.OriginationReference) < 1 || len(*v.OriginationReference) > 20 {
+			return nil, fmt.Errorf("originationReference length %d violates SIZE (1..20)", len(*v.OriginationReference))
+		}
 		enc_originationreference, encodeErr_enc_originationreference := ber.EncodeOctetString([]byte(*v.OriginationReference))
 		if encodeErr_enc_originationreference != nil {
 			return nil, fmt.Errorf("encoding originationReference: %w", encodeErr_enc_originationreference)
@@ -747,6 +759,9 @@ func (v *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 				}
 
 				offset += n_destinationreference
+				if len(*v.DestinationReference) < 1 || len(*v.DestinationReference) > 20 {
+					return fmt.Errorf("destinationReference length %d violates SIZE (1..20)", len(*v.DestinationReference))
+				}
 			}
 		}
 	}
@@ -771,6 +786,9 @@ func (v *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 				}
 
 				offset += n_originationreference
+				if len(*v.OriginationReference) < 1 || len(*v.OriginationReference) > 20 {
+					return fmt.Errorf("originationReference length %d violates SIZE (1..20)", len(*v.OriginationReference))
+				}
 			}
 		}
 	}

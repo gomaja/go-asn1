@@ -13,71 +13,81 @@ import (
 // DecodeInitiatingMessageValue decodes the Value field of InitiatingMessage based on procedureCode.
 // Returns the decoded typed struct, or nil if the procedureCode is unknown.
 func DecodeInitiatingMessageValue(procedureCode int64, data []byte) (interface{}, error) {
-	bb := per.NewBitBufferFromBytes(data)
 	switch procedureCode {
 	case 2: // id-e-CIDMeasurementInitiation
 		var v ECIDMeasurementInitiationRequest
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding ECIDMeasurementInitiationRequest: %w", err)
 		}
 		return &v, nil
 	case 3: // id-e-CIDMeasurementFailureIndication
 		var v ECIDMeasurementFailureIndication
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding ECIDMeasurementFailureIndication: %w", err)
 		}
 		return &v, nil
 	case 4: // id-e-CIDMeasurementReport
 		var v ECIDMeasurementReport
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding ECIDMeasurementReport: %w", err)
 		}
 		return &v, nil
 	case 5: // id-e-CIDMeasurementTermination
 		var v ECIDMeasurementTerminationCommand
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding ECIDMeasurementTerminationCommand: %w", err)
 		}
 		return &v, nil
 	case 6: // id-oTDOAInformationExchange
 		var v OTDOAInformationRequest
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding OTDOAInformationRequest: %w", err)
 		}
 		return &v, nil
 	case 7: // id-uTDOAInformationExchange
 		var v UTDOAInformationRequest
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding UTDOAInformationRequest: %w", err)
 		}
 		return &v, nil
 	case 8: // id-uTDOAInformationUpdate
 		var v UTDOAInformationUpdate
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding UTDOAInformationUpdate: %w", err)
 		}
 		return &v, nil
 	case 9: // id-assistanceInformationControl
 		var v AssistanceInformationControl
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding AssistanceInformationControl: %w", err)
 		}
 		return &v, nil
 	case 10: // id-assistanceInformationFeedback
 		var v AssistanceInformationFeedback
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding AssistanceInformationFeedback: %w", err)
 		}
 		return &v, nil
 	case 0: // id-errorIndication
 		var v ErrorIndication
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding ErrorIndication: %w", err)
 		}
 		return &v, nil
 	case 1: // id-privateMessage
 		var v PrivateMessage
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding PrivateMessage: %w", err)
 		}
 		return &v, nil
@@ -89,23 +99,25 @@ func DecodeInitiatingMessageValue(procedureCode int64, data []byte) (interface{}
 // DecodeSuccessfulOutcomeValue decodes the Value field of SuccessfulOutcome based on procedureCode.
 // Returns the decoded typed struct, or nil if the procedureCode is unknown.
 func DecodeSuccessfulOutcomeValue(procedureCode int64, data []byte) (interface{}, error) {
-	bb := per.NewBitBufferFromBytes(data)
 	switch procedureCode {
 	case 2: // id-e-CIDMeasurementInitiation
 		var v ECIDMeasurementInitiationResponse
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding ECIDMeasurementInitiationResponse: %w", err)
 		}
 		return &v, nil
 	case 6: // id-oTDOAInformationExchange
 		var v OTDOAInformationResponse
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding OTDOAInformationResponse: %w", err)
 		}
 		return &v, nil
 	case 7: // id-uTDOAInformationExchange
 		var v UTDOAInformationResponse
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding UTDOAInformationResponse: %w", err)
 		}
 		return &v, nil
@@ -117,23 +129,25 @@ func DecodeSuccessfulOutcomeValue(procedureCode int64, data []byte) (interface{}
 // DecodeUnsuccessfulOutcomeValue decodes the Value field of UnsuccessfulOutcome based on procedureCode.
 // Returns the decoded typed struct, or nil if the procedureCode is unknown.
 func DecodeUnsuccessfulOutcomeValue(procedureCode int64, data []byte) (interface{}, error) {
-	bb := per.NewBitBufferFromBytes(data)
 	switch procedureCode {
 	case 2: // id-e-CIDMeasurementInitiation
 		var v ECIDMeasurementInitiationFailure
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding ECIDMeasurementInitiationFailure: %w", err)
 		}
 		return &v, nil
 	case 6: // id-oTDOAInformationExchange
 		var v OTDOAInformationFailure
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding OTDOAInformationFailure: %w", err)
 		}
 		return &v, nil
 	case 7: // id-uTDOAInformationExchange
 		var v UTDOAInformationFailure
-		if err := v.UnmarshalAPERFrom(bb); err != nil {
+		// ITU-T X.691 (02/2021) 11.2.1: the open type is a complete encoding.
+		if err := v.UnmarshalAPER(data); err != nil {
 			return nil, fmt.Errorf("decoding UTDOAInformationFailure: %w", err)
 		}
 		return &v, nil
@@ -181,7 +195,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
 			}
-			return v, nil
+			return per.CompleteOpenTypeValue(bb, v)
 		case 3: // id-ReportCharacteristics -> ReportCharacteristics (ENUMERATED)
 			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
@@ -189,7 +203,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 				return nil, fmt.Errorf("decoding IE ReportCharacteristics (%d): %w", ieId, err)
 			}
 			result := ReportCharacteristics(v)
-			return &result, nil
+			return per.CompleteOpenTypeValue(bb, result)
 		case 4: // id-MeasurementPeriodicity -> MeasurementPeriodicity (ENUMERATED)
 			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 13, true)
@@ -197,7 +211,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 				return nil, fmt.Errorf("decoding IE MeasurementPeriodicity (%d): %w", ieId, err)
 			}
 			result := MeasurementPeriodicity(v)
-			return &result, nil
+			return per.CompleteOpenTypeValue(bb, result)
 		case 5: // id-MeasurementQuantities -> MeasurementQuantities (SEQUENCE_OF)
 			v, err := UnmarshalAPERMeasurementQuantities(data)
 			if err != nil {
@@ -225,14 +239,14 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
 			}
-			return v, nil
+			return per.CompleteOpenTypeValue(bb, v)
 		case 6: // id-eNB-UE-Measurement-ID -> MeasurementID (INTEGER)
 			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("15"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
 			}
-			return v, nil
+			return per.CompleteOpenTypeValue(bb, v)
 		case 7: // id-E-CID-MeasurementResult -> ECIDMeasurementResult
 			var v ECIDMeasurementResult
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -251,7 +265,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellPortionID (%d): %w", ieId, err)
 			}
-			return v, nil
+			return per.CompleteOpenTypeValue(bb, v)
 		case 17: // id-InterRATMeasurementResult -> InterRATMeasurementResult (SEQUENCE_OF)
 			v, err := UnmarshalAPERInterRATMeasurementResult(data)
 			if err != nil {
@@ -273,7 +287,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
 			}
-			return v, nil
+			return per.CompleteOpenTypeValue(bb, v)
 		case 0: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -295,14 +309,14 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
 			}
-			return v, nil
+			return per.CompleteOpenTypeValue(bb, v)
 		case 6: // id-eNB-UE-Measurement-ID -> MeasurementID (INTEGER)
 			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("15"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
 			}
-			return v, nil
+			return per.CompleteOpenTypeValue(bb, v)
 		case 0: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -318,14 +332,14 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
 			}
-			return v, nil
+			return per.CompleteOpenTypeValue(bb, v)
 		case 6: // id-eNB-UE-Measurement-ID -> MeasurementID (INTEGER)
 			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("15"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
 			}
-			return v, nil
+			return per.CompleteOpenTypeValue(bb, v)
 		case 7: // id-E-CID-MeasurementResult -> ECIDMeasurementResult
 			var v ECIDMeasurementResult
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -338,7 +352,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellPortionID (%d): %w", ieId, err)
 			}
-			return v, nil
+			return per.CompleteOpenTypeValue(bb, v)
 		}
 	case "E-CIDMeasurementTerminationCommand-IEs":
 		switch ieId {
@@ -348,14 +362,14 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
 			}
-			return v, nil
+			return per.CompleteOpenTypeValue(bb, v)
 		case 6: // id-eNB-UE-Measurement-ID -> MeasurementID (INTEGER)
 			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("15"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
 			}
-			return v, nil
+			return per.CompleteOpenTypeValue(bb, v)
 		}
 	case "OTDOAInformationRequest-IEs":
 		switch ieId {
@@ -474,7 +488,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 				return nil, fmt.Errorf("decoding IE Broadcast (%d): %w", ieId, err)
 			}
 			result := Broadcast(v)
-			return &result, nil
+			return per.CompleteOpenTypeValue(bb, result)
 		}
 	case "AssistanceInformationFeedback-IEs":
 		switch ieId {
