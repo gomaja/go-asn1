@@ -872,6 +872,9 @@ func (v *ExternalSignalInfo3) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_protocolid := ber.EncodeEnumerated(int64(v.ProtocolId))
 	children = append(children, enc_protocolid...)
+	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
+		return nil, fmt.Errorf("signalInfo length %d violates SIZE (1..200)", len(v.SignalInfo))
+	}
 	enc_signalinfo, encodeErr_enc_signalinfo := ber.EncodeOctetString([]byte(v.SignalInfo))
 	if encodeErr_enc_signalinfo != nil {
 		return nil, fmt.Errorf("encoding signalInfo: %w", encodeErr_enc_signalinfo)
@@ -902,6 +905,9 @@ func (v *ExternalSignalInfo3) MarshalDER() ([]byte, error) {
 	var children []byte
 	enc_protocolid := ber.EncodeEnumerated(int64(v.ProtocolId))
 	children = append(children, enc_protocolid...)
+	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
+		return nil, fmt.Errorf("signalInfo length %d violates SIZE (1..200)", len(v.SignalInfo))
+	}
 	enc_signalinfo, encodeErr_enc_signalinfo := ber.EncodeOctetString([]byte(v.SignalInfo))
 	if encodeErr_enc_signalinfo != nil {
 		return nil, fmt.Errorf("encoding signalInfo: %w", encodeErr_enc_signalinfo)
@@ -974,6 +980,9 @@ func (v *ExternalSignalInfo3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	}
 
 	offset += n
+	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
+		return fmt.Errorf("signalInfo length %d violates SIZE (1..200)", len(v.SignalInfo))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -1036,6 +1045,9 @@ func (v *ExtExternalSignalInfo3) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_extprotocolid := ber.EncodeEnumerated(int64(v.ExtProtocolId))
 	children = append(children, enc_extprotocolid...)
+	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
+		return nil, fmt.Errorf("signalInfo length %d violates SIZE (1..200)", len(v.SignalInfo))
+	}
 	enc_signalinfo, encodeErr_enc_signalinfo := ber.EncodeOctetString([]byte(v.SignalInfo))
 	if encodeErr_enc_signalinfo != nil {
 		return nil, fmt.Errorf("encoding signalInfo: %w", encodeErr_enc_signalinfo)
@@ -1066,6 +1078,9 @@ func (v *ExtExternalSignalInfo3) MarshalDER() ([]byte, error) {
 	var children []byte
 	enc_extprotocolid := ber.EncodeEnumerated(int64(v.ExtProtocolId))
 	children = append(children, enc_extprotocolid...)
+	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
+		return nil, fmt.Errorf("signalInfo length %d violates SIZE (1..200)", len(v.SignalInfo))
+	}
 	enc_signalinfo, encodeErr_enc_signalinfo := ber.EncodeOctetString([]byte(v.SignalInfo))
 	if encodeErr_enc_signalinfo != nil {
 		return nil, fmt.Errorf("encoding signalInfo: %w", encodeErr_enc_signalinfo)
@@ -1138,6 +1153,9 @@ func (v *ExtExternalSignalInfo3) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	}
 
 	offset += n
+	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
+		return fmt.Errorf("signalInfo length %d violates SIZE (1..200)", len(v.SignalInfo))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -1200,6 +1218,9 @@ func (v *AccessNetworkSignalInfo3) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_accessnetworkprotocolid := ber.EncodeEnumerated(int64(v.AccessNetworkProtocolId))
 	children = append(children, enc_accessnetworkprotocolid...)
+	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 2560 {
+		return nil, fmt.Errorf("signalInfo length %d violates SIZE (1..2560)", len(v.SignalInfo))
+	}
 	enc_signalinfo, encodeErr_enc_signalinfo := ber.EncodeOctetString([]byte(v.SignalInfo))
 	if encodeErr_enc_signalinfo != nil {
 		return nil, fmt.Errorf("encoding signalInfo: %w", encodeErr_enc_signalinfo)
@@ -1230,6 +1251,9 @@ func (v *AccessNetworkSignalInfo3) MarshalDER() ([]byte, error) {
 	var children []byte
 	enc_accessnetworkprotocolid := ber.EncodeEnumerated(int64(v.AccessNetworkProtocolId))
 	children = append(children, enc_accessnetworkprotocolid...)
+	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 2560 {
+		return nil, fmt.Errorf("signalInfo length %d violates SIZE (1..2560)", len(v.SignalInfo))
+	}
 	enc_signalinfo, encodeErr_enc_signalinfo := ber.EncodeOctetString([]byte(v.SignalInfo))
 	if encodeErr_enc_signalinfo != nil {
 		return nil, fmt.Errorf("encoding signalInfo: %w", encodeErr_enc_signalinfo)
@@ -1302,6 +1326,9 @@ func (v *AccessNetworkSignalInfo3) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}
 
 	offset += n
+	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 2560 {
+		return fmt.Errorf("signalInfo length %d violates SIZE (1..2560)", len(v.SignalInfo))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -1369,6 +1396,9 @@ func (v *Identity3) MarshalBER() ([]byte, error) {
 		enc_0, encodeErr_enc_0 := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_0)
+		}
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
 		}
 		return enc_0, nil
 	case Identity3ChoiceImsiWithLMSI:
@@ -1442,6 +1472,9 @@ func (v *Identity3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		}
 		tmp := IMSI3(decVal)
 		v.Imsi = &tmp
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 && peekTag.Constructed == true {
 		v.Choice = Identity3ChoiceImsiWithLMSI
 		var dec IMSIWithLMSI3
@@ -1458,11 +1491,17 @@ func (v *Identity3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes IMSIWithLMSI3 to BER format.
 func (v *IMSIWithLMSI3) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
 	}
 	children = append(children, enc_imsi...)
+	if len(v.Lmsi) < 4 || len(v.Lmsi) > 4 {
+		return nil, fmt.Errorf("lmsi length %d violates SIZE (4)", len(v.Lmsi))
+	}
 	enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(v.Lmsi))
 	if encodeErr_enc_lmsi != nil {
 		return nil, fmt.Errorf("encoding lmsi: %w", encodeErr_enc_lmsi)
@@ -1484,11 +1523,17 @@ func (v *IMSIWithLMSI3) MarshalBER() ([]byte, error) {
 // MarshalDER encodes IMSIWithLMSI3 to DER format.
 func (v *IMSIWithLMSI3) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
 	}
 	children = append(children, enc_imsi...)
+	if len(v.Lmsi) < 4 || len(v.Lmsi) > 4 {
+		return nil, fmt.Errorf("lmsi length %d violates SIZE (4)", len(v.Lmsi))
+	}
 	enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(v.Lmsi))
 	if encodeErr_enc_lmsi != nil {
 		return nil, fmt.Errorf("encoding lmsi: %w", encodeErr_enc_lmsi)
@@ -1539,6 +1584,9 @@ func (v *IMSIWithLMSI3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 	}
 
 	offset += n
+	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
+		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+	}
 	// Decode lmsi
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field lmsi")
@@ -1554,6 +1602,9 @@ func (v *IMSIWithLMSI3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 	}
 
 	offset += n
+	if len(v.Lmsi) < 4 || len(v.Lmsi) > 4 {
+		return fmt.Errorf("lmsi length %d violates SIZE (4)", len(v.Lmsi))
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -1591,6 +1642,9 @@ func (v *SubscriberId3) MarshalBER() ([]byte, error) {
 		if encodeErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_0)
 		}
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", tagErr_enc_0)
@@ -1604,6 +1658,9 @@ func (v *SubscriberId3) MarshalBER() ([]byte, error) {
 		enc_1, encodeErr_enc_1 := ber.EncodeOctetString([]byte(*v.Tmsi))
 		if encodeErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding tmsi: %w", encodeErr_enc_1)
+		}
+		if len(*v.Tmsi) < 1 || len(*v.Tmsi) > 4 {
+			return nil, fmt.Errorf("tmsi length %d violates SIZE (1..4)", len(*v.Tmsi))
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
@@ -1659,6 +1716,9 @@ func (v *SubscriberId3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 		}
 		tmp := IMSI3(rawVal)
 		v.Imsi = &tmp
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 		v.Choice = SubscriberId3ChoiceTmsi
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -1667,6 +1727,9 @@ func (v *SubscriberId3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 		}
 		tmp := TMSI3(rawVal)
 		v.Tmsi = &tmp
+		if len(*v.Tmsi) < 1 || len(*v.Tmsi) > 4 {
+			return fmt.Errorf("tmsi length %d violates SIZE (1..4)", len(*v.Tmsi))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for SubscriberId3 CHOICE", peekTag)
 	}
@@ -1751,6 +1814,9 @@ func UnmarshalBERHLRList3(data []byte, opts ...ber.DecodeOption) (HLRList3, erro
 // MarshalBER encodes NAEAPreferredCI3 to BER format.
 func (v *NAEAPreferredCI3) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.NaeaPreferredCIC) < 3 || len(v.NaeaPreferredCIC) > 3 {
+		return nil, fmt.Errorf("naea-PreferredCIC length %d violates SIZE (3)", len(v.NaeaPreferredCIC))
+	}
 	enc_naeapreferredcic, encodeErr_enc_naeapreferredcic := ber.EncodeOctetString([]byte(v.NaeaPreferredCIC))
 	if encodeErr_enc_naeapreferredcic != nil {
 		return nil, fmt.Errorf("encoding naea-PreferredCIC: %w", encodeErr_enc_naeapreferredcic)
@@ -1789,6 +1855,9 @@ func (v *NAEAPreferredCI3) MarshalBER() ([]byte, error) {
 // MarshalDER encodes NAEAPreferredCI3 to DER format.
 func (v *NAEAPreferredCI3) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.NaeaPreferredCIC) < 3 || len(v.NaeaPreferredCIC) > 3 {
+		return nil, fmt.Errorf("naea-PreferredCIC length %d violates SIZE (3)", len(v.NaeaPreferredCIC))
+	}
 	enc_naeapreferredcic, encodeErr_enc_naeapreferredcic := ber.EncodeOctetString([]byte(v.NaeaPreferredCIC))
 	if encodeErr_enc_naeapreferredcic != nil {
 		return nil, fmt.Errorf("encoding naea-PreferredCIC: %w", encodeErr_enc_naeapreferredcic)
@@ -1865,6 +1934,9 @@ func (v *NAEAPreferredCI3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 	}
 
 	offset += n_naeapreferredcic
+	if len(v.NaeaPreferredCIC) < 3 || len(v.NaeaPreferredCIC) > 3 {
+		return fmt.Errorf("naea-PreferredCIC length %d violates SIZE (3)", len(v.NaeaPreferredCIC))
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -1933,6 +2005,9 @@ func (v *SubscriberIdentity3) MarshalBER() ([]byte, error) {
 		if encodeErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_0)
 		}
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", tagErr_enc_0)
@@ -1946,6 +2021,12 @@ func (v *SubscriberIdentity3) MarshalBER() ([]byte, error) {
 		enc_1, encodeErr_enc_1 := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_1)
+		}
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+		}
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
@@ -2001,6 +2082,9 @@ func (v *SubscriberIdentity3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		}
 		tmp := IMSI3(rawVal)
 		v.Imsi = &tmp
+		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
+			return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 		v.Choice = SubscriberIdentity3ChoiceMsisdn
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -2009,6 +2093,12 @@ func (v *SubscriberIdentity3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		}
 		tmp := ISDNAddressString3(rawVal)
 		v.Msisdn = &tmp
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
+			return fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+		}
+		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
+			return fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for SubscriberIdentity3 CHOICE", peekTag)
 	}
@@ -2019,6 +2109,12 @@ func (v *SubscriberIdentity3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 func (v *LCSClientExternalID3) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.ExternalAddress != nil {
+		if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 9 {
+			return nil, fmt.Errorf("externalAddress length %d violates SIZE (1..9)", len(*v.ExternalAddress))
+		}
+		if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 20 {
+			return nil, fmt.Errorf("externalAddress length %d violates SIZE (1..20)", len(*v.ExternalAddress))
+		}
 		enc_externaladdress, encodeErr_enc_externaladdress := ber.EncodeOctetString([]byte(*v.ExternalAddress))
 		if encodeErr_enc_externaladdress != nil {
 			return nil, fmt.Errorf("encoding externalAddress: %w", encodeErr_enc_externaladdress)
@@ -2059,6 +2155,12 @@ func (v *LCSClientExternalID3) MarshalBER() ([]byte, error) {
 func (v *LCSClientExternalID3) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.ExternalAddress != nil {
+		if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 9 {
+			return nil, fmt.Errorf("externalAddress length %d violates SIZE (1..9)", len(*v.ExternalAddress))
+		}
+		if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 20 {
+			return nil, fmt.Errorf("externalAddress length %d violates SIZE (1..20)", len(*v.ExternalAddress))
+		}
 		enc_externaladdress, encodeErr_enc_externaladdress := ber.EncodeOctetString([]byte(*v.ExternalAddress))
 		if encodeErr_enc_externaladdress != nil {
 			return nil, fmt.Errorf("encoding externalAddress: %w", encodeErr_enc_externaladdress)
@@ -2133,6 +2235,12 @@ func (v *LCSClientExternalID3) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 
 				offset += n_externaladdress
+				if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 9 {
+					return fmt.Errorf("externalAddress length %d violates SIZE (1..9)", len(*v.ExternalAddress))
+				}
+				if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 20 {
+					return fmt.Errorf("externalAddress length %d violates SIZE (1..20)", len(*v.ExternalAddress))
+				}
 			}
 		}
 	}
@@ -2196,6 +2304,9 @@ func (v *LCSClientExternalID3) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 // MarshalBER encodes CommonDataTypesNetworkNodeDiameterAddress to BER format.
 func (v *CommonDataTypesNetworkNodeDiameterAddress) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.DiameterName) < 9 || len(v.DiameterName) > 255 {
+		return nil, fmt.Errorf("diameter-Name length %d violates SIZE (9..255)", len(v.DiameterName))
+	}
 	enc_diametername, encodeErr_enc_diametername := ber.EncodeOctetString([]byte(v.DiameterName))
 	if encodeErr_enc_diametername != nil {
 		return nil, fmt.Errorf("encoding diameter-Name: %w", encodeErr_enc_diametername)
@@ -2206,6 +2317,9 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) MarshalBER() ([]byte, error)
 	}
 	enc_diametername = retagged_enc_diametername
 	children = append(children, enc_diametername...)
+	if len(v.DiameterRealm) < 9 || len(v.DiameterRealm) > 255 {
+		return nil, fmt.Errorf("diameter-Realm length %d violates SIZE (9..255)", len(v.DiameterRealm))
+	}
 	enc_diameterrealm, encodeErr_enc_diameterrealm := ber.EncodeOctetString([]byte(v.DiameterRealm))
 	if encodeErr_enc_diameterrealm != nil {
 		return nil, fmt.Errorf("encoding diameter-Realm: %w", encodeErr_enc_diameterrealm)
@@ -2222,6 +2336,9 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) MarshalBER() ([]byte, error)
 // MarshalDER encodes CommonDataTypesNetworkNodeDiameterAddress to DER format.
 func (v *CommonDataTypesNetworkNodeDiameterAddress) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.DiameterName) < 9 || len(v.DiameterName) > 255 {
+		return nil, fmt.Errorf("diameter-Name length %d violates SIZE (9..255)", len(v.DiameterName))
+	}
 	enc_diametername, encodeErr_enc_diametername := ber.EncodeOctetString([]byte(v.DiameterName))
 	if encodeErr_enc_diametername != nil {
 		return nil, fmt.Errorf("encoding diameter-Name: %w", encodeErr_enc_diametername)
@@ -2232,6 +2349,9 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) MarshalDER() ([]byte, error)
 	}
 	enc_diametername = retagged_enc_diametername
 	children = append(children, enc_diametername...)
+	if len(v.DiameterRealm) < 9 || len(v.DiameterRealm) > 255 {
+		return nil, fmt.Errorf("diameter-Realm length %d violates SIZE (9..255)", len(v.DiameterRealm))
+	}
 	enc_diameterrealm, encodeErr_enc_diameterrealm := ber.EncodeOctetString([]byte(v.DiameterRealm))
 	if encodeErr_enc_diameterrealm != nil {
 		return nil, fmt.Errorf("encoding diameter-Realm: %w", encodeErr_enc_diameterrealm)
@@ -2289,6 +2409,9 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) UnmarshalBER(data []byte, op
 	}
 
 	offset += n_diametername
+	if len(v.DiameterName) < 9 || len(v.DiameterName) > 255 {
+		return fmt.Errorf("diameter-Name length %d violates SIZE (9..255)", len(v.DiameterName))
+	}
 	// Decode diameter-Realm
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field diameter-Realm")
@@ -2312,6 +2435,9 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) UnmarshalBER(data []byte, op
 	}
 
 	offset += n_diameterrealm
+	if len(v.DiameterRealm) < 9 || len(v.DiameterRealm) > 255 {
+		return fmt.Errorf("diameter-Realm length %d violates SIZE (9..255)", len(v.DiameterRealm))
+	}
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "CommonDataTypesNetworkNodeDiameterAddress", Cause: ber.ErrExtraData}
 	}
@@ -2329,6 +2455,9 @@ func (v *CellGlobalIdOrServiceAreaIdOrLAI3) MarshalBER() ([]byte, error) {
 		if encodeErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding cellGlobalIdOrServiceAreaIdFixedLength: %w", encodeErr_enc_0)
 		}
+		if len(*v.CellGlobalIdOrServiceAreaIdFixedLength) < 7 || len(*v.CellGlobalIdOrServiceAreaIdFixedLength) > 7 {
+			return nil, fmt.Errorf("cellGlobalIdOrServiceAreaIdFixedLength length %d violates SIZE (7)", len(*v.CellGlobalIdOrServiceAreaIdFixedLength))
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding cellGlobalIdOrServiceAreaIdFixedLength: %w", tagErr_enc_0)
@@ -2342,6 +2471,9 @@ func (v *CellGlobalIdOrServiceAreaIdOrLAI3) MarshalBER() ([]byte, error) {
 		enc_1, encodeErr_enc_1 := ber.EncodeOctetString([]byte(*v.LaiFixedLength))
 		if encodeErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding laiFixedLength: %w", encodeErr_enc_1)
+		}
+		if len(*v.LaiFixedLength) < 5 || len(*v.LaiFixedLength) > 5 {
+			return nil, fmt.Errorf("laiFixedLength length %d violates SIZE (5)", len(*v.LaiFixedLength))
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
@@ -2397,6 +2529,9 @@ func (v *CellGlobalIdOrServiceAreaIdOrLAI3) UnmarshalBER(data []byte, opts ...be
 		}
 		tmp := CellGlobalIdOrServiceAreaIdFixedLength3(rawVal)
 		v.CellGlobalIdOrServiceAreaIdFixedLength = &tmp
+		if len(*v.CellGlobalIdOrServiceAreaIdFixedLength) < 7 || len(*v.CellGlobalIdOrServiceAreaIdFixedLength) > 7 {
+			return fmt.Errorf("cellGlobalIdOrServiceAreaIdFixedLength length %d violates SIZE (7)", len(*v.CellGlobalIdOrServiceAreaIdFixedLength))
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 		v.Choice = CellGlobalIdOrServiceAreaIdOrLAI3ChoiceLaiFixedLength
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -2405,6 +2540,9 @@ func (v *CellGlobalIdOrServiceAreaIdOrLAI3) UnmarshalBER(data []byte, opts ...be
 		}
 		tmp := LAIFixedLength3(rawVal)
 		v.LaiFixedLength = &tmp
+		if len(*v.LaiFixedLength) < 5 || len(*v.LaiFixedLength) > 5 {
+			return fmt.Errorf("laiFixedLength length %d violates SIZE (5)", len(*v.LaiFixedLength))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for CellGlobalIdOrServiceAreaIdOrLAI3 CHOICE", peekTag)
 	}
@@ -2422,6 +2560,9 @@ func (v *BasicServiceCode3) MarshalBER() ([]byte, error) {
 		if encodeErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding bearerService: %w", encodeErr_enc_0)
 		}
+		if len(*v.BearerService) < 1 || len(*v.BearerService) > 1 {
+			return nil, fmt.Errorf("bearerService length %d violates SIZE (1)", len(*v.BearerService))
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding bearerService: %w", tagErr_enc_0)
@@ -2435,6 +2576,9 @@ func (v *BasicServiceCode3) MarshalBER() ([]byte, error) {
 		enc_1, encodeErr_enc_1 := ber.EncodeOctetString([]byte(*v.Teleservice))
 		if encodeErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding teleservice: %w", encodeErr_enc_1)
+		}
+		if len(*v.Teleservice) < 1 || len(*v.Teleservice) > 1 {
+			return nil, fmt.Errorf("teleservice length %d violates SIZE (1)", len(*v.Teleservice))
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_1)
 		if tagErr_enc_1 != nil {
@@ -2490,6 +2634,9 @@ func (v *BasicServiceCode3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 		}
 		tmp := BearerServiceCode3(rawVal)
 		v.BearerService = &tmp
+		if len(*v.BearerService) < 1 || len(*v.BearerService) > 1 {
+			return fmt.Errorf("bearerService length %d violates SIZE (1)", len(*v.BearerService))
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
 		v.Choice = BasicServiceCode3ChoiceTeleservice
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -2498,6 +2645,9 @@ func (v *BasicServiceCode3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 		}
 		tmp := TeleserviceCode3(rawVal)
 		v.Teleservice = &tmp
+		if len(*v.Teleservice) < 1 || len(*v.Teleservice) > 1 {
+			return fmt.Errorf("teleservice length %d violates SIZE (1)", len(*v.Teleservice))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for BasicServiceCode3 CHOICE", peekTag)
 	}
@@ -2515,6 +2665,9 @@ func (v *ExtBasicServiceCode3) MarshalBER() ([]byte, error) {
 		if encodeErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding ext-BearerService: %w", encodeErr_enc_0)
 		}
+		if len(*v.ExtBearerService) < 1 || len(*v.ExtBearerService) > 5 {
+			return nil, fmt.Errorf("ext-BearerService length %d violates SIZE (1..5)", len(*v.ExtBearerService))
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding ext-BearerService: %w", tagErr_enc_0)
@@ -2528,6 +2681,9 @@ func (v *ExtBasicServiceCode3) MarshalBER() ([]byte, error) {
 		enc_1, encodeErr_enc_1 := ber.EncodeOctetString([]byte(*v.ExtTeleservice))
 		if encodeErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding ext-Teleservice: %w", encodeErr_enc_1)
+		}
+		if len(*v.ExtTeleservice) < 1 || len(*v.ExtTeleservice) > 5 {
+			return nil, fmt.Errorf("ext-Teleservice length %d violates SIZE (1..5)", len(*v.ExtTeleservice))
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_1)
 		if tagErr_enc_1 != nil {
@@ -2583,6 +2739,9 @@ func (v *ExtBasicServiceCode3) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 		}
 		tmp := ExtBearerServiceCode3(rawVal)
 		v.ExtBearerService = &tmp
+		if len(*v.ExtBearerService) < 1 || len(*v.ExtBearerService) > 5 {
+			return fmt.Errorf("ext-BearerService length %d violates SIZE (1..5)", len(*v.ExtBearerService))
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
 		v.Choice = ExtBasicServiceCode3ChoiceExtTeleservice
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -2591,6 +2750,9 @@ func (v *ExtBasicServiceCode3) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 		}
 		tmp := ExtTeleserviceCode3(rawVal)
 		v.ExtTeleservice = &tmp
+		if len(*v.ExtTeleservice) < 1 || len(*v.ExtTeleservice) > 5 {
+			return fmt.Errorf("ext-Teleservice length %d violates SIZE (1..5)", len(*v.ExtTeleservice))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for ExtBasicServiceCode3 CHOICE", peekTag)
 	}
@@ -2758,6 +2920,9 @@ func (v *EMLPPInfo3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes MCSSInfo3 to BER format.
 func (v *MCSSInfo3) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
@@ -2768,6 +2933,9 @@ func (v *MCSSInfo3) MarshalBER() ([]byte, error) {
 	}
 	enc_sscode = retagged_enc_sscode
 	children = append(children, enc_sscode...)
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -2820,6 +2988,9 @@ func (v *MCSSInfo3) MarshalBER() ([]byte, error) {
 // MarshalDER encodes MCSSInfo3 to DER format.
 func (v *MCSSInfo3) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
 		return nil, fmt.Errorf("encoding ss-Code: %w", encodeErr_enc_sscode)
@@ -2830,6 +3001,9 @@ func (v *MCSSInfo3) MarshalDER() ([]byte, error) {
 	}
 	enc_sscode = retagged_enc_sscode
 	children = append(children, enc_sscode...)
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
 		return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_ssstatus)
@@ -2919,6 +3093,9 @@ func (v *MCSSInfo3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_sscode
+	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
+		return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+	}
 	// Decode ss-Status
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field ss-Status")
@@ -2942,6 +3119,9 @@ func (v *MCSSInfo3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_ssstatus
+	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
+		return fmt.Errorf("ss-Status length %d violates SIZE (1..5)", len(v.SsStatus))
+	}
 	// Decode nbrSB
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field nbrSB")

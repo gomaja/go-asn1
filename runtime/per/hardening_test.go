@@ -720,10 +720,10 @@ func TestDecodeExtensionBitmapRejectsCountBeyondInput(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			bb := NewBitBuffer()
 			if tc.aligned {
-				if err := EncodeNormallySmallNonNegativeAligned(bb, 1<<30); err != nil {
+				if err := EncodeNormallySmallLengthAligned(bb, 100); err != nil {
 					t.Fatal(err)
 				}
-			} else if err := EncodeNormallySmallNonNegative(bb, 1<<30); err != nil {
+			} else if err := EncodeNormallySmallLength(bb, 100); err != nil {
 				t.Fatal(err)
 			}
 

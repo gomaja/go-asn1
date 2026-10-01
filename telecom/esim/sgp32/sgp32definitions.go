@@ -8685,6 +8685,9 @@ func (v *EuiccPackageRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 // MarshalBER encodes EuiccPackageSigned to BER format.
 func (v *EuiccPackageSigned) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding eimId: %w", stringErr)
@@ -8695,6 +8698,9 @@ func (v *EuiccPackageSigned) MarshalBER() ([]byte, error) {
 	}
 	enc_eimid = retagged_enc_eimid
 	children = append(children, enc_eimid...)
+	if len(v.EidValue) < 16 || len(v.EidValue) > 16 {
+		return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(v.EidValue))
+	}
 	enc_eidvalue, encodeErr_enc_eidvalue := ber.EncodeOctetString([]byte(v.EidValue))
 	if encodeErr_enc_eidvalue != nil {
 		return nil, fmt.Errorf("encoding eidValue: %w", encodeErr_enc_eidvalue)
@@ -8719,6 +8725,9 @@ func (v *EuiccPackageSigned) MarshalBER() ([]byte, error) {
 	enc_countervalue = retagged_enc_countervalue
 	children = append(children, enc_countervalue...)
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -8751,6 +8760,9 @@ func (v *EuiccPackageSigned) MarshalBER() ([]byte, error) {
 // MarshalDER encodes EuiccPackageSigned to DER format.
 func (v *EuiccPackageSigned) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding eimId: %w", stringErr)
@@ -8761,6 +8773,9 @@ func (v *EuiccPackageSigned) MarshalDER() ([]byte, error) {
 	}
 	enc_eimid = retagged_enc_eimid
 	children = append(children, enc_eimid...)
+	if len(v.EidValue) < 16 || len(v.EidValue) > 16 {
+		return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(v.EidValue))
+	}
 	enc_eidvalue, encodeErr_enc_eidvalue := ber.EncodeOctetString([]byte(v.EidValue))
 	if encodeErr_enc_eidvalue != nil {
 		return nil, fmt.Errorf("encoding eidValue: %w", encodeErr_enc_eidvalue)
@@ -8785,6 +8800,9 @@ func (v *EuiccPackageSigned) MarshalDER() ([]byte, error) {
 	enc_countervalue = retagged_enc_countervalue
 	children = append(children, enc_countervalue...)
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -8858,6 +8876,9 @@ func (v *EuiccPackageSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	}
 
 	offset += n_eimid
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	// Decode eidValue
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field eidValue")
@@ -8881,6 +8902,9 @@ func (v *EuiccPackageSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	}
 
 	offset += n_eidvalue
+	if len(v.EidValue) < 16 || len(v.EidValue) > 16 {
+		return fmt.Errorf("eidValue length %d violates SIZE (16)", len(v.EidValue))
+	}
 	// Decode counterValue
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field counterValue")
@@ -8930,6 +8954,9 @@ func (v *EuiccPackageSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_eimtransactionid
+				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+				}
 			}
 		}
 	}
@@ -9118,6 +9145,9 @@ func (v *EuiccPackage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 // MarshalBER encodes EimConfigurationData to BER format.
 func (v *EimConfigurationData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding eimId: %w", stringErr)
@@ -9205,7 +9235,7 @@ func (v *EimConfigurationData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_trustedpublickeydatatls...)
 	}
 	if v.EimSupportedProtocol != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.EimSupportedProtocol.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -9284,6 +9314,9 @@ func (v *EimConfigurationData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes EimConfigurationData to DER format.
 func (v *EimConfigurationData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding eimId: %w", stringErr)
@@ -9371,7 +9404,7 @@ func (v *EimConfigurationData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_trustedpublickeydatatls...)
 	}
 	if v.EimSupportedProtocol != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.EimSupportedProtocol.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -9476,6 +9509,9 @@ func (v *EimConfigurationData) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	}
 
 	offset += n_eimid
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	// Decode eimFqdn
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -10504,6 +10540,9 @@ func (v *IpaEuiccDataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_searchcriteriaeuiccpackageresult...)
 	}
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -10577,6 +10616,9 @@ func (v *IpaEuiccDataRequest) MarshalDER() ([]byte, error) {
 		children = append(children, enc_searchcriteriaeuiccpackageresult...)
 	}
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -10746,6 +10788,9 @@ func (v *IpaEuiccDataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_eimtransactionid
+				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+				}
 			}
 		}
 	}
@@ -10793,6 +10838,9 @@ func (v *ProfileDownloadTriggerRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profiledownloaddata...)
 	}
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -10835,6 +10883,9 @@ func (v *ProfileDownloadTriggerRequest) MarshalDER() ([]byte, error) {
 		children = append(children, enc_profiledownloaddata...)
 	}
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -10931,6 +10982,9 @@ func (v *ProfileDownloadTriggerRequest) UnmarshalBER(data []byte, opts ...ber.De
 				}
 
 				offset += n_eimtransactionid
+				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+				}
 			}
 		}
 	}
@@ -10970,6 +11024,9 @@ func (v *ProfileDownloadData) MarshalBER() ([]byte, error) {
 		enc_0, stringErr := ber.EncodeStringTagChecked(12, *v.ActivationCode)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding activationCode: %w", stringErr)
+		}
+		if len([]rune(*v.ActivationCode)) > 255 {
+			return nil, fmt.Errorf("activationCode length %d violates SIZE (0..255)", len([]rune(*v.ActivationCode)))
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
@@ -11069,6 +11126,9 @@ func (v *ProfileDownloadData) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 			return fmt.Errorf("decoding activationCode: %w", stringErr)
 		}
 		v.ActivationCode = &decVal
+		if len([]rune(*v.ActivationCode)) > 255 {
+			return fmt.Errorf("activationCode length %d violates SIZE (0..255)", len([]rune(*v.ActivationCode)))
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = ProfileDownloadDataChoiceContactDefaultSmdp
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -11577,6 +11637,9 @@ func (v *EuiccPackageResultSigned) UnmarshalBER(data []byte, opts ...ber.DecodeO
 // MarshalBER encodes EuiccPackageResultDataSigned to BER format.
 func (v *EuiccPackageResultDataSigned) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding eimId: %w", stringErr)
@@ -11601,6 +11664,9 @@ func (v *EuiccPackageResultDataSigned) MarshalBER() ([]byte, error) {
 	enc_countervalue = retagged_enc_countervalue
 	children = append(children, enc_countervalue...)
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -11646,6 +11712,9 @@ func (v *EuiccPackageResultDataSigned) MarshalBER() ([]byte, error) {
 // MarshalDER encodes EuiccPackageResultDataSigned to DER format.
 func (v *EuiccPackageResultDataSigned) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding eimId: %w", stringErr)
@@ -11670,6 +11739,9 @@ func (v *EuiccPackageResultDataSigned) MarshalDER() ([]byte, error) {
 	enc_countervalue = retagged_enc_countervalue
 	children = append(children, enc_countervalue...)
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -11756,6 +11828,9 @@ func (v *EuiccPackageResultDataSigned) UnmarshalBER(data []byte, opts ...ber.Dec
 	}
 
 	offset += n_eimid
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	// Decode counterValue
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field counterValue")
@@ -11803,6 +11878,9 @@ func (v *EuiccPackageResultDataSigned) UnmarshalBER(data []byte, opts ...ber.Dec
 				}
 
 				offset += n_eimtransactionid
+				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+				}
 			}
 		}
 	}
@@ -12568,6 +12646,9 @@ func (v *EuiccPackageErrorSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 // MarshalBER encodes EuiccPackageErrorDataSigned to BER format.
 func (v *EuiccPackageErrorDataSigned) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding eimId: %w", stringErr)
@@ -12592,6 +12673,9 @@ func (v *EuiccPackageErrorDataSigned) MarshalBER() ([]byte, error) {
 	enc_countervalue = retagged_enc_countervalue
 	children = append(children, enc_countervalue...)
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -12624,6 +12708,9 @@ func (v *EuiccPackageErrorDataSigned) MarshalBER() ([]byte, error) {
 // MarshalDER encodes EuiccPackageErrorDataSigned to DER format.
 func (v *EuiccPackageErrorDataSigned) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding eimId: %w", stringErr)
@@ -12648,6 +12735,9 @@ func (v *EuiccPackageErrorDataSigned) MarshalDER() ([]byte, error) {
 	enc_countervalue = retagged_enc_countervalue
 	children = append(children, enc_countervalue...)
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -12721,6 +12811,9 @@ func (v *EuiccPackageErrorDataSigned) UnmarshalBER(data []byte, opts ...ber.Deco
 	}
 
 	offset += n_eimid
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	// Decode counterValue
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field counterValue")
@@ -12768,6 +12861,9 @@ func (v *EuiccPackageErrorDataSigned) UnmarshalBER(data []byte, opts ...ber.Deco
 				}
 
 				offset += n_eimtransactionid
+				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+				}
 			}
 		}
 	}
@@ -12819,6 +12915,9 @@ func (v *EuiccPackageErrorDataSigned) UnmarshalBER(data []byte, opts ...ber.Deco
 // MarshalBER encodes EuiccPackageErrorUnsigned to BER format.
 func (v *EuiccPackageErrorUnsigned) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding eimId: %w", stringErr)
@@ -12830,6 +12929,9 @@ func (v *EuiccPackageErrorUnsigned) MarshalBER() ([]byte, error) {
 	enc_eimid = retagged_enc_eimid
 	children = append(children, enc_eimid...)
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -12881,6 +12983,9 @@ func (v *EuiccPackageErrorUnsigned) MarshalBER() ([]byte, error) {
 // MarshalDER encodes EuiccPackageErrorUnsigned to DER format.
 func (v *EuiccPackageErrorUnsigned) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding eimId: %w", stringErr)
@@ -12892,6 +12997,9 @@ func (v *EuiccPackageErrorUnsigned) MarshalDER() ([]byte, error) {
 	enc_eimid = retagged_enc_eimid
 	children = append(children, enc_eimid...)
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -12984,6 +13092,9 @@ func (v *EuiccPackageErrorUnsigned) UnmarshalBER(data []byte, opts ...ber.Decode
 	}
 
 	offset += n_eimid
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	// Decode eimTransactionId
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -13004,6 +13115,9 @@ func (v *EuiccPackageErrorUnsigned) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_eimtransactionid
+				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+				}
 			}
 		}
 	}
@@ -13461,6 +13575,9 @@ func (v *ListEimResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 // MarshalBER encodes EimIdInfo to BER format.
 func (v *EimIdInfo) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding eimId: %w", stringErr)
@@ -13499,6 +13616,9 @@ func (v *EimIdInfo) MarshalBER() ([]byte, error) {
 // MarshalDER encodes EimIdInfo to DER format.
 func (v *EimIdInfo) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding eimId: %w", stringErr)
@@ -13578,6 +13698,9 @@ func (v *EimIdInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_eimid
+	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
+		return fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+	}
 	// Decode eimIdType
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -13638,6 +13761,9 @@ func (v *EimIdInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 func (v *IpaEuiccDataResponseError) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -13671,6 +13797,9 @@ func (v *IpaEuiccDataResponseError) MarshalBER() ([]byte, error) {
 func (v *IpaEuiccDataResponseError) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -13737,6 +13866,9 @@ func (v *IpaEuiccDataResponseError) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_eimtransactionid
+				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+				}
 			}
 		}
 	}
@@ -14245,6 +14377,9 @@ func (v *IpaEuiccData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_euicccertificate...)
 	}
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -14395,6 +14530,9 @@ func (v *IpaEuiccData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_euicccertificate...)
 	}
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -14768,6 +14906,9 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_eimtransactionid
+				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+				}
 			}
 		}
 	}
@@ -14862,6 +15003,9 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 func (v *ProfileDownloadTriggerResult) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -14895,6 +15039,9 @@ func (v *ProfileDownloadTriggerResult) MarshalBER() ([]byte, error) {
 func (v *ProfileDownloadTriggerResult) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -14969,6 +15116,9 @@ func (v *ProfileDownloadTriggerResult) UnmarshalBER(data []byte, opts ...ber.Dec
 				}
 
 				offset += n_eimtransactionid
+				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+				}
 			}
 		}
 	}
@@ -15026,7 +15176,7 @@ func (v *ProfileDownloadTriggerResult) UnmarshalBER(data []byte, opts ...ber.Dec
 // MarshalBER encodes ISDRProprietaryApplicationTemplateIoT to BER format.
 func (v *ISDRProprietaryApplicationTemplateIoT) MarshalBER() ([]byte, error) {
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.EuiccConfiguration.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -15056,7 +15206,7 @@ func (v *ISDRProprietaryApplicationTemplateIoT) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ISDRProprietaryApplicationTemplateIoT to DER format.
 func (v *ISDRProprietaryApplicationTemplateIoT) MarshalDER() ([]byte, error) {
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.EuiccConfiguration.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -15168,7 +15318,7 @@ func (v *ISDRProprietaryApplicationTemplateIoT) UnmarshalBER(data []byte, opts .
 // MarshalBER encodes IpaeActivationRequest to BER format.
 func (v *IpaeActivationRequest) MarshalBER() ([]byte, error) {
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.IpaeOption.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -15198,7 +15348,7 @@ func (v *IpaeActivationRequest) MarshalBER() ([]byte, error) {
 // MarshalDER encodes IpaeActivationRequest to DER format.
 func (v *IpaeActivationRequest) MarshalDER() ([]byte, error) {
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.IpaeOption.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -15445,7 +15595,7 @@ func (v *IpaeActivationResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 // MarshalBER encodes IpaCapabilities to BER format.
 func (v *IpaCapabilities) MarshalBER() ([]byte, error) {
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.IpaFeatures.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -15460,7 +15610,7 @@ func (v *IpaCapabilities) MarshalBER() ([]byte, error) {
 	enc_ipafeatures = retagged_enc_ipafeatures
 	children = append(children, enc_ipafeatures...)
 	if v.IpaSupportedProtocols != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.IpaSupportedProtocols.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15518,7 +15668,7 @@ func (v *IpaCapabilities) MarshalBER() ([]byte, error) {
 // MarshalDER encodes IpaCapabilities to DER format.
 func (v *IpaCapabilities) MarshalDER() ([]byte, error) {
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.IpaFeatures.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -15533,7 +15683,7 @@ func (v *IpaCapabilities) MarshalDER() ([]byte, error) {
 	enc_ipafeatures = retagged_enc_ipafeatures
 	children = append(children, enc_ipafeatures...)
 	if v.IpaSupportedProtocols != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.IpaSupportedProtocols.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15726,6 +15876,9 @@ func (v *IpaCapabilities) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.Iccid != nil {
+		if len(*v.Iccid) < 10 || len(*v.Iccid) > 10 {
+			return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(*v.Iccid))
+		}
 		enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(*v.Iccid))
 		if encodeErr_enc_iccid != nil {
 			return nil, fmt.Errorf("encoding iccid: %w", encodeErr_enc_iccid)
@@ -15738,6 +15891,9 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_iccid...)
 	}
 	if v.IsdpAid != nil {
+		if len(*v.IsdpAid) < 1 || len(*v.IsdpAid) > 16 {
+			return nil, fmt.Errorf("isdpAid length %d violates SIZE (1..16)", len(*v.IsdpAid))
+		}
 		enc_isdpaid, encodeErr_enc_isdpaid := ber.EncodeOctetString([]byte(*v.IsdpAid))
 		if encodeErr_enc_isdpaid != nil {
 			return nil, fmt.Errorf("encoding isdpAid: %w", encodeErr_enc_isdpaid)
@@ -15762,6 +15918,9 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profilestate...)
 	}
 	if v.ProfileNickname != nil {
+		if len([]rune(*v.ProfileNickname)) > 64 {
+			return nil, fmt.Errorf("profileNickname length %d violates SIZE (0..64)", len([]rune(*v.ProfileNickname)))
+		}
 		enc_profilenickname, stringErr := ber.EncodeStringTagChecked(12, *v.ProfileNickname)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding profileNickname: %w", stringErr)
@@ -15774,6 +15933,9 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profilenickname...)
 	}
 	if v.ServiceProviderName != nil {
+		if len([]rune(*v.ServiceProviderName)) > 32 {
+			return nil, fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(*v.ServiceProviderName)))
+		}
 		enc_serviceprovidername, stringErr := ber.EncodeStringTagChecked(12, *v.ServiceProviderName)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding serviceProviderName: %w", stringErr)
@@ -15786,6 +15948,9 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_serviceprovidername...)
 	}
 	if v.ProfileName != nil {
+		if len([]rune(*v.ProfileName)) > 64 {
+			return nil, fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(*v.ProfileName)))
+		}
 		enc_profilename, stringErr := ber.EncodeStringTagChecked(12, *v.ProfileName)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding profileName: %w", stringErr)
@@ -15810,6 +15975,9 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_icontype...)
 	}
 	if v.Icon != nil {
+		if len(v.Icon) > 1024 {
+			return nil, fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+		}
 		enc_icon, encodeErr_enc_icon := ber.EncodeOctetString(v.Icon)
 		if encodeErr_enc_icon != nil {
 			return nil, fmt.Errorf("encoding icon: %w", encodeErr_enc_icon)
@@ -15885,7 +16053,7 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_dpproprietarydata...)
 	}
 	if v.ProfilePolicyRules != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15998,6 +16166,9 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.Iccid != nil {
+		if len(*v.Iccid) < 10 || len(*v.Iccid) > 10 {
+			return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(*v.Iccid))
+		}
 		enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(*v.Iccid))
 		if encodeErr_enc_iccid != nil {
 			return nil, fmt.Errorf("encoding iccid: %w", encodeErr_enc_iccid)
@@ -16010,6 +16181,9 @@ func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_iccid...)
 	}
 	if v.IsdpAid != nil {
+		if len(*v.IsdpAid) < 1 || len(*v.IsdpAid) > 16 {
+			return nil, fmt.Errorf("isdpAid length %d violates SIZE (1..16)", len(*v.IsdpAid))
+		}
 		enc_isdpaid, encodeErr_enc_isdpaid := ber.EncodeOctetString([]byte(*v.IsdpAid))
 		if encodeErr_enc_isdpaid != nil {
 			return nil, fmt.Errorf("encoding isdpAid: %w", encodeErr_enc_isdpaid)
@@ -16034,6 +16208,9 @@ func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_profilestate...)
 	}
 	if v.ProfileNickname != nil {
+		if len([]rune(*v.ProfileNickname)) > 64 {
+			return nil, fmt.Errorf("profileNickname length %d violates SIZE (0..64)", len([]rune(*v.ProfileNickname)))
+		}
 		enc_profilenickname, stringErr := ber.EncodeStringTagChecked(12, *v.ProfileNickname)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding profileNickname: %w", stringErr)
@@ -16046,6 +16223,9 @@ func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_profilenickname...)
 	}
 	if v.ServiceProviderName != nil {
+		if len([]rune(*v.ServiceProviderName)) > 32 {
+			return nil, fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(*v.ServiceProviderName)))
+		}
 		enc_serviceprovidername, stringErr := ber.EncodeStringTagChecked(12, *v.ServiceProviderName)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding serviceProviderName: %w", stringErr)
@@ -16058,6 +16238,9 @@ func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_serviceprovidername...)
 	}
 	if v.ProfileName != nil {
+		if len([]rune(*v.ProfileName)) > 64 {
+			return nil, fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(*v.ProfileName)))
+		}
 		enc_profilename, stringErr := ber.EncodeStringTagChecked(12, *v.ProfileName)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding profileName: %w", stringErr)
@@ -16082,6 +16265,9 @@ func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_icontype...)
 	}
 	if v.Icon != nil {
+		if len(v.Icon) > 1024 {
+			return nil, fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+		}
 		enc_icon, encodeErr_enc_icon := ber.EncodeOctetString(v.Icon)
 		if encodeErr_enc_icon != nil {
 			return nil, fmt.Errorf("encoding icon: %w", encodeErr_enc_icon)
@@ -16142,7 +16328,7 @@ func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_dpproprietarydata...)
 	}
 	if v.ProfilePolicyRules != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -16266,6 +16452,9 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_iccid
+				if len(*v.Iccid) < 10 || len(*v.Iccid) > 10 {
+					return fmt.Errorf("iccid length %d violates SIZE (10)", len(*v.Iccid))
+				}
 			}
 		}
 	}
@@ -16289,6 +16478,9 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_isdpaid
+				if len(*v.IsdpAid) < 1 || len(*v.IsdpAid) > 16 {
+					return fmt.Errorf("isdpAid length %d violates SIZE (1..16)", len(*v.IsdpAid))
+				}
 			}
 		}
 	}
@@ -16347,6 +16539,9 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_profilenickname
+				if len([]rune(*v.ProfileNickname)) > 64 {
+					return fmt.Errorf("profileNickname length %d violates SIZE (0..64)", len([]rune(*v.ProfileNickname)))
+				}
 			}
 		}
 	}
@@ -16374,6 +16569,9 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_serviceprovidername
+				if len([]rune(*v.ServiceProviderName)) > 32 {
+					return fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(*v.ServiceProviderName)))
+				}
 			}
 		}
 	}
@@ -16400,6 +16598,9 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_profilename
+				if len([]rune(*v.ProfileName)) > 64 {
+					return fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(*v.ProfileName)))
+				}
 			}
 		}
 	}
@@ -16453,6 +16654,9 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_icon
+				if len(v.Icon) > 1024 {
+					return fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+				}
 			}
 		}
 	}
@@ -16818,6 +17022,9 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 func (v *SGPUpdateMetadataRequest) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.ServiceProviderName != nil {
+		if len([]rune(*v.ServiceProviderName)) > 32 {
+			return nil, fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(*v.ServiceProviderName)))
+		}
 		enc_serviceprovidername, stringErr := ber.EncodeStringTagChecked(12, *v.ServiceProviderName)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding serviceProviderName: %w", stringErr)
@@ -16830,6 +17037,9 @@ func (v *SGPUpdateMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_serviceprovidername...)
 	}
 	if v.ProfileName != nil {
+		if len([]rune(*v.ProfileName)) > 64 {
+			return nil, fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(*v.ProfileName)))
+		}
 		enc_profilename, stringErr := ber.EncodeStringTagChecked(12, *v.ProfileName)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding profileName: %w", stringErr)
@@ -16854,6 +17064,9 @@ func (v *SGPUpdateMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_icontype...)
 	}
 	if v.Icon != nil {
+		if len(v.Icon) > 1024 {
+			return nil, fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+		}
 		enc_icon, encodeErr_enc_icon := ber.EncodeOctetString(v.Icon)
 		if encodeErr_enc_icon != nil {
 			return nil, fmt.Errorf("encoding icon: %w", encodeErr_enc_icon)
@@ -16866,7 +17079,7 @@ func (v *SGPUpdateMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_icon...)
 	}
 	if v.ProfilePolicyRules != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -16939,6 +17152,9 @@ func (v *SGPUpdateMetadataRequest) MarshalBER() ([]byte, error) {
 func (v *SGPUpdateMetadataRequest) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.ServiceProviderName != nil {
+		if len([]rune(*v.ServiceProviderName)) > 32 {
+			return nil, fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(*v.ServiceProviderName)))
+		}
 		enc_serviceprovidername, stringErr := ber.EncodeStringTagChecked(12, *v.ServiceProviderName)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding serviceProviderName: %w", stringErr)
@@ -16951,6 +17167,9 @@ func (v *SGPUpdateMetadataRequest) MarshalDER() ([]byte, error) {
 		children = append(children, enc_serviceprovidername...)
 	}
 	if v.ProfileName != nil {
+		if len([]rune(*v.ProfileName)) > 64 {
+			return nil, fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(*v.ProfileName)))
+		}
 		enc_profilename, stringErr := ber.EncodeStringTagChecked(12, *v.ProfileName)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding profileName: %w", stringErr)
@@ -16975,6 +17194,9 @@ func (v *SGPUpdateMetadataRequest) MarshalDER() ([]byte, error) {
 		children = append(children, enc_icontype...)
 	}
 	if v.Icon != nil {
+		if len(v.Icon) > 1024 {
+			return nil, fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+		}
 		enc_icon, encodeErr_enc_icon := ber.EncodeOctetString(v.Icon)
 		if encodeErr_enc_icon != nil {
 			return nil, fmt.Errorf("encoding icon: %w", encodeErr_enc_icon)
@@ -16987,7 +17209,7 @@ func (v *SGPUpdateMetadataRequest) MarshalDER() ([]byte, error) {
 		children = append(children, enc_icon...)
 	}
 	if v.ProfilePolicyRules != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -17085,6 +17307,9 @@ func (v *SGPUpdateMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 
 				offset += n_serviceprovidername
+				if len([]rune(*v.ServiceProviderName)) > 32 {
+					return fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(*v.ServiceProviderName)))
+				}
 			}
 		}
 	}
@@ -17111,6 +17336,9 @@ func (v *SGPUpdateMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 
 				offset += n_profilename
+				if len([]rune(*v.ProfileName)) > 64 {
+					return fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(*v.ProfileName)))
+				}
 			}
 		}
 	}
@@ -17164,6 +17392,9 @@ func (v *SGPUpdateMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 
 				offset += n_icon
+				if len(v.Icon) > 1024 {
+					return fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+				}
 			}
 		}
 	}
@@ -17301,6 +17532,9 @@ func (v *SGPUpdateMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeO
 // MarshalBER encodes SGPStoreMetadataRequest to BER format.
 func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
+		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
 		return nil, fmt.Errorf("encoding iccid: %w", encodeErr_enc_iccid)
@@ -17311,6 +17545,9 @@ func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 	}
 	enc_iccid = retagged_enc_iccid
 	children = append(children, enc_iccid...)
+	if len([]rune(v.ServiceProviderName)) > 32 {
+		return nil, fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(v.ServiceProviderName)))
+	}
 	enc_serviceprovidername, stringErr := ber.EncodeStringTagChecked(12, v.ServiceProviderName)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding serviceProviderName: %w", stringErr)
@@ -17321,6 +17558,9 @@ func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 	}
 	enc_serviceprovidername = retagged_enc_serviceprovidername
 	children = append(children, enc_serviceprovidername...)
+	if len([]rune(v.ProfileName)) > 64 {
+		return nil, fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(v.ProfileName)))
+	}
 	enc_profilename, stringErr := ber.EncodeStringTagChecked(12, v.ProfileName)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding profileName: %w", stringErr)
@@ -17344,6 +17584,9 @@ func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_icontype...)
 	}
 	if v.Icon != nil {
+		if len(v.Icon) > 1024 {
+			return nil, fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+		}
 		enc_icon, encodeErr_enc_icon := ber.EncodeOctetString(v.Icon)
 		if encodeErr_enc_icon != nil {
 			return nil, fmt.Errorf("encoding icon: %w", encodeErr_enc_icon)
@@ -17407,7 +17650,7 @@ func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profileowner...)
 	}
 	if v.ProfilePolicyRules != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -17532,6 +17775,9 @@ func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 // MarshalDER encodes SGPStoreMetadataRequest to DER format.
 func (v *SGPStoreMetadataRequest) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
+		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
 		return nil, fmt.Errorf("encoding iccid: %w", encodeErr_enc_iccid)
@@ -17542,6 +17788,9 @@ func (v *SGPStoreMetadataRequest) MarshalDER() ([]byte, error) {
 	}
 	enc_iccid = retagged_enc_iccid
 	children = append(children, enc_iccid...)
+	if len([]rune(v.ServiceProviderName)) > 32 {
+		return nil, fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(v.ServiceProviderName)))
+	}
 	enc_serviceprovidername, stringErr := ber.EncodeStringTagChecked(12, v.ServiceProviderName)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding serviceProviderName: %w", stringErr)
@@ -17552,6 +17801,9 @@ func (v *SGPStoreMetadataRequest) MarshalDER() ([]byte, error) {
 	}
 	enc_serviceprovidername = retagged_enc_serviceprovidername
 	children = append(children, enc_serviceprovidername...)
+	if len([]rune(v.ProfileName)) > 64 {
+		return nil, fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(v.ProfileName)))
+	}
 	enc_profilename, stringErr := ber.EncodeStringTagChecked(12, v.ProfileName)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding profileName: %w", stringErr)
@@ -17575,6 +17827,9 @@ func (v *SGPStoreMetadataRequest) MarshalDER() ([]byte, error) {
 		children = append(children, enc_icontype...)
 	}
 	if v.Icon != nil {
+		if len(v.Icon) > 1024 {
+			return nil, fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+		}
 		enc_icon, encodeErr_enc_icon := ber.EncodeOctetString(v.Icon)
 		if encodeErr_enc_icon != nil {
 			return nil, fmt.Errorf("encoding icon: %w", encodeErr_enc_icon)
@@ -17623,7 +17878,7 @@ func (v *SGPStoreMetadataRequest) MarshalDER() ([]byte, error) {
 		children = append(children, enc_profileowner...)
 	}
 	if v.ProfilePolicyRules != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -17753,6 +18008,9 @@ func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}
 
 	offset += n_iccid
+	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
+		return fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+	}
 	// Decode serviceProviderName
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field serviceProviderName")
@@ -17781,6 +18039,9 @@ func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}
 
 	offset += n_serviceprovidername
+	if len([]rune(v.ServiceProviderName)) > 32 {
+		return fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(v.ServiceProviderName)))
+	}
 	// Decode profileName
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field profileName")
@@ -17808,6 +18069,9 @@ func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	}
 
 	offset += n_profilename
+	if len([]rune(v.ProfileName)) > 64 {
+		return fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(v.ProfileName)))
+	}
 	// Decode iconType
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -17858,6 +18122,9 @@ func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_icon
+				if len(v.Icon) > 1024 {
+					return fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+				}
 			}
 		}
 	}
@@ -18200,6 +18467,9 @@ func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 // MarshalBER encodes SGPAuthenticateClientRequest to BER format.
 func (v *SGPAuthenticateClientRequest) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
 		return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -18231,6 +18501,9 @@ func (v *SGPAuthenticateClientRequest) MarshalBER() ([]byte, error) {
 // MarshalDER encodes SGPAuthenticateClientRequest to DER format.
 func (v *SGPAuthenticateClientRequest) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
 		return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -18307,6 +18580,9 @@ func (v *SGPAuthenticateClientRequest) UnmarshalBER(data []byte, opts ...ber.Dec
 	}
 
 	offset += n_transactionid
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	// Decode authenticateServerResponse
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field authenticateServerResponse")
@@ -18366,6 +18642,9 @@ func (v *SGPAuthenticateClientRequest) UnmarshalBER(data []byte, opts ...ber.Dec
 // MarshalBER encodes SGPEUICCInfo2 to BER format.
 func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.ProfileVersion) < 3 || len(v.ProfileVersion) > 3 {
+		return nil, fmt.Errorf("profileVersion length %d violates SIZE (3)", len(v.ProfileVersion))
+	}
 	enc_profileversion, encodeErr_enc_profileversion := ber.EncodeOctetString([]byte(v.ProfileVersion))
 	if encodeErr_enc_profileversion != nil {
 		return nil, fmt.Errorf("encoding profileVersion: %w", encodeErr_enc_profileversion)
@@ -18376,6 +18655,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	}
 	enc_profileversion = retagged_enc_profileversion
 	children = append(children, enc_profileversion...)
+	if len(v.Svn) < 3 || len(v.Svn) > 3 {
+		return nil, fmt.Errorf("svn length %d violates SIZE (3)", len(v.Svn))
+	}
 	enc_svn, encodeErr_enc_svn := ber.EncodeOctetString([]byte(v.Svn))
 	if encodeErr_enc_svn != nil {
 		return nil, fmt.Errorf("encoding svn: %w", encodeErr_enc_svn)
@@ -18386,6 +18668,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	}
 	enc_svn = retagged_enc_svn
 	children = append(children, enc_svn...)
+	if len(v.EuiccFirmwareVer) < 3 || len(v.EuiccFirmwareVer) > 3 {
+		return nil, fmt.Errorf("euiccFirmwareVer length %d violates SIZE (3)", len(v.EuiccFirmwareVer))
+	}
 	enc_euiccfirmwarever, encodeErr_enc_euiccfirmwarever := ber.EncodeOctetString([]byte(v.EuiccFirmwareVer))
 	if encodeErr_enc_euiccfirmwarever != nil {
 		return nil, fmt.Errorf("encoding euiccFirmwareVer: %w", encodeErr_enc_euiccfirmwarever)
@@ -18406,7 +18691,7 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	}
 	enc_extcardresource = retagged_enc_extcardresource
 	children = append(children, enc_extcardresource...)
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.UiccCapability.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -18421,6 +18706,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	enc_uicccapability = retagged_enc_uicccapability
 	children = append(children, enc_uicccapability...)
 	if v.Ts102241Version != nil {
+		if len(*v.Ts102241Version) < 3 || len(*v.Ts102241Version) > 3 {
+			return nil, fmt.Errorf("ts102241Version length %d violates SIZE (3)", len(*v.Ts102241Version))
+		}
 		enc_ts102241version, encodeErr_enc_ts102241version := ber.EncodeOctetString([]byte(*v.Ts102241Version))
 		if encodeErr_enc_ts102241version != nil {
 			return nil, fmt.Errorf("encoding ts102241Version: %w", encodeErr_enc_ts102241version)
@@ -18433,6 +18721,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ts102241version...)
 	}
 	if v.GlobalplatformVersion != nil {
+		if len(*v.GlobalplatformVersion) < 3 || len(*v.GlobalplatformVersion) > 3 {
+			return nil, fmt.Errorf("globalplatformVersion length %d violates SIZE (3)", len(*v.GlobalplatformVersion))
+		}
 		enc_globalplatformversion, encodeErr_enc_globalplatformversion := ber.EncodeOctetString([]byte(*v.GlobalplatformVersion))
 		if encodeErr_enc_globalplatformversion != nil {
 			return nil, fmt.Errorf("encoding globalplatformVersion: %w", encodeErr_enc_globalplatformversion)
@@ -18444,7 +18735,7 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 		enc_globalplatformversion = retagged_enc_globalplatformversion
 		children = append(children, enc_globalplatformversion...)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.RspCapability.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -18521,7 +18812,7 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 		children = append(children, enc_euicccategory...)
 	}
 	if v.ForbiddenProfilePolicyRules != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ForbiddenProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -18536,11 +18827,17 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 		enc_forbiddenprofilepolicyrules = retagged_enc_forbiddenprofilepolicyrules
 		children = append(children, enc_forbiddenprofilepolicyrules...)
 	}
+	if len(v.PpVersion) < 3 || len(v.PpVersion) > 3 {
+		return nil, fmt.Errorf("ppVersion length %d violates SIZE (3)", len(v.PpVersion))
+	}
 	enc_ppversion, encodeErr_enc_ppversion := ber.EncodeOctetString([]byte(v.PpVersion))
 	if encodeErr_enc_ppversion != nil {
 		return nil, fmt.Errorf("encoding ppVersion: %w", encodeErr_enc_ppversion)
 	}
 	children = append(children, enc_ppversion...)
+	if len([]rune(v.SasAcreditationNumber)) > 64 {
+		return nil, fmt.Errorf("sasAcreditationNumber length %d violates SIZE (0..64)", len([]rune(v.SasAcreditationNumber)))
+	}
 	enc_sasacreditationnumber, stringErr := ber.EncodeStringTagChecked(12, v.SasAcreditationNumber)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding sasAcreditationNumber: %w", stringErr)
@@ -18559,7 +18856,7 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 		children = append(children, enc_certificationdataobject...)
 	}
 	if v.TreProperties != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.TreProperties.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -18653,6 +18950,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 		children = append(children, enc_euicccipkidlistforsigningv3...)
 	}
 	if v.AdditionalEuiccInfo != nil {
+		if len(v.AdditionalEuiccInfo) > 32 {
+			return nil, fmt.Errorf("additionalEuiccInfo length %d violates SIZE (0..32)", len(v.AdditionalEuiccInfo))
+		}
 		enc_additionaleuiccinfo, encodeErr_enc_additionaleuiccinfo := ber.EncodeOctetString(v.AdditionalEuiccInfo)
 		if encodeErr_enc_additionaleuiccinfo != nil {
 			return nil, fmt.Errorf("encoding additionalEuiccInfo: %w", encodeErr_enc_additionaleuiccinfo)
@@ -18665,6 +18965,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 		children = append(children, enc_additionaleuiccinfo...)
 	}
 	if v.HighestSvn != nil {
+		if len(*v.HighestSvn) < 3 || len(*v.HighestSvn) > 3 {
+			return nil, fmt.Errorf("highestSvn length %d violates SIZE (3)", len(*v.HighestSvn))
+		}
 		enc_highestsvn, encodeErr_enc_highestsvn := ber.EncodeOctetString([]byte(*v.HighestSvn))
 		if encodeErr_enc_highestsvn != nil {
 			return nil, fmt.Errorf("encoding highestSvn: %w", encodeErr_enc_highestsvn)
@@ -18689,6 +18992,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 		children = append(children, enc_iotspecificinfo...)
 	}
 	if v.EuiccMinimumSecurityLevel != nil {
+		if len(v.EuiccMinimumSecurityLevel) < 1 || len(v.EuiccMinimumSecurityLevel) > 1 {
+			return nil, fmt.Errorf("euiccMinimumSecurityLevel length %d violates SIZE (1)", len(v.EuiccMinimumSecurityLevel))
+		}
 		enc_euiccminimumsecuritylevel, encodeErr_enc_euiccminimumsecuritylevel := ber.EncodeOctetString(v.EuiccMinimumSecurityLevel)
 		if encodeErr_enc_euiccminimumsecuritylevel != nil {
 			return nil, fmt.Errorf("encoding euiccMinimumSecurityLevel: %w", encodeErr_enc_euiccminimumsecuritylevel)
@@ -18716,6 +19022,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 // MarshalDER encodes SGPEUICCInfo2 to DER format.
 func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.ProfileVersion) < 3 || len(v.ProfileVersion) > 3 {
+		return nil, fmt.Errorf("profileVersion length %d violates SIZE (3)", len(v.ProfileVersion))
+	}
 	enc_profileversion, encodeErr_enc_profileversion := ber.EncodeOctetString([]byte(v.ProfileVersion))
 	if encodeErr_enc_profileversion != nil {
 		return nil, fmt.Errorf("encoding profileVersion: %w", encodeErr_enc_profileversion)
@@ -18726,6 +19035,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	}
 	enc_profileversion = retagged_enc_profileversion
 	children = append(children, enc_profileversion...)
+	if len(v.Svn) < 3 || len(v.Svn) > 3 {
+		return nil, fmt.Errorf("svn length %d violates SIZE (3)", len(v.Svn))
+	}
 	enc_svn, encodeErr_enc_svn := ber.EncodeOctetString([]byte(v.Svn))
 	if encodeErr_enc_svn != nil {
 		return nil, fmt.Errorf("encoding svn: %w", encodeErr_enc_svn)
@@ -18736,6 +19048,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	}
 	enc_svn = retagged_enc_svn
 	children = append(children, enc_svn...)
+	if len(v.EuiccFirmwareVer) < 3 || len(v.EuiccFirmwareVer) > 3 {
+		return nil, fmt.Errorf("euiccFirmwareVer length %d violates SIZE (3)", len(v.EuiccFirmwareVer))
+	}
 	enc_euiccfirmwarever, encodeErr_enc_euiccfirmwarever := ber.EncodeOctetString([]byte(v.EuiccFirmwareVer))
 	if encodeErr_enc_euiccfirmwarever != nil {
 		return nil, fmt.Errorf("encoding euiccFirmwareVer: %w", encodeErr_enc_euiccfirmwarever)
@@ -18756,7 +19071,7 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	}
 	enc_extcardresource = retagged_enc_extcardresource
 	children = append(children, enc_extcardresource...)
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.UiccCapability.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -18771,6 +19086,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	enc_uicccapability = retagged_enc_uicccapability
 	children = append(children, enc_uicccapability...)
 	if v.Ts102241Version != nil {
+		if len(*v.Ts102241Version) < 3 || len(*v.Ts102241Version) > 3 {
+			return nil, fmt.Errorf("ts102241Version length %d violates SIZE (3)", len(*v.Ts102241Version))
+		}
 		enc_ts102241version, encodeErr_enc_ts102241version := ber.EncodeOctetString([]byte(*v.Ts102241Version))
 		if encodeErr_enc_ts102241version != nil {
 			return nil, fmt.Errorf("encoding ts102241Version: %w", encodeErr_enc_ts102241version)
@@ -18783,6 +19101,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ts102241version...)
 	}
 	if v.GlobalplatformVersion != nil {
+		if len(*v.GlobalplatformVersion) < 3 || len(*v.GlobalplatformVersion) > 3 {
+			return nil, fmt.Errorf("globalplatformVersion length %d violates SIZE (3)", len(*v.GlobalplatformVersion))
+		}
 		enc_globalplatformversion, encodeErr_enc_globalplatformversion := ber.EncodeOctetString([]byte(*v.GlobalplatformVersion))
 		if encodeErr_enc_globalplatformversion != nil {
 			return nil, fmt.Errorf("encoding globalplatformVersion: %w", encodeErr_enc_globalplatformversion)
@@ -18794,7 +19115,7 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 		enc_globalplatformversion = retagged_enc_globalplatformversion
 		children = append(children, enc_globalplatformversion...)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.RspCapability.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -18841,7 +19162,7 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 		children = append(children, enc_euicccategory...)
 	}
 	if v.ForbiddenProfilePolicyRules != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ForbiddenProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -18856,11 +19177,17 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 		enc_forbiddenprofilepolicyrules = retagged_enc_forbiddenprofilepolicyrules
 		children = append(children, enc_forbiddenprofilepolicyrules...)
 	}
+	if len(v.PpVersion) < 3 || len(v.PpVersion) > 3 {
+		return nil, fmt.Errorf("ppVersion length %d violates SIZE (3)", len(v.PpVersion))
+	}
 	enc_ppversion, encodeErr_enc_ppversion := ber.EncodeOctetString([]byte(v.PpVersion))
 	if encodeErr_enc_ppversion != nil {
 		return nil, fmt.Errorf("encoding ppVersion: %w", encodeErr_enc_ppversion)
 	}
 	children = append(children, enc_ppversion...)
+	if len([]rune(v.SasAcreditationNumber)) > 64 {
+		return nil, fmt.Errorf("sasAcreditationNumber length %d violates SIZE (0..64)", len([]rune(v.SasAcreditationNumber)))
+	}
 	enc_sasacreditationnumber, stringErr := ber.EncodeStringTagChecked(12, v.SasAcreditationNumber)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding sasAcreditationNumber: %w", stringErr)
@@ -18879,7 +19206,7 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 		children = append(children, enc_certificationdataobject...)
 	}
 	if v.TreProperties != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.TreProperties.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -18943,6 +19270,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 		children = append(children, enc_euicccipkidlistforsigningv3...)
 	}
 	if v.AdditionalEuiccInfo != nil {
+		if len(v.AdditionalEuiccInfo) > 32 {
+			return nil, fmt.Errorf("additionalEuiccInfo length %d violates SIZE (0..32)", len(v.AdditionalEuiccInfo))
+		}
 		enc_additionaleuiccinfo, encodeErr_enc_additionaleuiccinfo := ber.EncodeOctetString(v.AdditionalEuiccInfo)
 		if encodeErr_enc_additionaleuiccinfo != nil {
 			return nil, fmt.Errorf("encoding additionalEuiccInfo: %w", encodeErr_enc_additionaleuiccinfo)
@@ -18955,6 +19285,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 		children = append(children, enc_additionaleuiccinfo...)
 	}
 	if v.HighestSvn != nil {
+		if len(*v.HighestSvn) < 3 || len(*v.HighestSvn) > 3 {
+			return nil, fmt.Errorf("highestSvn length %d violates SIZE (3)", len(*v.HighestSvn))
+		}
 		enc_highestsvn, encodeErr_enc_highestsvn := ber.EncodeOctetString([]byte(*v.HighestSvn))
 		if encodeErr_enc_highestsvn != nil {
 			return nil, fmt.Errorf("encoding highestSvn: %w", encodeErr_enc_highestsvn)
@@ -18979,6 +19312,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 		children = append(children, enc_iotspecificinfo...)
 	}
 	if v.EuiccMinimumSecurityLevel != nil {
+		if len(v.EuiccMinimumSecurityLevel) < 1 || len(v.EuiccMinimumSecurityLevel) > 1 {
+			return nil, fmt.Errorf("euiccMinimumSecurityLevel length %d violates SIZE (1)", len(v.EuiccMinimumSecurityLevel))
+		}
 		enc_euiccminimumsecuritylevel, encodeErr_enc_euiccminimumsecuritylevel := ber.EncodeOctetString(v.EuiccMinimumSecurityLevel)
 		if encodeErr_enc_euiccminimumsecuritylevel != nil {
 			return nil, fmt.Errorf("encoding euiccMinimumSecurityLevel: %w", encodeErr_enc_euiccminimumsecuritylevel)
@@ -19052,6 +19388,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 	}
 
 	offset += n_profileversion
+	if len(v.ProfileVersion) < 3 || len(v.ProfileVersion) > 3 {
+		return fmt.Errorf("profileVersion length %d violates SIZE (3)", len(v.ProfileVersion))
+	}
 	// Decode svn
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field svn")
@@ -19075,6 +19414,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 	}
 
 	offset += n_svn
+	if len(v.Svn) < 3 || len(v.Svn) > 3 {
+		return fmt.Errorf("svn length %d violates SIZE (3)", len(v.Svn))
+	}
 	// Decode euiccFirmwareVer
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field euiccFirmwareVer")
@@ -19099,6 +19441,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 	}
 
 	offset += n_euiccfirmwarever
+	if len(v.EuiccFirmwareVer) < 3 || len(v.EuiccFirmwareVer) > 3 {
+		return fmt.Errorf("euiccFirmwareVer length %d violates SIZE (3)", len(v.EuiccFirmwareVer))
+	}
 	// Decode extCardResource
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field extCardResource")
@@ -19176,6 +19521,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 				}
 
 				offset += n_ts102241version
+				if len(*v.Ts102241Version) < 3 || len(*v.Ts102241Version) > 3 {
+					return fmt.Errorf("ts102241Version length %d violates SIZE (3)", len(*v.Ts102241Version))
+				}
 			}
 		}
 	}
@@ -19200,6 +19548,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 				}
 
 				offset += n_globalplatformversion
+				if len(*v.GlobalplatformVersion) < 3 || len(*v.GlobalplatformVersion) > 3 {
+					return fmt.Errorf("globalplatformVersion length %d violates SIZE (3)", len(*v.GlobalplatformVersion))
+				}
 			}
 		}
 	}
@@ -19401,6 +19752,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 	}
 
 	offset += n
+	if len(v.PpVersion) < 3 || len(v.PpVersion) > 3 {
+		return fmt.Errorf("ppVersion length %d violates SIZE (3)", len(v.PpVersion))
+	}
 	// Decode sasAcreditationNumber
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field sasAcreditationNumber")
@@ -19416,6 +19770,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 	}
 
 	offset += n
+	if len([]rune(v.SasAcreditationNumber)) > 64 {
+		return fmt.Errorf("sasAcreditationNumber length %d violates SIZE (0..64)", len([]rune(v.SasAcreditationNumber)))
+	}
 	// Decode certificationDataObject
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -19643,6 +20000,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 				}
 
 				offset += n_additionaleuiccinfo
+				if len(v.AdditionalEuiccInfo) > 32 {
+					return fmt.Errorf("additionalEuiccInfo length %d violates SIZE (0..32)", len(v.AdditionalEuiccInfo))
+				}
 			}
 		}
 	}
@@ -19666,6 +20026,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 				}
 
 				offset += n_highestsvn
+				if len(*v.HighestSvn) < 3 || len(*v.HighestSvn) > 3 {
+					return fmt.Errorf("highestSvn length %d violates SIZE (3)", len(*v.HighestSvn))
+				}
 			}
 		}
 	}
@@ -19721,6 +20084,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 				}
 
 				offset += n_euiccminimumsecuritylevel
+				if len(v.EuiccMinimumSecurityLevel) < 1 || len(v.EuiccMinimumSecurityLevel) > 1 {
+					return fmt.Errorf("euiccMinimumSecurityLevel length %d violates SIZE (1)", len(v.EuiccMinimumSecurityLevel))
+				}
 			}
 		}
 	}
@@ -20354,7 +20720,7 @@ func (v *AddInitialEimResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 // MarshalBER encodes SGPEuiccMemoryResetRequest to BER format.
 func (v *SGPEuiccMemoryResetRequest) MarshalBER() ([]byte, error) {
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.ResetOptions.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -20384,7 +20750,7 @@ func (v *SGPEuiccMemoryResetRequest) MarshalBER() ([]byte, error) {
 // MarshalDER encodes SGPEuiccMemoryResetRequest to DER format.
 func (v *SGPEuiccMemoryResetRequest) MarshalDER() ([]byte, error) {
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.ResetOptions.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -24701,6 +25067,9 @@ func (v *CompactEuiccSigned2) MarshalBER() ([]byte, error) {
 		children = append(children, enc_euiccotpk...)
 	}
 	if v.HashCc != nil {
+		if len(*v.HashCc) < 32 || len(*v.HashCc) > 32 {
+			return nil, fmt.Errorf("hashCc length %d violates SIZE (32)", len(*v.HashCc))
+		}
 		enc_hashcc, encodeErr_enc_hashcc := ber.EncodeOctetString([]byte(*v.HashCc))
 		if encodeErr_enc_hashcc != nil {
 			return nil, fmt.Errorf("encoding hashCc: %w", encodeErr_enc_hashcc)
@@ -24736,6 +25105,9 @@ func (v *CompactEuiccSigned2) MarshalDER() ([]byte, error) {
 		children = append(children, enc_euiccotpk...)
 	}
 	if v.HashCc != nil {
+		if len(*v.HashCc) < 32 || len(*v.HashCc) > 32 {
+			return nil, fmt.Errorf("hashCc length %d violates SIZE (32)", len(*v.HashCc))
+		}
 		enc_hashcc, encodeErr_enc_hashcc := ber.EncodeOctetString([]byte(*v.HashCc))
 		if encodeErr_enc_hashcc != nil {
 			return nil, fmt.Errorf("encoding hashCc: %w", encodeErr_enc_hashcc)
@@ -24812,6 +25184,9 @@ func (v *CompactEuiccSigned2) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n
+				if len(*v.HashCc) < 32 || len(*v.HashCc) > 32 {
+					return fmt.Errorf("hashCc length %d violates SIZE (32)", len(*v.HashCc))
+				}
 			}
 		}
 	}
@@ -24844,6 +25219,9 @@ func (v *CompactEuiccSigned2) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 // MarshalBER encodes SGPEuiccSigned1 to BER format.
 func (v *SGPEuiccSigned1) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
 		return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -24864,6 +25242,9 @@ func (v *SGPEuiccSigned1) MarshalBER() ([]byte, error) {
 	}
 	enc_serveraddress = retagged_enc_serveraddress
 	children = append(children, enc_serveraddress...)
+	if len(v.ServerChallenge) < 16 || len(v.ServerChallenge) > 16 {
+		return nil, fmt.Errorf("serverChallenge length %d violates SIZE (16)", len(v.ServerChallenge))
+	}
 	enc_serverchallenge, encodeErr_enc_serverchallenge := ber.EncodeOctetString([]byte(v.ServerChallenge))
 	if encodeErr_enc_serverchallenge != nil {
 		return nil, fmt.Errorf("encoding serverChallenge: %w", encodeErr_enc_serverchallenge)
@@ -24900,6 +25281,9 @@ func (v *SGPEuiccSigned1) MarshalBER() ([]byte, error) {
 // MarshalDER encodes SGPEuiccSigned1 to DER format.
 func (v *SGPEuiccSigned1) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
 		return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -24920,6 +25304,9 @@ func (v *SGPEuiccSigned1) MarshalDER() ([]byte, error) {
 	}
 	enc_serveraddress = retagged_enc_serveraddress
 	children = append(children, enc_serveraddress...)
+	if len(v.ServerChallenge) < 16 || len(v.ServerChallenge) > 16 {
+		return nil, fmt.Errorf("serverChallenge length %d violates SIZE (16)", len(v.ServerChallenge))
+	}
 	enc_serverchallenge, encodeErr_enc_serverchallenge := ber.EncodeOctetString([]byte(v.ServerChallenge))
 	if encodeErr_enc_serverchallenge != nil {
 		return nil, fmt.Errorf("encoding serverChallenge: %w", encodeErr_enc_serverchallenge)
@@ -24994,6 +25381,9 @@ func (v *SGPEuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 	}
 
 	offset += n_transactionid
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	// Decode serverAddress
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field serverAddress")
@@ -25046,6 +25436,9 @@ func (v *SGPEuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 	}
 
 	offset += n_serverchallenge
+	if len(v.ServerChallenge) < 16 || len(v.ServerChallenge) > 16 {
+		return fmt.Errorf("serverChallenge length %d violates SIZE (16)", len(v.ServerChallenge))
+	}
 	// Decode euiccInfo2
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field euiccInfo2")
@@ -26553,6 +26946,9 @@ func (v *CompactProfileInstallationResult) UnmarshalBER(data []byte, opts ...ber
 // MarshalBER encodes CompactProfileInstallationResultData to BER format.
 func (v *CompactProfileInstallationResultData) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
 		return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -26608,6 +27004,9 @@ func (v *CompactProfileInstallationResultData) MarshalBER() ([]byte, error) {
 // MarshalDER encodes CompactProfileInstallationResultData to DER format.
 func (v *CompactProfileInstallationResultData) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
 		return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -26695,6 +27094,9 @@ func (v *CompactProfileInstallationResultData) UnmarshalBER(data []byte, opts ..
 	}
 
 	offset += n_transactionid
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	// Decode seqNumber
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field seqNumber")
@@ -26785,6 +27187,9 @@ func (v *CompactProfileInstallationResultData) UnmarshalBER(data []byte, opts ..
 // MarshalBER encodes CompactSuccessResult to BER format.
 func (v *CompactSuccessResult) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.CompactAid) < 2 || len(v.CompactAid) > 2 {
+		return nil, fmt.Errorf("compactAid length %d violates SIZE (2)", len(v.CompactAid))
+	}
 	enc_compactaid, encodeErr_enc_compactaid := ber.EncodeOctetString(v.CompactAid)
 	if encodeErr_enc_compactaid != nil {
 		return nil, fmt.Errorf("encoding compactAid: %w", encodeErr_enc_compactaid)
@@ -26818,6 +27223,9 @@ func (v *CompactSuccessResult) MarshalBER() ([]byte, error) {
 // MarshalDER encodes CompactSuccessResult to DER format.
 func (v *CompactSuccessResult) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.CompactAid) < 2 || len(v.CompactAid) > 2 {
+		return nil, fmt.Errorf("compactAid length %d violates SIZE (2)", len(v.CompactAid))
+	}
 	enc_compactaid, encodeErr_enc_compactaid := ber.EncodeOctetString(v.CompactAid)
 	if encodeErr_enc_compactaid != nil {
 		return nil, fmt.Errorf("encoding compactAid: %w", encodeErr_enc_compactaid)
@@ -26888,6 +27296,9 @@ func (v *CompactSuccessResult) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	}
 
 	offset += n_compactaid
+	if len(v.CompactAid) < 2 || len(v.CompactAid) > 2 {
+		return fmt.Errorf("compactAid length %d violates SIZE (2)", len(v.CompactAid))
+	}
 	// Decode simaResponse
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -26938,6 +27349,9 @@ func (v *CompactSuccessResult) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 func (v *CompactOtherSignedNotification) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.EidValue != nil {
+		if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
+			return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+		}
 		enc_eidvalue, encodeErr_enc_eidvalue := ber.EncodeOctetString([]byte(*v.EidValue))
 		if encodeErr_enc_eidvalue != nil {
 			return nil, fmt.Errorf("encoding eidValue: %w", encodeErr_enc_eidvalue)
@@ -26988,6 +27402,9 @@ func (v *CompactOtherSignedNotification) MarshalBER() ([]byte, error) {
 func (v *CompactOtherSignedNotification) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.EidValue != nil {
+		if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
+			return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+		}
 		enc_eidvalue, encodeErr_enc_eidvalue := ber.EncodeOctetString([]byte(*v.EidValue))
 		if encodeErr_enc_eidvalue != nil {
 			return nil, fmt.Errorf("encoding eidValue: %w", encodeErr_enc_eidvalue)
@@ -27071,6 +27488,9 @@ func (v *CompactOtherSignedNotification) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_eidvalue
+				if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
+					return fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+				}
 			}
 		}
 	}
@@ -28197,6 +28617,9 @@ func (v *EsipaMessageFromEimToIpa) UnmarshalBER(data []byte, opts ...ber.DecodeO
 // MarshalBER encodes InitiateAuthenticationRequestEsipa to BER format.
 func (v *InitiateAuthenticationRequestEsipa) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.EuiccChallenge) < 16 || len(v.EuiccChallenge) > 16 {
+		return nil, fmt.Errorf("euiccChallenge length %d violates SIZE (16)", len(v.EuiccChallenge))
+	}
 	enc_euiccchallenge, encodeErr_enc_euiccchallenge := ber.EncodeOctetString([]byte(v.EuiccChallenge))
 	if encodeErr_enc_euiccchallenge != nil {
 		return nil, fmt.Errorf("encoding euiccChallenge: %w", encodeErr_enc_euiccchallenge)
@@ -28227,6 +28650,9 @@ func (v *InitiateAuthenticationRequestEsipa) MarshalBER() ([]byte, error) {
 		children = append(children, enc_euiccinfo1...)
 	}
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -28254,6 +28680,9 @@ func (v *InitiateAuthenticationRequestEsipa) MarshalBER() ([]byte, error) {
 // MarshalDER encodes InitiateAuthenticationRequestEsipa to DER format.
 func (v *InitiateAuthenticationRequestEsipa) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.EuiccChallenge) < 16 || len(v.EuiccChallenge) > 16 {
+		return nil, fmt.Errorf("euiccChallenge length %d violates SIZE (16)", len(v.EuiccChallenge))
+	}
 	enc_euiccchallenge, encodeErr_enc_euiccchallenge := ber.EncodeOctetString([]byte(v.EuiccChallenge))
 	if encodeErr_enc_euiccchallenge != nil {
 		return nil, fmt.Errorf("encoding euiccChallenge: %w", encodeErr_enc_euiccchallenge)
@@ -28284,6 +28713,9 @@ func (v *InitiateAuthenticationRequestEsipa) MarshalDER() ([]byte, error) {
 		children = append(children, enc_euiccinfo1...)
 	}
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -28356,6 +28788,9 @@ func (v *InitiateAuthenticationRequestEsipa) UnmarshalBER(data []byte, opts ...b
 	}
 
 	offset += n_euiccchallenge
+	if len(v.EuiccChallenge) < 16 || len(v.EuiccChallenge) > 16 {
+		return fmt.Errorf("euiccChallenge length %d violates SIZE (16)", len(v.EuiccChallenge))
+	}
 	// Decode smdpAddress
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -28431,6 +28866,9 @@ func (v *InitiateAuthenticationRequestEsipa) UnmarshalBER(data []byte, opts ...b
 				}
 
 				offset += n_eimtransactionid
+				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+				}
 			}
 		}
 	}
@@ -28624,6 +29062,9 @@ func (v *InitiateAuthenticationResponseEsipa) UnmarshalBER(data []byte, opts ...
 func (v *InitiateAuthenticationOkEsipa) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.TransactionId != nil {
+		if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
+			return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+		}
 		enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(*v.TransactionId))
 		if encodeErr_enc_transactionid != nil {
 			return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -28698,6 +29139,9 @@ func (v *InitiateAuthenticationOkEsipa) MarshalBER() ([]byte, error) {
 func (v *InitiateAuthenticationOkEsipa) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.TransactionId != nil {
+		if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
+			return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+		}
 		enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(*v.TransactionId))
 		if encodeErr_enc_transactionid != nil {
 			return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -28805,6 +29249,9 @@ func (v *InitiateAuthenticationOkEsipa) UnmarshalBER(data []byte, opts ...ber.De
 				}
 
 				offset += n_transactionid
+				if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
+					return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+				}
 			}
 		}
 	}
@@ -28967,6 +29414,9 @@ func (v *InitiateAuthenticationOkEsipa) UnmarshalBER(data []byte, opts ...ber.De
 // MarshalBER encodes AuthenticateClientRequestEsipa to BER format.
 func (v *AuthenticateClientRequestEsipa) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
 		return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -28998,6 +29448,9 @@ func (v *AuthenticateClientRequestEsipa) MarshalBER() ([]byte, error) {
 // MarshalDER encodes AuthenticateClientRequestEsipa to DER format.
 func (v *AuthenticateClientRequestEsipa) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
 		return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -29074,6 +29527,9 @@ func (v *AuthenticateClientRequestEsipa) UnmarshalBER(data []byte, opts ...ber.D
 	}
 
 	offset += n_transactionid
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	// Decode authenticateServerResponse
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field authenticateServerResponse")
@@ -29354,6 +29810,9 @@ func (v *AuthenticateClientResponseEsipa) UnmarshalBER(data []byte, opts ...ber.
 func (v *AuthenticateClientOkDPEsipa) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.TransactionId != nil {
+		if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
+			return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+		}
 		enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(*v.TransactionId))
 		if encodeErr_enc_transactionid != nil {
 			return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -29393,6 +29852,9 @@ func (v *AuthenticateClientOkDPEsipa) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_smdpcertificate...)
 	if v.HashCc != nil {
+		if len(*v.HashCc) < 32 || len(*v.HashCc) > 32 {
+			return nil, fmt.Errorf("hashCc length %d violates SIZE (32)", len(*v.HashCc))
+		}
 		enc_hashcc, encodeErr_enc_hashcc := ber.EncodeOctetString([]byte(*v.HashCc))
 		if encodeErr_enc_hashcc != nil {
 			return nil, fmt.Errorf("encoding hashCc: %w", encodeErr_enc_hashcc)
@@ -29416,6 +29878,9 @@ func (v *AuthenticateClientOkDPEsipa) MarshalBER() ([]byte, error) {
 func (v *AuthenticateClientOkDPEsipa) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.TransactionId != nil {
+		if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
+			return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+		}
 		enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(*v.TransactionId))
 		if encodeErr_enc_transactionid != nil {
 			return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -29455,6 +29920,9 @@ func (v *AuthenticateClientOkDPEsipa) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_smdpcertificate...)
 	if v.HashCc != nil {
+		if len(*v.HashCc) < 32 || len(*v.HashCc) > 32 {
+			return nil, fmt.Errorf("hashCc length %d violates SIZE (32)", len(*v.HashCc))
+		}
 		enc_hashcc, encodeErr_enc_hashcc := ber.EncodeOctetString([]byte(*v.HashCc))
 		if encodeErr_enc_hashcc != nil {
 			return nil, fmt.Errorf("encoding hashCc: %w", encodeErr_enc_hashcc)
@@ -29511,6 +29979,9 @@ func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte, opts ...ber.Deco
 				}
 
 				offset += n_transactionid
+				if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
+					return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+				}
 			}
 		}
 	}
@@ -29629,6 +30100,9 @@ func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte, opts ...ber.Deco
 				}
 
 				offset += n
+				if len(*v.HashCc) < 32 || len(*v.HashCc) > 32 {
+					return fmt.Errorf("hashCc length %d violates SIZE (32)", len(*v.HashCc))
+				}
 			}
 		}
 	}
@@ -29661,6 +30135,9 @@ func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte, opts ...ber.Deco
 // MarshalBER encodes AuthenticateClientOkDSEsipa to BER format.
 func (v *AuthenticateClientOkDSEsipa) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
 		return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -29694,6 +30171,9 @@ func (v *AuthenticateClientOkDSEsipa) MarshalBER() ([]byte, error) {
 // MarshalDER encodes AuthenticateClientOkDSEsipa to DER format.
 func (v *AuthenticateClientOkDSEsipa) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
 		return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -29764,6 +30244,9 @@ func (v *AuthenticateClientOkDSEsipa) UnmarshalBER(data []byte, opts ...ber.Deco
 	}
 
 	offset += n_transactionid
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	// Decode profileDownloadTrigger
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -29824,6 +30307,9 @@ func (v *AuthenticateClientOkDSEsipa) UnmarshalBER(data []byte, opts ...ber.Deco
 // MarshalBER encodes GetBoundProfilePackageRequestEsipa to BER format.
 func (v *GetBoundProfilePackageRequestEsipa) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
 		return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -29855,6 +30341,9 @@ func (v *GetBoundProfilePackageRequestEsipa) MarshalBER() ([]byte, error) {
 // MarshalDER encodes GetBoundProfilePackageRequestEsipa to DER format.
 func (v *GetBoundProfilePackageRequestEsipa) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
 		return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -29931,6 +30420,9 @@ func (v *GetBoundProfilePackageRequestEsipa) UnmarshalBER(data []byte, opts ...b
 	}
 
 	offset += n_transactionid
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	// Decode prepareDownloadResponse
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field prepareDownloadResponse")
@@ -30151,6 +30643,9 @@ func (v *GetBoundProfilePackageResponseEsipa) UnmarshalBER(data []byte, opts ...
 func (v *GetBoundProfilePackageOkEsipa) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.TransactionId != nil {
+		if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
+			return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+		}
 		enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(*v.TransactionId))
 		if encodeErr_enc_transactionid != nil {
 			return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -30184,6 +30679,9 @@ func (v *GetBoundProfilePackageOkEsipa) MarshalBER() ([]byte, error) {
 func (v *GetBoundProfilePackageOkEsipa) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.TransactionId != nil {
+		if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
+			return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+		}
 		enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(*v.TransactionId))
 		if encodeErr_enc_transactionid != nil {
 			return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -30250,6 +30748,9 @@ func (v *GetBoundProfilePackageOkEsipa) UnmarshalBER(data []byte, opts ...ber.De
 				}
 
 				offset += n_transactionid
+				if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
+					return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+				}
 			}
 		}
 	}
@@ -30476,6 +30977,9 @@ func (v *HandleNotificationEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 // MarshalBER encodes CancelSessionRequestEsipa to BER format.
 func (v *CancelSessionRequestEsipa) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
 		return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -30514,6 +31018,9 @@ func (v *CancelSessionRequestEsipa) MarshalBER() ([]byte, error) {
 // MarshalDER encodes CancelSessionRequestEsipa to DER format.
 func (v *CancelSessionRequestEsipa) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
 		return nil, fmt.Errorf("encoding transactionId: %w", encodeErr_enc_transactionid)
@@ -30597,6 +31104,9 @@ func (v *CancelSessionRequestEsipa) UnmarshalBER(data []byte, opts ...ber.Decode
 	}
 
 	offset += n_transactionid
+	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
+		return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+	}
 	// Decode cancelSessionResponse
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field cancelSessionResponse")
@@ -30888,6 +31398,9 @@ func (v *SGPCancelSessionOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 // MarshalBER encodes GetEimPackageRequest to BER format.
 func (v *GetEimPackageRequest) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.EidValue) < 16 || len(v.EidValue) > 16 {
+		return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(v.EidValue))
+	}
 	enc_eidvalue, encodeErr_enc_eidvalue := ber.EncodeOctetString([]byte(v.EidValue))
 	if encodeErr_enc_eidvalue != nil {
 		return nil, fmt.Errorf("encoding eidValue: %w", encodeErr_enc_eidvalue)
@@ -30920,6 +31433,9 @@ func (v *GetEimPackageRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_statechangecause...)
 	}
 	if v.RPLMN != nil {
+		if len(v.RPLMN) < 3 || len(v.RPLMN) > 3 {
+			return nil, fmt.Errorf("rPLMN length %d violates SIZE (3)", len(v.RPLMN))
+		}
 		enc_rplmn, encodeErr_enc_rplmn := ber.EncodeOctetString(v.RPLMN)
 		if encodeErr_enc_rplmn != nil {
 			return nil, fmt.Errorf("encoding rPLMN: %w", encodeErr_enc_rplmn)
@@ -30947,6 +31463,9 @@ func (v *GetEimPackageRequest) MarshalBER() ([]byte, error) {
 // MarshalDER encodes GetEimPackageRequest to DER format.
 func (v *GetEimPackageRequest) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.EidValue) < 16 || len(v.EidValue) > 16 {
+		return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(v.EidValue))
+	}
 	enc_eidvalue, encodeErr_enc_eidvalue := ber.EncodeOctetString([]byte(v.EidValue))
 	if encodeErr_enc_eidvalue != nil {
 		return nil, fmt.Errorf("encoding eidValue: %w", encodeErr_enc_eidvalue)
@@ -30979,6 +31498,9 @@ func (v *GetEimPackageRequest) MarshalDER() ([]byte, error) {
 		children = append(children, enc_statechangecause...)
 	}
 	if v.RPLMN != nil {
+		if len(v.RPLMN) < 3 || len(v.RPLMN) > 3 {
+			return nil, fmt.Errorf("rPLMN length %d violates SIZE (3)", len(v.RPLMN))
+		}
 		enc_rplmn, encodeErr_enc_rplmn := ber.EncodeOctetString(v.RPLMN)
 		if encodeErr_enc_rplmn != nil {
 			return nil, fmt.Errorf("encoding rPLMN: %w", encodeErr_enc_rplmn)
@@ -31051,6 +31573,9 @@ func (v *GetEimPackageRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	}
 
 	offset += n_eidvalue
+	if len(v.EidValue) < 16 || len(v.EidValue) > 16 {
+		return fmt.Errorf("eidValue length %d violates SIZE (16)", len(v.EidValue))
+	}
 	// Decode notifyStateChange
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -31128,6 +31653,9 @@ func (v *GetEimPackageRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 
 				offset += n_rplmn
+				if len(v.RPLMN) < 3 || len(v.RPLMN) > 3 {
+					return fmt.Errorf("rPLMN length %d violates SIZE (3)", len(v.RPLMN))
+				}
 			}
 		}
 	}
@@ -31378,6 +31906,9 @@ func (v *GetEimPackageResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 func (v *EimPackageResultResponseError) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -31411,6 +31942,9 @@ func (v *EimPackageResultResponseError) MarshalBER() ([]byte, error) {
 func (v *EimPackageResultResponseError) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.EimTransactionId != nil {
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_eimtransactionid)
@@ -31477,6 +32011,9 @@ func (v *EimPackageResultResponseError) UnmarshalBER(data []byte, opts ...ber.De
 				}
 
 				offset += n_eimtransactionid
+				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+				}
 			}
 		}
 	}
@@ -31738,6 +32275,9 @@ func (v *EimPackageResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 func (v *ProvideEimPackageResult) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.EidValue != nil {
+		if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
+			return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+		}
 		enc_eidvalue, encodeErr_enc_eidvalue := ber.EncodeOctetString([]byte(*v.EidValue))
 		if encodeErr_enc_eidvalue != nil {
 			return nil, fmt.Errorf("encoding eidValue: %w", encodeErr_enc_eidvalue)
@@ -31771,6 +32311,9 @@ func (v *ProvideEimPackageResult) MarshalBER() ([]byte, error) {
 func (v *ProvideEimPackageResult) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.EidValue != nil {
+		if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
+			return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+		}
 		enc_eidvalue, encodeErr_enc_eidvalue := ber.EncodeOctetString([]byte(*v.EidValue))
 		if encodeErr_enc_eidvalue != nil {
 			return nil, fmt.Errorf("encoding eidValue: %w", encodeErr_enc_eidvalue)
@@ -31845,6 +32388,9 @@ func (v *ProvideEimPackageResult) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_eidvalue
+				if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
+					return fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+				}
 			}
 		}
 	}
@@ -33586,6 +34132,9 @@ func (v *EcoListEim) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes PsmoEnable to BER format.
 func (v *PsmoEnable) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
+		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
 		return nil, fmt.Errorf("encoding iccid: %w", encodeErr_enc_iccid)
@@ -33616,6 +34165,9 @@ func (v *PsmoEnable) MarshalBER() ([]byte, error) {
 // MarshalDER encodes PsmoEnable to DER format.
 func (v *PsmoEnable) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
+		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
 		return nil, fmt.Errorf("encoding iccid: %w", encodeErr_enc_iccid)
@@ -33683,6 +34235,9 @@ func (v *PsmoEnable) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_iccid
+	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
+		return fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+	}
 	// Decode rollbackFlag
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -33731,6 +34286,9 @@ func (v *PsmoEnable) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes PsmoDisable to BER format.
 func (v *PsmoDisable) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
+		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
 		return nil, fmt.Errorf("encoding iccid: %w", encodeErr_enc_iccid)
@@ -33757,6 +34315,9 @@ func (v *PsmoDisable) MarshalBER() ([]byte, error) {
 // MarshalDER encodes PsmoDisable to DER format.
 func (v *PsmoDisable) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
+		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
 		return nil, fmt.Errorf("encoding iccid: %w", encodeErr_enc_iccid)
@@ -33820,6 +34381,9 @@ func (v *PsmoDisable) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 	}
 
 	offset += n_iccid
+	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
+		return fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -33849,6 +34413,9 @@ func (v *PsmoDisable) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 // MarshalBER encodes PsmoDelete to BER format.
 func (v *PsmoDelete) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
+		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
 		return nil, fmt.Errorf("encoding iccid: %w", encodeErr_enc_iccid)
@@ -33875,6 +34442,9 @@ func (v *PsmoDelete) MarshalBER() ([]byte, error) {
 // MarshalDER encodes PsmoDelete to DER format.
 func (v *PsmoDelete) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
+		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
 		return nil, fmt.Errorf("encoding iccid: %w", encodeErr_enc_iccid)
@@ -33938,6 +34508,9 @@ func (v *PsmoDelete) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	}
 
 	offset += n_iccid
+	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
+		return fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -34262,6 +34835,9 @@ func (v *PsmoConfigureImmediateEnable) UnmarshalBER(data []byte, opts ...ber.Dec
 // MarshalBER encodes PsmoSetFallbackAttribute to BER format.
 func (v *PsmoSetFallbackAttribute) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
+		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
 		return nil, fmt.Errorf("encoding iccid: %w", encodeErr_enc_iccid)
@@ -34288,6 +34864,9 @@ func (v *PsmoSetFallbackAttribute) MarshalBER() ([]byte, error) {
 // MarshalDER encodes PsmoSetFallbackAttribute to DER format.
 func (v *PsmoSetFallbackAttribute) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
+		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
 		return nil, fmt.Errorf("encoding iccid: %w", encodeErr_enc_iccid)
@@ -34351,6 +34930,9 @@ func (v *PsmoSetFallbackAttribute) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	}
 
 	offset += n_iccid
+	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
+		return fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -34470,7 +35052,7 @@ func (v *IpaEuiccDataRequestSearchCriteriaNotification) MarshalBER() ([]byte, er
 		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case IpaEuiccDataRequestSearchCriteriaNotificationChoiceProfileManagementOperation:
-		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2101
+		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2250
 		if v.ProfileManagementOperation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -36267,7 +36849,7 @@ func (v *SGPRetrieveNotificationsListRequestSearchCriteria) MarshalBER() ([]byte
 		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case SGPRetrieveNotificationsListRequestSearchCriteriaChoiceProfileManagementOperation:
-		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2101
+		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2250
 		if v.ProfileManagementOperation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -36383,6 +36965,9 @@ func (v *GetEimConfigurationDataRequestSearchCriteria) MarshalBER() ([]byte, err
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding eimId: %w", stringErr)
 		}
+		if len([]rune(*v.EimId)) < 1 || len([]rune(*v.EimId)) > 128 {
+			return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(*v.EimId)))
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding eimId: %w", tagErr_enc_0)
@@ -36440,6 +37025,9 @@ func (v *GetEimConfigurationDataRequestSearchCriteria) UnmarshalBER(data []byte,
 			return fmt.Errorf("decoding eimId: %w", stringErr)
 		}
 		v.EimId = &decVal
+		if len([]rune(*v.EimId)) < 1 || len([]rune(*v.EimId)) > 128 {
+			return fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(*v.EimId)))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for GetEimConfigurationDataRequestSearchCriteria CHOICE", peekTag)
 	}
@@ -37254,6 +37842,9 @@ func (v *EimPackageReceivedWithCidCorrelationId) MarshalBER() ([]byte, error) {
 		if encodeErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_0)
 		}
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", tagErr_enc_0)
@@ -37267,6 +37858,9 @@ func (v *EimPackageReceivedWithCidCorrelationId) MarshalBER() ([]byte, error) {
 		enc_1, encodeErr_enc_1 := ber.EncodeOctetString([]byte(*v.EidValue))
 		if encodeErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding eidValue: %w", encodeErr_enc_1)
+		}
+		if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
+			return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 26, enc_1)
 		if tagErr_enc_1 != nil {
@@ -37322,6 +37916,9 @@ func (v *EimPackageReceivedWithCidCorrelationId) UnmarshalBER(data []byte, opts 
 		}
 		tmp := TransactionId(rawVal)
 		v.EimTransactionId = &tmp
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 26 {
 		v.Choice = EimPackageReceivedWithCidCorrelationIdChoiceEidValue
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -37330,6 +37927,9 @@ func (v *EimPackageReceivedWithCidCorrelationId) UnmarshalBER(data []byte, opts 
 		}
 		tmp := Octet16(rawVal)
 		v.EidValue = &tmp
+		if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
+			return fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for EimPackageReceivedWithCidCorrelationId CHOICE", peekTag)
 	}
@@ -37347,6 +37947,9 @@ func (v *EimPackageErrorWithCidCorrelationId) MarshalBER() ([]byte, error) {
 		if encodeErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_0)
 		}
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", tagErr_enc_0)
@@ -37360,6 +37963,9 @@ func (v *EimPackageErrorWithCidCorrelationId) MarshalBER() ([]byte, error) {
 		enc_1, encodeErr_enc_1 := ber.EncodeOctetString([]byte(*v.EidValue))
 		if encodeErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding eidValue: %w", encodeErr_enc_1)
+		}
+		if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
+			return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 26, enc_1)
 		if tagErr_enc_1 != nil {
@@ -37415,6 +38021,9 @@ func (v *EimPackageErrorWithCidCorrelationId) UnmarshalBER(data []byte, opts ...
 		}
 		tmp := TransactionId(rawVal)
 		v.EimTransactionId = &tmp
+		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
+			return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+		}
 	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 26 {
 		v.Choice = EimPackageErrorWithCidCorrelationIdChoiceEidValue
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -37423,6 +38032,9 @@ func (v *EimPackageErrorWithCidCorrelationId) UnmarshalBER(data []byte, opts ...
 		}
 		tmp := Octet16(rawVal)
 		v.EidValue = &tmp
+		if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
+			return fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for EimPackageErrorWithCidCorrelationId CHOICE", peekTag)
 	}

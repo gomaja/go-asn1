@@ -27,99 +27,117 @@ type VarConditionalReconfiguration struct {
 	CondReconfigurationListR16       CondReconfigurationToAddModListR16 `asn1:"tag:0,context,implicit,optional" json:"CondReconfigurationListR16,omitempty"`
 	CondReconfigurationListR16Indef_ bool                               `asn1:"-" json:"-"`
 	PERPadding_                      per.CompletePadding                `asn1:"-" json:"-"`
+	PERExtraBits_                    per.TrailingBits                   `asn1:"-" json:"-"`
+	PERContainedPadding_             map[string]per.CompletePadding     `asn1:"-" json:"-"`
 }
 
 // VarConnEstFailReportR11 represents the ASN.1 type VarConnEstFailReport-r11 (SEQUENCE).
 type VarConnEstFailReportR11 struct {
-	ConnEstFailReportR11 ConnEstFailReportR11 `asn1:"tag:0,context,implicit"`
-	PlmnIdentityR11      PLMNIdentity         `asn1:"tag:1,context,implicit"`
-	PERPadding_          per.CompletePadding  `asn1:"-" json:"-"`
+	ConnEstFailReportR11 ConnEstFailReportR11           `asn1:"tag:0,context,implicit"`
+	PlmnIdentityR11      PLMNIdentity                   `asn1:"tag:1,context,implicit"`
+	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarLogMeasConfigR10 represents the ASN.1 type VarLogMeasConfig-r10 (SEQUENCE).
 type VarLogMeasConfigR10 struct {
-	AreaConfigurationR10 *AreaConfigurationR10 `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
-	LoggingDurationR10   LoggingDurationR10    `asn1:"tag:1,context,implicit"`
-	LoggingIntervalR10   LoggingIntervalR10    `asn1:"tag:2,context,implicit"`
-	PERPadding_          per.CompletePadding   `asn1:"-" json:"-"`
+	AreaConfigurationR10 *AreaConfigurationR10          `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
+	LoggingDurationR10   LoggingDurationR10             `asn1:"tag:1,context,implicit"`
+	LoggingIntervalR10   LoggingIntervalR10             `asn1:"tag:2,context,implicit"`
+	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarLogMeasConfigR11 represents the ASN.1 type VarLogMeasConfig-r11 (SEQUENCE).
 type VarLogMeasConfigR11 struct {
-	AreaConfigurationR10   *AreaConfigurationR10   `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
-	AreaConfigurationV1130 *AreaConfigurationV1130 `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
-	LoggingDurationR10     LoggingDurationR10      `asn1:"tag:2,context,implicit"`
-	LoggingIntervalR10     LoggingIntervalR10      `asn1:"tag:3,context,implicit"`
-	PERPadding_            per.CompletePadding     `asn1:"-" json:"-"`
+	AreaConfigurationR10   *AreaConfigurationR10          `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
+	AreaConfigurationV1130 *AreaConfigurationV1130        `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
+	LoggingDurationR10     LoggingDurationR10             `asn1:"tag:2,context,implicit"`
+	LoggingIntervalR10     LoggingIntervalR10             `asn1:"tag:3,context,implicit"`
+	PERPadding_            per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_          per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_   map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarLogMeasConfigR12 represents the ASN.1 type VarLogMeasConfig-r12 (SEQUENCE).
 type VarLogMeasConfigR12 struct {
-	AreaConfigurationR10         *AreaConfigurationR10   `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
-	AreaConfigurationV1130       *AreaConfigurationV1130 `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
-	LoggingDurationR10           LoggingDurationR10      `asn1:"tag:2,context,implicit"`
-	LoggingIntervalR10           LoggingIntervalR10      `asn1:"tag:3,context,implicit"`
-	TargetMBSFNAreaListR12       TargetMBSFNAreaListR12  `asn1:"tag:4,context,implicit,optional" json:"TargetMBSFNAreaListR12,omitempty"`
-	TargetMBSFNAreaListR12Indef_ bool                    `asn1:"-" json:"-"`
-	PERPadding_                  per.CompletePadding     `asn1:"-" json:"-"`
+	AreaConfigurationR10         *AreaConfigurationR10          `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
+	AreaConfigurationV1130       *AreaConfigurationV1130        `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
+	LoggingDurationR10           LoggingDurationR10             `asn1:"tag:2,context,implicit"`
+	LoggingIntervalR10           LoggingIntervalR10             `asn1:"tag:3,context,implicit"`
+	TargetMBSFNAreaListR12       TargetMBSFNAreaListR12         `asn1:"tag:4,context,implicit,optional" json:"TargetMBSFNAreaListR12,omitempty"`
+	TargetMBSFNAreaListR12Indef_ bool                           `asn1:"-" json:"-"`
+	PERPadding_                  per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_                per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_         map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarLogMeasConfigR15 represents the ASN.1 type VarLogMeasConfig-r15 (SEQUENCE).
 type VarLogMeasConfigR15 struct {
-	AreaConfigurationR10         *AreaConfigurationR10   `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
-	AreaConfigurationV1130       *AreaConfigurationV1130 `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
-	LoggingDurationR10           LoggingDurationR10      `asn1:"tag:2,context,implicit"`
-	LoggingIntervalR10           LoggingIntervalR10      `asn1:"tag:3,context,implicit"`
-	TargetMBSFNAreaListR12       TargetMBSFNAreaListR12  `asn1:"tag:4,context,implicit,optional" json:"TargetMBSFNAreaListR12,omitempty"`
-	TargetMBSFNAreaListR12Indef_ bool                    `asn1:"-" json:"-"`
-	BtNameListR15                BTNameListR15           `asn1:"tag:5,context,implicit,optional" json:"BtNameListR15,omitempty"`
-	BtNameListR15Indef_          bool                    `asn1:"-" json:"-"`
-	WlanNameListR15              WLANNameListR15         `asn1:"tag:6,context,implicit,optional" json:"WlanNameListR15,omitempty"`
-	WlanNameListR15Indef_        bool                    `asn1:"-" json:"-"`
-	PERPadding_                  per.CompletePadding     `asn1:"-" json:"-"`
+	AreaConfigurationR10         *AreaConfigurationR10          `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
+	AreaConfigurationV1130       *AreaConfigurationV1130        `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
+	LoggingDurationR10           LoggingDurationR10             `asn1:"tag:2,context,implicit"`
+	LoggingIntervalR10           LoggingIntervalR10             `asn1:"tag:3,context,implicit"`
+	TargetMBSFNAreaListR12       TargetMBSFNAreaListR12         `asn1:"tag:4,context,implicit,optional" json:"TargetMBSFNAreaListR12,omitempty"`
+	TargetMBSFNAreaListR12Indef_ bool                           `asn1:"-" json:"-"`
+	BtNameListR15                BTNameListR15                  `asn1:"tag:5,context,implicit,optional" json:"BtNameListR15,omitempty"`
+	BtNameListR15Indef_          bool                           `asn1:"-" json:"-"`
+	WlanNameListR15              WLANNameListR15                `asn1:"tag:6,context,implicit,optional" json:"WlanNameListR15,omitempty"`
+	WlanNameListR15Indef_        bool                           `asn1:"-" json:"-"`
+	PERPadding_                  per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_                per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_         map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarLogMeasConfigR17 represents the ASN.1 type VarLogMeasConfig-r17 (SEQUENCE).
 type VarLogMeasConfigR17 struct {
-	AreaConfigurationR10         *AreaConfigurationR10        `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
-	AreaConfigurationV1130       *AreaConfigurationV1130      `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
-	LoggingDurationR10           LoggingDurationR10           `asn1:"tag:2,context,implicit"`
-	LoggingIntervalR10           LoggingIntervalR10           `asn1:"tag:3,context,implicit"`
-	TargetMBSFNAreaListR12       TargetMBSFNAreaListR12       `asn1:"tag:4,context,implicit,optional" json:"TargetMBSFNAreaListR12,omitempty"`
-	TargetMBSFNAreaListR12Indef_ bool                         `asn1:"-" json:"-"`
-	BtNameListR15                BTNameListR15                `asn1:"tag:5,context,implicit,optional" json:"BtNameListR15,omitempty"`
-	BtNameListR15Indef_          bool                         `asn1:"-" json:"-"`
-	WlanNameListR15              WLANNameListR15              `asn1:"tag:6,context,implicit,optional" json:"WlanNameListR15,omitempty"`
-	WlanNameListR15Indef_        bool                         `asn1:"-" json:"-"`
-	LoggedEventTriggerConfigR17  *LoggedEventTriggerConfigR17 `asn1:"tag:7,context,implicit,optional" json:"LoggedEventTriggerConfigR17,omitempty"`
-	MeasUncomBarPreR17           *int64                       `asn1:"tag:8,context,implicit,optional" json:"MeasUncomBarPreR17,omitempty"`
-	PERPadding_                  per.CompletePadding          `asn1:"-" json:"-"`
+	AreaConfigurationR10         *AreaConfigurationR10          `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
+	AreaConfigurationV1130       *AreaConfigurationV1130        `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
+	LoggingDurationR10           LoggingDurationR10             `asn1:"tag:2,context,implicit"`
+	LoggingIntervalR10           LoggingIntervalR10             `asn1:"tag:3,context,implicit"`
+	TargetMBSFNAreaListR12       TargetMBSFNAreaListR12         `asn1:"tag:4,context,implicit,optional" json:"TargetMBSFNAreaListR12,omitempty"`
+	TargetMBSFNAreaListR12Indef_ bool                           `asn1:"-" json:"-"`
+	BtNameListR15                BTNameListR15                  `asn1:"tag:5,context,implicit,optional" json:"BtNameListR15,omitempty"`
+	BtNameListR15Indef_          bool                           `asn1:"-" json:"-"`
+	WlanNameListR15              WLANNameListR15                `asn1:"tag:6,context,implicit,optional" json:"WlanNameListR15,omitempty"`
+	WlanNameListR15Indef_        bool                           `asn1:"-" json:"-"`
+	LoggedEventTriggerConfigR17  *LoggedEventTriggerConfigR17   `asn1:"tag:7,context,implicit,optional" json:"LoggedEventTriggerConfigR17,omitempty"`
+	MeasUncomBarPreR17           *int64                         `asn1:"tag:8,context,implicit,optional" json:"MeasUncomBarPreR17,omitempty"`
+	PERPadding_                  per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_                per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_         map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarLogMeasReportR10 represents the ASN.1 type VarLogMeasReport-r10 (SEQUENCE).
 type VarLogMeasReportR10 struct {
-	TraceReferenceR10           TraceReferenceR10   `asn1:"tag:0,context,implicit"`
-	TraceRecordingSessionRefR10 []byte              `asn1:"tag:1,context,implicit"`
-	TceIdR10                    []byte              `asn1:"tag:2,context,implicit"`
-	PlmnIdentityR10             PLMNIdentity        `asn1:"tag:3,context,implicit"`
-	AbsoluteTimeInfoR10         AbsoluteTimeInfoR10 `asn1:"tag:4,context,implicit"`
-	LogMeasInfoListR10          LogMeasInfoList2R10 `asn1:"tag:5,context,implicit"`
-	LogMeasInfoListR10Indef_    bool                `asn1:"-" json:"-"`
-	PERPadding_                 per.CompletePadding `asn1:"-" json:"-"`
+	TraceReferenceR10           TraceReferenceR10              `asn1:"tag:0,context,implicit"`
+	TraceRecordingSessionRefR10 []byte                         `asn1:"tag:1,context,implicit"`
+	TceIdR10                    []byte                         `asn1:"tag:2,context,implicit"`
+	PlmnIdentityR10             PLMNIdentity                   `asn1:"tag:3,context,implicit"`
+	AbsoluteTimeInfoR10         AbsoluteTimeInfoR10            `asn1:"tag:4,context,implicit"`
+	LogMeasInfoListR10          LogMeasInfoList2R10            `asn1:"tag:5,context,implicit"`
+	LogMeasInfoListR10Indef_    bool                           `asn1:"-" json:"-"`
+	PERPadding_                 per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_               per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_        map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarLogMeasReportR11 represents the ASN.1 type VarLogMeasReport-r11 (SEQUENCE).
 type VarLogMeasReportR11 struct {
-	TraceReferenceR10           TraceReferenceR10    `asn1:"tag:0,context,implicit"`
-	TraceRecordingSessionRefR10 []byte               `asn1:"tag:1,context,implicit"`
-	TceIdR10                    []byte               `asn1:"tag:2,context,implicit"`
-	PlmnIdentityListR11         PLMNIdentityList3R11 `asn1:"tag:3,context,implicit"`
-	PlmnIdentityListR11Indef_   bool                 `asn1:"-" json:"-"`
-	AbsoluteTimeInfoR10         AbsoluteTimeInfoR10  `asn1:"tag:4,context,implicit"`
-	LogMeasInfoListR10          LogMeasInfoList2R10  `asn1:"tag:5,context,implicit"`
-	LogMeasInfoListR10Indef_    bool                 `asn1:"-" json:"-"`
-	SigLoggedMeasTypeR18        int64                `asn1:"tag:6,context,implicit"`
-	PERPadding_                 per.CompletePadding  `asn1:"-" json:"-"`
+	TraceReferenceR10           TraceReferenceR10              `asn1:"tag:0,context,implicit"`
+	TraceRecordingSessionRefR10 []byte                         `asn1:"tag:1,context,implicit"`
+	TceIdR10                    []byte                         `asn1:"tag:2,context,implicit"`
+	PlmnIdentityListR11         PLMNIdentityList3R11           `asn1:"tag:3,context,implicit"`
+	PlmnIdentityListR11Indef_   bool                           `asn1:"-" json:"-"`
+	AbsoluteTimeInfoR10         AbsoluteTimeInfoR10            `asn1:"tag:4,context,implicit"`
+	LogMeasInfoListR10          LogMeasInfoList2R10            `asn1:"tag:5,context,implicit"`
+	LogMeasInfoListR10Indef_    bool                           `asn1:"-" json:"-"`
+	SigLoggedMeasTypeR18        int64                          `asn1:"tag:6,context,implicit"`
+	PERPadding_                 per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_               per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_        map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // LogMeasInfoList2R10 represents the ASN.1 type LogMeasInfoList2-r10 (SEQUENCE_OF).
@@ -127,62 +145,72 @@ type LogMeasInfoList2R10 = []LogMeasInfoR10
 
 // VarMeasConfig represents the ASN.1 type VarMeasConfig (SEQUENCE).
 type VarMeasConfig struct {
-	MeasIdList                 MeasIdToAddModList           `asn1:"tag:0,context,implicit,optional" json:"MeasIdList,omitempty"`
-	MeasIdListIndef_           bool                         `asn1:"-" json:"-"`
-	MeasIdListExtR12           MeasIdToAddModListExtR12     `asn1:"tag:1,context,implicit,optional" json:"MeasIdListExtR12,omitempty"`
-	MeasIdListExtR12Indef_     bool                         `asn1:"-" json:"-"`
-	MeasIdListV1310            MeasIdToAddModListV1310      `asn1:"tag:2,context,implicit,optional" json:"MeasIdListV1310,omitempty"`
-	MeasIdListV1310Indef_      bool                         `asn1:"-" json:"-"`
-	MeasIdListExtV1310         MeasIdToAddModListExtV1310   `asn1:"tag:3,context,implicit,optional" json:"MeasIdListExtV1310,omitempty"`
-	MeasIdListExtV1310Indef_   bool                         `asn1:"-" json:"-"`
-	MeasObjectList             MeasObjectToAddModList       `asn1:"tag:4,context,implicit,optional" json:"MeasObjectList,omitempty"`
-	MeasObjectListIndef_       bool                         `asn1:"-" json:"-"`
-	MeasObjectListExtR13       MeasObjectToAddModListExtR13 `asn1:"tag:5,context,implicit,optional" json:"MeasObjectListExtR13,omitempty"`
-	MeasObjectListExtR13Indef_ bool                         `asn1:"-" json:"-"`
-	MeasObjectListV9i0         MeasObjectToAddModListV9e0   `asn1:"tag:6,context,implicit,optional" json:"MeasObjectListV9i0,omitempty"`
-	MeasObjectListV9i0Indef_   bool                         `asn1:"-" json:"-"`
-	ReportConfigList           ReportConfigToAddModList     `asn1:"tag:7,context,implicit,optional" json:"ReportConfigList,omitempty"`
-	ReportConfigListIndef_     bool                         `asn1:"-" json:"-"`
-	QuantityConfig             *QuantityConfig              `asn1:"tag:8,context,implicit,optional" json:"QuantityConfig,omitempty"`
-	MeasScaleFactorR12         *MeasScaleFactorR12          `asn1:"tag:9,context,implicit,optional" json:"MeasScaleFactorR12,omitempty"`
-	SMeasure                   *int64                       `asn1:"tag:10,context,implicit,optional" json:"SMeasure,omitempty"`
-	SpeedStatePars             *VarMeasConfigSpeedStatePars `asn1:"tag:11,context,explicit,optional" json:"SpeedStatePars,omitempty"`
-	AllowInterruptionsR11      *bool                        `asn1:"tag:12,context,implicit,optional" json:"AllowInterruptionsR11,omitempty"`
-	AllowInterruptionsR11Raw_  byte                         `asn1:"-" json:"-"`
-	PERPadding_                per.CompletePadding          `asn1:"-" json:"-"`
+	MeasIdList                 MeasIdToAddModList             `asn1:"tag:0,context,implicit,optional" json:"MeasIdList,omitempty"`
+	MeasIdListIndef_           bool                           `asn1:"-" json:"-"`
+	MeasIdListExtR12           MeasIdToAddModListExtR12       `asn1:"tag:1,context,implicit,optional" json:"MeasIdListExtR12,omitempty"`
+	MeasIdListExtR12Indef_     bool                           `asn1:"-" json:"-"`
+	MeasIdListV1310            MeasIdToAddModListV1310        `asn1:"tag:2,context,implicit,optional" json:"MeasIdListV1310,omitempty"`
+	MeasIdListV1310Indef_      bool                           `asn1:"-" json:"-"`
+	MeasIdListExtV1310         MeasIdToAddModListExtV1310     `asn1:"tag:3,context,implicit,optional" json:"MeasIdListExtV1310,omitempty"`
+	MeasIdListExtV1310Indef_   bool                           `asn1:"-" json:"-"`
+	MeasObjectList             MeasObjectToAddModList         `asn1:"tag:4,context,implicit,optional" json:"MeasObjectList,omitempty"`
+	MeasObjectListIndef_       bool                           `asn1:"-" json:"-"`
+	MeasObjectListExtR13       MeasObjectToAddModListExtR13   `asn1:"tag:5,context,implicit,optional" json:"MeasObjectListExtR13,omitempty"`
+	MeasObjectListExtR13Indef_ bool                           `asn1:"-" json:"-"`
+	MeasObjectListV9i0         MeasObjectToAddModListV9e0     `asn1:"tag:6,context,implicit,optional" json:"MeasObjectListV9i0,omitempty"`
+	MeasObjectListV9i0Indef_   bool                           `asn1:"-" json:"-"`
+	ReportConfigList           ReportConfigToAddModList       `asn1:"tag:7,context,implicit,optional" json:"ReportConfigList,omitempty"`
+	ReportConfigListIndef_     bool                           `asn1:"-" json:"-"`
+	QuantityConfig             *QuantityConfig                `asn1:"tag:8,context,implicit,optional" json:"QuantityConfig,omitempty"`
+	MeasScaleFactorR12         *MeasScaleFactorR12            `asn1:"tag:9,context,implicit,optional" json:"MeasScaleFactorR12,omitempty"`
+	SMeasure                   *int64                         `asn1:"tag:10,context,implicit,optional" json:"SMeasure,omitempty"`
+	SpeedStatePars             *VarMeasConfigSpeedStatePars   `asn1:"tag:11,context,explicit,optional" json:"SpeedStatePars,omitempty"`
+	AllowInterruptionsR11      *bool                          `asn1:"tag:12,context,implicit,optional" json:"AllowInterruptionsR11,omitempty"`
+	AllowInterruptionsR11Raw_  byte                           `asn1:"-" json:"-"`
+	PERPadding_                per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_              per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_       map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarMeasIdleConfigR15 represents the ASN.1 type VarMeasIdleConfig-r15 (SEQUENCE).
 type VarMeasIdleConfigR15 struct {
-	MeasIdleCarrierListEUTRAR15       EUTRACarrierListR15 `asn1:"tag:0,context,implicit,optional" json:"MeasIdleCarrierListEUTRAR15,omitempty"`
-	MeasIdleCarrierListEUTRAR15Indef_ bool                `asn1:"-" json:"-"`
-	MeasIdleDurationR15               int64               `asn1:"tag:1,context,implicit"`
-	PERPadding_                       per.CompletePadding `asn1:"-" json:"-"`
+	MeasIdleCarrierListEUTRAR15       EUTRACarrierListR15            `asn1:"tag:0,context,implicit,optional" json:"MeasIdleCarrierListEUTRAR15,omitempty"`
+	MeasIdleCarrierListEUTRAR15Indef_ bool                           `asn1:"-" json:"-"`
+	MeasIdleDurationR15               int64                          `asn1:"tag:1,context,implicit"`
+	PERPadding_                       per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_                     per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_              map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarMeasIdleConfigR16 represents the ASN.1 type VarMeasIdleConfig-r16 (SEQUENCE).
 type VarMeasIdleConfigR16 struct {
-	MeasIdleCarrierListNRR16       NRCarrierListR16    `asn1:"tag:0,context,implicit,optional" json:"MeasIdleCarrierListNRR16,omitempty"`
-	MeasIdleCarrierListNRR16Indef_ bool                `asn1:"-" json:"-"`
-	ValidityAreaListR16            ValidityAreaListR16 `asn1:"tag:1,context,implicit,optional" json:"ValidityAreaListR16,omitempty"`
-	ValidityAreaListR16Indef_      bool                `asn1:"-" json:"-"`
-	PERPadding_                    per.CompletePadding `asn1:"-" json:"-"`
+	MeasIdleCarrierListNRR16       NRCarrierListR16               `asn1:"tag:0,context,implicit,optional" json:"MeasIdleCarrierListNRR16,omitempty"`
+	MeasIdleCarrierListNRR16Indef_ bool                           `asn1:"-" json:"-"`
+	ValidityAreaListR16            ValidityAreaListR16            `asn1:"tag:1,context,implicit,optional" json:"ValidityAreaListR16,omitempty"`
+	ValidityAreaListR16Indef_      bool                           `asn1:"-" json:"-"`
+	PERPadding_                    per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_                  per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_           map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarMeasIdleReportR15 represents the ASN.1 type VarMeasIdleReport-r15 (SEQUENCE).
 type VarMeasIdleReportR15 struct {
-	MeasReportIdleR15       MeasResultListIdleR15 `asn1:"tag:0,context,implicit"`
-	MeasReportIdleR15Indef_ bool                  `asn1:"-" json:"-"`
-	PERPadding_             per.CompletePadding   `asn1:"-" json:"-"`
+	MeasReportIdleR15       MeasResultListIdleR15          `asn1:"tag:0,context,implicit"`
+	MeasReportIdleR15Indef_ bool                           `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_           per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_    map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarMeasIdleReportR16 represents the ASN.1 type VarMeasIdleReport-r16 (SEQUENCE).
 type VarMeasIdleReportR16 struct {
-	MeasReportIdleR16         MeasResultListExtIdleR16 `asn1:"tag:0,context,implicit,optional" json:"MeasReportIdleR16,omitempty"`
-	MeasReportIdleR16Indef_   bool                     `asn1:"-" json:"-"`
-	MeasReportIdleNRR16       MeasResultListIdleNRR16  `asn1:"tag:1,context,implicit,optional" json:"MeasReportIdleNRR16,omitempty"`
-	MeasReportIdleNRR16Indef_ bool                     `asn1:"-" json:"-"`
-	PERPadding_               per.CompletePadding      `asn1:"-" json:"-"`
+	MeasReportIdleR16         MeasResultListExtIdleR16       `asn1:"tag:0,context,implicit,optional" json:"MeasReportIdleR16,omitempty"`
+	MeasReportIdleR16Indef_   bool                           `asn1:"-" json:"-"`
+	MeasReportIdleNRR16       MeasResultListIdleNRR16        `asn1:"tag:1,context,implicit,optional" json:"MeasReportIdleNRR16,omitempty"`
+	MeasReportIdleNRR16Indef_ bool                           `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_             per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_      map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarMeasReportList represents the ASN.1 type VarMeasReportList (SEQUENCE_OF).
@@ -193,16 +221,18 @@ type VarMeasReportListR12 = []VarMeasReport
 
 // VarMeasReport represents the ASN.1 type VarMeasReport (SEQUENCE).
 type VarMeasReport struct {
-	MeasId                      MeasId                    `asn1:"tag:0,context,implicit"`
-	MeasIdV1250                 *MeasIdV1250              `asn1:"tag:1,context,implicit,optional" json:"MeasIdV1250,omitempty"`
-	CellsTriggeredList          CellsTriggeredList        `asn1:"tag:2,context,implicit,optional" json:"CellsTriggeredList,omitempty"`
-	CellsTriggeredListIndef_    bool                      `asn1:"-" json:"-"`
-	CsiRSTriggeredListR12       CSIRSTriggeredListR12     `asn1:"tag:3,context,implicit,optional" json:"CsiRSTriggeredListR12,omitempty"`
-	CsiRSTriggeredListR12Indef_ bool                      `asn1:"-" json:"-"`
-	PoolsTriggeredListR14       TxResourcePoolMeasListR14 `asn1:"tag:4,context,implicit,optional" json:"PoolsTriggeredListR14,omitempty"`
-	PoolsTriggeredListR14Indef_ bool                      `asn1:"-" json:"-"`
-	NumberOfReportsSent         *big.Int                  `asn1:"tag:5,context,implicit"`
-	PERPadding_                 per.CompletePadding       `asn1:"-" json:"-"`
+	MeasId                      MeasId                         `asn1:"tag:0,context,implicit"`
+	MeasIdV1250                 *MeasIdV1250                   `asn1:"tag:1,context,implicit,optional" json:"MeasIdV1250,omitempty"`
+	CellsTriggeredList          CellsTriggeredList             `asn1:"tag:2,context,implicit,optional" json:"CellsTriggeredList,omitempty"`
+	CellsTriggeredListIndef_    bool                           `asn1:"-" json:"-"`
+	CsiRSTriggeredListR12       CSIRSTriggeredListR12          `asn1:"tag:3,context,implicit,optional" json:"CsiRSTriggeredListR12,omitempty"`
+	CsiRSTriggeredListR12Indef_ bool                           `asn1:"-" json:"-"`
+	PoolsTriggeredListR14       TxResourcePoolMeasListR14      `asn1:"tag:4,context,implicit,optional" json:"PoolsTriggeredListR14,omitempty"`
+	PoolsTriggeredListR14Indef_ bool                           `asn1:"-" json:"-"`
+	NumberOfReportsSent         *big.Int                       `asn1:"tag:5,context,implicit"`
+	PERPadding_                 per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_               per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_        map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellsTriggeredList represents the ASN.1 type CellsTriggeredList (SEQUENCE_OF).
@@ -219,65 +249,81 @@ type VarMobilityHistoryReportR12 = VisitedCellInfoListR12
 
 // VarPendingRnaUpdateR15 represents the ASN.1 type VarPendingRnaUpdate-r15 (SEQUENCE).
 type VarPendingRnaUpdateR15 struct {
-	PendingRnaUpdate     *bool               `asn1:"tag:0,context,implicit,optional" json:"PendingRnaUpdate,omitempty"`
-	PendingRnaUpdateRaw_ byte                `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding `asn1:"-" json:"-"`
+	PendingRnaUpdate     *bool                          `asn1:"tag:0,context,implicit,optional" json:"PendingRnaUpdate,omitempty"`
+	PendingRnaUpdateRaw_ byte                           `asn1:"-" json:"-"`
+	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarRLFReportR10 represents the ASN.1 type VarRLF-Report-r10 (SEQUENCE).
 type VarRLFReportR10 struct {
-	RlfReportR10    RLFReportR9         `asn1:"tag:0,context,implicit"`
-	PlmnIdentityR10 PLMNIdentity        `asn1:"tag:1,context,implicit"`
-	PERPadding_     per.CompletePadding `asn1:"-" json:"-"`
+	RlfReportR10         RLFReportR9                    `asn1:"tag:0,context,implicit"`
+	PlmnIdentityR10      PLMNIdentity                   `asn1:"tag:1,context,implicit"`
+	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarRLFReportR11 represents the ASN.1 type VarRLF-Report-r11 (SEQUENCE).
 type VarRLFReportR11 struct {
-	RlfReportR10              RLFReportR9          `asn1:"tag:0,context,implicit"`
-	PlmnIdentityListR11       PLMNIdentityList3R11 `asn1:"tag:1,context,implicit"`
-	PlmnIdentityListR11Indef_ bool                 `asn1:"-" json:"-"`
-	PERPadding_               per.CompletePadding  `asn1:"-" json:"-"`
+	RlfReportR10              RLFReportR9                    `asn1:"tag:0,context,implicit"`
+	PlmnIdentityListR11       PLMNIdentityList3R11           `asn1:"tag:1,context,implicit"`
+	PlmnIdentityListR11Indef_ bool                           `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_             per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_      map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarShortINACTIVEMACInputR15 represents the ASN.1 type VarShortINACTIVE-MAC-Input-r15 (SEQUENCE).
 type VarShortINACTIVEMACInputR15 struct {
-	CellIdentityR15 CellIdentity        `asn1:"tag:0,context,implicit"`
-	PhysCellIdR15   PhysCellId          `asn1:"tag:1,context,implicit"`
-	CRNTIR15        CRNTI               `asn1:"tag:2,context,implicit"`
-	PERPadding_     per.CompletePadding `asn1:"-" json:"-"`
+	CellIdentityR15      CellIdentity                   `asn1:"tag:0,context,implicit"`
+	PhysCellIdR15        PhysCellId                     `asn1:"tag:1,context,implicit"`
+	CRNTIR15             CRNTI                          `asn1:"tag:2,context,implicit"`
+	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarShortMACInput represents the ASN.1 type VarShortMAC-Input (SEQUENCE).
 type VarShortMACInput struct {
-	CellIdentity CellIdentity        `asn1:"tag:0,context,implicit"`
-	PhysCellId   PhysCellId          `asn1:"tag:1,context,implicit"`
-	CRNTI        CRNTI               `asn1:"tag:2,context,implicit"`
-	PERPadding_  per.CompletePadding `asn1:"-" json:"-"`
+	CellIdentity         CellIdentity                   `asn1:"tag:0,context,implicit"`
+	PhysCellId           PhysCellId                     `asn1:"tag:1,context,implicit"`
+	CRNTI                CRNTI                          `asn1:"tag:2,context,implicit"`
+	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarShortResumeMACInputR13 represents the ASN.1 type VarShortResumeMAC-Input-r13 (SEQUENCE).
 type VarShortResumeMACInputR13 struct {
-	CellIdentityR13        CellIdentity        `asn1:"tag:0,context,implicit"`
-	PhysCellIdR13          PhysCellId          `asn1:"tag:1,context,implicit"`
-	CRNTIR13               CRNTI               `asn1:"tag:2,context,implicit"`
-	ResumeDiscriminatorR13 runtime.BitString   `asn1:"tag:3,context,implicit"`
-	PERPadding_            per.CompletePadding `asn1:"-" json:"-"`
+	CellIdentityR13        CellIdentity                   `asn1:"tag:0,context,implicit"`
+	PhysCellIdR13          PhysCellId                     `asn1:"tag:1,context,implicit"`
+	CRNTIR13               CRNTI                          `asn1:"tag:2,context,implicit"`
+	ResumeDiscriminatorR13 runtime.BitString              `asn1:"tag:3,context,implicit"`
+	PERPadding_            per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_          per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_   map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarWLANMobilityConfig represents the ASN.1 type VarWLAN-MobilityConfig (SEQUENCE).
 type VarWLANMobilityConfig struct {
-	WlanMobilitySetR13       WLANIdListR13         `asn1:"tag:0,context,implicit,optional" json:"WlanMobilitySetR13,omitempty"`
-	WlanMobilitySetR13Indef_ bool                  `asn1:"-" json:"-"`
-	SuccessReportRequested   *int64                `asn1:"tag:1,context,implicit,optional" json:"SuccessReportRequested,omitempty"`
-	WlanSuspendConfigR14     *WLANSuspendConfigR14 `asn1:"tag:2,context,implicit,optional" json:"WlanSuspendConfigR14,omitempty"`
-	PERPadding_              per.CompletePadding   `asn1:"-" json:"-"`
+	WlanMobilitySetR13       WLANIdListR13                  `asn1:"tag:0,context,implicit,optional" json:"WlanMobilitySetR13,omitempty"`
+	WlanMobilitySetR13Indef_ bool                           `asn1:"-" json:"-"`
+	SuccessReportRequested   *int64                         `asn1:"tag:1,context,implicit,optional" json:"SuccessReportRequested,omitempty"`
+	WlanSuspendConfigR14     *WLANSuspendConfigR14          `asn1:"tag:2,context,implicit,optional" json:"WlanSuspendConfigR14,omitempty"`
+	PERPadding_              per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_            per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_     map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarWLANStatusR13 represents the ASN.1 type VarWLAN-Status-r13 (SEQUENCE).
 type VarWLANStatusR13 struct {
-	StatusR13   WLANStatusR13       `asn1:"tag:0,context,implicit"`
-	StatusR14   *WLANStatusV1430    `asn1:"tag:1,context,implicit,optional" json:"StatusR14,omitempty"`
-	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
+	StatusR13            WLANStatusR13                  `asn1:"tag:0,context,implicit"`
+	StatusR14            *WLANStatusV1430               `asn1:"tag:1,context,implicit,optional" json:"StatusR14,omitempty"`
+	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarMeasConfigSpeedStatePars choice constants.
@@ -290,6 +336,7 @@ const (
 type VarMeasConfigSpeedStatePars struct {
 	Choice              int
 	PERPadding_         per.CompletePadding               `json:"-"`
+	PERExtraBits_       per.TrailingBits                  `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding               `json:"-"`
 	Release             *struct{}                         `json:"Release,omitempty"`
 	Setup               *VarMeasConfigSpeedStateParsSetup `json:"Setup,omitempty"`
@@ -313,9 +360,11 @@ func NewVarMeasConfigSpeedStateParsSetup(v VarMeasConfigSpeedStateParsSetup) Var
 
 // VarMeasConfigSpeedStateParsSetup represents the ASN.1 type VarMeasConfig-speedStatePars-setup (SEQUENCE).
 type VarMeasConfigSpeedStateParsSetup struct {
-	MobilityStateParameters MobilityStateParameters `asn1:"tag:0,context,implicit"`
-	TimeToTriggerSF         SpeedStateScaleFactors  `asn1:"tag:1,context,implicit"`
-	PERPadding_             per.CompletePadding     `asn1:"-" json:"-"`
+	MobilityStateParameters MobilityStateParameters        `asn1:"tag:0,context,implicit"`
+	TimeToTriggerSF         SpeedStateScaleFactors         `asn1:"tag:1,context,implicit"`
+	PERPadding_             per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_           per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_    map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellsTriggeredListElem choice constants.
@@ -332,6 +381,7 @@ const (
 type CellsTriggeredListElem struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                    `json:"-"`
+	PERExtraBits_       per.TrailingBits                       `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                    `json:"-"`
 	PhysCellIdEUTRA     *PhysCellId                            `json:"PhysCellIdEUTRA,omitempty"`
 	PhysCellIdUTRA      *CellsTriggeredListElemPhysCellIdUTRA  `json:"PhysCellIdUTRA,omitempty"`
@@ -399,6 +449,7 @@ const (
 type CellsTriggeredListElemPhysCellIdUTRA struct {
 	Choice              int
 	PERPadding_         per.CompletePadding `json:"-"`
+	PERExtraBits_       per.TrailingBits    `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding `json:"-"`
 	Fdd                 *PhysCellIdUTRAFDD  `json:"Fdd,omitempty"`
 	Tdd                 *PhysCellIdUTRATDD  `json:"Tdd,omitempty"`
@@ -422,18 +473,22 @@ func NewCellsTriggeredListElemPhysCellIdUTRATdd(v PhysCellIdUTRATDD) CellsTrigge
 
 // CellsTriggeredListElemPhysCellIdGERAN represents the ASN.1 type CellsTriggeredList-Elem-physCellIdGERAN (SEQUENCE).
 type CellsTriggeredListElemPhysCellIdGERAN struct {
-	CarrierFreq CarrierFreqGERAN    `asn1:"tag:0,context,implicit"`
-	PhysCellId  PhysCellIdGERAN     `asn1:"tag:1,context,implicit"`
-	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
+	CarrierFreq          CarrierFreqGERAN               `asn1:"tag:0,context,implicit"`
+	PhysCellId           PhysCellIdGERAN                `asn1:"tag:1,context,implicit"`
+	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellsTriggeredListElemPhysCellIdNRR15 represents the ASN.1 type CellsTriggeredList-Elem-physCellIdNR-r15 (SEQUENCE).
 type CellsTriggeredListElemPhysCellIdNRR15 struct {
-	CarrierFreq          ARFCNValueNRR15     `asn1:"tag:0,context,implicit"`
-	PhysCellId           PhysCellIdNRR15     `asn1:"tag:1,context,implicit"`
-	RsIndexListR15       SSBIndexListR15     `asn1:"tag:2,context,implicit,optional" json:"RsIndexListR15,omitempty"`
-	RsIndexListR15Indef_ bool                `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding `asn1:"-" json:"-"`
+	CarrierFreq          ARFCNValueNRR15                `asn1:"tag:0,context,implicit"`
+	PhysCellId           PhysCellIdNRR15                `asn1:"tag:1,context,implicit"`
+	RsIndexListR15       SSBIndexListR15                `asn1:"tag:2,context,implicit,optional" json:"RsIndexListR15,omitempty"`
+	RsIndexListR15Indef_ bool                           `asn1:"-" json:"-"`
+	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MarshalUPER encodes VarConditionalReconfiguration to UPER format.
@@ -442,7 +497,7 @@ func (v *VarConditionalReconfiguration) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarConditionalReconfiguration) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -471,15 +526,21 @@ func (v *VarConditionalReconfiguration) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarConditionalReconfiguration from UPER format.
 func (v *VarConditionalReconfiguration) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarConditionalReconfiguration with explicit receiver options.
+func (v *VarConditionalReconfiguration) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarConditionalReconfiguration")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarConditionalReconfiguration")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -493,7 +554,7 @@ func (v *VarConditionalReconfiguration) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if opt_condreconfigurationlistr16 {
 		tmp_condreconfigurationlistr16 := make(CondReconfigurationToAddModListR16, 0)
 		_, errCollection_condreconfigurationlistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_condreconfigurationlistr16, fragmentLength_condreconfigurationlistr16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_condreconfigurationlistr16 < 0 || fragmentLength_condreconfigurationlistr16 < 0 || fragmentLength_condreconfigurationlistr16 > int64(^uint(0)>>1) || fragmentOffset_condreconfigurationlistr16 > int64(^uint(0)>>1)-fragmentLength_condreconfigurationlistr16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -520,7 +581,7 @@ func (v *VarConnEstFailReportR11) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarConnEstFailReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -535,15 +596,21 @@ func (v *VarConnEstFailReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarConnEstFailReportR11 from UPER format.
 func (v *VarConnEstFailReportR11) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarConnEstFailReportR11 with explicit receiver options.
+func (v *VarConnEstFailReportR11) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarConnEstFailReportR11")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarConnEstFailReportR11")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -564,7 +631,7 @@ func (v *VarLogMeasConfigR10) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarLogMeasConfigR10) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -588,15 +655,21 @@ func (v *VarLogMeasConfigR10) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarLogMeasConfigR10 from UPER format.
 func (v *VarLogMeasConfigR10) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarLogMeasConfigR10 with explicit receiver options.
+func (v *VarLogMeasConfigR10) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR10")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR10")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -633,7 +706,7 @@ func (v *VarLogMeasConfigR11) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarLogMeasConfigR11) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -665,15 +738,21 @@ func (v *VarLogMeasConfigR11) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarLogMeasConfigR11 from UPER format.
 func (v *VarLogMeasConfigR11) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarLogMeasConfigR11 with explicit receiver options.
+func (v *VarLogMeasConfigR11) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR11")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR11")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -721,7 +800,7 @@ func (v *VarLogMeasConfigR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarLogMeasConfigR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -772,15 +851,21 @@ func (v *VarLogMeasConfigR12) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarLogMeasConfigR12 from UPER format.
 func (v *VarLogMeasConfigR12) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarLogMeasConfigR12 with explicit receiver options.
+func (v *VarLogMeasConfigR12) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR12")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR12")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -826,7 +911,7 @@ func (v *VarLogMeasConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_targetmbsfnarealistr12 {
 		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, 0)
 		_, errCollection_targetmbsfnarealistr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_targetmbsfnarealistr12, fragmentLength_targetmbsfnarealistr12 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_targetmbsfnarealistr12 < 0 || fragmentLength_targetmbsfnarealistr12 < 0 || fragmentLength_targetmbsfnarealistr12 > int64(^uint(0)>>1) || fragmentOffset_targetmbsfnarealistr12 > int64(^uint(0)>>1)-fragmentLength_targetmbsfnarealistr12 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -853,7 +938,7 @@ func (v *VarLogMeasConfigR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarLogMeasConfigR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -942,15 +1027,21 @@ func (v *VarLogMeasConfigR15) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarLogMeasConfigR15 from UPER format.
 func (v *VarLogMeasConfigR15) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarLogMeasConfigR15 with explicit receiver options.
+func (v *VarLogMeasConfigR15) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR15")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR15")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -1004,7 +1095,7 @@ func (v *VarLogMeasConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_targetmbsfnarealistr12 {
 		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, 0)
 		_, errCollection_targetmbsfnarealistr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_targetmbsfnarealistr12, fragmentLength_targetmbsfnarealistr12 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_targetmbsfnarealistr12 < 0 || fragmentLength_targetmbsfnarealistr12 < 0 || fragmentLength_targetmbsfnarealistr12 > int64(^uint(0)>>1) || fragmentOffset_targetmbsfnarealistr12 > int64(^uint(0)>>1)-fragmentLength_targetmbsfnarealistr12 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1025,7 +1116,7 @@ func (v *VarLogMeasConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_btnamelistr15 {
 		tmp_btnamelistr15 := make(BTNameListR15, 0)
 		_, errCollection_btnamelistr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_btnamelistr15, fragmentLength_btnamelistr15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1230
+			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1248
 			if fragmentOffset_btnamelistr15 < 0 || fragmentLength_btnamelistr15 < 0 || fragmentLength_btnamelistr15 > int64(^uint(0)>>1) || fragmentOffset_btnamelistr15 > int64(^uint(0)>>1)-fragmentLength_btnamelistr15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1046,7 +1137,7 @@ func (v *VarLogMeasConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_wlannamelistr15 {
 		tmp_wlannamelistr15 := make(WLANNameListR15, 0)
 		_, errCollection_wlannamelistr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_wlannamelistr15, fragmentLength_wlannamelistr15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1230
+			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1248
 			if fragmentOffset_wlannamelistr15 < 0 || fragmentLength_wlannamelistr15 < 0 || fragmentLength_wlannamelistr15 > int64(^uint(0)>>1) || fragmentOffset_wlannamelistr15 > int64(^uint(0)>>1)-fragmentLength_wlannamelistr15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1073,7 +1164,7 @@ func (v *VarLogMeasConfigR17) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarLogMeasConfigR17) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1178,15 +1269,21 @@ func (v *VarLogMeasConfigR17) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarLogMeasConfigR17 from UPER format.
 func (v *VarLogMeasConfigR17) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarLogMeasConfigR17 with explicit receiver options.
+func (v *VarLogMeasConfigR17) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR17")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR17")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -1248,7 +1345,7 @@ func (v *VarLogMeasConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_targetmbsfnarealistr12 {
 		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, 0)
 		_, errCollection_targetmbsfnarealistr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_targetmbsfnarealistr12, fragmentLength_targetmbsfnarealistr12 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_targetmbsfnarealistr12 < 0 || fragmentLength_targetmbsfnarealistr12 < 0 || fragmentLength_targetmbsfnarealistr12 > int64(^uint(0)>>1) || fragmentOffset_targetmbsfnarealistr12 > int64(^uint(0)>>1)-fragmentLength_targetmbsfnarealistr12 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1269,7 +1366,7 @@ func (v *VarLogMeasConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_btnamelistr15 {
 		tmp_btnamelistr15 := make(BTNameListR15, 0)
 		_, errCollection_btnamelistr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_btnamelistr15, fragmentLength_btnamelistr15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1230
+			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1248
 			if fragmentOffset_btnamelistr15 < 0 || fragmentLength_btnamelistr15 < 0 || fragmentLength_btnamelistr15 > int64(^uint(0)>>1) || fragmentOffset_btnamelistr15 > int64(^uint(0)>>1)-fragmentLength_btnamelistr15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1290,7 +1387,7 @@ func (v *VarLogMeasConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_wlannamelistr15 {
 		tmp_wlannamelistr15 := make(WLANNameListR15, 0)
 		_, errCollection_wlannamelistr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_wlannamelistr15, fragmentLength_wlannamelistr15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1230
+			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1248
 			if fragmentOffset_wlannamelistr15 < 0 || fragmentLength_wlannamelistr15 < 0 || fragmentLength_wlannamelistr15 > int64(^uint(0)>>1) || fragmentOffset_wlannamelistr15 > int64(^uint(0)>>1)-fragmentLength_wlannamelistr15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1331,7 +1428,7 @@ func (v *VarLogMeasReportR10) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarLogMeasReportR10) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1369,15 +1466,21 @@ func (v *VarLogMeasReportR10) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarLogMeasReportR10 from UPER format.
 func (v *VarLogMeasReportR10) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarLogMeasReportR10 with explicit receiver options.
+func (v *VarLogMeasReportR10) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasReportR10")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasReportR10")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -1406,7 +1509,7 @@ func (v *VarLogMeasReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.AbsoluteTimeInfoR10 = runtime.BitString{Bytes: bsBytes_absolutetimeinfor10, BitLength: bsBitLen_absolutetimeinfor10}
 	v.LogMeasInfoListR10 = make(LogMeasInfoList2R10, 0)
 	_, errCollection_logmeasinfolistr10 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4060, HasUpper: true}, false, func(fragmentOffset_logmeasinfolistr10, fragmentLength_logmeasinfolistr10 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_logmeasinfolistr10 < 0 || fragmentLength_logmeasinfolistr10 < 0 || fragmentLength_logmeasinfolistr10 > int64(^uint(0)>>1) || fragmentOffset_logmeasinfolistr10 > int64(^uint(0)>>1)-fragmentLength_logmeasinfolistr10 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1431,7 +1534,7 @@ func (v *VarLogMeasReportR11) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarLogMeasReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1483,15 +1586,21 @@ func (v *VarLogMeasReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarLogMeasReportR11 from UPER format.
 func (v *VarLogMeasReportR11) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarLogMeasReportR11 with explicit receiver options.
+func (v *VarLogMeasReportR11) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasReportR11")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasReportR11")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -1512,7 +1621,7 @@ func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.TceIdR10 = val_tceidr10
 	v.PlmnIdentityListR11 = make(PLMNIdentityList3R11, 0)
 	_, errCollection_plmnidentitylistr11 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr11, fragmentLength_plmnidentitylistr11 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_plmnidentitylistr11 < 0 || fragmentLength_plmnidentitylistr11 < 0 || fragmentLength_plmnidentitylistr11 > int64(^uint(0)>>1) || fragmentOffset_plmnidentitylistr11 > int64(^uint(0)>>1)-fragmentLength_plmnidentitylistr11 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1535,7 +1644,7 @@ func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.AbsoluteTimeInfoR10 = runtime.BitString{Bytes: bsBytes_absolutetimeinfor10, BitLength: bsBitLen_absolutetimeinfor10}
 	v.LogMeasInfoListR10 = make(LogMeasInfoList2R10, 0)
 	_, errCollection_logmeasinfolistr10 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4060, HasUpper: true}, false, func(fragmentOffset_logmeasinfolistr10, fragmentLength_logmeasinfolistr10 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_logmeasinfolistr10 < 0 || fragmentLength_logmeasinfolistr10 < 0 || fragmentLength_logmeasinfolistr10 > int64(^uint(0)>>1) || fragmentOffset_logmeasinfolistr10 > int64(^uint(0)>>1)-fragmentLength_logmeasinfolistr10 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1565,7 +1674,7 @@ type asn1cUPERLogMeasInfoList2R10ListValue struct{ Value LogMeasInfoList2R10 }
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type LogMeasInfoList2R10Complete struct {
 	Value       LogMeasInfoList2R10
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *LogMeasInfoList2R10Complete) MarshalUPER() ([]byte, error) {
@@ -1636,7 +1745,7 @@ func UnmarshalUPERLogMeasInfoList2R10From(bb *per.BitBuffer) (LogMeasInfoList2R1
 func unmarshalUPERLogMeasInfoList2R10Into(v *asn1cUPERLogMeasInfoList2R10ListValue, bb *per.BitBuffer) error {
 	v.Value = make(LogMeasInfoList2R10, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4060, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1661,7 +1770,7 @@ func (v *VarMeasConfig) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarMeasConfig) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1863,15 +1972,21 @@ func (v *VarMeasConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarMeasConfig from UPER format.
 func (v *VarMeasConfig) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarMeasConfig with explicit receiver options.
+func (v *VarMeasConfig) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasConfig")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasConfig")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -1933,7 +2048,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measidlist {
 		tmp_measidlist := make(MeasIdToAddModList, 0)
 		_, errCollection_measidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measidlist, fragmentLength_measidlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_measidlist < 0 || fragmentLength_measidlist < 0 || fragmentLength_measidlist > int64(^uint(0)>>1) || fragmentOffset_measidlist > int64(^uint(0)>>1)-fragmentLength_measidlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1954,7 +2069,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measidlistextr12 {
 		tmp_measidlistextr12 := make(MeasIdToAddModListExtR12, 0)
 		_, errCollection_measidlistextr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measidlistextr12, fragmentLength_measidlistextr12 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_measidlistextr12 < 0 || fragmentLength_measidlistextr12 < 0 || fragmentLength_measidlistextr12 > int64(^uint(0)>>1) || fragmentOffset_measidlistextr12 > int64(^uint(0)>>1)-fragmentLength_measidlistextr12 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1975,7 +2090,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measidlistv1310 {
 		tmp_measidlistv1310 := make(MeasIdToAddModListV1310, 0)
 		_, errCollection_measidlistv1310 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measidlistv1310, fragmentLength_measidlistv1310 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_measidlistv1310 < 0 || fragmentLength_measidlistv1310 < 0 || fragmentLength_measidlistv1310 > int64(^uint(0)>>1) || fragmentOffset_measidlistv1310 > int64(^uint(0)>>1)-fragmentLength_measidlistv1310 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1996,7 +2111,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measidlistextv1310 {
 		tmp_measidlistextv1310 := make(MeasIdToAddModListExtV1310, 0)
 		_, errCollection_measidlistextv1310 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measidlistextv1310, fragmentLength_measidlistextv1310 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_measidlistextv1310 < 0 || fragmentLength_measidlistextv1310 < 0 || fragmentLength_measidlistextv1310 > int64(^uint(0)>>1) || fragmentOffset_measidlistextv1310 > int64(^uint(0)>>1)-fragmentLength_measidlistextv1310 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2017,7 +2132,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measobjectlist {
 		tmp_measobjectlist := make(MeasObjectToAddModList, 0)
 		_, errCollection_measobjectlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measobjectlist, fragmentLength_measobjectlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_measobjectlist < 0 || fragmentLength_measobjectlist < 0 || fragmentLength_measobjectlist > int64(^uint(0)>>1) || fragmentOffset_measobjectlist > int64(^uint(0)>>1)-fragmentLength_measobjectlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2038,7 +2153,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measobjectlistextr13 {
 		tmp_measobjectlistextr13 := make(MeasObjectToAddModListExtR13, 0)
 		_, errCollection_measobjectlistextr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measobjectlistextr13, fragmentLength_measobjectlistextr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_measobjectlistextr13 < 0 || fragmentLength_measobjectlistextr13 < 0 || fragmentLength_measobjectlistextr13 > int64(^uint(0)>>1) || fragmentOffset_measobjectlistextr13 > int64(^uint(0)>>1)-fragmentLength_measobjectlistextr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2059,7 +2174,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measobjectlistv9i0 {
 		tmp_measobjectlistv9i0 := make(MeasObjectToAddModListV9e0, 0)
 		_, errCollection_measobjectlistv9i0 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measobjectlistv9i0, fragmentLength_measobjectlistv9i0 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_measobjectlistv9i0 < 0 || fragmentLength_measobjectlistv9i0 < 0 || fragmentLength_measobjectlistv9i0 > int64(^uint(0)>>1) || fragmentOffset_measobjectlistv9i0 > int64(^uint(0)>>1)-fragmentLength_measobjectlistv9i0 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2080,7 +2195,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_reportconfiglist {
 		tmp_reportconfiglist := make(ReportConfigToAddModList, 0)
 		_, errCollection_reportconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_reportconfiglist, fragmentLength_reportconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_reportconfiglist < 0 || fragmentLength_reportconfiglist < 0 || fragmentLength_reportconfiglist > int64(^uint(0)>>1) || fragmentOffset_reportconfiglist > int64(^uint(0)>>1)-fragmentLength_reportconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2143,7 +2258,7 @@ func (v *VarMeasIdleConfigR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarMeasIdleConfigR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2175,15 +2290,21 @@ func (v *VarMeasIdleConfigR15) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarMeasIdleConfigR15 from UPER format.
 func (v *VarMeasIdleConfigR15) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarMeasIdleConfigR15 with explicit receiver options.
+func (v *VarMeasIdleConfigR15) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleConfigR15")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleConfigR15")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -2197,7 +2318,7 @@ func (v *VarMeasIdleConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measidlecarrierlisteutrar15 {
 		tmp_measidlecarrierlisteutrar15 := make(EUTRACarrierListR15, 0)
 		_, errCollection_measidlecarrierlisteutrar15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_measidlecarrierlisteutrar15, fragmentLength_measidlecarrierlisteutrar15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_measidlecarrierlisteutrar15 < 0 || fragmentLength_measidlecarrierlisteutrar15 < 0 || fragmentLength_measidlecarrierlisteutrar15 > int64(^uint(0)>>1) || fragmentOffset_measidlecarrierlisteutrar15 > int64(^uint(0)>>1)-fragmentLength_measidlecarrierlisteutrar15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2229,7 +2350,7 @@ func (v *VarMeasIdleConfigR16) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarMeasIdleConfigR16) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2277,15 +2398,21 @@ func (v *VarMeasIdleConfigR16) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarMeasIdleConfigR16 from UPER format.
 func (v *VarMeasIdleConfigR16) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarMeasIdleConfigR16 with explicit receiver options.
+func (v *VarMeasIdleConfigR16) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleConfigR16")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleConfigR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -2303,7 +2430,7 @@ func (v *VarMeasIdleConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measidlecarrierlistnrr16 {
 		tmp_measidlecarrierlistnrr16 := make(NRCarrierListR16, 0)
 		_, errCollection_measidlecarrierlistnrr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_measidlecarrierlistnrr16, fragmentLength_measidlecarrierlistnrr16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_measidlecarrierlistnrr16 < 0 || fragmentLength_measidlecarrierlistnrr16 < 0 || fragmentLength_measidlecarrierlistnrr16 > int64(^uint(0)>>1) || fragmentOffset_measidlecarrierlistnrr16 > int64(^uint(0)>>1)-fragmentLength_measidlecarrierlistnrr16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2324,7 +2451,7 @@ func (v *VarMeasIdleConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_validityarealistr16 {
 		tmp_validityarealistr16 := make(ValidityAreaListR16, 0)
 		_, errCollection_validityarealistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_validityarealistr16, fragmentLength_validityarealistr16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_validityarealistr16 < 0 || fragmentLength_validityarealistr16 < 0 || fragmentLength_validityarealistr16 > int64(^uint(0)>>1) || fragmentOffset_validityarealistr16 > int64(^uint(0)>>1)-fragmentLength_validityarealistr16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2351,7 +2478,7 @@ func (v *VarMeasIdleReportR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarMeasIdleReportR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2374,15 +2501,21 @@ func (v *VarMeasIdleReportR15) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarMeasIdleReportR15 from UPER format.
 func (v *VarMeasIdleReportR15) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarMeasIdleReportR15 with explicit receiver options.
+func (v *VarMeasIdleReportR15) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleReportR15")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleReportR15")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -2390,7 +2523,7 @@ func (v *VarMeasIdleReportR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = VarMeasIdleReportR15{}
 	v.MeasReportIdleR15 = make(MeasResultListIdleR15, 0)
 	_, errCollection_measreportidler15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_measreportidler15, fragmentLength_measreportidler15 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_measreportidler15 < 0 || fragmentLength_measreportidler15 < 0 || fragmentLength_measreportidler15 > int64(^uint(0)>>1) || fragmentOffset_measreportidler15 > int64(^uint(0)>>1)-fragmentLength_measreportidler15 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2415,7 +2548,7 @@ func (v *VarMeasIdleReportR16) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarMeasIdleReportR16) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2463,15 +2596,21 @@ func (v *VarMeasIdleReportR16) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarMeasIdleReportR16 from UPER format.
 func (v *VarMeasIdleReportR16) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarMeasIdleReportR16 with explicit receiver options.
+func (v *VarMeasIdleReportR16) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleReportR16")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleReportR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -2489,7 +2628,7 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measreportidler16 {
 		tmp_measreportidler16 := make(MeasResultListExtIdleR16, 0)
 		_, errCollection_measreportidler16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 5, HasUpper: true}, false, func(fragmentOffset_measreportidler16, fragmentLength_measreportidler16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
+			// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1226
 			if fragmentOffset_measreportidler16 < 0 || fragmentLength_measreportidler16 < 0 || fragmentLength_measreportidler16 > int64(^uint(0)>>1) || fragmentOffset_measreportidler16 > int64(^uint(0)>>1)-fragmentLength_measreportidler16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2510,7 +2649,7 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measreportidlenrr16 {
 		tmp_measreportidlenrr16 := make(MeasResultListIdleNRR16, 0)
 		_, errCollection_measreportidlenrr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_measreportidlenrr16, fragmentLength_measreportidlenrr16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_measreportidlenrr16 < 0 || fragmentLength_measreportidlenrr16 < 0 || fragmentLength_measreportidlenrr16 > int64(^uint(0)>>1) || fragmentOffset_measreportidlenrr16 > int64(^uint(0)>>1)-fragmentLength_measreportidlenrr16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2537,7 +2676,7 @@ type asn1cUPERVarMeasReportListListValue struct{ Value VarMeasReportList }
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type VarMeasReportListComplete struct {
 	Value       VarMeasReportList
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *VarMeasReportListComplete) MarshalUPER() ([]byte, error) {
@@ -2608,7 +2747,7 @@ func UnmarshalUPERVarMeasReportListFrom(bb *per.BitBuffer) (VarMeasReportList, e
 func unmarshalUPERVarMeasReportListInto(v *asn1cUPERVarMeasReportListListValue, bb *per.BitBuffer) error {
 	v.Value = make(VarMeasReportList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2633,7 +2772,7 @@ type asn1cUPERVarMeasReportListR12ListValue struct{ Value VarMeasReportListR12 }
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type VarMeasReportListR12Complete struct {
 	Value       VarMeasReportListR12
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *VarMeasReportListR12Complete) MarshalUPER() ([]byte, error) {
@@ -2704,7 +2843,7 @@ func UnmarshalUPERVarMeasReportListR12From(bb *per.BitBuffer) (VarMeasReportList
 func unmarshalUPERVarMeasReportListR12Into(v *asn1cUPERVarMeasReportListR12ListValue, bb *per.BitBuffer) error {
 	v.Value = make(VarMeasReportListR12, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2729,7 +2868,7 @@ func (v *VarMeasReport) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarMeasReport) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2810,15 +2949,21 @@ func (v *VarMeasReport) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarMeasReport from UPER format.
 func (v *VarMeasReport) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarMeasReport with explicit receiver options.
+func (v *VarMeasReport) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasReport")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasReport")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -2857,7 +3002,7 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cellstriggeredlist {
 		tmp_cellstriggeredlist := make(CellsTriggeredList, 0)
 		_, errCollection_cellstriggeredlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cellstriggeredlist, fragmentLength_cellstriggeredlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_cellstriggeredlist < 0 || fragmentLength_cellstriggeredlist < 0 || fragmentLength_cellstriggeredlist > int64(^uint(0)>>1) || fragmentOffset_cellstriggeredlist > int64(^uint(0)>>1)-fragmentLength_cellstriggeredlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2878,7 +3023,7 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_csirstriggeredlistr12 {
 		tmp_csirstriggeredlistr12 := make(CSIRSTriggeredListR12, 0)
 		_, errCollection_csirstriggeredlistr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 96, HasUpper: true}, false, func(fragmentOffset_csirstriggeredlistr12, fragmentLength_csirstriggeredlistr12 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1207
 			if fragmentOffset_csirstriggeredlistr12 < 0 || fragmentLength_csirstriggeredlistr12 < 0 || fragmentLength_csirstriggeredlistr12 > int64(^uint(0)>>1) || fragmentOffset_csirstriggeredlistr12 > int64(^uint(0)>>1)-fragmentLength_csirstriggeredlistr12 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2899,7 +3044,7 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_poolstriggeredlistr14 {
 		tmp_poolstriggeredlistr14 := make(TxResourcePoolMeasListR14, 0)
 		_, errCollection_poolstriggeredlistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 72, HasUpper: true}, false, func(fragmentOffset_poolstriggeredlistr14, fragmentLength_poolstriggeredlistr14 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1207
 			if fragmentOffset_poolstriggeredlistr14 < 0 || fragmentLength_poolstriggeredlistr14 < 0 || fragmentLength_poolstriggeredlistr14 > int64(^uint(0)>>1) || fragmentOffset_poolstriggeredlistr14 > int64(^uint(0)>>1)-fragmentLength_poolstriggeredlistr14 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2931,7 +3076,7 @@ type asn1cUPERCellsTriggeredListListValue struct{ Value CellsTriggeredList }
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type CellsTriggeredListComplete struct {
 	Value       CellsTriggeredList
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *CellsTriggeredListComplete) MarshalUPER() ([]byte, error) {
@@ -3002,7 +3147,7 @@ func UnmarshalUPERCellsTriggeredListFrom(bb *per.BitBuffer) (CellsTriggeredList,
 func unmarshalUPERCellsTriggeredListInto(v *asn1cUPERCellsTriggeredListListValue, bb *per.BitBuffer) error {
 	v.Value = make(CellsTriggeredList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -3027,7 +3172,7 @@ type asn1cUPERCSIRSTriggeredListR12ListValue struct{ Value CSIRSTriggeredListR12
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type CSIRSTriggeredListR12Complete struct {
 	Value       CSIRSTriggeredListR12
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *CSIRSTriggeredListR12Complete) MarshalUPER() ([]byte, error) {
@@ -3098,7 +3243,7 @@ func UnmarshalUPERCSIRSTriggeredListR12From(bb *per.BitBuffer) (CSIRSTriggeredLi
 func unmarshalUPERCSIRSTriggeredListR12Into(v *asn1cUPERCSIRSTriggeredListR12ListValue, bb *per.BitBuffer) error {
 	v.Value = make(CSIRSTriggeredListR12, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 96, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1207
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -3123,7 +3268,7 @@ type asn1cUPERSSBIndexListR15ListValue struct{ Value SSBIndexListR15 }
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type SSBIndexListR15Complete struct {
 	Value       SSBIndexListR15
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *SSBIndexListR15Complete) MarshalUPER() ([]byte, error) {
@@ -3194,7 +3339,7 @@ func UnmarshalUPERSSBIndexListR15From(bb *per.BitBuffer) (SSBIndexListR15, error
 func unmarshalUPERSSBIndexListR15Into(v *asn1cUPERSSBIndexListR15ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SSBIndexListR15, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1207
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -3219,7 +3364,7 @@ func (v *VarPendingRnaUpdateR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarPendingRnaUpdateR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3237,15 +3382,21 @@ func (v *VarPendingRnaUpdateR15) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarPendingRnaUpdateR15 from UPER format.
 func (v *VarPendingRnaUpdateR15) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarPendingRnaUpdateR15 with explicit receiver options.
+func (v *VarPendingRnaUpdateR15) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarPendingRnaUpdateR15")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarPendingRnaUpdateR15")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -3272,7 +3423,7 @@ func (v *VarRLFReportR10) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarRLFReportR10) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3287,15 +3438,21 @@ func (v *VarRLFReportR10) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarRLFReportR10 from UPER format.
 func (v *VarRLFReportR10) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarRLFReportR10 with explicit receiver options.
+func (v *VarRLFReportR10) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarRLFReportR10")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarRLFReportR10")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -3316,7 +3473,7 @@ func (v *VarRLFReportR11) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarRLFReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3342,15 +3499,21 @@ func (v *VarRLFReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarRLFReportR11 from UPER format.
 func (v *VarRLFReportR11) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarRLFReportR11 with explicit receiver options.
+func (v *VarRLFReportR11) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarRLFReportR11")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarRLFReportR11")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -3361,7 +3524,7 @@ func (v *VarRLFReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PlmnIdentityListR11 = make(PLMNIdentityList3R11, 0)
 	_, errCollection_plmnidentitylistr11 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr11, fragmentLength_plmnidentitylistr11 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_plmnidentitylistr11 < 0 || fragmentLength_plmnidentitylistr11 < 0 || fragmentLength_plmnidentitylistr11 > int64(^uint(0)>>1) || fragmentOffset_plmnidentitylistr11 > int64(^uint(0)>>1)-fragmentLength_plmnidentitylistr11 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -3386,7 +3549,7 @@ func (v *VarShortINACTIVEMACInputR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarShortINACTIVEMACInputR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3404,15 +3567,21 @@ func (v *VarShortINACTIVEMACInputR15) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarShortINACTIVEMACInputR15 from UPER format.
 func (v *VarShortINACTIVEMACInputR15) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarShortINACTIVEMACInputR15 with explicit receiver options.
+func (v *VarShortINACTIVEMACInputR15) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarShortINACTIVEMACInputR15")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarShortINACTIVEMACInputR15")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -3442,7 +3611,7 @@ func (v *VarShortMACInput) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarShortMACInput) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3460,15 +3629,21 @@ func (v *VarShortMACInput) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarShortMACInput from UPER format.
 func (v *VarShortMACInput) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarShortMACInput with explicit receiver options.
+func (v *VarShortMACInput) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarShortMACInput")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarShortMACInput")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -3498,7 +3673,7 @@ func (v *VarShortResumeMACInputR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarShortResumeMACInputR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3519,15 +3694,21 @@ func (v *VarShortResumeMACInputR13) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarShortResumeMACInputR13 from UPER format.
 func (v *VarShortResumeMACInputR13) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarShortResumeMACInputR13 with explicit receiver options.
+func (v *VarShortResumeMACInputR13) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarShortResumeMACInputR13")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarShortResumeMACInputR13")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -3562,7 +3743,7 @@ func (v *VarWLANMobilityConfig) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarWLANMobilityConfig) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3607,15 +3788,21 @@ func (v *VarWLANMobilityConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarWLANMobilityConfig from UPER format.
 func (v *VarWLANMobilityConfig) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarWLANMobilityConfig with explicit receiver options.
+func (v *VarWLANMobilityConfig) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarWLANMobilityConfig")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarWLANMobilityConfig")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -3637,7 +3824,7 @@ func (v *VarWLANMobilityConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_wlanmobilitysetr13 {
 		tmp_wlanmobilitysetr13 := make(WLANIdListR13, 0)
 		_, errCollection_wlanmobilitysetr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_wlanmobilitysetr13, fragmentLength_wlanmobilitysetr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_wlanmobilitysetr13 < 0 || fragmentLength_wlanmobilitysetr13 < 0 || fragmentLength_wlanmobilitysetr13 > int64(^uint(0)>>1) || fragmentOffset_wlanmobilitysetr13 > int64(^uint(0)>>1)-fragmentLength_wlanmobilitysetr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -3678,7 +3865,7 @@ func (v *VarWLANStatusR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarWLANStatusR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3699,15 +3886,21 @@ func (v *VarWLANStatusR13) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarWLANStatusR13 from UPER format.
 func (v *VarWLANStatusR13) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarWLANStatusR13 with explicit receiver options.
+func (v *VarWLANStatusR13) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarWLANStatusR13")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarWLANStatusR13")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -3740,7 +3933,7 @@ func (v *VarMeasConfigSpeedStatePars) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarMeasConfigSpeedStatePars) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3771,15 +3964,21 @@ func (v *VarMeasConfigSpeedStatePars) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes VarMeasConfigSpeedStatePars from UPER format.
 func (v *VarMeasConfigSpeedStatePars) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarMeasConfigSpeedStatePars with explicit receiver options.
+func (v *VarMeasConfigSpeedStatePars) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasConfigSpeedStatePars")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasConfigSpeedStatePars")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -3789,7 +3988,7 @@ func (v *VarMeasConfigSpeedStatePars) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:241
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -3813,7 +4012,7 @@ func (v *VarMeasConfigSpeedStateParsSetup) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *VarMeasConfigSpeedStateParsSetup) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3828,15 +4027,21 @@ func (v *VarMeasConfigSpeedStateParsSetup) MarshalUPERTo(bb *per.BitBuffer) erro
 
 // UnmarshalUPER decodes VarMeasConfigSpeedStateParsSetup from UPER format.
 func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes VarMeasConfigSpeedStateParsSetup with explicit receiver options.
+func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasConfigSpeedStateParsSetup")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasConfigSpeedStateParsSetup")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -3857,7 +4062,7 @@ func (v *CellsTriggeredListElem) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *CellsTriggeredListElem) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3922,15 +4127,21 @@ func (v *CellsTriggeredListElem) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes CellsTriggeredListElem from UPER format.
 func (v *CellsTriggeredListElem) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes CellsTriggeredListElem with explicit receiver options.
+func (v *CellsTriggeredListElem) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -3940,7 +4151,7 @@ func (v *CellsTriggeredListElem) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:241
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -3994,7 +4205,7 @@ func (v *CellsTriggeredListElemPhysCellIdUTRA) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *CellsTriggeredListElemPhysCellIdUTRA) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -4031,15 +4242,21 @@ func (v *CellsTriggeredListElemPhysCellIdUTRA) MarshalUPERTo(bb *per.BitBuffer) 
 
 // UnmarshalUPER decodes CellsTriggeredListElemPhysCellIdUTRA from UPER format.
 func (v *CellsTriggeredListElemPhysCellIdUTRA) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes CellsTriggeredListElemPhysCellIdUTRA with explicit receiver options.
+func (v *CellsTriggeredListElemPhysCellIdUTRA) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdUTRA")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdUTRA")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -4049,7 +4266,7 @@ func (v *CellsTriggeredListElemPhysCellIdUTRA) UnmarshalUPERFrom(bb *per.BitBuff
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:241
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -4079,7 +4296,7 @@ func (v *CellsTriggeredListElemPhysCellIdGERAN) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *CellsTriggeredListElemPhysCellIdGERAN) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -4094,15 +4311,21 @@ func (v *CellsTriggeredListElemPhysCellIdGERAN) MarshalUPERTo(bb *per.BitBuffer)
 
 // UnmarshalUPER decodes CellsTriggeredListElemPhysCellIdGERAN from UPER format.
 func (v *CellsTriggeredListElemPhysCellIdGERAN) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes CellsTriggeredListElemPhysCellIdGERAN with explicit receiver options.
+func (v *CellsTriggeredListElemPhysCellIdGERAN) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdGERAN")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdGERAN")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -4123,7 +4346,7 @@ func (v *CellsTriggeredListElemPhysCellIdNRR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *CellsTriggeredListElemPhysCellIdNRR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -4158,15 +4381,21 @@ func (v *CellsTriggeredListElemPhysCellIdNRR15) MarshalUPERTo(bb *per.BitBuffer)
 
 // UnmarshalUPER decodes CellsTriggeredListElemPhysCellIdNRR15 from UPER format.
 func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes CellsTriggeredListElemPhysCellIdNRR15 with explicit receiver options.
+func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdNRR15")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdNRR15")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -4190,7 +4419,7 @@ func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_rsindexlistr15 {
 		tmp_rsindexlistr15 := make(SSBIndexListR15, 0)
 		_, errCollection_rsindexlistr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_rsindexlistr15, fragmentLength_rsindexlistr15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1207
 			if fragmentOffset_rsindexlistr15 < 0 || fragmentLength_rsindexlistr15 < 0 || fragmentLength_rsindexlistr15 > int64(^uint(0)>>1) || fragmentOffset_rsindexlistr15 > int64(^uint(0)>>1)-fragmentLength_rsindexlistr15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}

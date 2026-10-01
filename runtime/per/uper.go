@@ -103,16 +103,70 @@ func DecodeNormallySmallNonNegative(bb *BitBuffer) (int64, error) {
 		}
 		return int64(val), nil
 	}
-	return DecodeSemiConstrainedWholeNumber(bb, 0)
+	value, err := DecodeSemiConstrainedWholeNumber(bb, 0)
+	if err != nil {
+		return 0, err
+	}
+	// ITU-T X.691 (02/2021) §11.6.1-11.6.2 requires the short form below 64.
+	if value < 64 {
+		return 0, fmt.Errorf("%w: long normally small INTEGER %d is below 64", ErrInvalidValue, value)
+	}
+	return value, nil
+}
+
+// EncodeNormallySmallLength encodes a positive normally small length.
+// ITU-T X.691 (02/2021) 11.9.3.4 encodes n-1 only for n <= 64;
+// larger lengths use the unconstrained length determinant for n itself.
+func EncodeNormallySmallLength(bb *BitBuffer, n int64) error {
+	if n < 1 {
+		return fmt.Errorf("%w: normally small length %d is not positive", ErrInvalidValue, n)
+	}
+	if n >= 16384 {
+		return fmt.Errorf("%w: length %d", ErrUnsupportedFragmentedNormallySmallLength, n)
+	}
+	if n <= 64 {
+		if err := bb.WriteBit(0); err != nil {
+			return err
+		}
+		return bb.WriteBits(uint64(n-1), 6)
+	}
+	if err := bb.WriteBit(1); err != nil {
+		return err
+	}
+	return EncodeUnconstrainedLength(bb, n)
+}
+
+// DecodeNormallySmallLength decodes a positive normally small length.
+// ITU-T X.691 (02/2021) 11.9.3.4.
+func DecodeNormallySmallLength(bb *BitBuffer) (int64, error) {
+	bit, err := bb.ReadBit()
+	if err != nil {
+		return 0, err
+	}
+	if bit == 0 {
+		value, err := bb.ReadBits(6)
+		return int64(value) + 1, err
+	}
+	n, more, _, err := decodeLengthFragmentDeterminant(bb, false)
+	if err != nil {
+		return 0, err
+	}
+	if more {
+		return 0, fmt.Errorf("%w: first fragment length %d", ErrUnsupportedFragmentedNormallySmallLength, n)
+	}
+	if n <= 64 {
+		return 0, fmt.Errorf("%w: long normally small length %d is not greater than 64", ErrInvalidValue, n)
+	}
+	return n, nil
 }
 
 // DecodeExtensionBitmap decodes the highest extension index and presence bits.
 func DecodeExtensionBitmap(bb *BitBuffer) (int64, []bool, error) {
-	count, err := DecodeNormallySmallNonNegative(bb)
+	n, err := DecodeNormallySmallLength(bb)
 	if err != nil {
 		return 0, nil, err
 	}
-	return decodeExtensionBitmapBits(bb, count)
+	return decodeExtensionBitmapBits(bb, n-1)
 }
 
 func decodeExtensionBitmapBits(bb *BitBuffer, count int64) (int64, []bool, error) {
@@ -853,7 +907,7 @@ func decodeNonNegativeBinaryIntegerWithLength(bb *BitBuffer) (uint64, error) {
 		return 0, err
 	}
 	if length == 0 {
-		return 0, nil
+		return 0, fmt.Errorf("%w: zero-length semi-constrained INTEGER", ErrInvalidValue)
 	}
 	if length < 0 || length > 8 {
 		return 0, fmt.Errorf("%w: non-negative integer uses %d octets, maximum is 8", ErrInvalidValue, length)
@@ -861,6 +915,10 @@ func decodeNonNegativeBinaryIntegerWithLength(bb *BitBuffer) (uint64, error) {
 	var data []byte
 	data, err = bb.ReadBytes(int(length))
 	if err != nil {
+		return 0, err
+	}
+	// ITU-T X.691 (02/2021) §§11.3.6, 11.7.4 require minimum octets.
+	if err := validateMinimalUnsigned(data); err != nil {
 		return 0, err
 	}
 	var val uint64

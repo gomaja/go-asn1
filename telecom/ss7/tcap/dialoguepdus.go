@@ -989,7 +989,7 @@ func (v *DialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 func (v *AARQApdu) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.ProtocolVersion != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1050,7 +1050,7 @@ func (v *AARQApdu) MarshalBER() ([]byte, error) {
 func (v *AARQApdu) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.ProtocolVersion != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1235,7 +1235,7 @@ func (v *AARQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 func (v *AAREApdu) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.ProtocolVersion != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1320,7 +1320,7 @@ func (v *AAREApdu) MarshalBER() ([]byte, error) {
 func (v *AAREApdu) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.ProtocolVersion != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}

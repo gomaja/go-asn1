@@ -160,7 +160,7 @@ func TestVectorEcidMeasurementIdDispatch(t *testing.T) {
 		t.Fatal(err)
 	}
 	asn1VectorAssertPath(t, recursive, "ProtocolIEs[0].Field.Id", "2")
-	asn1VectorAssertPath(t, recursive, "ProtocolIEs[0].Value", "1")
+	asn1VectorAssertPath(t, recursive, "ProtocolIEs[0].Value.Value", "1")
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)

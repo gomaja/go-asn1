@@ -1715,6 +1715,9 @@ func (v *X520name) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
 		}
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 32768 {
+			return nil, fmt.Errorf("teletexString length %d violates SIZE (1..32768)", len([]rune(*v.TeletexString)))
+		}
 		return enc_0, nil
 	case X520nameChoicePrintableString:
 		if v.PrintableString == nil {
@@ -1723,6 +1726,9 @@ func (v *X520name) MarshalBER() ([]byte, error) {
 		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 32768 {
+			return nil, fmt.Errorf("printableString length %d violates SIZE (1..32768)", len([]rune(*v.PrintableString)))
 		}
 		return enc_1, nil
 	case X520nameChoiceUniversalString:
@@ -1733,6 +1739,9 @@ func (v *X520name) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
 		}
+		if len([]rune(*v.UniversalString)) < 1 || len([]rune(*v.UniversalString)) > 32768 {
+			return nil, fmt.Errorf("universalString length %d violates SIZE (1..32768)", len([]rune(*v.UniversalString)))
+		}
 		return enc_2, nil
 	case X520nameChoiceUtf8String:
 		if v.Utf8String == nil {
@@ -1742,6 +1751,9 @@ func (v *X520name) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
 		}
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 32768 {
+			return nil, fmt.Errorf("utf8String length %d violates SIZE (1..32768)", len([]rune(*v.Utf8String)))
+		}
 		return enc_3, nil
 	case X520nameChoiceBmpString:
 		if v.BmpString == nil {
@@ -1750,6 +1762,9 @@ func (v *X520name) MarshalBER() ([]byte, error) {
 		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 32768 {
+			return nil, fmt.Errorf("bmpString length %d violates SIZE (1..32768)", len([]rune(*v.BmpString)))
 		}
 		return enc_4, nil
 	default:
@@ -1799,6 +1814,9 @@ func (v *X520name) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 32768 {
+			return fmt.Errorf("teletexString length %d violates SIZE (1..32768)", len([]rune(*v.TeletexString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = X520nameChoicePrintableString
 		decVal, _, strErr := ber.DecodeString(choiceData, 19, opts...)
@@ -1806,6 +1824,9 @@ func (v *X520name) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 32768 {
+			return fmt.Errorf("printableString length %d violates SIZE (1..32768)", len([]rune(*v.PrintableString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = X520nameChoiceUniversalString
 		decVal, _, strErr := ber.DecodeString(choiceData, 28, opts...)
@@ -1813,6 +1834,9 @@ func (v *X520name) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
+		if len([]rune(*v.UniversalString)) < 1 || len([]rune(*v.UniversalString)) > 32768 {
+			return fmt.Errorf("universalString length %d violates SIZE (1..32768)", len([]rune(*v.UniversalString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = X520nameChoiceUtf8String
 		decVal, _, strErr := ber.DecodeString(choiceData, 12, opts...)
@@ -1820,6 +1844,9 @@ func (v *X520name) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 32768 {
+			return fmt.Errorf("utf8String length %d violates SIZE (1..32768)", len([]rune(*v.Utf8String)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = X520nameChoiceBmpString
 		decVal, _, strErr := ber.DecodeString(choiceData, 30, opts...)
@@ -1827,6 +1854,9 @@ func (v *X520name) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
 		v.BmpString = &decVal
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 32768 {
+			return fmt.Errorf("bmpString length %d violates SIZE (1..32768)", len([]rune(*v.BmpString)))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for X520name CHOICE", peekTag)
 	}
@@ -1844,6 +1874,9 @@ func (v *X520CommonName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
 		}
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 64 {
+			return nil, fmt.Errorf("teletexString length %d violates SIZE (1..64)", len([]rune(*v.TeletexString)))
+		}
 		return enc_0, nil
 	case X520CommonNameChoicePrintableString:
 		if v.PrintableString == nil {
@@ -1852,6 +1885,9 @@ func (v *X520CommonName) MarshalBER() ([]byte, error) {
 		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 64 {
+			return nil, fmt.Errorf("printableString length %d violates SIZE (1..64)", len([]rune(*v.PrintableString)))
 		}
 		return enc_1, nil
 	case X520CommonNameChoiceUniversalString:
@@ -1862,6 +1898,9 @@ func (v *X520CommonName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
 		}
+		if len([]rune(*v.UniversalString)) < 1 || len([]rune(*v.UniversalString)) > 64 {
+			return nil, fmt.Errorf("universalString length %d violates SIZE (1..64)", len([]rune(*v.UniversalString)))
+		}
 		return enc_2, nil
 	case X520CommonNameChoiceUtf8String:
 		if v.Utf8String == nil {
@@ -1871,6 +1910,9 @@ func (v *X520CommonName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
 		}
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 64 {
+			return nil, fmt.Errorf("utf8String length %d violates SIZE (1..64)", len([]rune(*v.Utf8String)))
+		}
 		return enc_3, nil
 	case X520CommonNameChoiceBmpString:
 		if v.BmpString == nil {
@@ -1879,6 +1921,9 @@ func (v *X520CommonName) MarshalBER() ([]byte, error) {
 		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 64 {
+			return nil, fmt.Errorf("bmpString length %d violates SIZE (1..64)", len([]rune(*v.BmpString)))
 		}
 		return enc_4, nil
 	default:
@@ -1928,6 +1973,9 @@ func (v *X520CommonName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 64 {
+			return fmt.Errorf("teletexString length %d violates SIZE (1..64)", len([]rune(*v.TeletexString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = X520CommonNameChoicePrintableString
 		decVal, _, strErr := ber.DecodeString(choiceData, 19, opts...)
@@ -1935,6 +1983,9 @@ func (v *X520CommonName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 64 {
+			return fmt.Errorf("printableString length %d violates SIZE (1..64)", len([]rune(*v.PrintableString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = X520CommonNameChoiceUniversalString
 		decVal, _, strErr := ber.DecodeString(choiceData, 28, opts...)
@@ -1942,6 +1993,9 @@ func (v *X520CommonName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
+		if len([]rune(*v.UniversalString)) < 1 || len([]rune(*v.UniversalString)) > 64 {
+			return fmt.Errorf("universalString length %d violates SIZE (1..64)", len([]rune(*v.UniversalString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = X520CommonNameChoiceUtf8String
 		decVal, _, strErr := ber.DecodeString(choiceData, 12, opts...)
@@ -1949,6 +2003,9 @@ func (v *X520CommonName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 64 {
+			return fmt.Errorf("utf8String length %d violates SIZE (1..64)", len([]rune(*v.Utf8String)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = X520CommonNameChoiceBmpString
 		decVal, _, strErr := ber.DecodeString(choiceData, 30, opts...)
@@ -1956,6 +2013,9 @@ func (v *X520CommonName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
 		v.BmpString = &decVal
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 64 {
+			return fmt.Errorf("bmpString length %d violates SIZE (1..64)", len([]rune(*v.BmpString)))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for X520CommonName CHOICE", peekTag)
 	}
@@ -1973,6 +2033,9 @@ func (v *X520LocalityName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
 		}
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 128 {
+			return nil, fmt.Errorf("teletexString length %d violates SIZE (1..128)", len([]rune(*v.TeletexString)))
+		}
 		return enc_0, nil
 	case X520LocalityNameChoicePrintableString:
 		if v.PrintableString == nil {
@@ -1981,6 +2044,9 @@ func (v *X520LocalityName) MarshalBER() ([]byte, error) {
 		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 128 {
+			return nil, fmt.Errorf("printableString length %d violates SIZE (1..128)", len([]rune(*v.PrintableString)))
 		}
 		return enc_1, nil
 	case X520LocalityNameChoiceUniversalString:
@@ -1991,6 +2057,9 @@ func (v *X520LocalityName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
 		}
+		if len([]rune(*v.UniversalString)) < 1 || len([]rune(*v.UniversalString)) > 128 {
+			return nil, fmt.Errorf("universalString length %d violates SIZE (1..128)", len([]rune(*v.UniversalString)))
+		}
 		return enc_2, nil
 	case X520LocalityNameChoiceUtf8String:
 		if v.Utf8String == nil {
@@ -2000,6 +2069,9 @@ func (v *X520LocalityName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
 		}
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 128 {
+			return nil, fmt.Errorf("utf8String length %d violates SIZE (1..128)", len([]rune(*v.Utf8String)))
+		}
 		return enc_3, nil
 	case X520LocalityNameChoiceBmpString:
 		if v.BmpString == nil {
@@ -2008,6 +2080,9 @@ func (v *X520LocalityName) MarshalBER() ([]byte, error) {
 		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 128 {
+			return nil, fmt.Errorf("bmpString length %d violates SIZE (1..128)", len([]rune(*v.BmpString)))
 		}
 		return enc_4, nil
 	default:
@@ -2057,6 +2132,9 @@ func (v *X520LocalityName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 128 {
+			return fmt.Errorf("teletexString length %d violates SIZE (1..128)", len([]rune(*v.TeletexString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = X520LocalityNameChoicePrintableString
 		decVal, _, strErr := ber.DecodeString(choiceData, 19, opts...)
@@ -2064,6 +2142,9 @@ func (v *X520LocalityName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 128 {
+			return fmt.Errorf("printableString length %d violates SIZE (1..128)", len([]rune(*v.PrintableString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = X520LocalityNameChoiceUniversalString
 		decVal, _, strErr := ber.DecodeString(choiceData, 28, opts...)
@@ -2071,6 +2152,9 @@ func (v *X520LocalityName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
+		if len([]rune(*v.UniversalString)) < 1 || len([]rune(*v.UniversalString)) > 128 {
+			return fmt.Errorf("universalString length %d violates SIZE (1..128)", len([]rune(*v.UniversalString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = X520LocalityNameChoiceUtf8String
 		decVal, _, strErr := ber.DecodeString(choiceData, 12, opts...)
@@ -2078,6 +2162,9 @@ func (v *X520LocalityName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 128 {
+			return fmt.Errorf("utf8String length %d violates SIZE (1..128)", len([]rune(*v.Utf8String)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = X520LocalityNameChoiceBmpString
 		decVal, _, strErr := ber.DecodeString(choiceData, 30, opts...)
@@ -2085,6 +2172,9 @@ func (v *X520LocalityName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
 		v.BmpString = &decVal
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 128 {
+			return fmt.Errorf("bmpString length %d violates SIZE (1..128)", len([]rune(*v.BmpString)))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for X520LocalityName CHOICE", peekTag)
 	}
@@ -2102,6 +2192,9 @@ func (v *X520StateOrProvinceName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
 		}
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 128 {
+			return nil, fmt.Errorf("teletexString length %d violates SIZE (1..128)", len([]rune(*v.TeletexString)))
+		}
 		return enc_0, nil
 	case X520StateOrProvinceNameChoicePrintableString:
 		if v.PrintableString == nil {
@@ -2110,6 +2203,9 @@ func (v *X520StateOrProvinceName) MarshalBER() ([]byte, error) {
 		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 128 {
+			return nil, fmt.Errorf("printableString length %d violates SIZE (1..128)", len([]rune(*v.PrintableString)))
 		}
 		return enc_1, nil
 	case X520StateOrProvinceNameChoiceUniversalString:
@@ -2120,6 +2216,9 @@ func (v *X520StateOrProvinceName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
 		}
+		if len([]rune(*v.UniversalString)) < 1 || len([]rune(*v.UniversalString)) > 128 {
+			return nil, fmt.Errorf("universalString length %d violates SIZE (1..128)", len([]rune(*v.UniversalString)))
+		}
 		return enc_2, nil
 	case X520StateOrProvinceNameChoiceUtf8String:
 		if v.Utf8String == nil {
@@ -2129,6 +2228,9 @@ func (v *X520StateOrProvinceName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
 		}
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 128 {
+			return nil, fmt.Errorf("utf8String length %d violates SIZE (1..128)", len([]rune(*v.Utf8String)))
+		}
 		return enc_3, nil
 	case X520StateOrProvinceNameChoiceBmpString:
 		if v.BmpString == nil {
@@ -2137,6 +2239,9 @@ func (v *X520StateOrProvinceName) MarshalBER() ([]byte, error) {
 		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 128 {
+			return nil, fmt.Errorf("bmpString length %d violates SIZE (1..128)", len([]rune(*v.BmpString)))
 		}
 		return enc_4, nil
 	default:
@@ -2186,6 +2291,9 @@ func (v *X520StateOrProvinceName) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 128 {
+			return fmt.Errorf("teletexString length %d violates SIZE (1..128)", len([]rune(*v.TeletexString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = X520StateOrProvinceNameChoicePrintableString
 		decVal, _, strErr := ber.DecodeString(choiceData, 19, opts...)
@@ -2193,6 +2301,9 @@ func (v *X520StateOrProvinceName) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 128 {
+			return fmt.Errorf("printableString length %d violates SIZE (1..128)", len([]rune(*v.PrintableString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = X520StateOrProvinceNameChoiceUniversalString
 		decVal, _, strErr := ber.DecodeString(choiceData, 28, opts...)
@@ -2200,6 +2311,9 @@ func (v *X520StateOrProvinceName) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
+		if len([]rune(*v.UniversalString)) < 1 || len([]rune(*v.UniversalString)) > 128 {
+			return fmt.Errorf("universalString length %d violates SIZE (1..128)", len([]rune(*v.UniversalString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = X520StateOrProvinceNameChoiceUtf8String
 		decVal, _, strErr := ber.DecodeString(choiceData, 12, opts...)
@@ -2207,6 +2321,9 @@ func (v *X520StateOrProvinceName) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 128 {
+			return fmt.Errorf("utf8String length %d violates SIZE (1..128)", len([]rune(*v.Utf8String)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = X520StateOrProvinceNameChoiceBmpString
 		decVal, _, strErr := ber.DecodeString(choiceData, 30, opts...)
@@ -2214,6 +2331,9 @@ func (v *X520StateOrProvinceName) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
 		v.BmpString = &decVal
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 128 {
+			return fmt.Errorf("bmpString length %d violates SIZE (1..128)", len([]rune(*v.BmpString)))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for X520StateOrProvinceName CHOICE", peekTag)
 	}
@@ -2231,6 +2351,9 @@ func (v *X520OrganizationName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
 		}
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 64 {
+			return nil, fmt.Errorf("teletexString length %d violates SIZE (1..64)", len([]rune(*v.TeletexString)))
+		}
 		return enc_0, nil
 	case X520OrganizationNameChoicePrintableString:
 		if v.PrintableString == nil {
@@ -2239,6 +2362,9 @@ func (v *X520OrganizationName) MarshalBER() ([]byte, error) {
 		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 64 {
+			return nil, fmt.Errorf("printableString length %d violates SIZE (1..64)", len([]rune(*v.PrintableString)))
 		}
 		return enc_1, nil
 	case X520OrganizationNameChoiceUniversalString:
@@ -2249,6 +2375,9 @@ func (v *X520OrganizationName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
 		}
+		if len([]rune(*v.UniversalString)) < 1 || len([]rune(*v.UniversalString)) > 64 {
+			return nil, fmt.Errorf("universalString length %d violates SIZE (1..64)", len([]rune(*v.UniversalString)))
+		}
 		return enc_2, nil
 	case X520OrganizationNameChoiceUtf8String:
 		if v.Utf8String == nil {
@@ -2258,6 +2387,9 @@ func (v *X520OrganizationName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
 		}
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 64 {
+			return nil, fmt.Errorf("utf8String length %d violates SIZE (1..64)", len([]rune(*v.Utf8String)))
+		}
 		return enc_3, nil
 	case X520OrganizationNameChoiceBmpString:
 		if v.BmpString == nil {
@@ -2266,6 +2398,9 @@ func (v *X520OrganizationName) MarshalBER() ([]byte, error) {
 		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 64 {
+			return nil, fmt.Errorf("bmpString length %d violates SIZE (1..64)", len([]rune(*v.BmpString)))
 		}
 		return enc_4, nil
 	default:
@@ -2315,6 +2450,9 @@ func (v *X520OrganizationName) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 64 {
+			return fmt.Errorf("teletexString length %d violates SIZE (1..64)", len([]rune(*v.TeletexString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = X520OrganizationNameChoicePrintableString
 		decVal, _, strErr := ber.DecodeString(choiceData, 19, opts...)
@@ -2322,6 +2460,9 @@ func (v *X520OrganizationName) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 64 {
+			return fmt.Errorf("printableString length %d violates SIZE (1..64)", len([]rune(*v.PrintableString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = X520OrganizationNameChoiceUniversalString
 		decVal, _, strErr := ber.DecodeString(choiceData, 28, opts...)
@@ -2329,6 +2470,9 @@ func (v *X520OrganizationName) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
+		if len([]rune(*v.UniversalString)) < 1 || len([]rune(*v.UniversalString)) > 64 {
+			return fmt.Errorf("universalString length %d violates SIZE (1..64)", len([]rune(*v.UniversalString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = X520OrganizationNameChoiceUtf8String
 		decVal, _, strErr := ber.DecodeString(choiceData, 12, opts...)
@@ -2336,6 +2480,9 @@ func (v *X520OrganizationName) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 64 {
+			return fmt.Errorf("utf8String length %d violates SIZE (1..64)", len([]rune(*v.Utf8String)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = X520OrganizationNameChoiceBmpString
 		decVal, _, strErr := ber.DecodeString(choiceData, 30, opts...)
@@ -2343,6 +2490,9 @@ func (v *X520OrganizationName) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
 		v.BmpString = &decVal
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 64 {
+			return fmt.Errorf("bmpString length %d violates SIZE (1..64)", len([]rune(*v.BmpString)))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for X520OrganizationName CHOICE", peekTag)
 	}
@@ -2360,6 +2510,9 @@ func (v *X520OrganizationalUnitName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
 		}
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 64 {
+			return nil, fmt.Errorf("teletexString length %d violates SIZE (1..64)", len([]rune(*v.TeletexString)))
+		}
 		return enc_0, nil
 	case X520OrganizationalUnitNameChoicePrintableString:
 		if v.PrintableString == nil {
@@ -2368,6 +2521,9 @@ func (v *X520OrganizationalUnitName) MarshalBER() ([]byte, error) {
 		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 64 {
+			return nil, fmt.Errorf("printableString length %d violates SIZE (1..64)", len([]rune(*v.PrintableString)))
 		}
 		return enc_1, nil
 	case X520OrganizationalUnitNameChoiceUniversalString:
@@ -2378,6 +2534,9 @@ func (v *X520OrganizationalUnitName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
 		}
+		if len([]rune(*v.UniversalString)) < 1 || len([]rune(*v.UniversalString)) > 64 {
+			return nil, fmt.Errorf("universalString length %d violates SIZE (1..64)", len([]rune(*v.UniversalString)))
+		}
 		return enc_2, nil
 	case X520OrganizationalUnitNameChoiceUtf8String:
 		if v.Utf8String == nil {
@@ -2387,6 +2546,9 @@ func (v *X520OrganizationalUnitName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
 		}
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 64 {
+			return nil, fmt.Errorf("utf8String length %d violates SIZE (1..64)", len([]rune(*v.Utf8String)))
+		}
 		return enc_3, nil
 	case X520OrganizationalUnitNameChoiceBmpString:
 		if v.BmpString == nil {
@@ -2395,6 +2557,9 @@ func (v *X520OrganizationalUnitName) MarshalBER() ([]byte, error) {
 		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 64 {
+			return nil, fmt.Errorf("bmpString length %d violates SIZE (1..64)", len([]rune(*v.BmpString)))
 		}
 		return enc_4, nil
 	default:
@@ -2444,6 +2609,9 @@ func (v *X520OrganizationalUnitName) UnmarshalBER(data []byte, opts ...ber.Decod
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 64 {
+			return fmt.Errorf("teletexString length %d violates SIZE (1..64)", len([]rune(*v.TeletexString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = X520OrganizationalUnitNameChoicePrintableString
 		decVal, _, strErr := ber.DecodeString(choiceData, 19, opts...)
@@ -2451,6 +2619,9 @@ func (v *X520OrganizationalUnitName) UnmarshalBER(data []byte, opts ...ber.Decod
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 64 {
+			return fmt.Errorf("printableString length %d violates SIZE (1..64)", len([]rune(*v.PrintableString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = X520OrganizationalUnitNameChoiceUniversalString
 		decVal, _, strErr := ber.DecodeString(choiceData, 28, opts...)
@@ -2458,6 +2629,9 @@ func (v *X520OrganizationalUnitName) UnmarshalBER(data []byte, opts ...ber.Decod
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
+		if len([]rune(*v.UniversalString)) < 1 || len([]rune(*v.UniversalString)) > 64 {
+			return fmt.Errorf("universalString length %d violates SIZE (1..64)", len([]rune(*v.UniversalString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = X520OrganizationalUnitNameChoiceUtf8String
 		decVal, _, strErr := ber.DecodeString(choiceData, 12, opts...)
@@ -2465,6 +2639,9 @@ func (v *X520OrganizationalUnitName) UnmarshalBER(data []byte, opts ...ber.Decod
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 64 {
+			return fmt.Errorf("utf8String length %d violates SIZE (1..64)", len([]rune(*v.Utf8String)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = X520OrganizationalUnitNameChoiceBmpString
 		decVal, _, strErr := ber.DecodeString(choiceData, 30, opts...)
@@ -2472,6 +2649,9 @@ func (v *X520OrganizationalUnitName) UnmarshalBER(data []byte, opts ...ber.Decod
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
 		v.BmpString = &decVal
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 64 {
+			return fmt.Errorf("bmpString length %d violates SIZE (1..64)", len([]rune(*v.BmpString)))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for X520OrganizationalUnitName CHOICE", peekTag)
 	}
@@ -2489,6 +2669,9 @@ func (v *X520Title) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
 		}
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 64 {
+			return nil, fmt.Errorf("teletexString length %d violates SIZE (1..64)", len([]rune(*v.TeletexString)))
+		}
 		return enc_0, nil
 	case X520TitleChoicePrintableString:
 		if v.PrintableString == nil {
@@ -2497,6 +2680,9 @@ func (v *X520Title) MarshalBER() ([]byte, error) {
 		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 64 {
+			return nil, fmt.Errorf("printableString length %d violates SIZE (1..64)", len([]rune(*v.PrintableString)))
 		}
 		return enc_1, nil
 	case X520TitleChoiceUniversalString:
@@ -2507,6 +2693,9 @@ func (v *X520Title) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
 		}
+		if len([]rune(*v.UniversalString)) < 1 || len([]rune(*v.UniversalString)) > 64 {
+			return nil, fmt.Errorf("universalString length %d violates SIZE (1..64)", len([]rune(*v.UniversalString)))
+		}
 		return enc_2, nil
 	case X520TitleChoiceUtf8String:
 		if v.Utf8String == nil {
@@ -2516,6 +2705,9 @@ func (v *X520Title) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
 		}
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 64 {
+			return nil, fmt.Errorf("utf8String length %d violates SIZE (1..64)", len([]rune(*v.Utf8String)))
+		}
 		return enc_3, nil
 	case X520TitleChoiceBmpString:
 		if v.BmpString == nil {
@@ -2524,6 +2716,9 @@ func (v *X520Title) MarshalBER() ([]byte, error) {
 		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 64 {
+			return nil, fmt.Errorf("bmpString length %d violates SIZE (1..64)", len([]rune(*v.BmpString)))
 		}
 		return enc_4, nil
 	default:
@@ -2573,6 +2768,9 @@ func (v *X520Title) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 64 {
+			return fmt.Errorf("teletexString length %d violates SIZE (1..64)", len([]rune(*v.TeletexString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = X520TitleChoicePrintableString
 		decVal, _, strErr := ber.DecodeString(choiceData, 19, opts...)
@@ -2580,6 +2778,9 @@ func (v *X520Title) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 64 {
+			return fmt.Errorf("printableString length %d violates SIZE (1..64)", len([]rune(*v.PrintableString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = X520TitleChoiceUniversalString
 		decVal, _, strErr := ber.DecodeString(choiceData, 28, opts...)
@@ -2587,6 +2788,9 @@ func (v *X520Title) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
+		if len([]rune(*v.UniversalString)) < 1 || len([]rune(*v.UniversalString)) > 64 {
+			return fmt.Errorf("universalString length %d violates SIZE (1..64)", len([]rune(*v.UniversalString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = X520TitleChoiceUtf8String
 		decVal, _, strErr := ber.DecodeString(choiceData, 12, opts...)
@@ -2594,6 +2798,9 @@ func (v *X520Title) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 64 {
+			return fmt.Errorf("utf8String length %d violates SIZE (1..64)", len([]rune(*v.Utf8String)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = X520TitleChoiceBmpString
 		decVal, _, strErr := ber.DecodeString(choiceData, 30, opts...)
@@ -2601,6 +2808,9 @@ func (v *X520Title) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
 		v.BmpString = &decVal
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 64 {
+			return fmt.Errorf("bmpString length %d violates SIZE (1..64)", len([]rune(*v.BmpString)))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for X520Title CHOICE", peekTag)
 	}
@@ -2618,6 +2828,9 @@ func (v *X520Pseudonym) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
 		}
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 128 {
+			return nil, fmt.Errorf("teletexString length %d violates SIZE (1..128)", len([]rune(*v.TeletexString)))
+		}
 		return enc_0, nil
 	case X520PseudonymChoicePrintableString:
 		if v.PrintableString == nil {
@@ -2626,6 +2839,9 @@ func (v *X520Pseudonym) MarshalBER() ([]byte, error) {
 		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 128 {
+			return nil, fmt.Errorf("printableString length %d violates SIZE (1..128)", len([]rune(*v.PrintableString)))
 		}
 		return enc_1, nil
 	case X520PseudonymChoiceUniversalString:
@@ -2636,6 +2852,9 @@ func (v *X520Pseudonym) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
 		}
+		if len([]rune(*v.UniversalString)) < 1 || len([]rune(*v.UniversalString)) > 128 {
+			return nil, fmt.Errorf("universalString length %d violates SIZE (1..128)", len([]rune(*v.UniversalString)))
+		}
 		return enc_2, nil
 	case X520PseudonymChoiceUtf8String:
 		if v.Utf8String == nil {
@@ -2645,6 +2864,9 @@ func (v *X520Pseudonym) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
 		}
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 128 {
+			return nil, fmt.Errorf("utf8String length %d violates SIZE (1..128)", len([]rune(*v.Utf8String)))
+		}
 		return enc_3, nil
 	case X520PseudonymChoiceBmpString:
 		if v.BmpString == nil {
@@ -2653,6 +2875,9 @@ func (v *X520Pseudonym) MarshalBER() ([]byte, error) {
 		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 128 {
+			return nil, fmt.Errorf("bmpString length %d violates SIZE (1..128)", len([]rune(*v.BmpString)))
 		}
 		return enc_4, nil
 	default:
@@ -2702,6 +2927,9 @@ func (v *X520Pseudonym) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 128 {
+			return fmt.Errorf("teletexString length %d violates SIZE (1..128)", len([]rune(*v.TeletexString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = X520PseudonymChoicePrintableString
 		decVal, _, strErr := ber.DecodeString(choiceData, 19, opts...)
@@ -2709,6 +2937,9 @@ func (v *X520Pseudonym) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 128 {
+			return fmt.Errorf("printableString length %d violates SIZE (1..128)", len([]rune(*v.PrintableString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = X520PseudonymChoiceUniversalString
 		decVal, _, strErr := ber.DecodeString(choiceData, 28, opts...)
@@ -2716,6 +2947,9 @@ func (v *X520Pseudonym) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
+		if len([]rune(*v.UniversalString)) < 1 || len([]rune(*v.UniversalString)) > 128 {
+			return fmt.Errorf("universalString length %d violates SIZE (1..128)", len([]rune(*v.UniversalString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = X520PseudonymChoiceUtf8String
 		decVal, _, strErr := ber.DecodeString(choiceData, 12, opts...)
@@ -2723,6 +2957,9 @@ func (v *X520Pseudonym) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
+		if len([]rune(*v.Utf8String)) < 1 || len([]rune(*v.Utf8String)) > 128 {
+			return fmt.Errorf("utf8String length %d violates SIZE (1..128)", len([]rune(*v.Utf8String)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = X520PseudonymChoiceBmpString
 		decVal, _, strErr := ber.DecodeString(choiceData, 30, opts...)
@@ -2730,6 +2967,9 @@ func (v *X520Pseudonym) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
 		v.BmpString = &decVal
+		if len([]rune(*v.BmpString)) < 1 || len([]rune(*v.BmpString)) > 128 {
+			return fmt.Errorf("bmpString length %d violates SIZE (1..128)", len([]rune(*v.BmpString)))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for X520Pseudonym CHOICE", peekTag)
 	}
@@ -2976,6 +3216,9 @@ func (v *DirectoryString) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding teletexString: %w", stringErr)
 		}
+		if len([]rune(*v.TeletexString)) < 1 {
+			return nil, fmt.Errorf("teletexString length %d violates SIZE (1..MAX)", len([]rune(*v.TeletexString)))
+		}
 		return enc_0, nil
 	case DirectoryStringChoicePrintableString:
 		if v.PrintableString == nil {
@@ -2984,6 +3227,9 @@ func (v *DirectoryString) MarshalBER() ([]byte, error) {
 		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
+		}
+		if len([]rune(*v.PrintableString)) < 1 {
+			return nil, fmt.Errorf("printableString length %d violates SIZE (1..MAX)", len([]rune(*v.PrintableString)))
 		}
 		return enc_1, nil
 	case DirectoryStringChoiceUniversalString:
@@ -2994,6 +3240,9 @@ func (v *DirectoryString) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding universalString: %w", stringErr)
 		}
+		if len([]rune(*v.UniversalString)) < 1 {
+			return nil, fmt.Errorf("universalString length %d violates SIZE (1..MAX)", len([]rune(*v.UniversalString)))
+		}
 		return enc_2, nil
 	case DirectoryStringChoiceUtf8String:
 		if v.Utf8String == nil {
@@ -3003,6 +3252,9 @@ func (v *DirectoryString) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding utf8String: %w", stringErr)
 		}
+		if len([]rune(*v.Utf8String)) < 1 {
+			return nil, fmt.Errorf("utf8String length %d violates SIZE (1..MAX)", len([]rune(*v.Utf8String)))
+		}
 		return enc_3, nil
 	case DirectoryStringChoiceBmpString:
 		if v.BmpString == nil {
@@ -3011,6 +3263,9 @@ func (v *DirectoryString) MarshalBER() ([]byte, error) {
 		enc_4, stringErr := ber.EncodeStringTagChecked(30, *v.BmpString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding bmpString: %w", stringErr)
+		}
+		if len([]rune(*v.BmpString)) < 1 {
+			return nil, fmt.Errorf("bmpString length %d violates SIZE (1..MAX)", len([]rune(*v.BmpString)))
 		}
 		return enc_4, nil
 	default:
@@ -3060,6 +3315,9 @@ func (v *DirectoryString) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 			return fmt.Errorf("decoding teletexString: %w", strErr)
 		}
 		v.TeletexString = &decVal
+		if len([]rune(*v.TeletexString)) < 1 {
+			return fmt.Errorf("teletexString length %d violates SIZE (1..MAX)", len([]rune(*v.TeletexString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = DirectoryStringChoicePrintableString
 		decVal, _, strErr := ber.DecodeString(choiceData, 19, opts...)
@@ -3067,6 +3325,9 @@ func (v *DirectoryString) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
+		if len([]rune(*v.PrintableString)) < 1 {
+			return fmt.Errorf("printableString length %d violates SIZE (1..MAX)", len([]rune(*v.PrintableString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 28 {
 		v.Choice = DirectoryStringChoiceUniversalString
 		decVal, _, strErr := ber.DecodeString(choiceData, 28, opts...)
@@ -3074,6 +3335,9 @@ func (v *DirectoryString) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 			return fmt.Errorf("decoding universalString: %w", strErr)
 		}
 		v.UniversalString = &decVal
+		if len([]rune(*v.UniversalString)) < 1 {
+			return fmt.Errorf("universalString length %d violates SIZE (1..MAX)", len([]rune(*v.UniversalString)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 12 {
 		v.Choice = DirectoryStringChoiceUtf8String
 		decVal, _, strErr := ber.DecodeString(choiceData, 12, opts...)
@@ -3081,6 +3345,9 @@ func (v *DirectoryString) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 			return fmt.Errorf("decoding utf8String: %w", strErr)
 		}
 		v.Utf8String = &decVal
+		if len([]rune(*v.Utf8String)) < 1 {
+			return fmt.Errorf("utf8String length %d violates SIZE (1..MAX)", len([]rune(*v.Utf8String)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 30 {
 		v.Choice = DirectoryStringChoiceBmpString
 		decVal, _, strErr := ber.DecodeString(choiceData, 30, opts...)
@@ -3088,6 +3355,9 @@ func (v *DirectoryString) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 			return fmt.Errorf("decoding bmpString: %w", strErr)
 		}
 		v.BmpString = &decVal
+		if len([]rune(*v.BmpString)) < 1 {
+			return fmt.Errorf("bmpString length %d violates SIZE (1..MAX)", len([]rune(*v.BmpString)))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for DirectoryString CHOICE", peekTag)
 	}
@@ -3107,7 +3377,7 @@ func (v *Certificate) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding signatureAlgorithm: %w", err)
 	}
 	children = append(children, enc_signaturealgorithm...)
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.Signature.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -3132,7 +3402,7 @@ func (v *Certificate) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding signatureAlgorithm: %w", err)
 	}
 	children = append(children, enc_signaturealgorithm...)
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.Signature.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -3291,7 +3561,7 @@ func (v *TBSCertificate) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_subjectpublickeyinfo...)
 	if v.IssuerUniqueID != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.IssuerUniqueID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3307,7 +3577,7 @@ func (v *TBSCertificate) MarshalBER() ([]byte, error) {
 		children = append(children, enc_issueruniqueid...)
 	}
 	if v.SubjectUniqueID != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SubjectUniqueID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3323,6 +3593,9 @@ func (v *TBSCertificate) MarshalBER() ([]byte, error) {
 		children = append(children, enc_subjectuniqueid...)
 	}
 	if v.Extensions != nil {
+		if len(v.Extensions) < 1 {
+			return nil, fmt.Errorf("extensions length %d violates SIZE (1..MAX)", len(v.Extensions))
+		}
 		enc_extensions, err := MarshalBERExtensions(v.Extensions)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensions: %w", err)
@@ -3390,7 +3663,7 @@ func (v *TBSCertificate) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_subjectpublickeyinfo...)
 	if v.IssuerUniqueID != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.IssuerUniqueID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3406,7 +3679,7 @@ func (v *TBSCertificate) MarshalDER() ([]byte, error) {
 		children = append(children, enc_issueruniqueid...)
 	}
 	if v.SubjectUniqueID != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 		if v.SubjectUniqueID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3422,6 +3695,9 @@ func (v *TBSCertificate) MarshalDER() ([]byte, error) {
 		children = append(children, enc_subjectuniqueid...)
 	}
 	if v.Extensions != nil {
+		if len(v.Extensions) < 1 {
+			return nil, fmt.Errorf("extensions length %d violates SIZE (1..MAX)", len(v.Extensions))
+		}
 		enc_extensions, err := MarshalDERExtensions(v.Extensions)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensions: %w", err)
@@ -3712,6 +3988,9 @@ func (v *TBSCertificate) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_extensions
+				if len(v.Extensions) < 1 {
+					return fmt.Errorf("extensions length %d violates SIZE (1..MAX)", len(v.Extensions))
+				}
 			}
 		}
 	}
@@ -3911,7 +4190,7 @@ func (v *SubjectPublicKeyInfo) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding algorithm: %w", err)
 	}
 	children = append(children, enc_algorithm...)
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.SubjectPublicKey.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -3931,7 +4210,7 @@ func (v *SubjectPublicKeyInfo) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding algorithm: %w", err)
 	}
 	children = append(children, enc_algorithm...)
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.SubjectPublicKey.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -4228,7 +4507,7 @@ func (v *CertificateList) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding signatureAlgorithm: %w", err)
 	}
 	children = append(children, enc_signaturealgorithm...)
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.Signature.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -4253,7 +4532,7 @@ func (v *CertificateList) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding signatureAlgorithm: %w", err)
 	}
 	children = append(children, enc_signaturealgorithm...)
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
 	if v.Signature.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -4399,6 +4678,9 @@ func (v *TBSCertList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_revokedcertificates...)
 	}
 	if v.CrlExtensions != nil {
+		if len(v.CrlExtensions) < 1 {
+			return nil, fmt.Errorf("crlExtensions length %d violates SIZE (1..MAX)", len(v.CrlExtensions))
+		}
 		enc_crlextensions, err := MarshalBERExtensions(v.CrlExtensions)
 		if err != nil {
 			return nil, fmt.Errorf("encoding crlExtensions: %w", err)
@@ -4455,6 +4737,9 @@ func (v *TBSCertList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_revokedcertificates...)
 	}
 	if v.CrlExtensions != nil {
+		if len(v.CrlExtensions) < 1 {
+			return nil, fmt.Errorf("crlExtensions length %d violates SIZE (1..MAX)", len(v.CrlExtensions))
+		}
 		enc_crlextensions, err := MarshalDERExtensions(v.CrlExtensions)
 		if err != nil {
 			return nil, fmt.Errorf("encoding crlExtensions: %w", err)
@@ -4678,6 +4963,9 @@ func (v *TBSCertList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 				}
 
 				offset += n_crlextensions
+				if len(v.CrlExtensions) < 1 {
+					return fmt.Errorf("crlExtensions length %d violates SIZE (1..MAX)", len(v.CrlExtensions))
+				}
 			}
 		}
 	}
@@ -4788,6 +5076,9 @@ func (v *ORAddress) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_builtinstandardattributes...)
 	if v.BuiltInDomainDefinedAttributes != nil {
+		if len(v.BuiltInDomainDefinedAttributes) < 1 || len(v.BuiltInDomainDefinedAttributes) > 4 {
+			return nil, fmt.Errorf("built-in-domain-defined-attributes length %d violates SIZE (1..4)", len(v.BuiltInDomainDefinedAttributes))
+		}
 		enc_builtindomaindefinedattributes, err := MarshalBERBuiltInDomainDefinedAttributes(v.BuiltInDomainDefinedAttributes)
 		if err != nil {
 			return nil, fmt.Errorf("encoding built-in-domain-defined-attributes: %w", err)
@@ -4795,6 +5086,9 @@ func (v *ORAddress) MarshalBER() ([]byte, error) {
 		children = append(children, enc_builtindomaindefinedattributes...)
 	}
 	if v.ExtensionAttributes != nil {
+		if len(v.ExtensionAttributes) < 1 || len(v.ExtensionAttributes) > 256 {
+			return nil, fmt.Errorf("extension-attributes length %d violates SIZE (1..256)", len(v.ExtensionAttributes))
+		}
 		enc_extensionattributes, err := MarshalBERExtensionAttributes(v.ExtensionAttributes)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extension-attributes: %w", err)
@@ -4813,6 +5107,9 @@ func (v *ORAddress) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_builtinstandardattributes...)
 	if v.BuiltInDomainDefinedAttributes != nil {
+		if len(v.BuiltInDomainDefinedAttributes) < 1 || len(v.BuiltInDomainDefinedAttributes) > 4 {
+			return nil, fmt.Errorf("built-in-domain-defined-attributes length %d violates SIZE (1..4)", len(v.BuiltInDomainDefinedAttributes))
+		}
 		enc_builtindomaindefinedattributes, err := MarshalDERBuiltInDomainDefinedAttributes(v.BuiltInDomainDefinedAttributes)
 		if err != nil {
 			return nil, fmt.Errorf("encoding built-in-domain-defined-attributes: %w", err)
@@ -4820,6 +5117,9 @@ func (v *ORAddress) MarshalDER() ([]byte, error) {
 		children = append(children, enc_builtindomaindefinedattributes...)
 	}
 	if v.ExtensionAttributes != nil {
+		if len(v.ExtensionAttributes) < 1 || len(v.ExtensionAttributes) > 256 {
+			return nil, fmt.Errorf("extension-attributes length %d violates SIZE (1..256)", len(v.ExtensionAttributes))
+		}
 		enc_extensionattributes, err := MarshalDERExtensionAttributes(v.ExtensionAttributes)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extension-attributes: %w", err)
@@ -4911,6 +5211,9 @@ func (v *ORAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_builtindomaindefinedattributes
+				if len(v.BuiltInDomainDefinedAttributes) < 1 || len(v.BuiltInDomainDefinedAttributes) > 4 {
+					return fmt.Errorf("built-in-domain-defined-attributes length %d violates SIZE (1..4)", len(v.BuiltInDomainDefinedAttributes))
+				}
 			}
 		}
 	}
@@ -4950,6 +5253,9 @@ func (v *ORAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_extensionattributes
+				if len(v.ExtensionAttributes) < 1 || len(v.ExtensionAttributes) > 256 {
+					return fmt.Errorf("extension-attributes length %d violates SIZE (1..256)", len(v.ExtensionAttributes))
+				}
 			}
 		}
 	}
@@ -4977,6 +5283,9 @@ func (v *BuiltInStandardAttributes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_administrationdomainname...)
 	}
 	if v.NetworkAddress != nil {
+		if len([]rune(*v.NetworkAddress)) < 1 || len([]rune(*v.NetworkAddress)) > 16 {
+			return nil, fmt.Errorf("network-address length %d violates SIZE (1..16)", len([]rune(*v.NetworkAddress)))
+		}
 		enc_networkaddress, stringErr := ber.EncodeStringTagChecked(18, string(*v.NetworkAddress))
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding network-address: %w", stringErr)
@@ -4989,6 +5298,9 @@ func (v *BuiltInStandardAttributes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_networkaddress...)
 	}
 	if v.TerminalIdentifier != nil {
+		if len([]rune(*v.TerminalIdentifier)) < 1 || len([]rune(*v.TerminalIdentifier)) > 24 {
+			return nil, fmt.Errorf("terminal-identifier length %d violates SIZE (1..24)", len([]rune(*v.TerminalIdentifier)))
+		}
 		enc_terminalidentifier, stringErr := ber.EncodeStringTagChecked(19, string(*v.TerminalIdentifier))
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding terminal-identifier: %w", stringErr)
@@ -5015,6 +5327,9 @@ func (v *BuiltInStandardAttributes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_privatedomainname...)
 	}
 	if v.OrganizationName != nil {
+		if len([]rune(*v.OrganizationName)) < 1 || len([]rune(*v.OrganizationName)) > 64 {
+			return nil, fmt.Errorf("organization-name length %d violates SIZE (1..64)", len([]rune(*v.OrganizationName)))
+		}
 		enc_organizationname, stringErr := ber.EncodeStringTagChecked(19, string(*v.OrganizationName))
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding organization-name: %w", stringErr)
@@ -5027,6 +5342,9 @@ func (v *BuiltInStandardAttributes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_organizationname...)
 	}
 	if v.NumericUserIdentifier != nil {
+		if len([]rune(*v.NumericUserIdentifier)) < 1 || len([]rune(*v.NumericUserIdentifier)) > 32 {
+			return nil, fmt.Errorf("numeric-user-identifier length %d violates SIZE (1..32)", len([]rune(*v.NumericUserIdentifier)))
+		}
 		enc_numericuseridentifier, stringErr := ber.EncodeStringTagChecked(18, string(*v.NumericUserIdentifier))
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding numeric-user-identifier: %w", stringErr)
@@ -5051,6 +5369,9 @@ func (v *BuiltInStandardAttributes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_personalname...)
 	}
 	if v.OrganizationalUnitNames != nil {
+		if len(v.OrganizationalUnitNames) < 1 || len(v.OrganizationalUnitNames) > 4 {
+			return nil, fmt.Errorf("organizational-unit-names length %d violates SIZE (1..4)", len(v.OrganizationalUnitNames))
+		}
 		enc_organizationalunitnames, err := MarshalBEROrganizationalUnitNames(v.OrganizationalUnitNames)
 		if err != nil {
 			return nil, fmt.Errorf("encoding organizational-unit-names: %w", err)
@@ -5098,6 +5419,9 @@ func (v *BuiltInStandardAttributes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_administrationdomainname...)
 	}
 	if v.NetworkAddress != nil {
+		if len([]rune(*v.NetworkAddress)) < 1 || len([]rune(*v.NetworkAddress)) > 16 {
+			return nil, fmt.Errorf("network-address length %d violates SIZE (1..16)", len([]rune(*v.NetworkAddress)))
+		}
 		enc_networkaddress, stringErr := ber.EncodeStringTagChecked(18, string(*v.NetworkAddress))
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding network-address: %w", stringErr)
@@ -5110,6 +5434,9 @@ func (v *BuiltInStandardAttributes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_networkaddress...)
 	}
 	if v.TerminalIdentifier != nil {
+		if len([]rune(*v.TerminalIdentifier)) < 1 || len([]rune(*v.TerminalIdentifier)) > 24 {
+			return nil, fmt.Errorf("terminal-identifier length %d violates SIZE (1..24)", len([]rune(*v.TerminalIdentifier)))
+		}
 		enc_terminalidentifier, stringErr := ber.EncodeStringTagChecked(19, string(*v.TerminalIdentifier))
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding terminal-identifier: %w", stringErr)
@@ -5136,6 +5463,9 @@ func (v *BuiltInStandardAttributes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_privatedomainname...)
 	}
 	if v.OrganizationName != nil {
+		if len([]rune(*v.OrganizationName)) < 1 || len([]rune(*v.OrganizationName)) > 64 {
+			return nil, fmt.Errorf("organization-name length %d violates SIZE (1..64)", len([]rune(*v.OrganizationName)))
+		}
 		enc_organizationname, stringErr := ber.EncodeStringTagChecked(19, string(*v.OrganizationName))
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding organization-name: %w", stringErr)
@@ -5148,6 +5478,9 @@ func (v *BuiltInStandardAttributes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_organizationname...)
 	}
 	if v.NumericUserIdentifier != nil {
+		if len([]rune(*v.NumericUserIdentifier)) < 1 || len([]rune(*v.NumericUserIdentifier)) > 32 {
+			return nil, fmt.Errorf("numeric-user-identifier length %d violates SIZE (1..32)", len([]rune(*v.NumericUserIdentifier)))
+		}
 		enc_numericuseridentifier, stringErr := ber.EncodeStringTagChecked(18, string(*v.NumericUserIdentifier))
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding numeric-user-identifier: %w", stringErr)
@@ -5172,6 +5505,9 @@ func (v *BuiltInStandardAttributes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_personalname...)
 	}
 	if v.OrganizationalUnitNames != nil {
+		if len(v.OrganizationalUnitNames) < 1 || len(v.OrganizationalUnitNames) > 4 {
+			return nil, fmt.Errorf("organizational-unit-names length %d violates SIZE (1..4)", len(v.OrganizationalUnitNames))
+		}
 		enc_organizationalunitnames, err := MarshalDEROrganizationalUnitNames(v.OrganizationalUnitNames)
 		if err != nil {
 			return nil, fmt.Errorf("encoding organizational-unit-names: %w", err)
@@ -5290,6 +5626,9 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_networkaddress
+				if len([]rune(*v.NetworkAddress)) < 1 || len([]rune(*v.NetworkAddress)) > 16 {
+					return fmt.Errorf("network-address length %d violates SIZE (1..16)", len([]rune(*v.NetworkAddress)))
+				}
 			}
 		}
 	}
@@ -5317,6 +5656,9 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_terminalidentifier
+				if len([]rune(*v.TerminalIdentifier)) < 1 || len([]rune(*v.TerminalIdentifier)) > 24 {
+					return fmt.Errorf("terminal-identifier length %d violates SIZE (1..24)", len([]rune(*v.TerminalIdentifier)))
+				}
 			}
 		}
 	}
@@ -5370,6 +5712,9 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_organizationname
+				if len([]rune(*v.OrganizationName)) < 1 || len([]rune(*v.OrganizationName)) > 64 {
+					return fmt.Errorf("organization-name length %d violates SIZE (1..64)", len([]rune(*v.OrganizationName)))
+				}
 			}
 		}
 	}
@@ -5397,6 +5742,9 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_numericuseridentifier
+				if len([]rune(*v.NumericUserIdentifier)) < 1 || len([]rune(*v.NumericUserIdentifier)) > 32 {
+					return fmt.Errorf("numeric-user-identifier length %d violates SIZE (1..32)", len([]rune(*v.NumericUserIdentifier)))
+				}
 			}
 		}
 	}
@@ -5470,6 +5818,9 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_organizationalunitnames
+				if len(v.OrganizationalUnitNames) < 1 || len(v.OrganizationalUnitNames) > 4 {
+					return fmt.Errorf("organizational-unit-names length %d violates SIZE (1..4)", len(v.OrganizationalUnitNames))
+				}
 			}
 		}
 	}
@@ -5490,6 +5841,9 @@ func (v *CountryName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding x121-dcc-code: %w", stringErr)
 		}
+		if len([]rune(*v.X121DccCode)) < 3 || len([]rune(*v.X121DccCode)) > 3 {
+			return nil, fmt.Errorf("x121-dcc-code length %d violates SIZE (3)", len([]rune(*v.X121DccCode)))
+		}
 		{
 			var encodeErr error
 			enc_0, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 1, enc_0)
@@ -5505,6 +5859,9 @@ func (v *CountryName) MarshalBER() ([]byte, error) {
 		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.Iso3166Alpha2Code)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding iso-3166-alpha2-code: %w", stringErr)
+		}
+		if len([]rune(*v.Iso3166Alpha2Code)) < 2 || len([]rune(*v.Iso3166Alpha2Code)) > 2 {
+			return nil, fmt.Errorf("iso-3166-alpha2-code length %d violates SIZE (2)", len([]rune(*v.Iso3166Alpha2Code)))
 		}
 		{
 			var encodeErr error
@@ -5574,6 +5931,9 @@ func (v *CountryName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 			return fmt.Errorf("decoding x121-dcc-code: %w", strErr)
 		}
 		v.X121DccCode = &decVal
+		if len([]rune(*v.X121DccCode)) < 3 || len([]rune(*v.X121DccCode)) > 3 {
+			return fmt.Errorf("x121-dcc-code length %d violates SIZE (3)", len([]rune(*v.X121DccCode)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = CountryNameChoiceIso3166Alpha2Code
 		decVal, _, strErr := ber.DecodeString(choiceData, 19, opts...)
@@ -5581,6 +5941,9 @@ func (v *CountryName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 			return fmt.Errorf("decoding iso-3166-alpha2-code: %w", strErr)
 		}
 		v.Iso3166Alpha2Code = &decVal
+		if len([]rune(*v.Iso3166Alpha2Code)) < 2 || len([]rune(*v.Iso3166Alpha2Code)) > 2 {
+			return fmt.Errorf("iso-3166-alpha2-code length %d violates SIZE (2)", len([]rune(*v.Iso3166Alpha2Code)))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for CountryName CHOICE", peekTag)
 	}
@@ -5598,6 +5961,9 @@ func (v *AdministrationDomainName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding numeric: %w", stringErr)
 		}
+		if len([]rune(*v.Numeric)) > 16 {
+			return nil, fmt.Errorf("numeric length %d violates SIZE (0..16)", len([]rune(*v.Numeric)))
+		}
 		{
 			var encodeErr error
 			enc_0, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 2, enc_0)
@@ -5613,6 +5979,9 @@ func (v *AdministrationDomainName) MarshalBER() ([]byte, error) {
 		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.Printable)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printable: %w", stringErr)
+		}
+		if len([]rune(*v.Printable)) > 16 {
+			return nil, fmt.Errorf("printable length %d violates SIZE (0..16)", len([]rune(*v.Printable)))
 		}
 		{
 			var encodeErr error
@@ -5682,6 +6051,9 @@ func (v *AdministrationDomainName) UnmarshalBER(data []byte, opts ...ber.DecodeO
 			return fmt.Errorf("decoding numeric: %w", strErr)
 		}
 		v.Numeric = &decVal
+		if len([]rune(*v.Numeric)) > 16 {
+			return fmt.Errorf("numeric length %d violates SIZE (0..16)", len([]rune(*v.Numeric)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = AdministrationDomainNameChoicePrintable
 		decVal, _, strErr := ber.DecodeString(choiceData, 19, opts...)
@@ -5689,6 +6061,9 @@ func (v *AdministrationDomainName) UnmarshalBER(data []byte, opts ...ber.DecodeO
 			return fmt.Errorf("decoding printable: %w", strErr)
 		}
 		v.Printable = &decVal
+		if len([]rune(*v.Printable)) > 16 {
+			return fmt.Errorf("printable length %d violates SIZE (0..16)", len([]rune(*v.Printable)))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for AdministrationDomainName CHOICE", peekTag)
 	}
@@ -5706,6 +6081,9 @@ func (v *PrivateDomainName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding numeric: %w", stringErr)
 		}
+		if len([]rune(*v.Numeric)) < 1 || len([]rune(*v.Numeric)) > 16 {
+			return nil, fmt.Errorf("numeric length %d violates SIZE (1..16)", len([]rune(*v.Numeric)))
+		}
 		return enc_0, nil
 	case PrivateDomainNameChoicePrintable:
 		if v.Printable == nil {
@@ -5714,6 +6092,9 @@ func (v *PrivateDomainName) MarshalBER() ([]byte, error) {
 		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.Printable)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printable: %w", stringErr)
+		}
+		if len([]rune(*v.Printable)) < 1 || len([]rune(*v.Printable)) > 16 {
+			return nil, fmt.Errorf("printable length %d violates SIZE (1..16)", len([]rune(*v.Printable)))
 		}
 		return enc_1, nil
 	default:
@@ -5763,6 +6144,9 @@ func (v *PrivateDomainName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 			return fmt.Errorf("decoding numeric: %w", strErr)
 		}
 		v.Numeric = &decVal
+		if len([]rune(*v.Numeric)) < 1 || len([]rune(*v.Numeric)) > 16 {
+			return fmt.Errorf("numeric length %d violates SIZE (1..16)", len([]rune(*v.Numeric)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = PrivateDomainNameChoicePrintable
 		decVal, _, strErr := ber.DecodeString(choiceData, 19, opts...)
@@ -5770,6 +6154,9 @@ func (v *PrivateDomainName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 			return fmt.Errorf("decoding printable: %w", strErr)
 		}
 		v.Printable = &decVal
+		if len([]rune(*v.Printable)) < 1 || len([]rune(*v.Printable)) > 16 {
+			return fmt.Errorf("printable length %d violates SIZE (1..16)", len([]rune(*v.Printable)))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for PrivateDomainName CHOICE", peekTag)
 	}
@@ -5779,6 +6166,9 @@ func (v *PrivateDomainName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 // MarshalBER encodes PersonalName to BER format.
 func (v *PersonalName) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.Surname)) < 1 || len([]rune(v.Surname)) > 40 {
+		return nil, fmt.Errorf("surname length %d violates SIZE (1..40)", len([]rune(v.Surname)))
+	}
 	enc_surname, stringErr := ber.EncodeStringTagChecked(19, v.Surname)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding surname: %w", stringErr)
@@ -5790,6 +6180,9 @@ func (v *PersonalName) MarshalBER() ([]byte, error) {
 	enc_surname = retagged_enc_surname
 	children = append(children, enc_surname...)
 	if v.GivenName != nil {
+		if len([]rune(*v.GivenName)) < 1 || len([]rune(*v.GivenName)) > 16 {
+			return nil, fmt.Errorf("given-name length %d violates SIZE (1..16)", len([]rune(*v.GivenName)))
+		}
 		enc_givenname, stringErr := ber.EncodeStringTagChecked(19, *v.GivenName)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding given-name: %w", stringErr)
@@ -5802,6 +6195,9 @@ func (v *PersonalName) MarshalBER() ([]byte, error) {
 		children = append(children, enc_givenname...)
 	}
 	if v.Initials != nil {
+		if len([]rune(*v.Initials)) < 1 || len([]rune(*v.Initials)) > 5 {
+			return nil, fmt.Errorf("initials length %d violates SIZE (1..5)", len([]rune(*v.Initials)))
+		}
 		enc_initials, stringErr := ber.EncodeStringTagChecked(19, *v.Initials)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding initials: %w", stringErr)
@@ -5814,6 +6210,9 @@ func (v *PersonalName) MarshalBER() ([]byte, error) {
 		children = append(children, enc_initials...)
 	}
 	if v.GenerationQualifier != nil {
+		if len([]rune(*v.GenerationQualifier)) < 1 || len([]rune(*v.GenerationQualifier)) > 3 {
+			return nil, fmt.Errorf("generation-qualifier length %d violates SIZE (1..3)", len([]rune(*v.GenerationQualifier)))
+		}
 		enc_generationqualifier, stringErr := ber.EncodeStringTagChecked(19, *v.GenerationQualifier)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding generation-qualifier: %w", stringErr)
@@ -5831,6 +6230,9 @@ func (v *PersonalName) MarshalBER() ([]byte, error) {
 // MarshalDER encodes PersonalName to DER format.
 func (v *PersonalName) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.Surname)) < 1 || len([]rune(v.Surname)) > 40 {
+		return nil, fmt.Errorf("surname length %d violates SIZE (1..40)", len([]rune(v.Surname)))
+	}
 	enc_surname, stringErr := ber.EncodeStringTagChecked(19, v.Surname)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding surname: %w", stringErr)
@@ -5842,6 +6244,9 @@ func (v *PersonalName) MarshalDER() ([]byte, error) {
 	enc_surname = retagged_enc_surname
 	children = append(children, enc_surname...)
 	if v.GivenName != nil {
+		if len([]rune(*v.GivenName)) < 1 || len([]rune(*v.GivenName)) > 16 {
+			return nil, fmt.Errorf("given-name length %d violates SIZE (1..16)", len([]rune(*v.GivenName)))
+		}
 		enc_givenname, stringErr := ber.EncodeStringTagChecked(19, *v.GivenName)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding given-name: %w", stringErr)
@@ -5854,6 +6259,9 @@ func (v *PersonalName) MarshalDER() ([]byte, error) {
 		children = append(children, enc_givenname...)
 	}
 	if v.Initials != nil {
+		if len([]rune(*v.Initials)) < 1 || len([]rune(*v.Initials)) > 5 {
+			return nil, fmt.Errorf("initials length %d violates SIZE (1..5)", len([]rune(*v.Initials)))
+		}
 		enc_initials, stringErr := ber.EncodeStringTagChecked(19, *v.Initials)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding initials: %w", stringErr)
@@ -5866,6 +6274,9 @@ func (v *PersonalName) MarshalDER() ([]byte, error) {
 		children = append(children, enc_initials...)
 	}
 	if v.GenerationQualifier != nil {
+		if len([]rune(*v.GenerationQualifier)) < 1 || len([]rune(*v.GenerationQualifier)) > 3 {
+			return nil, fmt.Errorf("generation-qualifier length %d violates SIZE (1..3)", len([]rune(*v.GenerationQualifier)))
+		}
 		enc_generationqualifier, stringErr := ber.EncodeStringTagChecked(19, *v.GenerationQualifier)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding generation-qualifier: %w", stringErr)
@@ -5935,6 +6346,9 @@ func (v *PersonalName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 			}
 
 			offset += n_surname
+			if len([]rune(v.Surname)) < 1 || len([]rune(v.Surname)) > 40 {
+				return fmt.Errorf("surname length %d violates SIZE (1..40)", len([]rune(v.Surname)))
+			}
 			seen_surname = true
 		} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 			if seen_givenname {
@@ -5959,6 +6373,9 @@ func (v *PersonalName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 			}
 
 			offset += n_givenname
+			if len([]rune(*v.GivenName)) < 1 || len([]rune(*v.GivenName)) > 16 {
+				return fmt.Errorf("given-name length %d violates SIZE (1..16)", len([]rune(*v.GivenName)))
+			}
 			seen_givenname = true
 		} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
 			if seen_initials {
@@ -5982,6 +6399,9 @@ func (v *PersonalName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 			}
 
 			offset += n_initials
+			if len([]rune(*v.Initials)) < 1 || len([]rune(*v.Initials)) > 5 {
+				return fmt.Errorf("initials length %d violates SIZE (1..5)", len([]rune(*v.Initials)))
+			}
 			seen_initials = true
 		} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
 			if seen_generationqualifier {
@@ -6006,6 +6426,9 @@ func (v *PersonalName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 			}
 
 			offset += n_generationqualifier
+			if len([]rune(*v.GenerationQualifier)) < 1 || len([]rune(*v.GenerationQualifier)) > 3 {
+				return fmt.Errorf("generation-qualifier length %d violates SIZE (1..3)", len([]rune(*v.GenerationQualifier)))
+			}
 			seen_generationqualifier = true
 		} else {
 			return &ber.DecodeError{Offset: offset, TypeName: "PersonalName", Cause: fmt.Errorf("%w: unknown SET component tag %s", ber.ErrInvalidTag, peekTag)}
@@ -6179,11 +6602,17 @@ func UnmarshalBERBuiltInDomainDefinedAttributes(data []byte, opts ...ber.DecodeO
 // MarshalBER encodes BuiltInDomainDefinedAttribute to BER format.
 func (v *BuiltInDomainDefinedAttribute) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.Type)) < 1 || len([]rune(v.Type)) > 8 {
+		return nil, fmt.Errorf("type length %d violates SIZE (1..8)", len([]rune(v.Type)))
+	}
 	enc_type, stringErr := ber.EncodeStringTagChecked(19, v.Type)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding type: %w", stringErr)
 	}
 	children = append(children, enc_type...)
+	if len([]rune(v.Value)) < 1 || len([]rune(v.Value)) > 128 {
+		return nil, fmt.Errorf("value length %d violates SIZE (1..128)", len([]rune(v.Value)))
+	}
 	enc_value, stringErr := ber.EncodeStringTagChecked(19, v.Value)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding value: %w", stringErr)
@@ -6195,11 +6624,17 @@ func (v *BuiltInDomainDefinedAttribute) MarshalBER() ([]byte, error) {
 // MarshalDER encodes BuiltInDomainDefinedAttribute to DER format.
 func (v *BuiltInDomainDefinedAttribute) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.Type)) < 1 || len([]rune(v.Type)) > 8 {
+		return nil, fmt.Errorf("type length %d violates SIZE (1..8)", len([]rune(v.Type)))
+	}
 	enc_type, stringErr := ber.EncodeStringTagChecked(19, v.Type)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding type: %w", stringErr)
 	}
 	children = append(children, enc_type...)
+	if len([]rune(v.Value)) < 1 || len([]rune(v.Value)) > 128 {
+		return nil, fmt.Errorf("value length %d violates SIZE (1..128)", len([]rune(v.Value)))
+	}
 	enc_value, stringErr := ber.EncodeStringTagChecked(19, v.Value)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding value: %w", stringErr)
@@ -6244,6 +6679,9 @@ func (v *BuiltInDomainDefinedAttribute) UnmarshalBER(data []byte, opts ...ber.De
 	}
 
 	offset += n
+	if len([]rune(v.Type)) < 1 || len([]rune(v.Type)) > 8 {
+		return fmt.Errorf("type length %d violates SIZE (1..8)", len([]rune(v.Type)))
+	}
 	// Decode value
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field value")
@@ -6259,6 +6697,9 @@ func (v *BuiltInDomainDefinedAttribute) UnmarshalBER(data []byte, opts ...ber.De
 	}
 
 	offset += n
+	if len([]rune(v.Value)) < 1 || len([]rune(v.Value)) > 128 {
+		return fmt.Errorf("value length %d violates SIZE (1..128)", len([]rune(v.Value)))
+	}
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "BuiltInDomainDefinedAttribute", Cause: ber.ErrExtraData}
 	}
@@ -6479,6 +6920,9 @@ func (v *ExtensionAttribute) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 // MarshalBER encodes TeletexPersonalName to BER format.
 func (v *TeletexPersonalName) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.Surname)) < 1 || len([]rune(v.Surname)) > 40 {
+		return nil, fmt.Errorf("surname length %d violates SIZE (1..40)", len([]rune(v.Surname)))
+	}
 	enc_surname, stringErr := ber.EncodeStringTagChecked(20, v.Surname)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding surname: %w", stringErr)
@@ -6490,6 +6934,9 @@ func (v *TeletexPersonalName) MarshalBER() ([]byte, error) {
 	enc_surname = retagged_enc_surname
 	children = append(children, enc_surname...)
 	if v.GivenName != nil {
+		if len([]rune(*v.GivenName)) < 1 || len([]rune(*v.GivenName)) > 16 {
+			return nil, fmt.Errorf("given-name length %d violates SIZE (1..16)", len([]rune(*v.GivenName)))
+		}
 		enc_givenname, stringErr := ber.EncodeStringTagChecked(20, *v.GivenName)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding given-name: %w", stringErr)
@@ -6502,6 +6949,9 @@ func (v *TeletexPersonalName) MarshalBER() ([]byte, error) {
 		children = append(children, enc_givenname...)
 	}
 	if v.Initials != nil {
+		if len([]rune(*v.Initials)) < 1 || len([]rune(*v.Initials)) > 5 {
+			return nil, fmt.Errorf("initials length %d violates SIZE (1..5)", len([]rune(*v.Initials)))
+		}
 		enc_initials, stringErr := ber.EncodeStringTagChecked(20, *v.Initials)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding initials: %w", stringErr)
@@ -6514,6 +6964,9 @@ func (v *TeletexPersonalName) MarshalBER() ([]byte, error) {
 		children = append(children, enc_initials...)
 	}
 	if v.GenerationQualifier != nil {
+		if len([]rune(*v.GenerationQualifier)) < 1 || len([]rune(*v.GenerationQualifier)) > 3 {
+			return nil, fmt.Errorf("generation-qualifier length %d violates SIZE (1..3)", len([]rune(*v.GenerationQualifier)))
+		}
 		enc_generationqualifier, stringErr := ber.EncodeStringTagChecked(20, *v.GenerationQualifier)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding generation-qualifier: %w", stringErr)
@@ -6531,6 +6984,9 @@ func (v *TeletexPersonalName) MarshalBER() ([]byte, error) {
 // MarshalDER encodes TeletexPersonalName to DER format.
 func (v *TeletexPersonalName) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.Surname)) < 1 || len([]rune(v.Surname)) > 40 {
+		return nil, fmt.Errorf("surname length %d violates SIZE (1..40)", len([]rune(v.Surname)))
+	}
 	enc_surname, stringErr := ber.EncodeStringTagChecked(20, v.Surname)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding surname: %w", stringErr)
@@ -6542,6 +6998,9 @@ func (v *TeletexPersonalName) MarshalDER() ([]byte, error) {
 	enc_surname = retagged_enc_surname
 	children = append(children, enc_surname...)
 	if v.GivenName != nil {
+		if len([]rune(*v.GivenName)) < 1 || len([]rune(*v.GivenName)) > 16 {
+			return nil, fmt.Errorf("given-name length %d violates SIZE (1..16)", len([]rune(*v.GivenName)))
+		}
 		enc_givenname, stringErr := ber.EncodeStringTagChecked(20, *v.GivenName)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding given-name: %w", stringErr)
@@ -6554,6 +7013,9 @@ func (v *TeletexPersonalName) MarshalDER() ([]byte, error) {
 		children = append(children, enc_givenname...)
 	}
 	if v.Initials != nil {
+		if len([]rune(*v.Initials)) < 1 || len([]rune(*v.Initials)) > 5 {
+			return nil, fmt.Errorf("initials length %d violates SIZE (1..5)", len([]rune(*v.Initials)))
+		}
 		enc_initials, stringErr := ber.EncodeStringTagChecked(20, *v.Initials)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding initials: %w", stringErr)
@@ -6566,6 +7028,9 @@ func (v *TeletexPersonalName) MarshalDER() ([]byte, error) {
 		children = append(children, enc_initials...)
 	}
 	if v.GenerationQualifier != nil {
+		if len([]rune(*v.GenerationQualifier)) < 1 || len([]rune(*v.GenerationQualifier)) > 3 {
+			return nil, fmt.Errorf("generation-qualifier length %d violates SIZE (1..3)", len([]rune(*v.GenerationQualifier)))
+		}
 		enc_generationqualifier, stringErr := ber.EncodeStringTagChecked(20, *v.GenerationQualifier)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding generation-qualifier: %w", stringErr)
@@ -6635,6 +7100,9 @@ func (v *TeletexPersonalName) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 			}
 
 			offset += n_surname
+			if len([]rune(v.Surname)) < 1 || len([]rune(v.Surname)) > 40 {
+				return fmt.Errorf("surname length %d violates SIZE (1..40)", len([]rune(v.Surname)))
+			}
 			seen_surname = true
 		} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 			if seen_givenname {
@@ -6658,6 +7126,9 @@ func (v *TeletexPersonalName) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 			}
 
 			offset += n_givenname
+			if len([]rune(*v.GivenName)) < 1 || len([]rune(*v.GivenName)) > 16 {
+				return fmt.Errorf("given-name length %d violates SIZE (1..16)", len([]rune(*v.GivenName)))
+			}
 			seen_givenname = true
 		} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
 			if seen_initials {
@@ -6681,6 +7152,9 @@ func (v *TeletexPersonalName) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 			}
 
 			offset += n_initials
+			if len([]rune(*v.Initials)) < 1 || len([]rune(*v.Initials)) > 5 {
+				return fmt.Errorf("initials length %d violates SIZE (1..5)", len([]rune(*v.Initials)))
+			}
 			seen_initials = true
 		} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
 			if seen_generationqualifier {
@@ -6705,6 +7179,9 @@ func (v *TeletexPersonalName) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 			}
 
 			offset += n_generationqualifier
+			if len([]rune(*v.GenerationQualifier)) < 1 || len([]rune(*v.GenerationQualifier)) > 3 {
+				return fmt.Errorf("generation-qualifier length %d violates SIZE (1..3)", len([]rune(*v.GenerationQualifier)))
+			}
 			seen_generationqualifier = true
 		} else {
 			return &ber.DecodeError{Offset: offset, TypeName: "TeletexPersonalName", Cause: fmt.Errorf("%w: unknown SET component tag %s", ber.ErrInvalidTag, peekTag)}
@@ -6802,6 +7279,9 @@ func (v *PhysicalDeliveryCountryName) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding x121-dcc-code: %w", stringErr)
 		}
+		if len([]rune(*v.X121DccCode)) < 3 || len([]rune(*v.X121DccCode)) > 3 {
+			return nil, fmt.Errorf("x121-dcc-code length %d violates SIZE (3)", len([]rune(*v.X121DccCode)))
+		}
 		return enc_0, nil
 	case PhysicalDeliveryCountryNameChoiceIso3166Alpha2Code:
 		if v.Iso3166Alpha2Code == nil {
@@ -6810,6 +7290,9 @@ func (v *PhysicalDeliveryCountryName) MarshalBER() ([]byte, error) {
 		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.Iso3166Alpha2Code)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding iso-3166-alpha2-code: %w", stringErr)
+		}
+		if len([]rune(*v.Iso3166Alpha2Code)) < 2 || len([]rune(*v.Iso3166Alpha2Code)) > 2 {
+			return nil, fmt.Errorf("iso-3166-alpha2-code length %d violates SIZE (2)", len([]rune(*v.Iso3166Alpha2Code)))
 		}
 		return enc_1, nil
 	default:
@@ -6859,6 +7342,9 @@ func (v *PhysicalDeliveryCountryName) UnmarshalBER(data []byte, opts ...ber.Deco
 			return fmt.Errorf("decoding x121-dcc-code: %w", strErr)
 		}
 		v.X121DccCode = &decVal
+		if len([]rune(*v.X121DccCode)) < 3 || len([]rune(*v.X121DccCode)) > 3 {
+			return fmt.Errorf("x121-dcc-code length %d violates SIZE (3)", len([]rune(*v.X121DccCode)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = PhysicalDeliveryCountryNameChoiceIso3166Alpha2Code
 		decVal, _, strErr := ber.DecodeString(choiceData, 19, opts...)
@@ -6866,6 +7352,9 @@ func (v *PhysicalDeliveryCountryName) UnmarshalBER(data []byte, opts ...ber.Deco
 			return fmt.Errorf("decoding iso-3166-alpha2-code: %w", strErr)
 		}
 		v.Iso3166Alpha2Code = &decVal
+		if len([]rune(*v.Iso3166Alpha2Code)) < 2 || len([]rune(*v.Iso3166Alpha2Code)) > 2 {
+			return fmt.Errorf("iso-3166-alpha2-code length %d violates SIZE (2)", len([]rune(*v.Iso3166Alpha2Code)))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for PhysicalDeliveryCountryName CHOICE", peekTag)
 	}
@@ -6883,6 +7372,9 @@ func (v *PostalCode) MarshalBER() ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding numeric-code: %w", stringErr)
 		}
+		if len([]rune(*v.NumericCode)) < 1 || len([]rune(*v.NumericCode)) > 16 {
+			return nil, fmt.Errorf("numeric-code length %d violates SIZE (1..16)", len([]rune(*v.NumericCode)))
+		}
 		return enc_0, nil
 	case PostalCodeChoicePrintableCode:
 		if v.PrintableCode == nil {
@@ -6891,6 +7383,9 @@ func (v *PostalCode) MarshalBER() ([]byte, error) {
 		enc_1, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableCode)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printable-code: %w", stringErr)
+		}
+		if len([]rune(*v.PrintableCode)) < 1 || len([]rune(*v.PrintableCode)) > 16 {
+			return nil, fmt.Errorf("printable-code length %d violates SIZE (1..16)", len([]rune(*v.PrintableCode)))
 		}
 		return enc_1, nil
 	default:
@@ -6940,6 +7435,9 @@ func (v *PostalCode) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 			return fmt.Errorf("decoding numeric-code: %w", strErr)
 		}
 		v.NumericCode = &decVal
+		if len([]rune(*v.NumericCode)) < 1 || len([]rune(*v.NumericCode)) > 16 {
+			return fmt.Errorf("numeric-code length %d violates SIZE (1..16)", len([]rune(*v.NumericCode)))
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 19 {
 		v.Choice = PostalCodeChoicePrintableCode
 		decVal, _, strErr := ber.DecodeString(choiceData, 19, opts...)
@@ -6947,6 +7445,9 @@ func (v *PostalCode) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 			return fmt.Errorf("decoding printable-code: %w", strErr)
 		}
 		v.PrintableCode = &decVal
+		if len([]rune(*v.PrintableCode)) < 1 || len([]rune(*v.PrintableCode)) > 16 {
+			return fmt.Errorf("printable-code length %d violates SIZE (1..16)", len([]rune(*v.PrintableCode)))
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for PostalCode CHOICE", peekTag)
 	}
@@ -6957,6 +7458,9 @@ func (v *PostalCode) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 func (v *UnformattedPostalAddress) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.PrintableAddress != nil {
+		if len(v.PrintableAddress) < 1 || len(v.PrintableAddress) > 6 {
+			return nil, fmt.Errorf("printable-address length %d violates SIZE (1..6)", len(v.PrintableAddress))
+		}
 		enc_printableaddress, err := MarshalBERUnformattedPostalAddressPrintableAddress(v.PrintableAddress)
 		if err != nil {
 			return nil, fmt.Errorf("encoding printable-address: %w", err)
@@ -6964,6 +7468,9 @@ func (v *UnformattedPostalAddress) MarshalBER() ([]byte, error) {
 		children = append(children, enc_printableaddress...)
 	}
 	if v.TeletexString != nil {
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 180 {
+			return nil, fmt.Errorf("teletex-string length %d violates SIZE (1..180)", len([]rune(*v.TeletexString)))
+		}
 		enc_teletexstring, stringErr := ber.EncodeStringTagChecked(20, *v.TeletexString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding teletex-string: %w", stringErr)
@@ -6977,6 +7484,9 @@ func (v *UnformattedPostalAddress) MarshalBER() ([]byte, error) {
 func (v *UnformattedPostalAddress) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.PrintableAddress != nil {
+		if len(v.PrintableAddress) < 1 || len(v.PrintableAddress) > 6 {
+			return nil, fmt.Errorf("printable-address length %d violates SIZE (1..6)", len(v.PrintableAddress))
+		}
 		enc_printableaddress, err := MarshalDERUnformattedPostalAddressPrintableAddress(v.PrintableAddress)
 		if err != nil {
 			return nil, fmt.Errorf("encoding printable-address: %w", err)
@@ -6984,6 +7494,9 @@ func (v *UnformattedPostalAddress) MarshalDER() ([]byte, error) {
 		children = append(children, enc_printableaddress...)
 	}
 	if v.TeletexString != nil {
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 180 {
+			return nil, fmt.Errorf("teletex-string length %d violates SIZE (1..180)", len([]rune(*v.TeletexString)))
+		}
 		enc_teletexstring, stringErr := ber.EncodeStringTagChecked(20, *v.TeletexString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding teletex-string: %w", stringErr)
@@ -7057,6 +7570,9 @@ func (v *UnformattedPostalAddress) UnmarshalBER(data []byte, opts ...ber.DecodeO
 			}
 
 			offset += n_printableaddress
+			if len(v.PrintableAddress) < 1 || len(v.PrintableAddress) > 6 {
+				return fmt.Errorf("printable-address length %d violates SIZE (1..6)", len(v.PrintableAddress))
+			}
 			seen_printableaddress = true
 		} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 20 {
 			if seen_teletexstring {
@@ -7073,6 +7589,9 @@ func (v *UnformattedPostalAddress) UnmarshalBER(data []byte, opts ...ber.DecodeO
 			}
 
 			offset += n
+			if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 180 {
+				return fmt.Errorf("teletex-string length %d violates SIZE (1..180)", len([]rune(*v.TeletexString)))
+			}
 			seen_teletexstring = true
 		} else {
 			return &ber.DecodeError{Offset: offset, TypeName: "UnformattedPostalAddress", Cause: fmt.Errorf("%w: unknown SET component tag %s", ber.ErrInvalidTag, peekTag)}
@@ -7085,6 +7604,9 @@ func (v *UnformattedPostalAddress) UnmarshalBER(data []byte, opts ...ber.DecodeO
 func (v *PDSParameter) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.PrintableString != nil {
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 30 {
+			return nil, fmt.Errorf("printable-string length %d violates SIZE (1..30)", len([]rune(*v.PrintableString)))
+		}
 		enc_printablestring, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printable-string: %w", stringErr)
@@ -7092,6 +7614,9 @@ func (v *PDSParameter) MarshalBER() ([]byte, error) {
 		children = append(children, enc_printablestring...)
 	}
 	if v.TeletexString != nil {
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 30 {
+			return nil, fmt.Errorf("teletex-string length %d violates SIZE (1..30)", len([]rune(*v.TeletexString)))
+		}
 		enc_teletexstring, stringErr := ber.EncodeStringTagChecked(20, *v.TeletexString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding teletex-string: %w", stringErr)
@@ -7105,6 +7630,9 @@ func (v *PDSParameter) MarshalBER() ([]byte, error) {
 func (v *PDSParameter) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.PrintableString != nil {
+		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 30 {
+			return nil, fmt.Errorf("printable-string length %d violates SIZE (1..30)", len([]rune(*v.PrintableString)))
+		}
 		enc_printablestring, stringErr := ber.EncodeStringTagChecked(19, *v.PrintableString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printable-string: %w", stringErr)
@@ -7112,6 +7640,9 @@ func (v *PDSParameter) MarshalDER() ([]byte, error) {
 		children = append(children, enc_printablestring...)
 	}
 	if v.TeletexString != nil {
+		if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 30 {
+			return nil, fmt.Errorf("teletex-string length %d violates SIZE (1..30)", len([]rune(*v.TeletexString)))
+		}
 		enc_teletexstring, stringErr := ber.EncodeStringTagChecked(20, *v.TeletexString)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding teletex-string: %w", stringErr)
@@ -7167,6 +7698,9 @@ func (v *PDSParameter) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 			}
 
 			offset += n
+			if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 30 {
+				return fmt.Errorf("printable-string length %d violates SIZE (1..30)", len([]rune(*v.PrintableString)))
+			}
 			seen_printablestring = true
 		} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 20 {
 			if seen_teletexstring {
@@ -7183,6 +7717,9 @@ func (v *PDSParameter) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 			}
 
 			offset += n
+			if len([]rune(*v.TeletexString)) < 1 || len([]rune(*v.TeletexString)) > 30 {
+				return fmt.Errorf("teletex-string length %d violates SIZE (1..30)", len([]rune(*v.TeletexString)))
+			}
 			seen_teletexstring = true
 		} else {
 			return &ber.DecodeError{Offset: offset, TypeName: "PDSParameter", Cause: fmt.Errorf("%w: unknown SET component tag %s", ber.ErrInvalidTag, peekTag)}
@@ -7361,6 +7898,9 @@ func (v *PresentationAddress) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_tselector...)
 	}
+	if len(v.NAddresses) < 1 {
+		return nil, fmt.Errorf("nAddresses length %d violates SIZE (1..MAX)", len(v.NAddresses))
+	}
 	enc_naddresses, err := MarshalBERPresentationAddressNAddresses(v.NAddresses)
 	if err != nil {
 		return nil, fmt.Errorf("encoding nAddresses: %w", err)
@@ -7420,6 +7960,9 @@ func (v *PresentationAddress) MarshalDER() ([]byte, error) {
 			}
 		}
 		children = append(children, enc_tselector...)
+	}
+	if len(v.NAddresses) < 1 {
+		return nil, fmt.Errorf("nAddresses length %d violates SIZE (1..MAX)", len(v.NAddresses))
 	}
 	enc_naddresses, err := MarshalDERPresentationAddressNAddresses(v.NAddresses)
 	if err != nil {
@@ -7570,6 +8113,9 @@ func (v *PresentationAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	}
 
 	offset += n_naddresses
+	if len(v.NAddresses) < 1 {
+		return fmt.Errorf("nAddresses length %d violates SIZE (1..MAX)", len(v.NAddresses))
+	}
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "PresentationAddress", Cause: ber.ErrExtraData}
 	}
@@ -7663,11 +8209,17 @@ func UnmarshalBERTeletexDomainDefinedAttributes(data []byte, opts ...ber.DecodeO
 // MarshalBER encodes TeletexDomainDefinedAttribute to BER format.
 func (v *TeletexDomainDefinedAttribute) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.Type)) < 1 || len([]rune(v.Type)) > 8 {
+		return nil, fmt.Errorf("type length %d violates SIZE (1..8)", len([]rune(v.Type)))
+	}
 	enc_type, stringErr := ber.EncodeStringTagChecked(20, v.Type)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding type: %w", stringErr)
 	}
 	children = append(children, enc_type...)
+	if len([]rune(v.Value)) < 1 || len([]rune(v.Value)) > 128 {
+		return nil, fmt.Errorf("value length %d violates SIZE (1..128)", len([]rune(v.Value)))
+	}
 	enc_value, stringErr := ber.EncodeStringTagChecked(20, v.Value)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding value: %w", stringErr)
@@ -7679,11 +8231,17 @@ func (v *TeletexDomainDefinedAttribute) MarshalBER() ([]byte, error) {
 // MarshalDER encodes TeletexDomainDefinedAttribute to DER format.
 func (v *TeletexDomainDefinedAttribute) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.Type)) < 1 || len([]rune(v.Type)) > 8 {
+		return nil, fmt.Errorf("type length %d violates SIZE (1..8)", len([]rune(v.Type)))
+	}
 	enc_type, stringErr := ber.EncodeStringTagChecked(20, v.Type)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding type: %w", stringErr)
 	}
 	children = append(children, enc_type...)
+	if len([]rune(v.Value)) < 1 || len([]rune(v.Value)) > 128 {
+		return nil, fmt.Errorf("value length %d violates SIZE (1..128)", len([]rune(v.Value)))
+	}
 	enc_value, stringErr := ber.EncodeStringTagChecked(20, v.Value)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding value: %w", stringErr)
@@ -7728,6 +8286,9 @@ func (v *TeletexDomainDefinedAttribute) UnmarshalBER(data []byte, opts ...ber.De
 	}
 
 	offset += n
+	if len([]rune(v.Type)) < 1 || len([]rune(v.Type)) > 8 {
+		return fmt.Errorf("type length %d violates SIZE (1..8)", len([]rune(v.Type)))
+	}
 	// Decode value
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field value")
@@ -7743,6 +8304,9 @@ func (v *TeletexDomainDefinedAttribute) UnmarshalBER(data []byte, opts ...ber.De
 	}
 
 	offset += n
+	if len([]rune(v.Value)) < 1 || len([]rune(v.Value)) > 128 {
+		return fmt.Errorf("value length %d violates SIZE (1..128)", len([]rune(v.Value)))
+	}
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "TeletexDomainDefinedAttribute", Cause: ber.ErrExtraData}
 	}
@@ -7832,6 +8396,9 @@ func (v *TBSCertListRevokedCertificatesElem) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_revocationdate...)
 	if v.CrlEntryExtensions != nil {
+		if len(v.CrlEntryExtensions) < 1 {
+			return nil, fmt.Errorf("crlEntryExtensions length %d violates SIZE (1..MAX)", len(v.CrlEntryExtensions))
+		}
 		enc_crlentryextensions, err := MarshalBERExtensions(v.CrlEntryExtensions)
 		if err != nil {
 			return nil, fmt.Errorf("encoding crlEntryExtensions: %w", err)
@@ -7858,6 +8425,9 @@ func (v *TBSCertListRevokedCertificatesElem) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_revocationdate...)
 	if v.CrlEntryExtensions != nil {
+		if len(v.CrlEntryExtensions) < 1 {
+			return nil, fmt.Errorf("crlEntryExtensions length %d violates SIZE (1..MAX)", len(v.CrlEntryExtensions))
+		}
 		enc_crlentryextensions, err := MarshalDERExtensions(v.CrlEntryExtensions)
 		if err != nil {
 			return nil, fmt.Errorf("encoding crlEntryExtensions: %w", err)
@@ -7960,6 +8530,9 @@ func (v *TBSCertListRevokedCertificatesElem) UnmarshalBER(data []byte, opts ...b
 				}
 
 				offset += n_crlentryextensions
+				if len(v.CrlEntryExtensions) < 1 {
+					return fmt.Errorf("crlEntryExtensions length %d violates SIZE (1..MAX)", len(v.CrlEntryExtensions))
+				}
 			}
 		}
 	}
@@ -8119,6 +8692,9 @@ func UnmarshalBERUnformattedPostalAddressPrintableAddress(data []byte, opts ...b
 // MarshalBER encodes ExtendedNetworkAddressE1634Address to BER format.
 func (v *ExtendedNetworkAddressE1634Address) MarshalBER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.Number)) < 1 || len([]rune(v.Number)) > 15 {
+		return nil, fmt.Errorf("number length %d violates SIZE (1..15)", len([]rune(v.Number)))
+	}
 	enc_number, stringErr := ber.EncodeStringTagChecked(18, v.Number)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding number: %w", stringErr)
@@ -8130,6 +8706,9 @@ func (v *ExtendedNetworkAddressE1634Address) MarshalBER() ([]byte, error) {
 	enc_number = retagged_enc_number
 	children = append(children, enc_number...)
 	if v.SubAddress != nil {
+		if len([]rune(*v.SubAddress)) < 1 || len([]rune(*v.SubAddress)) > 40 {
+			return nil, fmt.Errorf("sub-address length %d violates SIZE (1..40)", len([]rune(*v.SubAddress)))
+		}
 		enc_subaddress, stringErr := ber.EncodeStringTagChecked(18, *v.SubAddress)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding sub-address: %w", stringErr)
@@ -8147,6 +8726,9 @@ func (v *ExtendedNetworkAddressE1634Address) MarshalBER() ([]byte, error) {
 // MarshalDER encodes ExtendedNetworkAddressE1634Address to DER format.
 func (v *ExtendedNetworkAddressE1634Address) MarshalDER() ([]byte, error) {
 	var children []byte
+	if len([]rune(v.Number)) < 1 || len([]rune(v.Number)) > 15 {
+		return nil, fmt.Errorf("number length %d violates SIZE (1..15)", len([]rune(v.Number)))
+	}
 	enc_number, stringErr := ber.EncodeStringTagChecked(18, v.Number)
 	if stringErr != nil {
 		return nil, fmt.Errorf("encoding number: %w", stringErr)
@@ -8158,6 +8740,9 @@ func (v *ExtendedNetworkAddressE1634Address) MarshalDER() ([]byte, error) {
 	enc_number = retagged_enc_number
 	children = append(children, enc_number...)
 	if v.SubAddress != nil {
+		if len([]rune(*v.SubAddress)) < 1 || len([]rune(*v.SubAddress)) > 40 {
+			return nil, fmt.Errorf("sub-address length %d violates SIZE (1..40)", len([]rune(*v.SubAddress)))
+		}
 		enc_subaddress, stringErr := ber.EncodeStringTagChecked(18, *v.SubAddress)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding sub-address: %w", stringErr)
@@ -8220,6 +8805,9 @@ func (v *ExtendedNetworkAddressE1634Address) UnmarshalBER(data []byte, opts ...b
 	}
 
 	offset += n_number
+	if len([]rune(v.Number)) < 1 || len([]rune(v.Number)) > 15 {
+		return fmt.Errorf("number length %d violates SIZE (1..15)", len([]rune(v.Number)))
+	}
 	// Decode sub-address
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -8243,6 +8831,9 @@ func (v *ExtendedNetworkAddressE1634Address) UnmarshalBER(data []byte, opts ...b
 				}
 
 				offset += n_subaddress
+				if len([]rune(*v.SubAddress)) < 1 || len([]rune(*v.SubAddress)) > 40 {
+					return fmt.Errorf("sub-address length %d violates SIZE (1..40)", len([]rune(*v.SubAddress)))
+				}
 			}
 		}
 	}

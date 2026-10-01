@@ -28,6 +28,8 @@ type SLPreconfigurationR12 struct {
 	ExtPresent_            []bool                                   `asn1:"-" json:"-"`
 	ExtData_               [][]byte                                 `asn1:"-" json:"-"`
 	PERPadding_            per.CompletePadding                      `asn1:"-" json:"-"`
+	PERExtraBits_          per.TrailingBits                         `asn1:"-" json:"-"`
+	PERContainedPadding_   map[string]per.CompletePadding           `asn1:"-" json:"-"`
 	PERExtPadding_         []per.CompletePadding                    `asn1:"-" json:"-"`
 }
 
@@ -45,25 +47,29 @@ type SLPreconfigGeneralR12 struct {
 	ExtPresent_                     []bool                               `asn1:"-" json:"-"`
 	ExtData_                        [][]byte                             `asn1:"-" json:"-"`
 	PERPadding_                     per.CompletePadding                  `asn1:"-" json:"-"`
+	PERExtraBits_                   per.TrailingBits                     `asn1:"-" json:"-"`
+	PERContainedPadding_            map[string]per.CompletePadding       `asn1:"-" json:"-"`
 	PERExtPadding_                  []per.CompletePadding                `asn1:"-" json:"-"`
 }
 
 // SLPreconfigSyncR12 represents the ASN.1 type SL-PreconfigSync-r12 (SEQUENCE).
 type SLPreconfigSyncR12 struct {
-	SyncCPLenR12            SLCPLenR12               `asn1:"tag:0,context,implicit"`
-	SyncOffsetIndicator1R12 SLOffsetIndicatorSyncR12 `asn1:"tag:1,context,implicit"`
-	SyncOffsetIndicator2R12 SLOffsetIndicatorSyncR12 `asn1:"tag:2,context,implicit"`
-	SyncTxParametersR12     P0SLR12                  `asn1:"tag:3,context,implicit"`
-	SyncTxThreshOoCR12      RSRPRangeSL3R12          `asn1:"tag:4,context,implicit"`
-	FilterCoefficientR12    FilterCoefficient        `asn1:"tag:5,context,implicit"`
-	SyncRefMinHystR12       int64                    `asn1:"tag:6,context,implicit"`
-	SyncRefDiffHystR12      int64                    `asn1:"tag:7,context,implicit"`
-	SyncTxPeriodicR13       *int64                   `asn1:"tag:8,context,implicit,optional" json:"SyncTxPeriodicR13,omitempty"`
-	ExtCount_               int64                    `asn1:"-" json:"-"`
-	ExtPresent_             []bool                   `asn1:"-" json:"-"`
-	ExtData_                [][]byte                 `asn1:"-" json:"-"`
-	PERPadding_             per.CompletePadding      `asn1:"-" json:"-"`
-	PERExtPadding_          []per.CompletePadding    `asn1:"-" json:"-"`
+	SyncCPLenR12            SLCPLenR12                     `asn1:"tag:0,context,implicit"`
+	SyncOffsetIndicator1R12 SLOffsetIndicatorSyncR12       `asn1:"tag:1,context,implicit"`
+	SyncOffsetIndicator2R12 SLOffsetIndicatorSyncR12       `asn1:"tag:2,context,implicit"`
+	SyncTxParametersR12     P0SLR12                        `asn1:"tag:3,context,implicit"`
+	SyncTxThreshOoCR12      RSRPRangeSL3R12                `asn1:"tag:4,context,implicit"`
+	FilterCoefficientR12    FilterCoefficient              `asn1:"tag:5,context,implicit"`
+	SyncRefMinHystR12       int64                          `asn1:"tag:6,context,implicit"`
+	SyncRefDiffHystR12      int64                          `asn1:"tag:7,context,implicit"`
+	SyncTxPeriodicR13       *int64                         `asn1:"tag:8,context,implicit,optional" json:"SyncTxPeriodicR13,omitempty"`
+	ExtCount_               int64                          `asn1:"-" json:"-"`
+	ExtPresent_             []bool                         `asn1:"-" json:"-"`
+	ExtData_                [][]byte                       `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_           per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_    map[string]per.CompletePadding `asn1:"-" json:"-"`
+	PERExtPadding_          []per.CompletePadding          `asn1:"-" json:"-"`
 }
 
 // SLPreconfigCommPoolList4R12 represents the ASN.1 type SL-PreconfigCommPoolList4-r12 (SEQUENCE_OF).
@@ -77,22 +83,24 @@ type SLPreconfigCommTxPoolListR13 = []SLPreconfigCommPoolR12
 
 // SLPreconfigCommPoolR12 represents the ASN.1 type SL-PreconfigCommPool-r12 (SEQUENCE).
 type SLPreconfigCommPoolR12 struct {
-	ScCPLenR12              SLCPLenR12             `asn1:"tag:0,context,implicit"`
-	ScPeriodR12             SLPeriodCommR12        `asn1:"tag:1,context,implicit"`
-	ScTFResourceConfigR12   SLTFResourceConfigR12  `asn1:"tag:2,context,implicit"`
-	ScTxParametersR12       P0SLR12                `asn1:"tag:3,context,implicit"`
-	DataCPLenR12            SLCPLenR12             `asn1:"tag:4,context,implicit"`
-	DataTFResourceConfigR12 SLTFResourceConfigR12  `asn1:"tag:5,context,implicit"`
-	DataHoppingConfigR12    SLHoppingConfigCommR12 `asn1:"tag:6,context,implicit"`
-	DataTxParametersR12     P0SLR12                `asn1:"tag:7,context,implicit"`
-	TrptSubsetR12           SLTRPTSubsetR12        `asn1:"tag:8,context,implicit"`
-	PriorityListR13         SLPriorityListR13      `asn1:"tag:9,context,implicit,optional" json:"PriorityListR13,omitempty"`
-	PriorityListR13Indef_   bool                   `asn1:"-" json:"-"`
-	ExtCount_               int64                  `asn1:"-" json:"-"`
-	ExtPresent_             []bool                 `asn1:"-" json:"-"`
-	ExtData_                [][]byte               `asn1:"-" json:"-"`
-	PERPadding_             per.CompletePadding    `asn1:"-" json:"-"`
-	PERExtPadding_          []per.CompletePadding  `asn1:"-" json:"-"`
+	ScCPLenR12              SLCPLenR12                     `asn1:"tag:0,context,implicit"`
+	ScPeriodR12             SLPeriodCommR12                `asn1:"tag:1,context,implicit"`
+	ScTFResourceConfigR12   SLTFResourceConfigR12          `asn1:"tag:2,context,implicit"`
+	ScTxParametersR12       P0SLR12                        `asn1:"tag:3,context,implicit"`
+	DataCPLenR12            SLCPLenR12                     `asn1:"tag:4,context,implicit"`
+	DataTFResourceConfigR12 SLTFResourceConfigR12          `asn1:"tag:5,context,implicit"`
+	DataHoppingConfigR12    SLHoppingConfigCommR12         `asn1:"tag:6,context,implicit"`
+	DataTxParametersR12     P0SLR12                        `asn1:"tag:7,context,implicit"`
+	TrptSubsetR12           SLTRPTSubsetR12                `asn1:"tag:8,context,implicit"`
+	PriorityListR13         SLPriorityListR13              `asn1:"tag:9,context,implicit,optional" json:"PriorityListR13,omitempty"`
+	PriorityListR13Indef_   bool                           `asn1:"-" json:"-"`
+	ExtCount_               int64                          `asn1:"-" json:"-"`
+	ExtPresent_             []bool                         `asn1:"-" json:"-"`
+	ExtData_                [][]byte                       `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_           per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_    map[string]per.CompletePadding `asn1:"-" json:"-"`
+	PERExtPadding_          []per.CompletePadding          `asn1:"-" json:"-"`
 }
 
 // SLPreconfigDiscRxPoolListR13 represents the ASN.1 type SL-PreconfigDiscRxPoolList-r13 (SEQUENCE_OF).
@@ -103,23 +111,27 @@ type SLPreconfigDiscTxPoolListR13 = []SLPreconfigDiscPoolR13
 
 // SLPreconfigDiscPoolR13 represents the ASN.1 type SL-PreconfigDiscPool-r13 (SEQUENCE).
 type SLPreconfigDiscPoolR13 struct {
-	CpLenR13            SLCPLenR12                             `asn1:"tag:0,context,implicit"`
-	DiscPeriodR13       int64                                  `asn1:"tag:1,context,implicit"`
-	NumRetxR13          int64                                  `asn1:"tag:2,context,implicit"`
-	NumRepetitionR13    int64                                  `asn1:"tag:3,context,implicit"`
-	TfResourceConfigR13 SLTFResourceConfigR12                  `asn1:"tag:4,context,implicit"`
-	TxParametersR13     *SLPreconfigDiscPoolR13TxParametersR13 `asn1:"tag:5,context,implicit,optional" json:"TxParametersR13,omitempty"`
-	ExtCount_           int64                                  `asn1:"-" json:"-"`
-	ExtPresent_         []bool                                 `asn1:"-" json:"-"`
-	ExtData_            [][]byte                               `asn1:"-" json:"-"`
-	PERPadding_         per.CompletePadding                    `asn1:"-" json:"-"`
-	PERExtPadding_      []per.CompletePadding                  `asn1:"-" json:"-"`
+	CpLenR13             SLCPLenR12                             `asn1:"tag:0,context,implicit"`
+	DiscPeriodR13        int64                                  `asn1:"tag:1,context,implicit"`
+	NumRetxR13           int64                                  `asn1:"tag:2,context,implicit"`
+	NumRepetitionR13     int64                                  `asn1:"tag:3,context,implicit"`
+	TfResourceConfigR13  SLTFResourceConfigR12                  `asn1:"tag:4,context,implicit"`
+	TxParametersR13      *SLPreconfigDiscPoolR13TxParametersR13 `asn1:"tag:5,context,implicit,optional" json:"TxParametersR13,omitempty"`
+	ExtCount_            int64                                  `asn1:"-" json:"-"`
+	ExtPresent_          []bool                                 `asn1:"-" json:"-"`
+	ExtData_             [][]byte                               `asn1:"-" json:"-"`
+	PERPadding_          per.CompletePadding                    `asn1:"-" json:"-"`
+	PERExtraBits_        per.TrailingBits                       `asn1:"-" json:"-"`
+	PERContainedPadding_ map[string]per.CompletePadding         `asn1:"-" json:"-"`
+	PERExtPadding_       []per.CompletePadding                  `asn1:"-" json:"-"`
 }
 
 // SLPreconfigRelayR13 represents the ASN.1 type SL-PreconfigRelay-r13 (SEQUENCE).
 type SLPreconfigRelayR13 struct {
-	ReselectionInfoOoCR13 ReselectionInfoRelayR13 `asn1:"tag:0,context,implicit"`
-	PERPadding_           per.CompletePadding     `asn1:"-" json:"-"`
+	ReselectionInfoOoCR13 ReselectionInfoRelayR13        `asn1:"tag:0,context,implicit"`
+	PERPadding_           per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_         per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_  map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SLV2XPreconfigurationR14 represents the ASN.1 type SL-V2X-Preconfiguration-r14 (SEQUENCE).
@@ -141,6 +153,8 @@ type SLV2XPreconfigurationR14 struct {
 	ExtPresent_                      []bool                           `asn1:"-" json:"-"`
 	ExtData_                         [][]byte                         `asn1:"-" json:"-"`
 	PERPadding_                      per.CompletePadding              `asn1:"-" json:"-"`
+	PERExtraBits_                    per.TrailingBits                 `asn1:"-" json:"-"`
+	PERContainedPadding_             map[string]per.CompletePadding   `asn1:"-" json:"-"`
 	PERExtPadding_                   []per.CompletePadding            `asn1:"-" json:"-"`
 }
 
@@ -151,6 +165,8 @@ type SLCBRPreconfigTxConfigListR14 struct {
 	SlCBRPSSCHTxConfigListR14         SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14   `asn1:"tag:1,context,implicit"`
 	SlCBRPSSCHTxConfigListR14Indef_   bool                                                     `asn1:"-" json:"-"`
 	PERPadding_                       per.CompletePadding                                      `asn1:"-" json:"-"`
+	PERExtraBits_                     per.TrailingBits                                         `asn1:"-" json:"-"`
+	PERContainedPadding_              map[string]per.CompletePadding                           `asn1:"-" json:"-"`
 }
 
 // SLV2XPreconfigFreqListR14 represents the ASN.1 type SL-V2X-PreconfigFreqList-r14 (SEQUENCE_OF).
@@ -177,6 +193,8 @@ type SLV2XPreconfigFreqInfoR14 struct {
 	ExtPresent_                         []bool                          `asn1:"-" json:"-"`
 	ExtData_                            [][]byte                        `asn1:"-" json:"-"`
 	PERPadding_                         per.CompletePadding             `asn1:"-" json:"-"`
+	PERExtraBits_                       per.TrailingBits                `asn1:"-" json:"-"`
+	PERContainedPadding_                map[string]per.CompletePadding  `asn1:"-" json:"-"`
 	PERExtPadding_                      []per.CompletePadding           `asn1:"-" json:"-"`
 }
 
@@ -213,31 +231,37 @@ type SLV2XPreconfigCommPoolR14 struct {
 	ExtPresent_                                []bool                                     `asn1:"-" json:"-"`
 	ExtData_                                   [][]byte                                   `asn1:"-" json:"-"`
 	PERPadding_                                per.CompletePadding                        `asn1:"-" json:"-"`
+	PERExtraBits_                              per.TrailingBits                           `asn1:"-" json:"-"`
+	PERContainedPadding_                       map[string]per.CompletePadding             `asn1:"-" json:"-"`
 	PERExtPadding_                             []per.CompletePadding                      `asn1:"-" json:"-"`
 }
 
 // SLPreconfigV2XSyncR14 represents the ASN.1 type SL-PreconfigV2X-Sync-r14 (SEQUENCE).
 type SLPreconfigV2XSyncR14 struct {
-	SyncOffsetIndicatorsR14 SLV2XSyncOffsetIndicatorsR14 `asn1:"tag:0,context,implicit"`
-	SyncTxParametersR14     P0SLR12                      `asn1:"tag:1,context,implicit"`
-	SyncTxThreshOoCR14      RSRPRangeSL3R12              `asn1:"tag:2,context,implicit"`
-	FilterCoefficientR14    FilterCoefficient            `asn1:"tag:3,context,implicit"`
-	SyncRefMinHystR14       int64                        `asn1:"tag:4,context,implicit"`
-	SyncRefDiffHystR14      int64                        `asn1:"tag:5,context,implicit"`
-	SlssTxDisabledR15       *int64                       `asn1:"tag:6,context,implicit,optional" json:"SlssTxDisabledR15,omitempty"`
-	ExtCount_               int64                        `asn1:"-" json:"-"`
-	ExtPresent_             []bool                       `asn1:"-" json:"-"`
-	ExtData_                [][]byte                     `asn1:"-" json:"-"`
-	PERPadding_             per.CompletePadding          `asn1:"-" json:"-"`
-	PERExtPadding_          []per.CompletePadding        `asn1:"-" json:"-"`
+	SyncOffsetIndicatorsR14 SLV2XSyncOffsetIndicatorsR14   `asn1:"tag:0,context,implicit"`
+	SyncTxParametersR14     P0SLR12                        `asn1:"tag:1,context,implicit"`
+	SyncTxThreshOoCR14      RSRPRangeSL3R12                `asn1:"tag:2,context,implicit"`
+	FilterCoefficientR14    FilterCoefficient              `asn1:"tag:3,context,implicit"`
+	SyncRefMinHystR14       int64                          `asn1:"tag:4,context,implicit"`
+	SyncRefDiffHystR14      int64                          `asn1:"tag:5,context,implicit"`
+	SlssTxDisabledR15       *int64                         `asn1:"tag:6,context,implicit,optional" json:"SlssTxDisabledR15,omitempty"`
+	ExtCount_               int64                          `asn1:"-" json:"-"`
+	ExtPresent_             []bool                         `asn1:"-" json:"-"`
+	ExtData_                [][]byte                       `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_           per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_    map[string]per.CompletePadding `asn1:"-" json:"-"`
+	PERExtPadding_          []per.CompletePadding          `asn1:"-" json:"-"`
 }
 
 // SLV2XSyncOffsetIndicatorsR14 represents the ASN.1 type SL-V2X-SyncOffsetIndicators-r14 (SEQUENCE).
 type SLV2XSyncOffsetIndicatorsR14 struct {
-	SyncOffsetIndicator1R14 SLOffsetIndicatorSyncR14  `asn1:"tag:0,context,implicit"`
-	SyncOffsetIndicator2R14 SLOffsetIndicatorSyncR14  `asn1:"tag:1,context,implicit"`
-	SyncOffsetIndicator3R14 *SLOffsetIndicatorSyncR14 `asn1:"tag:2,context,implicit,optional" json:"SyncOffsetIndicator3R14,omitempty"`
-	PERPadding_             per.CompletePadding       `asn1:"-" json:"-"`
+	SyncOffsetIndicator1R14 SLOffsetIndicatorSyncR14       `asn1:"tag:0,context,implicit"`
+	SyncOffsetIndicator2R14 SLOffsetIndicatorSyncR14       `asn1:"tag:1,context,implicit"`
+	SyncOffsetIndicator3R14 *SLOffsetIndicatorSyncR14      `asn1:"tag:2,context,implicit,optional" json:"SyncOffsetIndicator3R14,omitempty"`
+	PERPadding_             per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_           per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_    map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SLCBRPPPPTxPreconfigListR14 represents the ASN.1 type SL-CBR-PPPP-TxPreconfigList-r14 (SEQUENCE_OF).
@@ -251,6 +275,8 @@ type SLPPPPTxPreconfigIndexR14 struct {
 	TxConfigIndexListR14       SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 `asn1:"tag:3,context,implicit"`
 	TxConfigIndexListR14Indef_ bool                                          `asn1:"-" json:"-"`
 	PERPadding_                per.CompletePadding                           `asn1:"-" json:"-"`
+	PERExtraBits_              per.TrailingBits                              `asn1:"-" json:"-"`
+	PERContainedPadding_       map[string]per.CompletePadding                `asn1:"-" json:"-"`
 }
 
 // TxPreconfigIndexR14 represents the ASN.1 type Tx-PreconfigIndex-r14 (INTEGER).
@@ -264,6 +290,8 @@ type SLPPPPTxPreconfigIndexV1530 struct {
 	McsPSSCHRangeR15       SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 `asn1:"tag:0,context,implicit,optional" json:"McsPSSCHRangeR15,omitempty"`
 	McsPSSCHRangeR15Indef_ bool                                        `asn1:"-" json:"-"`
 	PERPadding_            per.CompletePadding                         `asn1:"-" json:"-"`
+	PERExtraBits_          per.TrailingBits                            `asn1:"-" json:"-"`
+	PERContainedPadding_   map[string]per.CompletePadding              `asn1:"-" json:"-"`
 }
 
 // SLV2XTxProfileListR15 represents the ASN.1 type SL-V2X-TxProfileList-r15 (SEQUENCE_OF).
@@ -308,46 +336,54 @@ func (v SLV2XTxProfileR15) String() string {
 
 // SLPreconfigurationR12PreconfigCommV1310 represents the ASN.1 type SL-Preconfiguration-r12-preconfigComm-v1310 (SEQUENCE).
 type SLPreconfigurationR12PreconfigCommV1310 struct {
-	CommRxPoolListR13       SLPreconfigCommRxPoolListR13 `asn1:"tag:0,context,implicit"`
-	CommRxPoolListR13Indef_ bool                         `asn1:"-" json:"-"`
-	CommTxPoolListR13       SLPreconfigCommTxPoolListR13 `asn1:"tag:1,context,implicit,optional" json:"CommTxPoolListR13,omitempty"`
-	CommTxPoolListR13Indef_ bool                         `asn1:"-" json:"-"`
-	PERPadding_             per.CompletePadding          `asn1:"-" json:"-"`
+	CommRxPoolListR13       SLPreconfigCommRxPoolListR13   `asn1:"tag:0,context,implicit"`
+	CommRxPoolListR13Indef_ bool                           `asn1:"-" json:"-"`
+	CommTxPoolListR13       SLPreconfigCommTxPoolListR13   `asn1:"tag:1,context,implicit,optional" json:"CommTxPoolListR13,omitempty"`
+	CommTxPoolListR13Indef_ bool                           `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_           per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_    map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SLPreconfigurationR12PreconfigDiscR13 represents the ASN.1 type SL-Preconfiguration-r12-preconfigDisc-r13 (SEQUENCE).
 type SLPreconfigurationR12PreconfigDiscR13 struct {
-	DiscRxPoolListR13       SLPreconfigDiscRxPoolListR13 `asn1:"tag:0,context,implicit"`
-	DiscRxPoolListR13Indef_ bool                         `asn1:"-" json:"-"`
-	DiscTxPoolListR13       SLPreconfigDiscTxPoolListR13 `asn1:"tag:1,context,implicit,optional" json:"DiscTxPoolListR13,omitempty"`
-	DiscTxPoolListR13Indef_ bool                         `asn1:"-" json:"-"`
-	PERPadding_             per.CompletePadding          `asn1:"-" json:"-"`
+	DiscRxPoolListR13       SLPreconfigDiscRxPoolListR13   `asn1:"tag:0,context,implicit"`
+	DiscRxPoolListR13Indef_ bool                           `asn1:"-" json:"-"`
+	DiscTxPoolListR13       SLPreconfigDiscTxPoolListR13   `asn1:"tag:1,context,implicit,optional" json:"DiscTxPoolListR13,omitempty"`
+	DiscTxPoolListR13Indef_ bool                           `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_           per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_    map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SLPreconfigGeneralR12RohcProfilesR12 represents the ASN.1 type SL-PreconfigGeneral-r12-rohc-Profiles-r12 (SEQUENCE).
 type SLPreconfigGeneralR12RohcProfilesR12 struct {
-	Profile0x0001R12     bool                `asn1:"tag:0,context,implicit"`
-	Profile0x0001R12Raw_ byte                `asn1:"-" json:"-"`
-	Profile0x0002R12     bool                `asn1:"tag:1,context,implicit"`
-	Profile0x0002R12Raw_ byte                `asn1:"-" json:"-"`
-	Profile0x0004R12     bool                `asn1:"tag:2,context,implicit"`
-	Profile0x0004R12Raw_ byte                `asn1:"-" json:"-"`
-	Profile0x0006R12     bool                `asn1:"tag:3,context,implicit"`
-	Profile0x0006R12Raw_ byte                `asn1:"-" json:"-"`
-	Profile0x0101R12     bool                `asn1:"tag:4,context,implicit"`
-	Profile0x0101R12Raw_ byte                `asn1:"-" json:"-"`
-	Profile0x0102R12     bool                `asn1:"tag:5,context,implicit"`
-	Profile0x0102R12Raw_ byte                `asn1:"-" json:"-"`
-	Profile0x0104R12     bool                `asn1:"tag:6,context,implicit"`
-	Profile0x0104R12Raw_ byte                `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding `asn1:"-" json:"-"`
+	Profile0x0001R12     bool                           `asn1:"tag:0,context,implicit"`
+	Profile0x0001R12Raw_ byte                           `asn1:"-" json:"-"`
+	Profile0x0002R12     bool                           `asn1:"tag:1,context,implicit"`
+	Profile0x0002R12Raw_ byte                           `asn1:"-" json:"-"`
+	Profile0x0004R12     bool                           `asn1:"tag:2,context,implicit"`
+	Profile0x0004R12Raw_ byte                           `asn1:"-" json:"-"`
+	Profile0x0006R12     bool                           `asn1:"tag:3,context,implicit"`
+	Profile0x0006R12Raw_ byte                           `asn1:"-" json:"-"`
+	Profile0x0101R12     bool                           `asn1:"tag:4,context,implicit"`
+	Profile0x0101R12Raw_ byte                           `asn1:"-" json:"-"`
+	Profile0x0102R12     bool                           `asn1:"tag:5,context,implicit"`
+	Profile0x0102R12Raw_ byte                           `asn1:"-" json:"-"`
+	Profile0x0104R12     bool                           `asn1:"tag:6,context,implicit"`
+	Profile0x0104R12Raw_ byte                           `asn1:"-" json:"-"`
+	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SLPreconfigDiscPoolR13TxParametersR13 represents the ASN.1 type SL-PreconfigDiscPool-r13-txParameters-r13 (SEQUENCE).
 type SLPreconfigDiscPoolR13TxParametersR13 struct {
-	TxParametersGeneralR13 P0SLR12             `asn1:"tag:0,context,implicit"`
-	TxProbabilityR13       int64               `asn1:"tag:1,context,implicit"`
-	PERPadding_            per.CompletePadding `asn1:"-" json:"-"`
+	TxParametersGeneralR13 P0SLR12                        `asn1:"tag:0,context,implicit"`
+	TxProbabilityR13       int64                          `asn1:"tag:1,context,implicit"`
+	PERPadding_            per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtraBits_          per.TrailingBits               `asn1:"-" json:"-"`
+	PERContainedPadding_   map[string]per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 represents the ASN.1 type SL-CBR-PreconfigTxConfigList-r14-cbr-RangeCommonConfigList-r14 (SEQUENCE_OF).
@@ -368,7 +404,7 @@ func (v *SLPreconfigurationR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLPreconfigurationR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -414,7 +450,12 @@ func (v *SLPreconfigurationR12) MarshalUPERTo(bb *per.BitBuffer) error {
 				extHighest = int64(i)
 			}
 		}
-		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
+		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		if extHighest < 0 || extHighest >= 16383 {
+			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
+		}
+		if err := per.EncodeNormallySmallLength(bb, extHighest+1); err != nil {
 			return err
 		}
 		// Extension presence bitmap
@@ -424,7 +465,7 @@ func (v *SLPreconfigurationR12) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:368
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:373
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -472,7 +513,7 @@ func (v *SLPreconfigurationR12) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:424
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:429
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -493,15 +534,21 @@ func (v *SLPreconfigurationR12) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes SLPreconfigurationR12 from UPER format.
 func (v *SLPreconfigurationR12) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLPreconfigurationR12 with explicit receiver options.
+func (v *SLPreconfigurationR12) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigurationR12")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigurationR12")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -519,7 +566,7 @@ func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PreconfigCommR12 = make(SLPreconfigCommPoolList4R12, 0)
 	_, errCollection_preconfigcommr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_preconfigcommr12, fragmentLength_preconfigcommr12 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_preconfigcommr12 < 0 || fragmentLength_preconfigcommr12 < 0 || fragmentLength_preconfigcommr12 > int64(^uint(0)>>1) || fragmentOffset_preconfigcommr12 > int64(^uint(0)>>1)-fragmentLength_preconfigcommr12 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -542,12 +589,12 @@ func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:548
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:558
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:550
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:560
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -558,6 +605,7 @@ func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
+			extBB.SetDecodeOptions(bb.Options())
 			_ = extBB
 			ext_opt_preconfigcommv1310, err := per.DecodeBoolean(extBB)
 			if err != nil {
@@ -598,7 +646,7 @@ func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[0] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:601
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:611
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -621,7 +669,7 @@ func (v *SLPreconfigGeneralR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLPreconfigGeneralR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -668,7 +716,12 @@ func (v *SLPreconfigGeneralR12) MarshalUPERTo(bb *per.BitBuffer) error {
 				extHighest = int64(i)
 			}
 		}
-		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
+		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		if extHighest < 0 || extHighest >= 16383 {
+			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
+		}
+		if err := per.EncodeNormallySmallLength(bb, extHighest+1); err != nil {
 			return err
 		}
 		// Extension presence bitmap
@@ -678,7 +731,7 @@ func (v *SLPreconfigGeneralR12) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:368
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:373
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -710,7 +763,7 @@ func (v *SLPreconfigGeneralR12) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:424
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:429
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -731,15 +784,21 @@ func (v *SLPreconfigGeneralR12) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes SLPreconfigGeneralR12 from UPER format.
 func (v *SLPreconfigGeneralR12) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLPreconfigGeneralR12 with explicit receiver options.
+func (v *SLPreconfigGeneralR12) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigGeneralR12")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigGeneralR12")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -787,12 +846,12 @@ func (v *SLPreconfigGeneralR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:548
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:558
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:550
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:560
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -803,6 +862,7 @@ func (v *SLPreconfigGeneralR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
+			extBB.SetDecodeOptions(bb.Options())
 			_ = extBB
 			ext_opt_additionalspectrumemissionv1440, err := per.DecodeBoolean(extBB)
 			if err != nil {
@@ -822,7 +882,7 @@ func (v *SLPreconfigGeneralR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[0] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:601
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:611
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -845,7 +905,7 @@ func (v *SLPreconfigSyncR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLPreconfigSyncR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -895,7 +955,12 @@ func (v *SLPreconfigSyncR12) MarshalUPERTo(bb *per.BitBuffer) error {
 				extHighest = int64(i)
 			}
 		}
-		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
+		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		if extHighest < 0 || extHighest >= 16383 {
+			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
+		}
+		if err := per.EncodeNormallySmallLength(bb, extHighest+1); err != nil {
 			return err
 		}
 		// Extension presence bitmap
@@ -905,7 +970,7 @@ func (v *SLPreconfigSyncR12) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:368
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:373
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -937,7 +1002,7 @@ func (v *SLPreconfigSyncR12) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:424
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:429
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -958,15 +1023,21 @@ func (v *SLPreconfigSyncR12) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes SLPreconfigSyncR12 from UPER format.
 func (v *SLPreconfigSyncR12) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLPreconfigSyncR12 with explicit receiver options.
+func (v *SLPreconfigSyncR12) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigSyncR12")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigSyncR12")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -1023,12 +1094,12 @@ func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:548
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:558
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:550
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:560
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1039,6 +1110,7 @@ func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
+			extBB.SetDecodeOptions(bb.Options())
 			_ = extBB
 			ext_opt_synctxperiodicr13, err := per.DecodeBoolean(extBB)
 			if err != nil {
@@ -1057,7 +1129,7 @@ func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[0] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:601
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:611
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1080,7 +1152,7 @@ type asn1cUPERSLPreconfigCommPoolList4R12ListValue struct{ Value SLPreconfigComm
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type SLPreconfigCommPoolList4R12Complete struct {
 	Value       SLPreconfigCommPoolList4R12
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *SLPreconfigCommPoolList4R12Complete) MarshalUPER() ([]byte, error) {
@@ -1151,7 +1223,7 @@ func UnmarshalUPERSLPreconfigCommPoolList4R12From(bb *per.BitBuffer) (SLPreconfi
 func unmarshalUPERSLPreconfigCommPoolList4R12Into(v *asn1cUPERSLPreconfigCommPoolList4R12ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SLPreconfigCommPoolList4R12, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1176,7 +1248,7 @@ type asn1cUPERSLPreconfigCommRxPoolListR13ListValue struct{ Value SLPreconfigCom
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type SLPreconfigCommRxPoolListR13Complete struct {
 	Value       SLPreconfigCommRxPoolListR13
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *SLPreconfigCommRxPoolListR13Complete) MarshalUPER() ([]byte, error) {
@@ -1247,7 +1319,7 @@ func UnmarshalUPERSLPreconfigCommRxPoolListR13From(bb *per.BitBuffer) (SLPreconf
 func unmarshalUPERSLPreconfigCommRxPoolListR13Into(v *asn1cUPERSLPreconfigCommRxPoolListR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SLPreconfigCommRxPoolListR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 12, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1272,7 +1344,7 @@ type asn1cUPERSLPreconfigCommTxPoolListR13ListValue struct{ Value SLPreconfigCom
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type SLPreconfigCommTxPoolListR13Complete struct {
 	Value       SLPreconfigCommTxPoolListR13
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *SLPreconfigCommTxPoolListR13Complete) MarshalUPER() ([]byte, error) {
@@ -1343,7 +1415,7 @@ func UnmarshalUPERSLPreconfigCommTxPoolListR13From(bb *per.BitBuffer) (SLPreconf
 func unmarshalUPERSLPreconfigCommTxPoolListR13Into(v *asn1cUPERSLPreconfigCommTxPoolListR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SLPreconfigCommTxPoolListR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1368,7 +1440,7 @@ func (v *SLPreconfigCommPoolR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLPreconfigCommPoolR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1421,7 +1493,12 @@ func (v *SLPreconfigCommPoolR12) MarshalUPERTo(bb *per.BitBuffer) error {
 				extHighest = int64(i)
 			}
 		}
-		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
+		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		if extHighest < 0 || extHighest >= 16383 {
+			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
+		}
+		if err := per.EncodeNormallySmallLength(bb, extHighest+1); err != nil {
 			return err
 		}
 		// Extension presence bitmap
@@ -1431,7 +1508,7 @@ func (v *SLPreconfigCommPoolR12) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:368
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:373
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1474,7 +1551,7 @@ func (v *SLPreconfigCommPoolR12) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:424
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:429
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1495,15 +1572,21 @@ func (v *SLPreconfigCommPoolR12) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes SLPreconfigCommPoolR12 from UPER format.
 func (v *SLPreconfigCommPoolR12) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLPreconfigCommPoolR12 with explicit receiver options.
+func (v *SLPreconfigCommPoolR12) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigCommPoolR12")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigCommPoolR12")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -1559,12 +1642,12 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:548
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:558
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:550
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:560
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1575,6 +1658,7 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
+			extBB.SetDecodeOptions(bb.Options())
 			_ = extBB
 			ext_opt_prioritylistr13, err := per.DecodeBoolean(extBB)
 			if err != nil {
@@ -1583,7 +1667,7 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_prioritylistr13 {
 				tmp_prioritylistr13 := make(SLPriorityListR13, 0)
 				_, errCollection_prioritylistr13 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_prioritylistr13, fragmentLength_prioritylistr13 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+					// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1207
 					if fragmentOffset_prioritylistr13 < 0 || fragmentLength_prioritylistr13 < 0 || fragmentLength_prioritylistr13 > int64(^uint(0)>>1) || fragmentOffset_prioritylistr13 > int64(^uint(0)>>1)-fragmentLength_prioritylistr13 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -1607,7 +1691,7 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[0] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:601
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:611
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1630,7 +1714,7 @@ type asn1cUPERSLPreconfigDiscRxPoolListR13ListValue struct{ Value SLPreconfigDis
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type SLPreconfigDiscRxPoolListR13Complete struct {
 	Value       SLPreconfigDiscRxPoolListR13
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *SLPreconfigDiscRxPoolListR13Complete) MarshalUPER() ([]byte, error) {
@@ -1701,7 +1785,7 @@ func UnmarshalUPERSLPreconfigDiscRxPoolListR13From(bb *per.BitBuffer) (SLPreconf
 func unmarshalUPERSLPreconfigDiscRxPoolListR13Into(v *asn1cUPERSLPreconfigDiscRxPoolListR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SLPreconfigDiscRxPoolListR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1726,7 +1810,7 @@ type asn1cUPERSLPreconfigDiscTxPoolListR13ListValue struct{ Value SLPreconfigDis
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type SLPreconfigDiscTxPoolListR13Complete struct {
 	Value       SLPreconfigDiscTxPoolListR13
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *SLPreconfigDiscTxPoolListR13Complete) MarshalUPER() ([]byte, error) {
@@ -1797,7 +1881,7 @@ func UnmarshalUPERSLPreconfigDiscTxPoolListR13From(bb *per.BitBuffer) (SLPreconf
 func unmarshalUPERSLPreconfigDiscTxPoolListR13Into(v *asn1cUPERSLPreconfigDiscTxPoolListR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SLPreconfigDiscTxPoolListR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1822,7 +1906,7 @@ func (v *SLPreconfigDiscPoolR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLPreconfigDiscPoolR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1856,10 +1940,15 @@ func (v *SLPreconfigDiscPoolR13) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if hasExtensions {
 		extCount := v.ExtCount_
-		if err := per.EncodeNormallySmallNonNegative(bb, extCount); err != nil {
+		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		if extCount < 0 || extCount >= 16383 {
+			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
+		}
+		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:449
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1869,7 +1958,7 @@ func (v *SLPreconfigDiscPoolR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:449
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:456
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1890,15 +1979,21 @@ func (v *SLPreconfigDiscPoolR13) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes SLPreconfigDiscPoolR13 from UPER format.
 func (v *SLPreconfigDiscPoolR13) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLPreconfigDiscPoolR13 with explicit receiver options.
+func (v *SLPreconfigDiscPoolR13) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigDiscPoolR13")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigDiscPoolR13")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -1949,13 +2044,13 @@ func (v *SLPreconfigDiscPoolR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:620
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:630
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:623
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:633
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1978,7 +2073,7 @@ func (v *SLPreconfigRelayR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLPreconfigRelayR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1990,15 +2085,21 @@ func (v *SLPreconfigRelayR13) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes SLPreconfigRelayR13 from UPER format.
 func (v *SLPreconfigRelayR13) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLPreconfigRelayR13 with explicit receiver options.
+func (v *SLPreconfigRelayR13) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigRelayR13")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigRelayR13")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -2016,7 +2117,7 @@ func (v *SLV2XPreconfigurationR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2087,7 +2188,12 @@ func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				extHighest = int64(i)
 			}
 		}
-		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
+		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		if extHighest < 0 || extHighest >= 16383 {
+			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
+		}
+		if err := per.EncodeNormallySmallLength(bb, extHighest+1); err != nil {
 			return err
 		}
 		// Extension presence bitmap
@@ -2103,7 +2209,7 @@ func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:368
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:373
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2214,7 +2320,7 @@ func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:424
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:429
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2235,15 +2341,21 @@ func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes SLV2XPreconfigurationR14 from UPER format.
 func (v *SLV2XPreconfigurationR14) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLV2XPreconfigurationR14 with explicit receiver options.
+func (v *SLV2XPreconfigurationR14) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLV2XPreconfigurationR14")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLV2XPreconfigurationR14")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -2264,7 +2376,7 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.V2xPreconfigFreqListR14 = make(SLV2XPreconfigFreqListR14, 0)
 	_, errCollection_v2xpreconfigfreqlistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_v2xpreconfigfreqlistr14, fragmentLength_v2xpreconfigfreqlistr14 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_v2xpreconfigfreqlistr14 < 0 || fragmentLength_v2xpreconfigfreqlistr14 < 0 || fragmentLength_v2xpreconfigfreqlistr14 > int64(^uint(0)>>1) || fragmentOffset_v2xpreconfigfreqlistr14 > int64(^uint(0)>>1)-fragmentLength_v2xpreconfigfreqlistr14 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2283,7 +2395,7 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_anchorcarrierfreqlistr14 {
 		tmp_anchorcarrierfreqlistr14 := make(SLAnchorCarrierFreqListV2XR14, 0)
 		_, errCollection_anchorcarrierfreqlistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_anchorcarrierfreqlistr14, fragmentLength_anchorcarrierfreqlistr14 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1207
 			if fragmentOffset_anchorcarrierfreqlistr14 < 0 || fragmentLength_anchorcarrierfreqlistr14 < 0 || fragmentLength_anchorcarrierfreqlistr14 > int64(^uint(0)>>1) || fragmentOffset_anchorcarrierfreqlistr14 > int64(^uint(0)>>1)-fragmentLength_anchorcarrierfreqlistr14 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2315,12 +2427,12 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:548
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:558
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:550
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:560
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2331,6 +2443,7 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
+			extBB.SetDecodeOptions(bb.Options())
 			_ = extBB
 			ext_opt_v2xpacketduplicationconfigr15, err := per.DecodeBoolean(extBB)
 			if err != nil {
@@ -2358,7 +2471,7 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_syncfreqlistr15 {
 				tmp_syncfreqlistr15 := make(SLV2XSyncFreqListR15, 0)
 				_, errCollection_syncfreqlistr15 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_syncfreqlistr15, fragmentLength_syncfreqlistr15 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+					// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1207
 					if fragmentOffset_syncfreqlistr15 < 0 || fragmentLength_syncfreqlistr15 < 0 || fragmentLength_syncfreqlistr15 > int64(^uint(0)>>1) || fragmentOffset_syncfreqlistr15 > int64(^uint(0)>>1)-fragmentLength_syncfreqlistr15 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -2386,7 +2499,7 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_v2xtxprofilelistr15 {
 				tmp_v2xtxprofilelistr15 := make(SLV2XTxProfileListR15, 0)
 				_, errCollection_v2xtxprofilelistr15 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, false, func(fragmentOffset_v2xtxprofilelistr15, fragmentLength_v2xtxprofilelistr15 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+					// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1207
 					if fragmentOffset_v2xtxprofilelistr15 < 0 || fragmentLength_v2xtxprofilelistr15 < 0 || fragmentLength_v2xtxprofilelistr15 > int64(^uint(0)>>1) || fragmentOffset_v2xtxprofilelistr15 > int64(^uint(0)>>1)-fragmentLength_v2xtxprofilelistr15 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -2416,6 +2529,7 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return runtime.WrapDecodePath(err, "ExtData_[1]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
+			extBB.SetDecodeOptions(bb.Options())
 			_ = extBB
 			ext_opt_anchorcarrierfreqlistnrr16, err := per.DecodeBoolean(extBB)
 			if err != nil {
@@ -2424,7 +2538,7 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_anchorcarrierfreqlistnrr16 {
 				tmp_anchorcarrierfreqlistnrr16 := make(SLNRAnchorCarrierFreqListR16, 0)
 				_, errCollection_anchorcarrierfreqlistnrr16 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_anchorcarrierfreqlistnrr16, fragmentLength_anchorcarrierfreqlistnrr16 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+					// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1207
 					if fragmentOffset_anchorcarrierfreqlistnrr16 < 0 || fragmentLength_anchorcarrierfreqlistnrr16 < 0 || fragmentLength_anchorcarrierfreqlistnrr16 > int64(^uint(0)>>1) || fragmentOffset_anchorcarrierfreqlistnrr16 > int64(^uint(0)>>1)-fragmentLength_anchorcarrierfreqlistnrr16 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -2448,7 +2562,7 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[1] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:601
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:611
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2471,7 +2585,7 @@ func (v *SLCBRPreconfigTxConfigListR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLCBRPreconfigTxConfigListR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2508,15 +2622,21 @@ func (v *SLCBRPreconfigTxConfigListR14) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes SLCBRPreconfigTxConfigListR14 from UPER format.
 func (v *SLCBRPreconfigTxConfigListR14) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLCBRPreconfigTxConfigListR14 with explicit receiver options.
+func (v *SLCBRPreconfigTxConfigListR14) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -2524,7 +2644,7 @@ func (v *SLCBRPreconfigTxConfigListR14) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	*v = SLCBRPreconfigTxConfigListR14{}
 	v.CbrRangeCommonConfigListR14 = make(SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14, 0)
 	_, errCollection_cbrrangecommonconfiglistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_cbrrangecommonconfiglistr14, fragmentLength_cbrrangecommonconfiglistr14 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
+		// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1226
 		if fragmentOffset_cbrrangecommonconfiglistr14 < 0 || fragmentLength_cbrrangecommonconfiglistr14 < 0 || fragmentLength_cbrrangecommonconfiglistr14 > int64(^uint(0)>>1) || fragmentOffset_cbrrangecommonconfiglistr14 > int64(^uint(0)>>1)-fragmentLength_cbrrangecommonconfiglistr14 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2542,7 +2662,7 @@ func (v *SLCBRPreconfigTxConfigListR14) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	}
 	v.SlCBRPSSCHTxConfigListR14 = make(SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14, 0)
 	_, errCollection_slcbrpsschtxconfiglistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 128, HasUpper: true}, false, func(fragmentOffset_slcbrpsschtxconfiglistr14, fragmentLength_slcbrpsschtxconfiglistr14 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_slcbrpsschtxconfiglistr14 < 0 || fragmentLength_slcbrpsschtxconfiglistr14 < 0 || fragmentLength_slcbrpsschtxconfiglistr14 > int64(^uint(0)>>1) || fragmentOffset_slcbrpsschtxconfiglistr14 > int64(^uint(0)>>1)-fragmentLength_slcbrpsschtxconfiglistr14 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2567,7 +2687,7 @@ type asn1cUPERSLV2XPreconfigFreqListR14ListValue struct{ Value SLV2XPreconfigFre
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type SLV2XPreconfigFreqListR14Complete struct {
 	Value       SLV2XPreconfigFreqListR14
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *SLV2XPreconfigFreqListR14Complete) MarshalUPER() ([]byte, error) {
@@ -2638,7 +2758,7 @@ func UnmarshalUPERSLV2XPreconfigFreqListR14From(bb *per.BitBuffer) (SLV2XPreconf
 func unmarshalUPERSLV2XPreconfigFreqListR14Into(v *asn1cUPERSLV2XPreconfigFreqListR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SLV2XPreconfigFreqListR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2663,7 +2783,7 @@ func (v *SLV2XPreconfigFreqInfoR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLV2XPreconfigFreqInfoR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2778,7 +2898,12 @@ func (v *SLV2XPreconfigFreqInfoR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				extHighest = int64(i)
 			}
 		}
-		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
+		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		if extHighest < 0 || extHighest >= 16383 {
+			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
+		}
+		if err := per.EncodeNormallySmallLength(bb, extHighest+1); err != nil {
 			return err
 		}
 		// Extension presence bitmap
@@ -2788,7 +2913,7 @@ func (v *SLV2XPreconfigFreqInfoR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:368
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:373
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2831,7 +2956,7 @@ func (v *SLV2XPreconfigFreqInfoR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:424
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:429
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2852,15 +2977,21 @@ func (v *SLV2XPreconfigFreqInfoR14) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes SLV2XPreconfigFreqInfoR14 from UPER format.
 func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLV2XPreconfigFreqInfoR14 with explicit receiver options.
+func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLV2XPreconfigFreqInfoR14")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLV2XPreconfigFreqInfoR14")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -2903,7 +3034,7 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.V2xCommRxPoolListR14 = make(SLPreconfigV2XRxPoolListR14, 0)
 	_, errCollection_v2xcommrxpoollistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_v2xcommrxpoollistr14, fragmentLength_v2xcommrxpoollistr14 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_v2xcommrxpoollistr14 < 0 || fragmentLength_v2xcommrxpoollistr14 < 0 || fragmentLength_v2xcommrxpoollistr14 > int64(^uint(0)>>1) || fragmentOffset_v2xcommrxpoollistr14 > int64(^uint(0)>>1)-fragmentLength_v2xcommrxpoollistr14 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2921,7 +3052,7 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.V2xCommTxPoolListR14 = make(SLPreconfigV2XTxPoolListR14, 0)
 	_, errCollection_v2xcommtxpoollistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_v2xcommtxpoollistr14, fragmentLength_v2xcommtxpoollistr14 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_v2xcommtxpoollistr14 < 0 || fragmentLength_v2xcommtxpoollistr14 < 0 || fragmentLength_v2xcommtxpoollistr14 > int64(^uint(0)>>1) || fragmentOffset_v2xcommtxpoollistr14 > int64(^uint(0)>>1)-fragmentLength_v2xcommtxpoollistr14 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2939,7 +3070,7 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.P2xCommTxPoolListR14 = make(SLPreconfigV2XTxPoolListR14, 0)
 	_, errCollection_p2xcommtxpoollistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_p2xcommtxpoollistr14, fragmentLength_p2xcommtxpoollistr14 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_p2xcommtxpoollistr14 < 0 || fragmentLength_p2xcommtxpoollistr14 < 0 || fragmentLength_p2xcommtxpoollistr14 > int64(^uint(0)>>1) || fragmentOffset_p2xcommtxpoollistr14 > int64(^uint(0)>>1)-fragmentLength_p2xcommtxpoollistr14 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2996,12 +3127,12 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:548
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:558
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:550
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:560
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -3012,6 +3143,7 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
+			extBB.SetDecodeOptions(bb.Options())
 			_ = extBB
 			ext_opt_v2xfreqselectionconfiglistr15, err := per.DecodeBoolean(extBB)
 			if err != nil {
@@ -3020,7 +3152,7 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_v2xfreqselectionconfiglistr15 {
 				tmp_v2xfreqselectionconfiglistr15 := make(SLV2XFreqSelectionConfigListR15, 0)
 				_, errCollection_v2xfreqselectionconfiglistr15 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_v2xfreqselectionconfiglistr15, fragmentLength_v2xfreqselectionconfiglistr15 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_v2xfreqselectionconfiglistr15 < 0 || fragmentLength_v2xfreqselectionconfiglistr15 < 0 || fragmentLength_v2xfreqselectionconfiglistr15 > int64(^uint(0)>>1) || fragmentOffset_v2xfreqselectionconfiglistr15 > int64(^uint(0)>>1)-fragmentLength_v2xfreqselectionconfiglistr15 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -3044,7 +3176,7 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[0] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:601
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:611
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -3067,7 +3199,7 @@ type asn1cUPERSLPreconfigV2XRxPoolListR14ListValue struct{ Value SLPreconfigV2XR
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type SLPreconfigV2XRxPoolListR14Complete struct {
 	Value       SLPreconfigV2XRxPoolListR14
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *SLPreconfigV2XRxPoolListR14Complete) MarshalUPER() ([]byte, error) {
@@ -3138,7 +3270,7 @@ func UnmarshalUPERSLPreconfigV2XRxPoolListR14From(bb *per.BitBuffer) (SLPreconfi
 func unmarshalUPERSLPreconfigV2XRxPoolListR14Into(v *asn1cUPERSLPreconfigV2XRxPoolListR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SLPreconfigV2XRxPoolListR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -3163,7 +3295,7 @@ type asn1cUPERSLPreconfigV2XTxPoolListR14ListValue struct{ Value SLPreconfigV2XT
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type SLPreconfigV2XTxPoolListR14Complete struct {
 	Value       SLPreconfigV2XTxPoolListR14
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *SLPreconfigV2XTxPoolListR14Complete) MarshalUPER() ([]byte, error) {
@@ -3234,7 +3366,7 @@ func UnmarshalUPERSLPreconfigV2XTxPoolListR14From(bb *per.BitBuffer) (SLPreconfi
 func unmarshalUPERSLPreconfigV2XTxPoolListR14Into(v *asn1cUPERSLPreconfigV2XTxPoolListR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SLPreconfigV2XTxPoolListR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -3259,7 +3391,7 @@ func (v *SLV2XPreconfigCommPoolR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLV2XPreconfigCommPoolR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3390,7 +3522,12 @@ func (v *SLV2XPreconfigCommPoolR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				extHighest = int64(i)
 			}
 		}
-		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
+		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		if extHighest < 0 || extHighest >= 16383 {
+			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
+		}
+		if err := per.EncodeNormallySmallLength(bb, extHighest+1); err != nil {
 			return err
 		}
 		// Extension presence bitmap
@@ -3400,7 +3537,7 @@ func (v *SLV2XPreconfigCommPoolR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:368
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:373
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -3462,7 +3599,7 @@ func (v *SLV2XPreconfigCommPoolR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:424
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:429
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -3483,15 +3620,21 @@ func (v *SLV2XPreconfigCommPoolR14) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes SLV2XPreconfigCommPoolR14 from UPER format.
 func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLV2XPreconfigCommPoolR14 with explicit receiver options.
+func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLV2XPreconfigCommPoolR14")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLV2XPreconfigCommPoolR14")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -3593,7 +3736,7 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cbrpsschtxconfiglistr14 {
 		tmp_cbrpsschtxconfiglistr14 := make(SLCBRPPPPTxPreconfigListR14, 0)
 		_, errCollection_cbrpsschtxconfiglistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_cbrpsschtxconfiglistr14, fragmentLength_cbrpsschtxconfiglistr14 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_cbrpsschtxconfiglistr14 < 0 || fragmentLength_cbrpsschtxconfiglistr14 < 0 || fragmentLength_cbrpsschtxconfiglistr14 > int64(^uint(0)>>1) || fragmentOffset_cbrpsschtxconfiglistr14 > int64(^uint(0)>>1)-fragmentLength_cbrpsschtxconfiglistr14 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -3628,7 +3771,7 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_restrictresourcereservationperiodr14 {
 		tmp_restrictresourcereservationperiodr14 := make(SLRestrictResourceReservationPeriodListR14, 0)
 		_, errCollection_restrictresourcereservationperiodr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_restrictresourcereservationperiodr14, fragmentLength_restrictresourcereservationperiodr14 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1207
 			if fragmentOffset_restrictresourcereservationperiodr14 < 0 || fragmentLength_restrictresourcereservationperiodr14 < 0 || fragmentLength_restrictresourcereservationperiodr14 > int64(^uint(0)>>1) || fragmentOffset_restrictresourcereservationperiodr14 > int64(^uint(0)>>1)-fragmentLength_restrictresourcereservationperiodr14 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -3653,12 +3796,12 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:548
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:558
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:550
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:560
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -3669,6 +3812,7 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
+			extBB.SetDecodeOptions(bb.Options())
 			_ = extBB
 			ext_opt_slmint2valuelistr15, err := per.DecodeBoolean(extBB)
 			if err != nil {
@@ -3681,7 +3825,7 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_slmint2valuelistr15 {
 				tmp_slmint2valuelistr15 := make(SLMinT2ValueListR15, 0)
 				_, errCollection_slmint2valuelistr15 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_slmint2valuelistr15, fragmentLength_slmint2valuelistr15 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_slmint2valuelistr15 < 0 || fragmentLength_slmint2valuelistr15 < 0 || fragmentLength_slmint2valuelistr15 > int64(^uint(0)>>1) || fragmentOffset_slmint2valuelistr15 > int64(^uint(0)>>1)-fragmentLength_slmint2valuelistr15 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -3702,7 +3846,7 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_cbrpsschtxconfiglistv1530 {
 				tmp_cbrpsschtxconfiglistv1530 := make(SLCBRPPPPTxPreconfigListV1530, 0)
 				_, errCollection_cbrpsschtxconfiglistv1530 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_cbrpsschtxconfiglistv1530, fragmentLength_cbrpsschtxconfiglistv1530 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_cbrpsschtxconfiglistv1530 < 0 || fragmentLength_cbrpsschtxconfiglistv1530 < 0 || fragmentLength_cbrpsschtxconfiglistv1530 > int64(^uint(0)>>1) || fragmentOffset_cbrpsschtxconfiglistv1530 > int64(^uint(0)>>1)-fragmentLength_cbrpsschtxconfiglistv1530 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -3726,7 +3870,7 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[0] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:601
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:611
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -3749,7 +3893,7 @@ func (v *SLPreconfigV2XSyncR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLPreconfigV2XSyncR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3793,7 +3937,12 @@ func (v *SLPreconfigV2XSyncR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				extHighest = int64(i)
 			}
 		}
-		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
+		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		if extHighest < 0 || extHighest >= 16383 {
+			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
+		}
+		if err := per.EncodeNormallySmallLength(bb, extHighest+1); err != nil {
 			return err
 		}
 		// Extension presence bitmap
@@ -3803,7 +3952,7 @@ func (v *SLPreconfigV2XSyncR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:368
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:373
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -3835,7 +3984,7 @@ func (v *SLPreconfigV2XSyncR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:424
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:429
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -3856,15 +4005,21 @@ func (v *SLPreconfigV2XSyncR14) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes SLPreconfigV2XSyncR14 from UPER format.
 func (v *SLPreconfigV2XSyncR14) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLPreconfigV2XSyncR14 with explicit receiver options.
+func (v *SLPreconfigV2XSyncR14) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigV2XSyncR14")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigV2XSyncR14")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -3909,12 +4064,12 @@ func (v *SLPreconfigV2XSyncR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:548
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:558
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:550
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:560
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -3925,6 +4080,7 @@ func (v *SLPreconfigV2XSyncR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
+			extBB.SetDecodeOptions(bb.Options())
 			_ = extBB
 			ext_opt_slsstxdisabledr15, err := per.DecodeBoolean(extBB)
 			if err != nil {
@@ -3943,7 +4099,7 @@ func (v *SLPreconfigV2XSyncR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[0] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:601
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:611
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -3966,7 +4122,7 @@ func (v *SLV2XSyncOffsetIndicatorsR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLV2XSyncOffsetIndicatorsR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3990,15 +4146,21 @@ func (v *SLV2XSyncOffsetIndicatorsR14) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes SLV2XSyncOffsetIndicatorsR14 from UPER format.
 func (v *SLV2XSyncOffsetIndicatorsR14) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLV2XSyncOffsetIndicatorsR14 with explicit receiver options.
+func (v *SLV2XSyncOffsetIndicatorsR14) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLV2XSyncOffsetIndicatorsR14")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLV2XSyncOffsetIndicatorsR14")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -4036,7 +4198,7 @@ type asn1cUPERSLCBRPPPPTxPreconfigListR14ListValue struct{ Value SLCBRPPPPTxPrec
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type SLCBRPPPPTxPreconfigListR14Complete struct {
 	Value       SLCBRPPPPTxPreconfigListR14
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *SLCBRPPPPTxPreconfigListR14Complete) MarshalUPER() ([]byte, error) {
@@ -4107,7 +4269,7 @@ func UnmarshalUPERSLCBRPPPPTxPreconfigListR14From(bb *per.BitBuffer) (SLCBRPPPPT
 func unmarshalUPERSLCBRPPPPTxPreconfigListR14Into(v *asn1cUPERSLCBRPPPPTxPreconfigListR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SLCBRPPPPTxPreconfigListR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -4132,7 +4294,7 @@ func (v *SLPPPPTxPreconfigIndexR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLPPPPTxPreconfigIndexR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -4164,15 +4326,21 @@ func (v *SLPPPPTxPreconfigIndexR14) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes SLPPPPTxPreconfigIndexR14 from UPER format.
 func (v *SLPPPPTxPreconfigIndexR14) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLPPPPTxPreconfigIndexR14 with explicit receiver options.
+func (v *SLPPPPTxPreconfigIndexR14) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexR14")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexR14")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -4195,7 +4363,7 @@ func (v *SLPPPPTxPreconfigIndexR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.CbrConfigIndexR14 = val_cbrconfigindexr14
 	v.TxConfigIndexListR14 = make(SLPPPPTxPreconfigIndexR14TxConfigIndexListR14, 0)
 	_, errCollection_txconfigindexlistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_txconfigindexlistr14, fragmentLength_txconfigindexlistr14 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1207
 		if fragmentOffset_txconfigindexlistr14 < 0 || fragmentLength_txconfigindexlistr14 < 0 || fragmentLength_txconfigindexlistr14 > int64(^uint(0)>>1) || fragmentOffset_txconfigindexlistr14 > int64(^uint(0)>>1)-fragmentLength_txconfigindexlistr14 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -4220,7 +4388,7 @@ type asn1cUPERSLCBRPPPPTxPreconfigListV1530ListValue struct{ Value SLCBRPPPPTxPr
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type SLCBRPPPPTxPreconfigListV1530Complete struct {
 	Value       SLCBRPPPPTxPreconfigListV1530
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *SLCBRPPPPTxPreconfigListV1530Complete) MarshalUPER() ([]byte, error) {
@@ -4291,7 +4459,7 @@ func UnmarshalUPERSLCBRPPPPTxPreconfigListV1530From(bb *per.BitBuffer) (SLCBRPPP
 func unmarshalUPERSLCBRPPPPTxPreconfigListV1530Into(v *asn1cUPERSLCBRPPPPTxPreconfigListV1530ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SLCBRPPPPTxPreconfigListV1530, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -4316,7 +4484,7 @@ func (v *SLPPPPTxPreconfigIndexV1530) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLPPPPTxPreconfigIndexV1530) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -4345,15 +4513,21 @@ func (v *SLPPPPTxPreconfigIndexV1530) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes SLPPPPTxPreconfigIndexV1530 from UPER format.
 func (v *SLPPPPTxPreconfigIndexV1530) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLPPPPTxPreconfigIndexV1530 with explicit receiver options.
+func (v *SLPPPPTxPreconfigIndexV1530) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexV1530")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexV1530")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -4367,7 +4541,7 @@ func (v *SLPPPPTxPreconfigIndexV1530) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	if opt_mcspsschranger15 {
 		tmp_mcspsschranger15 := make(SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15, 0)
 		_, errCollection_mcspsschranger15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_mcspsschranger15, fragmentLength_mcspsschranger15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_mcspsschranger15 < 0 || fragmentLength_mcspsschranger15 < 0 || fragmentLength_mcspsschranger15 > int64(^uint(0)>>1) || fragmentOffset_mcspsschranger15 > int64(^uint(0)>>1)-fragmentLength_mcspsschranger15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -4394,7 +4568,7 @@ type asn1cUPERSLV2XTxProfileListR15ListValue struct{ Value SLV2XTxProfileListR15
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type SLV2XTxProfileListR15Complete struct {
 	Value       SLV2XTxProfileListR15
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *SLV2XTxProfileListR15Complete) MarshalUPER() ([]byte, error) {
@@ -4465,7 +4639,7 @@ func UnmarshalUPERSLV2XTxProfileListR15From(bb *per.BitBuffer) (SLV2XTxProfileLi
 func unmarshalUPERSLV2XTxProfileListR15Into(v *asn1cUPERSLV2XTxProfileListR15ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SLV2XTxProfileListR15, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1207
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -4490,7 +4664,7 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) MarshalUPER() ([]byte, error) 
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLPreconfigurationR12PreconfigCommV1310) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -4533,15 +4707,21 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) MarshalUPERTo(bb *per.BitBuffe
 
 // UnmarshalUPER decodes SLPreconfigurationR12PreconfigCommV1310 from UPER format.
 func (v *SLPreconfigurationR12PreconfigCommV1310) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLPreconfigurationR12PreconfigCommV1310 with explicit receiver options.
+func (v *SLPreconfigurationR12PreconfigCommV1310) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigurationR12PreconfigCommV1310")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigurationR12PreconfigCommV1310")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -4554,7 +4734,7 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) UnmarshalUPERFrom(bb *per.BitB
 	}
 	v.CommRxPoolListR13 = make(SLPreconfigCommRxPoolListR13, 0)
 	_, errCollection_commrxpoollistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 12, HasUpper: true}, false, func(fragmentOffset_commrxpoollistr13, fragmentLength_commrxpoollistr13 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_commrxpoollistr13 < 0 || fragmentLength_commrxpoollistr13 < 0 || fragmentLength_commrxpoollistr13 > int64(^uint(0)>>1) || fragmentOffset_commrxpoollistr13 > int64(^uint(0)>>1)-fragmentLength_commrxpoollistr13 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -4573,7 +4753,7 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) UnmarshalUPERFrom(bb *per.BitB
 	if opt_commtxpoollistr13 {
 		tmp_commtxpoollistr13 := make(SLPreconfigCommTxPoolListR13, 0)
 		_, errCollection_commtxpoollistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, false, func(fragmentOffset_commtxpoollistr13, fragmentLength_commtxpoollistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_commtxpoollistr13 < 0 || fragmentLength_commtxpoollistr13 < 0 || fragmentLength_commtxpoollistr13 > int64(^uint(0)>>1) || fragmentOffset_commtxpoollistr13 > int64(^uint(0)>>1)-fragmentLength_commtxpoollistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -4600,7 +4780,7 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLPreconfigurationR12PreconfigDiscR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -4643,15 +4823,21 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) MarshalUPERTo(bb *per.BitBuffer)
 
 // UnmarshalUPER decodes SLPreconfigurationR12PreconfigDiscR13 from UPER format.
 func (v *SLPreconfigurationR12PreconfigDiscR13) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLPreconfigurationR12PreconfigDiscR13 with explicit receiver options.
+func (v *SLPreconfigurationR12PreconfigDiscR13) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigurationR12PreconfigDiscR13")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigurationR12PreconfigDiscR13")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -4664,7 +4850,7 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) UnmarshalUPERFrom(bb *per.BitBuf
 	}
 	v.DiscRxPoolListR13 = make(SLPreconfigDiscRxPoolListR13, 0)
 	_, errCollection_discrxpoollistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_discrxpoollistr13, fragmentLength_discrxpoollistr13 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_discrxpoollistr13 < 0 || fragmentLength_discrxpoollistr13 < 0 || fragmentLength_discrxpoollistr13 > int64(^uint(0)>>1) || fragmentOffset_discrxpoollistr13 > int64(^uint(0)>>1)-fragmentLength_discrxpoollistr13 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -4683,7 +4869,7 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_disctxpoollistr13 {
 		tmp_disctxpoollistr13 := make(SLPreconfigDiscTxPoolListR13, 0)
 		_, errCollection_disctxpoollistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_disctxpoollistr13, fragmentLength_disctxpoollistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_disctxpoollistr13 < 0 || fragmentLength_disctxpoollistr13 < 0 || fragmentLength_disctxpoollistr13 > int64(^uint(0)>>1) || fragmentOffset_disctxpoollistr13 > int64(^uint(0)>>1)-fragmentLength_disctxpoollistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -4710,7 +4896,7 @@ func (v *SLPreconfigGeneralR12RohcProfilesR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLPreconfigGeneralR12RohcProfilesR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -4740,15 +4926,21 @@ func (v *SLPreconfigGeneralR12RohcProfilesR12) MarshalUPERTo(bb *per.BitBuffer) 
 
 // UnmarshalUPER decodes SLPreconfigGeneralR12RohcProfilesR12 from UPER format.
 func (v *SLPreconfigGeneralR12RohcProfilesR12) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLPreconfigGeneralR12RohcProfilesR12 with explicit receiver options.
+func (v *SLPreconfigGeneralR12RohcProfilesR12) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigGeneralR12RohcProfilesR12")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigGeneralR12RohcProfilesR12")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -4798,7 +4990,7 @@ func (v *SLPreconfigDiscPoolR13TxParametersR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
 }
 
 func (v *SLPreconfigDiscPoolR13TxParametersR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -4813,15 +5005,21 @@ func (v *SLPreconfigDiscPoolR13TxParametersR13) MarshalUPERTo(bb *per.BitBuffer)
 
 // UnmarshalUPER decodes SLPreconfigDiscPoolR13TxParametersR13 from UPER format.
 func (v *SLPreconfigDiscPoolR13TxParametersR13) UnmarshalUPER(data []byte) error {
+	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalUPERWithOptions decodes SLPreconfigDiscPoolR13TxParametersR13 with explicit receiver options.
+func (v *SLPreconfigDiscPoolR13TxParametersR13) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	bb.SetDecodeOptions(options)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigDiscPoolR13TxParametersR13")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigDiscPoolR13TxParametersR13")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_, v.PERExtraBits_ = padding, extra
 	return nil
 }
 
@@ -4848,7 +5046,7 @@ type asn1cUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14ListValue 
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14Complete struct {
 	Value       SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14Complete) MarshalUPER() ([]byte, error) {
@@ -4919,7 +5117,7 @@ func UnmarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14From(b
 func unmarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14Into(v *asn1cUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
+		// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1226
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -4946,7 +5144,7 @@ type asn1cUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14ListValue st
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14Complete struct {
 	Value       SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14Complete) MarshalUPER() ([]byte, error) {
@@ -5017,7 +5215,7 @@ func UnmarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14From(bb 
 func unmarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14Into(v *asn1cUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 128, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -5044,7 +5242,7 @@ type asn1cUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14ListValue struct {
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type SLPPPPTxPreconfigIndexR14TxConfigIndexListR14Complete struct {
 	Value       SLPPPPTxPreconfigIndexR14TxConfigIndexListR14
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *SLPPPPTxPreconfigIndexR14TxConfigIndexListR14Complete) MarshalUPER() ([]byte, error) {
@@ -5115,7 +5313,7 @@ func UnmarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14From(bb *per.BitB
 func unmarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14Into(v *asn1cUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SLPPPPTxPreconfigIndexR14TxConfigIndexListR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1207
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -5142,7 +5340,7 @@ type asn1cUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15ListValue struct {
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15Complete struct {
 	Value       SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15
-	PERPadding_ per.CompletePadding
+	PERPadding_ per.CompletePadding `json:"-"`
 }
 
 func (v *SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15Complete) MarshalUPER() ([]byte, error) {
@@ -5213,7 +5411,7 @@ func UnmarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15From(bb *per.BitBuf
 func unmarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15Into(v *asn1cUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}

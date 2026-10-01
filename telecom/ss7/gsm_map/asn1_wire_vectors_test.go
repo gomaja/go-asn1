@@ -343,7 +343,7 @@ func TestVectorForwardSmRawAsMt(t *testing.T) {
 // Regression: go-asn1-v0.4.2.gsm-map.release-19-failed-serving-nodes
 func TestVectorReportSmDeliveryStatusFailedServingNodes(t *testing.T) {
 	t.Parallel()
-	input := asn1VectorHex(t, "302a04029121040291430a0102b21d80029165a117800c736d73662e6578616d706c6581076578616d706c65")
+	input := asn1VectorHex(t, "302c04029121040291430a0102b21f80029165a119800c736d73662e6578616d706c6581096578616d706c653039")
 	var decoded ReportSMDeliveryStatusArg
 	err := decoded.UnmarshalBER(input)
 	if err != nil {
@@ -353,7 +353,7 @@ func TestVectorReportSmDeliveryStatusFailedServingNodes(t *testing.T) {
 	asn1VectorAssertPath(t, decoded, "FailedSMServingNodes[0].NetworkNodeNumber", "\"kWU=\"")
 	asn1VectorAssertPath(t, decoded, "FailedSMServingNodes[1].Choice", "2")
 	asn1VectorAssertPath(t, decoded, "FailedSMServingNodes[1].DiameterAddress.DiameterName", "\"c21zZi5leGFtcGxl\"")
-	asn1VectorAssertPath(t, decoded, "FailedSMServingNodes[1].DiameterAddress.DiameterRealm", "\"ZXhhbXBsZQ==\"")
+	asn1VectorAssertPath(t, decoded, "FailedSMServingNodes[1].DiameterAddress.DiameterRealm", "\"ZXhhbXBsZTA5\"")
 	wire, err := decoded.MarshalBER()
 	if err != nil {
 		t.Fatal(err)
@@ -509,7 +509,7 @@ func FuzzBERMTForwardSMArg(f *testing.F) {
 }
 
 func FuzzBERReportSMDeliveryStatusArg(f *testing.F) {
-	f.Add(asn1VectorHexForFuzz("302a04029121040291430a0102b21d80029165a117800c736d73662e6578616d706c6581076578616d706c65"))
+	f.Add(asn1VectorHexForFuzz("302c04029121040291430a0102b21f80029165a119800c736d73662e6578616d706c6581096578616d706c653039"))
 	f.Add(asn1VectorHexForFuzz("301d04029121040291430a0102b210a10e800c736d73662e6578616d706c65"))
 	f.Fuzz(func(t *testing.T, input []byte) {
 		var decoded ReportSMDeliveryStatusArg
