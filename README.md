@@ -28,6 +28,20 @@ err := pdu.UnmarshalAPER(data)
 encoded, err := pdu.MarshalAPER()
 ```
 
+## Codec limits
+
+Generated codecs check the exact permitted lengths of `SIZE` constraints on
+encode and decode. PER length fields use the effective constraint: for
+`SIZE (1..5 EXCEPT 1)`, lengths 2 through 5 are valid, while the wire length
+field uses the pre-exclusion 1 through 5 range (ITU-T X.680 (02/2021)
+§51.5.3; X.691 (02/2021) §10.3.21). The compiler rejects legal `SIZE`
+intersections at its pycrate frontend and extensible disjoint `SIZE` unions
+at PER preflight; neither form is silently widened.
+
+Extension-addition bitmaps of 16,384 bits or more require the fragmented form
+in X.691 (02/2021) §11.9.3.8. Encode and decode return
+`per.ErrUnsupportedFragmentedNormallySmallLength` for that form.
+
 ## Available Protocols
 
 Protocols marked with **[compiled]** have generated Go code. Others have placeholder directories ready for future compilation.
