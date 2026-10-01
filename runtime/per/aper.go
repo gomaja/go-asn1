@@ -144,6 +144,10 @@ func DecodeConstrainedWholeNumberAligned(bb *BitBuffer, lb, ub int64) (int64, er
 			if err != nil {
 				return 0, err
 			}
+			// ITU-T X.691 (02/2021) §§11.3.6, 11.5.7.4.
+			if err := validateMinimalUnsigned(data); err != nil {
+				return 0, err
+			}
 			var val uint64
 			for _, b := range data {
 				if val > math.MaxUint64>>8 {
@@ -199,7 +203,7 @@ func DecodeSemiConstrainedWholeNumberAligned(bb *BitBuffer, lb int64) (int64, er
 		return 0, err
 	}
 	if length == 0 {
-		return lb, nil
+		return 0, fmt.Errorf("%w: zero-length semi-constrained INTEGER", ErrInvalidValue)
 	}
 	if length < 0 || length > 8 {
 		return 0, fmt.Errorf("%w: non-negative integer uses %d octets, maximum is 8", ErrInvalidValue, length)
@@ -207,6 +211,10 @@ func DecodeSemiConstrainedWholeNumberAligned(bb *BitBuffer, lb int64) (int64, er
 	var data []byte
 	data, err = bb.ReadBytes(int(length))
 	if err != nil {
+		return 0, err
+	}
+	// ITU-T X.691 (02/2021) §§11.3.6, 11.7.4 require minimum octets.
+	if err := validateMinimalUnsigned(data); err != nil {
 		return 0, err
 	}
 	var val uint64
@@ -286,7 +294,15 @@ func DecodeNormallySmallNonNegativeAligned(bb *BitBuffer) (int64, error) {
 		}
 		return int64(val), nil
 	}
-	return DecodeSemiConstrainedWholeNumberAligned(bb, 0)
+	value, err := DecodeSemiConstrainedWholeNumberAligned(bb, 0)
+	if err != nil {
+		return 0, err
+	}
+	// ITU-T X.691 (02/2021) §11.6.1-11.6.2 requires the short form below 64.
+	if value < 64 {
+		return 0, fmt.Errorf("%w: long normally small INTEGER %d is below 64", ErrInvalidValue, value)
+	}
+	return value, nil
 }
 
 // EncodeNormallySmallLengthAligned encodes a positive normally small length.

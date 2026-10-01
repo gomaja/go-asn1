@@ -18979,9 +18979,13 @@ type HysteresisLocationR18 = int64
 
 // LocationInfoR10 represents the ASN.1 type LocationInfo-r10 (SEQUENCE).
 type LocationInfoR10 struct {
-	LocationCoordinatesR10  LocationInfoR10LocationCoordinatesR10   `asn1:"tag:0,context,explicit"`
-	HorizontalVelocityR10   []byte                                  `asn1:"tag:1,context,implicit,optional" json:"HorizontalVelocityR10,omitempty"`
-	GnssTODMsecR10          []byte                                  `asn1:"tag:2,context,implicit,optional" json:"GnssTODMsecR10,omitempty"`
+	// LocationCoordinatesR10: Select the locationCoordinates-r10 CHOICE alternative, then decode its octets with that LPP geographic type's UnmarshalUPER method. TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2.
+	LocationCoordinatesR10 LocationInfoR10LocationCoordinatesR10 `asn1:"tag:0,context,explicit"`
+	// HorizontalVelocityR10: The octets encode LPP HorizontalVelocity. Decode with `var value lpp.HorizontalVelocity; err := value.UnmarshalUPER(raw)`. TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2.
+	HorizontalVelocityR10 []byte `asn1:"tag:1,context,implicit,optional" json:"HorizontalVelocityR10,omitempty"`
+	// GnssTODMsecR10: The octets encode the constrained INTEGER MeasurementReferenceTime.gnss-TOD-msec (0..3599999), not the whole MeasurementReferenceTime SEQUENCE. Decode with `per.DecodeConstrainedWholeNumber(per.NewBitBufferFromBytes(raw), 0, 3599999)`. TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2.
+	GnssTODMsecR10 []byte `asn1:"tag:2,context,implicit,optional" json:"GnssTODMsecR10,omitempty"`
+	// VerticalVelocityInfoR15: Select the verticalVelocityInfo-r15 CHOICE alternative, then decode its octets with the matching LPP HorizontalWithVerticalVelocity type's UnmarshalUPER method. TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2.
 	VerticalVelocityInfoR15 *LocationInfoR10VerticalVelocityInfoR15 `asn1:"tag:3,context,explicit,optional" json:"VerticalVelocityInfoR15,omitempty"`
 	ExtCount_               int64                                   `asn1:"-" json:"-"`
 	ExtPresent_             []bool                                  `asn1:"-" json:"-"`
@@ -47532,18 +47536,25 @@ const (
 
 // LocationInfoR10LocationCoordinatesR10 represents the ASN.1 CHOICE type LocationInfo-r10-locationCoordinates-r10.
 type LocationInfoR10LocationCoordinatesR10 struct {
-	Choice                                               int
-	PERPadding_                                          per.CompletePadding         `json:"-"`
-	PERExtraBits_                                        per.TrailingBits            `json:"-"`
-	PEROpenTypePadding_                                  per.CompletePadding         `json:"-"`
-	UnknownExtension                                     *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	EllipsoidPointR10                                    []byte                      `json:"EllipsoidPointR10,omitempty"`
-	EllipsoidPointWithAltitudeR10                        []byte                      `json:"EllipsoidPointWithAltitudeR10,omitempty"`
-	EllipsoidPointWithUncertaintyCircleR11               []byte                      `json:"EllipsoidPointWithUncertaintyCircleR11,omitempty"`
-	EllipsoidPointWithUncertaintyEllipseR11              []byte                      `json:"EllipsoidPointWithUncertaintyEllipseR11,omitempty"`
-	EllipsoidPointWithAltitudeAndUncertaintyEllipsoidR11 []byte                      `json:"EllipsoidPointWithAltitudeAndUncertaintyEllipsoidR11,omitempty"`
-	EllipsoidArcR11                                      []byte                      `json:"EllipsoidArcR11,omitempty"`
-	PolygonR11                                           []byte                      `json:"PolygonR11,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PERExtraBits_       per.TrailingBits            `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	// EllipsoidPointR10: The octets encode LPP Ellipsoid-Point. Decode with `var value lpp.EllipsoidPoint; err := value.UnmarshalUPER(raw)`. TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2.
+	EllipsoidPointR10 []byte `json:"EllipsoidPointR10,omitempty"`
+	// EllipsoidPointWithAltitudeR10: The octets encode LPP EllipsoidPointWithAltitude. Decode with `var value lpp.EllipsoidPointWithAltitude; err := value.UnmarshalUPER(raw)`. TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2.
+	EllipsoidPointWithAltitudeR10 []byte `json:"EllipsoidPointWithAltitudeR10,omitempty"`
+	// EllipsoidPointWithUncertaintyCircleR11: The octets encode LPP Ellipsoid-PointWithUncertaintyCircle. Decode with `var value lpp.EllipsoidPointWithUncertaintyCircle; err := value.UnmarshalUPER(raw)`. TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2.
+	EllipsoidPointWithUncertaintyCircleR11 []byte `json:"EllipsoidPointWithUncertaintyCircleR11,omitempty"`
+	// EllipsoidPointWithUncertaintyEllipseR11: The octets encode LPP EllipsoidPointWithUncertaintyEllipse. Decode with `var value lpp.EllipsoidPointWithUncertaintyEllipse; err := value.UnmarshalUPER(raw)`. TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2.
+	EllipsoidPointWithUncertaintyEllipseR11 []byte `json:"EllipsoidPointWithUncertaintyEllipseR11,omitempty"`
+	// EllipsoidPointWithAltitudeAndUncertaintyEllipsoidR11: The octets encode LPP EllipsoidPointWithAltitudeAndUncertaintyEllipsoid. Decode with `var value lpp.EllipsoidPointWithAltitudeAndUncertaintyEllipsoid; err := value.UnmarshalUPER(raw)`. TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2.
+	EllipsoidPointWithAltitudeAndUncertaintyEllipsoidR11 []byte `json:"EllipsoidPointWithAltitudeAndUncertaintyEllipsoidR11,omitempty"`
+	// EllipsoidArcR11: The octets encode LPP EllipsoidArc. Decode with `var value lpp.EllipsoidArc; err := value.UnmarshalUPER(raw)`. TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2.
+	EllipsoidArcR11 []byte `json:"EllipsoidArcR11,omitempty"`
+	// PolygonR11: The octets encode LPP Polygon. Decode with `var value lpp.PolygonComplete; err := value.UnmarshalUPER(raw)` and use value.Value. TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2.
+	PolygonR11 []byte `json:"PolygonR11,omitempty"`
 }
 
 // NewLocationInfoR10LocationCoordinatesR10EllipsoidPointR10 creates a LocationInfoR10LocationCoordinatesR10 with the ellipsoid-Point-r10 alternative.
@@ -47610,12 +47621,14 @@ const (
 
 // LocationInfoR10VerticalVelocityInfoR15 represents the ASN.1 CHOICE type LocationInfo-r10-verticalVelocityInfo-r15.
 type LocationInfoR10VerticalVelocityInfoR15 struct {
-	Choice                            int
-	PERPadding_                       per.CompletePadding `json:"-"`
-	PERExtraBits_                     per.TrailingBits    `json:"-"`
-	PEROpenTypePadding_               per.CompletePadding `json:"-"`
-	VerticalVelocityR15               []byte              `json:"VerticalVelocityR15,omitempty"`
-	VerticalVelocityAndUncertaintyR15 []byte              `json:"VerticalVelocityAndUncertaintyR15,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding `json:"-"`
+	PERExtraBits_       per.TrailingBits    `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding `json:"-"`
+	// VerticalVelocityR15: The octets encode LPP HorizontalWithVerticalVelocity. Decode with `var value lpp.HorizontalWithVerticalVelocity; err := value.UnmarshalUPER(raw)`. TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2.
+	VerticalVelocityR15 []byte `json:"VerticalVelocityR15,omitempty"`
+	// VerticalVelocityAndUncertaintyR15: The octets encode LPP HorizontalWithVerticalVelocityAndUncertainty. Decode with `var value lpp.HorizontalWithVerticalVelocityAndUncertainty; err := value.UnmarshalUPER(raw)`. TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2.
+	VerticalVelocityAndUncertaintyR15 []byte `json:"VerticalVelocityAndUncertaintyR15,omitempty"`
 }
 
 // NewLocationInfoR10VerticalVelocityInfoR15VerticalVelocityR15 creates a LocationInfoR10VerticalVelocityInfoR15 with the verticalVelocity-r15 alternative.

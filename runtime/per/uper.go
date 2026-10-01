@@ -103,7 +103,15 @@ func DecodeNormallySmallNonNegative(bb *BitBuffer) (int64, error) {
 		}
 		return int64(val), nil
 	}
-	return DecodeSemiConstrainedWholeNumber(bb, 0)
+	value, err := DecodeSemiConstrainedWholeNumber(bb, 0)
+	if err != nil {
+		return 0, err
+	}
+	// ITU-T X.691 (02/2021) §11.6.1-11.6.2 requires the short form below 64.
+	if value < 64 {
+		return 0, fmt.Errorf("%w: long normally small INTEGER %d is below 64", ErrInvalidValue, value)
+	}
+	return value, nil
 }
 
 // EncodeNormallySmallLength encodes a positive normally small length.
@@ -899,7 +907,7 @@ func decodeNonNegativeBinaryIntegerWithLength(bb *BitBuffer) (uint64, error) {
 		return 0, err
 	}
 	if length == 0 {
-		return 0, nil
+		return 0, fmt.Errorf("%w: zero-length semi-constrained INTEGER", ErrInvalidValue)
 	}
 	if length < 0 || length > 8 {
 		return 0, fmt.Errorf("%w: non-negative integer uses %d octets, maximum is 8", ErrInvalidValue, length)
@@ -907,6 +915,10 @@ func decodeNonNegativeBinaryIntegerWithLength(bb *BitBuffer) (uint64, error) {
 	var data []byte
 	data, err = bb.ReadBytes(int(length))
 	if err != nil {
+		return 0, err
+	}
+	// ITU-T X.691 (02/2021) §§11.3.6, 11.7.4 require minimum octets.
+	if err := validateMinimalUnsigned(data); err != nil {
 		return 0, err
 	}
 	var val uint64

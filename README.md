@@ -57,13 +57,18 @@ Protocols marked with **[compiled]** have generated Go code. Others have placeho
 | `lte/rrc` | LTE-RRC | Uu (UE ↔ eNB) | UPER | **[compiled]** |
 | `lte/m2ap` | M2AP | M2 (MCE ↔ eNB) | APER | planned |
 | `lte/m3ap` | M3AP | M3 (MCE ↔ MME) | APER | planned |
-| `lte/lpp` | LPP | LTE-Uu (UE ↔ E-SMLC) | — | planned |
+| `lte/lpp` | LPP, 3GPP TS 37.355 V19.3.0 | LTE-Uu (UE ↔ E-SMLC) | UPER | **[compiled]** |
 | `lte/lppa` | LPPa | SLs (eNB ↔ E-SMLC) | APER | **[compiled]** |
 | `lte/lppe` | LPPe | LTE-Uu (UE ↔ location server) | — | planned |
 | `lte/lcsap` | LCS-AP | SLg (MME ↔ E-SMLC) | APER | planned |
 | `lte/sabp` | SABP | Iu-BC (RNC ↔ CBC) | APER | planned |
 | `lte/sbc_ap` | SBc-AP | SBc (MME ↔ CBC) | APER | planned |
 | `lte/pcap` | PCAP | Iupc (RNC ↔ SAS) | APER | planned |
+
+In LTE RRC `LocationInfo-r10`, the location coordinates, horizontal velocity,
+GNSS time of day, and vertical velocity fields carry LPP values as octets.
+Their generated field comments name the matching `lte/lpp` type or constrained
+integer decoder (3GPP TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2).
 
 #### `telecom/nr/` — 3GPP NR (5G)
 
