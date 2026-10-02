@@ -432,9 +432,6 @@ const (
 	// IdCellInformationItem is the integer constant for id-CellInformation-Item.
 	IdCellInformationItem int64 = 7
 
-	// IdUnknown8 is the integer constant for id-Unknown-8.
-	IdUnknown8 int64 = 8
-
 	// IdNewENBUEX2APID is the integer constant for id-New-eNB-UE-X2AP-ID.
 	IdNewENBUEX2APID int64 = 9
 
@@ -626,9 +623,6 @@ const (
 
 	// IdMDTConfiguration is the integer constant for id-MDTConfiguration.
 	IdMDTConfiguration int64 = 72
-
-	// IdUnknown73 is the integer constant for id-Unknown-73.
-	IdUnknown73 int64 = 73
 
 	// IdManagementBasedMDTallowed is the integer constant for id-ManagementBasedMDTallowed.
 	IdManagementBasedMDTallowed int64 = 74
@@ -840,9 +834,6 @@ const (
 	// IdCoverageModificationList is the integer constant for id-CoverageModificationList.
 	IdCoverageModificationList int64 = 143
 
-	// IdUnknown144 is the integer constant for id-Unknown-144.
-	IdUnknown144 int64 = 144
-
 	// IdReportingPeriodicityCSIR is the integer constant for id-ReportingPeriodicityCSIR.
 	IdReportingPeriodicityCSIR int64 = 145
 
@@ -965,27 +956,6 @@ const (
 
 	// IdULGTPtunnelEndpoint is the integer constant for id-uL-GTPtunnelEndpoint.
 	IdULGTPtunnelEndpoint int64 = 185
-
-	// IdUnknown186 is the integer constant for id-Unknown-186.
-	IdUnknown186 int64 = 186
-
-	// IdUnknown187 is the integer constant for id-Unknown-187.
-	IdUnknown187 int64 = 187
-
-	// IdUnknown188 is the integer constant for id-Unknown-188.
-	IdUnknown188 int64 = 188
-
-	// IdUnknown189 is the integer constant for id-Unknown-189.
-	IdUnknown189 int64 = 189
-
-	// IdUnknown190 is the integer constant for id-Unknown-190.
-	IdUnknown190 int64 = 190
-
-	// IdUnknown191 is the integer constant for id-Unknown-191.
-	IdUnknown191 int64 = 191
-
-	// IdUnknown192 is the integer constant for id-Unknown-192.
-	IdUnknown192 int64 = 192
 
 	// IdDLSchedulingPDCCHCCEUsage is the integer constant for id-DL-scheduling-PDCCH-CCE-usage.
 	IdDLSchedulingPDCCHCCEUsage int64 = 193
@@ -1601,9 +1571,6 @@ const (
 
 	// IdF1CTrafficContainer is the integer constant for id-F1CTrafficContainer.
 	IdF1CTrafficContainer int64 = 397
-
-	// IdUnknown398 is the integer constant for id-Unknown-398.
-	IdUnknown398 int64 = 398
 
 	// IdIntendedTDDDLULConfigurationNR is the integer constant for id-IntendedTDD-DL-ULConfiguration-NR.
 	IdIntendedTDDDLULConfigurationNR int64 = 399

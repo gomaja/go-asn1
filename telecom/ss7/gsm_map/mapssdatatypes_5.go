@@ -48,6 +48,8 @@ type RegisterSSArg5 struct {
 	ExtCount_             int64                  `asn1:"-" json:"-"`
 	ExtPresent_           []bool                 `asn1:"-" json:"-"`
 	ExtData_              [][]byte               `asn1:"-" json:"-"`
+	berOriginal_          []byte                 `asn1:"-" json:"-"`
+	berSnapshot_          []byte                 `asn1:"-" json:"-"`
 }
 
 // NoReplyConditionTime5 represents the ASN.1 type NoReplyConditionTime (INTEGER).
@@ -63,6 +65,8 @@ const (
 // SSInfo5 represents the ASN.1 CHOICE type SS-Info.
 type SSInfo5 struct {
 	Choice          int
+	berOriginal_    []byte            `json:"-"`
+	berSnapshot_    []byte            `json:"-"`
 	ForwardingInfo  *ForwardingInfo5  `json:"ForwardingInfo,omitempty"`
 	CallBarringInfo *CallBarringInfo5 `json:"CallBarringInfo,omitempty"`
 	SsData          *SSData5          `json:"SsData,omitempty"`
@@ -94,16 +98,22 @@ func NewSSInfo5SsData(v SSData5) SSInfo5 {
 
 // ForwardingInfo5 represents the ASN.1 type ForwardingInfo (SEQUENCE).
 type ForwardingInfo5 struct {
-	SsCode                      *SSCode5               `asn1:",optional" json:"SsCode,omitempty"`
-	ForwardingFeatureList       ForwardingFeatureList5 `asn1:""`
-	ForwardingFeatureListIndef_ bool                   `asn1:"-" json:"-"`
-	ExtCount_                   int64                  `asn1:"-" json:"-"`
-	ExtPresent_                 []bool                 `asn1:"-" json:"-"`
-	ExtData_                    [][]byte               `asn1:"-" json:"-"`
+	SsCode                      *SSCode5                `asn1:",optional" json:"SsCode,omitempty"`
+	ForwardingFeatureList       *ForwardingFeatureList5 `asn1:""`
+	ForwardingFeatureListIndef_ bool                    `asn1:"-" json:"-"`
+	ExtCount_                   int64                   `asn1:"-" json:"-"`
+	ExtPresent_                 []bool                  `asn1:"-" json:"-"`
+	ExtData_                    [][]byte                `asn1:"-" json:"-"`
+	berOriginal_                []byte                  `asn1:"-" json:"-"`
+	berSnapshot_                []byte                  `asn1:"-" json:"-"`
 }
 
 // ForwardingFeatureList5 represents the ASN.1 type ForwardingFeatureList (SEQUENCE_OF).
-type ForwardingFeatureList5 = []ForwardingFeature5
+type ForwardingFeatureList5 struct {
+	Values       []ForwardingFeature5 `json:"Values"`
+	berOriginal_ []byte               `json:"-"`
+	berSnapshot_ []byte               `json:"-"`
+}
 
 // ForwardingFeature5 represents the ASN.1 type ForwardingFeature (SEQUENCE).
 type ForwardingFeature5 struct {
@@ -117,6 +127,8 @@ type ForwardingFeature5 struct {
 	ExtCount_             int64                  `asn1:"-" json:"-"`
 	ExtPresent_           []bool                 `asn1:"-" json:"-"`
 	ExtData_              [][]byte               `asn1:"-" json:"-"`
+	berOriginal_          []byte                 `asn1:"-" json:"-"`
+	berSnapshot_          []byte                 `asn1:"-" json:"-"`
 }
 
 // SSStatus5 represents the ASN.1 type SS-Status (OCTET_STRING).
@@ -127,16 +139,22 @@ type ForwardingOptions5 = []byte
 
 // CallBarringInfo5 represents the ASN.1 type CallBarringInfo (SEQUENCE).
 type CallBarringInfo5 struct {
-	SsCode                       *SSCode5                `asn1:",optional" json:"SsCode,omitempty"`
-	CallBarringFeatureList       CallBarringFeatureList5 `asn1:""`
-	CallBarringFeatureListIndef_ bool                    `asn1:"-" json:"-"`
-	ExtCount_                    int64                   `asn1:"-" json:"-"`
-	ExtPresent_                  []bool                  `asn1:"-" json:"-"`
-	ExtData_                     [][]byte                `asn1:"-" json:"-"`
+	SsCode                       *SSCode5                 `asn1:",optional" json:"SsCode,omitempty"`
+	CallBarringFeatureList       *CallBarringFeatureList5 `asn1:""`
+	CallBarringFeatureListIndef_ bool                     `asn1:"-" json:"-"`
+	ExtCount_                    int64                    `asn1:"-" json:"-"`
+	ExtPresent_                  []bool                   `asn1:"-" json:"-"`
+	ExtData_                     [][]byte                 `asn1:"-" json:"-"`
+	berOriginal_                 []byte                   `asn1:"-" json:"-"`
+	berSnapshot_                 []byte                   `asn1:"-" json:"-"`
 }
 
 // CallBarringFeatureList5 represents the ASN.1 type CallBarringFeatureList (SEQUENCE_OF).
-type CallBarringFeatureList5 = []CallBarringFeature5
+type CallBarringFeatureList5 struct {
+	Values       []CallBarringFeature5 `json:"Values"`
+	berOriginal_ []byte                `json:"-"`
+	berSnapshot_ []byte                `json:"-"`
+}
 
 // CallBarringFeature5 represents the ASN.1 type CallBarringFeature (SEQUENCE).
 type CallBarringFeature5 struct {
@@ -145,20 +163,24 @@ type CallBarringFeature5 struct {
 	ExtCount_    int64              `asn1:"-" json:"-"`
 	ExtPresent_  []bool             `asn1:"-" json:"-"`
 	ExtData_     [][]byte           `asn1:"-" json:"-"`
+	berOriginal_ []byte             `asn1:"-" json:"-"`
+	berSnapshot_ []byte             `asn1:"-" json:"-"`
 }
 
 // SSData5 represents the ASN.1 type SS-Data (SEQUENCE).
 type SSData5 struct {
-	SsCode                      *SSCode5               `asn1:",optional" json:"SsCode,omitempty"`
-	SsStatus                    *SSStatus5             `asn1:"tag:4,context,implicit,optional" json:"SsStatus,omitempty"`
-	SsSubscriptionOption        *SSSubscriptionOption5 `asn1:",optional" json:"SsSubscriptionOption,omitempty"`
-	BasicServiceGroupList       BasicServiceGroupList5 `asn1:",optional" json:"BasicServiceGroupList,omitempty"`
-	BasicServiceGroupListIndef_ bool                   `asn1:"-" json:"-"`
-	DefaultPriority             *EMLPPPriority5        `asn1:",optional" json:"DefaultPriority,omitempty"`
-	NbrUser                     *MCBearers5            `asn1:"tag:5,context,implicit,optional" json:"NbrUser,omitempty"`
-	ExtCount_                   int64                  `asn1:"-" json:"-"`
-	ExtPresent_                 []bool                 `asn1:"-" json:"-"`
-	ExtData_                    [][]byte               `asn1:"-" json:"-"`
+	SsCode                      *SSCode5                `asn1:",optional" json:"SsCode,omitempty"`
+	SsStatus                    *SSStatus5              `asn1:"tag:4,context,implicit,optional" json:"SsStatus,omitempty"`
+	SsSubscriptionOption        *SSSubscriptionOption5  `asn1:",optional" json:"SsSubscriptionOption,omitempty"`
+	BasicServiceGroupList       *BasicServiceGroupList5 `asn1:",optional" json:"BasicServiceGroupList,omitempty"`
+	BasicServiceGroupListIndef_ bool                    `asn1:"-" json:"-"`
+	DefaultPriority             *EMLPPPriority5         `asn1:",optional" json:"DefaultPriority,omitempty"`
+	NbrUser                     *MCBearers5             `asn1:"tag:5,context,implicit,optional" json:"NbrUser,omitempty"`
+	ExtCount_                   int64                   `asn1:"-" json:"-"`
+	ExtPresent_                 []bool                  `asn1:"-" json:"-"`
+	ExtData_                    [][]byte                `asn1:"-" json:"-"`
+	berOriginal_                []byte                  `asn1:"-" json:"-"`
+	berSnapshot_                []byte                  `asn1:"-" json:"-"`
 }
 
 // SSSubscriptionOption5 choice constants.
@@ -170,6 +192,8 @@ const (
 // SSSubscriptionOption5 represents the ASN.1 CHOICE type SS-SubscriptionOption.
 type SSSubscriptionOption5 struct {
 	Choice               int
+	berOriginal_         []byte                 `json:"-"`
+	berSnapshot_         []byte                 `json:"-"`
 	CliRestrictionOption *CliRestrictionOption5 `json:"CliRestrictionOption,omitempty"`
 	OverrideCategory     *OverrideCategory5     `json:"OverrideCategory,omitempty"`
 }
@@ -239,6 +263,8 @@ type SSForBSCode5 struct {
 	ExtCount_        int64              `asn1:"-" json:"-"`
 	ExtPresent_      []bool             `asn1:"-" json:"-"`
 	ExtData_         [][]byte           `asn1:"-" json:"-"`
+	berOriginal_     []byte             `asn1:"-" json:"-"`
+	berSnapshot_     []byte             `asn1:"-" json:"-"`
 }
 
 // GenericServiceInfo5 represents the ASN.1 type GenericServiceInfo (SEQUENCE).
@@ -247,7 +273,7 @@ type GenericServiceInfo5 struct {
 	CliRestrictionOption    *CliRestrictionOption5 `asn1:",optional" json:"CliRestrictionOption,omitempty"`
 	MaximumEntitledPriority *EMLPPPriority5        `asn1:"tag:0,context,implicit,optional" json:"MaximumEntitledPriority,omitempty"`
 	DefaultPriority         *EMLPPPriority5        `asn1:"tag:1,context,implicit,optional" json:"DefaultPriority,omitempty"`
-	CcbsFeatureList         CCBSFeatureList5       `asn1:"tag:2,context,implicit,optional" json:"CcbsFeatureList,omitempty"`
+	CcbsFeatureList         *CCBSFeatureList5      `asn1:"tag:2,context,implicit,optional" json:"CcbsFeatureList,omitempty"`
 	CcbsFeatureListIndef_   bool                   `asn1:"-" json:"-"`
 	NbrSB                   *MaxMCBearers5         `asn1:"tag:3,context,implicit,optional" json:"NbrSB,omitempty"`
 	NbrUser                 *MCBearers5            `asn1:"tag:4,context,implicit,optional" json:"NbrUser,omitempty"`
@@ -255,10 +281,16 @@ type GenericServiceInfo5 struct {
 	ExtCount_               int64                  `asn1:"-" json:"-"`
 	ExtPresent_             []bool                 `asn1:"-" json:"-"`
 	ExtData_                [][]byte               `asn1:"-" json:"-"`
+	berOriginal_            []byte                 `asn1:"-" json:"-"`
+	berSnapshot_            []byte                 `asn1:"-" json:"-"`
 }
 
 // CCBSFeatureList5 represents the ASN.1 type CCBS-FeatureList (SEQUENCE_OF).
-type CCBSFeatureList5 = []CCBSFeature5
+type CCBSFeatureList5 struct {
+	Values       []CCBSFeature5 `json:"Values"`
+	berOriginal_ []byte         `json:"-"`
+	berSnapshot_ []byte         `json:"-"`
+}
 
 // CCBSFeature5 represents the ASN.1 type CCBS-Feature (SEQUENCE).
 type CCBSFeature5 struct {
@@ -269,6 +301,8 @@ type CCBSFeature5 struct {
 	ExtCount_             int64                  `asn1:"-" json:"-"`
 	ExtPresent_           []bool                 `asn1:"-" json:"-"`
 	ExtData_              [][]byte               `asn1:"-" json:"-"`
+	berOriginal_          []byte                 `asn1:"-" json:"-"`
+	berSnapshot_          []byte                 `asn1:"-" json:"-"`
 }
 
 // CCBSIndex5 represents the ASN.1 type CCBS-Index (INTEGER).
@@ -285,10 +319,12 @@ const (
 // InterrogateSSRes5 represents the ASN.1 CHOICE type InterrogateSS-Res.
 type InterrogateSSRes5 struct {
 	Choice                int
-	SsStatus              *SSStatus5             `json:"SsStatus,omitempty"`
-	BasicServiceGroupList BasicServiceGroupList5 `json:"BasicServiceGroupList,omitempty"`
-	ForwardingFeatureList ForwardingFeatureList5 `json:"ForwardingFeatureList,omitempty"`
-	GenericServiceInfo    *GenericServiceInfo5   `json:"GenericServiceInfo,omitempty"`
+	berOriginal_          []byte                  `json:"-"`
+	berSnapshot_          []byte                  `json:"-"`
+	SsStatus              *SSStatus5              `json:"SsStatus,omitempty"`
+	BasicServiceGroupList *BasicServiceGroupList5 `json:"BasicServiceGroupList,omitempty"`
+	ForwardingFeatureList *ForwardingFeatureList5 `json:"ForwardingFeatureList,omitempty"`
+	GenericServiceInfo    *GenericServiceInfo5    `json:"GenericServiceInfo,omitempty"`
 }
 
 // NewInterrogateSSRes5SsStatus creates a InterrogateSSRes5 with the ss-Status alternative.
@@ -300,7 +336,7 @@ func NewInterrogateSSRes5SsStatus(v SSStatus5) InterrogateSSRes5 {
 }
 
 // NewInterrogateSSRes5BasicServiceGroupList creates a InterrogateSSRes5 with the basicServiceGroupList alternative.
-func NewInterrogateSSRes5BasicServiceGroupList(v BasicServiceGroupList5) InterrogateSSRes5 {
+func NewInterrogateSSRes5BasicServiceGroupList(v *BasicServiceGroupList5) InterrogateSSRes5 {
 	return InterrogateSSRes5{
 		Choice:                InterrogateSSRes5ChoiceBasicServiceGroupList,
 		BasicServiceGroupList: v,
@@ -308,7 +344,7 @@ func NewInterrogateSSRes5BasicServiceGroupList(v BasicServiceGroupList5) Interro
 }
 
 // NewInterrogateSSRes5ForwardingFeatureList creates a InterrogateSSRes5 with the forwardingFeatureList alternative.
-func NewInterrogateSSRes5ForwardingFeatureList(v ForwardingFeatureList5) InterrogateSSRes5 {
+func NewInterrogateSSRes5ForwardingFeatureList(v *ForwardingFeatureList5) InterrogateSSRes5 {
 	return InterrogateSSRes5{
 		Choice:                InterrogateSSRes5ChoiceForwardingFeatureList,
 		ForwardingFeatureList: v,
@@ -332,6 +368,8 @@ type USSDArg5 struct {
 	ExtCount_            int64                 `asn1:"-" json:"-"`
 	ExtPresent_          []bool                `asn1:"-" json:"-"`
 	ExtData_             [][]byte              `asn1:"-" json:"-"`
+	berOriginal_         []byte                `asn1:"-" json:"-"`
+	berSnapshot_         []byte                `asn1:"-" json:"-"`
 }
 
 // USSDRes5 represents the ASN.1 type USSD-Res (SEQUENCE).
@@ -341,6 +379,8 @@ type USSDRes5 struct {
 	ExtCount_            int64                 `asn1:"-" json:"-"`
 	ExtPresent_          []bool                `asn1:"-" json:"-"`
 	ExtData_             [][]byte              `asn1:"-" json:"-"`
+	berOriginal_         []byte                `asn1:"-" json:"-"`
+	berSnapshot_         []byte                `asn1:"-" json:"-"`
 }
 
 // USSDDataCodingScheme5 represents the ASN.1 type USSD-DataCodingScheme (OCTET_STRING).
@@ -375,27 +415,41 @@ func (v GuidanceInfo5) String() string {
 }
 
 // SSList5 represents the ASN.1 type SS-List (SEQUENCE_OF).
-type SSList5 = []SSCode5
+type SSList5 struct {
+	Values       []SSCode5 `json:"Values"`
+	berOriginal_ []byte    `json:"-"`
+	berSnapshot_ []byte    `json:"-"`
+}
 
 // SSInfoList5 represents the ASN.1 type SS-InfoList (SEQUENCE_OF).
-type SSInfoList5 = []SSInfo5
+type SSInfoList5 struct {
+	Values       []SSInfo5 `json:"Values"`
+	berOriginal_ []byte    `json:"-"`
+	berSnapshot_ []byte    `json:"-"`
+}
 
 // BasicServiceGroupList5 represents the ASN.1 type BasicServiceGroupList (SEQUENCE_OF).
-type BasicServiceGroupList5 = []BasicServiceCode5
+type BasicServiceGroupList5 struct {
+	Values       []BasicServiceCode5 `json:"Values"`
+	berOriginal_ []byte              `json:"-"`
+	berSnapshot_ []byte              `json:"-"`
+}
 
 // SSInvocationNotificationArg5 represents the ASN.1 type SS-InvocationNotificationArg (SEQUENCE).
 type SSInvocationNotificationArg5 struct {
-	Imsi                       IMSI5                 `asn1:"tag:0,context,implicit"`
-	Msisdn                     ISDNAddressString5    `asn1:"tag:1,context,implicit"`
-	SsEvent                    SSCode5               `asn1:"tag:2,context,implicit"`
-	SsEventSpecification       SSEventSpecification5 `asn1:"tag:3,context,implicit,optional" json:"SsEventSpecification,omitempty"`
-	SsEventSpecificationIndef_ bool                  `asn1:"-" json:"-"`
-	ExtensionContainer         *ExtensionContainer5  `asn1:"tag:4,context,implicit,optional" json:"ExtensionContainer,omitempty"`
-	BSubscriberNumber          *ISDNAddressString5   `asn1:"tag:5,context,implicit,optional" json:"BSubscriberNumber,omitempty"`
-	CcbsRequestState           *CCBSRequestState5    `asn1:"tag:6,context,implicit,optional" json:"CcbsRequestState,omitempty"`
-	ExtCount_                  int64                 `asn1:"-" json:"-"`
-	ExtPresent_                []bool                `asn1:"-" json:"-"`
-	ExtData_                   [][]byte              `asn1:"-" json:"-"`
+	Imsi                       IMSI5                  `asn1:"tag:0,context,implicit"`
+	Msisdn                     ISDNAddressString5     `asn1:"tag:1,context,implicit"`
+	SsEvent                    SSCode5                `asn1:"tag:2,context,implicit"`
+	SsEventSpecification       *SSEventSpecification5 `asn1:"tag:3,context,implicit,optional" json:"SsEventSpecification,omitempty"`
+	SsEventSpecificationIndef_ bool                   `asn1:"-" json:"-"`
+	ExtensionContainer         *ExtensionContainer5   `asn1:"tag:4,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	BSubscriberNumber          *ISDNAddressString5    `asn1:"tag:5,context,implicit,optional" json:"BSubscriberNumber,omitempty"`
+	CcbsRequestState           *CCBSRequestState5     `asn1:"tag:6,context,implicit,optional" json:"CcbsRequestState,omitempty"`
+	ExtCount_                  int64                  `asn1:"-" json:"-"`
+	ExtPresent_                []bool                 `asn1:"-" json:"-"`
+	ExtData_                   [][]byte               `asn1:"-" json:"-"`
+	berOriginal_               []byte                 `asn1:"-" json:"-"`
+	berSnapshot_               []byte                 `asn1:"-" json:"-"`
 }
 
 // CCBSRequestState5 represents the ASN.1 ENUMERATED type CCBS-RequestState.
@@ -438,18 +492,26 @@ type SSInvocationNotificationRes5 struct {
 	ExtCount_          int64                `asn1:"-" json:"-"`
 	ExtPresent_        []bool               `asn1:"-" json:"-"`
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
+	berOriginal_       []byte               `asn1:"-" json:"-"`
+	berSnapshot_       []byte               `asn1:"-" json:"-"`
 }
 
 // SSEventSpecification5 represents the ASN.1 type SS-EventSpecification (SEQUENCE_OF).
-type SSEventSpecification5 = []AddressString5
+type SSEventSpecification5 struct {
+	Values       []AddressString5 `json:"Values"`
+	berOriginal_ []byte           `json:"-"`
+	berSnapshot_ []byte           `json:"-"`
+}
 
 // RegisterCCEntryArg5 represents the ASN.1 type RegisterCC-EntryArg (SEQUENCE).
 type RegisterCCEntryArg5 struct {
-	SsCode      SSCode5    `asn1:"tag:0,context,implicit"`
-	CcbsData    *CCBSData5 `asn1:"tag:1,context,implicit,optional" json:"CcbsData,omitempty"`
-	ExtCount_   int64      `asn1:"-" json:"-"`
-	ExtPresent_ []bool     `asn1:"-" json:"-"`
-	ExtData_    [][]byte   `asn1:"-" json:"-"`
+	SsCode       SSCode5    `asn1:"tag:0,context,implicit"`
+	CcbsData     *CCBSData5 `asn1:"tag:1,context,implicit,optional" json:"CcbsData,omitempty"`
+	ExtCount_    int64      `asn1:"-" json:"-"`
+	ExtPresent_  []bool     `asn1:"-" json:"-"`
+	ExtData_     [][]byte   `asn1:"-" json:"-"`
+	berOriginal_ []byte     `asn1:"-" json:"-"`
+	berSnapshot_ []byte     `asn1:"-" json:"-"`
 }
 
 // CCBSData5 represents the ASN.1 type CCBS-Data (SEQUENCE).
@@ -462,6 +524,8 @@ type CCBSData5 struct {
 	ExtCount_         int64               `asn1:"-" json:"-"`
 	ExtPresent_       []bool              `asn1:"-" json:"-"`
 	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	berOriginal_      []byte              `asn1:"-" json:"-"`
+	berSnapshot_      []byte              `asn1:"-" json:"-"`
 }
 
 // ServiceIndicator5 represents the ASN.1 type ServiceIndicator (BIT_STRING).
@@ -469,35 +533,56 @@ type ServiceIndicator5 = runtime.BitString
 
 // RegisterCCEntryRes5 represents the ASN.1 type RegisterCC-EntryRes (SEQUENCE).
 type RegisterCCEntryRes5 struct {
-	CcbsFeature *CCBSFeature5 `asn1:"tag:0,context,implicit,optional" json:"CcbsFeature,omitempty"`
-	ExtCount_   int64         `asn1:"-" json:"-"`
-	ExtPresent_ []bool        `asn1:"-" json:"-"`
-	ExtData_    [][]byte      `asn1:"-" json:"-"`
+	CcbsFeature  *CCBSFeature5 `asn1:"tag:0,context,implicit,optional" json:"CcbsFeature,omitempty"`
+	ExtCount_    int64         `asn1:"-" json:"-"`
+	ExtPresent_  []bool        `asn1:"-" json:"-"`
+	ExtData_     [][]byte      `asn1:"-" json:"-"`
+	berOriginal_ []byte        `asn1:"-" json:"-"`
+	berSnapshot_ []byte        `asn1:"-" json:"-"`
 }
 
 // EraseCCEntryArg5 represents the ASN.1 type EraseCC-EntryArg (SEQUENCE).
 type EraseCCEntryArg5 struct {
-	SsCode      SSCode5     `asn1:"tag:0,context,implicit"`
-	CcbsIndex   *CCBSIndex5 `asn1:"tag:1,context,implicit,optional" json:"CcbsIndex,omitempty"`
-	ExtCount_   int64       `asn1:"-" json:"-"`
-	ExtPresent_ []bool      `asn1:"-" json:"-"`
-	ExtData_    [][]byte    `asn1:"-" json:"-"`
+	SsCode       SSCode5     `asn1:"tag:0,context,implicit"`
+	CcbsIndex    *CCBSIndex5 `asn1:"tag:1,context,implicit,optional" json:"CcbsIndex,omitempty"`
+	ExtCount_    int64       `asn1:"-" json:"-"`
+	ExtPresent_  []bool      `asn1:"-" json:"-"`
+	ExtData_     [][]byte    `asn1:"-" json:"-"`
+	berOriginal_ []byte      `asn1:"-" json:"-"`
+	berSnapshot_ []byte      `asn1:"-" json:"-"`
 }
 
 // EraseCCEntryRes5 represents the ASN.1 type EraseCC-EntryRes (SEQUENCE).
 type EraseCCEntryRes5 struct {
-	SsCode      SSCode5    `asn1:"tag:0,context,implicit"`
-	SsStatus    *SSStatus5 `asn1:"tag:1,context,implicit,optional" json:"SsStatus,omitempty"`
-	ExtCount_   int64      `asn1:"-" json:"-"`
-	ExtPresent_ []bool     `asn1:"-" json:"-"`
-	ExtData_    [][]byte   `asn1:"-" json:"-"`
+	SsCode       SSCode5    `asn1:"tag:0,context,implicit"`
+	SsStatus     *SSStatus5 `asn1:"tag:1,context,implicit,optional" json:"SsStatus,omitempty"`
+	ExtCount_    int64      `asn1:"-" json:"-"`
+	ExtPresent_  []bool     `asn1:"-" json:"-"`
+	ExtData_     [][]byte   `asn1:"-" json:"-"`
+	berOriginal_ []byte     `asn1:"-" json:"-"`
+	berSnapshot_ []byte     `asn1:"-" json:"-"`
 }
 
 // MarshalBER encodes RegisterSSArg5 to BER format.
-func (v *RegisterSSArg5) MarshalBER() ([]byte, error) {
+func (v *RegisterSSArg5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RegisterSSArg5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *RegisterSSArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+		if constraintErr := ber.CheckEncodedLength(opts, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
@@ -505,7 +590,7 @@ func (v *RegisterSSArg5) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_sscode...)
 	if v.BasicService != nil {
-		enc_basicservice, err := v.BasicService.MarshalBER()
+		enc_basicservice, err := v.BasicService.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicService: %w", err)
 		}
@@ -513,7 +598,9 @@ func (v *RegisterSSArg5) MarshalBER() ([]byte, error) {
 	}
 	if v.ForwardedToNumber != nil {
 		if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 20 {
-			return nil, fmt.Errorf("forwardedToNumber length %d violates SIZE (1..20)", len(*v.ForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "forwardedToNumber", "SIZE (1..20)", len(*v.ForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_forwardedtonumber, encodeErr_enc_forwardedtonumber := ber.EncodeOctetString([]byte(*v.ForwardedToNumber))
 		if encodeErr_enc_forwardedtonumber != nil {
@@ -528,7 +615,9 @@ func (v *RegisterSSArg5) MarshalBER() ([]byte, error) {
 	}
 	if v.ForwardedToSubaddress != nil {
 		if len(*v.ForwardedToSubaddress) < 1 || len(*v.ForwardedToSubaddress) > 21 {
-			return nil, fmt.Errorf("forwardedToSubaddress length %d violates SIZE (1..21)", len(*v.ForwardedToSubaddress))
+			if constraintErr := ber.CheckEncodedLength(opts, "forwardedToSubaddress", "SIZE (1..21)", len(*v.ForwardedToSubaddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_forwardedtosubaddress, encodeErr_enc_forwardedtosubaddress := ber.EncodeOctetString([]byte(*v.ForwardedToSubaddress))
 		if encodeErr_enc_forwardedtosubaddress != nil {
@@ -542,6 +631,11 @@ func (v *RegisterSSArg5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_forwardedtosubaddress...)
 	}
 	if v.NoReplyConditionTime != nil {
+		if !(int64(*v.NoReplyConditionTime) >= 5 && int64(*v.NoReplyConditionTime) <= 30) {
+			if constraintErr := ber.CheckEncodedValue(opts, "noReplyConditionTime", "(5..30)", fmt.Sprint(int64(*v.NoReplyConditionTime))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_noreplyconditiontime := ber.EncodeInteger(int64(*v.NoReplyConditionTime))
 		retagged_enc_noreplyconditiontime, tagErr_enc_noreplyconditiontime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_noreplyconditiontime)
 		if tagErr_enc_noreplyconditiontime != nil {
@@ -551,6 +645,11 @@ func (v *RegisterSSArg5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_noreplyconditiontime...)
 	}
 	if v.DefaultPriority != nil {
+		if !(int64(*v.DefaultPriority) >= 0 && int64(*v.DefaultPriority) <= 15) {
+			if constraintErr := ber.CheckEncodedValue(opts, "defaultPriority", "(0..15)", fmt.Sprint(int64(*v.DefaultPriority))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_defaultpriority := ber.EncodeInteger(int64(*v.DefaultPriority))
 		retagged_enc_defaultpriority, tagErr_enc_defaultpriority := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_defaultpriority)
 		if tagErr_enc_defaultpriority != nil {
@@ -560,6 +659,11 @@ func (v *RegisterSSArg5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_defaultpriority...)
 	}
 	if v.NbrUser != nil {
+		if !(int64(*v.NbrUser) >= 1 && int64(*v.NbrUser) <= 7) {
+			if constraintErr := ber.CheckEncodedValue(opts, "nbrUser", "(1..7)", fmt.Sprint(int64(*v.NbrUser))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_nbruser := ber.EncodeInteger(int64(*v.NbrUser))
 		retagged_enc_nbruser, tagErr_enc_nbruser := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_nbruser)
 		if tagErr_enc_nbruser != nil {
@@ -592,9 +696,14 @@ func (v *RegisterSSArg5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RegisterSSArg5 to DER format.
 func (v *RegisterSSArg5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RegisterSSArg5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+		if constraintErr := ber.CheckEncodedLength(nil, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
@@ -610,7 +719,9 @@ func (v *RegisterSSArg5) MarshalDER() ([]byte, error) {
 	}
 	if v.ForwardedToNumber != nil {
 		if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 20 {
-			return nil, fmt.Errorf("forwardedToNumber length %d violates SIZE (1..20)", len(*v.ForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "forwardedToNumber", "SIZE (1..20)", len(*v.ForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_forwardedtonumber, encodeErr_enc_forwardedtonumber := ber.EncodeOctetString([]byte(*v.ForwardedToNumber))
 		if encodeErr_enc_forwardedtonumber != nil {
@@ -625,7 +736,9 @@ func (v *RegisterSSArg5) MarshalDER() ([]byte, error) {
 	}
 	if v.ForwardedToSubaddress != nil {
 		if len(*v.ForwardedToSubaddress) < 1 || len(*v.ForwardedToSubaddress) > 21 {
-			return nil, fmt.Errorf("forwardedToSubaddress length %d violates SIZE (1..21)", len(*v.ForwardedToSubaddress))
+			if constraintErr := ber.CheckEncodedLength(nil, "forwardedToSubaddress", "SIZE (1..21)", len(*v.ForwardedToSubaddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_forwardedtosubaddress, encodeErr_enc_forwardedtosubaddress := ber.EncodeOctetString([]byte(*v.ForwardedToSubaddress))
 		if encodeErr_enc_forwardedtosubaddress != nil {
@@ -639,6 +752,11 @@ func (v *RegisterSSArg5) MarshalDER() ([]byte, error) {
 		children = append(children, enc_forwardedtosubaddress...)
 	}
 	if v.NoReplyConditionTime != nil {
+		if !(int64(*v.NoReplyConditionTime) >= 5 && int64(*v.NoReplyConditionTime) <= 30) {
+			if constraintErr := ber.CheckEncodedValue(nil, "noReplyConditionTime", "(5..30)", fmt.Sprint(int64(*v.NoReplyConditionTime))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_noreplyconditiontime := ber.EncodeInteger(int64(*v.NoReplyConditionTime))
 		retagged_enc_noreplyconditiontime, tagErr_enc_noreplyconditiontime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_noreplyconditiontime)
 		if tagErr_enc_noreplyconditiontime != nil {
@@ -648,6 +766,11 @@ func (v *RegisterSSArg5) MarshalDER() ([]byte, error) {
 		children = append(children, enc_noreplyconditiontime...)
 	}
 	if v.DefaultPriority != nil {
+		if !(int64(*v.DefaultPriority) >= 0 && int64(*v.DefaultPriority) <= 15) {
+			if constraintErr := ber.CheckEncodedValue(nil, "defaultPriority", "(0..15)", fmt.Sprint(int64(*v.DefaultPriority))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_defaultpriority := ber.EncodeInteger(int64(*v.DefaultPriority))
 		retagged_enc_defaultpriority, tagErr_enc_defaultpriority := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_defaultpriority)
 		if tagErr_enc_defaultpriority != nil {
@@ -657,6 +780,11 @@ func (v *RegisterSSArg5) MarshalDER() ([]byte, error) {
 		children = append(children, enc_defaultpriority...)
 	}
 	if v.NbrUser != nil {
+		if !(int64(*v.NbrUser) >= 1 && int64(*v.NbrUser) <= 7) {
+			if constraintErr := ber.CheckEncodedValue(nil, "nbrUser", "(1..7)", fmt.Sprint(int64(*v.NbrUser))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_nbruser := ber.EncodeInteger(int64(*v.NbrUser))
 		retagged_enc_nbruser, tagErr_enc_nbruser := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_nbruser)
 		if tagErr_enc_nbruser != nil {
@@ -691,11 +819,27 @@ func (v *RegisterSSArg5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes RegisterSSArg5 from BER/DER format.
-func (v *RegisterSSArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *RegisterSSArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: RegisterSSArg5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = RegisterSSArg5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding RegisterSSArg5 SEQUENCE: %w", err)
@@ -720,7 +864,9 @@ func (v *RegisterSSArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 
 	offset += n
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+		if constraintErr := ber.CheckDecodedLength(opts, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode basicService
 	if offset < len(content) {
@@ -739,7 +885,7 @@ func (v *RegisterSSArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_basicservice.UnmarshalBER(content[offset:offset+n_basicservice], opts...); unmErr != nil {
+				if unmErr := dec_basicservice.UnmarshalBER(content[offset:offset+n_basicservice], ber.ChildDecodeOptions(opts, "basicservice")...); unmErr != nil {
 					return fmt.Errorf("decoding basicService: %w", unmErr)
 				}
 				v.BasicService = &dec_basicservice
@@ -775,7 +921,9 @@ func (v *RegisterSSArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 
 				offset += n_forwardedtonumber
 				if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 20 {
-					return fmt.Errorf("forwardedToNumber length %d violates SIZE (1..20)", len(*v.ForwardedToNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "forwardedToNumber", "SIZE (1..20)", len(*v.ForwardedToNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -802,7 +950,9 @@ func (v *RegisterSSArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 
 				offset += n_forwardedtosubaddress
 				if len(*v.ForwardedToSubaddress) < 1 || len(*v.ForwardedToSubaddress) > 21 {
-					return fmt.Errorf("forwardedToSubaddress length %d violates SIZE (1..21)", len(*v.ForwardedToSubaddress))
+					if constraintErr := ber.CheckDecodedLength(opts, "forwardedToSubaddress", "SIZE (1..21)", len(*v.ForwardedToSubaddress)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -832,6 +982,11 @@ func (v *RegisterSSArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_noreplyconditiontime
+				if !(int64(*v.NoReplyConditionTime) >= 5 && int64(*v.NoReplyConditionTime) <= 30) {
+					if constraintErr := ber.CheckDecodedValue(opts, "noReplyConditionTime", "(5..30)", fmt.Sprint(int64(*v.NoReplyConditionTime))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -860,6 +1015,11 @@ func (v *RegisterSSArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_defaultpriority
+				if !(int64(*v.DefaultPriority) >= 0 && int64(*v.DefaultPriority) <= 15) {
+					if constraintErr := ber.CheckDecodedValue(opts, "defaultPriority", "(0..15)", fmt.Sprint(int64(*v.DefaultPriority))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -887,6 +1047,11 @@ func (v *RegisterSSArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				}
 
 				offset += n_nbruser
+				if !(int64(*v.NbrUser) >= 1 && int64(*v.NbrUser) <= 7) {
+					if constraintErr := ber.CheckDecodedValue(opts, "nbrUser", "(1..7)", fmt.Sprint(int64(*v.NbrUser))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -943,13 +1108,26 @@ func (v *RegisterSSArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 }
 
 // MarshalBER encodes SSInfo5 to BER format.
-func (v *SSInfo5) MarshalBER() ([]byte, error) {
+func (v *SSInfo5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SSInfo5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SSInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case SSInfo5ChoiceForwardingInfo:
 		if v.ForwardingInfo == nil {
-			return nil, fmt.Errorf("choice SSInfo5: forwardingInfo is nil")
+			return nil, fmt.Errorf("%w: choice SSInfo5: forwardingInfo is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.ForwardingInfo.MarshalBER()
+		enc_0, err := v.ForwardingInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding forwardingInfo: %w", err)
 		}
@@ -961,9 +1139,9 @@ func (v *SSInfo5) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case SSInfo5ChoiceCallBarringInfo:
 		if v.CallBarringInfo == nil {
-			return nil, fmt.Errorf("choice SSInfo5: callBarringInfo is nil")
+			return nil, fmt.Errorf("%w: choice SSInfo5: callBarringInfo is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.CallBarringInfo.MarshalBER()
+		enc_1, err := v.CallBarringInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding callBarringInfo: %w", err)
 		}
@@ -975,9 +1153,9 @@ func (v *SSInfo5) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case SSInfo5ChoiceSsData:
 		if v.SsData == nil {
-			return nil, fmt.Errorf("choice SSInfo5: ss-Data is nil")
+			return nil, fmt.Errorf("%w: choice SSInfo5: ss-Data is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.SsData.MarshalBER()
+		enc_2, err := v.SsData.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ss-Data: %w", err)
 		}
@@ -994,10 +1172,13 @@ func (v *SSInfo5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SSInfo5 to DER format.
 func (v *SSInfo5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SSInfo5 receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case SSInfo5ChoiceForwardingInfo:
 		if v.ForwardingInfo == nil {
-			return nil, fmt.Errorf("choice SSInfo5: forwardingInfo is nil")
+			return nil, fmt.Errorf("%w: choice SSInfo5: forwardingInfo is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.ForwardingInfo.MarshalDER()
 		if err != nil {
@@ -1014,7 +1195,7 @@ func (v *SSInfo5) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case SSInfo5ChoiceCallBarringInfo:
 		if v.CallBarringInfo == nil {
-			return nil, fmt.Errorf("choice SSInfo5: callBarringInfo is nil")
+			return nil, fmt.Errorf("%w: choice SSInfo5: callBarringInfo is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.CallBarringInfo.MarshalDER()
 		if err != nil {
@@ -1031,7 +1212,7 @@ func (v *SSInfo5) MarshalDER() ([]byte, error) {
 		return enc_der_1, nil
 	case SSInfo5ChoiceSsData:
 		if v.SsData == nil {
-			return nil, fmt.Errorf("choice SSInfo5: ss-Data is nil")
+			return nil, fmt.Errorf("%w: choice SSInfo5: ss-Data is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.SsData.MarshalDER()
 		if err != nil {
@@ -1058,7 +1239,23 @@ func (v *SSInfo5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SSInfo5 from BER/DER format.
-func (v *SSInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SSInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SSInfo5 destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -1132,11 +1329,26 @@ func (v *SSInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes ForwardingInfo5 to BER format.
-func (v *ForwardingInfo5) MarshalBER() ([]byte, error) {
+func (v *ForwardingInfo5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ForwardingInfo5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ForwardingInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.SsCode != nil {
 		if len(*v.SsCode) < 1 || len(*v.SsCode) > 1 {
-			return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(*v.SsCode))
+			if constraintErr := ber.CheckEncodedLength(opts, "ss-Code", "SIZE (1)", len(*v.SsCode)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
 		if encodeErr_enc_sscode != nil {
@@ -1144,10 +1356,15 @@ func (v *ForwardingInfo5) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_sscode...)
 	}
-	if len(v.ForwardingFeatureList) < 1 || len(v.ForwardingFeatureList) > 13 {
-		return nil, fmt.Errorf("forwardingFeatureList length %d violates SIZE (1..13)", len(v.ForwardingFeatureList))
+	if v.ForwardingFeatureList == nil {
+		return nil, fmt.Errorf("encoding forwardingFeatureList: %w: required collection is nil", ber.ErrInvalidValue)
 	}
-	enc_forwardingfeaturelist, err := MarshalBERForwardingFeatureList5(v.ForwardingFeatureList)
+	if len((v.ForwardingFeatureList).Values) < 1 || len((v.ForwardingFeatureList).Values) > 13 {
+		if constraintErr := ber.CheckEncodedLength(opts, "forwardingFeatureList", "SIZE (1..13)", len((v.ForwardingFeatureList).Values)); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_forwardingfeaturelist, err := MarshalBERForwardingFeatureList5(v.ForwardingFeatureList, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding forwardingFeatureList: %w", err)
 	}
@@ -1167,10 +1384,15 @@ func (v *ForwardingInfo5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ForwardingInfo5 to DER format.
 func (v *ForwardingInfo5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ForwardingInfo5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.SsCode != nil {
 		if len(*v.SsCode) < 1 || len(*v.SsCode) > 1 {
-			return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(*v.SsCode))
+			if constraintErr := ber.CheckEncodedLength(nil, "ss-Code", "SIZE (1)", len(*v.SsCode)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
 		if encodeErr_enc_sscode != nil {
@@ -1178,8 +1400,13 @@ func (v *ForwardingInfo5) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, enc_sscode...)
 	}
-	if len(v.ForwardingFeatureList) < 1 || len(v.ForwardingFeatureList) > 13 {
-		return nil, fmt.Errorf("forwardingFeatureList length %d violates SIZE (1..13)", len(v.ForwardingFeatureList))
+	if v.ForwardingFeatureList == nil {
+		return nil, fmt.Errorf("encoding forwardingFeatureList: %w: required collection is nil", ber.ErrInvalidValue)
+	}
+	if len((v.ForwardingFeatureList).Values) < 1 || len((v.ForwardingFeatureList).Values) > 13 {
+		if constraintErr := ber.CheckEncodedLength(nil, "forwardingFeatureList", "SIZE (1..13)", len((v.ForwardingFeatureList).Values)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_forwardingfeaturelist, err := MarshalDERForwardingFeatureList5(v.ForwardingFeatureList)
 	if err != nil {
@@ -1203,11 +1430,27 @@ func (v *ForwardingInfo5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ForwardingInfo5 from BER/DER format.
-func (v *ForwardingInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ForwardingInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ForwardingInfo5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ForwardingInfo5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ForwardingInfo5 SEQUENCE: %w", err)
@@ -1234,7 +1477,9 @@ func (v *ForwardingInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 
 				offset += n
 				if len(*v.SsCode) < 1 || len(*v.SsCode) > 1 {
-					return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(*v.SsCode))
+					if constraintErr := ber.CheckDecodedLength(opts, "ss-Code", "SIZE (1)", len(*v.SsCode)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1262,7 +1507,7 @@ func (v *ForwardingInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 			v.ForwardingFeatureListIndef_ = true
 		}
 	}
-	dec_forwardingfeaturelist, unmErr := UnmarshalBERForwardingFeatureList5(tlv_forwardingfeaturelist, opts...)
+	dec_forwardingfeaturelist, unmErr := UnmarshalBERForwardingFeatureList5(tlv_forwardingfeaturelist, ber.ChildDecodeOptions(opts, "forwardingFeatureList")...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding forwardingFeatureList: %w", unmErr)
 	}
@@ -1274,8 +1519,10 @@ func (v *ForwardingInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 	}
 
 	offset += n_forwardingfeaturelist
-	if len(v.ForwardingFeatureList) < 1 || len(v.ForwardingFeatureList) > 13 {
-		return fmt.Errorf("forwardingFeatureList length %d violates SIZE (1..13)", len(v.ForwardingFeatureList))
+	if len((v.ForwardingFeatureList).Values) < 1 || len((v.ForwardingFeatureList).Values) > 13 {
+		if constraintErr := ber.CheckDecodedLength(opts, "forwardingFeatureList", "SIZE (1..13)", len((v.ForwardingFeatureList).Values)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -1304,13 +1551,29 @@ func (v *ForwardingInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 }
 
 // MarshalBERForwardingFeatureList5 encodes a ForwardingFeatureList5 list to BER.
-func MarshalBERForwardingFeatureList5(list ForwardingFeatureList5) ([]byte, error) {
+func MarshalBERForwardingFeatureList5(collection *ForwardingFeatureList5, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERForwardingFeatureList5(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERForwardingFeatureList5(collection *ForwardingFeatureList5, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	if len(list) < 1 || len(list) > 13 {
-		return nil, fmt.Errorf("ForwardingFeatureList5 length %d violates SIZE (1..13)", len(list))
+		if constraintErr := ber.CheckEncodedLength(opts, "ForwardingFeatureList5", "SIZE (1..13)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -1320,9 +1583,15 @@ func MarshalBERForwardingFeatureList5(list ForwardingFeatureList5) ([]byte, erro
 }
 
 // MarshalDERForwardingFeatureList5 encodes a ForwardingFeatureList5 list to DER.
-func MarshalDERForwardingFeatureList5(list ForwardingFeatureList5) ([]byte, error) {
+func MarshalDERForwardingFeatureList5(collection *ForwardingFeatureList5) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	if len(list) < 1 || len(list) > 13 {
-		return nil, fmt.Errorf("ForwardingFeatureList5 length %d violates SIZE (1..13)", len(list))
+		if constraintErr := ber.CheckEncodedLength(nil, "ForwardingFeatureList5", "SIZE (1..13)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -1343,7 +1612,7 @@ func MarshalDERForwardingFeatureList5(list ForwardingFeatureList5) ([]byte, erro
 }
 
 // UnmarshalBERForwardingFeatureList5 decodes a ForwardingFeatureList5 list from BER.
-func UnmarshalBERForwardingFeatureList5(data []byte, opts ...ber.DecodeOption) (ForwardingFeatureList5, error) {
+func UnmarshalBERForwardingFeatureList5(data []byte, opts ...ber.DecodeOption) (*ForwardingFeatureList5, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -1354,7 +1623,7 @@ func UnmarshalBERForwardingFeatureList5(data []byte, opts ...ber.DecodeOption) (
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "ForwardingFeatureList5", Cause: ber.ErrExtraData}
 	}
-	var result ForwardingFeatureList5
+	var result []ForwardingFeature5
 	offset := 0
 	for offset < len(content) {
 		var elem ForwardingFeature5
@@ -1367,7 +1636,7 @@ func UnmarshalBERForwardingFeatureList5(data []byte, opts ...ber.DecodeOption) (
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -1377,21 +1646,43 @@ func UnmarshalBERForwardingFeatureList5(data []byte, opts ...ber.DecodeOption) (
 		}
 
 		offset += n
-		if len(result) > 13 {
-			return nil, fmt.Errorf("ForwardingFeatureList5 length %d violates SIZE (1..13)", len(result))
-		}
 	}
 	if len(result) < 1 || len(result) > 13 {
-		return nil, fmt.Errorf("ForwardingFeatureList5 length %d violates SIZE (1..13)", len(result))
+		if constraintErr := ber.CheckDecodedLength(opts, "ForwardingFeatureList5", "SIZE (1..13)", len(result)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
-	return result, nil
+	decoded := &ForwardingFeatureList5{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERForwardingFeatureList5(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes ForwardingFeature5 to BER format.
-func (v *ForwardingFeature5) MarshalBER() ([]byte, error) {
+func (v *ForwardingFeature5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ForwardingFeature5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ForwardingFeature5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.BasicService != nil {
-		enc_basicservice, err := v.BasicService.MarshalBER()
+		enc_basicservice, err := v.BasicService.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicService: %w", err)
 		}
@@ -1399,7 +1690,9 @@ func (v *ForwardingFeature5) MarshalBER() ([]byte, error) {
 	}
 	if v.SsStatus != nil {
 		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
-			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+			if constraintErr := ber.CheckEncodedLength(opts, "ss-Status", "SIZE (1)", len(*v.SsStatus)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
@@ -1414,10 +1707,14 @@ func (v *ForwardingFeature5) MarshalBER() ([]byte, error) {
 	}
 	if v.ForwardedToNumber != nil {
 		if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 9 {
-			return nil, fmt.Errorf("forwardedToNumber length %d violates SIZE (1..9)", len(*v.ForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "forwardedToNumber", "SIZE (1..9)", len(*v.ForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 20 {
-			return nil, fmt.Errorf("forwardedToNumber length %d violates SIZE (1..20)", len(*v.ForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "forwardedToNumber", "SIZE (1..20)", len(*v.ForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_forwardedtonumber, encodeErr_enc_forwardedtonumber := ber.EncodeOctetString([]byte(*v.ForwardedToNumber))
 		if encodeErr_enc_forwardedtonumber != nil {
@@ -1432,7 +1729,9 @@ func (v *ForwardingFeature5) MarshalBER() ([]byte, error) {
 	}
 	if v.ForwardedToSubaddress != nil {
 		if len(*v.ForwardedToSubaddress) < 1 || len(*v.ForwardedToSubaddress) > 21 {
-			return nil, fmt.Errorf("forwardedToSubaddress length %d violates SIZE (1..21)", len(*v.ForwardedToSubaddress))
+			if constraintErr := ber.CheckEncodedLength(opts, "forwardedToSubaddress", "SIZE (1..21)", len(*v.ForwardedToSubaddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_forwardedtosubaddress, encodeErr_enc_forwardedtosubaddress := ber.EncodeOctetString([]byte(*v.ForwardedToSubaddress))
 		if encodeErr_enc_forwardedtosubaddress != nil {
@@ -1447,7 +1746,9 @@ func (v *ForwardingFeature5) MarshalBER() ([]byte, error) {
 	}
 	if v.ForwardingOptions != nil {
 		if len(*v.ForwardingOptions) < 1 || len(*v.ForwardingOptions) > 1 {
-			return nil, fmt.Errorf("forwardingOptions length %d violates SIZE (1)", len(*v.ForwardingOptions))
+			if constraintErr := ber.CheckEncodedLength(opts, "forwardingOptions", "SIZE (1)", len(*v.ForwardingOptions)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_forwardingoptions, encodeErr_enc_forwardingoptions := ber.EncodeOctetString([]byte(*v.ForwardingOptions))
 		if encodeErr_enc_forwardingoptions != nil {
@@ -1461,6 +1762,11 @@ func (v *ForwardingFeature5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_forwardingoptions...)
 	}
 	if v.NoReplyConditionTime != nil {
+		if !(int64(*v.NoReplyConditionTime) >= 5 && int64(*v.NoReplyConditionTime) <= 30) {
+			if constraintErr := ber.CheckEncodedValue(opts, "noReplyConditionTime", "(5..30)", fmt.Sprint(int64(*v.NoReplyConditionTime))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_noreplyconditiontime := ber.EncodeInteger(int64(*v.NoReplyConditionTime))
 		retagged_enc_noreplyconditiontime, tagErr_enc_noreplyconditiontime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_noreplyconditiontime)
 		if tagErr_enc_noreplyconditiontime != nil {
@@ -1471,10 +1777,14 @@ func (v *ForwardingFeature5) MarshalBER() ([]byte, error) {
 	}
 	if v.LongForwardedToNumber != nil {
 		if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 15 {
-			return nil, fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..15)", len(*v.LongForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "longForwardedToNumber", "SIZE (1..15)", len(*v.LongForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 20 {
-			return nil, fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..20)", len(*v.LongForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "longForwardedToNumber", "SIZE (1..20)", len(*v.LongForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_longforwardedtonumber, encodeErr_enc_longforwardedtonumber := ber.EncodeOctetString([]byte(*v.LongForwardedToNumber))
 		if encodeErr_enc_longforwardedtonumber != nil {
@@ -1502,6 +1812,9 @@ func (v *ForwardingFeature5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ForwardingFeature5 to DER format.
 func (v *ForwardingFeature5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ForwardingFeature5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.BasicService != nil {
 		enc_basicservice, err := v.BasicService.MarshalDER()
@@ -1512,7 +1825,9 @@ func (v *ForwardingFeature5) MarshalDER() ([]byte, error) {
 	}
 	if v.SsStatus != nil {
 		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
-			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+			if constraintErr := ber.CheckEncodedLength(nil, "ss-Status", "SIZE (1)", len(*v.SsStatus)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
@@ -1527,10 +1842,14 @@ func (v *ForwardingFeature5) MarshalDER() ([]byte, error) {
 	}
 	if v.ForwardedToNumber != nil {
 		if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 9 {
-			return nil, fmt.Errorf("forwardedToNumber length %d violates SIZE (1..9)", len(*v.ForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "forwardedToNumber", "SIZE (1..9)", len(*v.ForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 20 {
-			return nil, fmt.Errorf("forwardedToNumber length %d violates SIZE (1..20)", len(*v.ForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "forwardedToNumber", "SIZE (1..20)", len(*v.ForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_forwardedtonumber, encodeErr_enc_forwardedtonumber := ber.EncodeOctetString([]byte(*v.ForwardedToNumber))
 		if encodeErr_enc_forwardedtonumber != nil {
@@ -1545,7 +1864,9 @@ func (v *ForwardingFeature5) MarshalDER() ([]byte, error) {
 	}
 	if v.ForwardedToSubaddress != nil {
 		if len(*v.ForwardedToSubaddress) < 1 || len(*v.ForwardedToSubaddress) > 21 {
-			return nil, fmt.Errorf("forwardedToSubaddress length %d violates SIZE (1..21)", len(*v.ForwardedToSubaddress))
+			if constraintErr := ber.CheckEncodedLength(nil, "forwardedToSubaddress", "SIZE (1..21)", len(*v.ForwardedToSubaddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_forwardedtosubaddress, encodeErr_enc_forwardedtosubaddress := ber.EncodeOctetString([]byte(*v.ForwardedToSubaddress))
 		if encodeErr_enc_forwardedtosubaddress != nil {
@@ -1560,7 +1881,9 @@ func (v *ForwardingFeature5) MarshalDER() ([]byte, error) {
 	}
 	if v.ForwardingOptions != nil {
 		if len(*v.ForwardingOptions) < 1 || len(*v.ForwardingOptions) > 1 {
-			return nil, fmt.Errorf("forwardingOptions length %d violates SIZE (1)", len(*v.ForwardingOptions))
+			if constraintErr := ber.CheckEncodedLength(nil, "forwardingOptions", "SIZE (1)", len(*v.ForwardingOptions)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_forwardingoptions, encodeErr_enc_forwardingoptions := ber.EncodeOctetString([]byte(*v.ForwardingOptions))
 		if encodeErr_enc_forwardingoptions != nil {
@@ -1574,6 +1897,11 @@ func (v *ForwardingFeature5) MarshalDER() ([]byte, error) {
 		children = append(children, enc_forwardingoptions...)
 	}
 	if v.NoReplyConditionTime != nil {
+		if !(int64(*v.NoReplyConditionTime) >= 5 && int64(*v.NoReplyConditionTime) <= 30) {
+			if constraintErr := ber.CheckEncodedValue(nil, "noReplyConditionTime", "(5..30)", fmt.Sprint(int64(*v.NoReplyConditionTime))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_noreplyconditiontime := ber.EncodeInteger(int64(*v.NoReplyConditionTime))
 		retagged_enc_noreplyconditiontime, tagErr_enc_noreplyconditiontime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_noreplyconditiontime)
 		if tagErr_enc_noreplyconditiontime != nil {
@@ -1584,10 +1912,14 @@ func (v *ForwardingFeature5) MarshalDER() ([]byte, error) {
 	}
 	if v.LongForwardedToNumber != nil {
 		if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 15 {
-			return nil, fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..15)", len(*v.LongForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "longForwardedToNumber", "SIZE (1..15)", len(*v.LongForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 20 {
-			return nil, fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..20)", len(*v.LongForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "longForwardedToNumber", "SIZE (1..20)", len(*v.LongForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_longforwardedtonumber, encodeErr_enc_longforwardedtonumber := ber.EncodeOctetString([]byte(*v.LongForwardedToNumber))
 		if encodeErr_enc_longforwardedtonumber != nil {
@@ -1617,11 +1949,27 @@ func (v *ForwardingFeature5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ForwardingFeature5 from BER/DER format.
-func (v *ForwardingFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ForwardingFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ForwardingFeature5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ForwardingFeature5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ForwardingFeature5 SEQUENCE: %w", err)
@@ -1647,7 +1995,7 @@ func (v *ForwardingFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_basicservice.UnmarshalBER(content[offset:offset+n_basicservice], opts...); unmErr != nil {
+				if unmErr := dec_basicservice.UnmarshalBER(content[offset:offset+n_basicservice], ber.ChildDecodeOptions(opts, "basicservice")...); unmErr != nil {
 					return fmt.Errorf("decoding basicService: %w", unmErr)
 				}
 				v.BasicService = &dec_basicservice
@@ -1682,7 +2030,9 @@ func (v *ForwardingFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_ssstatus
 				if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
-					return fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+					if constraintErr := ber.CheckDecodedLength(opts, "ss-Status", "SIZE (1)", len(*v.SsStatus)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1709,10 +2059,14 @@ func (v *ForwardingFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_forwardedtonumber
 				if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 9 {
-					return fmt.Errorf("forwardedToNumber length %d violates SIZE (1..9)", len(*v.ForwardedToNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "forwardedToNumber", "SIZE (1..9)", len(*v.ForwardedToNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 				if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 20 {
-					return fmt.Errorf("forwardedToNumber length %d violates SIZE (1..20)", len(*v.ForwardedToNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "forwardedToNumber", "SIZE (1..20)", len(*v.ForwardedToNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1739,7 +2093,9 @@ func (v *ForwardingFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_forwardedtosubaddress
 				if len(*v.ForwardedToSubaddress) < 1 || len(*v.ForwardedToSubaddress) > 21 {
-					return fmt.Errorf("forwardedToSubaddress length %d violates SIZE (1..21)", len(*v.ForwardedToSubaddress))
+					if constraintErr := ber.CheckDecodedLength(opts, "forwardedToSubaddress", "SIZE (1..21)", len(*v.ForwardedToSubaddress)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1766,7 +2122,9 @@ func (v *ForwardingFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_forwardingoptions
 				if len(*v.ForwardingOptions) < 1 || len(*v.ForwardingOptions) > 1 {
-					return fmt.Errorf("forwardingOptions length %d violates SIZE (1)", len(*v.ForwardingOptions))
+					if constraintErr := ber.CheckDecodedLength(opts, "forwardingOptions", "SIZE (1)", len(*v.ForwardingOptions)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1796,6 +2154,11 @@ func (v *ForwardingFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_noreplyconditiontime
+				if !(int64(*v.NoReplyConditionTime) >= 5 && int64(*v.NoReplyConditionTime) <= 30) {
+					if constraintErr := ber.CheckDecodedValue(opts, "noReplyConditionTime", "(5..30)", fmt.Sprint(int64(*v.NoReplyConditionTime))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -1821,10 +2184,14 @@ func (v *ForwardingFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_longforwardedtonumber
 				if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 15 {
-					return fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..15)", len(*v.LongForwardedToNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "longForwardedToNumber", "SIZE (1..15)", len(*v.LongForwardedToNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 				if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 20 {
-					return fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..20)", len(*v.LongForwardedToNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "longForwardedToNumber", "SIZE (1..20)", len(*v.LongForwardedToNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1856,11 +2223,26 @@ func (v *ForwardingFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 }
 
 // MarshalBER encodes CallBarringInfo5 to BER format.
-func (v *CallBarringInfo5) MarshalBER() ([]byte, error) {
+func (v *CallBarringInfo5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CallBarringInfo5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CallBarringInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.SsCode != nil {
 		if len(*v.SsCode) < 1 || len(*v.SsCode) > 1 {
-			return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(*v.SsCode))
+			if constraintErr := ber.CheckEncodedLength(opts, "ss-Code", "SIZE (1)", len(*v.SsCode)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
 		if encodeErr_enc_sscode != nil {
@@ -1868,10 +2250,15 @@ func (v *CallBarringInfo5) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_sscode...)
 	}
-	if len(v.CallBarringFeatureList) < 1 || len(v.CallBarringFeatureList) > 13 {
-		return nil, fmt.Errorf("callBarringFeatureList length %d violates SIZE (1..13)", len(v.CallBarringFeatureList))
+	if v.CallBarringFeatureList == nil {
+		return nil, fmt.Errorf("encoding callBarringFeatureList: %w: required collection is nil", ber.ErrInvalidValue)
 	}
-	enc_callbarringfeaturelist, err := MarshalBERCallBarringFeatureList5(v.CallBarringFeatureList)
+	if len((v.CallBarringFeatureList).Values) < 1 || len((v.CallBarringFeatureList).Values) > 13 {
+		if constraintErr := ber.CheckEncodedLength(opts, "callBarringFeatureList", "SIZE (1..13)", len((v.CallBarringFeatureList).Values)); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_callbarringfeaturelist, err := MarshalBERCallBarringFeatureList5(v.CallBarringFeatureList, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding callBarringFeatureList: %w", err)
 	}
@@ -1891,10 +2278,15 @@ func (v *CallBarringInfo5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CallBarringInfo5 to DER format.
 func (v *CallBarringInfo5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CallBarringInfo5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.SsCode != nil {
 		if len(*v.SsCode) < 1 || len(*v.SsCode) > 1 {
-			return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(*v.SsCode))
+			if constraintErr := ber.CheckEncodedLength(nil, "ss-Code", "SIZE (1)", len(*v.SsCode)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
 		if encodeErr_enc_sscode != nil {
@@ -1902,8 +2294,13 @@ func (v *CallBarringInfo5) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, enc_sscode...)
 	}
-	if len(v.CallBarringFeatureList) < 1 || len(v.CallBarringFeatureList) > 13 {
-		return nil, fmt.Errorf("callBarringFeatureList length %d violates SIZE (1..13)", len(v.CallBarringFeatureList))
+	if v.CallBarringFeatureList == nil {
+		return nil, fmt.Errorf("encoding callBarringFeatureList: %w: required collection is nil", ber.ErrInvalidValue)
+	}
+	if len((v.CallBarringFeatureList).Values) < 1 || len((v.CallBarringFeatureList).Values) > 13 {
+		if constraintErr := ber.CheckEncodedLength(nil, "callBarringFeatureList", "SIZE (1..13)", len((v.CallBarringFeatureList).Values)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_callbarringfeaturelist, err := MarshalDERCallBarringFeatureList5(v.CallBarringFeatureList)
 	if err != nil {
@@ -1927,11 +2324,27 @@ func (v *CallBarringInfo5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CallBarringInfo5 from BER/DER format.
-func (v *CallBarringInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CallBarringInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CallBarringInfo5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CallBarringInfo5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CallBarringInfo5 SEQUENCE: %w", err)
@@ -1958,7 +2371,9 @@ func (v *CallBarringInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 
 				offset += n
 				if len(*v.SsCode) < 1 || len(*v.SsCode) > 1 {
-					return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(*v.SsCode))
+					if constraintErr := ber.CheckDecodedLength(opts, "ss-Code", "SIZE (1)", len(*v.SsCode)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1986,7 +2401,7 @@ func (v *CallBarringInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 			v.CallBarringFeatureListIndef_ = true
 		}
 	}
-	dec_callbarringfeaturelist, unmErr := UnmarshalBERCallBarringFeatureList5(tlv_callbarringfeaturelist, opts...)
+	dec_callbarringfeaturelist, unmErr := UnmarshalBERCallBarringFeatureList5(tlv_callbarringfeaturelist, ber.ChildDecodeOptions(opts, "callBarringFeatureList")...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding callBarringFeatureList: %w", unmErr)
 	}
@@ -1998,8 +2413,10 @@ func (v *CallBarringInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 	}
 
 	offset += n_callbarringfeaturelist
-	if len(v.CallBarringFeatureList) < 1 || len(v.CallBarringFeatureList) > 13 {
-		return fmt.Errorf("callBarringFeatureList length %d violates SIZE (1..13)", len(v.CallBarringFeatureList))
+	if len((v.CallBarringFeatureList).Values) < 1 || len((v.CallBarringFeatureList).Values) > 13 {
+		if constraintErr := ber.CheckDecodedLength(opts, "callBarringFeatureList", "SIZE (1..13)", len((v.CallBarringFeatureList).Values)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -2028,13 +2445,29 @@ func (v *CallBarringInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 }
 
 // MarshalBERCallBarringFeatureList5 encodes a CallBarringFeatureList5 list to BER.
-func MarshalBERCallBarringFeatureList5(list CallBarringFeatureList5) ([]byte, error) {
+func MarshalBERCallBarringFeatureList5(collection *CallBarringFeatureList5, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERCallBarringFeatureList5(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERCallBarringFeatureList5(collection *CallBarringFeatureList5, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	if len(list) < 1 || len(list) > 13 {
-		return nil, fmt.Errorf("CallBarringFeatureList5 length %d violates SIZE (1..13)", len(list))
+		if constraintErr := ber.CheckEncodedLength(opts, "CallBarringFeatureList5", "SIZE (1..13)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -2044,9 +2477,15 @@ func MarshalBERCallBarringFeatureList5(list CallBarringFeatureList5) ([]byte, er
 }
 
 // MarshalDERCallBarringFeatureList5 encodes a CallBarringFeatureList5 list to DER.
-func MarshalDERCallBarringFeatureList5(list CallBarringFeatureList5) ([]byte, error) {
+func MarshalDERCallBarringFeatureList5(collection *CallBarringFeatureList5) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	if len(list) < 1 || len(list) > 13 {
-		return nil, fmt.Errorf("CallBarringFeatureList5 length %d violates SIZE (1..13)", len(list))
+		if constraintErr := ber.CheckEncodedLength(nil, "CallBarringFeatureList5", "SIZE (1..13)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -2067,7 +2506,7 @@ func MarshalDERCallBarringFeatureList5(list CallBarringFeatureList5) ([]byte, er
 }
 
 // UnmarshalBERCallBarringFeatureList5 decodes a CallBarringFeatureList5 list from BER.
-func UnmarshalBERCallBarringFeatureList5(data []byte, opts ...ber.DecodeOption) (CallBarringFeatureList5, error) {
+func UnmarshalBERCallBarringFeatureList5(data []byte, opts ...ber.DecodeOption) (*CallBarringFeatureList5, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2078,7 +2517,7 @@ func UnmarshalBERCallBarringFeatureList5(data []byte, opts ...ber.DecodeOption) 
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "CallBarringFeatureList5", Cause: ber.ErrExtraData}
 	}
-	var result CallBarringFeatureList5
+	var result []CallBarringFeature5
 	offset := 0
 	for offset < len(content) {
 		var elem CallBarringFeature5
@@ -2091,7 +2530,7 @@ func UnmarshalBERCallBarringFeatureList5(data []byte, opts ...ber.DecodeOption) 
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -2101,21 +2540,43 @@ func UnmarshalBERCallBarringFeatureList5(data []byte, opts ...ber.DecodeOption) 
 		}
 
 		offset += n
-		if len(result) > 13 {
-			return nil, fmt.Errorf("CallBarringFeatureList5 length %d violates SIZE (1..13)", len(result))
-		}
 	}
 	if len(result) < 1 || len(result) > 13 {
-		return nil, fmt.Errorf("CallBarringFeatureList5 length %d violates SIZE (1..13)", len(result))
+		if constraintErr := ber.CheckDecodedLength(opts, "CallBarringFeatureList5", "SIZE (1..13)", len(result)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
-	return result, nil
+	decoded := &CallBarringFeatureList5{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERCallBarringFeatureList5(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes CallBarringFeature5 to BER format.
-func (v *CallBarringFeature5) MarshalBER() ([]byte, error) {
+func (v *CallBarringFeature5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CallBarringFeature5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CallBarringFeature5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.BasicService != nil {
-		enc_basicservice, err := v.BasicService.MarshalBER()
+		enc_basicservice, err := v.BasicService.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicService: %w", err)
 		}
@@ -2123,7 +2584,9 @@ func (v *CallBarringFeature5) MarshalBER() ([]byte, error) {
 	}
 	if v.SsStatus != nil {
 		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
-			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+			if constraintErr := ber.CheckEncodedLength(opts, "ss-Status", "SIZE (1)", len(*v.SsStatus)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
@@ -2151,6 +2614,9 @@ func (v *CallBarringFeature5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CallBarringFeature5 to DER format.
 func (v *CallBarringFeature5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CallBarringFeature5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.BasicService != nil {
 		enc_basicservice, err := v.BasicService.MarshalDER()
@@ -2161,7 +2627,9 @@ func (v *CallBarringFeature5) MarshalDER() ([]byte, error) {
 	}
 	if v.SsStatus != nil {
 		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
-			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+			if constraintErr := ber.CheckEncodedLength(nil, "ss-Status", "SIZE (1)", len(*v.SsStatus)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
@@ -2191,11 +2659,27 @@ func (v *CallBarringFeature5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CallBarringFeature5 from BER/DER format.
-func (v *CallBarringFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CallBarringFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CallBarringFeature5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CallBarringFeature5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CallBarringFeature5 SEQUENCE: %w", err)
@@ -2220,7 +2704,7 @@ func (v *CallBarringFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_basicservice.UnmarshalBER(content[offset:offset+n_basicservice], opts...); unmErr != nil {
+				if unmErr := dec_basicservice.UnmarshalBER(content[offset:offset+n_basicservice], ber.ChildDecodeOptions(opts, "basicservice")...); unmErr != nil {
 					return fmt.Errorf("decoding basicService: %w", unmErr)
 				}
 				v.BasicService = &dec_basicservice
@@ -2254,7 +2738,9 @@ func (v *CallBarringFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 				offset += n_ssstatus
 				if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
-					return fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+					if constraintErr := ber.CheckDecodedLength(opts, "ss-Status", "SIZE (1)", len(*v.SsStatus)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -2286,11 +2772,26 @@ func (v *CallBarringFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBER encodes SSData5 to BER format.
-func (v *SSData5) MarshalBER() ([]byte, error) {
+func (v *SSData5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SSData5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SSData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.SsCode != nil {
 		if len(*v.SsCode) < 1 || len(*v.SsCode) > 1 {
-			return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(*v.SsCode))
+			if constraintErr := ber.CheckEncodedLength(opts, "ss-Code", "SIZE (1)", len(*v.SsCode)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
 		if encodeErr_enc_sscode != nil {
@@ -2300,7 +2801,9 @@ func (v *SSData5) MarshalBER() ([]byte, error) {
 	}
 	if v.SsStatus != nil {
 		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
-			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+			if constraintErr := ber.CheckEncodedLength(opts, "ss-Status", "SIZE (1)", len(*v.SsStatus)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
@@ -2314,27 +2817,39 @@ func (v *SSData5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ssstatus...)
 	}
 	if v.SsSubscriptionOption != nil {
-		enc_sssubscriptionoption, err := v.SsSubscriptionOption.MarshalBER()
+		enc_sssubscriptionoption, err := v.SsSubscriptionOption.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ss-SubscriptionOption: %w", err)
 		}
 		children = append(children, enc_sssubscriptionoption...)
 	}
 	if v.BasicServiceGroupList != nil {
-		if len(v.BasicServiceGroupList) < 1 || len(v.BasicServiceGroupList) > 13 {
-			return nil, fmt.Errorf("basicServiceGroupList length %d violates SIZE (1..13)", len(v.BasicServiceGroupList))
+		if len((v.BasicServiceGroupList).Values) < 1 || len((v.BasicServiceGroupList).Values) > 13 {
+			if constraintErr := ber.CheckEncodedLength(opts, "basicServiceGroupList", "SIZE (1..13)", len((v.BasicServiceGroupList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_basicservicegrouplist, err := MarshalBERBasicServiceGroupList5(v.BasicServiceGroupList)
+		enc_basicservicegrouplist, err := MarshalBERBasicServiceGroupList5(v.BasicServiceGroupList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceGroupList: %w", err)
 		}
 		children = append(children, enc_basicservicegrouplist...)
 	}
 	if v.DefaultPriority != nil {
+		if !(int64(*v.DefaultPriority) >= 0 && int64(*v.DefaultPriority) <= 15) {
+			if constraintErr := ber.CheckEncodedValue(opts, "defaultPriority", "(0..15)", fmt.Sprint(int64(*v.DefaultPriority))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_defaultpriority := ber.EncodeInteger(int64(*v.DefaultPriority))
 		children = append(children, enc_defaultpriority...)
 	}
 	if v.NbrUser != nil {
+		if !(int64(*v.NbrUser) >= 1 && int64(*v.NbrUser) <= 7) {
+			if constraintErr := ber.CheckEncodedValue(opts, "nbrUser", "(1..7)", fmt.Sprint(int64(*v.NbrUser))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_nbruser := ber.EncodeInteger(int64(*v.NbrUser))
 		retagged_enc_nbruser, tagErr_enc_nbruser := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_nbruser)
 		if tagErr_enc_nbruser != nil {
@@ -2358,10 +2873,15 @@ func (v *SSData5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SSData5 to DER format.
 func (v *SSData5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SSData5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.SsCode != nil {
 		if len(*v.SsCode) < 1 || len(*v.SsCode) > 1 {
-			return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(*v.SsCode))
+			if constraintErr := ber.CheckEncodedLength(nil, "ss-Code", "SIZE (1)", len(*v.SsCode)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
 		if encodeErr_enc_sscode != nil {
@@ -2371,7 +2891,9 @@ func (v *SSData5) MarshalDER() ([]byte, error) {
 	}
 	if v.SsStatus != nil {
 		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
-			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+			if constraintErr := ber.CheckEncodedLength(nil, "ss-Status", "SIZE (1)", len(*v.SsStatus)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
@@ -2392,8 +2914,10 @@ func (v *SSData5) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sssubscriptionoption...)
 	}
 	if v.BasicServiceGroupList != nil {
-		if len(v.BasicServiceGroupList) < 1 || len(v.BasicServiceGroupList) > 13 {
-			return nil, fmt.Errorf("basicServiceGroupList length %d violates SIZE (1..13)", len(v.BasicServiceGroupList))
+		if len((v.BasicServiceGroupList).Values) < 1 || len((v.BasicServiceGroupList).Values) > 13 {
+			if constraintErr := ber.CheckEncodedLength(nil, "basicServiceGroupList", "SIZE (1..13)", len((v.BasicServiceGroupList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_basicservicegrouplist, err := MarshalDERBasicServiceGroupList5(v.BasicServiceGroupList)
 		if err != nil {
@@ -2402,10 +2926,20 @@ func (v *SSData5) MarshalDER() ([]byte, error) {
 		children = append(children, enc_basicservicegrouplist...)
 	}
 	if v.DefaultPriority != nil {
+		if !(int64(*v.DefaultPriority) >= 0 && int64(*v.DefaultPriority) <= 15) {
+			if constraintErr := ber.CheckEncodedValue(nil, "defaultPriority", "(0..15)", fmt.Sprint(int64(*v.DefaultPriority))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_defaultpriority := ber.EncodeInteger(int64(*v.DefaultPriority))
 		children = append(children, enc_defaultpriority...)
 	}
 	if v.NbrUser != nil {
+		if !(int64(*v.NbrUser) >= 1 && int64(*v.NbrUser) <= 7) {
+			if constraintErr := ber.CheckEncodedValue(nil, "nbrUser", "(1..7)", fmt.Sprint(int64(*v.NbrUser))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_nbruser := ber.EncodeInteger(int64(*v.NbrUser))
 		retagged_enc_nbruser, tagErr_enc_nbruser := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_nbruser)
 		if tagErr_enc_nbruser != nil {
@@ -2431,11 +2965,27 @@ func (v *SSData5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SSData5 from BER/DER format.
-func (v *SSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SSData5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SSData5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SSData5 SEQUENCE: %w", err)
@@ -2462,7 +3012,9 @@ func (v *SSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 				offset += n
 				if len(*v.SsCode) < 1 || len(*v.SsCode) > 1 {
-					return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(*v.SsCode))
+					if constraintErr := ber.CheckDecodedLength(opts, "ss-Code", "SIZE (1)", len(*v.SsCode)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -2488,7 +3040,9 @@ func (v *SSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 				offset += n_ssstatus
 				if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
-					return fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+					if constraintErr := ber.CheckDecodedLength(opts, "ss-Status", "SIZE (1)", len(*v.SsStatus)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -2510,7 +3064,7 @@ func (v *SSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_sssubscriptionoption.UnmarshalBER(content[offset:offset+n_sssubscriptionoption], opts...); unmErr != nil {
+				if unmErr := dec_sssubscriptionoption.UnmarshalBER(content[offset:offset+n_sssubscriptionoption], ber.ChildDecodeOptions(opts, "sssubscriptionoption")...); unmErr != nil {
 					return fmt.Errorf("decoding ss-SubscriptionOption: %w", unmErr)
 				}
 				v.SsSubscriptionOption = &dec_sssubscriptionoption
@@ -2548,7 +3102,7 @@ func (v *SSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 						v.BasicServiceGroupListIndef_ = true
 					}
 				}
-				dec_basicservicegrouplist, unmErr := UnmarshalBERBasicServiceGroupList5(tlv_basicservicegrouplist, opts...)
+				dec_basicservicegrouplist, unmErr := UnmarshalBERBasicServiceGroupList5(tlv_basicservicegrouplist, ber.ChildDecodeOptions(opts, "basicServiceGroupList")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding basicServiceGroupList: %w", unmErr)
 				}
@@ -2560,8 +3114,10 @@ func (v *SSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_basicservicegrouplist
-				if len(v.BasicServiceGroupList) < 1 || len(v.BasicServiceGroupList) > 13 {
-					return fmt.Errorf("basicServiceGroupList length %d violates SIZE (1..13)", len(v.BasicServiceGroupList))
+				if len((v.BasicServiceGroupList).Values) < 1 || len((v.BasicServiceGroupList).Values) > 13 {
+					if constraintErr := ber.CheckDecodedLength(opts, "basicServiceGroupList", "SIZE (1..13)", len((v.BasicServiceGroupList).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -2583,6 +3139,11 @@ func (v *SSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n
+				if !(int64(*v.DefaultPriority) >= 0 && int64(*v.DefaultPriority) <= 15) {
+					if constraintErr := ber.CheckDecodedValue(opts, "defaultPriority", "(0..15)", fmt.Sprint(int64(*v.DefaultPriority))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -2610,6 +3171,11 @@ func (v *SSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_nbruser
+				if !(int64(*v.NbrUser) >= 1 && int64(*v.NbrUser) <= 7) {
+					if constraintErr := ber.CheckDecodedValue(opts, "nbrUser", "(1..7)", fmt.Sprint(int64(*v.NbrUser))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -2640,11 +3206,24 @@ func (v *SSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes SSSubscriptionOption5 to BER format.
-func (v *SSSubscriptionOption5) MarshalBER() ([]byte, error) {
+func (v *SSSubscriptionOption5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SSSubscriptionOption5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SSSubscriptionOption5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case SSSubscriptionOption5ChoiceCliRestrictionOption:
 		if v.CliRestrictionOption == nil {
-			return nil, fmt.Errorf("choice SSSubscriptionOption5: cliRestrictionOption is nil")
+			return nil, fmt.Errorf("%w: choice SSSubscriptionOption5: cliRestrictionOption is nil", ber.ErrInvalidValue)
 		}
 		enc_0 := ber.EncodeEnumerated(int64(*v.CliRestrictionOption))
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_0)
@@ -2655,7 +3234,7 @@ func (v *SSSubscriptionOption5) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case SSSubscriptionOption5ChoiceOverrideCategory:
 		if v.OverrideCategory == nil {
-			return nil, fmt.Errorf("choice SSSubscriptionOption5: overrideCategory is nil")
+			return nil, fmt.Errorf("%w: choice SSSubscriptionOption5: overrideCategory is nil", ber.ErrInvalidValue)
 		}
 		enc_1 := ber.EncodeEnumerated(int64(*v.OverrideCategory))
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
@@ -2671,6 +3250,9 @@ func (v *SSSubscriptionOption5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SSSubscriptionOption5 to DER format.
 func (v *SSSubscriptionOption5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SSSubscriptionOption5 receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -2682,7 +3264,23 @@ func (v *SSSubscriptionOption5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SSSubscriptionOption5 from BER/DER format.
-func (v *SSSubscriptionOption5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SSSubscriptionOption5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SSSubscriptionOption5 destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -2735,10 +3333,25 @@ func (v *SSSubscriptionOption5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes SSForBSCode5 to BER format.
-func (v *SSForBSCode5) MarshalBER() ([]byte, error) {
+func (v *SSForBSCode5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SSForBSCode5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SSForBSCode5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+		if constraintErr := ber.CheckEncodedLength(opts, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
@@ -2746,7 +3359,7 @@ func (v *SSForBSCode5) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_sscode...)
 	if v.BasicService != nil {
-		enc_basicservice, err := v.BasicService.MarshalBER()
+		enc_basicservice, err := v.BasicService.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicService: %w", err)
 		}
@@ -2776,9 +3389,14 @@ func (v *SSForBSCode5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SSForBSCode5 to DER format.
 func (v *SSForBSCode5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SSForBSCode5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+		if constraintErr := ber.CheckEncodedLength(nil, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
@@ -2818,11 +3436,27 @@ func (v *SSForBSCode5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SSForBSCode5 from BER/DER format.
-func (v *SSForBSCode5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SSForBSCode5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SSForBSCode5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SSForBSCode5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SSForBSCode5 SEQUENCE: %w", err)
@@ -2847,7 +3481,9 @@ func (v *SSForBSCode5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 
 	offset += n
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+		if constraintErr := ber.CheckDecodedLength(opts, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode basicService
 	if offset < len(content) {
@@ -2866,7 +3502,7 @@ func (v *SSForBSCode5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_basicservice.UnmarshalBER(content[offset:offset+n_basicservice], opts...); unmErr != nil {
+				if unmErr := dec_basicservice.UnmarshalBER(content[offset:offset+n_basicservice], ber.ChildDecodeOptions(opts, "basicservice")...); unmErr != nil {
 					return fmt.Errorf("decoding basicService: %w", unmErr)
 				}
 				v.BasicService = &dec_basicservice
@@ -2933,10 +3569,25 @@ func (v *SSForBSCode5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 }
 
 // MarshalBER encodes GenericServiceInfo5 to BER format.
-func (v *GenericServiceInfo5) MarshalBER() ([]byte, error) {
+func (v *GenericServiceInfo5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GenericServiceInfo5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *GenericServiceInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.SsStatus) < 1 || len(v.SsStatus) > 1 {
-		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1)", len(v.SsStatus))
+		if constraintErr := ber.CheckEncodedLength(opts, "ss-Status", "SIZE (1)", len(v.SsStatus)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
@@ -2948,6 +3599,11 @@ func (v *GenericServiceInfo5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_clirestrictionoption...)
 	}
 	if v.MaximumEntitledPriority != nil {
+		if !(int64(*v.MaximumEntitledPriority) >= 0 && int64(*v.MaximumEntitledPriority) <= 15) {
+			if constraintErr := ber.CheckEncodedValue(opts, "maximumEntitledPriority", "(0..15)", fmt.Sprint(int64(*v.MaximumEntitledPriority))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_maximumentitledpriority := ber.EncodeInteger(int64(*v.MaximumEntitledPriority))
 		retagged_enc_maximumentitledpriority, tagErr_enc_maximumentitledpriority := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_maximumentitledpriority)
 		if tagErr_enc_maximumentitledpriority != nil {
@@ -2957,6 +3613,11 @@ func (v *GenericServiceInfo5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_maximumentitledpriority...)
 	}
 	if v.DefaultPriority != nil {
+		if !(int64(*v.DefaultPriority) >= 0 && int64(*v.DefaultPriority) <= 15) {
+			if constraintErr := ber.CheckEncodedValue(opts, "defaultPriority", "(0..15)", fmt.Sprint(int64(*v.DefaultPriority))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_defaultpriority := ber.EncodeInteger(int64(*v.DefaultPriority))
 		retagged_enc_defaultpriority, tagErr_enc_defaultpriority := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_defaultpriority)
 		if tagErr_enc_defaultpriority != nil {
@@ -2966,10 +3627,12 @@ func (v *GenericServiceInfo5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_defaultpriority...)
 	}
 	if v.CcbsFeatureList != nil {
-		if len(v.CcbsFeatureList) < 1 || len(v.CcbsFeatureList) > 5 {
-			return nil, fmt.Errorf("ccbs-FeatureList length %d violates SIZE (1..5)", len(v.CcbsFeatureList))
+		if len((v.CcbsFeatureList).Values) < 1 || len((v.CcbsFeatureList).Values) > 5 {
+			if constraintErr := ber.CheckEncodedLength(opts, "ccbs-FeatureList", "SIZE (1..5)", len((v.CcbsFeatureList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_ccbsfeaturelist, err := MarshalBERCCBSFeatureList5(v.CcbsFeatureList)
+		enc_ccbsfeaturelist, err := MarshalBERCCBSFeatureList5(v.CcbsFeatureList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ccbs-FeatureList: %w", err)
 		}
@@ -2996,6 +3659,11 @@ func (v *GenericServiceInfo5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ccbsfeaturelist...)
 	}
 	if v.NbrSB != nil {
+		if !(int64(*v.NbrSB) >= 2 && int64(*v.NbrSB) <= 7) {
+			if constraintErr := ber.CheckEncodedValue(opts, "nbrSB", "(2..7)", fmt.Sprint(int64(*v.NbrSB))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_nbrsb := ber.EncodeInteger(int64(*v.NbrSB))
 		retagged_enc_nbrsb, tagErr_enc_nbrsb := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_nbrsb)
 		if tagErr_enc_nbrsb != nil {
@@ -3005,6 +3673,11 @@ func (v *GenericServiceInfo5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_nbrsb...)
 	}
 	if v.NbrUser != nil {
+		if !(int64(*v.NbrUser) >= 1 && int64(*v.NbrUser) <= 7) {
+			if constraintErr := ber.CheckEncodedValue(opts, "nbrUser", "(1..7)", fmt.Sprint(int64(*v.NbrUser))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_nbruser := ber.EncodeInteger(int64(*v.NbrUser))
 		retagged_enc_nbruser, tagErr_enc_nbruser := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_nbruser)
 		if tagErr_enc_nbruser != nil {
@@ -3014,6 +3687,11 @@ func (v *GenericServiceInfo5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_nbruser...)
 	}
 	if v.NbrSN != nil {
+		if !(int64(*v.NbrSN) >= 1 && int64(*v.NbrSN) <= 7) {
+			if constraintErr := ber.CheckEncodedValue(opts, "nbrSN", "(1..7)", fmt.Sprint(int64(*v.NbrSN))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_nbrsn := ber.EncodeInteger(int64(*v.NbrSN))
 		retagged_enc_nbrsn, tagErr_enc_nbrsn := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_nbrsn)
 		if tagErr_enc_nbrsn != nil {
@@ -3037,9 +3715,14 @@ func (v *GenericServiceInfo5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GenericServiceInfo5 to DER format.
 func (v *GenericServiceInfo5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GenericServiceInfo5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.SsStatus) < 1 || len(v.SsStatus) > 1 {
-		return nil, fmt.Errorf("ss-Status length %d violates SIZE (1)", len(v.SsStatus))
+		if constraintErr := ber.CheckEncodedLength(nil, "ss-Status", "SIZE (1)", len(v.SsStatus)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(v.SsStatus))
 	if encodeErr_enc_ssstatus != nil {
@@ -3051,6 +3734,11 @@ func (v *GenericServiceInfo5) MarshalDER() ([]byte, error) {
 		children = append(children, enc_clirestrictionoption...)
 	}
 	if v.MaximumEntitledPriority != nil {
+		if !(int64(*v.MaximumEntitledPriority) >= 0 && int64(*v.MaximumEntitledPriority) <= 15) {
+			if constraintErr := ber.CheckEncodedValue(nil, "maximumEntitledPriority", "(0..15)", fmt.Sprint(int64(*v.MaximumEntitledPriority))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_maximumentitledpriority := ber.EncodeInteger(int64(*v.MaximumEntitledPriority))
 		retagged_enc_maximumentitledpriority, tagErr_enc_maximumentitledpriority := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_maximumentitledpriority)
 		if tagErr_enc_maximumentitledpriority != nil {
@@ -3060,6 +3748,11 @@ func (v *GenericServiceInfo5) MarshalDER() ([]byte, error) {
 		children = append(children, enc_maximumentitledpriority...)
 	}
 	if v.DefaultPriority != nil {
+		if !(int64(*v.DefaultPriority) >= 0 && int64(*v.DefaultPriority) <= 15) {
+			if constraintErr := ber.CheckEncodedValue(nil, "defaultPriority", "(0..15)", fmt.Sprint(int64(*v.DefaultPriority))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_defaultpriority := ber.EncodeInteger(int64(*v.DefaultPriority))
 		retagged_enc_defaultpriority, tagErr_enc_defaultpriority := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_defaultpriority)
 		if tagErr_enc_defaultpriority != nil {
@@ -3069,8 +3762,10 @@ func (v *GenericServiceInfo5) MarshalDER() ([]byte, error) {
 		children = append(children, enc_defaultpriority...)
 	}
 	if v.CcbsFeatureList != nil {
-		if len(v.CcbsFeatureList) < 1 || len(v.CcbsFeatureList) > 5 {
-			return nil, fmt.Errorf("ccbs-FeatureList length %d violates SIZE (1..5)", len(v.CcbsFeatureList))
+		if len((v.CcbsFeatureList).Values) < 1 || len((v.CcbsFeatureList).Values) > 5 {
+			if constraintErr := ber.CheckEncodedLength(nil, "ccbs-FeatureList", "SIZE (1..5)", len((v.CcbsFeatureList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_ccbsfeaturelist, err := MarshalDERCCBSFeatureList5(v.CcbsFeatureList)
 		if err != nil {
@@ -3084,6 +3779,11 @@ func (v *GenericServiceInfo5) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ccbsfeaturelist...)
 	}
 	if v.NbrSB != nil {
+		if !(int64(*v.NbrSB) >= 2 && int64(*v.NbrSB) <= 7) {
+			if constraintErr := ber.CheckEncodedValue(nil, "nbrSB", "(2..7)", fmt.Sprint(int64(*v.NbrSB))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_nbrsb := ber.EncodeInteger(int64(*v.NbrSB))
 		retagged_enc_nbrsb, tagErr_enc_nbrsb := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_nbrsb)
 		if tagErr_enc_nbrsb != nil {
@@ -3093,6 +3793,11 @@ func (v *GenericServiceInfo5) MarshalDER() ([]byte, error) {
 		children = append(children, enc_nbrsb...)
 	}
 	if v.NbrUser != nil {
+		if !(int64(*v.NbrUser) >= 1 && int64(*v.NbrUser) <= 7) {
+			if constraintErr := ber.CheckEncodedValue(nil, "nbrUser", "(1..7)", fmt.Sprint(int64(*v.NbrUser))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_nbruser := ber.EncodeInteger(int64(*v.NbrUser))
 		retagged_enc_nbruser, tagErr_enc_nbruser := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_nbruser)
 		if tagErr_enc_nbruser != nil {
@@ -3102,6 +3807,11 @@ func (v *GenericServiceInfo5) MarshalDER() ([]byte, error) {
 		children = append(children, enc_nbruser...)
 	}
 	if v.NbrSN != nil {
+		if !(int64(*v.NbrSN) >= 1 && int64(*v.NbrSN) <= 7) {
+			if constraintErr := ber.CheckEncodedValue(nil, "nbrSN", "(1..7)", fmt.Sprint(int64(*v.NbrSN))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_nbrsn := ber.EncodeInteger(int64(*v.NbrSN))
 		retagged_enc_nbrsn, tagErr_enc_nbrsn := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_nbrsn)
 		if tagErr_enc_nbrsn != nil {
@@ -3127,11 +3837,27 @@ func (v *GenericServiceInfo5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes GenericServiceInfo5 from BER/DER format.
-func (v *GenericServiceInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *GenericServiceInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: GenericServiceInfo5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = GenericServiceInfo5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding GenericServiceInfo5 SEQUENCE: %w", err)
@@ -3156,7 +3882,9 @@ func (v *GenericServiceInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 	offset += n
 	if len(v.SsStatus) < 1 || len(v.SsStatus) > 1 {
-		return fmt.Errorf("ss-Status length %d violates SIZE (1)", len(v.SsStatus))
+		if constraintErr := ber.CheckDecodedLength(opts, "ss-Status", "SIZE (1)", len(v.SsStatus)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode cliRestrictionOption
 	if offset < len(content) {
@@ -3203,6 +3931,11 @@ func (v *GenericServiceInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_maximumentitledpriority
+				if !(int64(*v.MaximumEntitledPriority) >= 0 && int64(*v.MaximumEntitledPriority) <= 15) {
+					if constraintErr := ber.CheckDecodedValue(opts, "maximumEntitledPriority", "(0..15)", fmt.Sprint(int64(*v.MaximumEntitledPriority))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -3231,6 +3964,11 @@ func (v *GenericServiceInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_defaultpriority
+				if !(int64(*v.DefaultPriority) >= 0 && int64(*v.DefaultPriority) <= 15) {
+					if constraintErr := ber.CheckDecodedValue(opts, "defaultPriority", "(0..15)", fmt.Sprint(int64(*v.DefaultPriority))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -3251,7 +3989,7 @@ func (v *GenericServiceInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if reconstructionErr_ccbsfeaturelist != nil {
 					return fmt.Errorf("decoding ccbs-FeatureList: %w", reconstructionErr_ccbsfeaturelist)
 				}
-				dec_ccbsfeaturelist, unmErr := UnmarshalBERCCBSFeatureList5(reconstructed_ccbsfeaturelist, opts...)
+				dec_ccbsfeaturelist, unmErr := UnmarshalBERCCBSFeatureList5(reconstructed_ccbsfeaturelist, ber.ChildDecodeOptions(opts, "ccbs-FeatureList")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding ccbs-FeatureList: %w", unmErr)
 				}
@@ -3274,8 +4012,10 @@ func (v *GenericServiceInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_ccbsfeaturelist
-				if len(v.CcbsFeatureList) < 1 || len(v.CcbsFeatureList) > 5 {
-					return fmt.Errorf("ccbs-FeatureList length %d violates SIZE (1..5)", len(v.CcbsFeatureList))
+				if len((v.CcbsFeatureList).Values) < 1 || len((v.CcbsFeatureList).Values) > 5 {
+					if constraintErr := ber.CheckDecodedLength(opts, "ccbs-FeatureList", "SIZE (1..5)", len((v.CcbsFeatureList).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3304,6 +4044,11 @@ func (v *GenericServiceInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_nbrsb
+				if !(int64(*v.NbrSB) >= 2 && int64(*v.NbrSB) <= 7) {
+					if constraintErr := ber.CheckDecodedValue(opts, "nbrSB", "(2..7)", fmt.Sprint(int64(*v.NbrSB))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -3331,6 +4076,11 @@ func (v *GenericServiceInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_nbruser
+				if !(int64(*v.NbrUser) >= 1 && int64(*v.NbrUser) <= 7) {
+					if constraintErr := ber.CheckDecodedValue(opts, "nbrUser", "(1..7)", fmt.Sprint(int64(*v.NbrUser))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -3358,6 +4108,11 @@ func (v *GenericServiceInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_nbrsn
+				if !(int64(*v.NbrSN) >= 1 && int64(*v.NbrSN) <= 7) {
+					if constraintErr := ber.CheckDecodedValue(opts, "nbrSN", "(1..7)", fmt.Sprint(int64(*v.NbrSN))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -3388,13 +4143,29 @@ func (v *GenericServiceInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBERCCBSFeatureList5 encodes a CCBSFeatureList5 list to BER.
-func MarshalBERCCBSFeatureList5(list CCBSFeatureList5) ([]byte, error) {
+func MarshalBERCCBSFeatureList5(collection *CCBSFeatureList5, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERCCBSFeatureList5(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERCCBSFeatureList5(collection *CCBSFeatureList5, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		return nil, fmt.Errorf("CCBSFeatureList5 length %d violates SIZE (1..5)", len(list))
+		if constraintErr := ber.CheckEncodedLength(opts, "CCBSFeatureList5", "SIZE (1..5)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -3404,9 +4175,15 @@ func MarshalBERCCBSFeatureList5(list CCBSFeatureList5) ([]byte, error) {
 }
 
 // MarshalDERCCBSFeatureList5 encodes a CCBSFeatureList5 list to DER.
-func MarshalDERCCBSFeatureList5(list CCBSFeatureList5) ([]byte, error) {
+func MarshalDERCCBSFeatureList5(collection *CCBSFeatureList5) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		return nil, fmt.Errorf("CCBSFeatureList5 length %d violates SIZE (1..5)", len(list))
+		if constraintErr := ber.CheckEncodedLength(nil, "CCBSFeatureList5", "SIZE (1..5)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -3427,7 +4204,7 @@ func MarshalDERCCBSFeatureList5(list CCBSFeatureList5) ([]byte, error) {
 }
 
 // UnmarshalBERCCBSFeatureList5 decodes a CCBSFeatureList5 list from BER.
-func UnmarshalBERCCBSFeatureList5(data []byte, opts ...ber.DecodeOption) (CCBSFeatureList5, error) {
+func UnmarshalBERCCBSFeatureList5(data []byte, opts ...ber.DecodeOption) (*CCBSFeatureList5, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -3438,7 +4215,7 @@ func UnmarshalBERCCBSFeatureList5(data []byte, opts ...ber.DecodeOption) (CCBSFe
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "CCBSFeatureList5", Cause: ber.ErrExtraData}
 	}
-	var result CCBSFeatureList5
+	var result []CCBSFeature5
 	offset := 0
 	for offset < len(content) {
 		var elem CCBSFeature5
@@ -3451,7 +4228,7 @@ func UnmarshalBERCCBSFeatureList5(data []byte, opts ...ber.DecodeOption) (CCBSFe
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -3461,20 +4238,47 @@ func UnmarshalBERCCBSFeatureList5(data []byte, opts ...ber.DecodeOption) (CCBSFe
 		}
 
 		offset += n
-		if len(result) > 5 {
-			return nil, fmt.Errorf("CCBSFeatureList5 length %d violates SIZE (1..5)", len(result))
-		}
 	}
 	if len(result) < 1 || len(result) > 5 {
-		return nil, fmt.Errorf("CCBSFeatureList5 length %d violates SIZE (1..5)", len(result))
+		if constraintErr := ber.CheckDecodedLength(opts, "CCBSFeatureList5", "SIZE (1..5)", len(result)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
-	return result, nil
+	decoded := &CCBSFeatureList5{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERCCBSFeatureList5(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes CCBSFeature5 to BER format.
-func (v *CCBSFeature5) MarshalBER() ([]byte, error) {
+func (v *CCBSFeature5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CCBSFeature5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CCBSFeature5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.CcbsIndex != nil {
+		if !(int64(*v.CcbsIndex) >= 1 && int64(*v.CcbsIndex) <= 5) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ccbs-Index", "(1..5)", fmt.Sprint(int64(*v.CcbsIndex))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_ccbsindex := ber.EncodeInteger(int64(*v.CcbsIndex))
 		retagged_enc_ccbsindex, tagErr_enc_ccbsindex := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_ccbsindex)
 		if tagErr_enc_ccbsindex != nil {
@@ -3485,10 +4289,14 @@ func (v *CCBSFeature5) MarshalBER() ([]byte, error) {
 	}
 	if v.BSubscriberNumber != nil {
 		if len(*v.BSubscriberNumber) < 1 || len(*v.BSubscriberNumber) > 9 {
-			return nil, fmt.Errorf("b-subscriberNumber length %d violates SIZE (1..9)", len(*v.BSubscriberNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "b-subscriberNumber", "SIZE (1..9)", len(*v.BSubscriberNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.BSubscriberNumber) < 1 || len(*v.BSubscriberNumber) > 20 {
-			return nil, fmt.Errorf("b-subscriberNumber length %d violates SIZE (1..20)", len(*v.BSubscriberNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "b-subscriberNumber", "SIZE (1..20)", len(*v.BSubscriberNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_bsubscribernumber, encodeErr_enc_bsubscribernumber := ber.EncodeOctetString([]byte(*v.BSubscriberNumber))
 		if encodeErr_enc_bsubscribernumber != nil {
@@ -3503,7 +4311,9 @@ func (v *CCBSFeature5) MarshalBER() ([]byte, error) {
 	}
 	if v.BSubscriberSubaddress != nil {
 		if len(*v.BSubscriberSubaddress) < 1 || len(*v.BSubscriberSubaddress) > 21 {
-			return nil, fmt.Errorf("b-subscriberSubaddress length %d violates SIZE (1..21)", len(*v.BSubscriberSubaddress))
+			if constraintErr := ber.CheckEncodedLength(opts, "b-subscriberSubaddress", "SIZE (1..21)", len(*v.BSubscriberSubaddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_bsubscribersubaddress, encodeErr_enc_bsubscribersubaddress := ber.EncodeOctetString([]byte(*v.BSubscriberSubaddress))
 		if encodeErr_enc_bsubscribersubaddress != nil {
@@ -3517,7 +4327,7 @@ func (v *CCBSFeature5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_bsubscribersubaddress...)
 	}
 	if v.BasicServiceGroup != nil {
-		enc_basicservicegroup, err := v.BasicServiceGroup.MarshalBER()
+		enc_basicservicegroup, err := v.BasicServiceGroup.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceGroup: %w", err)
 		}
@@ -3545,8 +4355,16 @@ func (v *CCBSFeature5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CCBSFeature5 to DER format.
 func (v *CCBSFeature5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CCBSFeature5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.CcbsIndex != nil {
+		if !(int64(*v.CcbsIndex) >= 1 && int64(*v.CcbsIndex) <= 5) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ccbs-Index", "(1..5)", fmt.Sprint(int64(*v.CcbsIndex))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_ccbsindex := ber.EncodeInteger(int64(*v.CcbsIndex))
 		retagged_enc_ccbsindex, tagErr_enc_ccbsindex := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_ccbsindex)
 		if tagErr_enc_ccbsindex != nil {
@@ -3557,10 +4375,14 @@ func (v *CCBSFeature5) MarshalDER() ([]byte, error) {
 	}
 	if v.BSubscriberNumber != nil {
 		if len(*v.BSubscriberNumber) < 1 || len(*v.BSubscriberNumber) > 9 {
-			return nil, fmt.Errorf("b-subscriberNumber length %d violates SIZE (1..9)", len(*v.BSubscriberNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "b-subscriberNumber", "SIZE (1..9)", len(*v.BSubscriberNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.BSubscriberNumber) < 1 || len(*v.BSubscriberNumber) > 20 {
-			return nil, fmt.Errorf("b-subscriberNumber length %d violates SIZE (1..20)", len(*v.BSubscriberNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "b-subscriberNumber", "SIZE (1..20)", len(*v.BSubscriberNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_bsubscribernumber, encodeErr_enc_bsubscribernumber := ber.EncodeOctetString([]byte(*v.BSubscriberNumber))
 		if encodeErr_enc_bsubscribernumber != nil {
@@ -3575,7 +4397,9 @@ func (v *CCBSFeature5) MarshalDER() ([]byte, error) {
 	}
 	if v.BSubscriberSubaddress != nil {
 		if len(*v.BSubscriberSubaddress) < 1 || len(*v.BSubscriberSubaddress) > 21 {
-			return nil, fmt.Errorf("b-subscriberSubaddress length %d violates SIZE (1..21)", len(*v.BSubscriberSubaddress))
+			if constraintErr := ber.CheckEncodedLength(nil, "b-subscriberSubaddress", "SIZE (1..21)", len(*v.BSubscriberSubaddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_bsubscribersubaddress, encodeErr_enc_bsubscribersubaddress := ber.EncodeOctetString([]byte(*v.BSubscriberSubaddress))
 		if encodeErr_enc_bsubscribersubaddress != nil {
@@ -3619,11 +4443,27 @@ func (v *CCBSFeature5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CCBSFeature5 from BER/DER format.
-func (v *CCBSFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CCBSFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CCBSFeature5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CCBSFeature5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CCBSFeature5 SEQUENCE: %w", err)
@@ -3657,6 +4497,11 @@ func (v *CCBSFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 
 				offset += n_ccbsindex
+				if !(int64(*v.CcbsIndex) >= 1 && int64(*v.CcbsIndex) <= 5) {
+					if constraintErr := ber.CheckDecodedValue(opts, "ccbs-Index", "(1..5)", fmt.Sprint(int64(*v.CcbsIndex))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -3682,10 +4527,14 @@ func (v *CCBSFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 
 				offset += n_bsubscribernumber
 				if len(*v.BSubscriberNumber) < 1 || len(*v.BSubscriberNumber) > 9 {
-					return fmt.Errorf("b-subscriberNumber length %d violates SIZE (1..9)", len(*v.BSubscriberNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "b-subscriberNumber", "SIZE (1..9)", len(*v.BSubscriberNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 				if len(*v.BSubscriberNumber) < 1 || len(*v.BSubscriberNumber) > 20 {
-					return fmt.Errorf("b-subscriberNumber length %d violates SIZE (1..20)", len(*v.BSubscriberNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "b-subscriberNumber", "SIZE (1..20)", len(*v.BSubscriberNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3712,7 +4561,9 @@ func (v *CCBSFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 
 				offset += n_bsubscribersubaddress
 				if len(*v.BSubscriberSubaddress) < 1 || len(*v.BSubscriberSubaddress) > 21 {
-					return fmt.Errorf("b-subscriberSubaddress length %d violates SIZE (1..21)", len(*v.BSubscriberSubaddress))
+					if constraintErr := ber.CheckDecodedLength(opts, "b-subscriberSubaddress", "SIZE (1..21)", len(*v.BSubscriberSubaddress)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3731,7 +4582,7 @@ func (v *CCBSFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_basicservicegroup BasicServiceCode5
-				if unmErr := dec_basicservicegroup.UnmarshalBER(innerData_basicservicegroup, opts...); unmErr != nil {
+				if unmErr := dec_basicservicegroup.UnmarshalBER(innerData_basicservicegroup, ber.ChildDecodeOptions(opts, "basicservicegroup")...); unmErr != nil {
 					return fmt.Errorf("decoding basicServiceGroup: %w", unmErr)
 				}
 				v.BasicServiceGroup = &dec_basicservicegroup
@@ -3772,18 +4623,33 @@ func (v *CCBSFeature5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 }
 
 // MarshalBER encodes InterrogateSSRes5 to BER format.
-func (v *InterrogateSSRes5) MarshalBER() ([]byte, error) {
+func (v *InterrogateSSRes5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: InterrogateSSRes5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *InterrogateSSRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case InterrogateSSRes5ChoiceSsStatus:
 		if v.SsStatus == nil {
-			return nil, fmt.Errorf("choice InterrogateSSRes5: ss-Status is nil")
+			return nil, fmt.Errorf("%w: choice InterrogateSSRes5: ss-Status is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding ss-Status: %w", encodeErr_enc_0)
 		}
 		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
-			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+			if constraintErr := ber.CheckEncodedLength(opts, "ss-Status", "SIZE (1)", len(*v.SsStatus)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
@@ -3792,12 +4658,14 @@ func (v *InterrogateSSRes5) MarshalBER() ([]byte, error) {
 		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case InterrogateSSRes5ChoiceBasicServiceGroupList:
-		enc_1, err := MarshalBERBasicServiceGroupList5(v.BasicServiceGroupList)
+		enc_1, err := MarshalBERBasicServiceGroupList5(v.BasicServiceGroupList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceGroupList: %w", err)
 		}
-		if len(v.BasicServiceGroupList) < 1 || len(v.BasicServiceGroupList) > 13 {
-			return nil, fmt.Errorf("basicServiceGroupList length %d violates SIZE (1..13)", len(v.BasicServiceGroupList))
+		if len((v.BasicServiceGroupList).Values) < 1 || len((v.BasicServiceGroupList).Values) > 13 {
+			if constraintErr := ber.CheckEncodedLength(opts, "basicServiceGroupList", "SIZE (1..13)", len((v.BasicServiceGroupList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_1)
 		if tagErr_enc_1 != nil {
@@ -3806,12 +4674,14 @@ func (v *InterrogateSSRes5) MarshalBER() ([]byte, error) {
 		enc_1 = retagged_enc_1
 		return enc_1, nil
 	case InterrogateSSRes5ChoiceForwardingFeatureList:
-		enc_2, err := MarshalBERForwardingFeatureList5(v.ForwardingFeatureList)
+		enc_2, err := MarshalBERForwardingFeatureList5(v.ForwardingFeatureList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding forwardingFeatureList: %w", err)
 		}
-		if len(v.ForwardingFeatureList) < 1 || len(v.ForwardingFeatureList) > 13 {
-			return nil, fmt.Errorf("forwardingFeatureList length %d violates SIZE (1..13)", len(v.ForwardingFeatureList))
+		if len((v.ForwardingFeatureList).Values) < 1 || len((v.ForwardingFeatureList).Values) > 13 {
+			if constraintErr := ber.CheckEncodedLength(opts, "forwardingFeatureList", "SIZE (1..13)", len((v.ForwardingFeatureList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_2)
 		if tagErr_enc_2 != nil {
@@ -3821,9 +4691,9 @@ func (v *InterrogateSSRes5) MarshalBER() ([]byte, error) {
 		return enc_2, nil
 	case InterrogateSSRes5ChoiceGenericServiceInfo:
 		if v.GenericServiceInfo == nil {
-			return nil, fmt.Errorf("choice InterrogateSSRes5: genericServiceInfo is nil")
+			return nil, fmt.Errorf("%w: choice InterrogateSSRes5: genericServiceInfo is nil", ber.ErrInvalidValue)
 		}
-		enc_3, err := v.GenericServiceInfo.MarshalBER()
+		enc_3, err := v.GenericServiceInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding genericServiceInfo: %w", err)
 		}
@@ -3840,14 +4710,19 @@ func (v *InterrogateSSRes5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes InterrogateSSRes5 to DER format.
 func (v *InterrogateSSRes5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: InterrogateSSRes5 receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case InterrogateSSRes5ChoiceBasicServiceGroupList:
 		enc_der_1, err := MarshalDERBasicServiceGroupList5(v.BasicServiceGroupList)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceGroupList: %w", err)
 		}
-		if len(v.BasicServiceGroupList) < 1 || len(v.BasicServiceGroupList) > 13 {
-			return nil, fmt.Errorf("basicServiceGroupList length %d violates SIZE (1..13)", len(v.BasicServiceGroupList))
+		if len((v.BasicServiceGroupList).Values) < 1 || len((v.BasicServiceGroupList).Values) > 13 {
+			if constraintErr := ber.CheckEncodedLength(nil, "basicServiceGroupList", "SIZE (1..13)", len((v.BasicServiceGroupList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_1)
 		if tagErr_enc_der_1 != nil {
@@ -3863,8 +4738,10 @@ func (v *InterrogateSSRes5) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding forwardingFeatureList: %w", err)
 		}
-		if len(v.ForwardingFeatureList) < 1 || len(v.ForwardingFeatureList) > 13 {
-			return nil, fmt.Errorf("forwardingFeatureList length %d violates SIZE (1..13)", len(v.ForwardingFeatureList))
+		if len((v.ForwardingFeatureList).Values) < 1 || len((v.ForwardingFeatureList).Values) > 13 {
+			if constraintErr := ber.CheckEncodedLength(nil, "forwardingFeatureList", "SIZE (1..13)", len((v.ForwardingFeatureList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		retagged_enc_der_2, tagErr_enc_der_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_der_2)
 		if tagErr_enc_der_2 != nil {
@@ -3877,7 +4754,7 @@ func (v *InterrogateSSRes5) MarshalDER() ([]byte, error) {
 		return enc_der_2, nil
 	case InterrogateSSRes5ChoiceGenericServiceInfo:
 		if v.GenericServiceInfo == nil {
-			return nil, fmt.Errorf("choice InterrogateSSRes5: genericServiceInfo is nil")
+			return nil, fmt.Errorf("%w: choice InterrogateSSRes5: genericServiceInfo is nil", ber.ErrInvalidValue)
 		}
 		enc_der_3, err := v.GenericServiceInfo.MarshalDER()
 		if err != nil {
@@ -3904,7 +4781,23 @@ func (v *InterrogateSSRes5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes InterrogateSSRes5 from BER/DER format.
-func (v *InterrogateSSRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *InterrogateSSRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: InterrogateSSRes5 destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -3935,7 +4828,9 @@ func (v *InterrogateSSRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 		tmp := SSStatus5(rawVal)
 		v.SsStatus = &tmp
 		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
-			return fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+			if constraintErr := ber.CheckDecodedLength(opts, "ss-Status", "SIZE (1)", len(*v.SsStatus)); constraintErr != nil {
+				return constraintErr
+			}
 		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == true {
 		v.Choice = InterrogateSSRes5ChoiceBasicServiceGroupList
@@ -3947,13 +4842,15 @@ func (v *InterrogateSSRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 		if reconstructionErr != nil {
 			return reconstructionErr
 		}
-		dec, unmErr := UnmarshalBERBasicServiceGroupList5(reconstructed, opts...)
+		dec, unmErr := UnmarshalBERBasicServiceGroupList5(reconstructed, ber.ChildDecodeOptions(opts, "basicServiceGroupList")...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding basicServiceGroupList: %w", unmErr)
 		}
 		v.BasicServiceGroupList = dec
-		if len(v.BasicServiceGroupList) < 1 || len(v.BasicServiceGroupList) > 13 {
-			return fmt.Errorf("basicServiceGroupList length %d violates SIZE (1..13)", len(v.BasicServiceGroupList))
+		if len((v.BasicServiceGroupList).Values) < 1 || len((v.BasicServiceGroupList).Values) > 13 {
+			if constraintErr := ber.CheckDecodedLength(opts, "basicServiceGroupList", "SIZE (1..13)", len((v.BasicServiceGroupList).Values)); constraintErr != nil {
+				return constraintErr
+			}
 		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 && peekTag.Constructed == true {
 		v.Choice = InterrogateSSRes5ChoiceForwardingFeatureList
@@ -3965,13 +4862,15 @@ func (v *InterrogateSSRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 		if reconstructionErr != nil {
 			return reconstructionErr
 		}
-		dec, unmErr := UnmarshalBERForwardingFeatureList5(reconstructed, opts...)
+		dec, unmErr := UnmarshalBERForwardingFeatureList5(reconstructed, ber.ChildDecodeOptions(opts, "forwardingFeatureList")...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding forwardingFeatureList: %w", unmErr)
 		}
 		v.ForwardingFeatureList = dec
-		if len(v.ForwardingFeatureList) < 1 || len(v.ForwardingFeatureList) > 13 {
-			return fmt.Errorf("forwardingFeatureList length %d violates SIZE (1..13)", len(v.ForwardingFeatureList))
+		if len((v.ForwardingFeatureList).Values) < 1 || len((v.ForwardingFeatureList).Values) > 13 {
+			if constraintErr := ber.CheckDecodedLength(opts, "forwardingFeatureList", "SIZE (1..13)", len((v.ForwardingFeatureList).Values)); constraintErr != nil {
+				return constraintErr
+			}
 		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 && peekTag.Constructed == true {
 		v.Choice = InterrogateSSRes5ChoiceGenericServiceInfo
@@ -3995,10 +4894,25 @@ func (v *InterrogateSSRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 }
 
 // MarshalBER encodes USSDArg5 to BER format.
-func (v *USSDArg5) MarshalBER() ([]byte, error) {
+func (v *USSDArg5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: USSDArg5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *USSDArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.UssdDataCodingScheme) < 1 || len(v.UssdDataCodingScheme) > 1 {
-		return nil, fmt.Errorf("ussd-DataCodingScheme length %d violates SIZE (1)", len(v.UssdDataCodingScheme))
+		if constraintErr := ber.CheckEncodedLength(opts, "ussd-DataCodingScheme", "SIZE (1)", len(v.UssdDataCodingScheme)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_ussddatacodingscheme, encodeErr_enc_ussddatacodingscheme := ber.EncodeOctetString([]byte(v.UssdDataCodingScheme))
 	if encodeErr_enc_ussddatacodingscheme != nil {
@@ -4006,7 +4920,9 @@ func (v *USSDArg5) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_ussddatacodingscheme...)
 	if len(v.UssdString) < 1 || len(v.UssdString) > 160 {
-		return nil, fmt.Errorf("ussd-String length %d violates SIZE (1..160)", len(v.UssdString))
+		if constraintErr := ber.CheckEncodedLength(opts, "ussd-String", "SIZE (1..160)", len(v.UssdString)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_ussdstring, encodeErr_enc_ussdstring := ber.EncodeOctetString([]byte(v.UssdString))
 	if encodeErr_enc_ussdstring != nil {
@@ -4015,7 +4931,9 @@ func (v *USSDArg5) MarshalBER() ([]byte, error) {
 	children = append(children, enc_ussdstring...)
 	if v.AlertingPattern != nil {
 		if len(*v.AlertingPattern) < 1 || len(*v.AlertingPattern) > 1 {
-			return nil, fmt.Errorf("alertingPattern length %d violates SIZE (1)", len(*v.AlertingPattern))
+			if constraintErr := ber.CheckEncodedLength(opts, "alertingPattern", "SIZE (1)", len(*v.AlertingPattern)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_alertingpattern, encodeErr_enc_alertingpattern := ber.EncodeOctetString([]byte(*v.AlertingPattern))
 		if encodeErr_enc_alertingpattern != nil {
@@ -4025,10 +4943,14 @@ func (v *USSDArg5) MarshalBER() ([]byte, error) {
 	}
 	if v.Msisdn != nil {
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+			if constraintErr := ber.CheckEncodedLength(opts, "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+			if constraintErr := ber.CheckEncodedLength(opts, "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
@@ -4056,9 +4978,14 @@ func (v *USSDArg5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes USSDArg5 to DER format.
 func (v *USSDArg5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: USSDArg5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.UssdDataCodingScheme) < 1 || len(v.UssdDataCodingScheme) > 1 {
-		return nil, fmt.Errorf("ussd-DataCodingScheme length %d violates SIZE (1)", len(v.UssdDataCodingScheme))
+		if constraintErr := ber.CheckEncodedLength(nil, "ussd-DataCodingScheme", "SIZE (1)", len(v.UssdDataCodingScheme)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_ussddatacodingscheme, encodeErr_enc_ussddatacodingscheme := ber.EncodeOctetString([]byte(v.UssdDataCodingScheme))
 	if encodeErr_enc_ussddatacodingscheme != nil {
@@ -4066,7 +4993,9 @@ func (v *USSDArg5) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_ussddatacodingscheme...)
 	if len(v.UssdString) < 1 || len(v.UssdString) > 160 {
-		return nil, fmt.Errorf("ussd-String length %d violates SIZE (1..160)", len(v.UssdString))
+		if constraintErr := ber.CheckEncodedLength(nil, "ussd-String", "SIZE (1..160)", len(v.UssdString)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_ussdstring, encodeErr_enc_ussdstring := ber.EncodeOctetString([]byte(v.UssdString))
 	if encodeErr_enc_ussdstring != nil {
@@ -4075,7 +5004,9 @@ func (v *USSDArg5) MarshalDER() ([]byte, error) {
 	children = append(children, enc_ussdstring...)
 	if v.AlertingPattern != nil {
 		if len(*v.AlertingPattern) < 1 || len(*v.AlertingPattern) > 1 {
-			return nil, fmt.Errorf("alertingPattern length %d violates SIZE (1)", len(*v.AlertingPattern))
+			if constraintErr := ber.CheckEncodedLength(nil, "alertingPattern", "SIZE (1)", len(*v.AlertingPattern)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_alertingpattern, encodeErr_enc_alertingpattern := ber.EncodeOctetString([]byte(*v.AlertingPattern))
 		if encodeErr_enc_alertingpattern != nil {
@@ -4085,10 +5016,14 @@ func (v *USSDArg5) MarshalDER() ([]byte, error) {
 	}
 	if v.Msisdn != nil {
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+			if constraintErr := ber.CheckEncodedLength(nil, "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+			if constraintErr := ber.CheckEncodedLength(nil, "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
@@ -4118,11 +5053,27 @@ func (v *USSDArg5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes USSDArg5 from BER/DER format.
-func (v *USSDArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *USSDArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: USSDArg5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = USSDArg5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding USSDArg5 SEQUENCE: %w", err)
@@ -4147,7 +5098,9 @@ func (v *USSDArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 	offset += n
 	if len(v.UssdDataCodingScheme) < 1 || len(v.UssdDataCodingScheme) > 1 {
-		return fmt.Errorf("ussd-DataCodingScheme length %d violates SIZE (1)", len(v.UssdDataCodingScheme))
+		if constraintErr := ber.CheckDecodedLength(opts, "ussd-DataCodingScheme", "SIZE (1)", len(v.UssdDataCodingScheme)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode ussd-String
 	if offset >= len(content) {
@@ -4165,7 +5118,9 @@ func (v *USSDArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 	offset += n
 	if len(v.UssdString) < 1 || len(v.UssdString) > 160 {
-		return fmt.Errorf("ussd-String length %d violates SIZE (1..160)", len(v.UssdString))
+		if constraintErr := ber.CheckDecodedLength(opts, "ussd-String", "SIZE (1..160)", len(v.UssdString)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode alertingPattern
 	if offset < len(content) {
@@ -4185,7 +5140,9 @@ func (v *USSDArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 				offset += n
 				if len(*v.AlertingPattern) < 1 || len(*v.AlertingPattern) > 1 {
-					return fmt.Errorf("alertingPattern length %d violates SIZE (1)", len(*v.AlertingPattern))
+					if constraintErr := ber.CheckDecodedLength(opts, "alertingPattern", "SIZE (1)", len(*v.AlertingPattern)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4211,10 +5168,14 @@ func (v *USSDArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 				offset += n_msisdn
 				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-					return fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+					if constraintErr := ber.CheckDecodedLength(opts, "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-					return fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+					if constraintErr := ber.CheckDecodedLength(opts, "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4246,10 +5207,25 @@ func (v *USSDArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes USSDRes5 to BER format.
-func (v *USSDRes5) MarshalBER() ([]byte, error) {
+func (v *USSDRes5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: USSDRes5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *USSDRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.UssdDataCodingScheme) < 1 || len(v.UssdDataCodingScheme) > 1 {
-		return nil, fmt.Errorf("ussd-DataCodingScheme length %d violates SIZE (1)", len(v.UssdDataCodingScheme))
+		if constraintErr := ber.CheckEncodedLength(opts, "ussd-DataCodingScheme", "SIZE (1)", len(v.UssdDataCodingScheme)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_ussddatacodingscheme, encodeErr_enc_ussddatacodingscheme := ber.EncodeOctetString([]byte(v.UssdDataCodingScheme))
 	if encodeErr_enc_ussddatacodingscheme != nil {
@@ -4257,7 +5233,9 @@ func (v *USSDRes5) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_ussddatacodingscheme...)
 	if len(v.UssdString) < 1 || len(v.UssdString) > 160 {
-		return nil, fmt.Errorf("ussd-String length %d violates SIZE (1..160)", len(v.UssdString))
+		if constraintErr := ber.CheckEncodedLength(opts, "ussd-String", "SIZE (1..160)", len(v.UssdString)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_ussdstring, encodeErr_enc_ussdstring := ber.EncodeOctetString([]byte(v.UssdString))
 	if encodeErr_enc_ussdstring != nil {
@@ -4279,9 +5257,14 @@ func (v *USSDRes5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes USSDRes5 to DER format.
 func (v *USSDRes5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: USSDRes5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.UssdDataCodingScheme) < 1 || len(v.UssdDataCodingScheme) > 1 {
-		return nil, fmt.Errorf("ussd-DataCodingScheme length %d violates SIZE (1)", len(v.UssdDataCodingScheme))
+		if constraintErr := ber.CheckEncodedLength(nil, "ussd-DataCodingScheme", "SIZE (1)", len(v.UssdDataCodingScheme)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_ussddatacodingscheme, encodeErr_enc_ussddatacodingscheme := ber.EncodeOctetString([]byte(v.UssdDataCodingScheme))
 	if encodeErr_enc_ussddatacodingscheme != nil {
@@ -4289,7 +5272,9 @@ func (v *USSDRes5) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_ussddatacodingscheme...)
 	if len(v.UssdString) < 1 || len(v.UssdString) > 160 {
-		return nil, fmt.Errorf("ussd-String length %d violates SIZE (1..160)", len(v.UssdString))
+		if constraintErr := ber.CheckEncodedLength(nil, "ussd-String", "SIZE (1..160)", len(v.UssdString)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_ussdstring, encodeErr_enc_ussdstring := ber.EncodeOctetString([]byte(v.UssdString))
 	if encodeErr_enc_ussdstring != nil {
@@ -4313,11 +5298,27 @@ func (v *USSDRes5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes USSDRes5 from BER/DER format.
-func (v *USSDRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *USSDRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: USSDRes5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = USSDRes5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding USSDRes5 SEQUENCE: %w", err)
@@ -4342,7 +5343,9 @@ func (v *USSDRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 	offset += n
 	if len(v.UssdDataCodingScheme) < 1 || len(v.UssdDataCodingScheme) > 1 {
-		return fmt.Errorf("ussd-DataCodingScheme length %d violates SIZE (1)", len(v.UssdDataCodingScheme))
+		if constraintErr := ber.CheckDecodedLength(opts, "ussd-DataCodingScheme", "SIZE (1)", len(v.UssdDataCodingScheme)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode ussd-String
 	if offset >= len(content) {
@@ -4360,7 +5363,9 @@ func (v *USSDRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 	offset += n
 	if len(v.UssdString) < 1 || len(v.UssdString) > 160 {
-		return fmt.Errorf("ussd-String length %d violates SIZE (1..160)", len(v.UssdString))
+		if constraintErr := ber.CheckDecodedLength(opts, "ussd-String", "SIZE (1..160)", len(v.UssdString)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -4389,9 +5394,25 @@ func (v *USSDRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBERSSList5 encodes a SSList5 list to BER.
-func MarshalBERSSList5(list SSList5) ([]byte, error) {
+func MarshalBERSSList5(collection *SSList5, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERSSList5(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERSSList5(collection *SSList5, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	if len(list) < 1 || len(list) > 30 {
-		return nil, fmt.Errorf("SSList5 length %d violates SIZE (1..30)", len(list))
+		if constraintErr := ber.CheckEncodedLength(opts, "SSList5", "SIZE (1..30)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -4405,9 +5426,15 @@ func MarshalBERSSList5(list SSList5) ([]byte, error) {
 }
 
 // MarshalDERSSList5 encodes a SSList5 list to DER.
-func MarshalDERSSList5(list SSList5) ([]byte, error) {
+func MarshalDERSSList5(collection *SSList5) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	if len(list) < 1 || len(list) > 30 {
-		return nil, fmt.Errorf("SSList5 length %d violates SIZE (1..30)", len(list))
+		if constraintErr := ber.CheckEncodedLength(nil, "SSList5", "SIZE (1..30)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -4428,7 +5455,7 @@ func MarshalDERSSList5(list SSList5) ([]byte, error) {
 }
 
 // UnmarshalBERSSList5 decodes a SSList5 list from BER.
-func UnmarshalBERSSList5(data []byte, opts ...ber.DecodeOption) (SSList5, error) {
+func UnmarshalBERSSList5(data []byte, opts ...ber.DecodeOption) (*SSList5, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -4439,7 +5466,7 @@ func UnmarshalBERSSList5(data []byte, opts ...ber.DecodeOption) (SSList5, error)
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "SSList5", Cause: ber.ErrExtraData}
 	}
-	var result SSList5
+	var result []SSCode5
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
@@ -4453,24 +5480,49 @@ func UnmarshalBERSSList5(data []byte, opts ...ber.DecodeOption) (SSList5, error)
 		}
 
 		offset += n
-		if len(result) > 30 {
-			return nil, fmt.Errorf("SSList5 length %d violates SIZE (1..30)", len(result))
-		}
 	}
 	if len(result) < 1 || len(result) > 30 {
-		return nil, fmt.Errorf("SSList5 length %d violates SIZE (1..30)", len(result))
+		if constraintErr := ber.CheckDecodedLength(opts, "SSList5", "SIZE (1..30)", len(result)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
-	return result, nil
+	decoded := &SSList5{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERSSList5(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBERSSInfoList5 encodes a SSInfoList5 list to BER.
-func MarshalBERSSInfoList5(list SSInfoList5) ([]byte, error) {
+func MarshalBERSSInfoList5(collection *SSInfoList5, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERSSInfoList5(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERSSInfoList5(collection *SSInfoList5, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	if len(list) < 1 || len(list) > 30 {
-		return nil, fmt.Errorf("SSInfoList5 length %d violates SIZE (1..30)", len(list))
+		if constraintErr := ber.CheckEncodedLength(opts, "SSInfoList5", "SIZE (1..30)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -4480,9 +5532,15 @@ func MarshalBERSSInfoList5(list SSInfoList5) ([]byte, error) {
 }
 
 // MarshalDERSSInfoList5 encodes a SSInfoList5 list to DER.
-func MarshalDERSSInfoList5(list SSInfoList5) ([]byte, error) {
+func MarshalDERSSInfoList5(collection *SSInfoList5) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	if len(list) < 1 || len(list) > 30 {
-		return nil, fmt.Errorf("SSInfoList5 length %d violates SIZE (1..30)", len(list))
+		if constraintErr := ber.CheckEncodedLength(nil, "SSInfoList5", "SIZE (1..30)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -4503,7 +5561,7 @@ func MarshalDERSSInfoList5(list SSInfoList5) ([]byte, error) {
 }
 
 // UnmarshalBERSSInfoList5 decodes a SSInfoList5 list from BER.
-func UnmarshalBERSSInfoList5(data []byte, opts ...ber.DecodeOption) (SSInfoList5, error) {
+func UnmarshalBERSSInfoList5(data []byte, opts ...ber.DecodeOption) (*SSInfoList5, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -4514,7 +5572,7 @@ func UnmarshalBERSSInfoList5(data []byte, opts ...ber.DecodeOption) (SSInfoList5
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "SSInfoList5", Cause: ber.ErrExtraData}
 	}
-	var result SSInfoList5
+	var result []SSInfo5
 	offset := 0
 	for offset < len(content) {
 		var elem SSInfo5
@@ -4527,7 +5585,7 @@ func UnmarshalBERSSInfoList5(data []byte, opts ...ber.DecodeOption) (SSInfoList5
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -4537,24 +5595,49 @@ func UnmarshalBERSSInfoList5(data []byte, opts ...ber.DecodeOption) (SSInfoList5
 		}
 
 		offset += n
-		if len(result) > 30 {
-			return nil, fmt.Errorf("SSInfoList5 length %d violates SIZE (1..30)", len(result))
-		}
 	}
 	if len(result) < 1 || len(result) > 30 {
-		return nil, fmt.Errorf("SSInfoList5 length %d violates SIZE (1..30)", len(result))
+		if constraintErr := ber.CheckDecodedLength(opts, "SSInfoList5", "SIZE (1..30)", len(result)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
-	return result, nil
+	decoded := &SSInfoList5{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERSSInfoList5(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBERBasicServiceGroupList5 encodes a BasicServiceGroupList5 list to BER.
-func MarshalBERBasicServiceGroupList5(list BasicServiceGroupList5) ([]byte, error) {
+func MarshalBERBasicServiceGroupList5(collection *BasicServiceGroupList5, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERBasicServiceGroupList5(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERBasicServiceGroupList5(collection *BasicServiceGroupList5, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	if len(list) < 1 || len(list) > 13 {
-		return nil, fmt.Errorf("BasicServiceGroupList5 length %d violates SIZE (1..13)", len(list))
+		if constraintErr := ber.CheckEncodedLength(opts, "BasicServiceGroupList5", "SIZE (1..13)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -4564,9 +5647,15 @@ func MarshalBERBasicServiceGroupList5(list BasicServiceGroupList5) ([]byte, erro
 }
 
 // MarshalDERBasicServiceGroupList5 encodes a BasicServiceGroupList5 list to DER.
-func MarshalDERBasicServiceGroupList5(list BasicServiceGroupList5) ([]byte, error) {
+func MarshalDERBasicServiceGroupList5(collection *BasicServiceGroupList5) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	if len(list) < 1 || len(list) > 13 {
-		return nil, fmt.Errorf("BasicServiceGroupList5 length %d violates SIZE (1..13)", len(list))
+		if constraintErr := ber.CheckEncodedLength(nil, "BasicServiceGroupList5", "SIZE (1..13)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -4587,7 +5676,7 @@ func MarshalDERBasicServiceGroupList5(list BasicServiceGroupList5) ([]byte, erro
 }
 
 // UnmarshalBERBasicServiceGroupList5 decodes a BasicServiceGroupList5 list from BER.
-func UnmarshalBERBasicServiceGroupList5(data []byte, opts ...ber.DecodeOption) (BasicServiceGroupList5, error) {
+func UnmarshalBERBasicServiceGroupList5(data []byte, opts ...ber.DecodeOption) (*BasicServiceGroupList5, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -4598,7 +5687,7 @@ func UnmarshalBERBasicServiceGroupList5(data []byte, opts ...ber.DecodeOption) (
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "BasicServiceGroupList5", Cause: ber.ErrExtraData}
 	}
-	var result BasicServiceGroupList5
+	var result []BasicServiceCode5
 	offset := 0
 	for offset < len(content) {
 		var elem BasicServiceCode5
@@ -4611,7 +5700,7 @@ func UnmarshalBERBasicServiceGroupList5(data []byte, opts ...ber.DecodeOption) (
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -4621,21 +5710,45 @@ func UnmarshalBERBasicServiceGroupList5(data []byte, opts ...ber.DecodeOption) (
 		}
 
 		offset += n
-		if len(result) > 13 {
-			return nil, fmt.Errorf("BasicServiceGroupList5 length %d violates SIZE (1..13)", len(result))
-		}
 	}
 	if len(result) < 1 || len(result) > 13 {
-		return nil, fmt.Errorf("BasicServiceGroupList5 length %d violates SIZE (1..13)", len(result))
+		if constraintErr := ber.CheckDecodedLength(opts, "BasicServiceGroupList5", "SIZE (1..13)", len(result)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
-	return result, nil
+	decoded := &BasicServiceGroupList5{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERBasicServiceGroupList5(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes SSInvocationNotificationArg5 to BER format.
-func (v *SSInvocationNotificationArg5) MarshalBER() ([]byte, error) {
+func (v *SSInvocationNotificationArg5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SSInvocationNotificationArg5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SSInvocationNotificationArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
@@ -4648,10 +5761,14 @@ func (v *SSInvocationNotificationArg5) MarshalBER() ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(v.Msisdn))
+		if constraintErr := ber.CheckEncodedLength(opts, "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(v.Msisdn))
+		if constraintErr := ber.CheckEncodedLength(opts, "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
 	if encodeErr_enc_msisdn != nil {
@@ -4664,7 +5781,9 @@ func (v *SSInvocationNotificationArg5) MarshalBER() ([]byte, error) {
 	enc_msisdn = retagged_enc_msisdn
 	children = append(children, enc_msisdn...)
 	if len(v.SsEvent) < 1 || len(v.SsEvent) > 1 {
-		return nil, fmt.Errorf("ss-Event length %d violates SIZE (1)", len(v.SsEvent))
+		if constraintErr := ber.CheckEncodedLength(opts, "ss-Event", "SIZE (1)", len(v.SsEvent)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_ssevent, encodeErr_enc_ssevent := ber.EncodeOctetString([]byte(v.SsEvent))
 	if encodeErr_enc_ssevent != nil {
@@ -4677,10 +5796,12 @@ func (v *SSInvocationNotificationArg5) MarshalBER() ([]byte, error) {
 	enc_ssevent = retagged_enc_ssevent
 	children = append(children, enc_ssevent...)
 	if v.SsEventSpecification != nil {
-		if len(v.SsEventSpecification) < 1 || len(v.SsEventSpecification) > 2 {
-			return nil, fmt.Errorf("ss-EventSpecification length %d violates SIZE (1..2)", len(v.SsEventSpecification))
+		if len((v.SsEventSpecification).Values) < 1 || len((v.SsEventSpecification).Values) > 2 {
+			if constraintErr := ber.CheckEncodedLength(opts, "ss-EventSpecification", "SIZE (1..2)", len((v.SsEventSpecification).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_sseventspecification, err := MarshalBERSSEventSpecification5(v.SsEventSpecification)
+		enc_sseventspecification, err := MarshalBERSSEventSpecification5(v.SsEventSpecification, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ss-EventSpecification: %w", err)
 		}
@@ -4707,7 +5828,7 @@ func (v *SSInvocationNotificationArg5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_sseventspecification...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -4720,10 +5841,14 @@ func (v *SSInvocationNotificationArg5) MarshalBER() ([]byte, error) {
 	}
 	if v.BSubscriberNumber != nil {
 		if len(*v.BSubscriberNumber) < 1 || len(*v.BSubscriberNumber) > 9 {
-			return nil, fmt.Errorf("b-subscriberNumber length %d violates SIZE (1..9)", len(*v.BSubscriberNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "b-subscriberNumber", "SIZE (1..9)", len(*v.BSubscriberNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.BSubscriberNumber) < 1 || len(*v.BSubscriberNumber) > 20 {
-			return nil, fmt.Errorf("b-subscriberNumber length %d violates SIZE (1..20)", len(*v.BSubscriberNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "b-subscriberNumber", "SIZE (1..20)", len(*v.BSubscriberNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_bsubscribernumber, encodeErr_enc_bsubscribernumber := ber.EncodeOctetString([]byte(*v.BSubscriberNumber))
 		if encodeErr_enc_bsubscribernumber != nil {
@@ -4760,9 +5885,14 @@ func (v *SSInvocationNotificationArg5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SSInvocationNotificationArg5 to DER format.
 func (v *SSInvocationNotificationArg5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SSInvocationNotificationArg5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
@@ -4775,10 +5905,14 @@ func (v *SSInvocationNotificationArg5) MarshalDER() ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(v.Msisdn))
+		if constraintErr := ber.CheckEncodedLength(nil, "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(v.Msisdn))
+		if constraintErr := ber.CheckEncodedLength(nil, "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
 	if encodeErr_enc_msisdn != nil {
@@ -4791,7 +5925,9 @@ func (v *SSInvocationNotificationArg5) MarshalDER() ([]byte, error) {
 	enc_msisdn = retagged_enc_msisdn
 	children = append(children, enc_msisdn...)
 	if len(v.SsEvent) < 1 || len(v.SsEvent) > 1 {
-		return nil, fmt.Errorf("ss-Event length %d violates SIZE (1)", len(v.SsEvent))
+		if constraintErr := ber.CheckEncodedLength(nil, "ss-Event", "SIZE (1)", len(v.SsEvent)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_ssevent, encodeErr_enc_ssevent := ber.EncodeOctetString([]byte(v.SsEvent))
 	if encodeErr_enc_ssevent != nil {
@@ -4804,8 +5940,10 @@ func (v *SSInvocationNotificationArg5) MarshalDER() ([]byte, error) {
 	enc_ssevent = retagged_enc_ssevent
 	children = append(children, enc_ssevent...)
 	if v.SsEventSpecification != nil {
-		if len(v.SsEventSpecification) < 1 || len(v.SsEventSpecification) > 2 {
-			return nil, fmt.Errorf("ss-EventSpecification length %d violates SIZE (1..2)", len(v.SsEventSpecification))
+		if len((v.SsEventSpecification).Values) < 1 || len((v.SsEventSpecification).Values) > 2 {
+			if constraintErr := ber.CheckEncodedLength(nil, "ss-EventSpecification", "SIZE (1..2)", len((v.SsEventSpecification).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_sseventspecification, err := MarshalDERSSEventSpecification5(v.SsEventSpecification)
 		if err != nil {
@@ -4832,10 +5970,14 @@ func (v *SSInvocationNotificationArg5) MarshalDER() ([]byte, error) {
 	}
 	if v.BSubscriberNumber != nil {
 		if len(*v.BSubscriberNumber) < 1 || len(*v.BSubscriberNumber) > 9 {
-			return nil, fmt.Errorf("b-subscriberNumber length %d violates SIZE (1..9)", len(*v.BSubscriberNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "b-subscriberNumber", "SIZE (1..9)", len(*v.BSubscriberNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.BSubscriberNumber) < 1 || len(*v.BSubscriberNumber) > 20 {
-			return nil, fmt.Errorf("b-subscriberNumber length %d violates SIZE (1..20)", len(*v.BSubscriberNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "b-subscriberNumber", "SIZE (1..20)", len(*v.BSubscriberNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_bsubscribernumber, encodeErr_enc_bsubscribernumber := ber.EncodeOctetString([]byte(*v.BSubscriberNumber))
 		if encodeErr_enc_bsubscribernumber != nil {
@@ -4874,11 +6016,27 @@ func (v *SSInvocationNotificationArg5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SSInvocationNotificationArg5 from BER/DER format.
-func (v *SSInvocationNotificationArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SSInvocationNotificationArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SSInvocationNotificationArg5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SSInvocationNotificationArg5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SSInvocationNotificationArg5 SEQUENCE: %w", err)
@@ -4911,7 +6069,9 @@ func (v *SSInvocationNotificationArg5) UnmarshalBER(data []byte, opts ...ber.Dec
 
 	offset += n_imsi
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode msisdn
 	if offset >= len(content) {
@@ -4937,10 +6097,14 @@ func (v *SSInvocationNotificationArg5) UnmarshalBER(data []byte, opts ...ber.Dec
 
 	offset += n_msisdn
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-		return fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(v.Msisdn))
+		if constraintErr := ber.CheckDecodedLength(opts, "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-		return fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(v.Msisdn))
+		if constraintErr := ber.CheckDecodedLength(opts, "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode ss-Event
 	if offset >= len(content) {
@@ -4966,7 +6130,9 @@ func (v *SSInvocationNotificationArg5) UnmarshalBER(data []byte, opts ...ber.Dec
 
 	offset += n_ssevent
 	if len(v.SsEvent) < 1 || len(v.SsEvent) > 1 {
-		return fmt.Errorf("ss-Event length %d violates SIZE (1)", len(v.SsEvent))
+		if constraintErr := ber.CheckDecodedLength(opts, "ss-Event", "SIZE (1)", len(v.SsEvent)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode ss-EventSpecification
 	v.SsEventSpecificationIndef_ = false
@@ -4985,7 +6151,7 @@ func (v *SSInvocationNotificationArg5) UnmarshalBER(data []byte, opts ...ber.Dec
 				if reconstructionErr_sseventspecification != nil {
 					return fmt.Errorf("decoding ss-EventSpecification: %w", reconstructionErr_sseventspecification)
 				}
-				dec_sseventspecification, unmErr := UnmarshalBERSSEventSpecification5(reconstructed_sseventspecification, opts...)
+				dec_sseventspecification, unmErr := UnmarshalBERSSEventSpecification5(reconstructed_sseventspecification, ber.ChildDecodeOptions(opts, "ss-EventSpecification")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding ss-EventSpecification: %w", unmErr)
 				}
@@ -5008,8 +6174,10 @@ func (v *SSInvocationNotificationArg5) UnmarshalBER(data []byte, opts ...ber.Dec
 				}
 
 				offset += n_sseventspecification
-				if len(v.SsEventSpecification) < 1 || len(v.SsEventSpecification) > 2 {
-					return fmt.Errorf("ss-EventSpecification length %d violates SIZE (1..2)", len(v.SsEventSpecification))
+				if len((v.SsEventSpecification).Values) < 1 || len((v.SsEventSpecification).Values) > 2 {
+					if constraintErr := ber.CheckDecodedLength(opts, "ss-EventSpecification", "SIZE (1..2)", len((v.SsEventSpecification).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5031,7 +6199,7 @@ func (v *SSInvocationNotificationArg5) UnmarshalBER(data []byte, opts ...ber.Dec
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer5
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -5066,10 +6234,14 @@ func (v *SSInvocationNotificationArg5) UnmarshalBER(data []byte, opts ...ber.Dec
 
 				offset += n_bsubscribernumber
 				if len(*v.BSubscriberNumber) < 1 || len(*v.BSubscriberNumber) > 9 {
-					return fmt.Errorf("b-subscriberNumber length %d violates SIZE (1..9)", len(*v.BSubscriberNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "b-subscriberNumber", "SIZE (1..9)", len(*v.BSubscriberNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 				if len(*v.BSubscriberNumber) < 1 || len(*v.BSubscriberNumber) > 20 {
-					return fmt.Errorf("b-subscriberNumber length %d violates SIZE (1..20)", len(*v.BSubscriberNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "b-subscriberNumber", "SIZE (1..20)", len(*v.BSubscriberNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5128,10 +6300,23 @@ func (v *SSInvocationNotificationArg5) UnmarshalBER(data []byte, opts ...ber.Dec
 }
 
 // MarshalBER encodes SSInvocationNotificationRes5 to BER format.
-func (v *SSInvocationNotificationRes5) MarshalBER() ([]byte, error) {
+func (v *SSInvocationNotificationRes5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SSInvocationNotificationRes5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SSInvocationNotificationRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -5152,6 +6337,9 @@ func (v *SSInvocationNotificationRes5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SSInvocationNotificationRes5 to DER format.
 func (v *SSInvocationNotificationRes5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SSInvocationNotificationRes5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
@@ -5177,11 +6365,27 @@ func (v *SSInvocationNotificationRes5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SSInvocationNotificationRes5 from BER/DER format.
-func (v *SSInvocationNotificationRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SSInvocationNotificationRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SSInvocationNotificationRes5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SSInvocationNotificationRes5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SSInvocationNotificationRes5 SEQUENCE: %w", err)
@@ -5206,7 +6410,7 @@ func (v *SSInvocationNotificationRes5) UnmarshalBER(data []byte, opts ...ber.Dec
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -5246,9 +6450,25 @@ func (v *SSInvocationNotificationRes5) UnmarshalBER(data []byte, opts ...ber.Dec
 }
 
 // MarshalBERSSEventSpecification5 encodes a SSEventSpecification5 list to BER.
-func MarshalBERSSEventSpecification5(list SSEventSpecification5) ([]byte, error) {
+func MarshalBERSSEventSpecification5(collection *SSEventSpecification5, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERSSEventSpecification5(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERSSEventSpecification5(collection *SSEventSpecification5, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	if len(list) < 1 || len(list) > 2 {
-		return nil, fmt.Errorf("SSEventSpecification5 length %d violates SIZE (1..2)", len(list))
+		if constraintErr := ber.CheckEncodedLength(opts, "SSEventSpecification5", "SIZE (1..2)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -5262,9 +6482,15 @@ func MarshalBERSSEventSpecification5(list SSEventSpecification5) ([]byte, error)
 }
 
 // MarshalDERSSEventSpecification5 encodes a SSEventSpecification5 list to DER.
-func MarshalDERSSEventSpecification5(list SSEventSpecification5) ([]byte, error) {
+func MarshalDERSSEventSpecification5(collection *SSEventSpecification5) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	if len(list) < 1 || len(list) > 2 {
-		return nil, fmt.Errorf("SSEventSpecification5 length %d violates SIZE (1..2)", len(list))
+		if constraintErr := ber.CheckEncodedLength(nil, "SSEventSpecification5", "SIZE (1..2)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -5285,7 +6511,7 @@ func MarshalDERSSEventSpecification5(list SSEventSpecification5) ([]byte, error)
 }
 
 // UnmarshalBERSSEventSpecification5 decodes a SSEventSpecification5 list from BER.
-func UnmarshalBERSSEventSpecification5(data []byte, opts ...ber.DecodeOption) (SSEventSpecification5, error) {
+func UnmarshalBERSSEventSpecification5(data []byte, opts ...ber.DecodeOption) (*SSEventSpecification5, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -5296,7 +6522,7 @@ func UnmarshalBERSSEventSpecification5(data []byte, opts ...ber.DecodeOption) (S
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "SSEventSpecification5", Cause: ber.ErrExtraData}
 	}
-	var result SSEventSpecification5
+	var result []AddressString5
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
@@ -5310,21 +6536,45 @@ func UnmarshalBERSSEventSpecification5(data []byte, opts ...ber.DecodeOption) (S
 		}
 
 		offset += n
-		if len(result) > 2 {
-			return nil, fmt.Errorf("SSEventSpecification5 length %d violates SIZE (1..2)", len(result))
-		}
 	}
 	if len(result) < 1 || len(result) > 2 {
-		return nil, fmt.Errorf("SSEventSpecification5 length %d violates SIZE (1..2)", len(result))
+		if constraintErr := ber.CheckDecodedLength(opts, "SSEventSpecification5", "SIZE (1..2)", len(result)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
-	return result, nil
+	decoded := &SSEventSpecification5{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERSSEventSpecification5(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes RegisterCCEntryArg5 to BER format.
-func (v *RegisterCCEntryArg5) MarshalBER() ([]byte, error) {
+func (v *RegisterCCEntryArg5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RegisterCCEntryArg5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *RegisterCCEntryArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+		if constraintErr := ber.CheckEncodedLength(opts, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
@@ -5337,7 +6587,7 @@ func (v *RegisterCCEntryArg5) MarshalBER() ([]byte, error) {
 	enc_sscode = retagged_enc_sscode
 	children = append(children, enc_sscode...)
 	if v.CcbsData != nil {
-		enc_ccbsdata, err := v.CcbsData.MarshalBER()
+		enc_ccbsdata, err := v.CcbsData.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ccbs-Data: %w", err)
 		}
@@ -5363,9 +6613,14 @@ func (v *RegisterCCEntryArg5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RegisterCCEntryArg5 to DER format.
 func (v *RegisterCCEntryArg5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RegisterCCEntryArg5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+		if constraintErr := ber.CheckEncodedLength(nil, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
@@ -5406,11 +6661,27 @@ func (v *RegisterCCEntryArg5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes RegisterCCEntryArg5 from BER/DER format.
-func (v *RegisterCCEntryArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *RegisterCCEntryArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: RegisterCCEntryArg5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = RegisterCCEntryArg5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding RegisterCCEntryArg5 SEQUENCE: %w", err)
@@ -5443,7 +6714,9 @@ func (v *RegisterCCEntryArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 	offset += n_sscode
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+		if constraintErr := ber.CheckDecodedLength(opts, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode ccbs-Data
 	if offset < len(content) {
@@ -5462,7 +6735,7 @@ func (v *RegisterCCEntryArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 					return fmt.Errorf("decoding ccbs-Data: %w", reconstructionErr_ccbsdata)
 				}
 				var dec_ccbsdata CCBSData5
-				if unmErr := dec_ccbsdata.UnmarshalBER(reconstructed_ccbsdata, opts...); unmErr != nil {
+				if unmErr := dec_ccbsdata.UnmarshalBER(reconstructed_ccbsdata, ber.ChildDecodeOptions(opts, "ccbsdata")...); unmErr != nil {
 					return fmt.Errorf("decoding ccbs-Data: %w", unmErr)
 				}
 				v.CcbsData = &dec_ccbsdata
@@ -5502,9 +6775,22 @@ func (v *RegisterCCEntryArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBER encodes CCBSData5 to BER format.
-func (v *CCBSData5) MarshalBER() ([]byte, error) {
+func (v *CCBSData5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CCBSData5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CCBSData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_ccbsfeature, err := v.CcbsFeature.MarshalBER()
+	enc_ccbsfeature, err := v.CcbsFeature.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding ccbs-Feature: %w", err)
 	}
@@ -5515,10 +6801,14 @@ func (v *CCBSData5) MarshalBER() ([]byte, error) {
 	enc_ccbsfeature = retagged_enc_ccbsfeature
 	children = append(children, enc_ccbsfeature...)
 	if len(v.TranslatedBNumber) < 1 || len(v.TranslatedBNumber) > 9 {
-		return nil, fmt.Errorf("translatedB-Number length %d violates SIZE (1..9)", len(v.TranslatedBNumber))
+		if constraintErr := ber.CheckEncodedLength(opts, "translatedB-Number", "SIZE (1..9)", len(v.TranslatedBNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.TranslatedBNumber) < 1 || len(v.TranslatedBNumber) > 20 {
-		return nil, fmt.Errorf("translatedB-Number length %d violates SIZE (1..20)", len(v.TranslatedBNumber))
+		if constraintErr := ber.CheckEncodedLength(opts, "translatedB-Number", "SIZE (1..20)", len(v.TranslatedBNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_translatedbnumber, encodeErr_enc_translatedbnumber := ber.EncodeOctetString([]byte(v.TranslatedBNumber))
 	if encodeErr_enc_translatedbnumber != nil {
@@ -5532,9 +6822,11 @@ func (v *CCBSData5) MarshalBER() ([]byte, error) {
 	children = append(children, enc_translatedbnumber...)
 	if v.ServiceIndicator != nil {
 		if (*v.ServiceIndicator).BitLength < 2 || (*v.ServiceIndicator).BitLength > 32 {
-			return nil, fmt.Errorf("serviceIndicator length %d violates SIZE (2..32)", (*v.ServiceIndicator).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "serviceIndicator", "SIZE (2..32)", (*v.ServiceIndicator).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ServiceIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5549,7 +6841,7 @@ func (v *CCBSData5) MarshalBER() ([]byte, error) {
 		enc_serviceindicator = retagged_enc_serviceindicator
 		children = append(children, enc_serviceindicator...)
 	}
-	enc_callinfo, err := v.CallInfo.MarshalBER()
+	enc_callinfo, err := v.CallInfo.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding callInfo: %w", err)
 	}
@@ -5559,7 +6851,7 @@ func (v *CCBSData5) MarshalBER() ([]byte, error) {
 	}
 	enc_callinfo = retagged_enc_callinfo
 	children = append(children, enc_callinfo...)
-	enc_networksignalinfo, err := v.NetworkSignalInfo.MarshalBER()
+	enc_networksignalinfo, err := v.NetworkSignalInfo.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding networkSignalInfo: %w", err)
 	}
@@ -5584,6 +6876,9 @@ func (v *CCBSData5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CCBSData5 to DER format.
 func (v *CCBSData5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CCBSData5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_ccbsfeature, err := v.CcbsFeature.MarshalDER()
 	if err != nil {
@@ -5596,10 +6891,14 @@ func (v *CCBSData5) MarshalDER() ([]byte, error) {
 	enc_ccbsfeature = retagged_enc_ccbsfeature
 	children = append(children, enc_ccbsfeature...)
 	if len(v.TranslatedBNumber) < 1 || len(v.TranslatedBNumber) > 9 {
-		return nil, fmt.Errorf("translatedB-Number length %d violates SIZE (1..9)", len(v.TranslatedBNumber))
+		if constraintErr := ber.CheckEncodedLength(nil, "translatedB-Number", "SIZE (1..9)", len(v.TranslatedBNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.TranslatedBNumber) < 1 || len(v.TranslatedBNumber) > 20 {
-		return nil, fmt.Errorf("translatedB-Number length %d violates SIZE (1..20)", len(v.TranslatedBNumber))
+		if constraintErr := ber.CheckEncodedLength(nil, "translatedB-Number", "SIZE (1..20)", len(v.TranslatedBNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_translatedbnumber, encodeErr_enc_translatedbnumber := ber.EncodeOctetString([]byte(v.TranslatedBNumber))
 	if encodeErr_enc_translatedbnumber != nil {
@@ -5613,9 +6912,11 @@ func (v *CCBSData5) MarshalDER() ([]byte, error) {
 	children = append(children, enc_translatedbnumber...)
 	if v.ServiceIndicator != nil {
 		if (*v.ServiceIndicator).BitLength < 2 || (*v.ServiceIndicator).BitLength > 32 {
-			return nil, fmt.Errorf("serviceIndicator length %d violates SIZE (2..32)", (*v.ServiceIndicator).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "serviceIndicator", "SIZE (2..32)", (*v.ServiceIndicator).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ServiceIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5667,11 +6968,27 @@ func (v *CCBSData5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CCBSData5 from BER/DER format.
-func (v *CCBSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CCBSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CCBSData5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CCBSData5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CCBSData5 SEQUENCE: %w", err)
@@ -5700,7 +7017,7 @@ func (v *CCBSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	if reconstructionErr_ccbsfeature != nil {
 		return fmt.Errorf("decoding ccbs-Feature: %w", reconstructionErr_ccbsfeature)
 	}
-	if unmErr := v.CcbsFeature.UnmarshalBER(reconstructed_ccbsfeature, opts...); unmErr != nil {
+	if unmErr := v.CcbsFeature.UnmarshalBER(reconstructed_ccbsfeature, ber.ChildDecodeOptions(opts, "ccbsFeature")...); unmErr != nil {
 		return fmt.Errorf("decoding ccbs-Feature: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -5735,10 +7052,14 @@ func (v *CCBSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 	offset += n_translatedbnumber
 	if len(v.TranslatedBNumber) < 1 || len(v.TranslatedBNumber) > 9 {
-		return fmt.Errorf("translatedB-Number length %d violates SIZE (1..9)", len(v.TranslatedBNumber))
+		if constraintErr := ber.CheckDecodedLength(opts, "translatedB-Number", "SIZE (1..9)", len(v.TranslatedBNumber)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	if len(v.TranslatedBNumber) < 1 || len(v.TranslatedBNumber) > 20 {
-		return fmt.Errorf("translatedB-Number length %d violates SIZE (1..20)", len(v.TranslatedBNumber))
+		if constraintErr := ber.CheckDecodedLength(opts, "translatedB-Number", "SIZE (1..20)", len(v.TranslatedBNumber)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode serviceIndicator
 	if offset < len(content) {
@@ -5770,7 +7091,9 @@ func (v *CCBSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 				offset += n_serviceindicator
 				if (*v.ServiceIndicator).BitLength < 2 || (*v.ServiceIndicator).BitLength > 32 {
-					return fmt.Errorf("serviceIndicator length %d violates SIZE (2..32)", (*v.ServiceIndicator).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "serviceIndicator", "SIZE (2..32)", (*v.ServiceIndicator).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5795,7 +7118,7 @@ func (v *CCBSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	if reconstructionErr_callinfo != nil {
 		return fmt.Errorf("decoding callInfo: %w", reconstructionErr_callinfo)
 	}
-	if unmErr := v.CallInfo.UnmarshalBER(reconstructed_callinfo, opts...); unmErr != nil {
+	if unmErr := v.CallInfo.UnmarshalBER(reconstructed_callinfo, ber.ChildDecodeOptions(opts, "callInfo")...); unmErr != nil {
 		return fmt.Errorf("decoding callInfo: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -5824,7 +7147,7 @@ func (v *CCBSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	if reconstructionErr_networksignalinfo != nil {
 		return fmt.Errorf("decoding networkSignalInfo: %w", reconstructionErr_networksignalinfo)
 	}
-	if unmErr := v.NetworkSignalInfo.UnmarshalBER(reconstructed_networksignalinfo, opts...); unmErr != nil {
+	if unmErr := v.NetworkSignalInfo.UnmarshalBER(reconstructed_networksignalinfo, ber.ChildDecodeOptions(opts, "networkSignalInfo")...); unmErr != nil {
 		return fmt.Errorf("decoding networkSignalInfo: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -5861,10 +7184,23 @@ func (v *CCBSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes RegisterCCEntryRes5 to BER format.
-func (v *RegisterCCEntryRes5) MarshalBER() ([]byte, error) {
+func (v *RegisterCCEntryRes5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RegisterCCEntryRes5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *RegisterCCEntryRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.CcbsFeature != nil {
-		enc_ccbsfeature, err := v.CcbsFeature.MarshalBER()
+		enc_ccbsfeature, err := v.CcbsFeature.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ccbs-Feature: %w", err)
 		}
@@ -5890,6 +7226,9 @@ func (v *RegisterCCEntryRes5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RegisterCCEntryRes5 to DER format.
 func (v *RegisterCCEntryRes5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RegisterCCEntryRes5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.CcbsFeature != nil {
 		enc_ccbsfeature, err := v.CcbsFeature.MarshalDER()
@@ -5920,11 +7259,27 @@ func (v *RegisterCCEntryRes5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes RegisterCCEntryRes5 from BER/DER format.
-func (v *RegisterCCEntryRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *RegisterCCEntryRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: RegisterCCEntryRes5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = RegisterCCEntryRes5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding RegisterCCEntryRes5 SEQUENCE: %w", err)
@@ -5950,7 +7305,7 @@ func (v *RegisterCCEntryRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 					return fmt.Errorf("decoding ccbs-Feature: %w", reconstructionErr_ccbsfeature)
 				}
 				var dec_ccbsfeature CCBSFeature5
-				if unmErr := dec_ccbsfeature.UnmarshalBER(reconstructed_ccbsfeature, opts...); unmErr != nil {
+				if unmErr := dec_ccbsfeature.UnmarshalBER(reconstructed_ccbsfeature, ber.ChildDecodeOptions(opts, "ccbsfeature")...); unmErr != nil {
 					return fmt.Errorf("decoding ccbs-Feature: %w", unmErr)
 				}
 				v.CcbsFeature = &dec_ccbsfeature
@@ -5990,10 +7345,25 @@ func (v *RegisterCCEntryRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBER encodes EraseCCEntryArg5 to BER format.
-func (v *EraseCCEntryArg5) MarshalBER() ([]byte, error) {
+func (v *EraseCCEntryArg5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EraseCCEntryArg5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EraseCCEntryArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+		if constraintErr := ber.CheckEncodedLength(opts, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
@@ -6006,6 +7376,11 @@ func (v *EraseCCEntryArg5) MarshalBER() ([]byte, error) {
 	enc_sscode = retagged_enc_sscode
 	children = append(children, enc_sscode...)
 	if v.CcbsIndex != nil {
+		if !(int64(*v.CcbsIndex) >= 1 && int64(*v.CcbsIndex) <= 5) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ccbs-Index", "(1..5)", fmt.Sprint(int64(*v.CcbsIndex))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_ccbsindex := ber.EncodeInteger(int64(*v.CcbsIndex))
 		retagged_enc_ccbsindex, tagErr_enc_ccbsindex := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_ccbsindex)
 		if tagErr_enc_ccbsindex != nil {
@@ -6029,9 +7404,14 @@ func (v *EraseCCEntryArg5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EraseCCEntryArg5 to DER format.
 func (v *EraseCCEntryArg5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EraseCCEntryArg5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+		if constraintErr := ber.CheckEncodedLength(nil, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
@@ -6044,6 +7424,11 @@ func (v *EraseCCEntryArg5) MarshalDER() ([]byte, error) {
 	enc_sscode = retagged_enc_sscode
 	children = append(children, enc_sscode...)
 	if v.CcbsIndex != nil {
+		if !(int64(*v.CcbsIndex) >= 1 && int64(*v.CcbsIndex) <= 5) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ccbs-Index", "(1..5)", fmt.Sprint(int64(*v.CcbsIndex))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_ccbsindex := ber.EncodeInteger(int64(*v.CcbsIndex))
 		retagged_enc_ccbsindex, tagErr_enc_ccbsindex := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_ccbsindex)
 		if tagErr_enc_ccbsindex != nil {
@@ -6069,11 +7454,27 @@ func (v *EraseCCEntryArg5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EraseCCEntryArg5 from BER/DER format.
-func (v *EraseCCEntryArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EraseCCEntryArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EraseCCEntryArg5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EraseCCEntryArg5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EraseCCEntryArg5 SEQUENCE: %w", err)
@@ -6106,7 +7507,9 @@ func (v *EraseCCEntryArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 
 	offset += n_sscode
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+		if constraintErr := ber.CheckDecodedLength(opts, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode ccbs-Index
 	if offset < len(content) {
@@ -6132,6 +7535,11 @@ func (v *EraseCCEntryArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 
 				offset += n_ccbsindex
+				if !(int64(*v.CcbsIndex) >= 1 && int64(*v.CcbsIndex) <= 5) {
+					if constraintErr := ber.CheckDecodedValue(opts, "ccbs-Index", "(1..5)", fmt.Sprint(int64(*v.CcbsIndex))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -6162,10 +7570,25 @@ func (v *EraseCCEntryArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 }
 
 // MarshalBER encodes EraseCCEntryRes5 to BER format.
-func (v *EraseCCEntryRes5) MarshalBER() ([]byte, error) {
+func (v *EraseCCEntryRes5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EraseCCEntryRes5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EraseCCEntryRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+		if constraintErr := ber.CheckEncodedLength(opts, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
@@ -6179,7 +7602,9 @@ func (v *EraseCCEntryRes5) MarshalBER() ([]byte, error) {
 	children = append(children, enc_sscode...)
 	if v.SsStatus != nil {
 		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
-			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+			if constraintErr := ber.CheckEncodedLength(opts, "ss-Status", "SIZE (1)", len(*v.SsStatus)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
@@ -6207,9 +7632,14 @@ func (v *EraseCCEntryRes5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EraseCCEntryRes5 to DER format.
 func (v *EraseCCEntryRes5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EraseCCEntryRes5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		return nil, fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+		if constraintErr := ber.CheckEncodedLength(nil, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_sscode, encodeErr_enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
 	if encodeErr_enc_sscode != nil {
@@ -6223,7 +7653,9 @@ func (v *EraseCCEntryRes5) MarshalDER() ([]byte, error) {
 	children = append(children, enc_sscode...)
 	if v.SsStatus != nil {
 		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
-			return nil, fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+			if constraintErr := ber.CheckEncodedLength(nil, "ss-Status", "SIZE (1)", len(*v.SsStatus)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_ssstatus, encodeErr_enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
 		if encodeErr_enc_ssstatus != nil {
@@ -6253,11 +7685,27 @@ func (v *EraseCCEntryRes5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EraseCCEntryRes5 from BER/DER format.
-func (v *EraseCCEntryRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EraseCCEntryRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EraseCCEntryRes5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EraseCCEntryRes5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EraseCCEntryRes5 SEQUENCE: %w", err)
@@ -6290,7 +7738,9 @@ func (v *EraseCCEntryRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 
 	offset += n_sscode
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		return fmt.Errorf("ss-Code length %d violates SIZE (1)", len(v.SsCode))
+		if constraintErr := ber.CheckDecodedLength(opts, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode ss-Status
 	if offset < len(content) {
@@ -6313,7 +7763,9 @@ func (v *EraseCCEntryRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 
 				offset += n_ssstatus
 				if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
-					return fmt.Errorf("ss-Status length %d violates SIZE (1)", len(*v.SsStatus))
+					if constraintErr := ber.CheckDecodedLength(opts, "ss-Status", "SIZE (1)", len(*v.SsStatus)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}

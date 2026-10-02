@@ -266,6 +266,7 @@ func NewRFC3095ContextInfoR5CriticalExtensions(v RFC3095ContextInfoR5CriticalExt
 }
 
 // RFC3095ContextInfoListR5 represents the ASN.1 type RFC3095-ContextInfoList-r5 (SEQUENCE_OF).
+
 type RFC3095ContextInfoListR5 = []RFC3095ContextInfo
 
 // SRNCRelocationInfoR3 choice constants.
@@ -433,12 +434,15 @@ type SRNCRelocationInfoV4d0extIEs struct {
 }
 
 // TPCCombinationInfoList represents the ASN.1 type TPC-CombinationInfoList (SEQUENCE_OF).
+
 type TPCCombinationInfoList = []TPCCombinationInfo
 
 // TPCCombinationInfoListR9 represents the ASN.1 type TPC-CombinationInfoList-r9 (SEQUENCE_OF).
+
 type TPCCombinationInfoListR9 = []TPCCombinationInfoR9
 
 // STARTList2 represents the ASN.1 type STARTList2 (SEQUENCE_OF).
+
 type STARTList2 = []STARTSingle
 
 // SRNCRelocationInfoV4b0extIEs represents the ASN.1 type SRNC-RelocationInfo-v4b0ext-IEs (SEQUENCE).
@@ -491,6 +495,7 @@ type CipheringInfoPerRBListV3a0ext struct {
 }
 
 // CipheringStatusList represents the ASN.1 type CipheringStatusList (SEQUENCE_OF).
+
 type CipheringStatusList = []CipheringStatusCNdomain
 
 // CipheringStatusCNdomain represents the ASN.1 type CipheringStatusCNdomain (SEQUENCE).
@@ -503,6 +508,7 @@ type CipheringStatusCNdomain struct {
 }
 
 // CodeChangeStatusList represents the ASN.1 type CodeChangeStatusList (SEQUENCE_OF).
+
 type CodeChangeStatusList = []CodeChangeStatus
 
 // CodeChangeStatus represents the ASN.1 type CodeChangeStatus (SEQUENCE).
@@ -537,9 +543,11 @@ type StoredCompressedModeInfoR8 struct {
 }
 
 // StoredTGPSequenceList represents the ASN.1 type StoredTGP-SequenceList (SEQUENCE_OF).
+
 type StoredTGPSequenceList = []StoredTGPSequence
 
 // StoredTGPSequenceListR8 represents the ASN.1 type StoredTGP-SequenceList-r8 (SEQUENCE_OF).
+
 type StoredTGPSequenceListR8 = []StoredTGPSequenceR8
 
 // StoredTGPSequence represents the ASN.1 type StoredTGP-Sequence (SEQUENCE).
@@ -1524,9 +1532,11 @@ type CipheringInfoPerRBR4 struct {
 }
 
 // CipheringInfoPerRBList represents the ASN.1 type CipheringInfoPerRB-List (SEQUENCE_OF).
+
 type CipheringInfoPerRBList = []CipheringInfoPerRB
 
 // CipheringInfoPerRBListR4 represents the ASN.1 type CipheringInfoPerRB-List-r4 (SEQUENCE_OF).
+
 type CipheringInfoPerRBListR4 = []CipheringInfoPerRBR4
 
 // CipheringStatus represents the ASN.1 ENUMERATED type CipheringStatus.
@@ -1549,6 +1559,7 @@ func (v CipheringStatus) String() string {
 }
 
 // CipheringStatusListR4 represents the ASN.1 type CipheringStatusList-r4 (SEQUENCE_OF).
+
 type CipheringStatusListR4 = []CipheringStatusCNdomainR4
 
 // CipheringStatusCNdomainR4 represents the ASN.1 type CipheringStatusCNdomain-r4 (SEQUENCE).
@@ -1570,6 +1581,7 @@ type CNDomainInformationV390ext struct {
 }
 
 // CNDomainInformationListV390ext represents the ASN.1 type CN-DomainInformationList-v390ext (SEQUENCE_OF).
+
 type CNDomainInformationListV390ext = []CNDomainInformationV390ext
 
 // CompressedModeMeasCapabilityR4 represents the ASN.1 type CompressedModeMeasCapability-r4 (SEQUENCE).
@@ -1589,6 +1601,7 @@ type CompressedModeMeasCapabilityR4 struct {
 }
 
 // COUNTCList represents the ASN.1 type COUNT-C-List (SEQUENCE_OF).
+
 type COUNTCList = []COUNTCSingle
 
 // COUNTCSingle represents the ASN.1 type COUNT-CSingle (SEQUENCE).
@@ -1696,9 +1709,11 @@ type ERGCHCombinationInfoR9 struct {
 }
 
 // ERGCHCombinationInfoList represents the ASN.1 type E-RGCH-CombinationInfoList (SEQUENCE_OF).
+
 type ERGCHCombinationInfoList = []ERGCHCombinationInfo
 
 // ERGCHCombinationInfoListR9 represents the ASN.1 type E-RGCH-CombinationInfoList-r9 (SEQUENCE_OF).
+
 type ERGCHCombinationInfoListR9 = []ERGCHCombinationInfoR9
 
 // ImplementationSpecificParams represents the ASN.1 type ImplementationSpecificParams (BIT_STRING).
@@ -2467,45 +2482,59 @@ type OngoingMeasRepR15 struct {
 }
 
 // OngoingMeasRepList represents the ASN.1 type OngoingMeasRepList (SEQUENCE_OF).
+
 type OngoingMeasRepList = []OngoingMeasRep
 
 // OngoingMeasRepListR4 represents the ASN.1 type OngoingMeasRepList-r4 (SEQUENCE_OF).
+
 type OngoingMeasRepListR4 = []OngoingMeasRepR4
 
 // OngoingMeasRepListR5 represents the ASN.1 type OngoingMeasRepList-r5 (SEQUENCE_OF).
+
 type OngoingMeasRepListR5 = []OngoingMeasRepR5
 
 // OngoingMeasRepListR6 represents the ASN.1 type OngoingMeasRepList-r6 (SEQUENCE_OF).
+
 type OngoingMeasRepListR6 = []OngoingMeasRepR6
 
 // OngoingMeasRepListR7 represents the ASN.1 type OngoingMeasRepList-r7 (SEQUENCE_OF).
+
 type OngoingMeasRepListR7 = []OngoingMeasRepR7
 
 // OngoingMeasRepListR8 represents the ASN.1 type OngoingMeasRepList-r8 (SEQUENCE_OF).
+
 type OngoingMeasRepListR8 = []OngoingMeasRepR8
 
 // OngoingMeasRepListR9 represents the ASN.1 type OngoingMeasRepList-r9 (SEQUENCE_OF).
+
 type OngoingMeasRepListR9 = []OngoingMeasRepR9
 
 // OngoingMeasRepListV970extIE represents the ASN.1 type OngoingMeasRepList-v970ext-IE (SEQUENCE_OF).
+
 type OngoingMeasRepListV970extIE = []OngoingMeasRepV970extIEs
 
 // OngoingMeasRepListR10 represents the ASN.1 type OngoingMeasRepList-r10 (SEQUENCE_OF).
+
 type OngoingMeasRepListR10 = []OngoingMeasRepR10
 
 // OngoingMeasRepListR11 represents the ASN.1 type OngoingMeasRepList-r11 (SEQUENCE_OF).
+
 type OngoingMeasRepListR11 = []OngoingMeasRepR11
 
 // OngoingMeasRepListR12 represents the ASN.1 type OngoingMeasRepList-r12 (SEQUENCE_OF).
+
 type OngoingMeasRepListR12 = []OngoingMeasRepR12
 
 // OngoingMeasRepListR13 represents the ASN.1 type OngoingMeasRepList-r13 (SEQUENCE_OF).
+
 type OngoingMeasRepListR13 = []OngoingMeasRepR13
 
 // OngoingMeasRepListR14 represents the ASN.1 type OngoingMeasRepList-r14 (SEQUENCE_OF).
+
 type OngoingMeasRepListR14 = []OngoingMeasRepR14
 
 // OngoingMeasRepListR15 represents the ASN.1 type OngoingMeasRepList-r15 (SEQUENCE_OF).
+
 type OngoingMeasRepListR15 = []OngoingMeasRepR15
 
 // PDCPCapabilityR4 represents the ASN.1 type PDCP-Capability-r4 (SEQUENCE).
@@ -2583,6 +2612,7 @@ type RFC3095ContextInfo struct {
 }
 
 // RFC3095ContextList represents the ASN.1 type RFC3095-Context-List (SEQUENCE_OF).
+
 type RFC3095ContextList = []RFC3095ContextListElem
 
 // RLCCapabilityR5 represents the ASN.1 type RLC-Capability-r5 (SEQUENCE).
@@ -2607,6 +2637,7 @@ type SRBSpecificIntegrityProtInfo struct {
 }
 
 // SRBSpecificIntegrityProtInfoList represents the ASN.1 type SRB-SpecificIntegrityProtInfoList (SEQUENCE_OF).
+
 type SRBSpecificIntegrityProtInfoList = []SRBSpecificIntegrityProtInfo
 
 // StateOfRRC represents the ASN.1 ENUMERATED type StateOfRRC.

@@ -16,12 +16,15 @@ var (
 )
 
 // ERABIEContainerList represents the ASN.1 type E-RAB-IE-ContainerList (SEQUENCE_OF).
+
 type ERABIEContainerList = []ProtocolIESingleContainer
 
 // ERABIEContainerPairList represents the ASN.1 type E-RAB-IE-ContainerPairList (SEQUENCE_OF).
+
 type ERABIEContainerPairList = []ProtocolIEContainerPair
 
 // ProtocolErrorIEContainerList represents the ASN.1 type ProtocolError-IE-ContainerList (SEQUENCE_OF).
+
 type ProtocolErrorIEContainerList = []ProtocolIESingleContainer
 
 // HandoverRequired represents the ASN.1 type HandoverRequired (SEQUENCE).
@@ -51,6 +54,7 @@ type HandoverCommand struct {
 }
 
 // ERABSubjecttoDataForwardingList represents the ASN.1 type E-RABSubjecttoDataForwardingList (SEQUENCE_OF).
+
 type ERABSubjecttoDataForwardingList = []ProtocolIESingleContainer
 
 // ERABDataForwardingItem represents the ASN.1 type E-RABDataForwardingItem (SEQUENCE).
@@ -98,6 +102,7 @@ type HandoverRequest struct {
 }
 
 // ERABToBeSetupListHOReq represents the ASN.1 type E-RABToBeSetupListHOReq (SEQUENCE_OF).
+
 type ERABToBeSetupListHOReq = []ProtocolIESingleContainer
 
 // ERABToBeSetupItemHOReq represents the ASN.1 type E-RABToBeSetupItemHOReq (SEQUENCE).
@@ -131,6 +136,7 @@ type HandoverRequestAcknowledge struct {
 }
 
 // ERABAdmittedList represents the ASN.1 type E-RABAdmittedList (SEQUENCE_OF).
+
 type ERABAdmittedList = []ProtocolIESingleContainer
 
 // ERABAdmittedItem represents the ASN.1 type E-RABAdmittedItem (SEQUENCE).
@@ -154,6 +160,7 @@ type ERABAdmittedItem struct {
 }
 
 // ERABFailedtoSetupListHOReqAck represents the ASN.1 type E-RABFailedtoSetupListHOReqAck (SEQUENCE_OF).
+
 type ERABFailedtoSetupListHOReqAck = []ProtocolIESingleContainer
 
 // ERABFailedToSetupItemHOReqAck represents the ASN.1 type E-RABFailedToSetupItemHOReqAck (SEQUENCE).
@@ -211,6 +218,7 @@ type PathSwitchRequest struct {
 }
 
 // ERABToBeSwitchedDLList represents the ASN.1 type E-RABToBeSwitchedDLList (SEQUENCE_OF).
+
 type ERABToBeSwitchedDLList = []ProtocolIESingleContainer
 
 // ERABToBeSwitchedDLItem represents the ASN.1 type E-RABToBeSwitchedDLItem (SEQUENCE).
@@ -243,6 +251,7 @@ type PathSwitchRequestAcknowledge struct {
 }
 
 // ERABToBeSwitchedULList represents the ASN.1 type E-RABToBeSwitchedULList (SEQUENCE_OF).
+
 type ERABToBeSwitchedULList = []ProtocolIESingleContainer
 
 // ERABToBeSwitchedULItem represents the ASN.1 type E-RABToBeSwitchedULItem (SEQUENCE).
@@ -262,6 +271,7 @@ type ERABToBeSwitchedULItem struct {
 }
 
 // ERABToBeUpdatedList represents the ASN.1 type E-RABToBeUpdatedList (SEQUENCE_OF).
+
 type ERABToBeUpdatedList = []ProtocolIESingleContainer
 
 // ERABToBeUpdatedItem represents the ASN.1 type E-RABToBeUpdatedItem (SEQUENCE).
@@ -371,6 +381,7 @@ type ERABSetupRequest struct {
 }
 
 // ERABToBeSetupListBearerSUReq represents the ASN.1 type E-RABToBeSetupListBearerSUReq (SEQUENCE_OF).
+
 type ERABToBeSetupListBearerSUReq = []ProtocolIESingleContainer
 
 // ERABToBeSetupItemBearerSUReq represents the ASN.1 type E-RABToBeSetupItemBearerSUReq (SEQUENCE).
@@ -405,6 +416,7 @@ type ERABSetupResponse struct {
 }
 
 // ERABSetupListBearerSURes represents the ASN.1 type E-RABSetupListBearerSURes (SEQUENCE_OF).
+
 type ERABSetupListBearerSURes = []ProtocolIESingleContainer
 
 // ERABSetupItemBearerSURes represents the ASN.1 type E-RABSetupItemBearerSURes (SEQUENCE).
@@ -437,6 +449,7 @@ type ERABModifyRequest struct {
 }
 
 // ERABToBeModifiedListBearerModReq represents the ASN.1 type E-RABToBeModifiedListBearerModReq (SEQUENCE_OF).
+
 type ERABToBeModifiedListBearerModReq = []ProtocolIESingleContainer
 
 // ERABToBeModifiedItemBearerModReq represents the ASN.1 type E-RABToBeModifiedItemBearerModReq (SEQUENCE).
@@ -469,6 +482,7 @@ type ERABModifyResponse struct {
 }
 
 // ERABModifyListBearerModRes represents the ASN.1 type E-RABModifyListBearerModRes (SEQUENCE_OF).
+
 type ERABModifyListBearerModRes = []ProtocolIESingleContainer
 
 // ERABModifyItemBearerModRes represents the ASN.1 type E-RABModifyItemBearerModRes (SEQUENCE).
@@ -512,6 +526,7 @@ type ERABReleaseResponse struct {
 }
 
 // ERABReleaseListBearerRelComp represents the ASN.1 type E-RABReleaseListBearerRelComp (SEQUENCE_OF).
+
 type ERABReleaseListBearerRelComp = []ProtocolIESingleContainer
 
 // ERABReleaseItemBearerRelComp represents the ASN.1 type E-RABReleaseItemBearerRelComp (SEQUENCE).
@@ -555,6 +570,7 @@ type InitialContextSetupRequest struct {
 }
 
 // ERABToBeSetupListCtxtSUReq represents the ASN.1 type E-RABToBeSetupListCtxtSUReq (SEQUENCE_OF).
+
 type ERABToBeSetupListCtxtSUReq = []ProtocolIESingleContainer
 
 // ERABToBeSetupItemCtxtSUReq represents the ASN.1 type E-RABToBeSetupItemCtxtSUReq (SEQUENCE).
@@ -589,6 +605,7 @@ type InitialContextSetupResponse struct {
 }
 
 // ERABSetupListCtxtSURes represents the ASN.1 type E-RABSetupListCtxtSURes (SEQUENCE_OF).
+
 type ERABSetupListCtxtSURes = []ProtocolIESingleContainer
 
 // ERABSetupItemCtxtSURes represents the ASN.1 type E-RABSetupItemCtxtSURes (SEQUENCE).
@@ -634,6 +651,7 @@ type Paging struct {
 }
 
 // TAIList represents the ASN.1 type TAIList (SEQUENCE_OF).
+
 type TAIList = []ProtocolIESingleContainer
 
 // TAIItem represents the ASN.1 type TAIItem (SEQUENCE).
@@ -819,9 +837,6 @@ type RerouteNASRequest struct {
 	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
 }
 
-// S1Message represents the ASN.1 type S1-Message (OCTET_STRING).
-type S1Message = []byte
-
 // NASDeliveryIndication represents the ASN.1 type NASDeliveryIndication (SEQUENCE).
 type NASDeliveryIndication struct {
 	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
@@ -898,6 +913,7 @@ func (v ResetAll) String() string {
 }
 
 // UEAssociatedLogicalS1ConnectionListRes represents the ASN.1 type UE-associatedLogicalS1-ConnectionListRes (SEQUENCE_OF).
+
 type UEAssociatedLogicalS1ConnectionListRes = []ProtocolIESingleContainer
 
 // ResetAcknowledge represents the ASN.1 type ResetAcknowledge (SEQUENCE).
@@ -914,6 +930,7 @@ type ResetAcknowledge struct {
 }
 
 // UEAssociatedLogicalS1ConnectionListResAck represents the ASN.1 type UE-associatedLogicalS1-ConnectionListResAck (SEQUENCE_OF).
+
 type UEAssociatedLogicalS1ConnectionListResAck = []ProtocolIESingleContainer
 
 // ErrorIndication represents the ASN.1 type ErrorIndication (SEQUENCE).
@@ -1460,6 +1477,7 @@ type ERABModificationIndication struct {
 }
 
 // ERABToBeModifiedListBearerModInd represents the ASN.1 type E-RABToBeModifiedListBearerModInd (SEQUENCE_OF).
+
 type ERABToBeModifiedListBearerModInd = []ProtocolIESingleContainer
 
 // ERABToBeModifiedItemBearerModInd represents the ASN.1 type E-RABToBeModifiedItemBearerModInd (SEQUENCE).
@@ -1479,6 +1497,7 @@ type ERABToBeModifiedItemBearerModInd struct {
 }
 
 // ERABNotToBeModifiedListBearerModInd represents the ASN.1 type E-RABNotToBeModifiedListBearerModInd (SEQUENCE_OF).
+
 type ERABNotToBeModifiedListBearerModInd = []ProtocolIESingleContainer
 
 // ERABNotToBeModifiedItemBearerModInd represents the ASN.1 type E-RABNotToBeModifiedItemBearerModInd (SEQUENCE).
@@ -1528,6 +1547,7 @@ type ERABModificationConfirm struct {
 }
 
 // ERABModifyListBearerModConf represents the ASN.1 type E-RABModifyListBearerModConf (SEQUENCE_OF).
+
 type ERABModifyListBearerModConf = []ProtocolIESingleContainer
 
 // ERABModifyItemBearerModConf represents the ASN.1 type E-RABModifyItemBearerModConf (SEQUENCE).
@@ -1610,6 +1630,7 @@ type UEContextResumeRequest struct {
 }
 
 // ERABFailedToResumeListResumeReq represents the ASN.1 type E-RABFailedToResumeListResumeReq (SEQUENCE_OF).
+
 type ERABFailedToResumeListResumeReq = []ProtocolIESingleContainer
 
 // ERABFailedToResumeItemResumeReq represents the ASN.1 type E-RABFailedToResumeItemResumeReq (SEQUENCE).
@@ -1641,6 +1662,7 @@ type UEContextResumeResponse struct {
 }
 
 // ERABFailedToResumeListResumeRes represents the ASN.1 type E-RABFailedToResumeListResumeRes (SEQUENCE_OF).
+
 type ERABFailedToResumeListResumeRes = []ProtocolIESingleContainer
 
 // ERABFailedToResumeItemResumeRes represents the ASN.1 type E-RABFailedToResumeItemResumeRes (SEQUENCE).

@@ -34,6 +34,8 @@ type ActivateTraceModeArg5 struct {
 	ExtCount_             int64                `asn1:"-" json:"-"`
 	ExtPresent_           []bool               `asn1:"-" json:"-"`
 	ExtData_              [][]byte             `asn1:"-" json:"-"`
+	berOriginal_          []byte               `asn1:"-" json:"-"`
+	berSnapshot_          []byte               `asn1:"-" json:"-"`
 }
 
 // MDTConfiguration4 represents the ASN.1 type MDT-Configuration (SEQUENCE).
@@ -52,6 +54,8 @@ type MDTConfiguration4 struct {
 	ExtCount_          int64                `asn1:"-" json:"-"`
 	ExtPresent_        []bool               `asn1:"-" json:"-"`
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
+	berOriginal_       []byte               `asn1:"-" json:"-"`
+	berSnapshot_       []byte               `asn1:"-" json:"-"`
 }
 
 // JobType4 represents the ASN.1 ENUMERATED type JobType.
@@ -81,36 +85,58 @@ func (v JobType4) String() string {
 
 // AreaScope4 represents the ASN.1 type AreaScope (SEQUENCE).
 type AreaScope4 struct {
-	CgiList                  CGIList4             `asn1:"tag:0,context,implicit,optional" json:"CgiList,omitempty"`
+	CgiList                  *CGIList4            `asn1:"tag:0,context,implicit,optional" json:"CgiList,omitempty"`
 	CgiListIndef_            bool                 `asn1:"-" json:"-"`
-	EUtranCgiList            EUTRANCGIList4       `asn1:"tag:1,context,implicit,optional" json:"EUtranCgiList,omitempty"`
+	EUtranCgiList            *EUTRANCGIList4      `asn1:"tag:1,context,implicit,optional" json:"EUtranCgiList,omitempty"`
 	EUtranCgiListIndef_      bool                 `asn1:"-" json:"-"`
-	RoutingAreaIdList        RoutingAreaIdList4   `asn1:"tag:2,context,implicit,optional" json:"RoutingAreaIdList,omitempty"`
+	RoutingAreaIdList        *RoutingAreaIdList4  `asn1:"tag:2,context,implicit,optional" json:"RoutingAreaIdList,omitempty"`
 	RoutingAreaIdListIndef_  bool                 `asn1:"-" json:"-"`
-	LocationAreaIdList       LocationAreaIdList4  `asn1:"tag:3,context,implicit,optional" json:"LocationAreaIdList,omitempty"`
+	LocationAreaIdList       *LocationAreaIdList4 `asn1:"tag:3,context,implicit,optional" json:"LocationAreaIdList,omitempty"`
 	LocationAreaIdListIndef_ bool                 `asn1:"-" json:"-"`
-	TrackingAreaIdList       TrackingAreaIdList4  `asn1:"tag:4,context,implicit,optional" json:"TrackingAreaIdList,omitempty"`
+	TrackingAreaIdList       *TrackingAreaIdList4 `asn1:"tag:4,context,implicit,optional" json:"TrackingAreaIdList,omitempty"`
 	TrackingAreaIdListIndef_ bool                 `asn1:"-" json:"-"`
 	ExtensionContainer       *ExtensionContainer5 `asn1:"tag:5,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_                int64                `asn1:"-" json:"-"`
 	ExtPresent_              []bool               `asn1:"-" json:"-"`
 	ExtData_                 [][]byte             `asn1:"-" json:"-"`
+	berOriginal_             []byte               `asn1:"-" json:"-"`
+	berSnapshot_             []byte               `asn1:"-" json:"-"`
 }
 
 // CGIList4 represents the ASN.1 type CGI-List (SEQUENCE_OF).
-type CGIList4 = []GlobalCellId5
+type CGIList4 struct {
+	Values       []GlobalCellId5 `json:"Values"`
+	berOriginal_ []byte          `json:"-"`
+	berSnapshot_ []byte          `json:"-"`
+}
 
 // EUTRANCGIList4 represents the ASN.1 type E-UTRAN-CGI-List (SEQUENCE_OF).
-type EUTRANCGIList4 = []EUTRANCGI4
+type EUTRANCGIList4 struct {
+	Values       []EUTRANCGI4 `json:"Values"`
+	berOriginal_ []byte       `json:"-"`
+	berSnapshot_ []byte       `json:"-"`
+}
 
 // RoutingAreaIdList4 represents the ASN.1 type RoutingAreaId-List (SEQUENCE_OF).
-type RoutingAreaIdList4 = []RAIdentity5
+type RoutingAreaIdList4 struct {
+	Values       []RAIdentity5 `json:"Values"`
+	berOriginal_ []byte        `json:"-"`
+	berSnapshot_ []byte        `json:"-"`
+}
 
 // LocationAreaIdList4 represents the ASN.1 type LocationAreaId-List (SEQUENCE_OF).
-type LocationAreaIdList4 = []LAIFixedLength5
+type LocationAreaIdList4 struct {
+	Values       []LAIFixedLength5 `json:"Values"`
+	berOriginal_ []byte            `json:"-"`
+	berSnapshot_ []byte            `json:"-"`
+}
 
 // TrackingAreaIdList4 represents the ASN.1 type TrackingAreaId-List (SEQUENCE_OF).
-type TrackingAreaIdList4 = []TAId4
+type TrackingAreaIdList4 struct {
+	Values       []TAId4 `json:"Values"`
+	berOriginal_ []byte  `json:"-"`
+	berSnapshot_ []byte  `json:"-"`
+}
 
 // ListOfMeasurements4 represents the ASN.1 type ListOfMeasurements (OCTET_STRING).
 type ListOfMeasurements4 = []byte
@@ -353,6 +379,8 @@ type TraceDepthList5 struct {
 	ExtCount_      int64        `asn1:"-" json:"-"`
 	ExtPresent_    []bool       `asn1:"-" json:"-"`
 	ExtData_       [][]byte     `asn1:"-" json:"-"`
+	berOriginal_   []byte       `asn1:"-" json:"-"`
+	berSnapshot_   []byte       `asn1:"-" json:"-"`
 }
 
 // TraceDepth5 represents the ASN.1 ENUMERATED type TraceDepth.
@@ -382,19 +410,21 @@ type TraceNETypeList5 = runtime.BitString
 
 // TraceInterfaceList5 represents the ASN.1 type TraceInterfaceList (SEQUENCE).
 type TraceInterfaceList5 struct {
-	MscSList    *MSCSInterfaceList5 `asn1:"tag:0,context,implicit,optional" json:"MscSList,omitempty"`
-	MgwList     *MGWInterfaceList5  `asn1:"tag:1,context,implicit,optional" json:"MgwList,omitempty"`
-	SgsnList    *SGSNInterfaceList5 `asn1:"tag:2,context,implicit,optional" json:"SgsnList,omitempty"`
-	GgsnList    *GGSNInterfaceList5 `asn1:"tag:3,context,implicit,optional" json:"GgsnList,omitempty"`
-	RncList     *RNCInterfaceList5  `asn1:"tag:4,context,implicit,optional" json:"RncList,omitempty"`
-	BmscList    *BMSCInterfaceList5 `asn1:"tag:5,context,implicit,optional" json:"BmscList,omitempty"`
-	MmeList     *MMEInterfaceList4  `asn1:"tag:6,context,implicit,optional" json:"MmeList,omitempty"`
-	SgwList     *SGWInterfaceList4  `asn1:"tag:7,context,implicit,optional" json:"SgwList,omitempty"`
-	PgwList     *PGWInterfaceList4  `asn1:"tag:8,context,implicit,optional" json:"PgwList,omitempty"`
-	ENBList     *ENBInterfaceList4  `asn1:"tag:9,context,implicit,optional" json:"ENBList,omitempty"`
-	ExtCount_   int64               `asn1:"-" json:"-"`
-	ExtPresent_ []bool              `asn1:"-" json:"-"`
-	ExtData_    [][]byte            `asn1:"-" json:"-"`
+	MscSList     *MSCSInterfaceList5 `asn1:"tag:0,context,implicit,optional" json:"MscSList,omitempty"`
+	MgwList      *MGWInterfaceList5  `asn1:"tag:1,context,implicit,optional" json:"MgwList,omitempty"`
+	SgsnList     *SGSNInterfaceList5 `asn1:"tag:2,context,implicit,optional" json:"SgsnList,omitempty"`
+	GgsnList     *GGSNInterfaceList5 `asn1:"tag:3,context,implicit,optional" json:"GgsnList,omitempty"`
+	RncList      *RNCInterfaceList5  `asn1:"tag:4,context,implicit,optional" json:"RncList,omitempty"`
+	BmscList     *BMSCInterfaceList5 `asn1:"tag:5,context,implicit,optional" json:"BmscList,omitempty"`
+	MmeList      *MMEInterfaceList4  `asn1:"tag:6,context,implicit,optional" json:"MmeList,omitempty"`
+	SgwList      *SGWInterfaceList4  `asn1:"tag:7,context,implicit,optional" json:"SgwList,omitempty"`
+	PgwList      *PGWInterfaceList4  `asn1:"tag:8,context,implicit,optional" json:"PgwList,omitempty"`
+	ENBList      *ENBInterfaceList4  `asn1:"tag:9,context,implicit,optional" json:"ENBList,omitempty"`
+	ExtCount_    int64               `asn1:"-" json:"-"`
+	ExtPresent_  []bool              `asn1:"-" json:"-"`
+	ExtData_     [][]byte            `asn1:"-" json:"-"`
+	berOriginal_ []byte              `asn1:"-" json:"-"`
+	berSnapshot_ []byte              `asn1:"-" json:"-"`
 }
 
 // MSCSInterfaceList5 represents the ASN.1 type MSC-S-InterfaceList (BIT_STRING).
@@ -429,17 +459,19 @@ type ENBInterfaceList4 = runtime.BitString
 
 // TraceEventList5 represents the ASN.1 type TraceEventList (SEQUENCE).
 type TraceEventList5 struct {
-	MscSList    *MSCSEventList5 `asn1:"tag:0,context,implicit,optional" json:"MscSList,omitempty"`
-	MgwList     *MGWEventList5  `asn1:"tag:1,context,implicit,optional" json:"MgwList,omitempty"`
-	SgsnList    *SGSNEventList5 `asn1:"tag:2,context,implicit,optional" json:"SgsnList,omitempty"`
-	GgsnList    *GGSNEventList5 `asn1:"tag:3,context,implicit,optional" json:"GgsnList,omitempty"`
-	BmscList    *BMSCEventList5 `asn1:"tag:4,context,implicit,optional" json:"BmscList,omitempty"`
-	MmeList     *MMEEventList4  `asn1:"tag:5,context,implicit,optional" json:"MmeList,omitempty"`
-	SgwList     *SGWEventList4  `asn1:"tag:6,context,implicit,optional" json:"SgwList,omitempty"`
-	PgwList     *PGWEventList4  `asn1:"tag:7,context,implicit,optional" json:"PgwList,omitempty"`
-	ExtCount_   int64           `asn1:"-" json:"-"`
-	ExtPresent_ []bool          `asn1:"-" json:"-"`
-	ExtData_    [][]byte        `asn1:"-" json:"-"`
+	MscSList     *MSCSEventList5 `asn1:"tag:0,context,implicit,optional" json:"MscSList,omitempty"`
+	MgwList      *MGWEventList5  `asn1:"tag:1,context,implicit,optional" json:"MgwList,omitempty"`
+	SgsnList     *SGSNEventList5 `asn1:"tag:2,context,implicit,optional" json:"SgsnList,omitempty"`
+	GgsnList     *GGSNEventList5 `asn1:"tag:3,context,implicit,optional" json:"GgsnList,omitempty"`
+	BmscList     *BMSCEventList5 `asn1:"tag:4,context,implicit,optional" json:"BmscList,omitempty"`
+	MmeList      *MMEEventList4  `asn1:"tag:5,context,implicit,optional" json:"MmeList,omitempty"`
+	SgwList      *SGWEventList4  `asn1:"tag:6,context,implicit,optional" json:"SgwList,omitempty"`
+	PgwList      *PGWEventList4  `asn1:"tag:7,context,implicit,optional" json:"PgwList,omitempty"`
+	ExtCount_    int64           `asn1:"-" json:"-"`
+	ExtPresent_  []bool          `asn1:"-" json:"-"`
+	ExtData_     [][]byte        `asn1:"-" json:"-"`
+	berOriginal_ []byte          `asn1:"-" json:"-"`
+	berSnapshot_ []byte          `asn1:"-" json:"-"`
 }
 
 // MSCSEventList5 represents the ASN.1 type MSC-S-EventList (BIT_STRING).
@@ -483,6 +515,8 @@ type TracePropagationList5 struct {
 	ExtCount_                      int64                            `asn1:"-" json:"-"`
 	ExtPresent_                    []bool                           `asn1:"-" json:"-"`
 	ExtData_                       [][]byte                         `asn1:"-" json:"-"`
+	berOriginal_                   []byte                           `asn1:"-" json:"-"`
+	berSnapshot_                   []byte                           `asn1:"-" json:"-"`
 }
 
 // ActivateTraceModeRes5 represents the ASN.1 type ActivateTraceModeRes (SEQUENCE).
@@ -492,6 +526,8 @@ type ActivateTraceModeRes5 struct {
 	ExtCount_             int64                `asn1:"-" json:"-"`
 	ExtPresent_           []bool               `asn1:"-" json:"-"`
 	ExtData_              [][]byte             `asn1:"-" json:"-"`
+	berOriginal_          []byte               `asn1:"-" json:"-"`
+	berSnapshot_          []byte               `asn1:"-" json:"-"`
 }
 
 // DeactivateTraceModeArg5 represents the ASN.1 type DeactivateTraceModeArg (SEQUENCE).
@@ -503,6 +539,8 @@ type DeactivateTraceModeArg5 struct {
 	ExtCount_          int64                `asn1:"-" json:"-"`
 	ExtPresent_        []bool               `asn1:"-" json:"-"`
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
+	berOriginal_       []byte               `asn1:"-" json:"-"`
+	berSnapshot_       []byte               `asn1:"-" json:"-"`
 }
 
 // DeactivateTraceModeRes5 represents the ASN.1 type DeactivateTraceModeRes (SEQUENCE).
@@ -511,14 +549,31 @@ type DeactivateTraceModeRes5 struct {
 	ExtCount_          int64                `asn1:"-" json:"-"`
 	ExtPresent_        []bool               `asn1:"-" json:"-"`
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
+	berOriginal_       []byte               `asn1:"-" json:"-"`
+	berSnapshot_       []byte               `asn1:"-" json:"-"`
 }
 
 // MarshalBER encodes ActivateTraceModeArg5 to BER format.
-func (v *ActivateTraceModeArg5) MarshalBER() ([]byte, error) {
+func (v *ActivateTraceModeArg5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ActivateTraceModeArg5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ActivateTraceModeArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -532,7 +587,9 @@ func (v *ActivateTraceModeArg5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
-		return nil, fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(v.TraceReference))
+		if constraintErr := ber.CheckEncodedLength(opts, "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_tracereference, encodeErr_enc_tracereference := ber.EncodeOctetString([]byte(v.TraceReference))
 	if encodeErr_enc_tracereference != nil {
@@ -544,6 +601,11 @@ func (v *ActivateTraceModeArg5) MarshalBER() ([]byte, error) {
 	}
 	enc_tracereference = retagged_enc_tracereference
 	children = append(children, enc_tracereference...)
+	if !(int64(v.TraceType) >= 0 && int64(v.TraceType) <= 255) {
+		if constraintErr := ber.CheckEncodedValue(opts, "traceType", "(0..255)", fmt.Sprint(int64(v.TraceType))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_tracetype := ber.EncodeInteger(int64(v.TraceType))
 	retagged_enc_tracetype, tagErr_enc_tracetype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_tracetype)
 	if tagErr_enc_tracetype != nil {
@@ -553,7 +615,9 @@ func (v *ActivateTraceModeArg5) MarshalBER() ([]byte, error) {
 	children = append(children, enc_tracetype...)
 	if v.OmcId != nil {
 		if len(*v.OmcId) < 1 || len(*v.OmcId) > 20 {
-			return nil, fmt.Errorf("omc-Id length %d violates SIZE (1..20)", len(*v.OmcId))
+			if constraintErr := ber.CheckEncodedLength(opts, "omc-Id", "SIZE (1..20)", len(*v.OmcId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_omcid, encodeErr_enc_omcid := ber.EncodeOctetString([]byte(*v.OmcId))
 		if encodeErr_enc_omcid != nil {
@@ -567,7 +631,7 @@ func (v *ActivateTraceModeArg5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_omcid...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -580,7 +644,9 @@ func (v *ActivateTraceModeArg5) MarshalBER() ([]byte, error) {
 	}
 	if v.TraceReference2 != nil {
 		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-			return nil, fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+			if constraintErr := ber.CheckEncodedLength(opts, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_tracereference2, encodeErr_enc_tracereference2 := ber.EncodeOctetString([]byte(*v.TraceReference2))
 		if encodeErr_enc_tracereference2 != nil {
@@ -594,7 +660,7 @@ func (v *ActivateTraceModeArg5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_tracereference2...)
 	}
 	if v.TraceDepthList != nil {
-		enc_tracedepthlist, err := v.TraceDepthList.MarshalBER()
+		enc_tracedepthlist, err := v.TraceDepthList.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding traceDepthList: %w", err)
 		}
@@ -607,9 +673,11 @@ func (v *ActivateTraceModeArg5) MarshalBER() ([]byte, error) {
 	}
 	if v.TraceNETypeList != nil {
 		if (*v.TraceNETypeList).BitLength < 6 || (*v.TraceNETypeList).BitLength > 16 {
-			return nil, fmt.Errorf("traceNE-TypeList length %d violates SIZE (6..16)", (*v.TraceNETypeList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "traceNE-TypeList", "SIZE (6..16)", (*v.TraceNETypeList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.TraceNETypeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -625,7 +693,7 @@ func (v *ActivateTraceModeArg5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_tracenetypelist...)
 	}
 	if v.TraceInterfaceList != nil {
-		enc_traceinterfacelist, err := v.TraceInterfaceList.MarshalBER()
+		enc_traceinterfacelist, err := v.TraceInterfaceList.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding traceInterfaceList: %w", err)
 		}
@@ -637,7 +705,7 @@ func (v *ActivateTraceModeArg5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_traceinterfacelist...)
 	}
 	if v.TraceEventList != nil {
-		enc_traceeventlist, err := v.TraceEventList.MarshalBER()
+		enc_traceeventlist, err := v.TraceEventList.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding traceEventList: %w", err)
 		}
@@ -650,7 +718,9 @@ func (v *ActivateTraceModeArg5) MarshalBER() ([]byte, error) {
 	}
 	if v.TraceCollectionEntity != nil {
 		if len(*v.TraceCollectionEntity) < 5 || len(*v.TraceCollectionEntity) > 17 {
-			return nil, fmt.Errorf("traceCollectionEntity length %d violates SIZE (5..17)", len(*v.TraceCollectionEntity))
+			if constraintErr := ber.CheckEncodedLength(opts, "traceCollectionEntity", "SIZE (5..17)", len(*v.TraceCollectionEntity)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_tracecollectionentity, encodeErr_enc_tracecollectionentity := ber.EncodeOctetString([]byte(*v.TraceCollectionEntity))
 		if encodeErr_enc_tracecollectionentity != nil {
@@ -664,7 +734,7 @@ func (v *ActivateTraceModeArg5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_tracecollectionentity...)
 	}
 	if v.MdtConfiguration != nil {
-		enc_mdtconfiguration, err := v.MdtConfiguration.MarshalBER()
+		enc_mdtconfiguration, err := v.MdtConfiguration.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding mdt-Configuration: %w", err)
 		}
@@ -690,10 +760,15 @@ func (v *ActivateTraceModeArg5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ActivateTraceModeArg5 to DER format.
 func (v *ActivateTraceModeArg5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ActivateTraceModeArg5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -707,7 +782,9 @@ func (v *ActivateTraceModeArg5) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
-		return nil, fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(v.TraceReference))
+		if constraintErr := ber.CheckEncodedLength(nil, "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_tracereference, encodeErr_enc_tracereference := ber.EncodeOctetString([]byte(v.TraceReference))
 	if encodeErr_enc_tracereference != nil {
@@ -719,6 +796,11 @@ func (v *ActivateTraceModeArg5) MarshalDER() ([]byte, error) {
 	}
 	enc_tracereference = retagged_enc_tracereference
 	children = append(children, enc_tracereference...)
+	if !(int64(v.TraceType) >= 0 && int64(v.TraceType) <= 255) {
+		if constraintErr := ber.CheckEncodedValue(nil, "traceType", "(0..255)", fmt.Sprint(int64(v.TraceType))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_tracetype := ber.EncodeInteger(int64(v.TraceType))
 	retagged_enc_tracetype, tagErr_enc_tracetype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_tracetype)
 	if tagErr_enc_tracetype != nil {
@@ -728,7 +810,9 @@ func (v *ActivateTraceModeArg5) MarshalDER() ([]byte, error) {
 	children = append(children, enc_tracetype...)
 	if v.OmcId != nil {
 		if len(*v.OmcId) < 1 || len(*v.OmcId) > 20 {
-			return nil, fmt.Errorf("omc-Id length %d violates SIZE (1..20)", len(*v.OmcId))
+			if constraintErr := ber.CheckEncodedLength(nil, "omc-Id", "SIZE (1..20)", len(*v.OmcId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_omcid, encodeErr_enc_omcid := ber.EncodeOctetString([]byte(*v.OmcId))
 		if encodeErr_enc_omcid != nil {
@@ -755,7 +839,9 @@ func (v *ActivateTraceModeArg5) MarshalDER() ([]byte, error) {
 	}
 	if v.TraceReference2 != nil {
 		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-			return nil, fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+			if constraintErr := ber.CheckEncodedLength(nil, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_tracereference2, encodeErr_enc_tracereference2 := ber.EncodeOctetString([]byte(*v.TraceReference2))
 		if encodeErr_enc_tracereference2 != nil {
@@ -782,9 +868,11 @@ func (v *ActivateTraceModeArg5) MarshalDER() ([]byte, error) {
 	}
 	if v.TraceNETypeList != nil {
 		if (*v.TraceNETypeList).BitLength < 6 || (*v.TraceNETypeList).BitLength > 16 {
-			return nil, fmt.Errorf("traceNE-TypeList length %d violates SIZE (6..16)", (*v.TraceNETypeList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "traceNE-TypeList", "SIZE (6..16)", (*v.TraceNETypeList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.TraceNETypeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -825,7 +913,9 @@ func (v *ActivateTraceModeArg5) MarshalDER() ([]byte, error) {
 	}
 	if v.TraceCollectionEntity != nil {
 		if len(*v.TraceCollectionEntity) < 5 || len(*v.TraceCollectionEntity) > 17 {
-			return nil, fmt.Errorf("traceCollectionEntity length %d violates SIZE (5..17)", len(*v.TraceCollectionEntity))
+			if constraintErr := ber.CheckEncodedLength(nil, "traceCollectionEntity", "SIZE (5..17)", len(*v.TraceCollectionEntity)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_tracecollectionentity, encodeErr_enc_tracecollectionentity := ber.EncodeOctetString([]byte(*v.TraceCollectionEntity))
 		if encodeErr_enc_tracecollectionentity != nil {
@@ -867,11 +957,27 @@ func (v *ActivateTraceModeArg5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ActivateTraceModeArg5 from BER/DER format.
-func (v *ActivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ActivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ActivateTraceModeArg5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ActivateTraceModeArg5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ActivateTraceModeArg5 SEQUENCE: %w", err)
@@ -901,7 +1007,9 @@ func (v *ActivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_imsi
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+					if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -930,7 +1038,9 @@ func (v *ActivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 	offset += n_tracereference
 	if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
-		return fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(v.TraceReference))
+		if constraintErr := ber.CheckDecodedLength(opts, "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode traceType
 	if offset >= len(content) {
@@ -959,6 +1069,11 @@ func (v *ActivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}
 
 	offset += n_tracetype
+	if !(int64(v.TraceType) >= 0 && int64(v.TraceType) <= 255) {
+		if constraintErr := ber.CheckDecodedValue(opts, "traceType", "(0..255)", fmt.Sprint(int64(v.TraceType))); constraintErr != nil {
+			return constraintErr
+		}
+	}
 	// Decode omc-Id
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -980,7 +1095,9 @@ func (v *ActivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_omcid
 				if len(*v.OmcId) < 1 || len(*v.OmcId) > 20 {
-					return fmt.Errorf("omc-Id length %d violates SIZE (1..20)", len(*v.OmcId))
+					if constraintErr := ber.CheckDecodedLength(opts, "omc-Id", "SIZE (1..20)", len(*v.OmcId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1002,7 +1119,7 @@ func (v *ActivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer5
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -1037,7 +1154,9 @@ func (v *ActivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_tracereference2
 				if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-					return fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+					if constraintErr := ber.CheckDecodedLength(opts, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1059,7 +1178,7 @@ func (v *ActivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("decoding traceDepthList: %w", reconstructionErr_tracedepthlist)
 				}
 				var dec_tracedepthlist TraceDepthList5
-				if unmErr := dec_tracedepthlist.UnmarshalBER(reconstructed_tracedepthlist, opts...); unmErr != nil {
+				if unmErr := dec_tracedepthlist.UnmarshalBER(reconstructed_tracedepthlist, ber.ChildDecodeOptions(opts, "tracedepthlist")...); unmErr != nil {
 					return fmt.Errorf("decoding traceDepthList: %w", unmErr)
 				}
 				v.TraceDepthList = &dec_tracedepthlist
@@ -1101,7 +1220,9 @@ func (v *ActivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_tracenetypelist
 				if (*v.TraceNETypeList).BitLength < 6 || (*v.TraceNETypeList).BitLength > 16 {
-					return fmt.Errorf("traceNE-TypeList length %d violates SIZE (6..16)", (*v.TraceNETypeList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "traceNE-TypeList", "SIZE (6..16)", (*v.TraceNETypeList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1123,7 +1244,7 @@ func (v *ActivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("decoding traceInterfaceList: %w", reconstructionErr_traceinterfacelist)
 				}
 				var dec_traceinterfacelist TraceInterfaceList5
-				if unmErr := dec_traceinterfacelist.UnmarshalBER(reconstructed_traceinterfacelist, opts...); unmErr != nil {
+				if unmErr := dec_traceinterfacelist.UnmarshalBER(reconstructed_traceinterfacelist, ber.ChildDecodeOptions(opts, "traceinterfacelist")...); unmErr != nil {
 					return fmt.Errorf("decoding traceInterfaceList: %w", unmErr)
 				}
 				v.TraceInterfaceList = &dec_traceinterfacelist
@@ -1154,7 +1275,7 @@ func (v *ActivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("decoding traceEventList: %w", reconstructionErr_traceeventlist)
 				}
 				var dec_traceeventlist TraceEventList5
-				if unmErr := dec_traceeventlist.UnmarshalBER(reconstructed_traceeventlist, opts...); unmErr != nil {
+				if unmErr := dec_traceeventlist.UnmarshalBER(reconstructed_traceeventlist, ber.ChildDecodeOptions(opts, "traceeventlist")...); unmErr != nil {
 					return fmt.Errorf("decoding traceEventList: %w", unmErr)
 				}
 				v.TraceEventList = &dec_traceeventlist
@@ -1189,7 +1310,9 @@ func (v *ActivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_tracecollectionentity
 				if len(*v.TraceCollectionEntity) < 5 || len(*v.TraceCollectionEntity) > 17 {
-					return fmt.Errorf("traceCollectionEntity length %d violates SIZE (5..17)", len(*v.TraceCollectionEntity))
+					if constraintErr := ber.CheckDecodedLength(opts, "traceCollectionEntity", "SIZE (5..17)", len(*v.TraceCollectionEntity)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1211,7 +1334,7 @@ func (v *ActivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("decoding mdt-Configuration: %w", reconstructionErr_mdtconfiguration)
 				}
 				var dec_mdtconfiguration MDTConfiguration4
-				if unmErr := dec_mdtconfiguration.UnmarshalBER(reconstructed_mdtconfiguration, opts...); unmErr != nil {
+				if unmErr := dec_mdtconfiguration.UnmarshalBER(reconstructed_mdtconfiguration, ber.ChildDecodeOptions(opts, "mdtconfiguration")...); unmErr != nil {
 					return fmt.Errorf("decoding mdt-Configuration: %w", unmErr)
 				}
 				v.MdtConfiguration = &dec_mdtconfiguration
@@ -1252,12 +1375,25 @@ func (v *ActivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes MDTConfiguration4 to BER format.
-func (v *MDTConfiguration4) MarshalBER() ([]byte, error) {
+func (v *MDTConfiguration4) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: MDTConfiguration4 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *MDTConfiguration4) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_jobtype := ber.EncodeEnumerated(int64(v.JobType))
 	children = append(children, enc_jobtype...)
 	if v.AreaScope != nil {
-		enc_areascope, err := v.AreaScope.MarshalBER()
+		enc_areascope, err := v.AreaScope.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding areaScope: %w", err)
 		}
@@ -1265,7 +1401,9 @@ func (v *MDTConfiguration4) MarshalBER() ([]byte, error) {
 	}
 	if v.ListOfMeasurements != nil {
 		if len(*v.ListOfMeasurements) < 4 || len(*v.ListOfMeasurements) > 4 {
-			return nil, fmt.Errorf("listOfMeasurements length %d violates SIZE (4)", len(*v.ListOfMeasurements))
+			if constraintErr := ber.CheckEncodedLength(opts, "listOfMeasurements", "SIZE (4)", len(*v.ListOfMeasurements)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_listofmeasurements, encodeErr_enc_listofmeasurements := ber.EncodeOctetString([]byte(*v.ListOfMeasurements))
 		if encodeErr_enc_listofmeasurements != nil {
@@ -1275,7 +1413,9 @@ func (v *MDTConfiguration4) MarshalBER() ([]byte, error) {
 	}
 	if v.ReportingTrigger != nil {
 		if len(*v.ReportingTrigger) < 1 || len(*v.ReportingTrigger) > 1 {
-			return nil, fmt.Errorf("reportingTrigger length %d violates SIZE (1)", len(*v.ReportingTrigger))
+			if constraintErr := ber.CheckEncodedLength(opts, "reportingTrigger", "SIZE (1)", len(*v.ReportingTrigger)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_reportingtrigger, encodeErr_enc_reportingtrigger := ber.EncodeOctetString([]byte(*v.ReportingTrigger))
 		if encodeErr_enc_reportingtrigger != nil {
@@ -1302,10 +1442,20 @@ func (v *MDTConfiguration4) MarshalBER() ([]byte, error) {
 		children = append(children, enc_reportamount...)
 	}
 	if v.EventThresholdRSRP != nil {
+		if !(int64(*v.EventThresholdRSRP) >= 0 && int64(*v.EventThresholdRSRP) <= 97) {
+			if constraintErr := ber.CheckEncodedValue(opts, "eventThresholdRSRP", "(0..97)", fmt.Sprint(int64(*v.EventThresholdRSRP))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_eventthresholdrsrp := ber.EncodeInteger(int64(*v.EventThresholdRSRP))
 		children = append(children, enc_eventthresholdrsrp...)
 	}
 	if v.EventThresholdRSRQ != nil {
+		if !(int64(*v.EventThresholdRSRQ) >= 0 && int64(*v.EventThresholdRSRQ) <= 34) {
+			if constraintErr := ber.CheckEncodedValue(opts, "eventThresholdRSRQ", "(0..34)", fmt.Sprint(int64(*v.EventThresholdRSRQ))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_eventthresholdrsrq := ber.EncodeInteger(int64(*v.EventThresholdRSRQ))
 		retagged_enc_eventthresholdrsrq, tagErr_enc_eventthresholdrsrq := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_eventthresholdrsrq)
 		if tagErr_enc_eventthresholdrsrq != nil {
@@ -1333,7 +1483,7 @@ func (v *MDTConfiguration4) MarshalBER() ([]byte, error) {
 		children = append(children, enc_loggingduration...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -1359,6 +1509,9 @@ func (v *MDTConfiguration4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes MDTConfiguration4 to DER format.
 func (v *MDTConfiguration4) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: MDTConfiguration4 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_jobtype := ber.EncodeEnumerated(int64(v.JobType))
 	children = append(children, enc_jobtype...)
@@ -1371,7 +1524,9 @@ func (v *MDTConfiguration4) MarshalDER() ([]byte, error) {
 	}
 	if v.ListOfMeasurements != nil {
 		if len(*v.ListOfMeasurements) < 4 || len(*v.ListOfMeasurements) > 4 {
-			return nil, fmt.Errorf("listOfMeasurements length %d violates SIZE (4)", len(*v.ListOfMeasurements))
+			if constraintErr := ber.CheckEncodedLength(nil, "listOfMeasurements", "SIZE (4)", len(*v.ListOfMeasurements)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_listofmeasurements, encodeErr_enc_listofmeasurements := ber.EncodeOctetString([]byte(*v.ListOfMeasurements))
 		if encodeErr_enc_listofmeasurements != nil {
@@ -1381,7 +1536,9 @@ func (v *MDTConfiguration4) MarshalDER() ([]byte, error) {
 	}
 	if v.ReportingTrigger != nil {
 		if len(*v.ReportingTrigger) < 1 || len(*v.ReportingTrigger) > 1 {
-			return nil, fmt.Errorf("reportingTrigger length %d violates SIZE (1)", len(*v.ReportingTrigger))
+			if constraintErr := ber.CheckEncodedLength(nil, "reportingTrigger", "SIZE (1)", len(*v.ReportingTrigger)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_reportingtrigger, encodeErr_enc_reportingtrigger := ber.EncodeOctetString([]byte(*v.ReportingTrigger))
 		if encodeErr_enc_reportingtrigger != nil {
@@ -1408,10 +1565,20 @@ func (v *MDTConfiguration4) MarshalDER() ([]byte, error) {
 		children = append(children, enc_reportamount...)
 	}
 	if v.EventThresholdRSRP != nil {
+		if !(int64(*v.EventThresholdRSRP) >= 0 && int64(*v.EventThresholdRSRP) <= 97) {
+			if constraintErr := ber.CheckEncodedValue(nil, "eventThresholdRSRP", "(0..97)", fmt.Sprint(int64(*v.EventThresholdRSRP))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_eventthresholdrsrp := ber.EncodeInteger(int64(*v.EventThresholdRSRP))
 		children = append(children, enc_eventthresholdrsrp...)
 	}
 	if v.EventThresholdRSRQ != nil {
+		if !(int64(*v.EventThresholdRSRQ) >= 0 && int64(*v.EventThresholdRSRQ) <= 34) {
+			if constraintErr := ber.CheckEncodedValue(nil, "eventThresholdRSRQ", "(0..34)", fmt.Sprint(int64(*v.EventThresholdRSRQ))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_eventthresholdrsrq := ber.EncodeInteger(int64(*v.EventThresholdRSRQ))
 		retagged_enc_eventthresholdrsrq, tagErr_enc_eventthresholdrsrq := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_eventthresholdrsrq)
 		if tagErr_enc_eventthresholdrsrq != nil {
@@ -1467,11 +1634,27 @@ func (v *MDTConfiguration4) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes MDTConfiguration4 from BER/DER format.
-func (v *MDTConfiguration4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *MDTConfiguration4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: MDTConfiguration4 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MDTConfiguration4{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding MDTConfiguration4 SEQUENCE: %w", err)
@@ -1511,7 +1694,7 @@ func (v *MDTConfiguration4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_areascope.UnmarshalBER(content[offset:offset+n_areascope], opts...); unmErr != nil {
+				if unmErr := dec_areascope.UnmarshalBER(content[offset:offset+n_areascope], ber.ChildDecodeOptions(opts, "areascope")...); unmErr != nil {
 					return fmt.Errorf("decoding areaScope: %w", unmErr)
 				}
 				v.AreaScope = &dec_areascope
@@ -1542,7 +1725,9 @@ func (v *MDTConfiguration4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 
 				offset += n
 				if len(*v.ListOfMeasurements) < 4 || len(*v.ListOfMeasurements) > 4 {
-					return fmt.Errorf("listOfMeasurements length %d violates SIZE (4)", len(*v.ListOfMeasurements))
+					if constraintErr := ber.CheckDecodedLength(opts, "listOfMeasurements", "SIZE (4)", len(*v.ListOfMeasurements)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1569,7 +1754,9 @@ func (v *MDTConfiguration4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 
 				offset += n_reportingtrigger
 				if len(*v.ReportingTrigger) < 1 || len(*v.ReportingTrigger) > 1 {
-					return fmt.Errorf("reportingTrigger length %d violates SIZE (1)", len(*v.ReportingTrigger))
+					if constraintErr := ber.CheckDecodedLength(opts, "reportingTrigger", "SIZE (1)", len(*v.ReportingTrigger)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1638,6 +1825,11 @@ func (v *MDTConfiguration4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 				}
 
 				offset += n
+				if !(int64(*v.EventThresholdRSRP) >= 0 && int64(*v.EventThresholdRSRP) <= 97) {
+					if constraintErr := ber.CheckDecodedValue(opts, "eventThresholdRSRP", "(0..97)", fmt.Sprint(int64(*v.EventThresholdRSRP))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -1666,6 +1858,11 @@ func (v *MDTConfiguration4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 				}
 
 				offset += n_eventthresholdrsrq
+				if !(int64(*v.EventThresholdRSRQ) >= 0 && int64(*v.EventThresholdRSRQ) <= 34) {
+					if constraintErr := ber.CheckDecodedValue(opts, "eventThresholdRSRQ", "(0..34)", fmt.Sprint(int64(*v.EventThresholdRSRQ))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -1742,7 +1939,7 @@ func (v *MDTConfiguration4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer5
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -1783,13 +1980,28 @@ func (v *MDTConfiguration4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 }
 
 // MarshalBER encodes AreaScope4 to BER format.
-func (v *AreaScope4) MarshalBER() ([]byte, error) {
+func (v *AreaScope4) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AreaScope4 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *AreaScope4) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.CgiList != nil {
-		if len(v.CgiList) < 1 || len(v.CgiList) > 32 {
-			return nil, fmt.Errorf("cgi-List length %d violates SIZE (1..32)", len(v.CgiList))
+		if len((v.CgiList).Values) < 1 || len((v.CgiList).Values) > 32 {
+			if constraintErr := ber.CheckEncodedLength(opts, "cgi-List", "SIZE (1..32)", len((v.CgiList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_cgilist, err := MarshalBERCGIList4(v.CgiList)
+		enc_cgilist, err := MarshalBERCGIList4(v.CgiList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cgi-List: %w", err)
 		}
@@ -1816,10 +2028,12 @@ func (v *AreaScope4) MarshalBER() ([]byte, error) {
 		children = append(children, enc_cgilist...)
 	}
 	if v.EUtranCgiList != nil {
-		if len(v.EUtranCgiList) < 1 || len(v.EUtranCgiList) > 32 {
-			return nil, fmt.Errorf("e-utran-cgi-List length %d violates SIZE (1..32)", len(v.EUtranCgiList))
+		if len((v.EUtranCgiList).Values) < 1 || len((v.EUtranCgiList).Values) > 32 {
+			if constraintErr := ber.CheckEncodedLength(opts, "e-utran-cgi-List", "SIZE (1..32)", len((v.EUtranCgiList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_eutrancgilist, err := MarshalBEREUTRANCGIList4(v.EUtranCgiList)
+		enc_eutrancgilist, err := MarshalBEREUTRANCGIList4(v.EUtranCgiList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding e-utran-cgi-List: %w", err)
 		}
@@ -1846,10 +2060,12 @@ func (v *AreaScope4) MarshalBER() ([]byte, error) {
 		children = append(children, enc_eutrancgilist...)
 	}
 	if v.RoutingAreaIdList != nil {
-		if len(v.RoutingAreaIdList) < 1 || len(v.RoutingAreaIdList) > 8 {
-			return nil, fmt.Errorf("routingAreaId-List length %d violates SIZE (1..8)", len(v.RoutingAreaIdList))
+		if len((v.RoutingAreaIdList).Values) < 1 || len((v.RoutingAreaIdList).Values) > 8 {
+			if constraintErr := ber.CheckEncodedLength(opts, "routingAreaId-List", "SIZE (1..8)", len((v.RoutingAreaIdList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_routingareaidlist, err := MarshalBERRoutingAreaIdList4(v.RoutingAreaIdList)
+		enc_routingareaidlist, err := MarshalBERRoutingAreaIdList4(v.RoutingAreaIdList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding routingAreaId-List: %w", err)
 		}
@@ -1876,10 +2092,12 @@ func (v *AreaScope4) MarshalBER() ([]byte, error) {
 		children = append(children, enc_routingareaidlist...)
 	}
 	if v.LocationAreaIdList != nil {
-		if len(v.LocationAreaIdList) < 1 || len(v.LocationAreaIdList) > 8 {
-			return nil, fmt.Errorf("locationAreaId-List length %d violates SIZE (1..8)", len(v.LocationAreaIdList))
+		if len((v.LocationAreaIdList).Values) < 1 || len((v.LocationAreaIdList).Values) > 8 {
+			if constraintErr := ber.CheckEncodedLength(opts, "locationAreaId-List", "SIZE (1..8)", len((v.LocationAreaIdList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_locationareaidlist, err := MarshalBERLocationAreaIdList4(v.LocationAreaIdList)
+		enc_locationareaidlist, err := MarshalBERLocationAreaIdList4(v.LocationAreaIdList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding locationAreaId-List: %w", err)
 		}
@@ -1906,10 +2124,12 @@ func (v *AreaScope4) MarshalBER() ([]byte, error) {
 		children = append(children, enc_locationareaidlist...)
 	}
 	if v.TrackingAreaIdList != nil {
-		if len(v.TrackingAreaIdList) < 1 || len(v.TrackingAreaIdList) > 8 {
-			return nil, fmt.Errorf("trackingAreaId-List length %d violates SIZE (1..8)", len(v.TrackingAreaIdList))
+		if len((v.TrackingAreaIdList).Values) < 1 || len((v.TrackingAreaIdList).Values) > 8 {
+			if constraintErr := ber.CheckEncodedLength(opts, "trackingAreaId-List", "SIZE (1..8)", len((v.TrackingAreaIdList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_trackingareaidlist, err := MarshalBERTrackingAreaIdList4(v.TrackingAreaIdList)
+		enc_trackingareaidlist, err := MarshalBERTrackingAreaIdList4(v.TrackingAreaIdList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding trackingAreaId-List: %w", err)
 		}
@@ -1936,7 +2156,7 @@ func (v *AreaScope4) MarshalBER() ([]byte, error) {
 		children = append(children, enc_trackingareaidlist...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -1962,10 +2182,15 @@ func (v *AreaScope4) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AreaScope4 to DER format.
 func (v *AreaScope4) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AreaScope4 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.CgiList != nil {
-		if len(v.CgiList) < 1 || len(v.CgiList) > 32 {
-			return nil, fmt.Errorf("cgi-List length %d violates SIZE (1..32)", len(v.CgiList))
+		if len((v.CgiList).Values) < 1 || len((v.CgiList).Values) > 32 {
+			if constraintErr := ber.CheckEncodedLength(nil, "cgi-List", "SIZE (1..32)", len((v.CgiList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_cgilist, err := MarshalDERCGIList4(v.CgiList)
 		if err != nil {
@@ -1979,8 +2204,10 @@ func (v *AreaScope4) MarshalDER() ([]byte, error) {
 		children = append(children, enc_cgilist...)
 	}
 	if v.EUtranCgiList != nil {
-		if len(v.EUtranCgiList) < 1 || len(v.EUtranCgiList) > 32 {
-			return nil, fmt.Errorf("e-utran-cgi-List length %d violates SIZE (1..32)", len(v.EUtranCgiList))
+		if len((v.EUtranCgiList).Values) < 1 || len((v.EUtranCgiList).Values) > 32 {
+			if constraintErr := ber.CheckEncodedLength(nil, "e-utran-cgi-List", "SIZE (1..32)", len((v.EUtranCgiList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eutrancgilist, err := MarshalDEREUTRANCGIList4(v.EUtranCgiList)
 		if err != nil {
@@ -1994,8 +2221,10 @@ func (v *AreaScope4) MarshalDER() ([]byte, error) {
 		children = append(children, enc_eutrancgilist...)
 	}
 	if v.RoutingAreaIdList != nil {
-		if len(v.RoutingAreaIdList) < 1 || len(v.RoutingAreaIdList) > 8 {
-			return nil, fmt.Errorf("routingAreaId-List length %d violates SIZE (1..8)", len(v.RoutingAreaIdList))
+		if len((v.RoutingAreaIdList).Values) < 1 || len((v.RoutingAreaIdList).Values) > 8 {
+			if constraintErr := ber.CheckEncodedLength(nil, "routingAreaId-List", "SIZE (1..8)", len((v.RoutingAreaIdList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_routingareaidlist, err := MarshalDERRoutingAreaIdList4(v.RoutingAreaIdList)
 		if err != nil {
@@ -2009,8 +2238,10 @@ func (v *AreaScope4) MarshalDER() ([]byte, error) {
 		children = append(children, enc_routingareaidlist...)
 	}
 	if v.LocationAreaIdList != nil {
-		if len(v.LocationAreaIdList) < 1 || len(v.LocationAreaIdList) > 8 {
-			return nil, fmt.Errorf("locationAreaId-List length %d violates SIZE (1..8)", len(v.LocationAreaIdList))
+		if len((v.LocationAreaIdList).Values) < 1 || len((v.LocationAreaIdList).Values) > 8 {
+			if constraintErr := ber.CheckEncodedLength(nil, "locationAreaId-List", "SIZE (1..8)", len((v.LocationAreaIdList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_locationareaidlist, err := MarshalDERLocationAreaIdList4(v.LocationAreaIdList)
 		if err != nil {
@@ -2024,8 +2255,10 @@ func (v *AreaScope4) MarshalDER() ([]byte, error) {
 		children = append(children, enc_locationareaidlist...)
 	}
 	if v.TrackingAreaIdList != nil {
-		if len(v.TrackingAreaIdList) < 1 || len(v.TrackingAreaIdList) > 8 {
-			return nil, fmt.Errorf("trackingAreaId-List length %d violates SIZE (1..8)", len(v.TrackingAreaIdList))
+		if len((v.TrackingAreaIdList).Values) < 1 || len((v.TrackingAreaIdList).Values) > 8 {
+			if constraintErr := ber.CheckEncodedLength(nil, "trackingAreaId-List", "SIZE (1..8)", len((v.TrackingAreaIdList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_trackingareaidlist, err := MarshalDERTrackingAreaIdList4(v.TrackingAreaIdList)
 		if err != nil {
@@ -2067,11 +2300,27 @@ func (v *AreaScope4) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes AreaScope4 from BER/DER format.
-func (v *AreaScope4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *AreaScope4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: AreaScope4 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = AreaScope4{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding AreaScope4 SEQUENCE: %w", err)
@@ -2097,7 +2346,7 @@ func (v *AreaScope4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if reconstructionErr_cgilist != nil {
 					return fmt.Errorf("decoding cgi-List: %w", reconstructionErr_cgilist)
 				}
-				dec_cgilist, unmErr := UnmarshalBERCGIList4(reconstructed_cgilist, opts...)
+				dec_cgilist, unmErr := UnmarshalBERCGIList4(reconstructed_cgilist, ber.ChildDecodeOptions(opts, "cgi-List")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding cgi-List: %w", unmErr)
 				}
@@ -2119,8 +2368,10 @@ func (v *AreaScope4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_cgilist
-				if len(v.CgiList) < 1 || len(v.CgiList) > 32 {
-					return fmt.Errorf("cgi-List length %d violates SIZE (1..32)", len(v.CgiList))
+				if len((v.CgiList).Values) < 1 || len((v.CgiList).Values) > 32 {
+					if constraintErr := ber.CheckDecodedLength(opts, "cgi-List", "SIZE (1..32)", len((v.CgiList).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -2142,7 +2393,7 @@ func (v *AreaScope4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if reconstructionErr_eutrancgilist != nil {
 					return fmt.Errorf("decoding e-utran-cgi-List: %w", reconstructionErr_eutrancgilist)
 				}
-				dec_eutrancgilist, unmErr := UnmarshalBEREUTRANCGIList4(reconstructed_eutrancgilist, opts...)
+				dec_eutrancgilist, unmErr := UnmarshalBEREUTRANCGIList4(reconstructed_eutrancgilist, ber.ChildDecodeOptions(opts, "e-utran-cgi-List")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding e-utran-cgi-List: %w", unmErr)
 				}
@@ -2165,8 +2416,10 @@ func (v *AreaScope4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_eutrancgilist
-				if len(v.EUtranCgiList) < 1 || len(v.EUtranCgiList) > 32 {
-					return fmt.Errorf("e-utran-cgi-List length %d violates SIZE (1..32)", len(v.EUtranCgiList))
+				if len((v.EUtranCgiList).Values) < 1 || len((v.EUtranCgiList).Values) > 32 {
+					if constraintErr := ber.CheckDecodedLength(opts, "e-utran-cgi-List", "SIZE (1..32)", len((v.EUtranCgiList).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -2188,7 +2441,7 @@ func (v *AreaScope4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if reconstructionErr_routingareaidlist != nil {
 					return fmt.Errorf("decoding routingAreaId-List: %w", reconstructionErr_routingareaidlist)
 				}
-				dec_routingareaidlist, unmErr := UnmarshalBERRoutingAreaIdList4(reconstructed_routingareaidlist, opts...)
+				dec_routingareaidlist, unmErr := UnmarshalBERRoutingAreaIdList4(reconstructed_routingareaidlist, ber.ChildDecodeOptions(opts, "routingAreaId-List")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding routingAreaId-List: %w", unmErr)
 				}
@@ -2211,8 +2464,10 @@ func (v *AreaScope4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_routingareaidlist
-				if len(v.RoutingAreaIdList) < 1 || len(v.RoutingAreaIdList) > 8 {
-					return fmt.Errorf("routingAreaId-List length %d violates SIZE (1..8)", len(v.RoutingAreaIdList))
+				if len((v.RoutingAreaIdList).Values) < 1 || len((v.RoutingAreaIdList).Values) > 8 {
+					if constraintErr := ber.CheckDecodedLength(opts, "routingAreaId-List", "SIZE (1..8)", len((v.RoutingAreaIdList).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -2234,7 +2489,7 @@ func (v *AreaScope4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if reconstructionErr_locationareaidlist != nil {
 					return fmt.Errorf("decoding locationAreaId-List: %w", reconstructionErr_locationareaidlist)
 				}
-				dec_locationareaidlist, unmErr := UnmarshalBERLocationAreaIdList4(reconstructed_locationareaidlist, opts...)
+				dec_locationareaidlist, unmErr := UnmarshalBERLocationAreaIdList4(reconstructed_locationareaidlist, ber.ChildDecodeOptions(opts, "locationAreaId-List")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding locationAreaId-List: %w", unmErr)
 				}
@@ -2257,8 +2512,10 @@ func (v *AreaScope4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_locationareaidlist
-				if len(v.LocationAreaIdList) < 1 || len(v.LocationAreaIdList) > 8 {
-					return fmt.Errorf("locationAreaId-List length %d violates SIZE (1..8)", len(v.LocationAreaIdList))
+				if len((v.LocationAreaIdList).Values) < 1 || len((v.LocationAreaIdList).Values) > 8 {
+					if constraintErr := ber.CheckDecodedLength(opts, "locationAreaId-List", "SIZE (1..8)", len((v.LocationAreaIdList).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -2280,7 +2537,7 @@ func (v *AreaScope4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if reconstructionErr_trackingareaidlist != nil {
 					return fmt.Errorf("decoding trackingAreaId-List: %w", reconstructionErr_trackingareaidlist)
 				}
-				dec_trackingareaidlist, unmErr := UnmarshalBERTrackingAreaIdList4(reconstructed_trackingareaidlist, opts...)
+				dec_trackingareaidlist, unmErr := UnmarshalBERTrackingAreaIdList4(reconstructed_trackingareaidlist, ber.ChildDecodeOptions(opts, "trackingAreaId-List")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding trackingAreaId-List: %w", unmErr)
 				}
@@ -2303,8 +2560,10 @@ func (v *AreaScope4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_trackingareaidlist
-				if len(v.TrackingAreaIdList) < 1 || len(v.TrackingAreaIdList) > 8 {
-					return fmt.Errorf("trackingAreaId-List length %d violates SIZE (1..8)", len(v.TrackingAreaIdList))
+				if len((v.TrackingAreaIdList).Values) < 1 || len((v.TrackingAreaIdList).Values) > 8 {
+					if constraintErr := ber.CheckDecodedLength(opts, "trackingAreaId-List", "SIZE (1..8)", len((v.TrackingAreaIdList).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -2326,7 +2585,7 @@ func (v *AreaScope4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer5
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -2367,9 +2626,25 @@ func (v *AreaScope4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBERCGIList4 encodes a CGIList4 list to BER.
-func MarshalBERCGIList4(list CGIList4) ([]byte, error) {
+func MarshalBERCGIList4(collection *CGIList4, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERCGIList4(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERCGIList4(collection *CGIList4, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		return nil, fmt.Errorf("CGIList4 length %d violates SIZE (1..32)", len(list))
+		if constraintErr := ber.CheckEncodedLength(opts, "CGIList4", "SIZE (1..32)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -2383,9 +2658,15 @@ func MarshalBERCGIList4(list CGIList4) ([]byte, error) {
 }
 
 // MarshalDERCGIList4 encodes a CGIList4 list to DER.
-func MarshalDERCGIList4(list CGIList4) ([]byte, error) {
+func MarshalDERCGIList4(collection *CGIList4) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		return nil, fmt.Errorf("CGIList4 length %d violates SIZE (1..32)", len(list))
+		if constraintErr := ber.CheckEncodedLength(nil, "CGIList4", "SIZE (1..32)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -2406,7 +2687,7 @@ func MarshalDERCGIList4(list CGIList4) ([]byte, error) {
 }
 
 // UnmarshalBERCGIList4 decodes a CGIList4 list from BER.
-func UnmarshalBERCGIList4(data []byte, opts ...ber.DecodeOption) (CGIList4, error) {
+func UnmarshalBERCGIList4(data []byte, opts ...ber.DecodeOption) (*CGIList4, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2417,7 +2698,7 @@ func UnmarshalBERCGIList4(data []byte, opts ...ber.DecodeOption) (CGIList4, erro
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "CGIList4", Cause: ber.ErrExtraData}
 	}
-	var result CGIList4
+	var result []GlobalCellId5
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
@@ -2431,20 +2712,45 @@ func UnmarshalBERCGIList4(data []byte, opts ...ber.DecodeOption) (CGIList4, erro
 		}
 
 		offset += n
-		if len(result) > 32 {
-			return nil, fmt.Errorf("CGIList4 length %d violates SIZE (1..32)", len(result))
-		}
 	}
 	if len(result) < 1 || len(result) > 32 {
-		return nil, fmt.Errorf("CGIList4 length %d violates SIZE (1..32)", len(result))
+		if constraintErr := ber.CheckDecodedLength(opts, "CGIList4", "SIZE (1..32)", len(result)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
-	return result, nil
+	decoded := &CGIList4{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERCGIList4(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBEREUTRANCGIList4 encodes a EUTRANCGIList4 list to BER.
-func MarshalBEREUTRANCGIList4(list EUTRANCGIList4) ([]byte, error) {
+func MarshalBEREUTRANCGIList4(collection *EUTRANCGIList4, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBEREUTRANCGIList4(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBEREUTRANCGIList4(collection *EUTRANCGIList4, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		return nil, fmt.Errorf("EUTRANCGIList4 length %d violates SIZE (1..32)", len(list))
+		if constraintErr := ber.CheckEncodedLength(opts, "EUTRANCGIList4", "SIZE (1..32)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -2458,9 +2764,15 @@ func MarshalBEREUTRANCGIList4(list EUTRANCGIList4) ([]byte, error) {
 }
 
 // MarshalDEREUTRANCGIList4 encodes a EUTRANCGIList4 list to DER.
-func MarshalDEREUTRANCGIList4(list EUTRANCGIList4) ([]byte, error) {
+func MarshalDEREUTRANCGIList4(collection *EUTRANCGIList4) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		return nil, fmt.Errorf("EUTRANCGIList4 length %d violates SIZE (1..32)", len(list))
+		if constraintErr := ber.CheckEncodedLength(nil, "EUTRANCGIList4", "SIZE (1..32)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -2481,7 +2793,7 @@ func MarshalDEREUTRANCGIList4(list EUTRANCGIList4) ([]byte, error) {
 }
 
 // UnmarshalBEREUTRANCGIList4 decodes a EUTRANCGIList4 list from BER.
-func UnmarshalBEREUTRANCGIList4(data []byte, opts ...ber.DecodeOption) (EUTRANCGIList4, error) {
+func UnmarshalBEREUTRANCGIList4(data []byte, opts ...ber.DecodeOption) (*EUTRANCGIList4, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2492,7 +2804,7 @@ func UnmarshalBEREUTRANCGIList4(data []byte, opts ...ber.DecodeOption) (EUTRANCG
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "EUTRANCGIList4", Cause: ber.ErrExtraData}
 	}
-	var result EUTRANCGIList4
+	var result []EUTRANCGI4
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
@@ -2506,20 +2818,45 @@ func UnmarshalBEREUTRANCGIList4(data []byte, opts ...ber.DecodeOption) (EUTRANCG
 		}
 
 		offset += n
-		if len(result) > 32 {
-			return nil, fmt.Errorf("EUTRANCGIList4 length %d violates SIZE (1..32)", len(result))
-		}
 	}
 	if len(result) < 1 || len(result) > 32 {
-		return nil, fmt.Errorf("EUTRANCGIList4 length %d violates SIZE (1..32)", len(result))
+		if constraintErr := ber.CheckDecodedLength(opts, "EUTRANCGIList4", "SIZE (1..32)", len(result)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
-	return result, nil
+	decoded := &EUTRANCGIList4{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBEREUTRANCGIList4(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBERRoutingAreaIdList4 encodes a RoutingAreaIdList4 list to BER.
-func MarshalBERRoutingAreaIdList4(list RoutingAreaIdList4) ([]byte, error) {
+func MarshalBERRoutingAreaIdList4(collection *RoutingAreaIdList4, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERRoutingAreaIdList4(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERRoutingAreaIdList4(collection *RoutingAreaIdList4, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	if len(list) < 1 || len(list) > 8 {
-		return nil, fmt.Errorf("RoutingAreaIdList4 length %d violates SIZE (1..8)", len(list))
+		if constraintErr := ber.CheckEncodedLength(opts, "RoutingAreaIdList4", "SIZE (1..8)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -2533,9 +2870,15 @@ func MarshalBERRoutingAreaIdList4(list RoutingAreaIdList4) ([]byte, error) {
 }
 
 // MarshalDERRoutingAreaIdList4 encodes a RoutingAreaIdList4 list to DER.
-func MarshalDERRoutingAreaIdList4(list RoutingAreaIdList4) ([]byte, error) {
+func MarshalDERRoutingAreaIdList4(collection *RoutingAreaIdList4) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	if len(list) < 1 || len(list) > 8 {
-		return nil, fmt.Errorf("RoutingAreaIdList4 length %d violates SIZE (1..8)", len(list))
+		if constraintErr := ber.CheckEncodedLength(nil, "RoutingAreaIdList4", "SIZE (1..8)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -2556,7 +2899,7 @@ func MarshalDERRoutingAreaIdList4(list RoutingAreaIdList4) ([]byte, error) {
 }
 
 // UnmarshalBERRoutingAreaIdList4 decodes a RoutingAreaIdList4 list from BER.
-func UnmarshalBERRoutingAreaIdList4(data []byte, opts ...ber.DecodeOption) (RoutingAreaIdList4, error) {
+func UnmarshalBERRoutingAreaIdList4(data []byte, opts ...ber.DecodeOption) (*RoutingAreaIdList4, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2567,7 +2910,7 @@ func UnmarshalBERRoutingAreaIdList4(data []byte, opts ...ber.DecodeOption) (Rout
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "RoutingAreaIdList4", Cause: ber.ErrExtraData}
 	}
-	var result RoutingAreaIdList4
+	var result []RAIdentity5
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
@@ -2581,20 +2924,45 @@ func UnmarshalBERRoutingAreaIdList4(data []byte, opts ...ber.DecodeOption) (Rout
 		}
 
 		offset += n
-		if len(result) > 8 {
-			return nil, fmt.Errorf("RoutingAreaIdList4 length %d violates SIZE (1..8)", len(result))
-		}
 	}
 	if len(result) < 1 || len(result) > 8 {
-		return nil, fmt.Errorf("RoutingAreaIdList4 length %d violates SIZE (1..8)", len(result))
+		if constraintErr := ber.CheckDecodedLength(opts, "RoutingAreaIdList4", "SIZE (1..8)", len(result)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
-	return result, nil
+	decoded := &RoutingAreaIdList4{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERRoutingAreaIdList4(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBERLocationAreaIdList4 encodes a LocationAreaIdList4 list to BER.
-func MarshalBERLocationAreaIdList4(list LocationAreaIdList4) ([]byte, error) {
+func MarshalBERLocationAreaIdList4(collection *LocationAreaIdList4, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERLocationAreaIdList4(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERLocationAreaIdList4(collection *LocationAreaIdList4, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	if len(list) < 1 || len(list) > 8 {
-		return nil, fmt.Errorf("LocationAreaIdList4 length %d violates SIZE (1..8)", len(list))
+		if constraintErr := ber.CheckEncodedLength(opts, "LocationAreaIdList4", "SIZE (1..8)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -2608,9 +2976,15 @@ func MarshalBERLocationAreaIdList4(list LocationAreaIdList4) ([]byte, error) {
 }
 
 // MarshalDERLocationAreaIdList4 encodes a LocationAreaIdList4 list to DER.
-func MarshalDERLocationAreaIdList4(list LocationAreaIdList4) ([]byte, error) {
+func MarshalDERLocationAreaIdList4(collection *LocationAreaIdList4) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	if len(list) < 1 || len(list) > 8 {
-		return nil, fmt.Errorf("LocationAreaIdList4 length %d violates SIZE (1..8)", len(list))
+		if constraintErr := ber.CheckEncodedLength(nil, "LocationAreaIdList4", "SIZE (1..8)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -2631,7 +3005,7 @@ func MarshalDERLocationAreaIdList4(list LocationAreaIdList4) ([]byte, error) {
 }
 
 // UnmarshalBERLocationAreaIdList4 decodes a LocationAreaIdList4 list from BER.
-func UnmarshalBERLocationAreaIdList4(data []byte, opts ...ber.DecodeOption) (LocationAreaIdList4, error) {
+func UnmarshalBERLocationAreaIdList4(data []byte, opts ...ber.DecodeOption) (*LocationAreaIdList4, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2642,7 +3016,7 @@ func UnmarshalBERLocationAreaIdList4(data []byte, opts ...ber.DecodeOption) (Loc
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "LocationAreaIdList4", Cause: ber.ErrExtraData}
 	}
-	var result LocationAreaIdList4
+	var result []LAIFixedLength5
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
@@ -2656,20 +3030,45 @@ func UnmarshalBERLocationAreaIdList4(data []byte, opts ...ber.DecodeOption) (Loc
 		}
 
 		offset += n
-		if len(result) > 8 {
-			return nil, fmt.Errorf("LocationAreaIdList4 length %d violates SIZE (1..8)", len(result))
-		}
 	}
 	if len(result) < 1 || len(result) > 8 {
-		return nil, fmt.Errorf("LocationAreaIdList4 length %d violates SIZE (1..8)", len(result))
+		if constraintErr := ber.CheckDecodedLength(opts, "LocationAreaIdList4", "SIZE (1..8)", len(result)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
-	return result, nil
+	decoded := &LocationAreaIdList4{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERLocationAreaIdList4(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBERTrackingAreaIdList4 encodes a TrackingAreaIdList4 list to BER.
-func MarshalBERTrackingAreaIdList4(list TrackingAreaIdList4) ([]byte, error) {
+func MarshalBERTrackingAreaIdList4(collection *TrackingAreaIdList4, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERTrackingAreaIdList4(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERTrackingAreaIdList4(collection *TrackingAreaIdList4, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	if len(list) < 1 || len(list) > 8 {
-		return nil, fmt.Errorf("TrackingAreaIdList4 length %d violates SIZE (1..8)", len(list))
+		if constraintErr := ber.CheckEncodedLength(opts, "TrackingAreaIdList4", "SIZE (1..8)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -2683,9 +3082,15 @@ func MarshalBERTrackingAreaIdList4(list TrackingAreaIdList4) ([]byte, error) {
 }
 
 // MarshalDERTrackingAreaIdList4 encodes a TrackingAreaIdList4 list to DER.
-func MarshalDERTrackingAreaIdList4(list TrackingAreaIdList4) ([]byte, error) {
+func MarshalDERTrackingAreaIdList4(collection *TrackingAreaIdList4) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	if len(list) < 1 || len(list) > 8 {
-		return nil, fmt.Errorf("TrackingAreaIdList4 length %d violates SIZE (1..8)", len(list))
+		if constraintErr := ber.CheckEncodedLength(nil, "TrackingAreaIdList4", "SIZE (1..8)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -2706,7 +3111,7 @@ func MarshalDERTrackingAreaIdList4(list TrackingAreaIdList4) ([]byte, error) {
 }
 
 // UnmarshalBERTrackingAreaIdList4 decodes a TrackingAreaIdList4 list from BER.
-func UnmarshalBERTrackingAreaIdList4(data []byte, opts ...ber.DecodeOption) (TrackingAreaIdList4, error) {
+func UnmarshalBERTrackingAreaIdList4(data []byte, opts ...ber.DecodeOption) (*TrackingAreaIdList4, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2717,7 +3122,7 @@ func UnmarshalBERTrackingAreaIdList4(data []byte, opts ...ber.DecodeOption) (Tra
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "TrackingAreaIdList4", Cause: ber.ErrExtraData}
 	}
-	var result TrackingAreaIdList4
+	var result []TAId4
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
@@ -2731,18 +3136,40 @@ func UnmarshalBERTrackingAreaIdList4(data []byte, opts ...ber.DecodeOption) (Tra
 		}
 
 		offset += n
-		if len(result) > 8 {
-			return nil, fmt.Errorf("TrackingAreaIdList4 length %d violates SIZE (1..8)", len(result))
-		}
 	}
 	if len(result) < 1 || len(result) > 8 {
-		return nil, fmt.Errorf("TrackingAreaIdList4 length %d violates SIZE (1..8)", len(result))
+		if constraintErr := ber.CheckDecodedLength(opts, "TrackingAreaIdList4", "SIZE (1..8)", len(result)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
-	return result, nil
+	decoded := &TrackingAreaIdList4{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERTrackingAreaIdList4(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes TraceDepthList5 to BER format.
-func (v *TraceDepthList5) MarshalBER() ([]byte, error) {
+func (v *TraceDepthList5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TraceDepthList5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *TraceDepthList5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.MscSTraceDepth != nil {
 		enc_mscstracedepth := ber.EncodeEnumerated(int64(*v.MscSTraceDepth))
@@ -2849,6 +3276,9 @@ func (v *TraceDepthList5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TraceDepthList5 to DER format.
 func (v *TraceDepthList5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TraceDepthList5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.MscSTraceDepth != nil {
 		enc_mscstracedepth := ber.EncodeEnumerated(int64(*v.MscSTraceDepth))
@@ -2957,11 +3387,27 @@ func (v *TraceDepthList5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes TraceDepthList5 from BER/DER format.
-func (v *TraceDepthList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *TraceDepthList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: TraceDepthList5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = TraceDepthList5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding TraceDepthList5 SEQUENCE: %w", err)
@@ -3277,13 +3723,28 @@ func (v *TraceDepthList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 }
 
 // MarshalBER encodes TraceInterfaceList5 to BER format.
-func (v *TraceInterfaceList5) MarshalBER() ([]byte, error) {
+func (v *TraceInterfaceList5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TraceInterfaceList5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *TraceInterfaceList5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.MscSList != nil {
 		if (*v.MscSList).BitLength < 10 || (*v.MscSList).BitLength > 16 {
-			return nil, fmt.Errorf("msc-s-List length %d violates SIZE (10..16)", (*v.MscSList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "msc-s-List", "SIZE (10..16)", (*v.MscSList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3300,9 +3761,11 @@ func (v *TraceInterfaceList5) MarshalBER() ([]byte, error) {
 	}
 	if v.MgwList != nil {
 		if (*v.MgwList).BitLength < 3 || (*v.MgwList).BitLength > 8 {
-			return nil, fmt.Errorf("mgw-List length %d violates SIZE (3..8)", (*v.MgwList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "mgw-List", "SIZE (3..8)", (*v.MgwList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3319,9 +3782,11 @@ func (v *TraceInterfaceList5) MarshalBER() ([]byte, error) {
 	}
 	if v.SgsnList != nil {
 		if (*v.SgsnList).BitLength < 8 || (*v.SgsnList).BitLength > 16 {
-			return nil, fmt.Errorf("sgsn-List length %d violates SIZE (8..16)", (*v.SgsnList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "sgsn-List", "SIZE (8..16)", (*v.SgsnList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3338,9 +3803,11 @@ func (v *TraceInterfaceList5) MarshalBER() ([]byte, error) {
 	}
 	if v.GgsnList != nil {
 		if (*v.GgsnList).BitLength < 3 || (*v.GgsnList).BitLength > 8 {
-			return nil, fmt.Errorf("ggsn-List length %d violates SIZE (3..8)", (*v.GgsnList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "ggsn-List", "SIZE (3..8)", (*v.GgsnList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3357,9 +3824,11 @@ func (v *TraceInterfaceList5) MarshalBER() ([]byte, error) {
 	}
 	if v.RncList != nil {
 		if (*v.RncList).BitLength < 4 || (*v.RncList).BitLength > 8 {
-			return nil, fmt.Errorf("rnc-List length %d violates SIZE (4..8)", (*v.RncList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "rnc-List", "SIZE (4..8)", (*v.RncList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.RncList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3376,9 +3845,11 @@ func (v *TraceInterfaceList5) MarshalBER() ([]byte, error) {
 	}
 	if v.BmscList != nil {
 		if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
-			return nil, fmt.Errorf("bmsc-List length %d violates SIZE (1..8)", (*v.BmscList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3395,9 +3866,11 @@ func (v *TraceInterfaceList5) MarshalBER() ([]byte, error) {
 	}
 	if v.MmeList != nil {
 		if (*v.MmeList).BitLength < 5 || (*v.MmeList).BitLength > 8 {
-			return nil, fmt.Errorf("mme-List length %d violates SIZE (5..8)", (*v.MmeList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "mme-List", "SIZE (5..8)", (*v.MmeList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MmeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3414,9 +3887,11 @@ func (v *TraceInterfaceList5) MarshalBER() ([]byte, error) {
 	}
 	if v.SgwList != nil {
 		if (*v.SgwList).BitLength < 5 || (*v.SgwList).BitLength > 8 {
-			return nil, fmt.Errorf("sgw-List length %d violates SIZE (5..8)", (*v.SgwList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "sgw-List", "SIZE (5..8)", (*v.SgwList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.SgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3433,9 +3908,11 @@ func (v *TraceInterfaceList5) MarshalBER() ([]byte, error) {
 	}
 	if v.PgwList != nil {
 		if (*v.PgwList).BitLength < 8 || (*v.PgwList).BitLength > 16 {
-			return nil, fmt.Errorf("pgw-List length %d violates SIZE (8..16)", (*v.PgwList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "pgw-List", "SIZE (8..16)", (*v.PgwList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.PgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3452,9 +3929,11 @@ func (v *TraceInterfaceList5) MarshalBER() ([]byte, error) {
 	}
 	if v.ENBList != nil {
 		if (*v.ENBList).BitLength < 3 || (*v.ENBList).BitLength > 8 {
-			return nil, fmt.Errorf("eNB-List length %d violates SIZE (3..8)", (*v.ENBList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "eNB-List", "SIZE (3..8)", (*v.ENBList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ENBList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3484,12 +3963,17 @@ func (v *TraceInterfaceList5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TraceInterfaceList5 to DER format.
 func (v *TraceInterfaceList5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TraceInterfaceList5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.MscSList != nil {
 		if (*v.MscSList).BitLength < 10 || (*v.MscSList).BitLength > 16 {
-			return nil, fmt.Errorf("msc-s-List length %d violates SIZE (10..16)", (*v.MscSList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "msc-s-List", "SIZE (10..16)", (*v.MscSList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3506,9 +3990,11 @@ func (v *TraceInterfaceList5) MarshalDER() ([]byte, error) {
 	}
 	if v.MgwList != nil {
 		if (*v.MgwList).BitLength < 3 || (*v.MgwList).BitLength > 8 {
-			return nil, fmt.Errorf("mgw-List length %d violates SIZE (3..8)", (*v.MgwList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "mgw-List", "SIZE (3..8)", (*v.MgwList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3525,9 +4011,11 @@ func (v *TraceInterfaceList5) MarshalDER() ([]byte, error) {
 	}
 	if v.SgsnList != nil {
 		if (*v.SgsnList).BitLength < 8 || (*v.SgsnList).BitLength > 16 {
-			return nil, fmt.Errorf("sgsn-List length %d violates SIZE (8..16)", (*v.SgsnList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "sgsn-List", "SIZE (8..16)", (*v.SgsnList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3544,9 +4032,11 @@ func (v *TraceInterfaceList5) MarshalDER() ([]byte, error) {
 	}
 	if v.GgsnList != nil {
 		if (*v.GgsnList).BitLength < 3 || (*v.GgsnList).BitLength > 8 {
-			return nil, fmt.Errorf("ggsn-List length %d violates SIZE (3..8)", (*v.GgsnList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "ggsn-List", "SIZE (3..8)", (*v.GgsnList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3563,9 +4053,11 @@ func (v *TraceInterfaceList5) MarshalDER() ([]byte, error) {
 	}
 	if v.RncList != nil {
 		if (*v.RncList).BitLength < 4 || (*v.RncList).BitLength > 8 {
-			return nil, fmt.Errorf("rnc-List length %d violates SIZE (4..8)", (*v.RncList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "rnc-List", "SIZE (4..8)", (*v.RncList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.RncList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3582,9 +4074,11 @@ func (v *TraceInterfaceList5) MarshalDER() ([]byte, error) {
 	}
 	if v.BmscList != nil {
 		if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
-			return nil, fmt.Errorf("bmsc-List length %d violates SIZE (1..8)", (*v.BmscList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3601,9 +4095,11 @@ func (v *TraceInterfaceList5) MarshalDER() ([]byte, error) {
 	}
 	if v.MmeList != nil {
 		if (*v.MmeList).BitLength < 5 || (*v.MmeList).BitLength > 8 {
-			return nil, fmt.Errorf("mme-List length %d violates SIZE (5..8)", (*v.MmeList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "mme-List", "SIZE (5..8)", (*v.MmeList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MmeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3620,9 +4116,11 @@ func (v *TraceInterfaceList5) MarshalDER() ([]byte, error) {
 	}
 	if v.SgwList != nil {
 		if (*v.SgwList).BitLength < 5 || (*v.SgwList).BitLength > 8 {
-			return nil, fmt.Errorf("sgw-List length %d violates SIZE (5..8)", (*v.SgwList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "sgw-List", "SIZE (5..8)", (*v.SgwList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.SgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3639,9 +4137,11 @@ func (v *TraceInterfaceList5) MarshalDER() ([]byte, error) {
 	}
 	if v.PgwList != nil {
 		if (*v.PgwList).BitLength < 8 || (*v.PgwList).BitLength > 16 {
-			return nil, fmt.Errorf("pgw-List length %d violates SIZE (8..16)", (*v.PgwList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "pgw-List", "SIZE (8..16)", (*v.PgwList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.PgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3658,9 +4158,11 @@ func (v *TraceInterfaceList5) MarshalDER() ([]byte, error) {
 	}
 	if v.ENBList != nil {
 		if (*v.ENBList).BitLength < 3 || (*v.ENBList).BitLength > 8 {
-			return nil, fmt.Errorf("eNB-List length %d violates SIZE (3..8)", (*v.ENBList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "eNB-List", "SIZE (3..8)", (*v.ENBList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ENBList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3692,11 +4194,27 @@ func (v *TraceInterfaceList5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes TraceInterfaceList5 from BER/DER format.
-func (v *TraceInterfaceList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *TraceInterfaceList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: TraceInterfaceList5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = TraceInterfaceList5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding TraceInterfaceList5 SEQUENCE: %w", err)
@@ -3734,7 +4252,9 @@ func (v *TraceInterfaceList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 				offset += n_mscslist
 				if (*v.MscSList).BitLength < 10 || (*v.MscSList).BitLength > 16 {
-					return fmt.Errorf("msc-s-List length %d violates SIZE (10..16)", (*v.MscSList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "msc-s-List", "SIZE (10..16)", (*v.MscSList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3768,7 +4288,9 @@ func (v *TraceInterfaceList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 				offset += n_mgwlist
 				if (*v.MgwList).BitLength < 3 || (*v.MgwList).BitLength > 8 {
-					return fmt.Errorf("mgw-List length %d violates SIZE (3..8)", (*v.MgwList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "mgw-List", "SIZE (3..8)", (*v.MgwList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3802,7 +4324,9 @@ func (v *TraceInterfaceList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 				offset += n_sgsnlist
 				if (*v.SgsnList).BitLength < 8 || (*v.SgsnList).BitLength > 16 {
-					return fmt.Errorf("sgsn-List length %d violates SIZE (8..16)", (*v.SgsnList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "sgsn-List", "SIZE (8..16)", (*v.SgsnList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3836,7 +4360,9 @@ func (v *TraceInterfaceList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 				offset += n_ggsnlist
 				if (*v.GgsnList).BitLength < 3 || (*v.GgsnList).BitLength > 8 {
-					return fmt.Errorf("ggsn-List length %d violates SIZE (3..8)", (*v.GgsnList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "ggsn-List", "SIZE (3..8)", (*v.GgsnList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3870,7 +4396,9 @@ func (v *TraceInterfaceList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 				offset += n_rnclist
 				if (*v.RncList).BitLength < 4 || (*v.RncList).BitLength > 8 {
-					return fmt.Errorf("rnc-List length %d violates SIZE (4..8)", (*v.RncList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "rnc-List", "SIZE (4..8)", (*v.RncList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3904,7 +4432,9 @@ func (v *TraceInterfaceList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 				offset += n_bmsclist
 				if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
-					return fmt.Errorf("bmsc-List length %d violates SIZE (1..8)", (*v.BmscList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3938,7 +4468,9 @@ func (v *TraceInterfaceList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 				offset += n_mmelist
 				if (*v.MmeList).BitLength < 5 || (*v.MmeList).BitLength > 8 {
-					return fmt.Errorf("mme-List length %d violates SIZE (5..8)", (*v.MmeList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "mme-List", "SIZE (5..8)", (*v.MmeList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3972,7 +4504,9 @@ func (v *TraceInterfaceList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 				offset += n_sgwlist
 				if (*v.SgwList).BitLength < 5 || (*v.SgwList).BitLength > 8 {
-					return fmt.Errorf("sgw-List length %d violates SIZE (5..8)", (*v.SgwList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "sgw-List", "SIZE (5..8)", (*v.SgwList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4006,7 +4540,9 @@ func (v *TraceInterfaceList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 				offset += n_pgwlist
 				if (*v.PgwList).BitLength < 8 || (*v.PgwList).BitLength > 16 {
-					return fmt.Errorf("pgw-List length %d violates SIZE (8..16)", (*v.PgwList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "pgw-List", "SIZE (8..16)", (*v.PgwList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4040,7 +4576,9 @@ func (v *TraceInterfaceList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 				offset += n_enblist
 				if (*v.ENBList).BitLength < 3 || (*v.ENBList).BitLength > 8 {
-					return fmt.Errorf("eNB-List length %d violates SIZE (3..8)", (*v.ENBList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "eNB-List", "SIZE (3..8)", (*v.ENBList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4072,13 +4610,28 @@ func (v *TraceInterfaceList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBER encodes TraceEventList5 to BER format.
-func (v *TraceEventList5) MarshalBER() ([]byte, error) {
+func (v *TraceEventList5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TraceEventList5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *TraceEventList5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.MscSList != nil {
 		if (*v.MscSList).BitLength < 5 || (*v.MscSList).BitLength > 16 {
-			return nil, fmt.Errorf("msc-s-List length %d violates SIZE (5..16)", (*v.MscSList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "msc-s-List", "SIZE (5..16)", (*v.MscSList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4095,9 +4648,11 @@ func (v *TraceEventList5) MarshalBER() ([]byte, error) {
 	}
 	if v.MgwList != nil {
 		if (*v.MgwList).BitLength < 1 || (*v.MgwList).BitLength > 8 {
-			return nil, fmt.Errorf("mgw-List length %d violates SIZE (1..8)", (*v.MgwList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "mgw-List", "SIZE (1..8)", (*v.MgwList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4114,9 +4669,11 @@ func (v *TraceEventList5) MarshalBER() ([]byte, error) {
 	}
 	if v.SgsnList != nil {
 		if (*v.SgsnList).BitLength < 4 || (*v.SgsnList).BitLength > 16 {
-			return nil, fmt.Errorf("sgsn-List length %d violates SIZE (4..16)", (*v.SgsnList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "sgsn-List", "SIZE (4..16)", (*v.SgsnList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4133,9 +4690,11 @@ func (v *TraceEventList5) MarshalBER() ([]byte, error) {
 	}
 	if v.GgsnList != nil {
 		if (*v.GgsnList).BitLength < 2 || (*v.GgsnList).BitLength > 8 {
-			return nil, fmt.Errorf("ggsn-List length %d violates SIZE (2..8)", (*v.GgsnList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "ggsn-List", "SIZE (2..8)", (*v.GgsnList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4152,9 +4711,11 @@ func (v *TraceEventList5) MarshalBER() ([]byte, error) {
 	}
 	if v.BmscList != nil {
 		if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
-			return nil, fmt.Errorf("bmsc-List length %d violates SIZE (1..8)", (*v.BmscList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4171,9 +4732,11 @@ func (v *TraceEventList5) MarshalBER() ([]byte, error) {
 	}
 	if v.MmeList != nil {
 		if (*v.MmeList).BitLength < 6 || (*v.MmeList).BitLength > 8 {
-			return nil, fmt.Errorf("mme-List length %d violates SIZE (6..8)", (*v.MmeList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "mme-List", "SIZE (6..8)", (*v.MmeList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MmeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4190,9 +4753,11 @@ func (v *TraceEventList5) MarshalBER() ([]byte, error) {
 	}
 	if v.SgwList != nil {
 		if (*v.SgwList).BitLength < 3 || (*v.SgwList).BitLength > 8 {
-			return nil, fmt.Errorf("sgw-List length %d violates SIZE (3..8)", (*v.SgwList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "sgw-List", "SIZE (3..8)", (*v.SgwList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.SgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4209,9 +4774,11 @@ func (v *TraceEventList5) MarshalBER() ([]byte, error) {
 	}
 	if v.PgwList != nil {
 		if (*v.PgwList).BitLength < 3 || (*v.PgwList).BitLength > 8 {
-			return nil, fmt.Errorf("pgw-List length %d violates SIZE (3..8)", (*v.PgwList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "pgw-List", "SIZE (3..8)", (*v.PgwList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.PgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4241,12 +4808,17 @@ func (v *TraceEventList5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TraceEventList5 to DER format.
 func (v *TraceEventList5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TraceEventList5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.MscSList != nil {
 		if (*v.MscSList).BitLength < 5 || (*v.MscSList).BitLength > 16 {
-			return nil, fmt.Errorf("msc-s-List length %d violates SIZE (5..16)", (*v.MscSList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "msc-s-List", "SIZE (5..16)", (*v.MscSList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4263,9 +4835,11 @@ func (v *TraceEventList5) MarshalDER() ([]byte, error) {
 	}
 	if v.MgwList != nil {
 		if (*v.MgwList).BitLength < 1 || (*v.MgwList).BitLength > 8 {
-			return nil, fmt.Errorf("mgw-List length %d violates SIZE (1..8)", (*v.MgwList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "mgw-List", "SIZE (1..8)", (*v.MgwList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4282,9 +4856,11 @@ func (v *TraceEventList5) MarshalDER() ([]byte, error) {
 	}
 	if v.SgsnList != nil {
 		if (*v.SgsnList).BitLength < 4 || (*v.SgsnList).BitLength > 16 {
-			return nil, fmt.Errorf("sgsn-List length %d violates SIZE (4..16)", (*v.SgsnList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "sgsn-List", "SIZE (4..16)", (*v.SgsnList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4301,9 +4877,11 @@ func (v *TraceEventList5) MarshalDER() ([]byte, error) {
 	}
 	if v.GgsnList != nil {
 		if (*v.GgsnList).BitLength < 2 || (*v.GgsnList).BitLength > 8 {
-			return nil, fmt.Errorf("ggsn-List length %d violates SIZE (2..8)", (*v.GgsnList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "ggsn-List", "SIZE (2..8)", (*v.GgsnList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4320,9 +4898,11 @@ func (v *TraceEventList5) MarshalDER() ([]byte, error) {
 	}
 	if v.BmscList != nil {
 		if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
-			return nil, fmt.Errorf("bmsc-List length %d violates SIZE (1..8)", (*v.BmscList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4339,9 +4919,11 @@ func (v *TraceEventList5) MarshalDER() ([]byte, error) {
 	}
 	if v.MmeList != nil {
 		if (*v.MmeList).BitLength < 6 || (*v.MmeList).BitLength > 8 {
-			return nil, fmt.Errorf("mme-List length %d violates SIZE (6..8)", (*v.MmeList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "mme-List", "SIZE (6..8)", (*v.MmeList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MmeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4358,9 +4940,11 @@ func (v *TraceEventList5) MarshalDER() ([]byte, error) {
 	}
 	if v.SgwList != nil {
 		if (*v.SgwList).BitLength < 3 || (*v.SgwList).BitLength > 8 {
-			return nil, fmt.Errorf("sgw-List length %d violates SIZE (3..8)", (*v.SgwList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "sgw-List", "SIZE (3..8)", (*v.SgwList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.SgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4377,9 +4961,11 @@ func (v *TraceEventList5) MarshalDER() ([]byte, error) {
 	}
 	if v.PgwList != nil {
 		if (*v.PgwList).BitLength < 3 || (*v.PgwList).BitLength > 8 {
-			return nil, fmt.Errorf("pgw-List length %d violates SIZE (3..8)", (*v.PgwList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "pgw-List", "SIZE (3..8)", (*v.PgwList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.PgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4411,11 +4997,27 @@ func (v *TraceEventList5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes TraceEventList5 from BER/DER format.
-func (v *TraceEventList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *TraceEventList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: TraceEventList5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = TraceEventList5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding TraceEventList5 SEQUENCE: %w", err)
@@ -4453,7 +5055,9 @@ func (v *TraceEventList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 
 				offset += n_mscslist
 				if (*v.MscSList).BitLength < 5 || (*v.MscSList).BitLength > 16 {
-					return fmt.Errorf("msc-s-List length %d violates SIZE (5..16)", (*v.MscSList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "msc-s-List", "SIZE (5..16)", (*v.MscSList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4487,7 +5091,9 @@ func (v *TraceEventList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 
 				offset += n_mgwlist
 				if (*v.MgwList).BitLength < 1 || (*v.MgwList).BitLength > 8 {
-					return fmt.Errorf("mgw-List length %d violates SIZE (1..8)", (*v.MgwList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "mgw-List", "SIZE (1..8)", (*v.MgwList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4521,7 +5127,9 @@ func (v *TraceEventList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 
 				offset += n_sgsnlist
 				if (*v.SgsnList).BitLength < 4 || (*v.SgsnList).BitLength > 16 {
-					return fmt.Errorf("sgsn-List length %d violates SIZE (4..16)", (*v.SgsnList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "sgsn-List", "SIZE (4..16)", (*v.SgsnList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4555,7 +5163,9 @@ func (v *TraceEventList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 
 				offset += n_ggsnlist
 				if (*v.GgsnList).BitLength < 2 || (*v.GgsnList).BitLength > 8 {
-					return fmt.Errorf("ggsn-List length %d violates SIZE (2..8)", (*v.GgsnList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "ggsn-List", "SIZE (2..8)", (*v.GgsnList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4589,7 +5199,9 @@ func (v *TraceEventList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 
 				offset += n_bmsclist
 				if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
-					return fmt.Errorf("bmsc-List length %d violates SIZE (1..8)", (*v.BmscList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4623,7 +5235,9 @@ func (v *TraceEventList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 
 				offset += n_mmelist
 				if (*v.MmeList).BitLength < 6 || (*v.MmeList).BitLength > 8 {
-					return fmt.Errorf("mme-List length %d violates SIZE (6..8)", (*v.MmeList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "mme-List", "SIZE (6..8)", (*v.MmeList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4657,7 +5271,9 @@ func (v *TraceEventList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 
 				offset += n_sgwlist
 				if (*v.SgwList).BitLength < 3 || (*v.SgwList).BitLength > 8 {
-					return fmt.Errorf("sgw-List length %d violates SIZE (3..8)", (*v.SgwList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "sgw-List", "SIZE (3..8)", (*v.SgwList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4691,7 +5307,9 @@ func (v *TraceEventList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 
 				offset += n_pgwlist
 				if (*v.PgwList).BitLength < 3 || (*v.PgwList).BitLength > 8 {
-					return fmt.Errorf("pgw-List length %d violates SIZE (3..8)", (*v.PgwList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "pgw-List", "SIZE (3..8)", (*v.PgwList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4723,11 +5341,26 @@ func (v *TraceEventList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 }
 
 // MarshalBER encodes TracePropagationList5 to BER format.
-func (v *TracePropagationList5) MarshalBER() ([]byte, error) {
+func (v *TracePropagationList5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TracePropagationList5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *TracePropagationList5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.TraceReference != nil {
 		if len(*v.TraceReference) < 1 || len(*v.TraceReference) > 2 {
-			return nil, fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(*v.TraceReference))
+			if constraintErr := ber.CheckEncodedLength(opts, "traceReference", "SIZE (1..2)", len(*v.TraceReference)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_tracereference, encodeErr_enc_tracereference := ber.EncodeOctetString([]byte(*v.TraceReference))
 		if encodeErr_enc_tracereference != nil {
@@ -4741,6 +5374,11 @@ func (v *TracePropagationList5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_tracereference...)
 	}
 	if v.TraceType != nil {
+		if !(int64(*v.TraceType) >= 0 && int64(*v.TraceType) <= 255) {
+			if constraintErr := ber.CheckEncodedValue(opts, "traceType", "(0..255)", fmt.Sprint(int64(*v.TraceType))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_tracetype := ber.EncodeInteger(int64(*v.TraceType))
 		retagged_enc_tracetype, tagErr_enc_tracetype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_tracetype)
 		if tagErr_enc_tracetype != nil {
@@ -4751,7 +5389,9 @@ func (v *TracePropagationList5) MarshalBER() ([]byte, error) {
 	}
 	if v.TraceReference2 != nil {
 		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-			return nil, fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+			if constraintErr := ber.CheckEncodedLength(opts, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_tracereference2, encodeErr_enc_tracereference2 := ber.EncodeOctetString([]byte(*v.TraceReference2))
 		if encodeErr_enc_tracereference2 != nil {
@@ -4766,7 +5406,9 @@ func (v *TracePropagationList5) MarshalBER() ([]byte, error) {
 	}
 	if v.TraceRecordingSessionReference != nil {
 		if len(*v.TraceRecordingSessionReference) < 2 || len(*v.TraceRecordingSessionReference) > 2 {
-			return nil, fmt.Errorf("traceRecordingSessionReference length %d violates SIZE (2)", len(*v.TraceRecordingSessionReference))
+			if constraintErr := ber.CheckEncodedLength(opts, "traceRecordingSessionReference", "SIZE (2)", len(*v.TraceRecordingSessionReference)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_tracerecordingsessionreference, encodeErr_enc_tracerecordingsessionreference := ber.EncodeOctetString([]byte(*v.TraceRecordingSessionReference))
 		if encodeErr_enc_tracerecordingsessionreference != nil {
@@ -4790,9 +5432,11 @@ func (v *TracePropagationList5) MarshalBER() ([]byte, error) {
 	}
 	if v.RncInterfaceList != nil {
 		if (*v.RncInterfaceList).BitLength < 4 || (*v.RncInterfaceList).BitLength > 8 {
-			return nil, fmt.Errorf("rnc-InterfaceList length %d violates SIZE (4..8)", (*v.RncInterfaceList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "rnc-InterfaceList", "SIZE (4..8)", (*v.RncInterfaceList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.RncInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4818,9 +5462,11 @@ func (v *TracePropagationList5) MarshalBER() ([]byte, error) {
 	}
 	if v.MscSInterfaceList != nil {
 		if (*v.MscSInterfaceList).BitLength < 10 || (*v.MscSInterfaceList).BitLength > 16 {
-			return nil, fmt.Errorf("msc-s-InterfaceList length %d violates SIZE (10..16)", (*v.MscSInterfaceList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "msc-s-InterfaceList", "SIZE (10..16)", (*v.MscSInterfaceList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MscSInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4837,9 +5483,11 @@ func (v *TracePropagationList5) MarshalBER() ([]byte, error) {
 	}
 	if v.MscSEventList != nil {
 		if (*v.MscSEventList).BitLength < 5 || (*v.MscSEventList).BitLength > 16 {
-			return nil, fmt.Errorf("msc-s-EventList length %d violates SIZE (5..16)", (*v.MscSEventList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "msc-s-EventList", "SIZE (5..16)", (*v.MscSEventList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MscSEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4865,9 +5513,11 @@ func (v *TracePropagationList5) MarshalBER() ([]byte, error) {
 	}
 	if v.MgwInterfaceList != nil {
 		if (*v.MgwInterfaceList).BitLength < 3 || (*v.MgwInterfaceList).BitLength > 8 {
-			return nil, fmt.Errorf("mgw-InterfaceList length %d violates SIZE (3..8)", (*v.MgwInterfaceList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "mgw-InterfaceList", "SIZE (3..8)", (*v.MgwInterfaceList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MgwInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4884,9 +5534,11 @@ func (v *TracePropagationList5) MarshalBER() ([]byte, error) {
 	}
 	if v.MgwEventList != nil {
 		if (*v.MgwEventList).BitLength < 1 || (*v.MgwEventList).BitLength > 8 {
-			return nil, fmt.Errorf("mgw-EventList length %d violates SIZE (1..8)", (*v.MgwEventList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "mgw-EventList", "SIZE (1..8)", (*v.MgwEventList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MgwEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4916,10 +5568,15 @@ func (v *TracePropagationList5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TracePropagationList5 to DER format.
 func (v *TracePropagationList5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TracePropagationList5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.TraceReference != nil {
 		if len(*v.TraceReference) < 1 || len(*v.TraceReference) > 2 {
-			return nil, fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(*v.TraceReference))
+			if constraintErr := ber.CheckEncodedLength(nil, "traceReference", "SIZE (1..2)", len(*v.TraceReference)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_tracereference, encodeErr_enc_tracereference := ber.EncodeOctetString([]byte(*v.TraceReference))
 		if encodeErr_enc_tracereference != nil {
@@ -4933,6 +5590,11 @@ func (v *TracePropagationList5) MarshalDER() ([]byte, error) {
 		children = append(children, enc_tracereference...)
 	}
 	if v.TraceType != nil {
+		if !(int64(*v.TraceType) >= 0 && int64(*v.TraceType) <= 255) {
+			if constraintErr := ber.CheckEncodedValue(nil, "traceType", "(0..255)", fmt.Sprint(int64(*v.TraceType))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_tracetype := ber.EncodeInteger(int64(*v.TraceType))
 		retagged_enc_tracetype, tagErr_enc_tracetype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_tracetype)
 		if tagErr_enc_tracetype != nil {
@@ -4943,7 +5605,9 @@ func (v *TracePropagationList5) MarshalDER() ([]byte, error) {
 	}
 	if v.TraceReference2 != nil {
 		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-			return nil, fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+			if constraintErr := ber.CheckEncodedLength(nil, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_tracereference2, encodeErr_enc_tracereference2 := ber.EncodeOctetString([]byte(*v.TraceReference2))
 		if encodeErr_enc_tracereference2 != nil {
@@ -4958,7 +5622,9 @@ func (v *TracePropagationList5) MarshalDER() ([]byte, error) {
 	}
 	if v.TraceRecordingSessionReference != nil {
 		if len(*v.TraceRecordingSessionReference) < 2 || len(*v.TraceRecordingSessionReference) > 2 {
-			return nil, fmt.Errorf("traceRecordingSessionReference length %d violates SIZE (2)", len(*v.TraceRecordingSessionReference))
+			if constraintErr := ber.CheckEncodedLength(nil, "traceRecordingSessionReference", "SIZE (2)", len(*v.TraceRecordingSessionReference)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_tracerecordingsessionreference, encodeErr_enc_tracerecordingsessionreference := ber.EncodeOctetString([]byte(*v.TraceRecordingSessionReference))
 		if encodeErr_enc_tracerecordingsessionreference != nil {
@@ -4982,9 +5648,11 @@ func (v *TracePropagationList5) MarshalDER() ([]byte, error) {
 	}
 	if v.RncInterfaceList != nil {
 		if (*v.RncInterfaceList).BitLength < 4 || (*v.RncInterfaceList).BitLength > 8 {
-			return nil, fmt.Errorf("rnc-InterfaceList length %d violates SIZE (4..8)", (*v.RncInterfaceList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "rnc-InterfaceList", "SIZE (4..8)", (*v.RncInterfaceList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.RncInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5010,9 +5678,11 @@ func (v *TracePropagationList5) MarshalDER() ([]byte, error) {
 	}
 	if v.MscSInterfaceList != nil {
 		if (*v.MscSInterfaceList).BitLength < 10 || (*v.MscSInterfaceList).BitLength > 16 {
-			return nil, fmt.Errorf("msc-s-InterfaceList length %d violates SIZE (10..16)", (*v.MscSInterfaceList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "msc-s-InterfaceList", "SIZE (10..16)", (*v.MscSInterfaceList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MscSInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5029,9 +5699,11 @@ func (v *TracePropagationList5) MarshalDER() ([]byte, error) {
 	}
 	if v.MscSEventList != nil {
 		if (*v.MscSEventList).BitLength < 5 || (*v.MscSEventList).BitLength > 16 {
-			return nil, fmt.Errorf("msc-s-EventList length %d violates SIZE (5..16)", (*v.MscSEventList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "msc-s-EventList", "SIZE (5..16)", (*v.MscSEventList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MscSEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5057,9 +5729,11 @@ func (v *TracePropagationList5) MarshalDER() ([]byte, error) {
 	}
 	if v.MgwInterfaceList != nil {
 		if (*v.MgwInterfaceList).BitLength < 3 || (*v.MgwInterfaceList).BitLength > 8 {
-			return nil, fmt.Errorf("mgw-InterfaceList length %d violates SIZE (3..8)", (*v.MgwInterfaceList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "mgw-InterfaceList", "SIZE (3..8)", (*v.MgwInterfaceList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MgwInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5076,9 +5750,11 @@ func (v *TracePropagationList5) MarshalDER() ([]byte, error) {
 	}
 	if v.MgwEventList != nil {
 		if (*v.MgwEventList).BitLength < 1 || (*v.MgwEventList).BitLength > 8 {
-			return nil, fmt.Errorf("mgw-EventList length %d violates SIZE (1..8)", (*v.MgwEventList).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "mgw-EventList", "SIZE (1..8)", (*v.MgwEventList).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.MgwEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5110,11 +5786,27 @@ func (v *TracePropagationList5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes TracePropagationList5 from BER/DER format.
-func (v *TracePropagationList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *TracePropagationList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: TracePropagationList5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = TracePropagationList5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding TracePropagationList5 SEQUENCE: %w", err)
@@ -5144,7 +5836,9 @@ func (v *TracePropagationList5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_tracereference
 				if len(*v.TraceReference) < 1 || len(*v.TraceReference) > 2 {
-					return fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(*v.TraceReference))
+					if constraintErr := ber.CheckDecodedLength(opts, "traceReference", "SIZE (1..2)", len(*v.TraceReference)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5173,6 +5867,11 @@ func (v *TracePropagationList5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_tracetype
+				if !(int64(*v.TraceType) >= 0 && int64(*v.TraceType) <= 255) {
+					if constraintErr := ber.CheckDecodedValue(opts, "traceType", "(0..255)", fmt.Sprint(int64(*v.TraceType))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -5197,7 +5896,9 @@ func (v *TracePropagationList5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_tracereference2
 				if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-					return fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+					if constraintErr := ber.CheckDecodedLength(opts, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5224,7 +5925,9 @@ func (v *TracePropagationList5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_tracerecordingsessionreference
 				if len(*v.TraceRecordingSessionReference) < 2 || len(*v.TraceRecordingSessionReference) > 2 {
-					return fmt.Errorf("traceRecordingSessionReference length %d violates SIZE (2)", len(*v.TraceRecordingSessionReference))
+					if constraintErr := ber.CheckDecodedLength(opts, "traceRecordingSessionReference", "SIZE (2)", len(*v.TraceRecordingSessionReference)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5286,7 +5989,9 @@ func (v *TracePropagationList5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_rncinterfacelist
 				if (*v.RncInterfaceList).BitLength < 4 || (*v.RncInterfaceList).BitLength > 8 {
-					return fmt.Errorf("rnc-InterfaceList length %d violates SIZE (4..8)", (*v.RncInterfaceList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "rnc-InterfaceList", "SIZE (4..8)", (*v.RncInterfaceList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5348,7 +6053,9 @@ func (v *TracePropagationList5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_mscsinterfacelist
 				if (*v.MscSInterfaceList).BitLength < 10 || (*v.MscSInterfaceList).BitLength > 16 {
-					return fmt.Errorf("msc-s-InterfaceList length %d violates SIZE (10..16)", (*v.MscSInterfaceList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "msc-s-InterfaceList", "SIZE (10..16)", (*v.MscSInterfaceList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5382,7 +6089,9 @@ func (v *TracePropagationList5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_mscseventlist
 				if (*v.MscSEventList).BitLength < 5 || (*v.MscSEventList).BitLength > 16 {
-					return fmt.Errorf("msc-s-EventList length %d violates SIZE (5..16)", (*v.MscSEventList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "msc-s-EventList", "SIZE (5..16)", (*v.MscSEventList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5444,7 +6153,9 @@ func (v *TracePropagationList5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_mgwinterfacelist
 				if (*v.MgwInterfaceList).BitLength < 3 || (*v.MgwInterfaceList).BitLength > 8 {
-					return fmt.Errorf("mgw-InterfaceList length %d violates SIZE (3..8)", (*v.MgwInterfaceList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "mgw-InterfaceList", "SIZE (3..8)", (*v.MgwInterfaceList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5478,7 +6189,9 @@ func (v *TracePropagationList5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_mgweventlist
 				if (*v.MgwEventList).BitLength < 1 || (*v.MgwEventList).BitLength > 8 {
-					return fmt.Errorf("mgw-EventList length %d violates SIZE (1..8)", (*v.MgwEventList).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "mgw-EventList", "SIZE (1..8)", (*v.MgwEventList).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5510,10 +6223,23 @@ func (v *TracePropagationList5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes ActivateTraceModeRes5 to BER format.
-func (v *ActivateTraceModeRes5) MarshalBER() ([]byte, error) {
+func (v *ActivateTraceModeRes5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ActivateTraceModeRes5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ActivateTraceModeRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -5548,6 +6274,9 @@ func (v *ActivateTraceModeRes5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ActivateTraceModeRes5 to DER format.
 func (v *ActivateTraceModeRes5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ActivateTraceModeRes5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
@@ -5587,11 +6316,27 @@ func (v *ActivateTraceModeRes5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ActivateTraceModeRes5 from BER/DER format.
-func (v *ActivateTraceModeRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ActivateTraceModeRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ActivateTraceModeRes5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ActivateTraceModeRes5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ActivateTraceModeRes5 SEQUENCE: %w", err)
@@ -5617,7 +6362,7 @@ func (v *ActivateTraceModeRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer5
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -5684,11 +6429,26 @@ func (v *ActivateTraceModeRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes DeactivateTraceModeArg5 to BER format.
-func (v *DeactivateTraceModeArg5) MarshalBER() ([]byte, error) {
+func (v *DeactivateTraceModeArg5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: DeactivateTraceModeArg5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *DeactivateTraceModeArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -5702,7 +6462,9 @@ func (v *DeactivateTraceModeArg5) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
-		return nil, fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(v.TraceReference))
+		if constraintErr := ber.CheckEncodedLength(opts, "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_tracereference, encodeErr_enc_tracereference := ber.EncodeOctetString([]byte(v.TraceReference))
 	if encodeErr_enc_tracereference != nil {
@@ -5715,7 +6477,7 @@ func (v *DeactivateTraceModeArg5) MarshalBER() ([]byte, error) {
 	enc_tracereference = retagged_enc_tracereference
 	children = append(children, enc_tracereference...)
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -5728,7 +6490,9 @@ func (v *DeactivateTraceModeArg5) MarshalBER() ([]byte, error) {
 	}
 	if v.TraceReference2 != nil {
 		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-			return nil, fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+			if constraintErr := ber.CheckEncodedLength(opts, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_tracereference2, encodeErr_enc_tracereference2 := ber.EncodeOctetString([]byte(*v.TraceReference2))
 		if encodeErr_enc_tracereference2 != nil {
@@ -5756,10 +6520,15 @@ func (v *DeactivateTraceModeArg5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes DeactivateTraceModeArg5 to DER format.
 func (v *DeactivateTraceModeArg5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: DeactivateTraceModeArg5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -5773,7 +6542,9 @@ func (v *DeactivateTraceModeArg5) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
-		return nil, fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(v.TraceReference))
+		if constraintErr := ber.CheckEncodedLength(nil, "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_tracereference, encodeErr_enc_tracereference := ber.EncodeOctetString([]byte(v.TraceReference))
 	if encodeErr_enc_tracereference != nil {
@@ -5799,7 +6570,9 @@ func (v *DeactivateTraceModeArg5) MarshalDER() ([]byte, error) {
 	}
 	if v.TraceReference2 != nil {
 		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-			return nil, fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+			if constraintErr := ber.CheckEncodedLength(nil, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_tracereference2, encodeErr_enc_tracereference2 := ber.EncodeOctetString([]byte(*v.TraceReference2))
 		if encodeErr_enc_tracereference2 != nil {
@@ -5829,11 +6602,27 @@ func (v *DeactivateTraceModeArg5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes DeactivateTraceModeArg5 from BER/DER format.
-func (v *DeactivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *DeactivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: DeactivateTraceModeArg5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = DeactivateTraceModeArg5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding DeactivateTraceModeArg5 SEQUENCE: %w", err)
@@ -5863,7 +6652,9 @@ func (v *DeactivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 				offset += n_imsi
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+					if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5892,7 +6683,9 @@ func (v *DeactivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 	offset += n_tracereference
 	if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
-		return fmt.Errorf("traceReference length %d violates SIZE (1..2)", len(v.TraceReference))
+		if constraintErr := ber.CheckDecodedLength(opts, "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode extensionContainer
 	if offset < len(content) {
@@ -5911,7 +6704,7 @@ func (v *DeactivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer5
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -5946,7 +6739,9 @@ func (v *DeactivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 				offset += n_tracereference2
 				if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-					return fmt.Errorf("traceReference2 length %d violates SIZE (3)", len(*v.TraceReference2))
+					if constraintErr := ber.CheckDecodedLength(opts, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5978,10 +6773,23 @@ func (v *DeactivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes DeactivateTraceModeRes5 to BER format.
-func (v *DeactivateTraceModeRes5) MarshalBER() ([]byte, error) {
+func (v *DeactivateTraceModeRes5) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: DeactivateTraceModeRes5 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *DeactivateTraceModeRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -6007,6 +6815,9 @@ func (v *DeactivateTraceModeRes5) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes DeactivateTraceModeRes5 to DER format.
 func (v *DeactivateTraceModeRes5) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: DeactivateTraceModeRes5 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
@@ -6037,11 +6848,27 @@ func (v *DeactivateTraceModeRes5) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes DeactivateTraceModeRes5 from BER/DER format.
-func (v *DeactivateTraceModeRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *DeactivateTraceModeRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: DeactivateTraceModeRes5 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = DeactivateTraceModeRes5{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding DeactivateTraceModeRes5 SEQUENCE: %w", err)
@@ -6067,7 +6894,7 @@ func (v *DeactivateTraceModeRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer5
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer

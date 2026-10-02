@@ -42,6 +42,58 @@ Extension-addition bitmaps of 16,384 bits or more require the fragmented form
 in X.691 (02/2021) §11.9.3.8. Encode and decode return
 `per.ErrUnsupportedFragmentedNormallySmallLength` for that form.
 
+### BER constraints and trace tolerance
+
+BER decoding and encoding enforce resolved INTEGER, ENUMERATED, REAL, and
+`SIZE` constraints by default. Constraint failures return
+`*ber.ConstraintError`. For trace inspection, an explicit tolerance option
+admits representable out-of-constraint values and records each field path,
+constraint, and observed value or length. Pass the option to both decode and
+encode when preserving such a value. DER remains strict (ITU-T X.680
+(02/2021) §§49–51; X.690 (02/2021) §§8.1.3, 8.7).
+
+```go
+package main
+
+import (
+    "log"
+
+    "github.com/gomaja/go-asn1/runtime/ber"
+    "github.com/gomaja/go-asn1/telecom/ss7/tcap"
+)
+
+func replayBER(wire []byte) ([]byte, error) {
+    var value tcap.TCMessage
+    var violations ber.ViolationLog
+    option := ber.WithConstraintTolerance(&violations)
+    if err := value.UnmarshalBER(wire, option); err != nil {
+        return nil, err
+    }
+    for _, violation := range violations.Snapshot() {
+        if violation.ObservedLength != nil {
+            log.Printf("%s: %s, length %d", violation.Path,
+                violation.Constraint, *violation.ObservedLength)
+        } else {
+            log.Printf("%s: %s, value %s", violation.Path,
+                violation.Constraint, violation.ObservedValue)
+        }
+    }
+    encoded, err := value.MarshalBER(option)
+    violations.Reset()
+    return encoded, err
+}
+```
+
+`ber.ViolationLog` can be shared across concurrent decodes; `Snapshot`
+returns independent records. Unchanged tolerant values retain their original
+BER bytes, including noncanonical length forms. Changing a typed field makes
+the encoder use its current value. Tolerance cannot represent a negative BER
+INTEGER in a generated `uint64` field or a value wider than a generated
+`int64` field: decoding returns `ber.ErrInvalidValue` without substituting
+raw bytes. Source value `EXCEPT` and collection-element unions that the
+frontend cannot resolve remain fail closed (ITU-T X.680 (02/2021) §§49.7,
+50–51).
+
 ## Available Protocols
 
 Protocols marked with **[compiled]** have generated Go code. Others have placeholder directories ready for future compilation.
@@ -69,6 +121,11 @@ In LTE RRC `LocationInfo-r10`, the location coordinates, horizontal velocity,
 GNSS time of day, and vertical velocity fields carry LPP values as octets.
 Their generated field comments name the matching `lte/lpp` type or constrained
 integer decoder (3GPP TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2).
+
+LTE RRC is generated from the formal ASN.1 in the official 3GPP TS 36.331
+V19.4.0 archive (`36331-j40.zip`).
+S1AP and X2AP likewise use the official TS 36.413 V19.2.0 and TS 36.423
+V19.1.0 archives (`36413-j20.zip` and `36423-j10.zip`).
 
 #### `telecom/nr/` — 3GPP NR (5G)
 

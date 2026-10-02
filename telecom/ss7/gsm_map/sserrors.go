@@ -23,10 +23,25 @@ type PruAssociationRejParam struct {
 	ExtCount_       int64    `asn1:"-" json:"-"`
 	ExtPresent_     []bool   `asn1:"-" json:"-"`
 	ExtData_        [][]byte `asn1:"-" json:"-"`
+	berOriginal_    []byte   `asn1:"-" json:"-"`
+	berSnapshot_    []byte   `asn1:"-" json:"-"`
 }
 
 // MarshalBER encodes PruAssociationRejParam to BER format.
-func (v *PruAssociationRejParam) MarshalBER() ([]byte, error) {
+func (v *PruAssociationRejParam) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PruAssociationRejParam receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *PruAssociationRejParam) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.NewLmfRoutingId != nil {
 		enc_newlmfroutingid, encodeErr_enc_newlmfroutingid := ber.EncodeOctetString(v.NewLmfRoutingId)
@@ -57,6 +72,9 @@ func (v *PruAssociationRejParam) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PruAssociationRejParam to DER format.
 func (v *PruAssociationRejParam) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PruAssociationRejParam receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.NewLmfRoutingId != nil {
 		enc_newlmfroutingid, encodeErr_enc_newlmfroutingid := ber.EncodeOctetString(v.NewLmfRoutingId)
@@ -89,11 +107,27 @@ func (v *PruAssociationRejParam) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes PruAssociationRejParam from BER/DER format.
-func (v *PruAssociationRejParam) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *PruAssociationRejParam) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: PruAssociationRejParam destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PruAssociationRejParam{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding PruAssociationRejParam SEQUENCE: %w", err)

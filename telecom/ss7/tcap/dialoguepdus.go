@@ -31,6 +31,8 @@ const (
 // DialoguePDU represents the ASN.1 CHOICE type DialoguePDU.
 type DialoguePDU struct {
 	Choice           int
+	berOriginal_     []byte    `json:"-"`
+	berSnapshot_     []byte    `json:"-"`
 	DialogueRequest  *AARQApdu `json:"DialogueRequest,omitempty"`
 	DialogueResponse *AAREApdu `json:"DialogueResponse,omitempty"`
 	DialogueAbort    *ABRTApdu `json:"DialogueAbort,omitempty"`
@@ -64,8 +66,10 @@ func NewDialoguePDUDialogueAbort(v ABRTApdu) DialoguePDU {
 type AARQApdu struct {
 	ProtocolVersion        *runtime.BitString       `asn1:"tag:0,context,implicit,optional" json:"ProtocolVersion,omitempty"`
 	ApplicationContextName runtime.ObjectIdentifier `asn1:"tag:1,context,explicit"`
-	UserInformation        AARQApduUserInformation  `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
+	UserInformation        *AARQApduUserInformation `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
 	UserInformationIndef_  bool                     `asn1:"-" json:"-"`
+	berOriginal_           []byte                   `asn1:"-" json:"-"`
+	berSnapshot_           []byte                   `asn1:"-" json:"-"`
 }
 
 // AAREApdu represents the ASN.1 type AARE-apdu (SEQUENCE).
@@ -74,29 +78,37 @@ type AAREApdu struct {
 	ApplicationContextName runtime.ObjectIdentifier  `asn1:"tag:1,context,explicit"`
 	Result                 AssociateResult           `asn1:"tag:2,context,explicit"`
 	ResultSourceDiagnostic AssociateSourceDiagnostic `asn1:"tag:3,context,explicit"`
-	UserInformation        AAREApduUserInformation   `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
+	UserInformation        *AAREApduUserInformation  `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
 	UserInformationIndef_  bool                      `asn1:"-" json:"-"`
+	berOriginal_           []byte                    `asn1:"-" json:"-"`
+	berSnapshot_           []byte                    `asn1:"-" json:"-"`
 }
 
 // RLRQApdu represents the ASN.1 type RLRQ-apdu (SEQUENCE).
 type RLRQApdu struct {
-	Reason                *ReleaseRequestReason   `asn1:"tag:0,context,implicit,optional" json:"Reason,omitempty"`
-	UserInformation       RLRQApduUserInformation `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
-	UserInformationIndef_ bool                    `asn1:"-" json:"-"`
+	Reason                *ReleaseRequestReason    `asn1:"tag:0,context,implicit,optional" json:"Reason,omitempty"`
+	UserInformation       *RLRQApduUserInformation `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
+	UserInformationIndef_ bool                     `asn1:"-" json:"-"`
+	berOriginal_          []byte                   `asn1:"-" json:"-"`
+	berSnapshot_          []byte                   `asn1:"-" json:"-"`
 }
 
 // RLREApdu represents the ASN.1 type RLRE-apdu (SEQUENCE).
 type RLREApdu struct {
-	Reason                *ReleaseResponseReason  `asn1:"tag:0,context,implicit,optional" json:"Reason,omitempty"`
-	UserInformation       RLREApduUserInformation `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
-	UserInformationIndef_ bool                    `asn1:"-" json:"-"`
+	Reason                *ReleaseResponseReason   `asn1:"tag:0,context,implicit,optional" json:"Reason,omitempty"`
+	UserInformation       *RLREApduUserInformation `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
+	UserInformationIndef_ bool                     `asn1:"-" json:"-"`
+	berOriginal_          []byte                   `asn1:"-" json:"-"`
+	berSnapshot_          []byte                   `asn1:"-" json:"-"`
 }
 
 // ABRTApdu represents the ASN.1 type ABRT-apdu (SEQUENCE).
 type ABRTApdu struct {
-	AbortSource           ABRTSource              `asn1:"tag:0,context,implicit"`
-	UserInformation       ABRTApduUserInformation `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
-	UserInformationIndef_ bool                    `asn1:"-" json:"-"`
+	AbortSource           ABRTSource               `asn1:"tag:0,context,implicit"`
+	UserInformation       *ABRTApduUserInformation `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
+	UserInformationIndef_ bool                     `asn1:"-" json:"-"`
+	berOriginal_          []byte                   `asn1:"-" json:"-"`
+	berSnapshot_          []byte                   `asn1:"-" json:"-"`
 }
 
 // ABRTSource represents the arbitrary-width ASN.1 INTEGER type ABRT-source with named numbers.
@@ -312,6 +324,8 @@ const (
 // AssociateSourceDiagnostic represents the ASN.1 CHOICE type Associate-source-diagnostic.
 type AssociateSourceDiagnostic struct {
 	Choice                  int
+	berOriginal_            []byte                                                 `json:"-"`
+	berSnapshot_            []byte                                                 `json:"-"`
 	DialogueServiceUser     *AssociateSourceDiagnosticDialogueServiceUserValue     `json:"DialogueServiceUser,omitempty"`
 	DialogueServiceProvider *AssociateSourceDiagnosticDialogueServiceProviderValue `json:"DialogueServiceProvider,omitempty"`
 }
@@ -556,23 +570,43 @@ func (v *ReleaseResponseReason) UnmarshalJSON(data []byte) error {
 
 // asn1c:raw-preserve
 // AARQApduUserInformation represents the ASN.1 type AARQ-apdu-user-information (SEQUENCE_OF).
-type AARQApduUserInformation = []runtime.External
+type AARQApduUserInformation struct {
+	Values       []runtime.External `json:"Values"`
+	berOriginal_ []byte             `json:"-"`
+	berSnapshot_ []byte             `json:"-"`
+}
 
 // asn1c:raw-preserve
 // AAREApduUserInformation represents the ASN.1 type AARE-apdu-user-information (SEQUENCE_OF).
-type AAREApduUserInformation = []runtime.External
+type AAREApduUserInformation struct {
+	Values       []runtime.External `json:"Values"`
+	berOriginal_ []byte             `json:"-"`
+	berSnapshot_ []byte             `json:"-"`
+}
 
 // asn1c:raw-preserve
 // RLRQApduUserInformation represents the ASN.1 type RLRQ-apdu-user-information (SEQUENCE_OF).
-type RLRQApduUserInformation = []runtime.External
+type RLRQApduUserInformation struct {
+	Values       []runtime.External `json:"Values"`
+	berOriginal_ []byte             `json:"-"`
+	berSnapshot_ []byte             `json:"-"`
+}
 
 // asn1c:raw-preserve
 // RLREApduUserInformation represents the ASN.1 type RLRE-apdu-user-information (SEQUENCE_OF).
-type RLREApduUserInformation = []runtime.External
+type RLREApduUserInformation struct {
+	Values       []runtime.External `json:"Values"`
+	berOriginal_ []byte             `json:"-"`
+	berSnapshot_ []byte             `json:"-"`
+}
 
 // asn1c:raw-preserve
 // ABRTApduUserInformation represents the ASN.1 type ABRT-apdu-user-information (SEQUENCE_OF).
-type ABRTApduUserInformation = []runtime.External
+type ABRTApduUserInformation struct {
+	Values       []runtime.External `json:"Values"`
+	berOriginal_ []byte             `json:"-"`
+	berSnapshot_ []byte             `json:"-"`
+}
 
 // AssociateSourceDiagnosticDialogueServiceUserValue represents the arbitrary-width ASN.1 INTEGER type Associate-source-diagnostic-dialogue-service-user-Value with named numbers.
 type AssociateSourceDiagnosticDialogueServiceUserValue struct {
@@ -797,13 +831,26 @@ func (v *AssociateSourceDiagnosticDialogueServiceProviderValue) UnmarshalJSON(da
 }
 
 // MarshalBER encodes DialoguePDU to BER format.
-func (v *DialoguePDU) MarshalBER() ([]byte, error) {
+func (v *DialoguePDU) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: DialoguePDU receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *DialoguePDU) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case DialoguePDUChoiceDialogueRequest:
 		if v.DialogueRequest == nil {
-			return nil, fmt.Errorf("choice DialoguePDU: dialogueRequest is nil")
+			return nil, fmt.Errorf("%w: choice DialoguePDU: dialogueRequest is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.DialogueRequest.MarshalBER()
+		enc_0, err := v.DialogueRequest.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding dialogueRequest: %w", err)
 		}
@@ -815,9 +862,9 @@ func (v *DialoguePDU) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case DialoguePDUChoiceDialogueResponse:
 		if v.DialogueResponse == nil {
-			return nil, fmt.Errorf("choice DialoguePDU: dialogueResponse is nil")
+			return nil, fmt.Errorf("%w: choice DialoguePDU: dialogueResponse is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.DialogueResponse.MarshalBER()
+		enc_1, err := v.DialogueResponse.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding dialogueResponse: %w", err)
 		}
@@ -829,9 +876,9 @@ func (v *DialoguePDU) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case DialoguePDUChoiceDialogueAbort:
 		if v.DialogueAbort == nil {
-			return nil, fmt.Errorf("choice DialoguePDU: dialogueAbort is nil")
+			return nil, fmt.Errorf("%w: choice DialoguePDU: dialogueAbort is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.DialogueAbort.MarshalBER()
+		enc_2, err := v.DialogueAbort.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding dialogueAbort: %w", err)
 		}
@@ -848,10 +895,13 @@ func (v *DialoguePDU) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes DialoguePDU to DER format.
 func (v *DialoguePDU) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: DialoguePDU receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case DialoguePDUChoiceDialogueRequest:
 		if v.DialogueRequest == nil {
-			return nil, fmt.Errorf("choice DialoguePDU: dialogueRequest is nil")
+			return nil, fmt.Errorf("%w: choice DialoguePDU: dialogueRequest is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.DialogueRequest.MarshalDER()
 		if err != nil {
@@ -868,7 +918,7 @@ func (v *DialoguePDU) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case DialoguePDUChoiceDialogueResponse:
 		if v.DialogueResponse == nil {
-			return nil, fmt.Errorf("choice DialoguePDU: dialogueResponse is nil")
+			return nil, fmt.Errorf("%w: choice DialoguePDU: dialogueResponse is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.DialogueResponse.MarshalDER()
 		if err != nil {
@@ -885,7 +935,7 @@ func (v *DialoguePDU) MarshalDER() ([]byte, error) {
 		return enc_der_1, nil
 	case DialoguePDUChoiceDialogueAbort:
 		if v.DialogueAbort == nil {
-			return nil, fmt.Errorf("choice DialoguePDU: dialogueAbort is nil")
+			return nil, fmt.Errorf("%w: choice DialoguePDU: dialogueAbort is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.DialogueAbort.MarshalDER()
 		if err != nil {
@@ -912,7 +962,23 @@ func (v *DialoguePDU) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes DialoguePDU from BER/DER format.
-func (v *DialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *DialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: DialoguePDU destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -986,10 +1052,23 @@ func (v *DialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 }
 
 // MarshalBER encodes AARQApdu to BER format.
-func (v *AARQApdu) MarshalBER() ([]byte, error) {
+func (v *AARQApdu) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AARQApdu receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *AARQApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ProtocolVersion != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1017,7 +1096,7 @@ func (v *AARQApdu) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_applicationcontextname...)
 	if v.UserInformation != nil {
-		enc_userinformation, err := MarshalBERAARQApduUserInformation(v.UserInformation)
+		enc_userinformation, err := MarshalBERAARQApduUserInformation(v.UserInformation, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding user-information: %w", err)
 		}
@@ -1048,9 +1127,12 @@ func (v *AARQApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AARQApdu to DER format.
 func (v *AARQApdu) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AARQApdu receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ProtocolVersion != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1105,11 +1187,27 @@ func (v *AARQApdu) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes AARQApdu from BER/DER format.
-func (v *AARQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *AARQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: AARQApdu destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = AARQApdu{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding AARQApdu: %w", err)
@@ -1199,7 +1297,7 @@ func (v *AARQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if reconstructionErr_userinformation != nil {
 					return fmt.Errorf("decoding user-information: %w", reconstructionErr_userinformation)
 				}
-				dec_userinformation, unmErr := UnmarshalBERAARQApduUserInformation(reconstructed_userinformation, opts...)
+				dec_userinformation, unmErr := UnmarshalBERAARQApduUserInformation(reconstructed_userinformation, ber.ChildDecodeOptions(opts, "user-information")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding user-information: %w", unmErr)
 				}
@@ -1232,10 +1330,23 @@ func (v *AARQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes AAREApdu to BER format.
-func (v *AAREApdu) MarshalBER() ([]byte, error) {
+func (v *AAREApdu) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AAREApdu receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *AAREApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ProtocolVersion != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1274,7 +1385,7 @@ func (v *AAREApdu) MarshalBER() ([]byte, error) {
 		}
 	}
 	children = append(children, enc_result...)
-	enc_resultsourcediagnostic, err := v.ResultSourceDiagnostic.MarshalBER()
+	enc_resultsourcediagnostic, err := v.ResultSourceDiagnostic.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding result-source-diagnostic: %w", err)
 	}
@@ -1287,7 +1398,7 @@ func (v *AAREApdu) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_resultsourcediagnostic...)
 	if v.UserInformation != nil {
-		enc_userinformation, err := MarshalBERAAREApduUserInformation(v.UserInformation)
+		enc_userinformation, err := MarshalBERAAREApduUserInformation(v.UserInformation, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding user-information: %w", err)
 		}
@@ -1318,9 +1429,12 @@ func (v *AAREApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AAREApdu to DER format.
 func (v *AAREApdu) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AAREApdu receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ProtocolVersion != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1399,11 +1513,27 @@ func (v *AAREApdu) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes AAREApdu from BER/DER format.
-func (v *AAREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *AAREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: AAREApdu destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = AAREApdu{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding AAREApdu: %w", err)
@@ -1525,7 +1655,7 @@ func (v *AAREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		return fmt.Errorf("decoding result-source-diagnostic: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_resultsourcediagnostic)
 	}
 	// Decode inner value from explicit tag wrapper
-	if unmErr := v.ResultSourceDiagnostic.UnmarshalBER(innerData_resultsourcediagnostic, opts...); unmErr != nil {
+	if unmErr := v.ResultSourceDiagnostic.UnmarshalBER(innerData_resultsourcediagnostic, ber.ChildDecodeOptions(opts, "resultSourceDiagnostic")...); unmErr != nil {
 		return fmt.Errorf("decoding result-source-diagnostic: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -1552,7 +1682,7 @@ func (v *AAREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if reconstructionErr_userinformation != nil {
 					return fmt.Errorf("decoding user-information: %w", reconstructionErr_userinformation)
 				}
-				dec_userinformation, unmErr := UnmarshalBERAAREApduUserInformation(reconstructed_userinformation, opts...)
+				dec_userinformation, unmErr := UnmarshalBERAAREApduUserInformation(reconstructed_userinformation, ber.ChildDecodeOptions(opts, "user-information")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding user-information: %w", unmErr)
 				}
@@ -1585,7 +1715,20 @@ func (v *AAREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes RLRQApdu to BER format.
-func (v *RLRQApdu) MarshalBER() ([]byte, error) {
+func (v *RLRQApdu) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RLRQApdu receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *RLRQApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.Reason != nil {
 		enc_reason, encodeErr_enc_reason := ber.EncodeBigInt((*v.Reason).BigInt())
@@ -1600,7 +1743,7 @@ func (v *RLRQApdu) MarshalBER() ([]byte, error) {
 		children = append(children, enc_reason...)
 	}
 	if v.UserInformation != nil {
-		enc_userinformation, err := MarshalBERRLRQApduUserInformation(v.UserInformation)
+		enc_userinformation, err := MarshalBERRLRQApduUserInformation(v.UserInformation, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding user-information: %w", err)
 		}
@@ -1631,6 +1774,9 @@ func (v *RLRQApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RLRQApdu to DER format.
 func (v *RLRQApdu) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RLRQApdu receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.Reason != nil {
 		enc_reason, encodeErr_enc_reason := ber.EncodeBigInt((*v.Reason).BigInt())
@@ -1672,11 +1818,27 @@ func (v *RLRQApdu) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes RLRQApdu from BER/DER format.
-func (v *RLRQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *RLRQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: RLRQApdu destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = RLRQApdu{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding RLRQApdu: %w", err)
@@ -1735,7 +1897,7 @@ func (v *RLRQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if reconstructionErr_userinformation != nil {
 					return fmt.Errorf("decoding user-information: %w", reconstructionErr_userinformation)
 				}
-				dec_userinformation, unmErr := UnmarshalBERRLRQApduUserInformation(reconstructed_userinformation, opts...)
+				dec_userinformation, unmErr := UnmarshalBERRLRQApduUserInformation(reconstructed_userinformation, ber.ChildDecodeOptions(opts, "user-information")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding user-information: %w", unmErr)
 				}
@@ -1768,7 +1930,20 @@ func (v *RLRQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes RLREApdu to BER format.
-func (v *RLREApdu) MarshalBER() ([]byte, error) {
+func (v *RLREApdu) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RLREApdu receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *RLREApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.Reason != nil {
 		enc_reason, encodeErr_enc_reason := ber.EncodeBigInt((*v.Reason).BigInt())
@@ -1783,7 +1958,7 @@ func (v *RLREApdu) MarshalBER() ([]byte, error) {
 		children = append(children, enc_reason...)
 	}
 	if v.UserInformation != nil {
-		enc_userinformation, err := MarshalBERRLREApduUserInformation(v.UserInformation)
+		enc_userinformation, err := MarshalBERRLREApduUserInformation(v.UserInformation, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding user-information: %w", err)
 		}
@@ -1814,6 +1989,9 @@ func (v *RLREApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RLREApdu to DER format.
 func (v *RLREApdu) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RLREApdu receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.Reason != nil {
 		enc_reason, encodeErr_enc_reason := ber.EncodeBigInt((*v.Reason).BigInt())
@@ -1855,11 +2033,27 @@ func (v *RLREApdu) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes RLREApdu from BER/DER format.
-func (v *RLREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *RLREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: RLREApdu destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = RLREApdu{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding RLREApdu: %w", err)
@@ -1918,7 +2112,7 @@ func (v *RLREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if reconstructionErr_userinformation != nil {
 					return fmt.Errorf("decoding user-information: %w", reconstructionErr_userinformation)
 				}
-				dec_userinformation, unmErr := UnmarshalBERRLREApduUserInformation(reconstructed_userinformation, opts...)
+				dec_userinformation, unmErr := UnmarshalBERRLREApduUserInformation(reconstructed_userinformation, ber.ChildDecodeOptions(opts, "user-information")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding user-information: %w", unmErr)
 				}
@@ -1951,7 +2145,20 @@ func (v *RLREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes ABRTApdu to BER format.
-func (v *ABRTApdu) MarshalBER() ([]byte, error) {
+func (v *ABRTApdu) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ABRTApdu receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ABRTApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_abortsource, encodeErr_enc_abortsource := ber.EncodeBigInt((v.AbortSource).BigInt())
 	if encodeErr_enc_abortsource != nil {
@@ -1964,7 +2171,7 @@ func (v *ABRTApdu) MarshalBER() ([]byte, error) {
 	enc_abortsource = retagged_enc_abortsource
 	children = append(children, enc_abortsource...)
 	if v.UserInformation != nil {
-		enc_userinformation, err := MarshalBERABRTApduUserInformation(v.UserInformation)
+		enc_userinformation, err := MarshalBERABRTApduUserInformation(v.UserInformation, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding user-information: %w", err)
 		}
@@ -1995,6 +2202,9 @@ func (v *ABRTApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ABRTApdu to DER format.
 func (v *ABRTApdu) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ABRTApdu receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_abortsource, encodeErr_enc_abortsource := ber.EncodeBigInt((v.AbortSource).BigInt())
 	if encodeErr_enc_abortsource != nil {
@@ -2034,11 +2244,27 @@ func (v *ABRTApdu) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ABRTApdu from BER/DER format.
-func (v *ABRTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ABRTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ABRTApdu destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ABRTApdu{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ABRTApdu: %w", err)
@@ -2099,7 +2325,7 @@ func (v *ABRTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if reconstructionErr_userinformation != nil {
 					return fmt.Errorf("decoding user-information: %w", reconstructionErr_userinformation)
 				}
-				dec_userinformation, unmErr := UnmarshalBERABRTApduUserInformation(reconstructed_userinformation, opts...)
+				dec_userinformation, unmErr := UnmarshalBERABRTApduUserInformation(reconstructed_userinformation, ber.ChildDecodeOptions(opts, "user-information")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding user-information: %w", unmErr)
 				}
@@ -2132,11 +2358,24 @@ func (v *ABRTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes AssociateSourceDiagnostic to BER format.
-func (v *AssociateSourceDiagnostic) MarshalBER() ([]byte, error) {
+func (v *AssociateSourceDiagnostic) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AssociateSourceDiagnostic receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *AssociateSourceDiagnostic) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case AssociateSourceDiagnosticChoiceDialogueServiceUser:
 		if v.DialogueServiceUser == nil {
-			return nil, fmt.Errorf("choice AssociateSourceDiagnostic: dialogue-service-user is nil")
+			return nil, fmt.Errorf("%w: choice AssociateSourceDiagnostic: dialogue-service-user is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.DialogueServiceUser.BigInt())
 		if encodeErr_enc_0 != nil {
@@ -2152,7 +2391,7 @@ func (v *AssociateSourceDiagnostic) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case AssociateSourceDiagnosticChoiceDialogueServiceProvider:
 		if v.DialogueServiceProvider == nil {
-			return nil, fmt.Errorf("choice AssociateSourceDiagnostic: dialogue-service-provider is nil")
+			return nil, fmt.Errorf("%w: choice AssociateSourceDiagnostic: dialogue-service-provider is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeBigInt(v.DialogueServiceProvider.BigInt())
 		if encodeErr_enc_1 != nil {
@@ -2173,6 +2412,9 @@ func (v *AssociateSourceDiagnostic) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AssociateSourceDiagnostic to DER format.
 func (v *AssociateSourceDiagnostic) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AssociateSourceDiagnostic receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -2184,7 +2426,23 @@ func (v *AssociateSourceDiagnostic) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes AssociateSourceDiagnostic from BER/DER format.
-func (v *AssociateSourceDiagnostic) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *AssociateSourceDiagnostic) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: AssociateSourceDiagnostic destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -2243,7 +2501,21 @@ func (v *AssociateSourceDiagnostic) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBERAARQApduUserInformation encodes a AARQApduUserInformation list to BER.
-func MarshalBERAARQApduUserInformation(list AARQApduUserInformation) ([]byte, error) {
+func MarshalBERAARQApduUserInformation(collection *AARQApduUserInformation, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERAARQApduUserInformation(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERAARQApduUserInformation(collection *AARQApduUserInformation, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, extErr := ber.EncodeExternal(runtime.External(elem))
@@ -2256,7 +2528,11 @@ func MarshalBERAARQApduUserInformation(list AARQApduUserInformation) ([]byte, er
 }
 
 // MarshalDERAARQApduUserInformation encodes a AARQApduUserInformation list to DER.
-func MarshalDERAARQApduUserInformation(list AARQApduUserInformation) ([]byte, error) {
+func MarshalDERAARQApduUserInformation(collection *AARQApduUserInformation) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, extErr := ber.EncodeExternalDER(runtime.External(elem))
@@ -2276,7 +2552,7 @@ func MarshalDERAARQApduUserInformation(list AARQApduUserInformation) ([]byte, er
 }
 
 // UnmarshalBERAARQApduUserInformation decodes a AARQApduUserInformation list from BER.
-func UnmarshalBERAARQApduUserInformation(data []byte, opts ...ber.DecodeOption) (AARQApduUserInformation, error) {
+func UnmarshalBERAARQApduUserInformation(data []byte, opts ...ber.DecodeOption) (*AARQApduUserInformation, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2287,7 +2563,7 @@ func UnmarshalBERAARQApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "AARQApduUserInformation", Cause: ber.ErrExtraData}
 	}
-	var result AARQApduUserInformation
+	var result []runtime.External
 	offset := 0
 	for offset < len(content) {
 		decodedElem, n, extErr := ber.DecodeExternal(content[offset:], opts...)
@@ -2302,11 +2578,35 @@ func UnmarshalBERAARQApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 
 		offset += n
 	}
-	return result, nil
+	decoded := &AARQApduUserInformation{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERAARQApduUserInformation(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBERAAREApduUserInformation encodes a AAREApduUserInformation list to BER.
-func MarshalBERAAREApduUserInformation(list AAREApduUserInformation) ([]byte, error) {
+func MarshalBERAAREApduUserInformation(collection *AAREApduUserInformation, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERAAREApduUserInformation(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERAAREApduUserInformation(collection *AAREApduUserInformation, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, extErr := ber.EncodeExternal(runtime.External(elem))
@@ -2319,7 +2619,11 @@ func MarshalBERAAREApduUserInformation(list AAREApduUserInformation) ([]byte, er
 }
 
 // MarshalDERAAREApduUserInformation encodes a AAREApduUserInformation list to DER.
-func MarshalDERAAREApduUserInformation(list AAREApduUserInformation) ([]byte, error) {
+func MarshalDERAAREApduUserInformation(collection *AAREApduUserInformation) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, extErr := ber.EncodeExternalDER(runtime.External(elem))
@@ -2339,7 +2643,7 @@ func MarshalDERAAREApduUserInformation(list AAREApduUserInformation) ([]byte, er
 }
 
 // UnmarshalBERAAREApduUserInformation decodes a AAREApduUserInformation list from BER.
-func UnmarshalBERAAREApduUserInformation(data []byte, opts ...ber.DecodeOption) (AAREApduUserInformation, error) {
+func UnmarshalBERAAREApduUserInformation(data []byte, opts ...ber.DecodeOption) (*AAREApduUserInformation, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2350,7 +2654,7 @@ func UnmarshalBERAAREApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "AAREApduUserInformation", Cause: ber.ErrExtraData}
 	}
-	var result AAREApduUserInformation
+	var result []runtime.External
 	offset := 0
 	for offset < len(content) {
 		decodedElem, n, extErr := ber.DecodeExternal(content[offset:], opts...)
@@ -2365,11 +2669,35 @@ func UnmarshalBERAAREApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 
 		offset += n
 	}
-	return result, nil
+	decoded := &AAREApduUserInformation{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERAAREApduUserInformation(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBERRLRQApduUserInformation encodes a RLRQApduUserInformation list to BER.
-func MarshalBERRLRQApduUserInformation(list RLRQApduUserInformation) ([]byte, error) {
+func MarshalBERRLRQApduUserInformation(collection *RLRQApduUserInformation, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERRLRQApduUserInformation(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERRLRQApduUserInformation(collection *RLRQApduUserInformation, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, extErr := ber.EncodeExternal(runtime.External(elem))
@@ -2382,7 +2710,11 @@ func MarshalBERRLRQApduUserInformation(list RLRQApduUserInformation) ([]byte, er
 }
 
 // MarshalDERRLRQApduUserInformation encodes a RLRQApduUserInformation list to DER.
-func MarshalDERRLRQApduUserInformation(list RLRQApduUserInformation) ([]byte, error) {
+func MarshalDERRLRQApduUserInformation(collection *RLRQApduUserInformation) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, extErr := ber.EncodeExternalDER(runtime.External(elem))
@@ -2402,7 +2734,7 @@ func MarshalDERRLRQApduUserInformation(list RLRQApduUserInformation) ([]byte, er
 }
 
 // UnmarshalBERRLRQApduUserInformation decodes a RLRQApduUserInformation list from BER.
-func UnmarshalBERRLRQApduUserInformation(data []byte, opts ...ber.DecodeOption) (RLRQApduUserInformation, error) {
+func UnmarshalBERRLRQApduUserInformation(data []byte, opts ...ber.DecodeOption) (*RLRQApduUserInformation, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2413,7 +2745,7 @@ func UnmarshalBERRLRQApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "RLRQApduUserInformation", Cause: ber.ErrExtraData}
 	}
-	var result RLRQApduUserInformation
+	var result []runtime.External
 	offset := 0
 	for offset < len(content) {
 		decodedElem, n, extErr := ber.DecodeExternal(content[offset:], opts...)
@@ -2428,11 +2760,35 @@ func UnmarshalBERRLRQApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 
 		offset += n
 	}
-	return result, nil
+	decoded := &RLRQApduUserInformation{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERRLRQApduUserInformation(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBERRLREApduUserInformation encodes a RLREApduUserInformation list to BER.
-func MarshalBERRLREApduUserInformation(list RLREApduUserInformation) ([]byte, error) {
+func MarshalBERRLREApduUserInformation(collection *RLREApduUserInformation, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERRLREApduUserInformation(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERRLREApduUserInformation(collection *RLREApduUserInformation, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, extErr := ber.EncodeExternal(runtime.External(elem))
@@ -2445,7 +2801,11 @@ func MarshalBERRLREApduUserInformation(list RLREApduUserInformation) ([]byte, er
 }
 
 // MarshalDERRLREApduUserInformation encodes a RLREApduUserInformation list to DER.
-func MarshalDERRLREApduUserInformation(list RLREApduUserInformation) ([]byte, error) {
+func MarshalDERRLREApduUserInformation(collection *RLREApduUserInformation) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, extErr := ber.EncodeExternalDER(runtime.External(elem))
@@ -2465,7 +2825,7 @@ func MarshalDERRLREApduUserInformation(list RLREApduUserInformation) ([]byte, er
 }
 
 // UnmarshalBERRLREApduUserInformation decodes a RLREApduUserInformation list from BER.
-func UnmarshalBERRLREApduUserInformation(data []byte, opts ...ber.DecodeOption) (RLREApduUserInformation, error) {
+func UnmarshalBERRLREApduUserInformation(data []byte, opts ...ber.DecodeOption) (*RLREApduUserInformation, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2476,7 +2836,7 @@ func UnmarshalBERRLREApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "RLREApduUserInformation", Cause: ber.ErrExtraData}
 	}
-	var result RLREApduUserInformation
+	var result []runtime.External
 	offset := 0
 	for offset < len(content) {
 		decodedElem, n, extErr := ber.DecodeExternal(content[offset:], opts...)
@@ -2491,11 +2851,35 @@ func UnmarshalBERRLREApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 
 		offset += n
 	}
-	return result, nil
+	decoded := &RLREApduUserInformation{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERRLREApduUserInformation(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBERABRTApduUserInformation encodes a ABRTApduUserInformation list to BER.
-func MarshalBERABRTApduUserInformation(list ABRTApduUserInformation) ([]byte, error) {
+func MarshalBERABRTApduUserInformation(collection *ABRTApduUserInformation, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERABRTApduUserInformation(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERABRTApduUserInformation(collection *ABRTApduUserInformation, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, extErr := ber.EncodeExternal(runtime.External(elem))
@@ -2508,7 +2892,11 @@ func MarshalBERABRTApduUserInformation(list ABRTApduUserInformation) ([]byte, er
 }
 
 // MarshalDERABRTApduUserInformation encodes a ABRTApduUserInformation list to DER.
-func MarshalDERABRTApduUserInformation(list ABRTApduUserInformation) ([]byte, error) {
+func MarshalDERABRTApduUserInformation(collection *ABRTApduUserInformation) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, extErr := ber.EncodeExternalDER(runtime.External(elem))
@@ -2528,7 +2916,7 @@ func MarshalDERABRTApduUserInformation(list ABRTApduUserInformation) ([]byte, er
 }
 
 // UnmarshalBERABRTApduUserInformation decodes a ABRTApduUserInformation list from BER.
-func UnmarshalBERABRTApduUserInformation(data []byte, opts ...ber.DecodeOption) (ABRTApduUserInformation, error) {
+func UnmarshalBERABRTApduUserInformation(data []byte, opts ...ber.DecodeOption) (*ABRTApduUserInformation, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2539,7 +2927,7 @@ func UnmarshalBERABRTApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "ABRTApduUserInformation", Cause: ber.ErrExtraData}
 	}
-	var result ABRTApduUserInformation
+	var result []runtime.External
 	offset := 0
 	for offset < len(content) {
 		decodedElem, n, extErr := ber.DecodeExternal(content[offset:], opts...)
@@ -2554,5 +2942,15 @@ func UnmarshalBERABRTApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 
 		offset += n
 	}
-	return result, nil
+	decoded := &ABRTApduUserInformation{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERABRTApduUserInformation(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }

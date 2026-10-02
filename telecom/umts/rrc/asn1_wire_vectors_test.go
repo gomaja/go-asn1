@@ -101,6 +101,15 @@ func asn1VectorValueAtPath(current reflect.Value, path string) (any, error) {
 			if err != nil {
 				return nil, fmt.Errorf("path %s: %w", path, err)
 			}
+			// Generated BER collections own their slice and wire provenance.
+			// Treat their Values field as the indexed abstract value.
+			if current.Kind() == reflect.Struct {
+				_, hasOriginal := current.Type().FieldByName("berOriginal_")
+				_, hasSnapshot := current.Type().FieldByName("berSnapshot_")
+				if hasOriginal && hasSnapshot {
+					current = current.FieldByName("Values")
+				}
+			}
 			if current.Kind() != reflect.Array && current.Kind() != reflect.Slice {
 				return nil, fmt.Errorf("path %s: indexed value is not a list", path)
 			}

@@ -797,6 +797,7 @@ type EllipsoidArc struct {
 }
 
 // EPDUSequence represents the ASN.1 type EPDU-Sequence (SEQUENCE_OF).
+
 type EPDUSequence = []EPDU
 
 // EPDU represents the ASN.1 type EPDU (SEQUENCE).
@@ -1081,6 +1082,7 @@ type PeriodicReportingIntervalMsSupportPerModeR18 struct {
 }
 
 // Polygon represents the ASN.1 type Polygon (SEQUENCE_OF).
+
 type Polygon = []PolygonPoints
 
 // PolygonPoints represents the ASN.1 type PolygonPoints (SEQUENCE).
@@ -1796,6 +1798,7 @@ type CommonIEsError struct {
 }
 
 // AreaIDCellListR17 represents the ASN.1 type AreaID-CellList-r17 (SEQUENCE_OF).
+
 type AreaIDCellListR17 = []NRCellIDsR17
 
 // NRCellIDsR17 represents the ASN.1 type NR-Cell-IDs-r17 (SEQUENCE).
@@ -1946,9 +1949,11 @@ func (v LOSNLOSIndicatorType2R17) String() string {
 }
 
 // NRAdditionalPathListR16 represents the ASN.1 type NR-AdditionalPathList-r16 (SEQUENCE_OF).
+
 type NRAdditionalPathListR16 = []NRAdditionalPathR16
 
 // NRAdditionalPathListExtR17 represents the ASN.1 type NR-AdditionalPathListExt-r17 (SEQUENCE_OF).
+
 type NRAdditionalPathListExtR17 = []NRAdditionalPathR16
 
 // NRAdditionalPathR16 represents the ASN.1 type NR-AdditionalPath-r16 (SEQUENCE).
@@ -2095,9 +2100,11 @@ func NewNRDLPRSExpectedAoDOrAoAR17ExpectedAoAR17(v NRDLPRSExpectedAoDOrAoAR17Exp
 }
 
 // NRDLPRSAggregationInfoR18 represents the ASN.1 type NR-DL-PRS-AggregationInfo-r18 (SEQUENCE_OF).
+
 type NRDLPRSAggregationInfoR18 = []NRLinkedDLPRSResourceSetIDPRSAggregationListR18
 
 // NRLinkedDLPRSResourceSetIDPRSAggregationListR18 represents the ASN.1 type NR-linkedDL-PRS-ResourceSetID-PRS-AggregationList-r18 (SEQUENCE_OF).
+
 type NRLinkedDLPRSResourceSetIDPRSAggregationListR18 = []NRDLPRSAggregationElementR18
 
 // NRDLPRSAggregationElementR18 represents the ASN.1 type NR-DL-PRS-AggregationElement-r18 (SEQUENCE).
@@ -2111,9 +2118,11 @@ type NRDLPRSAggregationElementR18 struct {
 }
 
 // NRDLPRSBeamInfoR16 represents the ASN.1 type NR-DL-PRS-BeamInfo-r16 (SEQUENCE_OF).
+
 type NRDLPRSBeamInfoR16 = []NRDLPRSBeamInfoPerFreqLayerR16
 
 // NRDLPRSBeamInfoPerFreqLayerR16 represents the ASN.1 type NR-DL-PRS-BeamInfoPerFreqLayer-r16 (SEQUENCE_OF).
+
 type NRDLPRSBeamInfoPerFreqLayerR16 = []NRDLPRSBeamInfoPerTRPR16
 
 // NRDLPRSBeamInfoPerTRPR16 represents the ASN.1 type NR-DL-PRS-BeamInfoPerTRP-r16 (SEQUENCE).
@@ -2136,9 +2145,11 @@ type NRDLPRSBeamInfoPerTRPR16 struct {
 }
 
 // DLPRSBeamInfoSetR16 represents the ASN.1 type DL-PRS-BeamInfoSet-r16 (SEQUENCE_OF).
+
 type DLPRSBeamInfoSetR16 = []DLPRSBeamInfoResourceSetR16
 
 // DLPRSBeamInfoResourceSetR16 represents the ASN.1 type DL-PRS-BeamInfoResourceSet-r16 (SEQUENCE_OF).
+
 type DLPRSBeamInfoResourceSetR16 = []DLPRSBeamInfoElementR16
 
 // DLPRSBeamInfoElementR16 represents the ASN.1 type DL-PRS-BeamInfoElement-r16 (SEQUENCE).
@@ -2173,9 +2184,11 @@ type NRIntegrityBeamInfoBoundsR18 struct {
 }
 
 // NRDLPRSExpectedLOSNLOSAssistanceR17 represents the ASN.1 type NR-DL-PRS-ExpectedLOS-NLOS-Assistance-r17 (SEQUENCE_OF).
+
 type NRDLPRSExpectedLOSNLOSAssistanceR17 = []NRDLPRSExpectedLOSNLOSAssistancePerFreqLayerR17
 
 // NRDLPRSExpectedLOSNLOSAssistancePerFreqLayerR17 represents the ASN.1 type NR-DL-PRS-ExpectedLOS-NLOS-AssistancePerFreqLayer-r17 (SEQUENCE_OF).
+
 type NRDLPRSExpectedLOSNLOSAssistancePerFreqLayerR17 = []NRDLPRSExpectedLOSNLOSAssistancePerTRPR17
 
 // NRDLPRSExpectedLOSNLOSAssistancePerTRPR17 represents the ASN.1 type NR-DL-PRS-ExpectedLOS-NLOS-AssistancePerTRP-r17 (SEQUENCE).
@@ -2195,6 +2208,7 @@ type NRDLPRSExpectedLOSNLOSAssistancePerTRPR17 struct {
 }
 
 // NRDLPRSExpectedLOSNLOSAssistancePerResourceR17 represents the ASN.1 type NR-DL-PRS-ExpectedLOS-NLOS-AssistancePerResource-r17 (SEQUENCE_OF).
+
 type NRDLPRSExpectedLOSNLOSAssistancePerResourceR17 = []LOSNLOSIndicatorR17
 
 // NRDLPRSInfoR16 represents the ASN.1 type NR-DL-PRS-Info-r16 (SEQUENCE).
@@ -2435,6 +2449,7 @@ func NewNRDLPRSPeriodicityAndResourceSetSlotOffsetR16Scs120R16(v NRDLPRSPeriodic
 }
 
 // DLPRSResourcePrioritySubsetR17 represents the ASN.1 type DL-PRS-ResourcePrioritySubset-r17 (SEQUENCE_OF).
+
 type DLPRSResourcePrioritySubsetR17 = []NRDLPRSResourcePriorityItemR17
 
 // NRDLPRSResourcePriorityItemR17 represents the ASN.1 type NR-DL-PRSResourcePriorityItem-r17 (SEQUENCE).
@@ -2451,6 +2466,7 @@ type NRDLPRSResourcePriorityItemR17 struct {
 }
 
 // NRDLPRSMeasurementTimeWindowsConfigR18 represents the ASN.1 type NR-DL-PRS-MeasurementTimeWindowsConfig-r18 (SEQUENCE_OF).
+
 type NRDLPRSMeasurementTimeWindowsConfigR18 = []NRDLPRSMeasurementTimeWindowsConfigElementR18
 
 // NRDLPRSMeasurementTimeWindowsConfigElementR18 represents the ASN.1 type NR-DL-PRS-MeasurementTimeWindowsConfigElement-r18 (SEQUENCE).
@@ -2673,6 +2689,7 @@ type DLPRSResourcesCapabilityPerBandR16 struct {
 }
 
 // DLPRSResourcesBandCombinationListR16 represents the ASN.1 type DL-PRS-ResourcesBandCombinationList-r16 (SEQUENCE_OF).
+
 type DLPRSResourcesBandCombinationListR16 = []DLPRSResourcesBandCombinationR16
 
 // DLPRSResourcesBandCombinationR16 represents the ASN.1 type DL-PRS-ResourcesBandCombination-r16 (SEQUENCE).
@@ -2693,9 +2710,11 @@ type DLPRSResourcesBandCombinationR16 struct {
 type NRDLPRSResourceSetIDR16 = int64
 
 // NRDLPRSTRPTEGInfoR17 represents the ASN.1 type NR-DL-PRS-TRP-TEG-Info-r17 (SEQUENCE_OF).
+
 type NRDLPRSTRPTEGInfoR17 = []NRDLPRSTRPTEGInfoPerFreqLayerR17
 
 // NRDLPRSTRPTEGInfoPerFreqLayerR17 represents the ASN.1 type NR-DL-PRS-TRP-TEG-InfoPerFreqLayer-r17 (SEQUENCE_OF).
+
 type NRDLPRSTRPTEGInfoPerFreqLayerR17 = []NRDLPRSTRPTEGInfoPerTRPR17
 
 // NRDLPRSTRPTEGInfoPerTRPR17 represents the ASN.1 type NR-DL-PRS-TRP-TEG-InfoPerTRP-r17 (SEQUENCE).
@@ -2717,6 +2736,7 @@ type NRDLPRSTRPTEGInfoPerTRPR17 struct {
 }
 
 // DLPRSTEGInfoPerResourceSetR17 represents the ASN.1 type DL-PRS-TEG-InfoPerResourceSet-r17 (SEQUENCE_OF).
+
 type DLPRSTEGInfoPerResourceSetR17 = []DLPRSTEGInfoElementR17
 
 // DLPRSTEGInfoElementR17 represents the ASN.1 type DL-PRS-TEG-InfoElement-r17 (SEQUENCE).
@@ -2745,9 +2765,11 @@ type NRIntegrityRiskParametersR18 struct {
 }
 
 // NRIntegrityServiceAlertR18 represents the ASN.1 type NR-IntegrityServiceAlert-r18 (SEQUENCE_OF).
+
 type NRIntegrityServiceAlertR18 = []NRTRPIntegrityServiceAlertPerFreqLayerR18
 
 // NRTRPIntegrityServiceAlertPerFreqLayerR18 represents the ASN.1 type NR-TRP-IntegrityServiceAlertPerFreqLayer-r18 (SEQUENCE_OF).
+
 type NRTRPIntegrityServiceAlertPerFreqLayerR18 = []NRTRPIntegrityServiceAlertElementR18
 
 // NRTRPIntegrityServiceAlertElementR18 represents the ASN.1 type NR-TRP-IntegrityServiceAlertElement-r18 (SEQUENCE).
@@ -2828,9 +2850,11 @@ type DLPRSConfigurationIDR17 struct {
 }
 
 // OnDemandDLPRSAggregationInfoR18 represents the ASN.1 type OnDemandDL-PRS-AggregationInfo-r18 (SEQUENCE_OF).
+
 type OnDemandDLPRSAggregationInfoR18 = []DLPRSConfigurationIDR17
 
 // NROnDemandDLPRSInformationR17 represents the ASN.1 type NR-On-Demand-DL-PRS-Information-r17 (SEQUENCE_OF).
+
 type NROnDemandDLPRSInformationR17 = []NROnDemandDLPRSPerFreqLayerR17
 
 // NROnDemandDLPRSPerFreqLayerR17 represents the ASN.1 type NR-On-Demand-DL-PRS-PerFreqLayer-r17 (SEQUENCE).
@@ -2853,6 +2877,7 @@ type NROnDemandDLPRSPerFreqLayerR17 struct {
 }
 
 // DLPRSQCLInformationReqTRPlistR17 represents the ASN.1 type DL-PRS-QCL-InformationReqTRPlist-r17 (SEQUENCE_OF).
+
 type DLPRSQCLInformationReqTRPlistR17 = []DLPRSQCLInformationReqPerTRPR17
 
 // DLPRSQCLInformationReqPerTRPR17 represents the ASN.1 type DL-PRS-QCL-InformationReqPerTRP-r17 (SEQUENCE).
@@ -2923,12 +2948,15 @@ type DLPRSStartTimeAndDurationR17 struct {
 }
 
 // NROnDemandDLPRSAggregationReqElementR18 represents the ASN.1 type NR-OnDemandDL-PRS-AggregationReqElement-r18 (SEQUENCE_OF).
+
 type NROnDemandDLPRSAggregationReqElementR18 = []int64
 
 // NRTRPRequestListR19 represents the ASN.1 type NR-TRP-RequestList-r19 (SEQUENCE_OF).
+
 type NRTRPRequestListR19 = []NRTRPRequestListPerFreqLayerR19
 
 // NRTRPRequestListPerFreqLayerR19 represents the ASN.1 type NR-TRP-RequestListPerFreqLayer-r19 (SEQUENCE_OF).
+
 type NRTRPRequestListPerFreqLayerR19 = []TRPRequestInfoElementR19
 
 // TRPRequestInfoElementR19 represents the ASN.1 type TRP-RequestInfoElement-r19 (SEQUENCE).
@@ -2947,6 +2975,7 @@ type TRPRequestInfoElementR19 struct {
 }
 
 // NROnDemandDLPRSConfigurationsSelectedIndexListR17 represents the ASN.1 type NR-On-Demand-DL-PRS-Configurations-Selected-IndexList-r17 (SEQUENCE_OF).
+
 type NROnDemandDLPRSConfigurationsSelectedIndexListR17 = []DLPRSConfigurationIDR17
 
 // NROnDemandDLPRSSupportR17 represents the ASN.1 type NR-On-Demand-DL-PRS-Support-r17 (SEQUENCE).
@@ -3101,6 +3130,7 @@ type NRPRUDLInfoR18 struct {
 }
 
 // NRPRURSCPMeasurementInformationR18 represents the ASN.1 type NR-PRU-RSCP-MeasurementInformation-r18 (SEQUENCE_OF).
+
 type NRPRURSCPMeasurementInformationR18 = []NRPRURSCPMeasElementR18
 
 // NRPRURSCPMeasElementR18 represents the ASN.1 type NR-PRU-RSCP-MeasElement-r18 (SEQUENCE).
@@ -3135,6 +3165,7 @@ type NRPRURSCPMeasElementR18 struct {
 }
 
 // NRPRURSCPAdditionalMeasurementsR18 represents the ASN.1 type NR-PRU-RSCP-AdditionalMeasurements-r18 (SEQUENCE_OF).
+
 type NRPRURSCPAdditionalMeasurementsR18 = []NRPRURSCPAdditionalMeasurementElementR18
 
 // NRPRURSCPAdditionalMeasurementElementR18 represents the ASN.1 type NR-PRU-RSCP-AdditionalMeasurementElement-r18 (SEQUENCE).
@@ -3190,9 +3221,11 @@ type ReferenceTRPRTDInfoR16 struct {
 }
 
 // RTDInfoListR16 represents the ASN.1 type RTD-InfoList-r16 (SEQUENCE_OF).
+
 type RTDInfoListR16 = []RTDInfoListPerFreqLayerR16
 
 // RTDInfoListPerFreqLayerR16 represents the ASN.1 type RTD-InfoListPerFreqLayer-r16 (SEQUENCE_OF).
+
 type RTDInfoListPerFreqLayerR16 = []RTDInfoElementR16
 
 // RTDInfoElementR16 represents the ASN.1 type RTD-InfoElement-r16 (SEQUENCE).
@@ -3228,6 +3261,7 @@ type NRIntegrityRTDInfoBoundsR18 struct {
 }
 
 // NRSelectedDLPRSIndexListR16 represents the ASN.1 type NR-SelectedDL-PRS-IndexList-r16 (SEQUENCE_OF).
+
 type NRSelectedDLPRSIndexListR16 = []NRSelectedDLPRSPerFreqR16
 
 // NRSelectedDLPRSPerFreqR16 represents the ASN.1 type NR-SelectedDL-PRS-PerFreq-r16 (SEQUENCE).
@@ -3331,9 +3365,11 @@ type NRTimingQualityR16 struct {
 }
 
 // NRTRPBeamAntennaInfoR17 represents the ASN.1 type NR-TRP-BeamAntennaInfo-r17 (SEQUENCE_OF).
+
 type NRTRPBeamAntennaInfoR17 = []NRTRPBeamAntennaInfoPerFreqLayerR17
 
 // NRTRPBeamAntennaInfoPerFreqLayerR17 represents the ASN.1 type NR-TRP-BeamAntennaInfoPerFreqLayer-r17 (SEQUENCE_OF).
+
 type NRTRPBeamAntennaInfoPerFreqLayerR17 = []NRTRPBeamAntennaInfoPerTRPR17
 
 // NRTRPBeamAntennaInfoPerTRPR17 represents the ASN.1 type NR-TRP-BeamAntennaInfoPerTRP-r17 (SEQUENCE).
@@ -3356,6 +3392,7 @@ type NRTRPBeamAntennaInfoPerTRPR17 struct {
 }
 
 // NRTRPBeamAntennaAnglesR17 represents the ASN.1 type NR-TRP-BeamAntennaAngles-r17 (SEQUENCE_OF).
+
 type NRTRPBeamAntennaAnglesR17 = []NRTRPBeamAntennaInfoAzimuthElevationR17
 
 // NRTRPBeamAntennaInfoAzimuthElevationR17 represents the ASN.1 type NR-TRP-BeamAntennaInfoAzimuthElevation-r17 (SEQUENCE).
@@ -3418,6 +3455,7 @@ type NRIntegrityBeamPowerBoundsR18 struct {
 }
 
 // NRTRPLocationInfoR16 represents the ASN.1 type NR-TRP-LocationInfo-r16 (SEQUENCE_OF).
+
 type NRTRPLocationInfoR16 = []NRTRPLocationInfoPerFreqLayerR16
 
 // NRTRPLocationInfoPerFreqLayerR16 represents the ASN.1 type NR-TRP-LocationInfoPerFreqLayer-r16 (SEQUENCE).
@@ -3500,6 +3538,7 @@ type NRIntegrityLocationBoundsR18 struct {
 }
 
 // NRTRPLocationInfoImplicitR19 represents the ASN.1 type NR-TRP-LocationInfo-Implicit-r19 (SEQUENCE_OF).
+
 type NRTRPLocationInfoImplicitR19 = []TRPLocationInfoImplicitElementR19
 
 // TRPLocationInfoImplicitElementR19 represents the ASN.1 type TRP-LocationInfo-Implicit-Element-r19 (SEQUENCE).
@@ -4199,9 +4238,11 @@ type TDDConfigV1520 struct {
 }
 
 // OTDOANeighbourCellInfoList represents the ASN.1 type OTDOA-NeighbourCellInfoList (SEQUENCE_OF).
+
 type OTDOANeighbourCellInfoList = []OTDOANeighbourFreqInfo
 
 // OTDOANeighbourFreqInfo represents the ASN.1 type OTDOA-NeighbourFreqInfo (SEQUENCE_OF).
+
 type OTDOANeighbourFreqInfo = []OTDOANeighbourCellInfoElement
 
 // OTDOANeighbourCellInfoElement represents the ASN.1 type OTDOA-NeighbourCellInfoElement (SEQUENCE).
@@ -4270,6 +4311,7 @@ type OTDOAReferenceCellInfoNBR14 struct {
 }
 
 // PRSInfoNBR14 represents the ASN.1 type PRS-Info-NB-r14 (SEQUENCE_OF).
+
 type PRSInfoNBR14 = []NPRSInfoR14
 
 // NPRSInfoR14 represents the ASN.1 type NPRS-Info-r14 (SEQUENCE).
@@ -4291,6 +4333,7 @@ type NPRSInfoR14 struct {
 }
 
 // OTDOANeighbourCellInfoListNBR14 represents the ASN.1 type OTDOA-NeighbourCellInfoListNB-r14 (SEQUENCE_OF).
+
 type OTDOANeighbourCellInfoListNBR14 = []OTDOANeighbourCellInfoNBR14
 
 // OTDOANeighbourCellInfoNBR14 represents the ASN.1 type OTDOA-NeighbourCellInfoNB-r14 (SEQUENCE).
@@ -4377,6 +4420,7 @@ type OTDOASignalMeasurementInformation struct {
 }
 
 // NeighbourMeasurementList represents the ASN.1 type NeighbourMeasurementList (SEQUENCE_OF).
+
 type NeighbourMeasurementList = []NeighbourMeasurementElement
 
 // NeighbourMeasurementElement represents the ASN.1 type NeighbourMeasurementElement (SEQUENCE).
@@ -4405,6 +4449,7 @@ type NeighbourMeasurementElement struct {
 }
 
 // AdditionalPathListR14 represents the ASN.1 type AdditionalPathList-r14 (SEQUENCE_OF).
+
 type AdditionalPathListR14 = []AdditionalPathR14
 
 // MotionTimeSourceR15 represents the ASN.1 type MotionTimeSource-r15 (SEQUENCE).
@@ -4441,6 +4486,7 @@ type OTDOASignalMeasurementInformationNBR14 struct {
 }
 
 // NeighbourMeasurementListNBR14 represents the ASN.1 type NeighbourMeasurementList-NB-r14 (SEQUENCE_OF).
+
 type NeighbourMeasurementListNBR14 = []NeighbourMeasurementElementNBR14
 
 // NeighbourMeasurementElementNBR14 represents the ASN.1 type NeighbourMeasurementElement-NB-r14 (SEQUENCE).
@@ -4669,6 +4715,7 @@ type GNSSCommonAssistData struct {
 }
 
 // GNSSGenericAssistData represents the ASN.1 type GNSS-GenericAssistData (SEQUENCE_OF).
+
 type GNSSGenericAssistData = []GNSSGenericAssistDataElement
 
 // GNSSGenericAssistDataElement represents the ASN.1 type GNSS-GenericAssistDataElement (SEQUENCE).
@@ -4791,6 +4838,7 @@ type GNSSSystemTime struct {
 }
 
 // GPSTOWAssist represents the ASN.1 type GPS-TOW-Assist (SEQUENCE_OF).
+
 type GPSTOWAssist = []GPSTOWAssistElement
 
 // GPSTOWAssistElement represents the ASN.1 type GPS-TOW-AssistElement (SEQUENCE).
@@ -4929,6 +4977,7 @@ type NeQuickModel2ParameterR19 struct {
 }
 
 // NeQuickModel2ParameterListR19 represents the ASN.1 type NeQuickModel2ParameterList-r19 (SEQUENCE_OF).
+
 type NeQuickModel2ParameterListR19 = []NeQuickModel2ParameterElementR19
 
 // NeQuickModel2ParameterElementR19 represents the ASN.1 type NeQuickModel2ParameterElement-r19 (SEQUENCE).
@@ -5068,6 +5117,7 @@ func NewEqualIntegerAmbiguityLevelR16ReferenceStationListR16(v ReferenceStationL
 }
 
 // ReferenceStationListR16 represents the ASN.1 type ReferenceStationList-r16 (SEQUENCE_OF).
+
 type ReferenceStationListR16 = []GNSSReferenceStationIDR15
 
 // GNSSRTKCommonObservationInfoR15 represents the ASN.1 type GNSS-RTK-CommonObservationInfo-r15 (SEQUENCE).
@@ -5103,6 +5153,7 @@ type GNSSRTKAuxiliaryStationDataR15 struct {
 }
 
 // AuxiliaryStationListR15 represents the ASN.1 type AuxiliaryStationList-r15 (SEQUENCE_OF).
+
 type AuxiliaryStationListR15 = []AuxiliaryStationElementR15
 
 // AuxiliaryStationElementR15 represents the ASN.1 type AuxiliaryStationElement-r15 (SEQUENCE).
@@ -5330,6 +5381,7 @@ type GNSSSSRIODUpdateR18 struct {
 }
 
 // GNSSTimeModelList represents the ASN.1 type GNSS-TimeModelList (SEQUENCE_OF).
+
 type GNSSTimeModelList = []GNSSTimeModelElement
 
 // GNSSTimeModelElement represents the ASN.1 type GNSS-TimeModelElement (SEQUENCE).
@@ -5365,6 +5417,7 @@ type GNSSDifferentialCorrections struct {
 }
 
 // DGNSSSgnTypeList represents the ASN.1 type DGNSS-SgnTypeList (SEQUENCE_OF).
+
 type DGNSSSgnTypeList = []DGNSSSgnTypeElement
 
 // DGNSSSgnTypeElement represents the ASN.1 type DGNSS-SgnTypeElement (SEQUENCE).
@@ -5383,6 +5436,7 @@ type DGNSSSgnTypeElement struct {
 }
 
 // DGNSSSatList represents the ASN.1 type DGNSS-SatList (SEQUENCE_OF).
+
 type DGNSSSatList = []DGNSSCorrectionsElement
 
 // DGNSSCorrectionsElement represents the ASN.1 type DGNSS-CorrectionsElement (SEQUENCE).
@@ -5418,6 +5472,7 @@ type GNSSNavigationModel struct {
 }
 
 // GNSSNavModelSatelliteList represents the ASN.1 type GNSS-NavModelSatelliteList (SEQUENCE_OF).
+
 type GNSSNavModelSatelliteList = []GNSSNavModelSatelliteElement
 
 // GNSSNavModelSatelliteElement represents the ASN.1 type GNSS-NavModelSatelliteElement (SEQUENCE).
@@ -5644,6 +5699,7 @@ func NewGNSSOrbitModelNavicKeplerianSet2R19(v NavModelNavICKeplerianSet2R19) GNS
 }
 
 // StandardClockModelList represents the ASN.1 type StandardClockModelList (SEQUENCE_OF).
+
 type StandardClockModelList = []StandardClockModelElement
 
 // StandardClockModelElement represents the ASN.1 type StandardClockModelElement (SEQUENCE).
@@ -6073,6 +6129,7 @@ type GNSSRealTimeIntegrity struct {
 }
 
 // GNSSBadSignalList represents the ASN.1 type GNSS-BadSignalList (SEQUENCE_OF).
+
 type GNSSBadSignalList = []BadSignalElement
 
 // BadSignalElement represents the ASN.1 type BadSignalElement (SEQUENCE).
@@ -6104,6 +6161,7 @@ type GNSSDataBitAssistance struct {
 }
 
 // GNSSDataBitsSatList represents the ASN.1 type GNSS-DataBitsSatList (SEQUENCE_OF).
+
 type GNSSDataBitsSatList = []GNSSDataBitsSatElement
 
 // GNSSDataBitsSatElement represents the ASN.1 type GNSS-DataBitsSatElement (SEQUENCE).
@@ -6121,6 +6179,7 @@ type GNSSDataBitsSatElement struct {
 }
 
 // GNSSDataBitsSgnList represents the ASN.1 type GNSS-DataBitsSgnList (SEQUENCE_OF).
+
 type GNSSDataBitsSgnList = []GNSSDataBitsSgnElement
 
 // GNSSDataBitsSgnElement represents the ASN.1 type GNSS-DataBitsSgnElement (SEQUENCE).
@@ -6152,6 +6211,7 @@ type GNSSAcquisitionAssistance struct {
 }
 
 // GNSSAcquisitionAssistList represents the ASN.1 type GNSS-AcquisitionAssistList (SEQUENCE_OF).
+
 type GNSSAcquisitionAssistList = []GNSSAcquisitionAssistElement
 
 // GNSSAcquisitionAssistElement represents the ASN.1 type GNSS-AcquisitionAssistElement (SEQUENCE).
@@ -6200,6 +6260,7 @@ type GNSSAlmanac struct {
 }
 
 // GNSSAlmanacList represents the ASN.1 type GNSS-AlmanacList (SEQUENCE_OF).
+
 type GNSSAlmanacList = []GNSSAlmanacElement
 
 // GNSSAlmanacElement choice constants.
@@ -6714,6 +6775,7 @@ func NewGNSSAuxiliaryInformationGnssIDBDSR16(v GNSSIDBDSR16) GNSSAuxiliaryInform
 }
 
 // GNSSIDGPS represents the ASN.1 type GNSS-ID-GPS (SEQUENCE_OF).
+
 type GNSSIDGPS = []GNSSIDGPSSatElement
 
 // GNSSIDGPSSatElement represents the ASN.1 type GNSS-ID-GPS-SatElement (SEQUENCE).
@@ -6730,6 +6792,7 @@ type GNSSIDGPSSatElement struct {
 }
 
 // GNSSIDGLONASS represents the ASN.1 type GNSS-ID-GLONASS (SEQUENCE_OF).
+
 type GNSSIDGLONASS = []GNSSIDGLONASSSatElement
 
 // GNSSIDGLONASSSatElement represents the ASN.1 type GNSS-ID-GLONASS-SatElement (SEQUENCE).
@@ -6747,6 +6810,7 @@ type GNSSIDGLONASSSatElement struct {
 }
 
 // GNSSIDBDSR16 represents the ASN.1 type GNSS-ID-BDS-r16 (SEQUENCE_OF).
+
 type GNSSIDBDSR16 = []GNSSIDBDSSatElementR16
 
 // GNSSIDBDSSatElementR16 represents the ASN.1 type GNSS-ID-BDS-SatElement-r16 (SEQUENCE).
@@ -6777,6 +6841,7 @@ type BDSDifferentialCorrectionsR12 struct {
 }
 
 // BDSSgnTypeListR12 represents the ASN.1 type BDS-SgnTypeList-r12 (SEQUENCE_OF).
+
 type BDSSgnTypeListR12 = []BDSSgnTypeElementR12
 
 // BDSSgnTypeElementR12 represents the ASN.1 type BDS-SgnTypeElement-r12 (SEQUENCE).
@@ -6794,6 +6859,7 @@ type BDSSgnTypeElementR12 struct {
 }
 
 // DBDSCorrectionListR12 represents the ASN.1 type DBDS-CorrectionList-r12 (SEQUENCE_OF).
+
 type DBDSCorrectionListR12 = []DBDSCorrectionElementR12
 
 // DBDSCorrectionElementR12 represents the ASN.1 type DBDS-CorrectionElement-r12 (SEQUENCE).
@@ -6826,6 +6892,7 @@ type BDSGridModelParameterR12 struct {
 }
 
 // GridIonListR12 represents the ASN.1 type GridIonList-r12 (SEQUENCE_OF).
+
 type GridIonListR12 = []GridIonElementR12
 
 // GridIonElementR12 represents the ASN.1 type GridIonElement-r12 (SEQUENCE).
@@ -6857,6 +6924,7 @@ type GNSSRTKObservationsR15 struct {
 }
 
 // GNSSObservationListR15 represents the ASN.1 type GNSS-ObservationList-r15 (SEQUENCE_OF).
+
 type GNSSObservationListR15 = []GNSSRTKSatelliteDataElementR15
 
 // GNSSRTKSatelliteDataElementR15 represents the ASN.1 type GNSS-RTK-SatelliteDataElement-r15 (SEQUENCE).
@@ -6877,6 +6945,7 @@ type GNSSRTKSatelliteDataElementR15 struct {
 }
 
 // GNSSRTKSatelliteSignalDataListR15 represents the ASN.1 type GNSS-RTK-SatelliteSignalDataList-r15 (SEQUENCE_OF).
+
 type GNSSRTKSatelliteSignalDataListR15 = []GNSSRTKSatelliteSignalDataElementR15
 
 // GNSSRTKSatelliteSignalDataElementR15 represents the ASN.1 type GNSS-RTK-SatelliteSignalDataElement-r15 (SEQUENCE).
@@ -6933,6 +7002,7 @@ type GNSSRTKMACCorrectionDifferencesR15 struct {
 }
 
 // RTKCorrectionDifferencesListR15 represents the ASN.1 type RTK-CorrectionDifferencesList-r15 (SEQUENCE_OF).
+
 type RTKCorrectionDifferencesListR15 = []RTKCorrectionDifferencesElementR15
 
 // RTKCorrectionDifferencesElementR15 represents the ASN.1 type RTK-CorrectionDifferencesElement-r15 (SEQUENCE).
@@ -6951,6 +7021,7 @@ type RTKCorrectionDifferencesElementR15 struct {
 }
 
 // GeometricIonosphericCorrectionsDifferencesR15 represents the ASN.1 type Geometric-Ionospheric-Corrections-Differences-r15 (SEQUENCE_OF).
+
 type GeometricIonosphericCorrectionsDifferencesR15 = []GeometricIonosphericCorrectionsDifferencesElementR15
 
 // GeometricIonosphericCorrectionsDifferencesElementR15 represents the ASN.1 type Geometric-Ionospheric-Corrections-Differences-Element-r15 (SEQUENCE).
@@ -6989,6 +7060,7 @@ type GNSSRTKResidualsR15 struct {
 }
 
 // RTKResidualsListR15 represents the ASN.1 type RTK-Residuals-List-r15 (SEQUENCE_OF).
+
 type RTKResidualsListR15 = []RTKResidualsElementR15
 
 // RTKResidualsElementR15 represents the ASN.1 type RTK-Residuals-Element-r15 (SEQUENCE).
@@ -7026,6 +7098,7 @@ type GNSSRTKFKPGradientsR15 struct {
 }
 
 // FKPGradientsListR15 represents the ASN.1 type FKP-Gradients-List-r15 (SEQUENCE_OF).
+
 type FKPGradientsListR15 = []FKPGradientsElementR15
 
 // FKPGradientsElementR15 represents the ASN.1 type FKP-Gradients-Element-r15 (SEQUENCE).
@@ -7065,6 +7138,7 @@ type GNSSSSROrbitCorrectionsR15 struct {
 }
 
 // SSROrbitCorrectionListR15 represents the ASN.1 type SSR-OrbitCorrectionList-r15 (SEQUENCE_OF).
+
 type SSROrbitCorrectionListR15 = []SSROrbitCorrectionSatelliteElementR15
 
 // SSROrbitCorrectionSatelliteElementR15 represents the ASN.1 type SSR-OrbitCorrectionSatelliteElement-r15 (SEQUENCE).
@@ -7148,6 +7222,7 @@ type GNSSSSRClockCorrectionsR15 struct {
 }
 
 // SSRClockCorrectionListR15 represents the ASN.1 type SSR-ClockCorrectionList-r15 (SEQUENCE_OF).
+
 type SSRClockCorrectionListR15 = []SSRClockCorrectionSatelliteElementR15
 
 // SSRClockCorrectionSatelliteElementR15 represents the ASN.1 type SSR-ClockCorrectionSatelliteElement-r15 (SEQUENCE).
@@ -7212,6 +7287,7 @@ type GNSSSSRCodeBiasR15 struct {
 }
 
 // SSRCodeBiasSatListR15 represents the ASN.1 type SSR-CodeBiasSatList-r15 (SEQUENCE_OF).
+
 type SSRCodeBiasSatListR15 = []SSRCodeBiasSatElementR15
 
 // SSRCodeBiasSatElementR15 represents the ASN.1 type SSR-CodeBiasSatElement-r15 (SEQUENCE).
@@ -7229,6 +7305,7 @@ type SSRCodeBiasSatElementR15 struct {
 }
 
 // SSRCodeBiasSignalListR15 represents the ASN.1 type SSR-CodeBiasSignalList-r15 (SEQUENCE_OF).
+
 type SSRCodeBiasSignalListR15 = []SSRCodeBiasSignalElementR15
 
 // SSRCodeBiasSignalElementR15 represents the ASN.1 type SSR-CodeBiasSignalElement-r15 (SEQUENCE).
@@ -7278,6 +7355,7 @@ type GNSSSSRURAR16 struct {
 }
 
 // SSRURASatListR16 represents the ASN.1 type SSR-URA-SatList-r16 (SEQUENCE_OF).
+
 type SSRURASatListR16 = []SSRURASatElementR16
 
 // SSRURASatElementR16 represents the ASN.1 type SSR-URA-SatElement-r16 (SEQUENCE).
@@ -7311,6 +7389,7 @@ type GNSSSSRPhaseBiasR16 struct {
 }
 
 // SSRPhaseBiasSatListR16 represents the ASN.1 type SSR-PhaseBiasSatList-r16 (SEQUENCE_OF).
+
 type SSRPhaseBiasSatListR16 = []SSRPhaseBiasSatElementR16
 
 // SSRPhaseBiasSatElementR16 represents the ASN.1 type SSR-PhaseBiasSatElement-r16 (SEQUENCE).
@@ -7328,6 +7407,7 @@ type SSRPhaseBiasSatElementR16 struct {
 }
 
 // SSRPhaseBiasSignalListR16 represents the ASN.1 type SSR-PhaseBiasSignalList-r16 (SEQUENCE_OF).
+
 type SSRPhaseBiasSignalListR16 = []SSRPhaseBiasSignalElementR16
 
 // SSRPhaseBiasSignalElementR16 represents the ASN.1 type SSR-PhaseBiasSignalElement-r16 (SEQUENCE).
@@ -7381,6 +7461,7 @@ type GNSSSSRSTECCorrectionR16 struct {
 }
 
 // STECSatListR16 represents the ASN.1 type STEC-SatList-r16 (SEQUENCE_OF).
+
 type STECSatListR16 = []STECSatElementR16
 
 // STECSatElementR16 represents the ASN.1 type STEC-SatElement-r16 (SEQUENCE).
@@ -7452,6 +7533,7 @@ type GNSSSSRGriddedCorrectionR16 struct {
 }
 
 // GridListR16 represents the ASN.1 type GridList-r16 (SEQUENCE_OF).
+
 type GridListR16 = []GridElementR16
 
 // GridElementR16 represents the ASN.1 type GridElement-r16 (SEQUENCE).
@@ -7483,6 +7565,7 @@ type TropospericDelayCorrectionR16 struct {
 }
 
 // STECResidualSatListR16 represents the ASN.1 type STEC-ResidualSatList-r16 (SEQUENCE_OF).
+
 type STECResidualSatListR16 = []STECResidualSatElementR16
 
 // STECResidualSatElementR16 represents the ASN.1 type STEC-ResidualSatElement-r16 (SEQUENCE).
@@ -7547,6 +7630,7 @@ type NavICDifferentialCorrectionsR16 struct {
 }
 
 // NavICCorrectionListAutoNavR16 represents the ASN.1 type NavIC-CorrectionListAutoNav-r16 (SEQUENCE_OF).
+
 type NavICCorrectionListAutoNavR16 = []NavICCorrectionElementAutoNavR16
 
 // NavICCorrectionElementAutoNavR16 represents the ASN.1 type NavIC-CorrectionElementAutoNav-r16 (SEQUENCE).
@@ -7613,6 +7697,7 @@ type NavICGridModelParameterR16 struct {
 }
 
 // RegionIgpListR16 represents the ASN.1 type RegionIgpList-r16 (SEQUENCE_OF).
+
 type RegionIgpListR16 = []RegionIgpElementR16
 
 // RegionIgpElementR16 represents the ASN.1 type RegionIgpElement-r16 (SEQUENCE).
@@ -7712,6 +7797,7 @@ type GNSSLOSNLOSGriddedIndicationsR18 struct {
 }
 
 // GridListR18 represents the ASN.1 type GridList-r18 (SEQUENCE_OF).
+
 type GridListR18 = []GridElementR18
 
 // GridElementR18 represents the ASN.1 type GridElement-r18 (SEQUENCE).
@@ -7728,6 +7814,7 @@ type GridElementR18 struct {
 }
 
 // GNSSLOSInfoListR18 represents the ASN.1 type GNSS-LOS-InfoList-r18 (SEQUENCE_OF).
+
 type GNSSLOSInfoListR18 = []GNSSLOSInfoElementR18
 
 // GNSSLOSInfoElementR18 represents the ASN.1 type GNSS-LOS-InfoElement-r18 (SEQUENCE).
@@ -7759,6 +7846,7 @@ type GNSSSSRSatellitePCVResidualsR18 struct {
 }
 
 // SSRSatellitePCVListR18 represents the ASN.1 type SSR-SatellitePCV-List-r18 (SEQUENCE_OF).
+
 type SSRSatellitePCVListR18 = []SSRSatellitePCVElementR18
 
 // SSRSatellitePCVElementR18 represents the ASN.1 type SSR-SatellitePCV-Element-r18 (SEQUENCE).
@@ -7776,6 +7864,7 @@ type SSRSatellitePCVElementR18 struct {
 }
 
 // SSRSatellitePCVFrequencyListR18 represents the ASN.1 type SSR-SatellitePCV-FrequencyList-r18 (SEQUENCE_OF).
+
 type SSRSatellitePCVFrequencyListR18 = []SSRSatellitePCVFrequencyElementR18
 
 // SSRSatellitePCVFrequencyElementR18 represents the ASN.1 type SSR-SatellitePCV-FrequencyElement-r18 (SEQUENCE).
@@ -7793,6 +7882,7 @@ type SSRSatellitePCVFrequencyElementR18 struct {
 }
 
 // SSRPhaseCenterVariationListR18 represents the ASN.1 type SSR-PhaseCenterVariationList-r18 (SEQUENCE_OF).
+
 type SSRPhaseCenterVariationListR18 = []int64
 
 // AGNSSRequestAssistanceData represents the ASN.1 type A-GNSS-RequestAssistanceData (SEQUENCE).
@@ -7832,6 +7922,7 @@ type GNSSCommonAssistDataReq struct {
 }
 
 // GNSSGenericAssistDataReq represents the ASN.1 type GNSS-GenericAssistDataReq (SEQUENCE_OF).
+
 type GNSSGenericAssistDataReq = []GNSSGenericAssistDataReqElement
 
 // GNSSGenericAssistDataReqElement represents the ASN.1 type GNSS-GenericAssistDataReqElement (SEQUENCE).
@@ -8037,6 +8128,7 @@ type GNSSSSRIODUpdateReqR18 struct {
 }
 
 // GNSSTimeModelListReq represents the ASN.1 type GNSS-TimeModelListReq (SEQUENCE_OF).
+
 type GNSSTimeModelListReq = []GNSSTimeModelElementReq
 
 // GNSSTimeModelElementReq represents the ASN.1 type GNSS-TimeModelElementReq (SEQUENCE).
@@ -8117,6 +8209,7 @@ type StoredNavListInfo struct {
 }
 
 // SatListRelatedDataList represents the ASN.1 type SatListRelatedDataList (SEQUENCE_OF).
+
 type SatListRelatedDataList = []SatListRelatedDataElement
 
 // SatListRelatedDataElement represents the ASN.1 type SatListRelatedDataElement (SEQUENCE).
@@ -8185,6 +8278,7 @@ type GNSSDataBitAssistanceReq struct {
 }
 
 // GNSSDataBitsReqSatList represents the ASN.1 type GNSS-DataBitsReqSatList (SEQUENCE_OF).
+
 type GNSSDataBitsReqSatList = []GNSSDataBitsReqSatElement
 
 // GNSSDataBitsReqSatElement represents the ASN.1 type GNSS-DataBitsReqSatElement (SEQUENCE).
@@ -8318,6 +8412,7 @@ type GNSSRTKMACCorrectionDifferencesReqR15 struct {
 }
 
 // AUXReferenceStationListR15 represents the ASN.1 type AUX-ReferenceStationList-r15 (SEQUENCE_OF).
+
 type AUXReferenceStationListR15 = []AUXReferenceStationIDElementR15
 
 // AUXReferenceStationIDElementR15 represents the ASN.1 type AUX-ReferenceStationID-Element-r15 (SEQUENCE).
@@ -8587,6 +8682,7 @@ type MeasurementReferenceTime struct {
 }
 
 // GNSSMeasurementList represents the ASN.1 type GNSS-MeasurementList (SEQUENCE_OF).
+
 type GNSSMeasurementList = []GNSSMeasurementForOneGNSS
 
 // GNSSMeasurementForOneGNSS represents the ASN.1 type GNSS-MeasurementForOneGNSS (SEQUENCE).
@@ -8604,6 +8700,7 @@ type GNSSMeasurementForOneGNSS struct {
 }
 
 // GNSSSgnMeasList represents the ASN.1 type GNSS-SgnMeasList (SEQUENCE_OF).
+
 type GNSSSgnMeasList = []GNSSSgnMeasElement
 
 // GNSSSgnMeasElement represents the ASN.1 type GNSS-SgnMeasElement (SEQUENCE).
@@ -8622,6 +8719,7 @@ type GNSSSgnMeasElement struct {
 }
 
 // GNSSSatMeasList represents the ASN.1 type GNSS-SatMeasList (SEQUENCE_OF).
+
 type GNSSSatMeasList = []GNSSSatMeasElement
 
 // GNSSSatMeasElement represents the ASN.1 type GNSS-SatMeasElement (SEQUENCE).
@@ -8734,6 +8832,7 @@ type AGNSSProvideCapabilities struct {
 }
 
 // GNSSSupportList represents the ASN.1 type GNSS-SupportList (SEQUENCE_OF).
+
 type GNSSSupportList = []GNSSSupportElement
 
 // GNSSSupportElement represents the ASN.1 type GNSS-SupportElement (SEQUENCE).
@@ -8897,6 +8996,7 @@ type GNSSSSRIODUpdateSupportR18 struct {
 }
 
 // GNSSGenericAssistanceDataSupport represents the ASN.1 type GNSS-GenericAssistanceDataSupport (SEQUENCE_OF).
+
 type GNSSGenericAssistanceDataSupport = []GNSSGenericAssistDataSupportElement
 
 // GNSSGenericAssistDataSupportElement represents the ASN.1 type GNSS-GenericAssistDataSupportElement (SEQUENCE).
@@ -9420,6 +9520,7 @@ type GNSSIDBitmap struct {
 }
 
 // GNSSLinkCombinationsListR15 represents the ASN.1 type GNSS-Link-CombinationsList-r15 (SEQUENCE_OF).
+
 type GNSSLinkCombinationsListR15 = []GNSSLinkCombinationsR15
 
 // GNSSLinkCombinationsR15 represents the ASN.1 type GNSS-Link-Combinations-r15 (SEQUENCE).
@@ -9436,6 +9537,7 @@ type GNSSLinkCombinationsR15 struct {
 }
 
 // GNSSNavListInfoR15 represents the ASN.1 type GNSS-NavListInfo-r15 (SEQUENCE_OF).
+
 type GNSSNavListInfoR15 = []SatListElementR15
 
 // SatListElementR15 represents the ASN.1 type SatListElement-r15 (SEQUENCE).
@@ -9604,6 +9706,7 @@ type ECIDSignalMeasurementInformation struct {
 }
 
 // MeasuredResultsList represents the ASN.1 type MeasuredResultsList (SEQUENCE_OF).
+
 type MeasuredResultsList = []MeasuredResultsElement
 
 // MeasuredResultsElement represents the ASN.1 type MeasuredResultsElement (SEQUENCE).
@@ -9762,6 +9865,7 @@ type TBSMeasurementInformationR13 struct {
 }
 
 // MBSBeaconMeasListR13 represents the ASN.1 type MBS-BeaconMeasList-r13 (SEQUENCE_OF).
+
 type MBSBeaconMeasListR13 = []MBSBeaconMeasElementR13
 
 // MBSBeaconMeasElementR13 represents the ASN.1 type MBS-BeaconMeasElement-r13 (SEQUENCE).
@@ -9923,6 +10027,7 @@ type TBSAssistanceDataListR14 struct {
 }
 
 // MBSAssistanceDataListR14 represents the ASN.1 type MBS-AssistanceDataList-r14 (SEQUENCE_OF).
+
 type MBSAssistanceDataListR14 = []MBSAssistanceDataElementR14
 
 // MBSAssistanceDataElementR14 represents the ASN.1 type MBS-AssistanceDataElement-r14 (SEQUENCE).
@@ -10028,6 +10133,7 @@ type SensorMotionInformationR15 struct {
 }
 
 // DisplacementInfoListR15 represents the ASN.1 type DisplacementInfoList-r15 (SEQUENCE_OF).
+
 type DisplacementInfoListR15 = []DisplacementInfoListElementR15
 
 // DisplacementInfoListElementR15 represents the ASN.1 type DisplacementInfoListElement-r15 (SEQUENCE).
@@ -10391,6 +10497,7 @@ type WLANMeasurementInformationR13 struct {
 }
 
 // WLANMeasurementListR13 represents the ASN.1 type WLAN-MeasurementList-r13 (SEQUENCE_OF).
+
 type WLANMeasurementListR13 = []WLANMeasurementElementR13
 
 // WLANMeasurementElementR13 represents the ASN.1 type WLAN-MeasurementElement-r13 (SEQUENCE).
@@ -10752,6 +10859,7 @@ type BTMeasurementInformationR13 struct {
 }
 
 // BTMeasurementListR13 represents the ASN.1 type BT-MeasurementList-r13 (SEQUENCE_OF).
+
 type BTMeasurementListR13 = []BTMeasurementElementR13
 
 // BTMeasurementElementR13 represents the ASN.1 type BT-MeasurementElement-r13 (SEQUENCE).
@@ -10768,6 +10876,7 @@ type BTMeasurementElementR13 struct {
 }
 
 // BTMeasurementListR18 represents the ASN.1 type BT-MeasurementList-r18 (SEQUENCE_OF).
+
 type BTMeasurementListR18 = []BTMeasurementElementR18
 
 // BTMeasurementElementR18 represents the ASN.1 type BT-MeasurementElement-r18 (SEQUENCE).
@@ -11075,6 +11184,7 @@ type BTUniformCircularArrayR18 struct {
 }
 
 // BTGenericArrayR18 represents the ASN.1 type BT-GenericArray-r18 (SEQUENCE_OF).
+
 type BTGenericArrayR18 = []BTULAGenericAntElementR18
 
 // BTULAGenericAntElementR18 represents the ASN.1 type BT-ULA-GenericAntElement-r18 (SEQUENCE).
@@ -11151,6 +11261,7 @@ type NRECIDSignalMeasurementInformationR16 struct {
 }
 
 // NRMeasuredResultsListR16 represents the ASN.1 type NR-MeasuredResultsList-r16 (SEQUENCE_OF).
+
 type NRMeasuredResultsListR16 = []NRMeasuredResultsElementR16
 
 // NRMeasuredResultsElementR16 represents the ASN.1 type NR-MeasuredResultsElement-r16 (SEQUENCE).
@@ -11184,6 +11295,7 @@ type MeasQuantityResultsR16 struct {
 }
 
 // ResultsPerSSBIndexListR16 represents the ASN.1 type ResultsPerSSB-IndexList-r16 (SEQUENCE_OF).
+
 type ResultsPerSSBIndexListR16 = []ResultsPerSSBIndexR16
 
 // ResultsPerSSBIndexR16 represents the ASN.1 type ResultsPerSSB-Index-r16 (SEQUENCE).
@@ -11196,6 +11308,7 @@ type ResultsPerSSBIndexR16 struct {
 }
 
 // ResultsPerCSIRSIndexListR16 represents the ASN.1 type ResultsPerCSI-RS-IndexList-r16 (SEQUENCE_OF).
+
 type ResultsPerCSIRSIndexListR16 = []ResultsPerCSIRSIndexR16
 
 // ResultsPerCSIRSIndexR16 represents the ASN.1 type ResultsPerCSI-RS-Index-r16 (SEQUENCE).
@@ -11384,6 +11497,7 @@ type NRDLTDOASignalMeasurementInformationR16 struct {
 }
 
 // NRDLTDOAMeasListR16 represents the ASN.1 type NR-DL-TDOA-MeasList-r16 (SEQUENCE_OF).
+
 type NRDLTDOAMeasListR16 = []NRDLTDOAMeasElementR16
 
 // NRDLTDOAMeasElementR16 represents the ASN.1 type NR-DL-TDOA-MeasElement-r16 (SEQUENCE).
@@ -11427,9 +11541,11 @@ type NRDLTDOAMeasElementR16 struct {
 }
 
 // NRDLTDOAAdditionalMeasurementsR16 represents the ASN.1 type NR-DL-TDOA-AdditionalMeasurements-r16 (SEQUENCE_OF).
+
 type NRDLTDOAAdditionalMeasurementsR16 = []NRDLTDOAAdditionalMeasurementElementR16
 
 // NRDLTDOAAdditionalMeasurementsExtR17 represents the ASN.1 type NR-DL-TDOA-AdditionalMeasurementsExt-r17 (SEQUENCE_OF).
+
 type NRDLTDOAAdditionalMeasurementsExtR17 = []NRDLTDOAAdditionalMeasurementElementR16
 
 // NRDLTDOAAdditionalMeasurementElementR16 represents the ASN.1 type NR-DL-TDOA-AdditionalMeasurementElement-r16 (SEQUENCE).
@@ -11760,6 +11876,7 @@ type NRDLAoDSignalMeasurementInformationR16 struct {
 }
 
 // NRDLAoDMeasListR16 represents the ASN.1 type NR-DL-AoD-MeasList-r16 (SEQUENCE_OF).
+
 type NRDLAoDMeasListR16 = []NRDLAoDMeasElementR16
 
 // NRDLAoDMeasElementR16 represents the ASN.1 type NR-DL-AoD-MeasElement-r16 (SEQUENCE).
@@ -11790,9 +11907,11 @@ type NRDLAoDMeasElementR16 struct {
 }
 
 // NRDLAoDAdditionalMeasurementsR16 represents the ASN.1 type NR-DL-AoD-AdditionalMeasurements-r16 (SEQUENCE_OF).
+
 type NRDLAoDAdditionalMeasurementsR16 = []NRDLAoDAdditionalMeasurementElementR16
 
 // NRDLAoDAdditionalMeasurementsExtR17 represents the ASN.1 type NR-DL-AoD-AdditionalMeasurementsExt-r17 (SEQUENCE_OF).
+
 type NRDLAoDAdditionalMeasurementsExtR17 = []NRDLAoDAdditionalMeasurementElementR17
 
 // NRDLAoDAdditionalMeasurementElementR16 represents the ASN.1 type NR-DL-AoD-AdditionalMeasurementElement-r16 (SEQUENCE).
@@ -12089,6 +12208,7 @@ type NRMultiRTTSignalMeasurementInformationR16 struct {
 }
 
 // NRMultiRTTMeasListR16 represents the ASN.1 type NR-Multi-RTT-MeasList-r16 (SEQUENCE_OF).
+
 type NRMultiRTTMeasListR16 = []NRMultiRTTMeasElementR16
 
 // NRMultiRTTMeasElementR16 represents the ASN.1 type NR-Multi-RTT-MeasElement-r16 (SEQUENCE).
@@ -12133,9 +12253,11 @@ type NRMultiRTTMeasElementR16 struct {
 }
 
 // NRMultiRTTAdditionalMeasurementsR16 represents the ASN.1 type NR-Multi-RTT-AdditionalMeasurements-r16 (SEQUENCE_OF).
+
 type NRMultiRTTAdditionalMeasurementsR16 = []NRMultiRTTAdditionalMeasurementElementR16
 
 // NRMultiRTTAdditionalMeasurementsExtR17 represents the ASN.1 type NR-Multi-RTT-AdditionalMeasurementsExt-r17 (SEQUENCE_OF).
+
 type NRMultiRTTAdditionalMeasurementsExtR17 = []NRMultiRTTAdditionalMeasurementElementR16
 
 // NRMultiRTTAdditionalMeasurementElementR16 represents the ASN.1 type NR-Multi-RTT-AdditionalMeasurementElement-r16 (SEQUENCE).
@@ -13598,9 +13720,11 @@ type CellGlobalIdEUTRAAndUTRAPlmnIdentity struct {
 }
 
 // CellGlobalIdEUTRAAndUTRAPlmnIdentityMcc represents the ASN.1 type CellGlobalIdEUTRA-AndUTRA-plmn-Identity-mcc (SEQUENCE_OF).
+
 type CellGlobalIdEUTRAAndUTRAPlmnIdentityMcc = []int64
 
 // CellGlobalIdEUTRAAndUTRAPlmnIdentityMnc represents the ASN.1 type CellGlobalIdEUTRA-AndUTRA-plmn-Identity-mnc (SEQUENCE_OF).
+
 type CellGlobalIdEUTRAAndUTRAPlmnIdentityMnc = []int64
 
 // CellGlobalIdEUTRAAndUTRACellIdentity choice constants.
@@ -13647,21 +13771,27 @@ type CellGlobalIdGERANPlmnIdentity struct {
 }
 
 // CellGlobalIdGERANPlmnIdentityMcc represents the ASN.1 type CellGlobalIdGERAN-plmn-Identity-mcc (SEQUENCE_OF).
+
 type CellGlobalIdGERANPlmnIdentityMcc = []int64
 
 // CellGlobalIdGERANPlmnIdentityMnc represents the ASN.1 type CellGlobalIdGERAN-plmn-Identity-mnc (SEQUENCE_OF).
+
 type CellGlobalIdGERANPlmnIdentityMnc = []int64
 
 // ECGIMcc represents the ASN.1 type ECGI-mcc (SEQUENCE_OF).
+
 type ECGIMcc = []int64
 
 // ECGIMnc represents the ASN.1 type ECGI-mnc (SEQUENCE_OF).
+
 type ECGIMnc = []int64
 
 // NCGIR15MccR15 represents the ASN.1 type NCGI-r15-mcc-r15 (SEQUENCE_OF).
+
 type NCGIR15MccR15 = []int64
 
 // NCGIR15MncR15 represents the ASN.1 type NCGI-r15-mnc-r15 (SEQUENCE_OF).
+
 type NCGIR15MncR15 = []int64
 
 // ScheduledLocationTimeSupportPerModeR17GnssTimeR17 represents the ASN.1 type ScheduledLocationTimeSupportPerMode-r17-gnssTime-r17 (SEQUENCE).
@@ -13791,6 +13921,7 @@ func NewScheduledLocationTimeR17NetworkTimeR17NrTimeR17NrSlotR17Scs120R17(v int6
 }
 
 // DLPRSIDInfoR16NrDLPRSResourceIDListR16 represents the ASN.1 type DL-PRS-ID-Info-r16-nr-DL-PRS-ResourceID-List-r16 (SEQUENCE_OF).
+
 type DLPRSIDInfoR16NrDLPRSResourceIDListR16 = []NRDLPRSResourceIDR16
 
 // LOSNLOSIndicatorR17IndicatorR17 choice constants.
@@ -13959,12 +14090,15 @@ func NewNRAdditionalPathR16NrRelativeTimeDifferenceR16KMinus1R18(v int64) NRAddi
 }
 
 // NRDLPRSAssistanceDataR16NrDLPRSAssistanceDataListR16 represents the ASN.1 type NR-DL-PRS-AssistanceData-r16-nr-DL-PRS-AssistanceDataList-r16 (SEQUENCE_OF).
+
 type NRDLPRSAssistanceDataR16NrDLPRSAssistanceDataListR16 = []NRDLPRSAssistanceDataPerFreqR16
 
 // NRDLPRSAssistanceDataR16NrSSBConfigR16 represents the ASN.1 type NR-DL-PRS-AssistanceData-r16-nr-SSB-Config-r16 (SEQUENCE_OF).
+
 type NRDLPRSAssistanceDataR16NrSSBConfigR16 = []NRSSBConfigR16
 
 // NRDLPRSAssistanceDataPerFreqR16NrDLPRSAssistanceDataPerFreqR16 represents the ASN.1 type NR-DL-PRS-AssistanceDataPerFreq-r16-nr-DL-PRS-AssistanceDataPerFreq-r16 (SEQUENCE_OF).
+
 type NRDLPRSAssistanceDataPerFreqR16NrDLPRSAssistanceDataPerFreqR16 = []NRDLPRSAssistanceDataPerTRPR16
 
 // NRDLPRSExpectedAoDOrAoAR17ExpectedAoDR17 represents the ASN.1 type NR-DL-PRS-ExpectedAoD-or-AoA-r17-expectedAoD-r17 (SEQUENCE).
@@ -14022,12 +14156,15 @@ func NewNRDLPRSExpectedLOSNLOSAssistancePerTRPR17NrLosNlosIndicatorR17PerResourc
 }
 
 // NRDLPRSExpectedLOSNLOSAssistancePerTRPR17NrLosNlosIndicatorR17PerResourceR17 represents the ASN.1 type NR-DL-PRS-ExpectedLOS-NLOS-AssistancePerTRP-r17-nr-los-nlos-indicator-r17-perResource-r17 (SEQUENCE_OF).
+
 type NRDLPRSExpectedLOSNLOSAssistancePerTRPR17NrLosNlosIndicatorR17PerResourceR17 = []NRDLPRSExpectedLOSNLOSAssistancePerResourceR17
 
 // NRDLPRSInfoR16NrDLPRSResourceSetListR16 represents the ASN.1 type NR-DL-PRS-Info-r16-nr-DL-PRS-ResourceSetList-r16 (SEQUENCE_OF).
+
 type NRDLPRSInfoR16NrDLPRSResourceSetListR16 = []NRDLPRSResourceSetR16
 
 // NRDLPRSResourceSetR16DlPRSResourceListR16 represents the ASN.1 type NR-DL-PRS-ResourceSet-r16-dl-PRS-ResourceList-r16 (SEQUENCE_OF).
+
 type NRDLPRSResourceSetR16DlPRSResourceListR16 = []NRDLPRSResourceR16
 
 // NRDLPRSResourceR16DlPRSCombSizeNAndReOffsetR16 choice constants.
@@ -14919,12 +15056,15 @@ func NewNRDLPRSMeasurementTimeWindowsConfigElementR18NrPeriodicOrOneShotTimeWind
 }
 
 // NRDLPRSMeasurementTimeWindowsConfigElementR18NrSelectedDLPRSIndexListPerFreqR18 represents the ASN.1 type NR-DL-PRS-MeasurementTimeWindowsConfigElement-r18-nr-SelectedDL-PRS-IndexListPerFreq-r18 (SEQUENCE_OF).
+
 type NRDLPRSMeasurementTimeWindowsConfigElementR18NrSelectedDLPRSIndexListPerFreqR18 = []NRSelectedDLPRSIndexPerTRPR18
 
 // NRSelectedDLPRSIndexPerTRPR18DlSelectedPRSResourceSetIndexListR18 represents the ASN.1 type NR-SelectedDL-PRS-IndexPerTRP-r18-dl-SelectedPRS-ResourceSetIndexList-r18 (SEQUENCE_OF).
+
 type NRSelectedDLPRSIndexPerTRPR18DlSelectedPRSResourceSetIndexListR18 = []int64
 
 // NRDLPRSProcessingCapabilityR16PrsProcessingCapabilityBandListR16 represents the ASN.1 type NR-DL-PRS-ProcessingCapability-r16-prs-ProcessingCapabilityBandList-r16 (SEQUENCE_OF).
+
 type NRDLPRSProcessingCapabilityR16PrsProcessingCapabilityBandListR16 = []PRSProcessingCapabilityPerBandR16
 
 // PRSProcessingCapabilityPerBandR16SupportedBandwidthPRSR16 choice constants.
@@ -14993,6 +15133,7 @@ type PRSProcessingCapabilityPerBandR16MaxNumOfDLPRSResProcessedPerSlotR16 struct
 }
 
 // PRSProcessingCapabilityPerBandR16PrsProcessingCapabilityOutsideMGinPPWR17 represents the ASN.1 type PRS-ProcessingCapabilityPerBand-r16-prs-ProcessingCapabilityOutsideMGinPPW-r17 (SEQUENCE_OF).
+
 type PRSProcessingCapabilityPerBandR16PrsProcessingCapabilityOutsideMGinPPWR17 = []PRSProcessingCapabilityOutsideMGinPPWperTypeR17
 
 // PRSProcessingCapabilityPerBandR16DurationOfPRSProcessingRRCInactiveR17 represents the ASN.1 type PRS-ProcessingCapabilityPerBand-r16-durationOfPRS-Processing-RRC-Inactive-r17 (SEQUENCE).
@@ -15199,12 +15340,15 @@ type DLPRSMeasurementWithRxFHRRCConnectedR18ProcessingDurationR18 struct {
 }
 
 // NRDLPRSQCLProcessingCapabilityR16DlPRSQCLProcessingCapabilityBandListR16 represents the ASN.1 type NR-DL-PRS-QCL-ProcessingCapability-r16-dl-PRS-QCL-ProcessingCapabilityBandList-r16 (SEQUENCE_OF).
+
 type NRDLPRSQCLProcessingCapabilityR16DlPRSQCLProcessingCapabilityBandListR16 = []DLPRSQCLProcessingCapabilityPerBandR16
 
 // NRDLPRSResourcesCapabilityR16DlPRSResourcesCapabilityBandListR16 represents the ASN.1 type NR-DL-PRS-ResourcesCapability-r16-dl-PRS-ResourcesCapabilityBandList-r16 (SEQUENCE_OF).
+
 type NRDLPRSResourcesCapabilityR16DlPRSResourcesCapabilityBandListR16 = []DLPRSResourcesCapabilityPerBandR16
 
 // DLPRSResourcesBandCombinationR16BandListR16 represents the ASN.1 type DL-PRS-ResourcesBandCombination-r16-bandList-r16 (SEQUENCE_OF).
+
 type DLPRSResourcesBandCombinationR16BandListR16 = []FreqBandIndicatorNRR16
 
 // DLPRSResourcesBandCombinationR16MaxNrOfDLPRSResourcesAcrossAllFLTRPResourceSetR16 choice constants.
@@ -15264,15 +15408,19 @@ type DLPRSResourcesBandCombinationR16MaxNrOfDLPRSResourcesAcrossAllFLTRPResource
 }
 
 // NRDLPRSTRPTEGInfoPerTRPR17DlPRSTEGInfoSetR17 represents the ASN.1 type NR-DL-PRS-TRP-TEG-InfoPerTRP-r17-dl-PRS-TEG-InfoSet-r17 (SEQUENCE_OF).
+
 type NRDLPRSTRPTEGInfoPerTRPR17DlPRSTEGInfoSetR17 = []DLPRSTEGInfoPerResourceSetR17
 
 // NROnDemandDLPRSConfigurationsR17OnDemandDlPrsConfigurationListR17 represents the ASN.1 type NR-On-Demand-DL-PRS-Configurations-r17-on-demand-dl-prs-configuration-list-r17 (SEQUENCE_OF).
+
 type NROnDemandDLPRSConfigurationsR17OnDemandDlPrsConfigurationListR17 = []OnDemandDLPRSConfigurationR17
 
 // NROnDemandDLPRSConfigurationsR17OnDemandDLPRSAggregationListR18 represents the ASN.1 type NR-On-Demand-DL-PRS-Configurations-r17-onDemandDL-PRS-AggregationList-r18 (SEQUENCE_OF).
+
 type NROnDemandDLPRSConfigurationsR17OnDemandDLPRSAggregationListR18 = []OnDemandDLPRSAggregationInfoR18
 
 // DLPRSQCLInformationReqPerTRPR17DlPrsQCLInformationReqSetR17 represents the ASN.1 type DL-PRS-QCL-InformationReqPerTRP-r17-dl-prs-QCL-InformationReqSet-r17 (SEQUENCE_OF).
+
 type DLPRSQCLInformationReqPerTRPR17DlPrsQCLInformationReqSetR17 = []DLPRSQCLInfoReqR17
 
 // DLPRSQCLInfoReqR17DlPrsQCLInformationReqR17 choice constants.
@@ -15308,15 +15456,19 @@ func NewDLPRSQCLInfoReqR17DlPrsQCLInformationReqR17DlPrsQCLInfoRequestedR17(v st
 }
 
 // DLPRSQCLInfoReqR17DlPrsQCLInfoRecPerResourceR17 represents the ASN.1 type DL-PRS-QCL-InfoReq-r17-dl-prs-QCL-InfoRecPerResource-r17 (SEQUENCE_OF).
+
 type DLPRSQCLInfoReqR17DlPrsQCLInfoRecPerResourceR17 = []DLPRSQCLInfoR16
 
 // NROnDemandDLPRSRequestR17DlPrsConfigurationIdPrefListR17 represents the ASN.1 type NR-On-Demand-DL-PRS-Request-r17-dl-prs-configuration-id-PrefList-r17 (SEQUENCE_OF).
+
 type NROnDemandDLPRSRequestR17DlPrsConfigurationIdPrefListR17 = []DLPRSConfigurationIDR17
 
 // NROnDemandDLPRSRequestR17DlPRSAggregationIDPrefListR18 represents the ASN.1 type NR-On-Demand-DL-PRS-Request-r17-dl-PRS-AggregationID-PrefList-r18 (SEQUENCE_OF).
+
 type NROnDemandDLPRSRequestR17DlPRSAggregationIDPrefListR18 = []int64
 
 // NROnDemandDLPRSRequestR17NrOnDemandDLPRSAggregationReqListR18 represents the ASN.1 type NR-On-Demand-DL-PRS-Request-r17-nr-OnDemandDL-PRS-AggregationReqList-r18 (SEQUENCE_OF).
+
 type NROnDemandDLPRSRequestR17NrOnDemandDLPRSAggregationReqListR18 = []NROnDemandDLPRSAggregationReqElementR18
 
 // DLPRSStartTimeAndDurationR17DlPrsDurationR17 represents the ASN.1 type DL-PRS-StartTime-and-Duration-r17-dl-prs-duration-r17 (SEQUENCE).
@@ -15366,21 +15518,27 @@ func NewNRPRURSCPMeasElementR18NrLosNlosIndicatorR18PerResource(v LOSNLOSIndicat
 }
 
 // NRPRURSCPMeasElementR18NrPRURSCPAddSampleMeasurementsR18 represents the ASN.1 type NR-PRU-RSCP-MeasElement-r18-nr-PRU-RSCP-AddSampleMeasurements-r18 (SEQUENCE_OF).
+
 type NRPRURSCPMeasElementR18NrPRURSCPAddSampleMeasurementsR18 = []NRRSCPAdditionalMeasurementsR18
 
 // NRPRURSCPMeasElementR18NrPRURSRPAddSampleMeasurementsR18 represents the ASN.1 type NR-PRU-RSCP-MeasElement-r18-nr-PRU-RSRP-AddSampleMeasurements-r18 (SEQUENCE_OF).
+
 type NRPRURSCPMeasElementR18NrPRURSRPAddSampleMeasurementsR18 = []int64
 
 // NRPRURSCPMeasElementR18NrPRUFirstPathRSRPResultDiffAddSampleMeasurementsR18 represents the ASN.1 type NR-PRU-RSCP-MeasElement-r18-nr-PRU-FirstPathRSRP-ResultDiff-AddSampleMeasurements-r18 (SEQUENCE_OF).
+
 type NRPRURSCPMeasElementR18NrPRUFirstPathRSRPResultDiffAddSampleMeasurementsR18 = []int64
 
 // NRPRURSCPAdditionalMeasurementElementR18NrPRURSCPAdditionalMeasurementsListR18 represents the ASN.1 type NR-PRU-RSCP-AdditionalMeasurementElement-r18-nr-PRU-RSCP-AdditionalMeasurementsList-r18 (SEQUENCE_OF).
+
 type NRPRURSCPAdditionalMeasurementElementR18NrPRURSCPAdditionalMeasurementsListR18 = []NRRSCPAdditionalMeasurementsR18
 
 // NRPRURSCPAdditionalMeasurementElementR18NrPRURSRPDiffAdditionalMeasurementsListR18 represents the ASN.1 type NR-PRU-RSCP-AdditionalMeasurementElement-r18-nr-PRU-RSRPDiff-AdditionalMeasurementsList-r18 (SEQUENCE_OF).
+
 type NRPRURSCPAdditionalMeasurementElementR18NrPRURSRPDiffAdditionalMeasurementsListR18 = []int64
 
 // NRPRURSCPAdditionalMeasurementElementR18NrPRUFirstPathRSRPResultDiffAdditionalMeasurementsListR18 represents the ASN.1 type NR-PRU-RSCP-AdditionalMeasurementElement-r18-nr-PRU-FirstPathRSRP-ResultDiff-AdditionalMeasurementsList-r18 (SEQUENCE_OF).
+
 type NRPRURSCPAdditionalMeasurementElementR18NrPRUFirstPathRSRPResultDiffAdditionalMeasurementsListR18 = []int64
 
 // ReferenceTRPRTDInfoR16RefTimeR16 choice constants.
@@ -15417,12 +15575,15 @@ func NewReferenceTRPRTDInfoR16RefTimeR16UtcR16(v time.Time) ReferenceTRPRTDInfoR
 }
 
 // NRSelectedDLPRSPerFreqR16NrSelectedDLPRSIndexListPerFreqR16 represents the ASN.1 type NR-SelectedDL-PRS-PerFreq-r16-nr-SelectedDL-PRS-IndexListPerFreq-r16 (SEQUENCE_OF).
+
 type NRSelectedDLPRSPerFreqR16NrSelectedDLPRSIndexListPerFreqR16 = []NRSelectedDLPRSIndexPerTRPR16
 
 // NRSelectedDLPRSIndexPerTRPR16DlSelectedPRSResourceSetIndexListR16 represents the ASN.1 type NR-SelectedDL-PRS-IndexPerTRP-r16-dl-SelectedPRS-ResourceSetIndexList-r16 (SEQUENCE_OF).
+
 type NRSelectedDLPRSIndexPerTRPR16DlSelectedPRSResourceSetIndexListR16 = []DLSelectedPRSResourceSetIndexR16
 
 // DLSelectedPRSResourceSetIndexR16DlSelectedPRSResourceIndexListR16 represents the ASN.1 type DL-SelectedPRS-ResourceSetIndex-r16-dl-SelectedPRS-ResourceIndexList-r16 (SEQUENCE_OF).
+
 type DLSelectedPRSResourceSetIndexR16DlSelectedPRSResourceIndexListR16 = []DLSelectedPRSResourceIndexR16
 
 // NRSSBConfigR16SsbPositionsInBurstR16 choice constants.
@@ -15520,18 +15681,23 @@ func NewNRTimeStampR16NrSlotR16Scs120R16(v int64) NRTimeStampR16NrSlotR16 {
 }
 
 // NRTRPBeamAntennaInfoAzimuthElevationR17ElevationListR17 represents the ASN.1 type NR-TRP-BeamAntennaInfoAzimuthElevation-r17-elevationList-r17 (SEQUENCE_OF).
+
 type NRTRPBeamAntennaInfoAzimuthElevationR17ElevationListR17 = []ElevationElementR17
 
 // ElevationElementR17BeamPowerListR17 represents the ASN.1 type ElevationElement-R17-beamPowerList-r17 (SEQUENCE_OF).
+
 type ElevationElementR17BeamPowerListR17 = []BeamPowerElementR17
 
 // NRTRPLocationInfoPerFreqLayerR16TrpLocationInfoListR16 represents the ASN.1 type NR-TRP-LocationInfoPerFreqLayer-r16-trp-LocationInfoList-r16 (SEQUENCE_OF).
+
 type NRTRPLocationInfoPerFreqLayerR16TrpLocationInfoListR16 = []TRPLocationInfoElementR16
 
 // TRPLocationInfoElementR16TrpDLPRSResourceSetsR16 represents the ASN.1 type TRP-LocationInfoElement-r16-trp-DL-PRS-ResourceSets-r16 (SEQUENCE_OF).
+
 type TRPLocationInfoElementR16TrpDLPRSResourceSetsR16 = []DLPRSResourceSetsTRPElementR16
 
 // DLPRSResourceSetsTRPElementR16DlPRSResourceARPListR16 represents the ASN.1 type DL-PRS-ResourceSets-TRP-Element-r16-dl-PRS-Resource-ARP-List-r16 (SEQUENCE_OF).
+
 type DLPRSResourceSetsTRPElementR16DlPRSResourceARPListR16 = []DLPRSResourceARPElementR16
 
 // NRIntegrityLocationBoundsR18MeanLocationErrorBoundR18 represents the ASN.1 type NR-IntegrityLocationBounds-r18-meanLocationErrorBound-r18 (SEQUENCE).
@@ -15553,12 +15719,15 @@ type NRIntegrityLocationBoundsR18StdDevLocationErrorBoundR18 struct {
 }
 
 // NRUETEGCapabilityR17NrUETEGIDCapabilityBandListR17 represents the ASN.1 type NR-UE-TEG-Capability-r17-nr-UE-TEG-ID-CapabilityBandList-r17 (SEQUENCE_OF).
+
 type NRUETEGCapabilityR17NrUETEGIDCapabilityBandListR17 = []NRUETEGIDCapabilityPerBandR17
 
 // NRULSRSCapabilityR16SrsCapabilityBandListR16 represents the ASN.1 type NR-UL-SRS-Capability-r16-srs-CapabilityBandList-r16 (SEQUENCE_OF).
+
 type NRULSRSCapabilityR16SrsCapabilityBandListR16 = []SRSCapabilityPerBandR16
 
 // NRULSRSCapabilityR16SrsPosResourceConfigCABandListR16 represents the ASN.1 type NR-UL-SRS-Capability-r16-srs-PosResourceConfigCA-BandList-r16 (SEQUENCE_OF).
+
 type NRULSRSCapabilityR16SrsPosResourceConfigCABandListR16 = []SRSPosResourcesPerBandR16
 
 // ReferencePointR16ReferencePointGeographicLocationR16 choice constants.
@@ -15605,6 +15774,7 @@ func NewReferencePointR16ReferencePointGeographicLocationR16LocalOriginV1800(v L
 }
 
 // OTDOAReferenceCellInfoAddPRSconfigRefR14 represents the ASN.1 type OTDOA-ReferenceCellInfo-addPRSconfigRef-r14 (SEQUENCE_OF).
+
 type OTDOAReferenceCellInfoAddPRSconfigRefR14 = []PRSInfo
 
 // PRSInfoPrsMutingInfoR9 choice constants.
@@ -15753,9 +15923,11 @@ func NewPRSInfoPrsHoppingInfoR14Nb4R14(v PRSInfoPrsHoppingInfoR14Nb4R14) PRSInfo
 }
 
 // PRSInfoPrsHoppingInfoR14Nb4R14 represents the ASN.1 type PRS-Info-prsHoppingInfo-r14-nb4-r14 (SEQUENCE_OF).
+
 type PRSInfoPrsHoppingInfoR14Nb4R14 = []int64
 
 // OTDOANeighbourCellInfoElementAddPRSconfigNeighbourR14 represents the ASN.1 type OTDOA-NeighbourCellInfoElement-addPRSconfigNeighbour-r14 (SEQUENCE_OF).
+
 type OTDOANeighbourCellInfoElementAddPRSconfigNeighbourR14 = []AddPRSconfigNeighbourElementR14
 
 // NPRSInfoR14PartAR14 represents the ASN.1 type NPRS-Info-r14-partA-r14 (SEQUENCE).
@@ -16025,12 +16197,15 @@ func NewNPRSInfoR14PartATDDR15NprsMutingInfoAR15Po16R15(v runtime.BitString) NPR
 }
 
 // OTDOAProvideCapabilitiesSupportedBandListEUTRA represents the ASN.1 type OTDOA-ProvideCapabilities-supportedBandListEUTRA (SEQUENCE_OF).
+
 type OTDOAProvideCapabilitiesSupportedBandListEUTRA = []SupportedBandEUTRA
 
 // OTDOAProvideCapabilitiesSupportedBandListEUTRAV9a0 represents the ASN.1 type OTDOA-ProvideCapabilities-supportedBandListEUTRA-v9a0 (SEQUENCE_OF).
+
 type OTDOAProvideCapabilitiesSupportedBandListEUTRAV9a0 = []SupportedBandEUTRAV9a0
 
 // GNSSReferenceTimeGnssReferenceTimeForCells represents the ASN.1 type GNSS-ReferenceTime-gnss-ReferenceTimeForCells (SEQUENCE_OF).
+
 type GNSSReferenceTimeGnssReferenceTimeForCells = []GNSSReferenceTimeForOneCell
 
 // NetworkTimeCellID choice constants.
@@ -16256,6 +16431,7 @@ func NewGNSSSSRCorrectionPointsR16CorrectionPointsR16ArrayOfCorrectionPointsR16(
 }
 
 // GNSSSSRListOfCorrectionPointsR16RelativeLocationsListR16 represents the ASN.1 type GNSS-SSR-ListOfCorrectionPoints-r16-relativeLocationsList-r16 (SEQUENCE_OF).
+
 type GNSSSSRListOfCorrectionPointsR16RelativeLocationsListR16 = []RelativeLocationElementR16
 
 // ArrayOfGridPointsR18BitmaskOfGridsR18 choice constants.
@@ -16356,12 +16532,15 @@ func NewSTECResidualSatElementR16StecResidualCorrectionR16B16R16(v int64) STECRe
 }
 
 // GNSSReferenceTimeReqGnssTimeReqPrefList represents the ASN.1 type GNSS-ReferenceTimeReq-gnss-TimeReqPrefList (SEQUENCE_OF).
+
 type GNSSReferenceTimeReqGnssTimeReqPrefList = []GNSSID
 
 // ReqNavListInfoClockModelIDPrefList represents the ASN.1 type ReqNavListInfo-clockModelID-PrefList (SEQUENCE_OF).
+
 type ReqNavListInfoClockModelIDPrefList = []int64
 
 // ReqNavListInfoOrbitModelIDPrefList represents the ASN.1 type ReqNavListInfo-orbitModelID-PrefList (SEQUENCE_OF).
+
 type ReqNavListInfoOrbitModelIDPrefList = []int64
 
 // GNSSLOSNLOSGriddedIndicationsReqR18RelativeLocationInfoR18 choice constants.
@@ -16651,24 +16830,31 @@ type SensorAssistanceDataListR14AreaV1520 struct {
 }
 
 // WLANProvideAssistanceDataR14WlanDataSetR14 represents the ASN.1 type WLAN-ProvideAssistanceData-r14-wlan-DataSet-r14 (SEQUENCE_OF).
+
 type WLANProvideAssistanceDataR14WlanDataSetR14 = []WLANDataSetR14
 
 // WLANDataSetR14WlanAPListR14 represents the ASN.1 type WLAN-DataSet-r14-wlan-AP-List-r14 (SEQUENCE_OF).
+
 type WLANDataSetR14WlanAPListR14 = []WLANAPDataR14
 
 // WLANRequestAssistanceDataR14VisibleAPsR14 represents the ASN.1 type WLAN-RequestAssistanceData-r14-visibleAPs-r14 (SEQUENCE_OF).
+
 type WLANRequestAssistanceDataR14VisibleAPsR14 = []WLANAPIdentifierR13
 
 // WLANRequestAssistanceDataR14WlanAPStoredDataR14 represents the ASN.1 type WLAN-RequestAssistanceData-r14-wlan-AP-StoredData-r14 (SEQUENCE_OF).
+
 type WLANRequestAssistanceDataR14WlanAPStoredDataR14 = []WLANAPIdentifierR13
 
 // BTBeaconInfoR18BtBeaconInfoListR18 represents the ASN.1 type BT-BeaconInfo-r18-bt-BeaconInfoList-r18 (SEQUENCE_OF).
+
 type BTBeaconInfoR18BtBeaconInfoListR18 = []BTBeaconInfoElementR18
 
 // BTBeaconInfoElementR18BtAntElementListR18 represents the ASN.1 type BT-BeaconInfoElement-r18-bt-antElementList-r18 (SEQUENCE_OF).
+
 type BTBeaconInfoElementR18BtAntElementListR18 = []BTAntElementR18
 
 // BTBeaconInfoElementR18BtAntSwitchingPatternR18 represents the ASN.1 type BT-BeaconInfoElement-r18-bt-antSwitchingPattern-r18 (SEQUENCE_OF).
+
 type BTBeaconInfoElementR18BtAntSwitchingPatternR18 = []BTAntSwitchElementR18
 
 // NRMeasuredResultsElementR16NrARFCNR16 choice constants.
@@ -16704,9 +16890,11 @@ func NewNRMeasuredResultsElementR16NrARFCNR16CsiRSPointAR16(v ARFCNValueNRR15) N
 }
 
 // NRDLTDOAProvideLocationInformationR16NrDLTDOASignalMeasurementInstancesR17 represents the ASN.1 type NR-DL-TDOA-ProvideLocationInformation-r16-nr-DL-TDOA-SignalMeasurementInstances-r17 (SEQUENCE_OF).
+
 type NRDLTDOAProvideLocationInformationR16NrDLTDOASignalMeasurementInstancesR17 = []NRDLTDOASignalMeasurementInformationR16
 
 // NRDLTDOAProvideLocationInformationR16NrDLTDOALocationInformationInstancesR17 represents the ASN.1 type NR-DL-TDOA-ProvideLocationInformation-r16-nr-DL-TDOA-LocationInformationInstances-r17 (SEQUENCE_OF).
+
 type NRDLTDOAProvideLocationInformationR16NrDLTDOALocationInformationInstancesR17 = []NRDLTDOALocationInformationR16
 
 // NRDLTDOAMeasElementR16NrRSTDR16 choice constants.
@@ -16875,9 +17063,11 @@ func NewNRDLTDOAMeasElementR16NrLosNlosIndicatorR17PerResourceR17(v LOSNLOSIndic
 }
 
 // NRDLTDOAMeasElementR16NrAggregatedDLPRSResourceInfoListR18 represents the ASN.1 type NR-DL-TDOA-MeasElement-r16-nr-AggregatedDL-PRS-ResourceInfo-List-r18 (SEQUENCE_OF).
+
 type NRDLTDOAMeasElementR16NrAggregatedDLPRSResourceInfoListR18 = []NRAggregatedDLPRSResourceInfoElementR18
 
 // NRDLTDOAMeasElementR16NrRSCPDAddMeasurementSamplesR18 represents the ASN.1 type NR-DL-TDOA-MeasElement-r16-nr-RSCPD-AddMeasurementSamples-r18 (SEQUENCE_OF).
+
 type NRDLTDOAMeasElementR16NrRSCPDAddMeasurementSamplesR18 = []NRRSCPDAdditionalMeasurementSamplesElementR18
 
 // NRDLTDOAAdditionalMeasurementElementR16NrRSTDResultDiffR16 choice constants.
@@ -17014,9 +17204,11 @@ func NewNRDLTDOAAdditionalMeasurementElementR16NrRSTDResultDiffR16KMinus1R18(v i
 }
 
 // NRDLTDOAAdditionalMeasurementElementR16NrAggregatedDLPRSResourceInfoListR18 represents the ASN.1 type NR-DL-TDOA-AdditionalMeasurementElement-r16-nr-AggregatedDL-PRS-ResourceInfo-List-r18 (SEQUENCE_OF).
+
 type NRDLTDOAAdditionalMeasurementElementR16NrAggregatedDLPRSResourceInfoListR18 = []NRAggregatedDLPRSResourceInfoElementR18
 
 // NRDLTDOAAdditionalMeasurementElementR16NrRSCPDAdditionalMeasurementsAddSamplesR18 represents the ASN.1 type NR-DL-TDOA-AdditionalMeasurementElement-r16-nr-RSCPD-AdditionalMeasurementsAddSamples-r18 (SEQUENCE_OF).
+
 type NRDLTDOAAdditionalMeasurementElementR16NrRSCPDAdditionalMeasurementsAddSamplesR18 = []NRRSCPDAdditionalMeasurementSamplesElementR18
 
 // NRDLTDOALocationInformationR16MeasurementReferenceTimeR16 choice constants.
@@ -17075,6 +17267,7 @@ type NRDLTDOARequestLocationInformationR16NrDLPRSJointMeasurementRequestR18 stru
 }
 
 // NRDLTDOARequestLocationInformationR16NrDLPRSJointMeasurementRequestR18NrDLPRSJointMeasurementRequestedPFLListR18 represents the ASN.1 type NR-DL-TDOA-RequestLocationInformation-r16-nr-DL-PRS-JointMeasurementRequest-r18-nr-DL-PRS-JointMeasurementRequestedPFL-List-r18 (SEQUENCE_OF).
+
 type NRDLTDOARequestLocationInformationR16NrDLPRSJointMeasurementRequestR18NrDLPRSJointMeasurementRequestedPFLListR18 = []int64
 
 // NRDLTDOARequestLocationInformationR16NrDLPRSRxHoppingRequestR18 represents the ASN.1 type NR-DL-TDOA-RequestLocationInformation-r16-nr-DL-PRS-RxHoppingRequest-r18 (SEQUENCE).
@@ -17156,12 +17349,15 @@ type NRDLTDOAProvideCapabilitiesR16NrDlPrsAssistanceDataValidityR17 struct {
 }
 
 // NRDLTDOAMeasurementCapabilityR16DlTdoaMeasCapabilityBandListR17 represents the ASN.1 type NR-DL-TDOA-MeasurementCapability-r16-dl-tdoa-MeasCapabilityBandList-r17 (SEQUENCE_OF).
+
 type NRDLTDOAMeasurementCapabilityR16DlTdoaMeasCapabilityBandListR17 = []DLTDOAMeasCapabilityPerBandR17
 
 // NRDLAoDProvideLocationInformationR16NrDLAoDSignalMeasurementInstancesR17 represents the ASN.1 type NR-DL-AoD-ProvideLocationInformation-r16-nr-DL-AoD-SignalMeasurementInstances-r17 (SEQUENCE_OF).
+
 type NRDLAoDProvideLocationInformationR16NrDLAoDSignalMeasurementInstancesR17 = []NRDLAoDSignalMeasurementInformationR16
 
 // NRDLAoDProvideLocationInformationR16NrDLAoDLocationInformationInstancesR17 represents the ASN.1 type NR-DL-AoD-ProvideLocationInformation-r16-nr-DL-AoD-LocationInformationInstances-r17 (SEQUENCE_OF).
+
 type NRDLAoDProvideLocationInformationR16NrDLAoDLocationInformationInstancesR17 = []NRDLAoDLocationInformationR16
 
 // NRDLAoDMeasElementR16NrLosNlosIndicatorR17 choice constants.
@@ -17321,12 +17517,15 @@ type NRDLAoDProvideCapabilitiesR16NrDlPrsAssistanceDataValidityR17 struct {
 }
 
 // NRDLAoDMeasurementCapabilityR16DlAoDMeasCapabilityBandListR16 represents the ASN.1 type NR-DL-AoD-MeasurementCapability-r16-dl-AoD-MeasCapabilityBandList-r16 (SEQUENCE_OF).
+
 type NRDLAoDMeasurementCapabilityR16DlAoDMeasCapabilityBandListR16 = []DLAoDMeasCapabilityPerBandR16
 
 // NRMultiRTTProvideLocationInformationR16NrMultiRTTSignalMeasurementInstancesR17 represents the ASN.1 type NR-Multi-RTT-ProvideLocationInformation-r16-nr-Multi-RTT-SignalMeasurementInstances-r17 (SEQUENCE_OF).
+
 type NRMultiRTTProvideLocationInformationR16NrMultiRTTSignalMeasurementInstancesR17 = []NRMultiRTTSignalMeasurementInformationR16
 
 // NRMultiRTTSignalMeasurementInformationR16NrSRSTxTEGSetR17 represents the ASN.1 type NR-Multi-RTT-SignalMeasurementInformation-r16-nr-SRS-TxTEG-Set-r17 (SEQUENCE_OF).
+
 type NRMultiRTTSignalMeasurementInformationR16NrSRSTxTEGSetR17 = []NRSRSTxTEGElementR17
 
 // NRMultiRTTMeasElementR16NrUERxTxTimeDiffR16 choice constants.
@@ -17495,9 +17694,11 @@ func NewNRMultiRTTMeasElementR16NrLosNlosIndicatorR17PerResourceR17(v LOSNLOSInd
 }
 
 // NRMultiRTTMeasElementR16NrAggregatedDLPRSResourceInfoListR18 represents the ASN.1 type NR-Multi-RTT-MeasElement-r16-nr-AggregatedDL-PRS-ResourceInfo-List-r18 (SEQUENCE_OF).
+
 type NRMultiRTTMeasElementR16NrAggregatedDLPRSResourceInfoListR18 = []NRAggregatedDLPRSResourceInfoElementR18
 
 // NRMultiRTTMeasElementR16NrRSCPAddSampleMeasurementsR18 represents the ASN.1 type NR-Multi-RTT-MeasElement-r16-nr-RSCP-AddSampleMeasurements-r18 (SEQUENCE_OF).
+
 type NRMultiRTTMeasElementR16NrRSCPAddSampleMeasurementsR18 = []NRRSCPAdditionalMeasurementsR18
 
 // NRMultiRTTAdditionalMeasurementElementR16NrUERxTxTimeDiffAdditionalR16 choice constants.
@@ -17634,9 +17835,11 @@ func NewNRMultiRTTAdditionalMeasurementElementR16NrUERxTxTimeDiffAdditionalR16KM
 }
 
 // NRMultiRTTAdditionalMeasurementElementR16NrAggregatedDLPRSResourceInfoListR18 represents the ASN.1 type NR-Multi-RTT-AdditionalMeasurementElement-r16-nr-AggregatedDL-PRS-ResourceInfo-List-r18 (SEQUENCE_OF).
+
 type NRMultiRTTAdditionalMeasurementElementR16NrAggregatedDLPRSResourceInfoListR18 = []NRAggregatedDLPRSResourceInfoElementR18
 
 // NRMultiRTTAdditionalMeasurementElementR16NrRSCPAdditionalMeasurementsAddSampleR18 represents the ASN.1 type NR-Multi-RTT-AdditionalMeasurementElement-r16-nr-RSCP-AdditionalMeasurementsAddSample-r18 (SEQUENCE_OF).
+
 type NRMultiRTTAdditionalMeasurementElementR16NrRSCPAdditionalMeasurementsAddSampleR18 = []NRRSCPAdditionalMeasurementsR18
 
 // NRSRSTxTEGElementR17CarrierFreqR17 represents the ASN.1 type NR-SRS-TxTEG-Element-r17-carrierFreq-r17 (SEQUENCE).
@@ -17649,6 +17852,7 @@ type NRSRSTxTEGElementR17CarrierFreqR17 struct {
 }
 
 // NRSRSTxTEGElementR17SrsPosResourceListR17 represents the ASN.1 type NR-SRS-TxTEG-Element-r17-srs-PosResourceList-r17 (SEQUENCE_OF).
+
 type NRSRSTxTEGElementR17SrsPosResourceListR17 = []int64
 
 // NRUERxTxTEGInfoR17Case1R17 represents the ASN.1 type NR-UE-RxTx-TEG-Info-r17-case1-r17 (SEQUENCE).
@@ -17740,6 +17944,7 @@ type NRMultiRTTRequestLocationInformationR16NrDLPRSJointMeasurementRequestR18 st
 }
 
 // NRMultiRTTRequestLocationInformationR16NrDLPRSJointMeasurementRequestR18NrDLPRSJointMeasurementRequestedPFLListR18 represents the ASN.1 type NR-Multi-RTT-RequestLocationInformation-r16-nr-DL-PRS-JointMeasurementRequest-r18-nr-DL-PRS-JointMeasurementRequestedPFL-List-r18 (SEQUENCE_OF).
+
 type NRMultiRTTRequestLocationInformationR16NrDLPRSJointMeasurementRequestR18NrDLPRSJointMeasurementRequestedPFLListR18 = []int64
 
 // NRMultiRTTProvideCapabilitiesR16NrLosNlosIndicatorSupportR17 represents the ASN.1 type NR-Multi-RTT-ProvideCapabilities-r16-nr-los-nlos-IndicatorSupport-r17 (SEQUENCE).
@@ -17768,9 +17973,11 @@ type NRMultiRTTProvideCapabilitiesR16NrDlPrsAssistanceDataValidityR17 struct {
 }
 
 // NRMultiRTTMeasurementCapabilityR16MultiRTTMeasCapabilityBandListR17 represents the ASN.1 type NR-Multi-RTT-MeasurementCapability-r16-multi-RTT-MeasCapabilityBandList-r17 (SEQUENCE_OF).
+
 type NRMultiRTTMeasurementCapabilityR16MultiRTTMeasCapabilityBandListR17 = []MultiRTTMeasCapabilityPerBandR17
 
 // NRDLAIMLProvideLocationInformationR19NrDLAIMLLocationInformationInstancesR19 represents the ASN.1 type NR-DL-AIML-ProvideLocationInformation-r19-nr-DL-AIML-LocationInformationInstances-r19 (SEQUENCE_OF).
+
 type NRDLAIMLProvideLocationInformationR19NrDLAIMLLocationInformationInstancesR19 = []NRDLAIMLLocationInformationR19
 
 // NRDLAIMLLocationInformationR19MeasurementReferenceTimeR19 choice constants.
@@ -17832,12 +18039,15 @@ type NRDLAIMLProvideCapabilitiesR19NrDlPrsAssistanceDataValidityR19 struct {
 }
 
 // NRDLAIMLProvideCapabilitiesR19NrDLAIMLCapabilityPerBandListR19 represents the ASN.1 type NR-DL-AIML-ProvideCapabilities-r19-nr-DL-AIML-CapabilityPerBandList-r19 (SEQUENCE_OF).
+
 type NRDLAIMLProvideCapabilitiesR19NrDLAIMLCapabilityPerBandListR19 = []NRDLAIMLCapabilityPerBandR19
 
 // NRDLAIMLPRSProcessingCapabilityR19NrDlAimlPrsProcessingCapabilityBandListR19 represents the ASN.1 type NR-DL-AIML-PRS-ProcessingCapability-r19-nr-dl-aiml-prs-ProcessingCapabilityBandList-r19 (SEQUENCE_OF).
+
 type NRDLAIMLPRSProcessingCapabilityR19NrDlAimlPrsProcessingCapabilityBandListR19 = []NRDLAIMLPRSProcessingCapabilityPerBandR19
 
 // NRDLAIMLPRSProcessingCapabilityPerBandR19PrsProcessingCapabilityOutsideMGinPPWR19 represents the ASN.1 type NR-DL-AIML-PRS-ProcessingCapabilityPerBand-r19-prs-ProcessingCapabilityOutsideMGinPPW-r19 (SEQUENCE_OF).
+
 type NRDLAIMLPRSProcessingCapabilityPerBandR19PrsProcessingCapabilityOutsideMGinPPWR19 = []PRSProcessingCapabilityOutsideMGinPPWperTypeR19
 
 // NRDLAIMLPRSProcessingCapabilityElementR19SupportedBandwidthPRSR19 choice constants.

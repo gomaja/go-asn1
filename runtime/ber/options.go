@@ -19,12 +19,24 @@ func DefaultDecodeLimits() DecodeLimits {
 }
 
 // DecodeOption configures a BER decode entry point.
-type DecodeOption func(*DecodeLimits)
+type DecodeOption interface{ applyDecode(*decodeConfig) error }
+
+type decodeOptionFunc func(*decodeConfig) error
+
+func (option decodeOptionFunc) applyDecode(config *decodeConfig) error { return option(config) }
+
+type decodeConfig struct {
+	limits     DecodeLimits
+	tolerant   bool
+	violations *ViolationLog
+	path       string
+}
 
 // WithDecodeLimits overrides the nonzero limit fields. Supply the same option
 // to a generated UnmarshalBER entry point to admit a larger BER profile.
 func WithDecodeLimits(limits DecodeLimits) DecodeOption {
-	return func(dst *DecodeLimits) {
+	return decodeOptionFunc(func(config *decodeConfig) error {
+		dst := &config.limits
 		if limits.MaxDepth != 0 {
 			dst.MaxDepth = limits.MaxDepth
 		}
@@ -34,21 +46,29 @@ func WithDecodeLimits(limits DecodeLimits) DecodeOption {
 		if limits.MaxWork != 0 {
 			dst.MaxWork = limits.MaxWork
 		}
+		return nil
+	})
+}
+
+func decodeOptions(options []DecodeOption) (decodeConfig, error) {
+	config := decodeConfig{limits: DefaultDecodeLimits()}
+	for _, option := range options {
+		if option == nil {
+			return config, fmt.Errorf("%w: nil BER decode option", ErrInvalidValue)
+		}
+		if err := option.applyDecode(&config); err != nil {
+			return config, err
+		}
 	}
+	if config.limits.MaxDepth <= 0 || config.limits.MaxElements <= 0 || config.limits.MaxWork <= 0 {
+		return config, fmt.Errorf("%w: BER decode limits must be positive", ErrInvalidValue)
+	}
+	return config, nil
 }
 
 func decodeLimits(options []DecodeOption) (DecodeLimits, error) {
-	limits := DefaultDecodeLimits()
-	for _, option := range options {
-		if option == nil {
-			return limits, fmt.Errorf("%w: nil BER decode option", ErrInvalidValue)
-		}
-		option(&limits)
-	}
-	if limits.MaxDepth <= 0 || limits.MaxElements <= 0 || limits.MaxWork <= 0 {
-		return limits, fmt.Errorf("%w: BER decode limits must be positive", ErrInvalidValue)
-	}
-	return limits, nil
+	config, err := decodeOptions(options)
+	return config.limits, err
 }
 
 // encodingStructureOption permits validation of a caller-supplied value

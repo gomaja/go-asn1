@@ -697,6 +697,18 @@ func DecodeInteger(data []byte, options ...DecodeOption) (int64, int, error) {
 	return v, total, nil
 }
 
+// DecodeUint64 decodes a nonnegative ASN.1 INTEGER up to math.MaxUint64.
+func DecodeUint64(data []byte, options ...DecodeOption) (uint64, int, error) {
+	value, n, err := DecodeBigInt(data, options...)
+	if err != nil {
+		return 0, 0, err
+	}
+	if !value.IsUint64() {
+		return 0, 0, fmt.Errorf("%w: INTEGER is outside uint64", ErrInvalidValue)
+	}
+	return value.Uint64(), n, nil
+}
+
 func decodeIntBytes(b []byte) (int64, error) {
 	if len(b) == 0 {
 		return 0, fmt.Errorf("%w: empty integer", ErrInvalidValue)
@@ -1116,6 +1128,18 @@ func PeekTag(data []byte) (tag.Tag, error) {
 // DecodeIntegerValue decodes an integer from raw value bytes.
 func DecodeIntegerValue(value []byte) (int64, error) {
 	return decodeIntBytes(value)
+}
+
+// DecodeUint64Value decodes an implicitly tagged nonnegative INTEGER.
+func DecodeUint64Value(value []byte) (uint64, error) {
+	decoded, err := DecodeBigIntValue(value)
+	if err != nil {
+		return 0, err
+	}
+	if !decoded.IsUint64() {
+		return 0, fmt.Errorf("%w: INTEGER is outside uint64", ErrInvalidValue)
+	}
+	return decoded.Uint64(), nil
 }
 
 // DecodeEnumeratedValue decodes primitive ENUMERATED contents after its tag

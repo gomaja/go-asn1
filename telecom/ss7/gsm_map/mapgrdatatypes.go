@@ -35,6 +35,8 @@ type PrepareGroupCallArg struct {
 	ExtCount_              int64               `asn1:"-" json:"-"`
 	ExtPresent_            []bool              `asn1:"-" json:"-"`
 	ExtData_               [][]byte            `asn1:"-" json:"-"`
+	berOriginal_           []byte              `asn1:"-" json:"-"`
+	berSnapshot_           []byte              `asn1:"-" json:"-"`
 }
 
 // VSTK represents the ASN.1 type VSTK (OCTET_STRING).
@@ -50,6 +52,8 @@ type PrepareGroupCallRes struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // SendGroupCallEndSignalArg represents the ASN.1 type SendGroupCallEndSignalArg (SEQUENCE).
@@ -61,6 +65,8 @@ type SendGroupCallEndSignalArg struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // TalkerPriority represents the ASN.1 ENUMERATED type TalkerPriority.
@@ -91,6 +97,8 @@ type SendGroupCallEndSignalRes struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // ForwardGroupCallSignallingArg represents the ASN.1 type ForwardGroupCallSignallingArg (SEQUENCE).
@@ -111,6 +119,8 @@ type ForwardGroupCallSignallingArg struct {
 	ExtCount_                     int64                    `asn1:"-" json:"-"`
 	ExtPresent_                   []bool                   `asn1:"-" json:"-"`
 	ExtData_                      [][]byte                 `asn1:"-" json:"-"`
+	berOriginal_                  []byte                   `asn1:"-" json:"-"`
+	berSnapshot_                  []byte                   `asn1:"-" json:"-"`
 }
 
 // ProcessGroupCallSignallingArg represents the ASN.1 type ProcessGroupCallSignallingArg (SEQUENCE).
@@ -126,6 +136,8 @@ type ProcessGroupCallSignallingArg struct {
 	ExtCount_                     int64                    `asn1:"-" json:"-"`
 	ExtPresent_                   []bool                   `asn1:"-" json:"-"`
 	ExtData_                      [][]byte                 `asn1:"-" json:"-"`
+	berOriginal_                  []byte                   `asn1:"-" json:"-"`
+	berSnapshot_                  []byte                   `asn1:"-" json:"-"`
 }
 
 // GroupKeyNumber represents the ASN.1 type GroupKeyNumber (INTEGER).
@@ -143,6 +155,8 @@ type StateAttributes struct {
 	UplinkAttached    *struct{} `asn1:"tag:6,context,implicit,optional" json:"UplinkAttached,omitempty"`
 	DualCommunication *struct{} `asn1:"tag:7,context,implicit,optional" json:"DualCommunication,omitempty"`
 	CallOriginator    *struct{} `asn1:"tag:8,context,implicit,optional" json:"CallOriginator,omitempty"`
+	berOriginal_      []byte    `asn1:"-" json:"-"`
+	berSnapshot_      []byte    `asn1:"-" json:"-"`
 }
 
 // SendGroupCallInfoArg represents the ASN.1 type SendGroupCallInfoArg (SEQUENCE).
@@ -160,6 +174,8 @@ type SendGroupCallInfoArg struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // GRRequestedInfo represents the ASN.1 ENUMERATED type RequestedInfo.
@@ -193,13 +209,30 @@ type SendGroupCallInfoRes struct {
 	ExtCount_               int64                    `asn1:"-" json:"-"`
 	ExtPresent_             []bool                   `asn1:"-" json:"-"`
 	ExtData_                [][]byte                 `asn1:"-" json:"-"`
+	berOriginal_            []byte                   `asn1:"-" json:"-"`
+	berSnapshot_            []byte                   `asn1:"-" json:"-"`
 }
 
 // MarshalBER encodes PrepareGroupCallArg to BER format.
-func (v *PrepareGroupCallArg) MarshalBER() ([]byte, error) {
+func (v *PrepareGroupCallArg) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PrepareGroupCallArg receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *PrepareGroupCallArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Teleservice) < 1 || len(v.Teleservice) > 5 {
-		return nil, fmt.Errorf("teleservice length %d violates SIZE (1..5)", len(v.Teleservice))
+		if constraintErr := ber.CheckEncodedLength(opts, "teleservice", "SIZE (1..5)", len(v.Teleservice)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_teleservice, encodeErr_enc_teleservice := ber.EncodeOctetString([]byte(v.Teleservice))
 	if encodeErr_enc_teleservice != nil {
@@ -207,7 +240,9 @@ func (v *PrepareGroupCallArg) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_teleservice...)
 	if len(v.AsciCallReference) < 1 || len(v.AsciCallReference) > 8 {
-		return nil, fmt.Errorf("asciCallReference length %d violates SIZE (1..8)", len(v.AsciCallReference))
+		if constraintErr := ber.CheckEncodedLength(opts, "asciCallReference", "SIZE (1..8)", len(v.AsciCallReference)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_ascicallreference, encodeErr_enc_ascicallreference := ber.EncodeOctetString([]byte(v.AsciCallReference))
 	if encodeErr_enc_ascicallreference != nil {
@@ -215,7 +250,9 @@ func (v *PrepareGroupCallArg) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_ascicallreference...)
 	if len(v.CodecInfo) < 5 || len(v.CodecInfo) > 10 {
-		return nil, fmt.Errorf("codec-Info length %d violates SIZE (5..10)", len(v.CodecInfo))
+		if constraintErr := ber.CheckEncodedLength(opts, "codec-Info", "SIZE (5..10)", len(v.CodecInfo)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_codecinfo, encodeErr_enc_codecinfo := ber.EncodeOctetString([]byte(v.CodecInfo))
 	if encodeErr_enc_codecinfo != nil {
@@ -223,7 +260,9 @@ func (v *PrepareGroupCallArg) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_codecinfo...)
 	if len(v.CipheringAlgorithm) < 1 || len(v.CipheringAlgorithm) > 1 {
-		return nil, fmt.Errorf("cipheringAlgorithm length %d violates SIZE (1)", len(v.CipheringAlgorithm))
+		if constraintErr := ber.CheckEncodedLength(opts, "cipheringAlgorithm", "SIZE (1)", len(v.CipheringAlgorithm)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_cipheringalgorithm, encodeErr_enc_cipheringalgorithm := ber.EncodeOctetString([]byte(v.CipheringAlgorithm))
 	if encodeErr_enc_cipheringalgorithm != nil {
@@ -231,6 +270,11 @@ func (v *PrepareGroupCallArg) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_cipheringalgorithm...)
 	if v.GroupKeyNumberVkId != nil {
+		if !(int64(*v.GroupKeyNumberVkId) >= 0 && int64(*v.GroupKeyNumberVkId) <= 15) {
+			if constraintErr := ber.CheckEncodedValue(opts, "groupKeyNumber-Vk-Id", "(0..15)", fmt.Sprint(int64(*v.GroupKeyNumberVkId))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_groupkeynumbervkid := ber.EncodeInteger(int64(*v.GroupKeyNumberVkId))
 		retagged_enc_groupkeynumbervkid, tagErr_enc_groupkeynumbervkid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_groupkeynumbervkid)
 		if tagErr_enc_groupkeynumbervkid != nil {
@@ -241,7 +285,9 @@ func (v *PrepareGroupCallArg) MarshalBER() ([]byte, error) {
 	}
 	if v.GroupKey != nil {
 		if len(*v.GroupKey) < 8 || len(*v.GroupKey) > 8 {
-			return nil, fmt.Errorf("groupKey length %d violates SIZE (8)", len(*v.GroupKey))
+			if constraintErr := ber.CheckEncodedLength(opts, "groupKey", "SIZE (8)", len(*v.GroupKey)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_groupkey, encodeErr_enc_groupkey := ber.EncodeOctetString([]byte(*v.GroupKey))
 		if encodeErr_enc_groupkey != nil {
@@ -255,6 +301,11 @@ func (v *PrepareGroupCallArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_groupkey...)
 	}
 	if v.Priority != nil {
+		if !(int64(*v.Priority) >= 0 && int64(*v.Priority) <= 15) {
+			if constraintErr := ber.CheckEncodedValue(opts, "priority", "(0..15)", fmt.Sprint(int64(*v.Priority))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_priority := ber.EncodeInteger(int64(*v.Priority))
 		retagged_enc_priority, tagErr_enc_priority := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_priority)
 		if tagErr_enc_priority != nil {
@@ -273,7 +324,7 @@ func (v *PrepareGroupCallArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_uplinkfree...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -286,7 +337,9 @@ func (v *PrepareGroupCallArg) MarshalBER() ([]byte, error) {
 	}
 	if v.Vstk != nil {
 		if len(*v.Vstk) < 16 || len(*v.Vstk) > 16 {
-			return nil, fmt.Errorf("vstk length %d violates SIZE (16)", len(*v.Vstk))
+			if constraintErr := ber.CheckEncodedLength(opts, "vstk", "SIZE (16)", len(*v.Vstk)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_vstk, encodeErr_enc_vstk := ber.EncodeOctetString([]byte(*v.Vstk))
 		if encodeErr_enc_vstk != nil {
@@ -301,7 +354,9 @@ func (v *PrepareGroupCallArg) MarshalBER() ([]byte, error) {
 	}
 	if v.VstkRand != nil {
 		if len(*v.VstkRand) < 5 || len(*v.VstkRand) > 5 {
-			return nil, fmt.Errorf("vstk-rand length %d violates SIZE (5)", len(*v.VstkRand))
+			if constraintErr := ber.CheckEncodedLength(opts, "vstk-rand", "SIZE (5)", len(*v.VstkRand)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_vstkrand, encodeErr_enc_vstkrand := ber.EncodeOctetString([]byte(*v.VstkRand))
 		if encodeErr_enc_vstkrand != nil {
@@ -347,9 +402,14 @@ func (v *PrepareGroupCallArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PrepareGroupCallArg to DER format.
 func (v *PrepareGroupCallArg) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PrepareGroupCallArg receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Teleservice) < 1 || len(v.Teleservice) > 5 {
-		return nil, fmt.Errorf("teleservice length %d violates SIZE (1..5)", len(v.Teleservice))
+		if constraintErr := ber.CheckEncodedLength(nil, "teleservice", "SIZE (1..5)", len(v.Teleservice)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_teleservice, encodeErr_enc_teleservice := ber.EncodeOctetString([]byte(v.Teleservice))
 	if encodeErr_enc_teleservice != nil {
@@ -357,7 +417,9 @@ func (v *PrepareGroupCallArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_teleservice...)
 	if len(v.AsciCallReference) < 1 || len(v.AsciCallReference) > 8 {
-		return nil, fmt.Errorf("asciCallReference length %d violates SIZE (1..8)", len(v.AsciCallReference))
+		if constraintErr := ber.CheckEncodedLength(nil, "asciCallReference", "SIZE (1..8)", len(v.AsciCallReference)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_ascicallreference, encodeErr_enc_ascicallreference := ber.EncodeOctetString([]byte(v.AsciCallReference))
 	if encodeErr_enc_ascicallreference != nil {
@@ -365,7 +427,9 @@ func (v *PrepareGroupCallArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_ascicallreference...)
 	if len(v.CodecInfo) < 5 || len(v.CodecInfo) > 10 {
-		return nil, fmt.Errorf("codec-Info length %d violates SIZE (5..10)", len(v.CodecInfo))
+		if constraintErr := ber.CheckEncodedLength(nil, "codec-Info", "SIZE (5..10)", len(v.CodecInfo)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_codecinfo, encodeErr_enc_codecinfo := ber.EncodeOctetString([]byte(v.CodecInfo))
 	if encodeErr_enc_codecinfo != nil {
@@ -373,7 +437,9 @@ func (v *PrepareGroupCallArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_codecinfo...)
 	if len(v.CipheringAlgorithm) < 1 || len(v.CipheringAlgorithm) > 1 {
-		return nil, fmt.Errorf("cipheringAlgorithm length %d violates SIZE (1)", len(v.CipheringAlgorithm))
+		if constraintErr := ber.CheckEncodedLength(nil, "cipheringAlgorithm", "SIZE (1)", len(v.CipheringAlgorithm)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_cipheringalgorithm, encodeErr_enc_cipheringalgorithm := ber.EncodeOctetString([]byte(v.CipheringAlgorithm))
 	if encodeErr_enc_cipheringalgorithm != nil {
@@ -381,6 +447,11 @@ func (v *PrepareGroupCallArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_cipheringalgorithm...)
 	if v.GroupKeyNumberVkId != nil {
+		if !(int64(*v.GroupKeyNumberVkId) >= 0 && int64(*v.GroupKeyNumberVkId) <= 15) {
+			if constraintErr := ber.CheckEncodedValue(nil, "groupKeyNumber-Vk-Id", "(0..15)", fmt.Sprint(int64(*v.GroupKeyNumberVkId))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_groupkeynumbervkid := ber.EncodeInteger(int64(*v.GroupKeyNumberVkId))
 		retagged_enc_groupkeynumbervkid, tagErr_enc_groupkeynumbervkid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_groupkeynumbervkid)
 		if tagErr_enc_groupkeynumbervkid != nil {
@@ -391,7 +462,9 @@ func (v *PrepareGroupCallArg) MarshalDER() ([]byte, error) {
 	}
 	if v.GroupKey != nil {
 		if len(*v.GroupKey) < 8 || len(*v.GroupKey) > 8 {
-			return nil, fmt.Errorf("groupKey length %d violates SIZE (8)", len(*v.GroupKey))
+			if constraintErr := ber.CheckEncodedLength(nil, "groupKey", "SIZE (8)", len(*v.GroupKey)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_groupkey, encodeErr_enc_groupkey := ber.EncodeOctetString([]byte(*v.GroupKey))
 		if encodeErr_enc_groupkey != nil {
@@ -405,6 +478,11 @@ func (v *PrepareGroupCallArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_groupkey...)
 	}
 	if v.Priority != nil {
+		if !(int64(*v.Priority) >= 0 && int64(*v.Priority) <= 15) {
+			if constraintErr := ber.CheckEncodedValue(nil, "priority", "(0..15)", fmt.Sprint(int64(*v.Priority))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_priority := ber.EncodeInteger(int64(*v.Priority))
 		retagged_enc_priority, tagErr_enc_priority := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_priority)
 		if tagErr_enc_priority != nil {
@@ -436,7 +514,9 @@ func (v *PrepareGroupCallArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Vstk != nil {
 		if len(*v.Vstk) < 16 || len(*v.Vstk) > 16 {
-			return nil, fmt.Errorf("vstk length %d violates SIZE (16)", len(*v.Vstk))
+			if constraintErr := ber.CheckEncodedLength(nil, "vstk", "SIZE (16)", len(*v.Vstk)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_vstk, encodeErr_enc_vstk := ber.EncodeOctetString([]byte(*v.Vstk))
 		if encodeErr_enc_vstk != nil {
@@ -451,7 +531,9 @@ func (v *PrepareGroupCallArg) MarshalDER() ([]byte, error) {
 	}
 	if v.VstkRand != nil {
 		if len(*v.VstkRand) < 5 || len(*v.VstkRand) > 5 {
-			return nil, fmt.Errorf("vstk-rand length %d violates SIZE (5)", len(*v.VstkRand))
+			if constraintErr := ber.CheckEncodedLength(nil, "vstk-rand", "SIZE (5)", len(*v.VstkRand)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_vstkrand, encodeErr_enc_vstkrand := ber.EncodeOctetString([]byte(*v.VstkRand))
 		if encodeErr_enc_vstkrand != nil {
@@ -499,11 +581,27 @@ func (v *PrepareGroupCallArg) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes PrepareGroupCallArg from BER/DER format.
-func (v *PrepareGroupCallArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *PrepareGroupCallArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: PrepareGroupCallArg destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PrepareGroupCallArg{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding PrepareGroupCallArg SEQUENCE: %w", err)
@@ -528,7 +626,9 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 	offset += n
 	if len(v.Teleservice) < 1 || len(v.Teleservice) > 5 {
-		return fmt.Errorf("teleservice length %d violates SIZE (1..5)", len(v.Teleservice))
+		if constraintErr := ber.CheckDecodedLength(opts, "teleservice", "SIZE (1..5)", len(v.Teleservice)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode asciCallReference
 	if offset >= len(content) {
@@ -546,7 +646,9 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 	offset += n
 	if len(v.AsciCallReference) < 1 || len(v.AsciCallReference) > 8 {
-		return fmt.Errorf("asciCallReference length %d violates SIZE (1..8)", len(v.AsciCallReference))
+		if constraintErr := ber.CheckDecodedLength(opts, "asciCallReference", "SIZE (1..8)", len(v.AsciCallReference)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode codec-Info
 	if offset >= len(content) {
@@ -564,7 +666,9 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 	offset += n
 	if len(v.CodecInfo) < 5 || len(v.CodecInfo) > 10 {
-		return fmt.Errorf("codec-Info length %d violates SIZE (5..10)", len(v.CodecInfo))
+		if constraintErr := ber.CheckDecodedLength(opts, "codec-Info", "SIZE (5..10)", len(v.CodecInfo)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode cipheringAlgorithm
 	if offset >= len(content) {
@@ -582,7 +686,9 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 	offset += n
 	if len(v.CipheringAlgorithm) < 1 || len(v.CipheringAlgorithm) > 1 {
-		return fmt.Errorf("cipheringAlgorithm length %d violates SIZE (1)", len(v.CipheringAlgorithm))
+		if constraintErr := ber.CheckDecodedLength(opts, "cipheringAlgorithm", "SIZE (1)", len(v.CipheringAlgorithm)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode groupKeyNumber-Vk-Id
 	if offset < len(content) {
@@ -609,6 +715,11 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_groupkeynumbervkid
+				if !(int64(*v.GroupKeyNumberVkId) >= 0 && int64(*v.GroupKeyNumberVkId) <= 15) {
+					if constraintErr := ber.CheckDecodedValue(opts, "groupKeyNumber-Vk-Id", "(0..15)", fmt.Sprint(int64(*v.GroupKeyNumberVkId))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -633,7 +744,9 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 				offset += n_groupkey
 				if len(*v.GroupKey) < 8 || len(*v.GroupKey) > 8 {
-					return fmt.Errorf("groupKey length %d violates SIZE (8)", len(*v.GroupKey))
+					if constraintErr := ber.CheckDecodedLength(opts, "groupKey", "SIZE (8)", len(*v.GroupKey)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -662,6 +775,11 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n_priority
+				if !(int64(*v.Priority) >= 0 && int64(*v.Priority) <= 15) {
+					if constraintErr := ber.CheckDecodedValue(opts, "priority", "(0..15)", fmt.Sprint(int64(*v.Priority))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -707,7 +825,7 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -742,7 +860,9 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 				offset += n_vstk
 				if len(*v.Vstk) < 16 || len(*v.Vstk) > 16 {
-					return fmt.Errorf("vstk length %d violates SIZE (16)", len(*v.Vstk))
+					if constraintErr := ber.CheckDecodedLength(opts, "vstk", "SIZE (16)", len(*v.Vstk)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -768,7 +888,9 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 				offset += n_vstkrand
 				if len(*v.VstkRand) < 5 || len(*v.VstkRand) > 5 {
-					return fmt.Errorf("vstk-rand length %d violates SIZE (5)", len(*v.VstkRand))
+					if constraintErr := ber.CheckDecodedLength(opts, "vstk-rand", "SIZE (5)", len(*v.VstkRand)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -852,13 +974,30 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBER encodes PrepareGroupCallRes to BER format.
-func (v *PrepareGroupCallRes) MarshalBER() ([]byte, error) {
+func (v *PrepareGroupCallRes) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PrepareGroupCallRes receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *PrepareGroupCallRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.GroupCallNumber) < 1 || len(v.GroupCallNumber) > 9 {
-		return nil, fmt.Errorf("groupCallNumber length %d violates SIZE (1..9)", len(v.GroupCallNumber))
+		if constraintErr := ber.CheckEncodedLength(opts, "groupCallNumber", "SIZE (1..9)", len(v.GroupCallNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.GroupCallNumber) < 1 || len(v.GroupCallNumber) > 20 {
-		return nil, fmt.Errorf("groupCallNumber length %d violates SIZE (1..20)", len(v.GroupCallNumber))
+		if constraintErr := ber.CheckEncodedLength(opts, "groupCallNumber", "SIZE (1..20)", len(v.GroupCallNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_groupcallnumber, encodeErr_enc_groupcallnumber := ber.EncodeOctetString([]byte(v.GroupCallNumber))
 	if encodeErr_enc_groupcallnumber != nil {
@@ -866,7 +1005,7 @@ func (v *PrepareGroupCallRes) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_groupcallnumber...)
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -887,12 +1026,19 @@ func (v *PrepareGroupCallRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PrepareGroupCallRes to DER format.
 func (v *PrepareGroupCallRes) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PrepareGroupCallRes receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.GroupCallNumber) < 1 || len(v.GroupCallNumber) > 9 {
-		return nil, fmt.Errorf("groupCallNumber length %d violates SIZE (1..9)", len(v.GroupCallNumber))
+		if constraintErr := ber.CheckEncodedLength(nil, "groupCallNumber", "SIZE (1..9)", len(v.GroupCallNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.GroupCallNumber) < 1 || len(v.GroupCallNumber) > 20 {
-		return nil, fmt.Errorf("groupCallNumber length %d violates SIZE (1..20)", len(v.GroupCallNumber))
+		if constraintErr := ber.CheckEncodedLength(nil, "groupCallNumber", "SIZE (1..20)", len(v.GroupCallNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_groupcallnumber, encodeErr_enc_groupcallnumber := ber.EncodeOctetString([]byte(v.GroupCallNumber))
 	if encodeErr_enc_groupcallnumber != nil {
@@ -923,11 +1069,27 @@ func (v *PrepareGroupCallRes) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes PrepareGroupCallRes from BER/DER format.
-func (v *PrepareGroupCallRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *PrepareGroupCallRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: PrepareGroupCallRes destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PrepareGroupCallRes{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding PrepareGroupCallRes SEQUENCE: %w", err)
@@ -952,10 +1114,14 @@ func (v *PrepareGroupCallRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 	offset += n
 	if len(v.GroupCallNumber) < 1 || len(v.GroupCallNumber) > 9 {
-		return fmt.Errorf("groupCallNumber length %d violates SIZE (1..9)", len(v.GroupCallNumber))
+		if constraintErr := ber.CheckDecodedLength(opts, "groupCallNumber", "SIZE (1..9)", len(v.GroupCallNumber)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	if len(v.GroupCallNumber) < 1 || len(v.GroupCallNumber) > 20 {
-		return fmt.Errorf("groupCallNumber length %d violates SIZE (1..20)", len(v.GroupCallNumber))
+		if constraintErr := ber.CheckDecodedLength(opts, "groupCallNumber", "SIZE (1..20)", len(v.GroupCallNumber)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode extensionContainer
 	if offset < len(content) {
@@ -974,7 +1140,7 @@ func (v *PrepareGroupCallRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -1015,11 +1181,26 @@ func (v *PrepareGroupCallRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBER encodes SendGroupCallEndSignalArg to BER format.
-func (v *SendGroupCallEndSignalArg) MarshalBER() ([]byte, error) {
+func (v *SendGroupCallEndSignalArg) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SendGroupCallEndSignalArg receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SendGroupCallEndSignalArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -1028,7 +1209,7 @@ func (v *SendGroupCallEndSignalArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -1045,9 +1226,11 @@ func (v *SendGroupCallEndSignalArg) MarshalBER() ([]byte, error) {
 	}
 	if v.AdditionalInfo != nil {
 		if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
-			return nil, fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "additionalInfo", "SIZE (1..136)", (*v.AdditionalInfo).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1077,10 +1260,15 @@ func (v *SendGroupCallEndSignalArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SendGroupCallEndSignalArg to DER format.
 func (v *SendGroupCallEndSignalArg) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SendGroupCallEndSignalArg receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -1106,9 +1294,11 @@ func (v *SendGroupCallEndSignalArg) MarshalDER() ([]byte, error) {
 	}
 	if v.AdditionalInfo != nil {
 		if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
-			return nil, fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "additionalInfo", "SIZE (1..136)", (*v.AdditionalInfo).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1140,11 +1330,27 @@ func (v *SendGroupCallEndSignalArg) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SendGroupCallEndSignalArg from BER/DER format.
-func (v *SendGroupCallEndSignalArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SendGroupCallEndSignalArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SendGroupCallEndSignalArg destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SendGroupCallEndSignalArg{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SendGroupCallEndSignalArg SEQUENCE: %w", err)
@@ -1171,7 +1377,9 @@ func (v *SendGroupCallEndSignalArg) UnmarshalBER(data []byte, opts ...ber.Decode
 
 				offset += n
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+					if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1193,7 +1401,7 @@ func (v *SendGroupCallEndSignalArg) UnmarshalBER(data []byte, opts ...ber.Decode
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -1263,7 +1471,9 @@ func (v *SendGroupCallEndSignalArg) UnmarshalBER(data []byte, opts ...ber.Decode
 
 				offset += n_additionalinfo
 				if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
-					return fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "additionalInfo", "SIZE (1..136)", (*v.AdditionalInfo).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1295,10 +1505,23 @@ func (v *SendGroupCallEndSignalArg) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes SendGroupCallEndSignalRes to BER format.
-func (v *SendGroupCallEndSignalRes) MarshalBER() ([]byte, error) {
+func (v *SendGroupCallEndSignalRes) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SendGroupCallEndSignalRes receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SendGroupCallEndSignalRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -1319,6 +1542,9 @@ func (v *SendGroupCallEndSignalRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SendGroupCallEndSignalRes to DER format.
 func (v *SendGroupCallEndSignalRes) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SendGroupCallEndSignalRes receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
@@ -1344,11 +1570,27 @@ func (v *SendGroupCallEndSignalRes) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SendGroupCallEndSignalRes from BER/DER format.
-func (v *SendGroupCallEndSignalRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SendGroupCallEndSignalRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SendGroupCallEndSignalRes destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SendGroupCallEndSignalRes{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SendGroupCallEndSignalRes SEQUENCE: %w", err)
@@ -1374,7 +1616,7 @@ func (v *SendGroupCallEndSignalRes) UnmarshalBER(data []byte, opts ...ber.Decode
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -1415,11 +1657,26 @@ func (v *SendGroupCallEndSignalRes) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes ForwardGroupCallSignallingArg to BER format.
-func (v *ForwardGroupCallSignallingArg) MarshalBER() ([]byte, error) {
+func (v *ForwardGroupCallSignallingArg) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ForwardGroupCallSignallingArg receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ForwardGroupCallSignallingArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -1473,14 +1730,14 @@ func (v *ForwardGroupCallSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_uplinkreleasecommand...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.StateAttributes != nil {
-		enc_stateattributes, err := v.StateAttributes.MarshalBER()
+		enc_stateattributes, err := v.StateAttributes.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding stateAttributes: %w", err)
 		}
@@ -1502,9 +1759,11 @@ func (v *ForwardGroupCallSignallingArg) MarshalBER() ([]byte, error) {
 	}
 	if v.AdditionalInfo != nil {
 		if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
-			return nil, fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "additionalInfo", "SIZE (1..136)", (*v.AdditionalInfo).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1530,7 +1789,9 @@ func (v *ForwardGroupCallSignallingArg) MarshalBER() ([]byte, error) {
 	}
 	if v.SmRPUI != nil {
 		if len(*v.SmRPUI) < 1 || len(*v.SmRPUI) > 200 {
-			return nil, fmt.Errorf("sm-RP-UI length %d violates SIZE (1..200)", len(*v.SmRPUI))
+			if constraintErr := ber.CheckEncodedLength(opts, "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_smrpui, encodeErr_enc_smrpui := ber.EncodeOctetString([]byte(*v.SmRPUI))
 		if encodeErr_enc_smrpui != nil {
@@ -1544,7 +1805,7 @@ func (v *ForwardGroupCallSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_smrpui...)
 	}
 	if v.AnAPDU != nil {
-		enc_anapdu, err := v.AnAPDU.MarshalBER()
+		enc_anapdu, err := v.AnAPDU.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding an-APDU: %w", err)
 		}
@@ -1570,10 +1831,15 @@ func (v *ForwardGroupCallSignallingArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ForwardGroupCallSignallingArg to DER format.
 func (v *ForwardGroupCallSignallingArg) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ForwardGroupCallSignallingArg receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -1656,9 +1922,11 @@ func (v *ForwardGroupCallSignallingArg) MarshalDER() ([]byte, error) {
 	}
 	if v.AdditionalInfo != nil {
 		if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
-			return nil, fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "additionalInfo", "SIZE (1..136)", (*v.AdditionalInfo).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1684,7 +1952,9 @@ func (v *ForwardGroupCallSignallingArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SmRPUI != nil {
 		if len(*v.SmRPUI) < 1 || len(*v.SmRPUI) > 200 {
-			return nil, fmt.Errorf("sm-RP-UI length %d violates SIZE (1..200)", len(*v.SmRPUI))
+			if constraintErr := ber.CheckEncodedLength(nil, "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_smrpui, encodeErr_enc_smrpui := ber.EncodeOctetString([]byte(*v.SmRPUI))
 		if encodeErr_enc_smrpui != nil {
@@ -1726,11 +1996,27 @@ func (v *ForwardGroupCallSignallingArg) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ForwardGroupCallSignallingArg from BER/DER format.
-func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ForwardGroupCallSignallingArg destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ForwardGroupCallSignallingArg{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ForwardGroupCallSignallingArg SEQUENCE: %w", err)
@@ -1757,7 +2043,9 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.De
 
 				offset += n
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+					if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1905,7 +2193,7 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.De
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -1935,7 +2223,7 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.De
 					return fmt.Errorf("decoding stateAttributes: %w", reconstructionErr_stateattributes)
 				}
 				var dec_stateattributes StateAttributes
-				if unmErr := dec_stateattributes.UnmarshalBER(reconstructed_stateattributes, opts...); unmErr != nil {
+				if unmErr := dec_stateattributes.UnmarshalBER(reconstructed_stateattributes, ber.ChildDecodeOptions(opts, "stateattributes")...); unmErr != nil {
 					return fmt.Errorf("decoding stateAttributes: %w", unmErr)
 				}
 				v.StateAttributes = &dec_stateattributes
@@ -2004,7 +2292,9 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.De
 
 				offset += n_additionalinfo
 				if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
-					return fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "additionalInfo", "SIZE (1..136)", (*v.AdditionalInfo).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -2056,7 +2346,9 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.De
 
 				offset += n_smrpui
 				if len(*v.SmRPUI) < 1 || len(*v.SmRPUI) > 200 {
-					return fmt.Errorf("sm-RP-UI length %d violates SIZE (1..200)", len(*v.SmRPUI))
+					if constraintErr := ber.CheckDecodedLength(opts, "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -2078,7 +2370,7 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.De
 					return fmt.Errorf("decoding an-APDU: %w", reconstructionErr_anapdu)
 				}
 				var dec_anapdu AccessNetworkSignalInfo
-				if unmErr := dec_anapdu.UnmarshalBER(reconstructed_anapdu, opts...); unmErr != nil {
+				if unmErr := dec_anapdu.UnmarshalBER(reconstructed_anapdu, ber.ChildDecodeOptions(opts, "anapdu")...); unmErr != nil {
 					return fmt.Errorf("decoding an-APDU: %w", unmErr)
 				}
 				v.AnAPDU = &dec_anapdu
@@ -2118,7 +2410,20 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.De
 }
 
 // MarshalBER encodes ProcessGroupCallSignallingArg to BER format.
-func (v *ProcessGroupCallSignallingArg) MarshalBER() ([]byte, error) {
+func (v *ProcessGroupCallSignallingArg) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProcessGroupCallSignallingArg receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ProcessGroupCallSignallingArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.UplinkRequest != nil {
 		enc_uplinkrequest := ber.EncodeNull()
@@ -2148,7 +2453,7 @@ func (v *ProcessGroupCallSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_releasegroupcall...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -2165,9 +2470,11 @@ func (v *ProcessGroupCallSignallingArg) MarshalBER() ([]byte, error) {
 	}
 	if v.AdditionalInfo != nil {
 		if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
-			return nil, fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "additionalInfo", "SIZE (1..136)", (*v.AdditionalInfo).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2192,7 +2499,7 @@ func (v *ProcessGroupCallSignallingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_emergencymoderesetcommandflag...)
 	}
 	if v.AnAPDU != nil {
-		enc_anapdu, err := v.AnAPDU.MarshalBER()
+		enc_anapdu, err := v.AnAPDU.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding an-APDU: %w", err)
 		}
@@ -2218,6 +2525,9 @@ func (v *ProcessGroupCallSignallingArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ProcessGroupCallSignallingArg to DER format.
 func (v *ProcessGroupCallSignallingArg) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProcessGroupCallSignallingArg receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.UplinkRequest != nil {
 		enc_uplinkrequest := ber.EncodeNull()
@@ -2264,9 +2574,11 @@ func (v *ProcessGroupCallSignallingArg) MarshalDER() ([]byte, error) {
 	}
 	if v.AdditionalInfo != nil {
 		if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
-			return nil, fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "additionalInfo", "SIZE (1..136)", (*v.AdditionalInfo).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2319,11 +2631,27 @@ func (v *ProcessGroupCallSignallingArg) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ProcessGroupCallSignallingArg from BER/DER format.
-func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ProcessGroupCallSignallingArg destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ProcessGroupCallSignallingArg{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ProcessGroupCallSignallingArg SEQUENCE: %w", err)
@@ -2424,7 +2752,7 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.De
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -2493,7 +2821,9 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.De
 
 				offset += n_additionalinfo
 				if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
-					return fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "additionalInfo", "SIZE (1..136)", (*v.AdditionalInfo).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -2541,7 +2871,7 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.De
 					return fmt.Errorf("decoding an-APDU: %w", reconstructionErr_anapdu)
 				}
 				var dec_anapdu AccessNetworkSignalInfo
-				if unmErr := dec_anapdu.UnmarshalBER(reconstructed_anapdu, opts...); unmErr != nil {
+				if unmErr := dec_anapdu.UnmarshalBER(reconstructed_anapdu, ber.ChildDecodeOptions(opts, "anapdu")...); unmErr != nil {
 					return fmt.Errorf("decoding an-APDU: %w", unmErr)
 				}
 				v.AnAPDU = &dec_anapdu
@@ -2581,7 +2911,20 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.De
 }
 
 // MarshalBER encodes StateAttributes to BER format.
-func (v *StateAttributes) MarshalBER() ([]byte, error) {
+func (v *StateAttributes) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: StateAttributes receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *StateAttributes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.DownlinkAttached != nil {
 		enc_downlinkattached := ber.EncodeNull()
@@ -2624,6 +2967,9 @@ func (v *StateAttributes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes StateAttributes to DER format.
 func (v *StateAttributes) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: StateAttributes receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.DownlinkAttached != nil {
 		enc_downlinkattached := ber.EncodeNull()
@@ -2672,11 +3018,27 @@ func (v *StateAttributes) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes StateAttributes from BER/DER format.
-func (v *StateAttributes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *StateAttributes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: StateAttributes destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = StateAttributes{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding StateAttributes SEQUENCE: %w", err)
@@ -2796,12 +3158,27 @@ func (v *StateAttributes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 }
 
 // MarshalBER encodes SendGroupCallInfoArg to BER format.
-func (v *SendGroupCallInfoArg) MarshalBER() ([]byte, error) {
+func (v *SendGroupCallInfoArg) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SendGroupCallInfoArg receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SendGroupCallInfoArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_requestedinfo := ber.EncodeEnumerated(int64(v.RequestedInfo))
 	children = append(children, enc_requestedinfo...)
 	if len(v.GroupId) < 4 || len(v.GroupId) > 4 {
-		return nil, fmt.Errorf("groupId length %d violates SIZE (4)", len(v.GroupId))
+		if constraintErr := ber.CheckEncodedLength(opts, "groupId", "SIZE (4)", len(v.GroupId)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_groupid, encodeErr_enc_groupid := ber.EncodeOctetString([]byte(v.GroupId))
 	if encodeErr_enc_groupid != nil {
@@ -2809,7 +3186,9 @@ func (v *SendGroupCallInfoArg) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_groupid...)
 	if len(v.Teleservice) < 1 || len(v.Teleservice) > 5 {
-		return nil, fmt.Errorf("teleservice length %d violates SIZE (1..5)", len(v.Teleservice))
+		if constraintErr := ber.CheckEncodedLength(opts, "teleservice", "SIZE (1..5)", len(v.Teleservice)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_teleservice, encodeErr_enc_teleservice := ber.EncodeOctetString([]byte(v.Teleservice))
 	if encodeErr_enc_teleservice != nil {
@@ -2818,7 +3197,9 @@ func (v *SendGroupCallInfoArg) MarshalBER() ([]byte, error) {
 	children = append(children, enc_teleservice...)
 	if v.CellId != nil {
 		if len(*v.CellId) < 5 || len(*v.CellId) > 7 {
-			return nil, fmt.Errorf("cellId length %d violates SIZE (5..7)", len(*v.CellId))
+			if constraintErr := ber.CheckEncodedLength(opts, "cellId", "SIZE (5..7)", len(*v.CellId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_cellid, encodeErr_enc_cellid := ber.EncodeOctetString([]byte(*v.CellId))
 		if encodeErr_enc_cellid != nil {
@@ -2833,7 +3214,9 @@ func (v *SendGroupCallInfoArg) MarshalBER() ([]byte, error) {
 	}
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -2848,7 +3231,9 @@ func (v *SendGroupCallInfoArg) MarshalBER() ([]byte, error) {
 	}
 	if v.Tmsi != nil {
 		if len(*v.Tmsi) < 1 || len(*v.Tmsi) > 4 {
-			return nil, fmt.Errorf("tmsi length %d violates SIZE (1..4)", len(*v.Tmsi))
+			if constraintErr := ber.CheckEncodedLength(opts, "tmsi", "SIZE (1..4)", len(*v.Tmsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_tmsi, encodeErr_enc_tmsi := ber.EncodeOctetString([]byte(*v.Tmsi))
 		if encodeErr_enc_tmsi != nil {
@@ -2863,9 +3248,11 @@ func (v *SendGroupCallInfoArg) MarshalBER() ([]byte, error) {
 	}
 	if v.AdditionalInfo != nil {
 		if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
-			return nil, fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "additionalInfo", "SIZE (1..136)", (*v.AdditionalInfo).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2891,7 +3278,9 @@ func (v *SendGroupCallInfoArg) MarshalBER() ([]byte, error) {
 	}
 	if v.Cksn != nil {
 		if len(*v.Cksn) < 1 || len(*v.Cksn) > 1 {
-			return nil, fmt.Errorf("cksn length %d violates SIZE (1)", len(*v.Cksn))
+			if constraintErr := ber.CheckEncodedLength(opts, "cksn", "SIZE (1)", len(*v.Cksn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_cksn, encodeErr_enc_cksn := ber.EncodeOctetString([]byte(*v.Cksn))
 		if encodeErr_enc_cksn != nil {
@@ -2905,7 +3294,7 @@ func (v *SendGroupCallInfoArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_cksn...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -2931,11 +3320,16 @@ func (v *SendGroupCallInfoArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SendGroupCallInfoArg to DER format.
 func (v *SendGroupCallInfoArg) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SendGroupCallInfoArg receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_requestedinfo := ber.EncodeEnumerated(int64(v.RequestedInfo))
 	children = append(children, enc_requestedinfo...)
 	if len(v.GroupId) < 4 || len(v.GroupId) > 4 {
-		return nil, fmt.Errorf("groupId length %d violates SIZE (4)", len(v.GroupId))
+		if constraintErr := ber.CheckEncodedLength(nil, "groupId", "SIZE (4)", len(v.GroupId)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_groupid, encodeErr_enc_groupid := ber.EncodeOctetString([]byte(v.GroupId))
 	if encodeErr_enc_groupid != nil {
@@ -2943,7 +3337,9 @@ func (v *SendGroupCallInfoArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_groupid...)
 	if len(v.Teleservice) < 1 || len(v.Teleservice) > 5 {
-		return nil, fmt.Errorf("teleservice length %d violates SIZE (1..5)", len(v.Teleservice))
+		if constraintErr := ber.CheckEncodedLength(nil, "teleservice", "SIZE (1..5)", len(v.Teleservice)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_teleservice, encodeErr_enc_teleservice := ber.EncodeOctetString([]byte(v.Teleservice))
 	if encodeErr_enc_teleservice != nil {
@@ -2952,7 +3348,9 @@ func (v *SendGroupCallInfoArg) MarshalDER() ([]byte, error) {
 	children = append(children, enc_teleservice...)
 	if v.CellId != nil {
 		if len(*v.CellId) < 5 || len(*v.CellId) > 7 {
-			return nil, fmt.Errorf("cellId length %d violates SIZE (5..7)", len(*v.CellId))
+			if constraintErr := ber.CheckEncodedLength(nil, "cellId", "SIZE (5..7)", len(*v.CellId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_cellid, encodeErr_enc_cellid := ber.EncodeOctetString([]byte(*v.CellId))
 		if encodeErr_enc_cellid != nil {
@@ -2967,7 +3365,9 @@ func (v *SendGroupCallInfoArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -2982,7 +3382,9 @@ func (v *SendGroupCallInfoArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Tmsi != nil {
 		if len(*v.Tmsi) < 1 || len(*v.Tmsi) > 4 {
-			return nil, fmt.Errorf("tmsi length %d violates SIZE (1..4)", len(*v.Tmsi))
+			if constraintErr := ber.CheckEncodedLength(nil, "tmsi", "SIZE (1..4)", len(*v.Tmsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_tmsi, encodeErr_enc_tmsi := ber.EncodeOctetString([]byte(*v.Tmsi))
 		if encodeErr_enc_tmsi != nil {
@@ -2997,9 +3399,11 @@ func (v *SendGroupCallInfoArg) MarshalDER() ([]byte, error) {
 	}
 	if v.AdditionalInfo != nil {
 		if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
-			return nil, fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "additionalInfo", "SIZE (1..136)", (*v.AdditionalInfo).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3025,7 +3429,9 @@ func (v *SendGroupCallInfoArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Cksn != nil {
 		if len(*v.Cksn) < 1 || len(*v.Cksn) > 1 {
-			return nil, fmt.Errorf("cksn length %d violates SIZE (1)", len(*v.Cksn))
+			if constraintErr := ber.CheckEncodedLength(nil, "cksn", "SIZE (1)", len(*v.Cksn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_cksn, encodeErr_enc_cksn := ber.EncodeOctetString([]byte(*v.Cksn))
 		if encodeErr_enc_cksn != nil {
@@ -3067,11 +3473,27 @@ func (v *SendGroupCallInfoArg) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SendGroupCallInfoArg from BER/DER format.
-func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SendGroupCallInfoArg destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SendGroupCallInfoArg{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SendGroupCallInfoArg SEQUENCE: %w", err)
@@ -3111,7 +3533,9 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 	offset += n
 	if len(v.GroupId) < 4 || len(v.GroupId) > 4 {
-		return fmt.Errorf("groupId length %d violates SIZE (4)", len(v.GroupId))
+		if constraintErr := ber.CheckDecodedLength(opts, "groupId", "SIZE (4)", len(v.GroupId)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode teleservice
 	if offset >= len(content) {
@@ -3129,7 +3553,9 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 	offset += n
 	if len(v.Teleservice) < 1 || len(v.Teleservice) > 5 {
-		return fmt.Errorf("teleservice length %d violates SIZE (1..5)", len(v.Teleservice))
+		if constraintErr := ber.CheckDecodedLength(opts, "teleservice", "SIZE (1..5)", len(v.Teleservice)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode cellId
 	if offset < len(content) {
@@ -3152,7 +3578,9 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 				offset += n_cellid
 				if len(*v.CellId) < 5 || len(*v.CellId) > 7 {
-					return fmt.Errorf("cellId length %d violates SIZE (5..7)", len(*v.CellId))
+					if constraintErr := ber.CheckDecodedLength(opts, "cellId", "SIZE (5..7)", len(*v.CellId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3178,7 +3606,9 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 				offset += n_imsi
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+					if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3204,7 +3634,9 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 				offset += n_tmsi
 				if len(*v.Tmsi) < 1 || len(*v.Tmsi) > 4 {
-					return fmt.Errorf("tmsi length %d violates SIZE (1..4)", len(*v.Tmsi))
+					if constraintErr := ber.CheckDecodedLength(opts, "tmsi", "SIZE (1..4)", len(*v.Tmsi)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3238,7 +3670,9 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 				offset += n_additionalinfo
 				if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
-					return fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "additionalInfo", "SIZE (1..136)", (*v.AdditionalInfo).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3291,7 +3725,9 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 				offset += n_cksn
 				if len(*v.Cksn) < 1 || len(*v.Cksn) > 1 {
-					return fmt.Errorf("cksn length %d violates SIZE (1)", len(*v.Cksn))
+					if constraintErr := ber.CheckDecodedLength(opts, "cksn", "SIZE (1)", len(*v.Cksn)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3313,7 +3749,7 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -3354,14 +3790,31 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes SendGroupCallInfoRes to BER format.
-func (v *SendGroupCallInfoRes) MarshalBER() ([]byte, error) {
+func (v *SendGroupCallInfoRes) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SendGroupCallInfoRes receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SendGroupCallInfoRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.AnchorMSCAddress != nil {
 		if len(*v.AnchorMSCAddress) < 1 || len(*v.AnchorMSCAddress) > 9 {
-			return nil, fmt.Errorf("anchorMSC-Address length %d violates SIZE (1..9)", len(*v.AnchorMSCAddress))
+			if constraintErr := ber.CheckEncodedLength(opts, "anchorMSC-Address", "SIZE (1..9)", len(*v.AnchorMSCAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.AnchorMSCAddress) < 1 || len(*v.AnchorMSCAddress) > 20 {
-			return nil, fmt.Errorf("anchorMSC-Address length %d violates SIZE (1..20)", len(*v.AnchorMSCAddress))
+			if constraintErr := ber.CheckEncodedLength(opts, "anchorMSC-Address", "SIZE (1..20)", len(*v.AnchorMSCAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_anchormscaddress, encodeErr_enc_anchormscaddress := ber.EncodeOctetString([]byte(*v.AnchorMSCAddress))
 		if encodeErr_enc_anchormscaddress != nil {
@@ -3376,7 +3829,9 @@ func (v *SendGroupCallInfoRes) MarshalBER() ([]byte, error) {
 	}
 	if v.AsciCallReference != nil {
 		if len(*v.AsciCallReference) < 1 || len(*v.AsciCallReference) > 8 {
-			return nil, fmt.Errorf("asciCallReference length %d violates SIZE (1..8)", len(*v.AsciCallReference))
+			if constraintErr := ber.CheckEncodedLength(opts, "asciCallReference", "SIZE (1..8)", len(*v.AsciCallReference)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_ascicallreference, encodeErr_enc_ascicallreference := ber.EncodeOctetString([]byte(*v.AsciCallReference))
 		if encodeErr_enc_ascicallreference != nil {
@@ -3391,7 +3846,9 @@ func (v *SendGroupCallInfoRes) MarshalBER() ([]byte, error) {
 	}
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -3406,9 +3863,11 @@ func (v *SendGroupCallInfoRes) MarshalBER() ([]byte, error) {
 	}
 	if v.AdditionalInfo != nil {
 		if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
-			return nil, fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "additionalInfo", "SIZE (1..136)", (*v.AdditionalInfo).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3425,9 +3884,11 @@ func (v *SendGroupCallInfoRes) MarshalBER() ([]byte, error) {
 	}
 	if v.AdditionalSubscriptions != nil {
 		if (*v.AdditionalSubscriptions).BitLength < 3 || (*v.AdditionalSubscriptions).BitLength > 8 {
-			return nil, fmt.Errorf("additionalSubscriptions length %d violates SIZE (3..8)", (*v.AdditionalSubscriptions).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "additionalSubscriptions", "SIZE (3..8)", (*v.AdditionalSubscriptions).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.AdditionalSubscriptions.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3444,7 +3905,9 @@ func (v *SendGroupCallInfoRes) MarshalBER() ([]byte, error) {
 	}
 	if v.Kc != nil {
 		if len(*v.Kc) < 8 || len(*v.Kc) > 8 {
-			return nil, fmt.Errorf("kc length %d violates SIZE (8)", len(*v.Kc))
+			if constraintErr := ber.CheckEncodedLength(opts, "kc", "SIZE (8)", len(*v.Kc)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_kc, encodeErr_enc_kc := ber.EncodeOctetString([]byte(*v.Kc))
 		if encodeErr_enc_kc != nil {
@@ -3458,7 +3921,7 @@ func (v *SendGroupCallInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_kc...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -3484,13 +3947,20 @@ func (v *SendGroupCallInfoRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SendGroupCallInfoRes to DER format.
 func (v *SendGroupCallInfoRes) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SendGroupCallInfoRes receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.AnchorMSCAddress != nil {
 		if len(*v.AnchorMSCAddress) < 1 || len(*v.AnchorMSCAddress) > 9 {
-			return nil, fmt.Errorf("anchorMSC-Address length %d violates SIZE (1..9)", len(*v.AnchorMSCAddress))
+			if constraintErr := ber.CheckEncodedLength(nil, "anchorMSC-Address", "SIZE (1..9)", len(*v.AnchorMSCAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.AnchorMSCAddress) < 1 || len(*v.AnchorMSCAddress) > 20 {
-			return nil, fmt.Errorf("anchorMSC-Address length %d violates SIZE (1..20)", len(*v.AnchorMSCAddress))
+			if constraintErr := ber.CheckEncodedLength(nil, "anchorMSC-Address", "SIZE (1..20)", len(*v.AnchorMSCAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_anchormscaddress, encodeErr_enc_anchormscaddress := ber.EncodeOctetString([]byte(*v.AnchorMSCAddress))
 		if encodeErr_enc_anchormscaddress != nil {
@@ -3505,7 +3975,9 @@ func (v *SendGroupCallInfoRes) MarshalDER() ([]byte, error) {
 	}
 	if v.AsciCallReference != nil {
 		if len(*v.AsciCallReference) < 1 || len(*v.AsciCallReference) > 8 {
-			return nil, fmt.Errorf("asciCallReference length %d violates SIZE (1..8)", len(*v.AsciCallReference))
+			if constraintErr := ber.CheckEncodedLength(nil, "asciCallReference", "SIZE (1..8)", len(*v.AsciCallReference)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_ascicallreference, encodeErr_enc_ascicallreference := ber.EncodeOctetString([]byte(*v.AsciCallReference))
 		if encodeErr_enc_ascicallreference != nil {
@@ -3520,7 +3992,9 @@ func (v *SendGroupCallInfoRes) MarshalDER() ([]byte, error) {
 	}
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -3535,9 +4009,11 @@ func (v *SendGroupCallInfoRes) MarshalDER() ([]byte, error) {
 	}
 	if v.AdditionalInfo != nil {
 		if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
-			return nil, fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "additionalInfo", "SIZE (1..136)", (*v.AdditionalInfo).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3554,9 +4030,11 @@ func (v *SendGroupCallInfoRes) MarshalDER() ([]byte, error) {
 	}
 	if v.AdditionalSubscriptions != nil {
 		if (*v.AdditionalSubscriptions).BitLength < 3 || (*v.AdditionalSubscriptions).BitLength > 8 {
-			return nil, fmt.Errorf("additionalSubscriptions length %d violates SIZE (3..8)", (*v.AdditionalSubscriptions).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "additionalSubscriptions", "SIZE (3..8)", (*v.AdditionalSubscriptions).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.AdditionalSubscriptions.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3573,7 +4051,9 @@ func (v *SendGroupCallInfoRes) MarshalDER() ([]byte, error) {
 	}
 	if v.Kc != nil {
 		if len(*v.Kc) < 8 || len(*v.Kc) > 8 {
-			return nil, fmt.Errorf("kc length %d violates SIZE (8)", len(*v.Kc))
+			if constraintErr := ber.CheckEncodedLength(nil, "kc", "SIZE (8)", len(*v.Kc)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_kc, encodeErr_enc_kc := ber.EncodeOctetString([]byte(*v.Kc))
 		if encodeErr_enc_kc != nil {
@@ -3615,11 +4095,27 @@ func (v *SendGroupCallInfoRes) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SendGroupCallInfoRes from BER/DER format.
-func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SendGroupCallInfoRes destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SendGroupCallInfoRes{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SendGroupCallInfoRes SEQUENCE: %w", err)
@@ -3650,10 +4146,14 @@ func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 				offset += n_anchormscaddress
 				if len(*v.AnchorMSCAddress) < 1 || len(*v.AnchorMSCAddress) > 9 {
-					return fmt.Errorf("anchorMSC-Address length %d violates SIZE (1..9)", len(*v.AnchorMSCAddress))
+					if constraintErr := ber.CheckDecodedLength(opts, "anchorMSC-Address", "SIZE (1..9)", len(*v.AnchorMSCAddress)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 				if len(*v.AnchorMSCAddress) < 1 || len(*v.AnchorMSCAddress) > 20 {
-					return fmt.Errorf("anchorMSC-Address length %d violates SIZE (1..20)", len(*v.AnchorMSCAddress))
+					if constraintErr := ber.CheckDecodedLength(opts, "anchorMSC-Address", "SIZE (1..20)", len(*v.AnchorMSCAddress)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3680,7 +4180,9 @@ func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 				offset += n_ascicallreference
 				if len(*v.AsciCallReference) < 1 || len(*v.AsciCallReference) > 8 {
-					return fmt.Errorf("asciCallReference length %d violates SIZE (1..8)", len(*v.AsciCallReference))
+					if constraintErr := ber.CheckDecodedLength(opts, "asciCallReference", "SIZE (1..8)", len(*v.AsciCallReference)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3706,7 +4208,9 @@ func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 				offset += n_imsi
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+					if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3740,7 +4244,9 @@ func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 				offset += n_additionalinfo
 				if (*v.AdditionalInfo).BitLength < 1 || (*v.AdditionalInfo).BitLength > 136 {
-					return fmt.Errorf("additionalInfo length %d violates SIZE (1..136)", (*v.AdditionalInfo).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "additionalInfo", "SIZE (1..136)", (*v.AdditionalInfo).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3775,7 +4281,9 @@ func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 				offset += n_additionalsubscriptions
 				if (*v.AdditionalSubscriptions).BitLength < 3 || (*v.AdditionalSubscriptions).BitLength > 8 {
-					return fmt.Errorf("additionalSubscriptions length %d violates SIZE (3..8)", (*v.AdditionalSubscriptions).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "additionalSubscriptions", "SIZE (3..8)", (*v.AdditionalSubscriptions).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3801,7 +4309,9 @@ func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 				offset += n_kc
 				if len(*v.Kc) < 8 || len(*v.Kc) > 8 {
-					return fmt.Errorf("kc length %d violates SIZE (8)", len(*v.Kc))
+					if constraintErr := ber.CheckDecodedLength(opts, "kc", "SIZE (8)", len(*v.Kc)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3823,7 +4333,7 @@ func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer

@@ -17,9 +17,11 @@ var (
 )
 
 // AddOTDOACells represents the ASN.1 type Add-OTDOACells (SEQUENCE_OF).
+
 type AddOTDOACells = []AddOTDOACellsElem
 
 // AddOTDOACellInformation represents the ASN.1 type Add-OTDOACell-Information (SEQUENCE_OF).
+
 type AddOTDOACellInformation = []OTDOACellInformationItem
 
 // AssistanceInformation represents the ASN.1 type Assistance-Information (SEQUENCE).
@@ -38,6 +40,7 @@ type AssistanceInformation struct {
 }
 
 // AssistanceInformationFailureList represents the ASN.1 type AssistanceInformationFailureList (SEQUENCE_OF).
+
 type AssistanceInformationFailureList = []AssistanceInformationFailureListElem
 
 // AssistanceInformationMetaData represents the ASN.1 type AssistanceInformationMetaData (SEQUENCE).
@@ -325,6 +328,7 @@ type CriticalityDiagnostics struct {
 }
 
 // CriticalityDiagnosticsIEList represents the ASN.1 type CriticalityDiagnostics-IE-List (SEQUENCE_OF).
+
 type CriticalityDiagnosticsIEList = []CriticalityDiagnosticsIEListElem
 
 // DLBandwidth represents the ASN.1 ENUMERATED type DL-Bandwidth.
@@ -420,6 +424,7 @@ type EUTRANAccessPointPosition struct {
 type HESSID = []byte
 
 // InterRATMeasurementQuantities represents the ASN.1 type InterRATMeasurementQuantities (SEQUENCE_OF).
+
 type InterRATMeasurementQuantities = []ProtocolIESingleContainer
 
 // InterRATMeasurementQuantitiesItem represents the ASN.1 type InterRATMeasurementQuantities-Item (SEQUENCE).
@@ -459,6 +464,7 @@ func (v InterRATMeasurementQuantitiesValue) String() string {
 }
 
 // InterRATMeasurementResult represents the ASN.1 type InterRATMeasurementResult (SEQUENCE_OF).
+
 type InterRATMeasurementResult = []InterRATMeasuredResultsValue
 
 // InterRATMeasuredResultsValue choice constants.
@@ -560,6 +566,7 @@ func (v MeasurementPeriodicity) String() string {
 }
 
 // MeasurementQuantities represents the ASN.1 type MeasurementQuantities (SEQUENCE_OF).
+
 type MeasurementQuantities = []ProtocolIESingleContainer
 
 // MeasurementQuantitiesItem represents the ASN.1 type MeasurementQuantities-Item (SEQUENCE).
@@ -608,6 +615,7 @@ func (v MeasurementQuantitiesValue) String() string {
 }
 
 // MeasuredResults represents the ASN.1 type MeasuredResults (SEQUENCE_OF).
+
 type MeasuredResults = []MeasuredResultsValue
 
 // MeasuredResultsValue choice constants.
@@ -674,6 +682,7 @@ func NewMeasuredResultsValueResultRSRQ(v ResultRSRQ) MeasuredResultsValue {
 }
 
 // MBSFNsubframeConfiguration represents the ASN.1 type MBSFNsubframeConfiguration (SEQUENCE_OF).
+
 type MBSFNsubframeConfiguration = []MBSFNsubframeConfigurationValue
 
 // MBSFNsubframeConfigurationValue represents the ASN.1 type MBSFNsubframeConfigurationValue (SEQUENCE).
@@ -976,9 +985,11 @@ func (v OperationModeInfo) String() string {
 }
 
 // OTDOACells represents the ASN.1 type OTDOACells (SEQUENCE_OF).
+
 type OTDOACells = []OTDOACellsElem
 
 // OTDOACellInformation represents the ASN.1 type OTDOACell-Information (SEQUENCE_OF).
+
 type OTDOACellInformation = []OTDOACellInformationItem
 
 // OTDOACellInformationItem choice constants.
@@ -1416,9 +1427,11 @@ type PhysCellIDUTRATDD = *big.Int
 type PLMNIdentity = []byte
 
 // PosSIBs represents the ASN.1 type PosSIBs (SEQUENCE_OF).
+
 type PosSIBs = []PosSIBsElem
 
 // PosSIBSegments represents the ASN.1 type PosSIB-Segments (SEQUENCE_OF).
+
 type PosSIBSegments = []PosSIBSegmentsElem
 
 // PosSIBType represents the ASN.1 ENUMERATED type PosSIB-Type.
@@ -1782,6 +1795,7 @@ type RequestedSRSTransmissionCharacteristics struct {
 }
 
 // ResultRSRP represents the ASN.1 type ResultRSRP (SEQUENCE_OF).
+
 type ResultRSRP = []ResultRSRPItem
 
 // ResultRSRPItem represents the ASN.1 type ResultRSRP-Item (SEQUENCE).
@@ -1802,6 +1816,7 @@ type ResultRSRPItem struct {
 }
 
 // ResultRSRQ represents the ASN.1 type ResultRSRQ (SEQUENCE_OF).
+
 type ResultRSRQ = []ResultRSRQItem
 
 // ResultRSRQItem represents the ASN.1 type ResultRSRQ-Item (SEQUENCE).
@@ -1822,6 +1837,7 @@ type ResultRSRQItem struct {
 }
 
 // ResultGERAN represents the ASN.1 type ResultGERAN (SEQUENCE_OF).
+
 type ResultGERAN = []ResultGERANItem
 
 // ResultGERANItem represents the ASN.1 type ResultGERAN-Item (SEQUENCE).
@@ -1841,6 +1857,7 @@ type ResultGERANItem struct {
 }
 
 // ResultUTRAN represents the ASN.1 type ResultUTRAN (SEQUENCE_OF).
+
 type ResultUTRAN = []ResultUTRANItem
 
 // ResultUTRANItem represents the ASN.1 type ResultUTRAN-Item (SEQUENCE).
@@ -1861,6 +1878,7 @@ type ResultUTRANItem struct {
 }
 
 // ResultNR represents the ASN.1 type ResultNR (SEQUENCE_OF).
+
 type ResultNR = []ResultNRItem
 
 // ResultNRItem represents the ASN.1 type ResultNR-Item (SEQUENCE).
@@ -1881,6 +1899,7 @@ type ResultNRItem struct {
 }
 
 // ResultsPerSSBIndexList represents the ASN.1 type ResultsPerSSB-Index-List (SEQUENCE_OF).
+
 type ResultsPerSSBIndexList = []ResultsPerSSBIndexItem
 
 // ResultsPerSSBIndexItem represents the ASN.1 type ResultsPerSSB-Index-Item (SEQUENCE).
@@ -1906,6 +1925,7 @@ type RSSI = *big.Int
 type SFNInitialisationTime = runtime.BitString
 
 // SRSConfigurationForAllCells represents the ASN.1 type SRSConfigurationForAllCells (SEQUENCE_OF).
+
 type SRSConfigurationForAllCells = []SRSConfigurationForOneCell
 
 // SRSConfigurationForOneCell represents the ASN.1 type SRSConfigurationForOneCell (SEQUENCE).
@@ -1981,6 +2001,7 @@ type SSBIndex = int64
 type SSID = []byte
 
 // SystemInformation represents the ASN.1 type SystemInformation (SEQUENCE_OF).
+
 type SystemInformation = []SystemInformationElem
 
 // TAC represents the ASN.1 type TAC (OCTET_STRING).
@@ -2072,6 +2093,7 @@ type ValueRSRP = *big.Int
 type ValueRSRQ = *big.Int
 
 // WLANMeasurementQuantities represents the ASN.1 type WLANMeasurementQuantities (SEQUENCE_OF).
+
 type WLANMeasurementQuantities = []ProtocolIESingleContainer
 
 // WLANMeasurementQuantitiesItem represents the ASN.1 type WLANMeasurementQuantities-Item (SEQUENCE).
@@ -2105,6 +2127,7 @@ func (v WLANMeasurementQuantitiesValue) String() string {
 }
 
 // WLANMeasurementResult represents the ASN.1 type WLANMeasurementResult (SEQUENCE_OF).
+
 type WLANMeasurementResult = []WLANMeasurementResultItem
 
 // WLANMeasurementResultItem represents the ASN.1 type WLANMeasurementResult-Item (SEQUENCE).
@@ -2152,6 +2175,7 @@ func (v WLANBand) String() string {
 }
 
 // WLANChannelList represents the ASN.1 type WLANChannelList (SEQUENCE_OF).
+
 type WLANChannelList = []WLANChannel
 
 // WLANChannel represents the ASN.1 type WLANChannel (INTEGER).
@@ -2279,6 +2303,7 @@ type PosSIBSegmentsElem struct {
 }
 
 // PRSFrequencyHoppingConfigurationBandPositions represents the ASN.1 type PRSFrequencyHoppingConfiguration-bandPositions (SEQUENCE_OF).
+
 type PRSFrequencyHoppingConfigurationBandPositions = []NarrowBandIndex
 
 // ResultUTRANItemPhysCellIDUTRAN choice constants.

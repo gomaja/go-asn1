@@ -345,9 +345,11 @@ type SCGConfigInfoV1530IEs struct {
 }
 
 // DRBInfoListSCGR12 represents the ASN.1 type DRB-InfoListSCG-r12 (SEQUENCE_OF).
+
 type DRBInfoListSCGR12 = []DRBInfoSCGR12
 
 // DRBInfoListSCGR15 represents the ASN.1 type DRB-InfoListSCG-r15 (SEQUENCE_OF).
+
 type DRBInfoListSCGR15 = []DRBInfoSCGR12
 
 // DRBInfoSCGR12 represents the ASN.1 type DRB-InfoSCG-r12 (SEQUENCE).
@@ -365,9 +367,11 @@ type DRBInfoSCGR12 struct {
 }
 
 // SCellToAddModListSCGR12 represents the ASN.1 type SCellToAddModListSCG-r12 (SEQUENCE_OF).
+
 type SCellToAddModListSCGR12 = []CellToAddModR12
 
 // SCellToAddModListSCGExtR13 represents the ASN.1 type SCellToAddModListSCG-Ext-r13 (SEQUENCE_OF).
+
 type SCellToAddModListSCGExtR13 = []CellToAddModR12
 
 // CellToAddModR12 represents the ASN.1 type Cell-ToAddMod-r12 (SEQUENCE).
@@ -387,9 +391,11 @@ type CellToAddModR12 struct {
 }
 
 // MeasResultServCellListSCGR12 represents the ASN.1 type MeasResultServCellListSCG-r12 (SEQUENCE_OF).
+
 type MeasResultServCellListSCGR12 = []MeasResultServCellSCGR12
 
 // MeasResultServCellListSCGExtR13 represents the ASN.1 type MeasResultServCellListSCG-Ext-r13 (SEQUENCE_OF).
+
 type MeasResultServCellListSCGExtR13 = []MeasResultServCellSCGR12
 
 // MeasResultServCellSCGR12 represents the ASN.1 type MeasResultServCellSCG-r12 (SEQUENCE).
@@ -408,6 +414,7 @@ type MeasResultServCellSCGR12 struct {
 }
 
 // MeasResultListRSSISCGR13 represents the ASN.1 type MeasResultListRSSI-SCG-r13 (SEQUENCE_OF).
+
 type MeasResultListRSSISCGR13 = []MeasResultRSSISCGR13
 
 // MeasResultRSSISCGR13 represents the ASN.1 type MeasResultRSSI-SCG-r13 (SEQUENCE).
@@ -722,6 +729,7 @@ type ReestablishmentInfo struct {
 }
 
 // AdditionalReestabInfoList represents the ASN.1 type AdditionalReestabInfoList (SEQUENCE_OF).
+
 type AdditionalReestabInfoList = []AdditionalReestabInfo
 
 // AdditionalReestabInfo represents the ASN.1 type AdditionalReestabInfo (SEQUENCE).
@@ -754,6 +762,7 @@ type RRMConfig struct {
 }
 
 // CandidateCellInfoListR10 represents the ASN.1 type CandidateCellInfoList-r10 (SEQUENCE_OF).
+
 type CandidateCellInfoListR10 = []CandidateCellInfoR10
 
 // CandidateCellInfoR10 represents the ASN.1 type CandidateCellInfo-r10 (SEQUENCE).
@@ -1791,6 +1800,7 @@ type UERadioPagingInformationCriticalExtensionsCriticalExtensionsFuture struct {
 }
 
 // UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13 represents the ASN.1 type UERadioPagingInformation-v1310-IEs-supportedBandListEUTRAForPaging-r13 (SEQUENCE_OF).
+
 type UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13 = []FreqBandIndicatorR11
 
 // UERadioPagingInformationV1610IEsNonCriticalExtension represents the ASN.1 type UERadioPagingInformation-v1610-IEs-nonCriticalExtension (SEQUENCE).

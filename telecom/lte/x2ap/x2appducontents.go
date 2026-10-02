@@ -53,6 +53,7 @@ type UEContextInformation struct {
 }
 
 // ERABsToBeSetupList represents the ASN.1 type E-RABs-ToBeSetup-List (SEQUENCE_OF).
+
 type ERABsToBeSetupList = []ProtocolIESingleContainer
 
 // ERABsToBeSetupItem represents the ASN.1 type E-RABs-ToBeSetup-Item (SEQUENCE).
@@ -138,6 +139,7 @@ type HandoverRequestAcknowledge struct {
 }
 
 // ERABsAdmittedList represents the ASN.1 type E-RABs-Admitted-List (SEQUENCE_OF).
+
 type ERABsAdmittedList = []ProtocolIESingleContainer
 
 // ERABsAdmittedItem represents the ASN.1 type E-RABs-Admitted-Item (SEQUENCE).
@@ -281,6 +283,7 @@ type SNStatusTransfer struct {
 }
 
 // ERABsSubjectToStatusTransferList represents the ASN.1 type E-RABs-SubjectToStatusTransfer-List (SEQUENCE_OF).
+
 type ERABsSubjectToStatusTransferList = []ProtocolIESingleContainer
 
 // ERABsSubjectToStatusTransferItem represents the ASN.1 type E-RABs-SubjectToStatusTransfer-Item (SEQUENCE).
@@ -444,6 +447,7 @@ type LoadInformation struct {
 }
 
 // CellInformationList represents the ASN.1 type CellInformation-List (SEQUENCE_OF).
+
 type CellInformationList = []ProtocolIESingleContainer
 
 // CellInformationItem represents the ASN.1 type CellInformation-Item (SEQUENCE).
@@ -479,6 +483,7 @@ type ENBConfigurationUpdate struct {
 }
 
 // ServedCellsToModify represents the ASN.1 type ServedCellsToModify (SEQUENCE_OF).
+
 type ServedCellsToModify = []ServedCellsToModifyItem
 
 // ServedCellsToModifyItem represents the ASN.1 type ServedCellsToModify-Item (SEQUENCE).
@@ -499,6 +504,7 @@ type ServedCellsToModifyItem struct {
 }
 
 // OldECGIs represents the ASN.1 type Old-ECGIs (SEQUENCE_OF).
+
 type OldECGIs = []ECGI
 
 // ENBConfigurationUpdateAcknowledge represents the ASN.1 type ENBConfigurationUpdateAcknowledge (SEQUENCE).
@@ -541,6 +547,7 @@ type ResourceStatusRequest struct {
 }
 
 // CellToReportList represents the ASN.1 type CellToReport-List (SEQUENCE_OF).
+
 type CellToReportList = []ProtocolIESingleContainer
 
 // CellToReportItem represents the ASN.1 type CellToReport-Item (SEQUENCE).
@@ -612,6 +619,7 @@ type ResourceStatusResponse struct {
 }
 
 // MeasurementInitiationResultList represents the ASN.1 type MeasurementInitiationResult-List (SEQUENCE_OF).
+
 type MeasurementInitiationResultList = []ProtocolIESingleContainer
 
 // MeasurementInitiationResultItem represents the ASN.1 type MeasurementInitiationResult-Item (SEQUENCE).
@@ -631,6 +639,7 @@ type MeasurementInitiationResultItem struct {
 }
 
 // MeasurementFailureCauseList represents the ASN.1 type MeasurementFailureCause-List (SEQUENCE_OF).
+
 type MeasurementFailureCauseList = []ProtocolIESingleContainer
 
 // MeasurementFailureCauseItem represents the ASN.1 type MeasurementFailureCause-Item (SEQUENCE).
@@ -662,6 +671,7 @@ type ResourceStatusFailure struct {
 }
 
 // CompleteFailureCauseInformationList represents the ASN.1 type CompleteFailureCauseInformation-List (SEQUENCE_OF).
+
 type CompleteFailureCauseInformationList = []ProtocolIESingleContainer
 
 // CompleteFailureCauseInformationItem represents the ASN.1 type CompleteFailureCauseInformation-Item (SEQUENCE).
@@ -694,6 +704,7 @@ type ResourceStatusUpdate struct {
 }
 
 // CellMeasurementResultList represents the ASN.1 type CellMeasurementResult-List (SEQUENCE_OF).
+
 type CellMeasurementResultList = []ProtocolIESingleContainer
 
 // CellMeasurementResultItem represents the ASN.1 type CellMeasurementResult-Item (SEQUENCE).
@@ -792,6 +803,7 @@ type CellActivationRequest struct {
 }
 
 // ServedCellsToActivate represents the ASN.1 type ServedCellsToActivate (SEQUENCE_OF).
+
 type ServedCellsToActivate = []ServedCellsToActivateItem
 
 // ServedCellsToActivateItem represents the ASN.1 type ServedCellsToActivate-Item (SEQUENCE).
@@ -822,6 +834,7 @@ type CellActivationResponse struct {
 }
 
 // ActivatedCellList represents the ASN.1 type ActivatedCellList (SEQUENCE_OF).
+
 type ActivatedCellList = []ActivatedCellListItem
 
 // ActivatedCellListItem represents the ASN.1 type ActivatedCellList-Item (SEQUENCE).
@@ -909,6 +922,7 @@ type SeNBAdditionRequest struct {
 }
 
 // ERABsToBeAddedList represents the ASN.1 type E-RABs-ToBeAdded-List (SEQUENCE_OF).
+
 type ERABsToBeAddedList = []ProtocolIESingleContainer
 
 // ERABsToBeAddedItem choice constants.
@@ -991,6 +1005,7 @@ type SeNBAdditionRequestAcknowledge struct {
 }
 
 // ERABsAdmittedToBeAddedList represents the ASN.1 type E-RABs-Admitted-ToBeAdded-List (SEQUENCE_OF).
+
 type ERABsAdmittedToBeAddedList = []ProtocolIESingleContainer
 
 // ERABsAdmittedToBeAddedItem choice constants.
@@ -1182,6 +1197,7 @@ type UEContextInformationSeNBModReq struct {
 }
 
 // ERABsToBeAddedListModReq represents the ASN.1 type E-RABs-ToBeAdded-List-ModReq (SEQUENCE_OF).
+
 type ERABsToBeAddedListModReq = []ProtocolIESingleContainer
 
 // ERABsToBeAddedModReqItem choice constants.
@@ -1251,6 +1267,7 @@ type ERABsToBeAddedModReqItemSplitBearer struct {
 }
 
 // ERABsToBeModifiedListModReq represents the ASN.1 type E-RABs-ToBeModified-List-ModReq (SEQUENCE_OF).
+
 type ERABsToBeModifiedListModReq = []ProtocolIESingleContainer
 
 // ERABsToBeModifiedModReqItem choice constants.
@@ -1319,6 +1336,7 @@ type ERABsToBeModifiedModReqItemSplitBearer struct {
 }
 
 // ERABsToBeReleasedListModReq represents the ASN.1 type E-RABs-ToBeReleased-List-ModReq (SEQUENCE_OF).
+
 type ERABsToBeReleasedListModReq = []ProtocolIESingleContainer
 
 // ERABsToBeReleasedModReqItem choice constants.
@@ -1399,6 +1417,7 @@ type SeNBModificationRequestAcknowledge struct {
 }
 
 // ERABsAdmittedToBeAddedModAckList represents the ASN.1 type E-RABs-Admitted-ToBeAdded-ModAckList (SEQUENCE_OF).
+
 type ERABsAdmittedToBeAddedModAckList = []ProtocolIESingleContainer
 
 // ERABsAdmittedToBeAddedModAckItem choice constants.
@@ -1467,6 +1486,7 @@ type ERABsAdmittedToBeAddedModAckItemSplitBearer struct {
 }
 
 // ERABsAdmittedToBeModifiedModAckList represents the ASN.1 type E-RABs-Admitted-ToBeModified-ModAckList (SEQUENCE_OF).
+
 type ERABsAdmittedToBeModifiedModAckList = []ProtocolIESingleContainer
 
 // ERABsAdmittedToBeModifiedModAckItem choice constants.
@@ -1533,6 +1553,7 @@ type ERABsAdmittedToBeModifiedModAckItemSplitBearer struct {
 }
 
 // ERABsAdmittedToBeReleasedModAckList represents the ASN.1 type E-RABs-Admitted-ToBeReleased-ModAckList (SEQUENCE_OF).
+
 type ERABsAdmittedToBeReleasedModAckList = []ProtocolIESingleContainer
 
 // ERABsAdmittedToReleasedModAckItem choice constants.
@@ -1623,6 +1644,7 @@ type SeNBModificationRequired struct {
 }
 
 // ERABsToBeReleasedModReqd represents the ASN.1 type E-RABs-ToBeReleased-ModReqd (SEQUENCE_OF).
+
 type ERABsToBeReleasedModReqd = []ProtocolIESingleContainer
 
 // ERABsToBeReleasedModReqdItem represents the ASN.1 type E-RABs-ToBeReleased-ModReqdItem (SEQUENCE).
@@ -1680,6 +1702,7 @@ type SeNBReleaseRequest struct {
 }
 
 // ERABsToBeReleasedListRelReq represents the ASN.1 type E-RABs-ToBeReleased-List-RelReq (SEQUENCE_OF).
+
 type ERABsToBeReleasedListRelReq = []ProtocolIESingleContainer
 
 // ERABsToBeReleasedRelReqItem choice constants.
@@ -1773,6 +1796,7 @@ type SeNBReleaseConfirm struct {
 }
 
 // ERABsToBeReleasedListRelConf represents the ASN.1 type E-RABs-ToBeReleased-List-RelConf (SEQUENCE_OF).
+
 type ERABsToBeReleasedListRelConf = []ProtocolIESingleContainer
 
 // ERABsToBeReleasedRelConfItem choice constants.
@@ -1853,6 +1877,7 @@ type SeNBCounterCheckRequest struct {
 }
 
 // ERABsSubjectToCounterCheckList represents the ASN.1 type E-RABs-SubjectToCounterCheck-List (SEQUENCE_OF).
+
 type ERABsSubjectToCounterCheckList = []ProtocolIESingleContainer
 
 // ERABsSubjectToCounterCheckItem represents the ASN.1 type E-RABs-SubjectToCounterCheckItem (SEQUENCE).
@@ -1963,6 +1988,7 @@ type UEContextInformationRetrieve struct {
 }
 
 // ERABsToBeSetupListRetrieve represents the ASN.1 type E-RABs-ToBeSetup-ListRetrieve (SEQUENCE_OF).
+
 type ERABsToBeSetupListRetrieve = []ProtocolIESingleContainer
 
 // ERABsToBeSetupRetrieveItem represents the ASN.1 type E-RABs-ToBeSetupRetrieve-Item (SEQUENCE).
@@ -2008,6 +2034,7 @@ type SgNBAdditionRequest struct {
 }
 
 // ERABsToBeAddedSgNBAddReqList represents the ASN.1 type E-RABs-ToBeAdded-SgNBAddReqList (SEQUENCE_OF).
+
 type ERABsToBeAddedSgNBAddReqList = []ProtocolIESingleContainer
 
 // ERABsToBeAddedSgNBAddReqItem represents the ASN.1 type E-RABs-ToBeAdded-SgNBAddReq-Item (SEQUENCE).
@@ -2077,6 +2104,7 @@ type SgNBAdditionRequestAcknowledge struct {
 }
 
 // ERABsAdmittedToBeAddedSgNBAddReqAckList represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBAddReqAckList (SEQUENCE_OF).
+
 type ERABsAdmittedToBeAddedSgNBAddReqAckList = []ProtocolIESingleContainer
 
 // ERABsAdmittedToBeAddedSgNBAddReqAckItem represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item (SEQUENCE).
@@ -2253,6 +2281,7 @@ type UEContextInformationSgNBModReq struct {
 }
 
 // ERABsToBeAddedSgNBModReqList represents the ASN.1 type E-RABs-ToBeAdded-SgNBModReq-List (SEQUENCE_OF).
+
 type ERABsToBeAddedSgNBModReqList = []ProtocolIESingleContainer
 
 // ERABsToBeAddedSgNBModReqItem represents the ASN.1 type E-RABs-ToBeAdded-SgNBModReq-Item (SEQUENCE).
@@ -2309,6 +2338,7 @@ type ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent struct {
 }
 
 // ERABsToBeModifiedSgNBModReqList represents the ASN.1 type E-RABs-ToBeModified-SgNBModReq-List (SEQUENCE_OF).
+
 type ERABsToBeModifiedSgNBModReqList = []ProtocolIESingleContainer
 
 // ERABsToBeModifiedSgNBModReqItem represents the ASN.1 type E-RABs-ToBeModified-SgNBModReq-Item (SEQUENCE).
@@ -2361,6 +2391,7 @@ type ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent struct {
 }
 
 // ERABsToBeReleasedSgNBModReqList represents the ASN.1 type E-RABs-ToBeReleased-SgNBModReq-List (SEQUENCE_OF).
+
 type ERABsToBeReleasedSgNBModReqList = []ProtocolIESingleContainer
 
 // ERABsToBeReleasedSgNBModReqItem represents the ASN.1 type E-RABs-ToBeReleased-SgNBModReq-Item (SEQUENCE).
@@ -2421,6 +2452,7 @@ type SgNBModificationRequestAcknowledge struct {
 }
 
 // ERABsAdmittedToBeAddedSgNBModAckList represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBModAckList (SEQUENCE_OF).
+
 type ERABsAdmittedToBeAddedSgNBModAckList = []ProtocolIESingleContainer
 
 // ERABsAdmittedToBeAddedSgNBModAckItem represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBModAck-Item (SEQUENCE).
@@ -2475,6 +2507,7 @@ type ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent struct {
 }
 
 // ERABsAdmittedToBeModifiedSgNBModAckList represents the ASN.1 type E-RABs-Admitted-ToBeModified-SgNBModAckList (SEQUENCE_OF).
+
 type ERABsAdmittedToBeModifiedSgNBModAckList = []ProtocolIESingleContainer
 
 // ERABsAdmittedToBeModifiedSgNBModAckItem represents the ASN.1 type E-RABs-Admitted-ToBeModified-SgNBModAck-Item (SEQUENCE).
@@ -2525,6 +2558,7 @@ type ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent struct {
 }
 
 // ERABsAdmittedToBeReleasedSgNBModAckList represents the ASN.1 type E-RABs-Admitted-ToBeReleased-SgNBModAckList (SEQUENCE_OF).
+
 type ERABsAdmittedToBeReleasedSgNBModAckList = []ProtocolIESingleContainer
 
 // ERABsAdmittedToReleasedSgNBModAckItem represents the ASN.1 type E-RABs-Admitted-ToReleased-SgNBModAck-Item (SEQUENCE).
@@ -2596,6 +2630,7 @@ type SgNBModificationRequired struct {
 }
 
 // ERABsToBeReleasedSgNBModReqdList represents the ASN.1 type E-RABs-ToBeReleased-SgNBModReqdList (SEQUENCE_OF).
+
 type ERABsToBeReleasedSgNBModReqdList = []ProtocolIESingleContainer
 
 // ERABsToBeReleasedSgNBModReqdItem represents the ASN.1 type E-RABs-ToBeReleased-SgNBModReqd-Item (SEQUENCE).
@@ -2614,6 +2649,7 @@ type ERABsToBeReleasedSgNBModReqdItem struct {
 }
 
 // ERABsToBeModifiedSgNBModReqdList represents the ASN.1 type E-RABs-ToBeModified-SgNBModReqdList (SEQUENCE_OF).
+
 type ERABsToBeModifiedSgNBModReqdList = []ProtocolIESingleContainer
 
 // ERABsToBeModifiedSgNBModReqdItem represents the ASN.1 type E-RABs-ToBeModified-SgNBModReqd-Item (SEQUENCE).
@@ -2678,6 +2714,7 @@ type SgNBModificationConfirm struct {
 }
 
 // ERABsAdmittedToBeModifiedSgNBModConfList represents the ASN.1 type E-RABs-AdmittedToBeModified-SgNBModConfList (SEQUENCE_OF).
+
 type ERABsAdmittedToBeModifiedSgNBModConfList = []ProtocolIESingleContainer
 
 // ERABsAdmittedToBeModifiedSgNBModConfItem represents the ASN.1 type E-RABs-AdmittedToBeModified-SgNBModConf-Item (SEQUENCE).
@@ -2750,6 +2787,7 @@ type SgNBReleaseRequest struct {
 }
 
 // ERABsToBeReleasedSgNBRelReqList represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelReqList (SEQUENCE_OF).
+
 type ERABsToBeReleasedSgNBRelReqList = []ProtocolIESingleContainer
 
 // ERABsToBeReleasedSgNBRelReqItem represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelReq-Item (SEQUENCE).
@@ -2810,6 +2848,7 @@ type SgNBReleaseRequestAcknowledge struct {
 }
 
 // ERABsAdmittedToBeReleasedSgNBRelReqAckList represents the ASN.1 type E-RABs-Admitted-ToBeReleased-SgNBRelReqAckList (SEQUENCE_OF).
+
 type ERABsAdmittedToBeReleasedSgNBRelReqAckList = []ProtocolIESingleContainer
 
 // ERABsAdmittedToBeReleasedSgNBRelReqAckItem represents the ASN.1 type E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-Item (SEQUENCE).
@@ -2854,6 +2893,7 @@ type SgNBReleaseRequired struct {
 }
 
 // ERABsToBeReleasedSgNBRelReqdList represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelReqdList (SEQUENCE_OF).
+
 type ERABsToBeReleasedSgNBRelReqdList = []ProtocolIESingleContainer
 
 // ERABsToBeReleasedSgNBRelReqdItem represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelReqd-Item (SEQUENCE).
@@ -2885,6 +2925,7 @@ type SgNBReleaseConfirm struct {
 }
 
 // ERABsToBeReleasedSgNBRelConfList represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelConfList (SEQUENCE_OF).
+
 type ERABsToBeReleasedSgNBRelConfList = []ProtocolIESingleContainer
 
 // ERABsToBeReleasedSgNBRelConfItem represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelConf-Item (SEQUENCE).
@@ -2945,6 +2986,7 @@ type SgNBCounterCheckRequest struct {
 }
 
 // ERABsSubjectToSgNBCounterCheckList represents the ASN.1 type E-RABs-SubjectToSgNBCounterCheck-List (SEQUENCE_OF).
+
 type ERABsSubjectToSgNBCounterCheckList = []ProtocolIESingleContainer
 
 // ERABsSubjectToSgNBCounterCheckItem represents the ASN.1 type E-RABs-SubjectToSgNBCounterCheck-Item (SEQUENCE).
@@ -3003,6 +3045,7 @@ type SgNBChangeConfirm struct {
 }
 
 // ERABsToBeReleasedSgNBChaConfList represents the ASN.1 type E-RABs-ToBeReleased-SgNBChaConfList (SEQUENCE_OF).
+
 type ERABsToBeReleasedSgNBChaConfList = []ProtocolIESingleContainer
 
 // ERABsToBeReleasedSgNBChaConfItem represents the ASN.1 type E-RABs-ToBeReleased-SgNBChaConf-Item (SEQUENCE).
@@ -3122,9 +3165,11 @@ func NewInitiatingNodeTypeEndcX2SetupInitEnGNB(v ProtocolIEContainer) Initiating
 }
 
 // ServedEUTRAcellsENDCX2ManagementList represents the ASN.1 type ServedEUTRAcellsENDCX2ManagementList (SEQUENCE_OF).
+
 type ServedEUTRAcellsENDCX2ManagementList = []ServedEUTRAcellsENDCX2ManagementListElem
 
 // ServedNRcellsENDCX2ManagementList represents the ASN.1 type ServedNRcellsENDCX2ManagementList (SEQUENCE_OF).
+
 type ServedNRcellsENDCX2ManagementList = []ServedNRcellsENDCX2ManagementListElem
 
 // ServedNRCellInformation represents the ASN.1 type ServedNRCell-Information (SEQUENCE).
@@ -3229,6 +3274,7 @@ func NewCellAssistanceInformationFullList(v int64) CellAssistanceInformation {
 }
 
 // LimitedList represents the ASN.1 type Limited-list (SEQUENCE_OF).
+
 type LimitedList = []LimitedListElem
 
 // ENDCX2SetupResponse represents the ASN.1 type ENDCX2SetupResponse (SEQUENCE).
@@ -3337,12 +3383,15 @@ func NewInitiatingNodeTypeEndcConfigUpdateInitEnGNB(v ProtocolIEContainer) Initi
 }
 
 // ServedEUTRAcellsToModifyListENDCConfUpd represents the ASN.1 type ServedEUTRAcellsToModifyListENDCConfUpd (SEQUENCE_OF).
+
 type ServedEUTRAcellsToModifyListENDCConfUpd = []ServedEUTRAcellsToModifyListENDCConfUpdElem
 
 // ServedEUTRAcellsToDeleteListENDCConfUpd represents the ASN.1 type ServedEUTRAcellsToDeleteListENDCConfUpd (SEQUENCE_OF).
+
 type ServedEUTRAcellsToDeleteListENDCConfUpd = []ECGI
 
 // ServedNRcellsToModifyENDCConfUpdList represents the ASN.1 type ServedNRcellsToModifyENDCConfUpdList (SEQUENCE_OF).
+
 type ServedNRcellsToModifyENDCConfUpdList = []ServedNRCellsToModifyItem
 
 // ServedNRCellsToModifyItem represents the ASN.1 type ServedNRCellsToModify-Item (SEQUENCE).
@@ -3364,6 +3413,7 @@ type ServedNRCellsToModifyItem struct {
 }
 
 // ServedNRcellsToDeleteENDCConfUpdList represents the ASN.1 type ServedNRcellsToDeleteENDCConfUpdList (SEQUENCE_OF).
+
 type ServedNRcellsToDeleteENDCConfUpdList = []NRCGI
 
 // ENDCConfigurationUpdateAcknowledge represents the ASN.1 type ENDCConfigurationUpdateAcknowledge (SEQUENCE).
@@ -3439,6 +3489,7 @@ type ENDCCellActivationRequest struct {
 }
 
 // ServedNRCellsToActivate represents the ASN.1 type ServedNRCellsToActivate (SEQUENCE_OF).
+
 type ServedNRCellsToActivate = []ServedNRCellsToActivateItem
 
 // ServedNRCellsToActivateItem represents the ASN.1 type ServedNRCellsToActivate-Item (SEQUENCE).
@@ -3469,6 +3520,7 @@ type ENDCCellActivationResponse struct {
 }
 
 // ActivatedNRCellList represents the ASN.1 type ActivatedNRCellList (SEQUENCE_OF).
+
 type ActivatedNRCellList = []ActivatedNRCellListItem
 
 // ActivatedNRCellListItem represents the ASN.1 type ActivatedNRCellList-Item (SEQUENCE).
@@ -3540,6 +3592,7 @@ func (v ReportingPeriodicityENDC) String() string {
 }
 
 // CellToReportNRENDCList represents the ASN.1 type CellToReport-NR-ENDC-List (SEQUENCE_OF).
+
 type CellToReportNRENDCList = []ProtocolIESingleContainer
 
 // CellToReportNRENDCItem represents the ASN.1 type CellToReport-NR-ENDC-Item (SEQUENCE).
@@ -3559,6 +3612,7 @@ type CellToReportNRENDCItem struct {
 }
 
 // CellToReportEUTRAENDCList represents the ASN.1 type CellToReport-E-UTRA-ENDC-List (SEQUENCE_OF).
+
 type CellToReportEUTRAENDCList = []ProtocolIESingleContainer
 
 // CellToReportEUTRAENDCItem represents the ASN.1 type CellToReport-E-UTRA-ENDC-Item (SEQUENCE).
@@ -3576,6 +3630,7 @@ type CellToReportEUTRAENDCItem struct {
 }
 
 // SSBToReportList represents the ASN.1 type SSBToReport-List (SEQUENCE_OF).
+
 type SSBToReportList = []SSBToReportItem
 
 // SSBToReportItem represents the ASN.1 type SSBToReport-Item (SEQUENCE).
@@ -3632,6 +3687,7 @@ type ENDCResourceStatusUpdate struct {
 }
 
 // CellMeasurementResultNRENDCList represents the ASN.1 type CellMeasurementResult-NR-ENDC-List (SEQUENCE_OF).
+
 type CellMeasurementResultNRENDCList = []ProtocolIESingleContainer
 
 // CellMeasurementResultNRENDCItem represents the ASN.1 type CellMeasurementResult-NR-ENDC-Item (SEQUENCE).
@@ -3653,6 +3709,7 @@ type CellMeasurementResultNRENDCItem struct {
 }
 
 // CellMeasurementResultEUTRAENDCList represents the ASN.1 type CellMeasurementResult-E-UTRA-ENDC-List (SEQUENCE_OF).
+
 type CellMeasurementResultEUTRAENDCList = []ProtocolIESingleContainer
 
 // CellMeasurementResultEUTRAENDCItem represents the ASN.1 type CellMeasurementResult-E-UTRA-ENDC-Item (SEQUENCE).
@@ -3772,12 +3829,15 @@ func NewInitiatingNodeTypeEutranrCellResourceCoordinationInitiateEnGNB(v Protoco
 }
 
 // ListofEUTRACellsinEUTRACoordinationReq represents the ASN.1 type ListofEUTRACellsinEUTRACoordinationReq (SEQUENCE_OF).
+
 type ListofEUTRACellsinEUTRACoordinationReq = []ECGI
 
 // ListofEUTRACellsinNRCoordinationReq represents the ASN.1 type ListofEUTRACellsinNRCoordinationReq (SEQUENCE_OF).
+
 type ListofEUTRACellsinNRCoordinationReq = []ECGI
 
 // ListofNRCellsinNRCoordinationReq represents the ASN.1 type ListofNRCellsinNRCoordinationReq (SEQUENCE_OF).
+
 type ListofNRCellsinNRCoordinationReq = []NRCGI
 
 // EUTRANRCellResourceCoordinationResponse represents the ASN.1 type EUTRANRCellResourceCoordinationResponse (SEQUENCE).
@@ -3827,9 +3887,11 @@ func NewRespondingNodeTypeEutranrCellResourceCoordinationRespondEnGNB(v Protocol
 }
 
 // ListofEUTRACellsinEUTRACoordinationResp represents the ASN.1 type ListofEUTRACellsinEUTRACoordinationResp (SEQUENCE_OF).
+
 type ListofEUTRACellsinEUTRACoordinationResp = []ECGI
 
 // ListofNRCellsinNRCoordinationResp represents the ASN.1 type ListofNRCellsinNRCoordinationResp (SEQUENCE_OF).
+
 type ListofNRCellsinNRCoordinationResp = []NRCGI
 
 // ENDCX2RemovalRequest represents the ASN.1 type ENDCX2RemovalRequest (SEQUENCE).
@@ -3951,6 +4013,7 @@ type DataForwardingAddressIndication struct {
 }
 
 // ERABsDataForwardingAddressList represents the ASN.1 type E-RABs-DataForwardingAddress-List (SEQUENCE_OF).
+
 type ERABsDataForwardingAddressList = []ProtocolIESingleContainer
 
 // ERABsDataForwardingAddressItem represents the ASN.1 type E-RABs-DataForwardingAddress-Item (SEQUENCE).

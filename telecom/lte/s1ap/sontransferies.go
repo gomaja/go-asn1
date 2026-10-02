@@ -559,6 +559,7 @@ func NewIRATCellIDEHRPD(v EHRPDSectorID) IRATCellID {
 }
 
 // RequestedCellList represents the ASN.1 type RequestedCellList (SEQUENCE_OF).
+
 type RequestedCellList = []IRATCellID
 
 // MultiCellLoadReportingRequest represents the ASN.1 type MultiCellLoadReportingRequest (SEQUENCE).
@@ -587,9 +588,11 @@ type ReportingCellListItem struct {
 }
 
 // ReportingCellList represents the ASN.1 type ReportingCellList (SEQUENCE_OF).
+
 type ReportingCellList = []ReportingCellListItem
 
 // MultiCellLoadReportingResponse represents the ASN.1 type MultiCellLoadReportingResponse (SEQUENCE_OF).
+
 type MultiCellLoadReportingResponse = []MultiCellLoadReportingResponseItem
 
 // MultiCellLoadReportingResponseItem choice constants.
@@ -772,9 +775,11 @@ func (v HoReportType) String() string {
 }
 
 // CandidateCellList represents the ASN.1 type CandidateCellList (SEQUENCE_OF).
+
 type CandidateCellList = []IRATCellID
 
 // CandidatePCIList represents the ASN.1 type CandidatePCIList (SEQUENCE_OF).
+
 type CandidatePCIList = []CandidatePCI
 
 // CandidatePCI represents the ASN.1 type CandidatePCI (SEQUENCE).
@@ -805,6 +810,7 @@ type CellActivationRequest struct {
 }
 
 // CellsToActivateList represents the ASN.1 type CellsToActivateList (SEQUENCE_OF).
+
 type CellsToActivateList = []CellsToActivateListItem
 
 // CellsToActivateListItem represents the ASN.1 type CellsToActivateList-Item (SEQUENCE).
@@ -833,6 +839,7 @@ type CellActivationResponse struct {
 }
 
 // ActivatedCellsList represents the ASN.1 type ActivatedCellsList (SEQUENCE_OF).
+
 type ActivatedCellsList = []ActivatedCellsListItem
 
 // ActivatedCellsListItem represents the ASN.1 type ActivatedCellsList-Item (SEQUENCE).
@@ -861,6 +868,7 @@ type CellStateIndication struct {
 }
 
 // NotificationCellList represents the ASN.1 type NotificationCellList (SEQUENCE_OF).
+
 type NotificationCellList = []NotificationCellListItem
 
 // NotificationCellListItem represents the ASN.1 type NotificationCellList-Item (SEQUENCE).

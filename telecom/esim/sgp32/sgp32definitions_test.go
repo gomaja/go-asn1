@@ -148,7 +148,7 @@ func TestEPRAndNotificationsPreserveEuiccPackageResultChoiceTLV(t *testing.T) {
 			marshal: func() ([]byte, error) {
 				return (&EimPackageResultEPRAndNotifications{
 					EuiccPackageResult: result,
-					NotificationList:   PendingNotificationList{},
+					NotificationList:   &PendingNotificationList{},
 				}).MarshalBER()
 			},
 		},
@@ -157,7 +157,7 @@ func TestEPRAndNotificationsPreserveEuiccPackageResultChoiceTLV(t *testing.T) {
 			marshal: func() ([]byte, error) {
 				return (&TransferEimPackageResponseEPRAndNotifications{
 					EuiccPackageResult: result,
-					NotificationList:   PendingNotificationList{},
+					NotificationList:   &PendingNotificationList{},
 				}).MarshalBER()
 			},
 		},
@@ -243,7 +243,7 @@ func minimalEuiccPackageRequest() EuiccPackageRequest {
 			EimId:        "eim.example",
 			EidValue:     sgp22.Octet16{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
 			CounterValue: big.NewInt(1),
-			EuiccPackage: NewEuiccPackagePsmoList(EuiccPackagePsmoList{}),
+			EuiccPackage: NewEuiccPackagePsmoList(&EuiccPackagePsmoList{}),
 		},
 		EimSignature: []byte{},
 	}

@@ -101,6 +101,15 @@ func asn1VectorValueAtPath(current reflect.Value, path string) (any, error) {
 			if err != nil {
 				return nil, fmt.Errorf("path %s: %w", path, err)
 			}
+			// Generated BER collections own their slice and wire provenance.
+			// Treat their Values field as the indexed abstract value.
+			if current.Kind() == reflect.Struct {
+				_, hasOriginal := current.Type().FieldByName("berOriginal_")
+				_, hasSnapshot := current.Type().FieldByName("berSnapshot_")
+				if hasOriginal && hasSnapshot {
+					current = current.FieldByName("Values")
+				}
+			}
 			if current.Kind() != reflect.Array && current.Kind() != reflect.Slice {
 				return nil, fmt.Errorf("path %s: indexed value is not a list", path)
 			}
@@ -146,7 +155,7 @@ func asn1VectorInterface(value reflect.Value) (any, error) {
 	return value.Interface(), nil
 }
 
-// TestVectorUlDcchMeasurementReport verifies 3GPP TS 36.331 V19.3.0 (2026-08), sections 5.5.5 and 6.2.2; UL-DCCH MeasurementReport with serving and E-UTRA neighbour measurements.
+// TestVectorUlDcchMeasurementReport verifies 3GPP TS 36.331 V19.4.0 (2026-09), sections 5.5.5 and 6.2.2; UL-DCCH MeasurementReport with serving and E-UTRA neighbour measurements.
 func TestVectorUlDcchMeasurementReport(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "083024342625237d91f0011f1080064a2900491000")
@@ -170,7 +179,7 @@ func TestVectorUlDcchMeasurementReport(t *testing.T) {
 	}
 }
 
-// TestVectorLoggedMeasurementConfigurationV1800 verifies 3GPP TS 36.331 V19.3.0 (2026-08), section 6.2.2, LoggedMeasurementConfiguration-v1800-IEs.
+// TestVectorLoggedMeasurementConfigurationV1800 verifies 3GPP TS 36.331 V19.4.0 (2026-09), section 6.2.2, LoggedMeasurementConfiguration-v1800-IEs.
 func TestVectorLoggedMeasurementConfigurationV1800(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "80")
@@ -189,7 +198,7 @@ func TestVectorLoggedMeasurementConfigurationV1800(t *testing.T) {
 	}
 }
 
-// TestVectorReconfigurationCompleteV1800 verifies 3GPP TS 36.331 V19.3.0 (2026-08), section 6.2.2, RRCConnectionReconfigurationComplete-v1800-IEs.
+// TestVectorReconfigurationCompleteV1800 verifies 3GPP TS 36.331 V19.4.0 (2026-09), section 6.2.2, RRCConnectionReconfigurationComplete-v1800-IEs.
 func TestVectorReconfigurationCompleteV1800(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "a8")
@@ -208,7 +217,7 @@ func TestVectorReconfigurationCompleteV1800(t *testing.T) {
 	}
 }
 
-// TestVectorSystemInformationBlockType33R18 verifies 3GPP TS 36.331 V19.3.0 (2026-08), section 6.3.1, SystemInformationBlockType33-r18.
+// TestVectorSystemInformationBlockType33R18 verifies 3GPP TS 36.331 V19.4.0 (2026-09), section 6.3.1, SystemInformationBlockType33-r18.
 func TestVectorSystemInformationBlockType33R18(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "21")
@@ -227,7 +236,7 @@ func TestVectorSystemInformationBlockType33R18(t *testing.T) {
 	}
 }
 
-// TestVectorNtnParametersNbV1800 verifies 3GPP TS 36.331 V19.3.0 (2026-08), section 6.7.3.6, NTN-Parameters-NB-v1800.
+// TestVectorNtnParametersNbV1800 verifies 3GPP TS 36.331 V19.4.0 (2026-09), section 6.7.3.6, NTN-Parameters-NB-v1800.
 func TestVectorNtnParametersNbV1800(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "000180")

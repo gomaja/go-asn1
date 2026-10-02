@@ -8323,9 +8323,11 @@ type LastSegmentShort2 struct {
 }
 
 // CompleteSIBList represents the ASN.1 type CompleteSIB-List (SEQUENCE_OF).
+
 type CompleteSIBList = []CompleteSIBshort
 
 // CompleteSIB2List represents the ASN.1 type CompleteSIB2-List (SEQUENCE_OF).
+
 type CompleteSIB2List = []CompleteSIBshort2
 
 // CompleteSIB represents the ASN.1 type CompleteSIB (SEQUENCE).
@@ -24256,6 +24258,7 @@ type RRCConnectionReleaseCCCHLaterThanR3CriticalExtensionsCriticalExtensions str
 }
 
 // RRCConnectionReleaseCCCHLaterThanR3CriticalExtensionsCriticalExtensionsGroupIdentity represents the ASN.1 type RRCConnectionRelease-CCCH-later-than-r3-criticalExtensions-criticalExtensions-groupIdentity (SEQUENCE_OF).
+
 type RRCConnectionReleaseCCCHLaterThanR3CriticalExtensionsCriticalExtensionsGroupIdentity = []GroupReleaseInformation
 
 // RRCConnectionReleaseCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions choice constants.
