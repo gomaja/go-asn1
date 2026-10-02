@@ -107,6 +107,7 @@ type OTDOAInformationRequest struct {
 }
 
 // OTDOAInformationType represents the ASN.1 type OTDOA-Information-Type (SEQUENCE_OF).
+
 type OTDOAInformationType = []ProtocolIESingleContainer
 
 // OTDOAInformationTypeItem represents the ASN.1 type OTDOA-Information-Type-Item (SEQUENCE).

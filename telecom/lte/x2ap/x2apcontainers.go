@@ -16,6 +16,7 @@ var (
 )
 
 // ProtocolIEContainer represents the ASN.1 type ProtocolIE-Container (SEQUENCE_OF).
+
 type ProtocolIEContainer = []ProtocolIEField
 
 // ProtocolIESingleContainer represents the ASN.1 type ProtocolIE-Single-Container (SEQUENCE).
@@ -39,6 +40,7 @@ type ProtocolIEField struct {
 }
 
 // ProtocolIEContainerPair represents the ASN.1 type ProtocolIE-ContainerPair (SEQUENCE_OF).
+
 type ProtocolIEContainerPair = []ProtocolIEFieldPair
 
 // ProtocolIEFieldPair represents the ASN.1 type ProtocolIE-FieldPair (SEQUENCE).
@@ -54,12 +56,15 @@ type ProtocolIEFieldPair struct {
 }
 
 // ProtocolIEContainerList represents the ASN.1 type ProtocolIE-ContainerList (SEQUENCE_OF).
+
 type ProtocolIEContainerList = []ProtocolIEContainer
 
 // ProtocolIEContainerPairList represents the ASN.1 type ProtocolIE-ContainerPairList (SEQUENCE_OF).
+
 type ProtocolIEContainerPairList = []ProtocolIEContainerPair
 
 // ProtocolExtensionContainer represents the ASN.1 type ProtocolExtensionContainer (SEQUENCE_OF).
+
 type ProtocolExtensionContainer = []ProtocolExtensionField
 
 // ProtocolExtensionField represents the ASN.1 type ProtocolExtensionField (SEQUENCE).
@@ -73,6 +78,7 @@ type ProtocolExtensionField struct {
 }
 
 // PrivateIEContainer represents the ASN.1 type PrivateIE-Container (SEQUENCE_OF).
+
 type PrivateIEContainer = []PrivateIEField
 
 // PrivateIEField represents the ASN.1 type PrivateIE-Field (SEQUENCE).

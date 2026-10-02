@@ -30,6 +30,8 @@ const (
 // UniDialoguePDU represents the ASN.1 CHOICE type UniDialoguePDU.
 type UniDialoguePDU struct {
 	Choice         int
+	berOriginal_   []byte    `json:"-"`
+	berSnapshot_   []byte    `json:"-"`
 	UnidialoguePDU *AUDTApdu `json:"UnidialoguePDU,omitempty"`
 }
 
@@ -45,22 +47,41 @@ func NewUniDialoguePDUUnidialoguePDU(v AUDTApdu) UniDialoguePDU {
 type AUDTApdu struct {
 	ProtocolVersion        *runtime.BitString       `asn1:"tag:0,context,implicit,optional" json:"ProtocolVersion,omitempty"`
 	ApplicationContextName runtime.ObjectIdentifier `asn1:"tag:1,context,explicit"`
-	UserInformation        AUDTApduUserInformation  `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
+	UserInformation        *AUDTApduUserInformation `asn1:"tag:30,context,implicit,optional" json:"UserInformation,omitempty"`
 	UserInformationIndef_  bool                     `asn1:"-" json:"-"`
+	berOriginal_           []byte                   `asn1:"-" json:"-"`
+	berSnapshot_           []byte                   `asn1:"-" json:"-"`
 }
 
 // asn1c:raw-preserve
 // AUDTApduUserInformation represents the ASN.1 type AUDT-apdu-user-information (SEQUENCE_OF).
-type AUDTApduUserInformation = []runtime.External
+type AUDTApduUserInformation struct {
+	Values       []runtime.External `json:"Values"`
+	berOriginal_ []byte             `json:"-"`
+	berSnapshot_ []byte             `json:"-"`
+}
 
 // MarshalBER encodes UniDialoguePDU to BER format.
-func (v *UniDialoguePDU) MarshalBER() ([]byte, error) {
+func (v *UniDialoguePDU) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: UniDialoguePDU receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *UniDialoguePDU) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case UniDialoguePDUChoiceUnidialoguePDU:
 		if v.UnidialoguePDU == nil {
-			return nil, fmt.Errorf("choice UniDialoguePDU: unidialoguePDU is nil")
+			return nil, fmt.Errorf("%w: choice UniDialoguePDU: unidialoguePDU is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.UnidialoguePDU.MarshalBER()
+		enc_0, err := v.UnidialoguePDU.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding unidialoguePDU: %w", err)
 		}
@@ -77,10 +98,13 @@ func (v *UniDialoguePDU) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes UniDialoguePDU to DER format.
 func (v *UniDialoguePDU) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: UniDialoguePDU receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case UniDialoguePDUChoiceUnidialoguePDU:
 		if v.UnidialoguePDU == nil {
-			return nil, fmt.Errorf("choice UniDialoguePDU: unidialoguePDU is nil")
+			return nil, fmt.Errorf("%w: choice UniDialoguePDU: unidialoguePDU is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.UnidialoguePDU.MarshalDER()
 		if err != nil {
@@ -107,7 +131,23 @@ func (v *UniDialoguePDU) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes UniDialoguePDU from BER/DER format.
-func (v *UniDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *UniDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: UniDialoguePDU destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -151,10 +191,23 @@ func (v *UniDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 }
 
 // MarshalBER encodes AUDTApdu to BER format.
-func (v *AUDTApdu) MarshalBER() ([]byte, error) {
+func (v *AUDTApdu) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AUDTApdu receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *AUDTApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ProtocolVersion != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -182,7 +235,7 @@ func (v *AUDTApdu) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_applicationcontextname...)
 	if v.UserInformation != nil {
-		enc_userinformation, err := MarshalBERAUDTApduUserInformation(v.UserInformation)
+		enc_userinformation, err := MarshalBERAUDTApduUserInformation(v.UserInformation, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding user-information: %w", err)
 		}
@@ -213,9 +266,12 @@ func (v *AUDTApdu) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AUDTApdu to DER format.
 func (v *AUDTApdu) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AUDTApdu receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ProtocolVersion != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -270,11 +326,27 @@ func (v *AUDTApdu) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes AUDTApdu from BER/DER format.
-func (v *AUDTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *AUDTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: AUDTApdu destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = AUDTApdu{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding AUDTApdu: %w", err)
@@ -364,7 +436,7 @@ func (v *AUDTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if reconstructionErr_userinformation != nil {
 					return fmt.Errorf("decoding user-information: %w", reconstructionErr_userinformation)
 				}
-				dec_userinformation, unmErr := UnmarshalBERAUDTApduUserInformation(reconstructed_userinformation, opts...)
+				dec_userinformation, unmErr := UnmarshalBERAUDTApduUserInformation(reconstructed_userinformation, ber.ChildDecodeOptions(opts, "user-information")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding user-information: %w", unmErr)
 				}
@@ -397,7 +469,21 @@ func (v *AUDTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBERAUDTApduUserInformation encodes a AUDTApduUserInformation list to BER.
-func MarshalBERAUDTApduUserInformation(list AUDTApduUserInformation) ([]byte, error) {
+func MarshalBERAUDTApduUserInformation(collection *AUDTApduUserInformation, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERAUDTApduUserInformation(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERAUDTApduUserInformation(collection *AUDTApduUserInformation, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, extErr := ber.EncodeExternal(runtime.External(elem))
@@ -410,7 +496,11 @@ func MarshalBERAUDTApduUserInformation(list AUDTApduUserInformation) ([]byte, er
 }
 
 // MarshalDERAUDTApduUserInformation encodes a AUDTApduUserInformation list to DER.
-func MarshalDERAUDTApduUserInformation(list AUDTApduUserInformation) ([]byte, error) {
+func MarshalDERAUDTApduUserInformation(collection *AUDTApduUserInformation) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, extErr := ber.EncodeExternalDER(runtime.External(elem))
@@ -430,7 +520,7 @@ func MarshalDERAUDTApduUserInformation(list AUDTApduUserInformation) ([]byte, er
 }
 
 // UnmarshalBERAUDTApduUserInformation decodes a AUDTApduUserInformation list from BER.
-func UnmarshalBERAUDTApduUserInformation(data []byte, opts ...ber.DecodeOption) (AUDTApduUserInformation, error) {
+func UnmarshalBERAUDTApduUserInformation(data []byte, opts ...ber.DecodeOption) (*AUDTApduUserInformation, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -441,7 +531,7 @@ func UnmarshalBERAUDTApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "AUDTApduUserInformation", Cause: ber.ErrExtraData}
 	}
-	var result AUDTApduUserInformation
+	var result []runtime.External
 	offset := 0
 	for offset < len(content) {
 		decodedElem, n, extErr := ber.DecodeExternal(content[offset:], opts...)
@@ -456,5 +546,15 @@ func UnmarshalBERAUDTApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 
 		offset += n
 	}
-	return result, nil
+	decoded := &AUDTApduUserInformation{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERAUDTApduUserInformation(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }

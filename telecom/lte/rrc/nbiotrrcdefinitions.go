@@ -561,9 +561,11 @@ type PagingNBV1900IEs struct {
 }
 
 // PagingRecordListNBR13 represents the ASN.1 type PagingRecordList-NB-r13 (SEQUENCE_OF).
+
 type PagingRecordListNBR13 = []PagingRecordNBR13
 
 // PagingRecordListNBV1610 represents the ASN.1 type PagingRecordList-NB-v1610 (SEQUENCE_OF).
+
 type PagingRecordListNBV1610 = []PagingRecordNBV1610
 
 // PagingRecordNBR13 represents the ASN.1 type PagingRecord-NB-r13 (SEQUENCE).
@@ -1548,12 +1550,15 @@ type SystemInformationBlockType1NBV1920 struct {
 }
 
 // PLMNIdentityListNBR13 represents the ASN.1 type PLMN-IdentityList-NB-r13 (SEQUENCE_OF).
+
 type PLMNIdentityListNBR13 = []PLMNIdentityInfoNBR13
 
 // PLMNIdentityList5GCNBR16 represents the ASN.1 type PLMN-IdentityList-5GC-NB-r16 (SEQUENCE_OF).
+
 type PLMNIdentityList5GCNBR16 = []PLMNIdentityInfo5GCNBR16
 
 // PLMNIdentityListNBV1700 represents the ASN.1 type PLMN-IdentityList-NB-v1700 (SEQUENCE_OF).
+
 type PLMNIdentityListNBV1700 = []PLMNIdentityInfoNBV1700
 
 // PLMNIdentityInfoNBR13 represents the ASN.1 type PLMN-IdentityInfo-NB-r13 (SEQUENCE).
@@ -1587,12 +1592,15 @@ type PLMNIdentityInfoNBV1700 struct {
 }
 
 // TrackingAreaListNBR17 represents the ASN.1 type TrackingAreaList-NB-r17 (SEQUENCE_OF).
+
 type TrackingAreaListNBR17 = []TrackingAreaCode
 
 // SchedulingInfoListNBR13 represents the ASN.1 type SchedulingInfoList-NB-r13 (SEQUENCE_OF).
+
 type SchedulingInfoListNBR13 = []SchedulingInfoNBR13
 
 // SchedulingInfoListNBV1530 represents the ASN.1 type SchedulingInfoList-NB-v1530 (SEQUENCE_OF).
+
 type SchedulingInfoListNBV1530 = []SchedulingInfoNBV1530
 
 // SchedulingInfoNBR13 represents the ASN.1 type SchedulingInfo-NB-r13 (SEQUENCE).
@@ -1617,12 +1625,15 @@ type SchedulingInfoNBV1530 struct {
 }
 
 // SystemInfoValueTagListNBR13 represents the ASN.1 type SystemInfoValueTagList-NB-r13 (SEQUENCE_OF).
+
 type SystemInfoValueTagListNBR13 = []SystemInfoValueTagSIR13
 
 // SIBMappingInfoNBR13 represents the ASN.1 type SIB-MappingInfo-NB-r13 (SEQUENCE_OF).
+
 type SIBMappingInfoNBR13 = []SIBTypeNBR13
 
 // SIBMappingInfoNBV1530 represents the ASN.1 type SIB-MappingInfo-NB-v1530 (SEQUENCE_OF).
+
 type SIBMappingInfoNBV1530 = []SIBTypeNBV1530
 
 // SIBTypeNBR13 represents the ASN.1 ENUMERATED type SIB-Type-NB-r13.
@@ -1981,9 +1992,11 @@ type SystemInformationBlockType4NBR13 struct {
 }
 
 // IntraFreqNeighCellListNBV1530 represents the ASN.1 type IntraFreqNeighCellList-NB-v1530 (SEQUENCE_OF).
+
 type IntraFreqNeighCellListNBV1530 = []IntraFreqNeighCellInfoNBV1530
 
 // IntraFreqNeighCellListNBV1910 represents the ASN.1 type IntraFreqNeighCellList-NB-v1910 (SEQUENCE_OF).
+
 type IntraFreqNeighCellListNBV1910 = []IntraFreqNeighCellInfoNBV1910
 
 // IntraFreqNeighCellInfoNBV1530 represents the ASN.1 type IntraFreqNeighCellInfo-NB-v1530 (SEQUENCE).
@@ -2022,9 +2035,11 @@ type SystemInformationBlockType5NBR13 struct {
 }
 
 // InterFreqCarrierFreqListNBR13 represents the ASN.1 type InterFreqCarrierFreqList-NB-r13 (SEQUENCE_OF).
+
 type InterFreqCarrierFreqListNBR13 = []InterFreqCarrierFreqInfoNBR13
 
 // InterFreqCarrierFreqListNBV1820 represents the ASN.1 type InterFreqCarrierFreqList-NB-v1820 (SEQUENCE_OF).
+
 type InterFreqCarrierFreqListNBV1820 = []InterFreqCarrierFreqInfoNBV1820
 
 // InterFreqCarrierFreqInfoNBR13 represents the ASN.1 type InterFreqCarrierFreqInfo-NB-r13 (SEQUENCE).
@@ -2068,9 +2083,11 @@ type InterFreqCarrierFreqInfoNBV1820 struct {
 }
 
 // InterFreqNeighCellListNBR13 represents the ASN.1 type InterFreqNeighCellList-NB-r13 (SEQUENCE_OF).
+
 type InterFreqNeighCellListNBR13 = []PhysCellId
 
 // InterFreqNeighCellListNBV1530 represents the ASN.1 type InterFreqNeighCellList-NB-v1530 (SEQUENCE_OF).
+
 type InterFreqNeighCellListNBV1530 = []InterFreqNeighCellInfoNBV1530
 
 // InterFreqNeighCellInfoNBV1530 represents the ASN.1 type InterFreqNeighCellInfo-NB-v1530 (SEQUENCE).
@@ -2082,6 +2099,7 @@ type InterFreqNeighCellInfoNBV1530 struct {
 }
 
 // InterFreqNeighCellListNBV1910 represents the ASN.1 type InterFreqNeighCellList-NB-v1910 (SEQUENCE_OF).
+
 type InterFreqNeighCellListNBV1910 = []InterFreqNeighCellInfoNBV1910
 
 // InterFreqNeighCellInfoNBV1910 represents the ASN.1 type InterFreqNeighCellInfo-NB-v1910 (SEQUENCE).
@@ -2094,6 +2112,7 @@ type InterFreqNeighCellInfoNBV1910 struct {
 }
 
 // InterFreqExcludedCellListNBR13 represents the ASN.1 type InterFreqExcludedCellList-NB-r13 (SEQUENCE_OF).
+
 type InterFreqExcludedCellListNBR13 = []PhysCellId
 
 // SystemInformationBlockType10NBR19 represents the ASN.1 type SystemInformationBlockType10-NB-r19 (SEQUENCE).
@@ -2228,6 +2247,7 @@ type UACBarringNBR16 struct {
 }
 
 // UACBarringPerCatListNBR16 represents the ASN.1 type UAC-BarringPerCatList-NB-r16 (SEQUENCE_OF).
+
 type UACBarringPerCatListNBR16 = []UACBarringPerCatNBR16
 
 // UACBarringPerCatNBR16 represents the ASN.1 type UAC-BarringPerCat-NB-r16 (SEQUENCE).
@@ -2257,6 +2277,7 @@ type SystemInformationBlockType15NBR14 struct {
 }
 
 // MBMSSAIInterFreqListNBR14 represents the ASN.1 type MBMS-SAI-InterFreqList-NB-r14 (SEQUENCE_OF).
+
 type MBMSSAIInterFreqListNBR14 = []MBMSSAIInterFreqNBR14
 
 // MBMSSAIInterFreqNBR14 represents the ASN.1 type MBMS-SAI-InterFreq-NB-r14 (SEQUENCE).
@@ -2342,12 +2363,15 @@ type SystemInformationBlockType22NBR14 struct {
 }
 
 // DLConfigCommonListNBR14 represents the ASN.1 type DL-ConfigCommonList-NB-r14 (SEQUENCE_OF).
+
 type DLConfigCommonListNBR14 = []DLConfigCommonNBR14
 
 // ULConfigCommonListNBR14 represents the ASN.1 type UL-ConfigCommonList-NB-r14 (SEQUENCE_OF).
+
 type ULConfigCommonListNBR14 = []ULConfigCommonNBR14
 
 // ULConfigCommonListTDDNBR15 represents the ASN.1 type UL-ConfigCommonListTDD-NB-r15 (SEQUENCE_OF).
+
 type ULConfigCommonListTDDNBR15 = []ULConfigCommonTDDNBR15
 
 // CoverageBasedPagingConfigNBR17 represents the ASN.1 type CoverageBasedPagingConfig-NB-r17 (SEQUENCE).
@@ -2508,6 +2532,7 @@ type ULConfigCommonTDDNBR15 struct {
 }
 
 // NPRACHProbabilityAnchorListNBR14 represents the ASN.1 type NPRACH-ProbabilityAnchorList-NB-r14 (SEQUENCE_OF).
+
 type NPRACHProbabilityAnchorListNBR14 = []NPRACHProbabilityAnchorNBR14
 
 // NPRACHProbabilityAnchorNBR14 represents the ASN.1 type NPRACH-ProbabilityAnchor-NB-r14 (SEQUENCE).
@@ -2519,6 +2544,7 @@ type NPRACHProbabilityAnchorNBR14 struct {
 }
 
 // CBMsg3ProbabilityAnchorListNBR19 represents the ASN.1 type CB-Msg3-ProbabilityAnchorList-NB-r19 (SEQUENCE_OF).
+
 type CBMsg3ProbabilityAnchorListNBR19 = []CBMsg3ProbabilityAnchorNBR19
 
 // CBMsg3ProbabilityAnchorNBR19 represents the ASN.1 type CB-Msg3-ProbabilityAnchor-NB-r19 (SEQUENCE).
@@ -2546,6 +2572,7 @@ type SystemInformationBlockType23NBR15 struct {
 }
 
 // ULConfigCommonListNBV1530 represents the ASN.1 type UL-ConfigCommonList-NB-v1530 (SEQUENCE_OF).
+
 type ULConfigCommonListNBV1530 = []ULConfigCommonNBV1530
 
 // ULConfigCommonNBV1530 represents the ASN.1 type UL-ConfigCommon-NB-v1530 (SEQUENCE).
@@ -2582,9 +2609,11 @@ type SystemInformationBlockType27NBR16 struct {
 }
 
 // CarrierFreqListEUTRANBR16 represents the ASN.1 type CarrierFreqListEUTRA-NB-r16 (SEQUENCE_OF).
+
 type CarrierFreqListEUTRANBR16 = []CarrierFreqEUTRANBR16
 
 // CarrierFreqsListGERANNBR16 represents the ASN.1 type CarrierFreqsListGERAN-NB-r16 (SEQUENCE_OF).
+
 type CarrierFreqsListGERANNBR16 = []CarrierFreqsGERANNBR16
 
 // CarrierFreqEUTRANBR16 represents the ASN.1 type CarrierFreqEUTRA-NB-r16 (SEQUENCE).
@@ -2658,6 +2687,7 @@ type SystemInformationBlockType32NBR17 struct {
 }
 
 // SatelliteInfoListNBV1830 represents the ASN.1 type SatelliteInfoList-NB-v1830 (SEQUENCE_OF).
+
 type SatelliteInfoListNBV1830 = []CarrierFreqListNBR18
 
 // CarrierFreqListNBR18 represents the ASN.1 type CarrierFreqList-NB-r18 (SEQUENCE).
@@ -2691,6 +2721,7 @@ type SystemInformationBlockType33NBR18 struct {
 }
 
 // NeighSatelliteInfoListIoTTDDV1900 represents the ASN.1 type NeighSatelliteInfoList-IoT-TDD-v1900 (SEQUENCE_OF).
+
 type NeighSatelliteInfoListIoTTDDV1900 = []NeighSatelliteInfoIoTTDDV1900
 
 // NeighSatelliteInfoIoTTDDV1900 represents the ASN.1 type NeighSatelliteInfo-IoT-TDD-v1900 (SEQUENCE).
@@ -2776,6 +2807,7 @@ type CBMsg3ConfigSIBNBR19 struct {
 }
 
 // CBMsg3ConfigListNBR19 represents the ASN.1 type CB-Msg3-ConfigList-NB-r19 (SEQUENCE_OF).
+
 type CBMsg3ConfigListNBR19 = []CBMsg3ConfigNBR19
 
 // CBMsg3ConfigNBR19 represents the ASN.1 type CB-Msg3-Config-NB-r19 (SEQUENCE).
@@ -2792,6 +2824,7 @@ type CBMsg3ConfigNBR19 struct {
 }
 
 // CBMsg3RSRPCELevelsNBR19 represents the ASN.1 type CB-Msg3-RSRP-CE-Levels-NB-r19 (SEQUENCE_OF).
+
 type CBMsg3RSRPCELevelsNBR19 = []RSRPRange
 
 // NPUSCHSubCarrierSetR19 choice constants.
@@ -2960,6 +2993,7 @@ type GWUSResourceConfigNBR16 struct {
 }
 
 // GWUSProbThreshListNBR16 represents the ASN.1 type GWUS-ProbThreshList-NB-r16 (SEQUENCE_OF).
+
 type GWUSProbThreshListNBR16 = []GWUSPagingProbThreshNBR16
 
 // GWUSPagingProbThreshNBR16 represents the ASN.1 ENUMERATED type GWUS-Paging-ProbThresh-NB-r16.
@@ -3000,6 +3034,7 @@ func (v GWUSPagingProbThreshNBR16) String() string {
 }
 
 // GWUSNumGroupsListNBR16 represents the ASN.1 type GWUS-NumGroupsList-NB-r16 (SEQUENCE_OF).
+
 type GWUSNumGroupsListNBR16 = []GWUSNumGroupsNBR16
 
 // GWUSNumGroupsNBR16 represents the ASN.1 ENUMERATED type GWUS-NumGroups-NB-r16.
@@ -3028,6 +3063,7 @@ func (v GWUSNumGroupsNBR16) String() string {
 }
 
 // GWUSGroupsForServiceListNBR16 represents the ASN.1 type GWUS-GroupsForServiceList-NB-r16 (SEQUENCE_OF).
+
 type GWUSGroupsForServiceListNBR16 = []int64
 
 // LogicalChannelConfigNBR13 represents the ASN.1 type LogicalChannelConfig-NB-r13 (SEQUENCE).
@@ -3351,9 +3387,11 @@ type NPRACHConfigSIBNBV1550 struct {
 }
 
 // NPRACHParametersListNBR13 represents the ASN.1 type NPRACH-ParametersList-NB-r13 (SEQUENCE_OF).
+
 type NPRACHParametersListNBR13 = []NPRACHParametersNBR13
 
 // NPRACHParametersListNBV1330 represents the ASN.1 type NPRACH-ParametersList-NB-v1330 (SEQUENCE_OF).
+
 type NPRACHParametersListNBV1330 = []NPRACHParametersNBV1330
 
 // NPRACHParametersNBR13 represents the ASN.1 type NPRACH-Parameters-NB-r13 (SEQUENCE).
@@ -3382,6 +3420,7 @@ type NPRACHParametersNBV1330 struct {
 }
 
 // NPRACHParametersListNBR14 represents the ASN.1 type NPRACH-ParametersList-NB-r14 (SEQUENCE_OF).
+
 type NPRACHParametersListNBR14 = []NPRACHParametersNBR14
 
 // NPRACHParametersNBR14 represents the ASN.1 type NPRACH-Parameters-NB-r14 (SEQUENCE).
@@ -3393,6 +3432,7 @@ type NPRACHParametersNBR14 struct {
 }
 
 // NPRACHParametersListTDDNBR15 represents the ASN.1 type NPRACH-ParametersListTDD-NB-r15 (SEQUENCE_OF).
+
 type NPRACHParametersListTDDNBR15 = []NPRACHParametersTDDNBR15
 
 // NPRACHParametersTDDNBR15 represents the ASN.1 type NPRACH-ParametersTDD-NB-r15 (SEQUENCE).
@@ -3404,6 +3444,7 @@ type NPRACHParametersTDDNBR15 struct {
 }
 
 // NPRACHParametersListTDDNBV1550 represents the ASN.1 type NPRACH-ParametersListTDD-NB-v1550 (SEQUENCE_OF).
+
 type NPRACHParametersListTDDNBV1550 = []NPRACHParametersTDDNBV1550
 
 // NPRACHParametersTDDNBV1550 represents the ASN.1 type NPRACH-ParametersTDD-NB-v1550 (SEQUENCE).
@@ -3416,6 +3457,7 @@ type NPRACHParametersTDDNBV1550 struct {
 }
 
 // NPRACHParametersListFmt2NBR15 represents the ASN.1 type NPRACH-ParametersListFmt2-NB-r15 (SEQUENCE_OF).
+
 type NPRACHParametersListFmt2NBR15 = []NPRACHParametersFmt2NBR15
 
 // NPRACHParametersFmt2NBR15 represents the ASN.1 type NPRACH-ParametersFmt2-NB-r15 (SEQUENCE).
@@ -3443,9 +3485,11 @@ type NPRACHTxDurationFmt2NBR17 struct {
 }
 
 // RSRPThresholdsNPRACHInfoListNBR13 represents the ASN.1 type RSRP-ThresholdsNPRACH-InfoList-NB-r13 (SEQUENCE_OF).
+
 type RSRPThresholdsNPRACHInfoListNBR13 = []RSRPRange
 
 // EDTTBSInfoListNBR15 represents the ASN.1 type EDT-TBS-InfoList-NB-r15 (SEQUENCE_OF).
+
 type EDTTBSInfoListNBR15 = []EDTTBSNBR15
 
 // EDTTBSNBR15 represents the ASN.1 type EDT-TBS-NB-r15 (SEQUENCE).
@@ -3862,9 +3906,11 @@ type RACHConfigCommonNBR13 struct {
 }
 
 // RACHInfoListNBR13 represents the ASN.1 type RACH-InfoList-NB-r13 (SEQUENCE_OF).
+
 type RACHInfoListNBR13 = []RACHInfoNBR13
 
 // RACHInfoListNBV1530 represents the ASN.1 type RACH-InfoList-NB-v1530 (SEQUENCE_OF).
+
 type RACHInfoListNBV1530 = []RACHInfoNBV1530
 
 // RACHInfoNBR13 represents the ASN.1 type RACH-Info-NB-r13 (SEQUENCE).
@@ -3967,6 +4013,7 @@ type RadioResourceConfigDedicatedNBR13 struct {
 }
 
 // SRBToAddModListNBR13 represents the ASN.1 type SRB-ToAddModList-NB-r13 (SEQUENCE_OF).
+
 type SRBToAddModListNBR13 = []SRBToAddModNBR13
 
 // SRBToAddModNBR13 represents the ASN.1 type SRB-ToAddMod-NB-r13 (SEQUENCE).
@@ -3985,6 +4032,7 @@ type SRBToAddModNBR13 struct {
 }
 
 // DRBToAddModListNBR13 represents the ASN.1 type DRB-ToAddModList-NB-r13 (SEQUENCE_OF).
+
 type DRBToAddModListNBR13 = []DRBToAddModNBR13
 
 // DRBToAddModNBR13 represents the ASN.1 type DRB-ToAddMod-NB-r13 (SEQUENCE).
@@ -4011,6 +4059,7 @@ type DRBToAddModNBR13 struct {
 type PDUSessionIDNBR16 = int64
 
 // DRBToReleaseListNBR13 represents the ASN.1 type DRB-ToReleaseList-NB-r13 (SEQUENCE_OF).
+
 type DRBToReleaseListNBR13 = []DRBIdentity
 
 // ResourceReservationConfigNBR16 represents the ASN.1 type ResourceReservationConfig-NB-r16 (SEQUENCE).
@@ -4467,12 +4516,14 @@ func (v WUSMaxDurationFactorNBR15) String() string {
 }
 
 // AdditionalBandInfoListNBR14 represents the ASN.1 type AdditionalBandInfoList-NB-r14 (SEQUENCE_OF).
+
 type AdditionalBandInfoListNBR14 = []FreqBandIndicatorNBR13
 
 // FreqBandIndicatorNBR13 represents the ASN.1 type FreqBandIndicator-NB-r13 (INTEGER).
 type FreqBandIndicatorNBR13 = int64
 
 // MultiBandInfoListNBR13 represents the ASN.1 type MultiBandInfoList-NB-r13 (SEQUENCE_OF).
+
 type MultiBandInfoListNBR13 = []MultiBandInfoNBR13
 
 // MultiBandInfoNBR13 represents the ASN.1 type MultiBandInfo-NB-r13 (SEQUENCE).
@@ -4486,6 +4537,7 @@ type MultiBandInfoNBR13 struct {
 }
 
 // NSPmaxListNBR13 represents the ASN.1 type NS-PmaxList-NB-r13 (SEQUENCE_OF).
+
 type NSPmaxListNBR13 = []NSPmaxValueNBR13
 
 // NSPmaxValueNBR13 represents the ASN.1 type NS-PmaxValue-NB-r13 (SEQUENCE).
@@ -4552,6 +4604,7 @@ type ANRMeasConfigNBR16 struct {
 }
 
 // ANRCarrierListNBR16 represents the ASN.1 type ANR-CarrierList-NB-r16 (SEQUENCE_OF).
+
 type ANRCarrierListNBR16 = []ANRCarrierNBR16
 
 // ANRCarrierNBR16 represents the ASN.1 type ANR-Carrier-NB-r16 (SEQUENCE).
@@ -4569,6 +4622,7 @@ type ANRCarrierNBR16 struct {
 }
 
 // ANRExcludedCellListNBR16 represents the ASN.1 type ANR-ExcludedCellList-NB-r16 (SEQUENCE_OF).
+
 type ANRExcludedCellListNBR16 = []PhysCellId
 
 // ANRMeasReportNBR16 represents the ASN.1 type ANR-MeasReport-NB-r16 (SEQUENCE).
@@ -5225,15 +5279,19 @@ type RFParametersNBV1930 struct {
 }
 
 // SupportedBandListNBR13 represents the ASN.1 type SupportedBandList-NB-r13 (SEQUENCE_OF).
+
 type SupportedBandListNBR13 = []SupportedBandNBR13
 
 // SupportedBandListNBV1710 represents the ASN.1 type SupportedBandList-NB-v1710 (SEQUENCE_OF).
+
 type SupportedBandListNBV1710 = []SupportedBandNBV1710
 
 // SupportedBandListNBV1920 represents the ASN.1 type SupportedBandList-NB-v1920 (SEQUENCE_OF).
+
 type SupportedBandListNBV1920 = []SupportedBandNBV1920
 
 // SupportedBandListNBV1930 represents the ASN.1 type SupportedBandList-NB-v1930 (SEQUENCE_OF).
+
 type SupportedBandListNBV1930 = []SupportedBandNBV1930
 
 // SupportedBandNBR13 represents the ASN.1 type SupportedBand-NB-r13 (SEQUENCE).
@@ -5329,6 +5387,7 @@ type UETimersAndConstantsNBR13 struct {
 }
 
 // SCMTCHInfoListNBR14 represents the ASN.1 type SC-MTCH-InfoList-NB-r14 (SEQUENCE_OF).
+
 type SCMTCHInfoListNBR14 = []SCMTCHInfoNBR14
 
 // SCMTCHInfoNBR14 represents the ASN.1 type SC-MTCH-Info-NB-r14 (SEQUENCE).
@@ -5366,6 +5425,7 @@ type SCMTCHSchedulingInfoNBR14 struct {
 }
 
 // SCPTMNeighbourCellListNBR14 represents the ASN.1 type SCPTM-NeighbourCellList-NB-r14 (SEQUENCE_OF).
+
 type SCPTMNeighbourCellListNBR14 = []PCIARFCNNBR14
 
 // PCIARFCNNBR14 represents the ASN.1 type PCI-ARFCN-NB-r14 (SEQUENCE).
@@ -6312,6 +6372,7 @@ type RRCConnectionReconfigurationNBCriticalExtensionsCriticalExtensionsFuture st
 }
 
 // RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13 represents the ASN.1 type RRCConnectionReconfiguration-NB-r13-IEs-dedicatedInfoNASList-r13 (SEQUENCE_OF).
+
 type RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13 = []DedicatedInfoNAS
 
 // RRCConnectionReconfigurationNBV16f0IEsNonCriticalExtension represents the ASN.1 type RRCConnectionReconfiguration-NB-v16f0-IEs-nonCriticalExtension (SEQUENCE).
@@ -6783,6 +6844,7 @@ type RRCConnectionReleaseNBV1900IEsNonCriticalExtension struct {
 }
 
 // RedirectedCarrierInfoNBV1900SatAssistanceInfoListR19 represents the ASN.1 type RedirectedCarrierInfo-NB-v1900-satAssistanceInfoList-r19 (SEQUENCE_OF).
+
 type RedirectedCarrierInfoNBV1900SatAssistanceInfoListR19 = []SatelliteIdR18
 
 // RRCConnectionRequestNBCriticalExtensions choice constants.
@@ -7169,6 +7231,7 @@ type RRCConnectionSetupCompleteNBCriticalExtensionsCriticalExtensionsFuture stru
 }
 
 // RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16 represents the ASN.1 type RRCConnectionSetupComplete-NB-v1610-IEs-s-NSSAI-list-r16 (SEQUENCE_OF).
+
 type RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16 = []SNSSAIR15
 
 // RRCConnectionSetupCompleteNBV1800IEsNonCriticalExtension represents the ASN.1 type RRCConnectionSetupComplete-NB-v1800-IEs-nonCriticalExtension (SEQUENCE).
@@ -7539,6 +7602,7 @@ func NewSystemInformationNBR13IEsSibTypeAndInfoR13ElemSib12V1900(v SystemInforma
 }
 
 // SystemInformationNBR13IEsSibTypeAndInfoR13 represents the ASN.1 type SystemInformation-NB-r13-IEs-sib-TypeAndInfo-r13 (SEQUENCE_OF).
+
 type SystemInformationNBR13IEsSibTypeAndInfoR13 = []SystemInformationNBR13IEsSibTypeAndInfoR13Elem
 
 // SystemInformationNBR13IEsNonCriticalExtension represents the ASN.1 type SystemInformation-NB-r13-IEs-nonCriticalExtension (SEQUENCE).
@@ -7922,6 +7986,7 @@ type SystemInformationBlockType2NBR13FreqInfoR13 struct {
 }
 
 // SystemInformationBlockType2NBR13MultiBandInfoListR13 represents the ASN.1 type SystemInformationBlockType2-NB-r13-multiBandInfoList-r13 (SEQUENCE_OF).
+
 type SystemInformationBlockType2NBR13MultiBandInfoListR13 = []AdditionalSpectrumEmission
 
 // SystemInformationBlockType2NBR13FreqInfoV1530 represents the ASN.1 type SystemInformationBlockType2-NB-r13-freqInfo-v1530 (SEQUENCE).
@@ -7961,9 +8026,11 @@ type SystemInformationBlockType3NBR13IntraFreqCellReselectionInfoR13 struct {
 }
 
 // SystemInformationBlockType3NBR13MultiBandInfoListR13 represents the ASN.1 type SystemInformationBlockType3-NB-r13-multiBandInfoList-r13 (SEQUENCE_OF).
+
 type SystemInformationBlockType3NBR13MultiBandInfoListR13 = []NSPmaxListNBR13
 
 // SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18 represents the ASN.1 type SystemInformationBlockType3-NB-r13-satelliteAssistanceInfo-r18 (SEQUENCE_OF).
+
 type SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18 = []SatelliteIdR18
 
 // ConnMeasConfigNBR17NeighCellMeasCriteriaR17 represents the ASN.1 type ConnMeasConfig-NB-r17-neighCellMeasCriteria-r17 (SEQUENCE).
@@ -7976,6 +8043,7 @@ type ConnMeasConfigNBR17NeighCellMeasCriteriaR17 struct {
 }
 
 // InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18 represents the ASN.1 type InterFreqCarrierFreqInfo-NB-v1820-satelliteAssistanceInfo-r18 (SEQUENCE_OF).
+
 type InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18 = []SatelliteIdR18
 
 // SystemInformationBlockType14NBR13AbParamR13 choice constants.
@@ -8011,9 +8079,11 @@ func NewSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13(v SystemInfo
 }
 
 // SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13 represents the ASN.1 type SystemInformationBlockType14-NB-r13-ab-Param-r13-ab-PerPLMN-List-r13 (SEQUENCE_OF).
+
 type SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13 = []ABConfigPLMNNBR13
 
 // UACParamNBR16UacBarringPerPLMNList represents the ASN.1 type UAC-Param-NB-r16-uac-BarringPerPLMN-List (SEQUENCE_OF).
+
 type UACParamNBR16UacBarringPerPLMNList = []UACBarringNBR16
 
 // SystemInformationBlockType20NBR14ScMcchCarrierConfigR14 choice constants.
@@ -8234,9 +8304,11 @@ type SystemInformationBlockType22NBR14MixedOperationModeConfigR15 struct {
 }
 
 // CoverageBasedPagingConfigNBR17CbpConfigListR17 represents the ASN.1 type CoverageBasedPagingConfig-NB-r17-cbp-ConfigList-r17 (SEQUENCE_OF).
+
 type CoverageBasedPagingConfigNBR17CbpConfigListR17 = []CBPConfigNBR17
 
 // CarrierFreqListNBR18CarrierFreqListR18 represents the ASN.1 type CarrierFreqList-NB-r18-carrierFreqList-r18 (SEQUENCE_OF).
+
 type CarrierFreqListNBR18CarrierFreqListR18 = []CarrierFreqNBR13
 
 // DLCarrierConfigDedicatedNBR13DownlinkBitmapNonAnchorR13 choice constants.
@@ -8492,9 +8564,11 @@ func NewCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19Npusch
 }
 
 // CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15 represents the ASN.1 type CB-Msg3-Config-NB-r19-cb-Msg3-PhysicalConfig-r19-npusch-SubCarrierSetList-r19-npusch-SubCarrierSetList-khz15 (SEQUENCE_OF).
+
 type CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15 = []int64
 
 // CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75 represents the ASN.1 type CB-Msg3-Config-NB-r19-cb-Msg3-PhysicalConfig-r19-npusch-SubCarrierSetList-r19-npusch-SubCarrierSetList-khz3dot75 (SEQUENCE_OF).
+
 type CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75 = []int64
 
 // CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschMCSR19 choice constants.
@@ -8983,6 +9057,7 @@ type NPRACHParametersFmt2NBR15NprachParametersR15 struct {
 }
 
 // NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13 represents the ASN.1 type NPUSCH-ConfigCommon-NB-r13-ack-NACK-NumRepetitions-Msg4-r13 (SEQUENCE_OF).
+
 type NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13 = []ACKNACKNumRepetitionsNBR13
 
 // NPUSCHConfigCommonNBR13DmrsConfigR13 represents the ASN.1 type NPUSCH-ConfigCommon-NB-r13-dmrs-Config-r13 (SEQUENCE).
@@ -9818,6 +9893,7 @@ type SRSPSBSRConfigNBR15Setup struct {
 }
 
 // ANRMeasReportNBR16MeasResultListR16 represents the ASN.1 type ANR-MeasReport-NB-r16-measResultList-r16 (SEQUENCE_OF).
+
 type ANRMeasReportNBR16MeasResultListR16 = []ANRMeasResultNBR16
 
 // ANRMeasResultNBR16CgiInfoR16 represents the ASN.1 type ANR-MeasResult-NB-r16-cgi-Info-r16 (SEQUENCE).

@@ -73,12 +73,15 @@ type SLPreconfigSyncR12 struct {
 }
 
 // SLPreconfigCommPoolList4R12 represents the ASN.1 type SL-PreconfigCommPoolList4-r12 (SEQUENCE_OF).
+
 type SLPreconfigCommPoolList4R12 = []SLPreconfigCommPoolR12
 
 // SLPreconfigCommRxPoolListR13 represents the ASN.1 type SL-PreconfigCommRxPoolList-r13 (SEQUENCE_OF).
+
 type SLPreconfigCommRxPoolListR13 = []SLPreconfigCommPoolR12
 
 // SLPreconfigCommTxPoolListR13 represents the ASN.1 type SL-PreconfigCommTxPoolList-r13 (SEQUENCE_OF).
+
 type SLPreconfigCommTxPoolListR13 = []SLPreconfigCommPoolR12
 
 // SLPreconfigCommPoolR12 represents the ASN.1 type SL-PreconfigCommPool-r12 (SEQUENCE).
@@ -104,9 +107,11 @@ type SLPreconfigCommPoolR12 struct {
 }
 
 // SLPreconfigDiscRxPoolListR13 represents the ASN.1 type SL-PreconfigDiscRxPoolList-r13 (SEQUENCE_OF).
+
 type SLPreconfigDiscRxPoolListR13 = []SLPreconfigDiscPoolR13
 
 // SLPreconfigDiscTxPoolListR13 represents the ASN.1 type SL-PreconfigDiscTxPoolList-r13 (SEQUENCE_OF).
+
 type SLPreconfigDiscTxPoolListR13 = []SLPreconfigDiscPoolR13
 
 // SLPreconfigDiscPoolR13 represents the ASN.1 type SL-PreconfigDiscPool-r13 (SEQUENCE).
@@ -170,6 +175,7 @@ type SLCBRPreconfigTxConfigListR14 struct {
 }
 
 // SLV2XPreconfigFreqListR14 represents the ASN.1 type SL-V2X-PreconfigFreqList-r14 (SEQUENCE_OF).
+
 type SLV2XPreconfigFreqListR14 = []SLV2XPreconfigFreqInfoR14
 
 // SLV2XPreconfigFreqInfoR14 represents the ASN.1 type SL-V2X-PreconfigFreqInfo-r14 (SEQUENCE).
@@ -199,9 +205,11 @@ type SLV2XPreconfigFreqInfoR14 struct {
 }
 
 // SLPreconfigV2XRxPoolListR14 represents the ASN.1 type SL-PreconfigV2X-RxPoolList-r14 (SEQUENCE_OF).
+
 type SLPreconfigV2XRxPoolListR14 = []SLV2XPreconfigCommPoolR14
 
 // SLPreconfigV2XTxPoolListR14 represents the ASN.1 type SL-PreconfigV2X-TxPoolList-r14 (SEQUENCE_OF).
+
 type SLPreconfigV2XTxPoolListR14 = []SLV2XPreconfigCommPoolR14
 
 // SLV2XPreconfigCommPoolR14 represents the ASN.1 type SL-V2X-PreconfigCommPool-r14 (SEQUENCE).
@@ -265,6 +273,7 @@ type SLV2XSyncOffsetIndicatorsR14 struct {
 }
 
 // SLCBRPPPPTxPreconfigListR14 represents the ASN.1 type SL-CBR-PPPP-TxPreconfigList-r14 (SEQUENCE_OF).
+
 type SLCBRPPPPTxPreconfigListR14 = []SLPPPPTxPreconfigIndexR14
 
 // SLPPPPTxPreconfigIndexR14 represents the ASN.1 type SL-PPPP-TxPreconfigIndex-r14 (SEQUENCE).
@@ -283,6 +292,7 @@ type SLPPPPTxPreconfigIndexR14 struct {
 type TxPreconfigIndexR14 = int64
 
 // SLCBRPPPPTxPreconfigListV1530 represents the ASN.1 type SL-CBR-PPPP-TxPreconfigList-v1530 (SEQUENCE_OF).
+
 type SLCBRPPPPTxPreconfigListV1530 = []SLPPPPTxPreconfigIndexV1530
 
 // SLPPPPTxPreconfigIndexV1530 represents the ASN.1 type SL-PPPP-TxPreconfigIndex-v1530 (SEQUENCE).
@@ -295,6 +305,7 @@ type SLPPPPTxPreconfigIndexV1530 struct {
 }
 
 // SLV2XTxProfileListR15 represents the ASN.1 type SL-V2X-TxProfileList-r15 (SEQUENCE_OF).
+
 type SLV2XTxProfileListR15 = []SLV2XTxProfileR15
 
 // SLV2XTxProfileR15 represents the ASN.1 ENUMERATED type SL-V2X-TxProfile-r15.
@@ -387,15 +398,19 @@ type SLPreconfigDiscPoolR13TxParametersR13 struct {
 }
 
 // SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 represents the ASN.1 type SL-CBR-PreconfigTxConfigList-r14-cbr-RangeCommonConfigList-r14 (SEQUENCE_OF).
+
 type SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 = []SLCBRLevelsConfigR14
 
 // SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 represents the ASN.1 type SL-CBR-PreconfigTxConfigList-r14-sl-CBR-PSSCH-TxConfigList-r14 (SEQUENCE_OF).
+
 type SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 = []SLCBRPSSCHTxConfigR14
 
 // SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 represents the ASN.1 type SL-PPPP-TxPreconfigIndex-r14-tx-ConfigIndexList-r14 (SEQUENCE_OF).
+
 type SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 = []TxPreconfigIndexR14
 
 // SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 represents the ASN.1 type SL-PPPP-TxPreconfigIndex-v1530-mcs-PSSCH-Range-r15 (SEQUENCE_OF).
+
 type SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 = []MCSPSSCHRangeR15
 
 // MarshalUPER encodes SLPreconfigurationR12 to UPER format.

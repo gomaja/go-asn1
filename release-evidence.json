@@ -1,22 +1,22 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "cb33d10b854b5431f729ef8cde321ce6c0c186aa",
-  "target_base_commit": "9d0b4323411f3ff55374325b2bb51aa526051098",
+  "compiler_commit": "1c4348cc678a6af7ef23472d3409b5ea8c4d8f29",
+  "target_base_commit": "ddcf0396a42226cbb674681e7dbf21b37e3089f9",
   "inputs": {
-    "sha256": "5e3bf9fe4423854f125b322dba794440952b137d6f0efb216e750a6eb19cd943",
+    "sha256": "e1b6b11253768644540c66c6cfb593a3601b246b2741e993a062e8effd8d2c09",
     "files": [
       {
         "path": "conformance/corpus.yaml",
         "mode": "0644",
-        "sha256": "603000f7e0123f49487955cf1a3147c7bcfbf1514339889d242caf9db29fb6a8",
-        "size_bytes": 135417
+        "sha256": "0938e72d6cad5f2812357f8c57ccb6c97fc5f5bdaf6736491399258d30265d61",
+        "size_bytes": 177543
       },
       {
         "path": "conformance/source.lock.json",
         "mode": "0644",
-        "sha256": "0ed542f5ca55aa244040d7e117bae0e1a4a936034e3fba85463dd484d5db289c",
-        "size_bytes": 142362
+        "sha256": "cf0c9e96716ad2b0b9c4516c3925edf7cb1035d23c9af848eb5e49e4a3cb2ab6",
+        "size_bytes": 146636
       }
     ]
   },
@@ -30,7 +30,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "cb33d10b854b5431f729ef8cde321ce6c0c186aa",
+          "commit": "1c4348cc678a6af7ef23472d3409b5ea8c4d8f29",
           "dirty": false
         },
         "frontend": {
@@ -39,17 +39,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "603000f7e0123f49487955cf1a3147c7bcfbf1514339889d242caf9db29fb6a8",
-          "size_bytes": 135417
+          "sha256": "0938e72d6cad5f2812357f8c57ccb6c97fc5f5bdaf6736491399258d30265d61",
+          "size_bytes": 177543
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "0ed542f5ca55aa244040d7e117bae0e1a4a936034e3fba85463dd484d5db289c",
-          "size_bytes": 142362
+          "sha256": "cf0c9e96716ad2b0b9c4516c3925edf7cb1035d23c9af848eb5e49e4a3cb2ab6",
+          "size_bytes": 146636
         },
         "source_plan": {
           "path": "gsm-map/source-plan.json",
-          "sha256": "09ec51e2e5793add9e7da498e9c1a1746170858f53df96a0d1d2bf8bd76d04e0",
+          "sha256": "b426b14007fafdda32029f0b5e1c526c013a145988920a93462f99c18ffe9e8c",
           "size_bytes": 1489488
         },
         "sources": [
@@ -1150,7 +1150,7 @@
         ],
         "ir": {
           "path": "gsm-map/resolved-schema.json",
-          "sha256": "89d62bf9ecb468427ad7c07574fba397c78ac99346b0a314d9db65398d80434f",
+          "sha256": "ef713b94b425c4496b0a729c23e08b088fa0222ab17e2a73abdbb7348038d48d",
           "size_bytes": 8943109
         },
         "outputs": [
@@ -1161,18 +1161,18 @@
           },
           {
             "path": "gsm_map/asn1_wire_vectors_test.go",
-            "sha256": "e862ab966409a89c22804e8830a59e84ac5bd8a1de5dc6a8c0ee8b7720aef09e",
-            "size_bytes": 19719
+            "sha256": "d11ab9923a1de0260821ff5031de4e10bff8bd515cb44a55cf96f1ef17e22f25",
+            "size_bytes": 20113
           },
           {
             "path": "gsm_map/dummymap.go",
-            "sha256": "d15238df51e62ad6c4e4a7ebfec688d2a6e9d1dd76082b28e566377e6856ee8e",
-            "size_bytes": 534631
+            "sha256": "82089d5e50b528f112b5e0e3d94c1b0ba4f5bec64518e4673be2f7f93dc1ac8a",
+            "size_bytes": 611593
           },
           {
             "path": "gsm_map/ericssonmap.go",
-            "sha256": "76d1e4cc4043815ea465797542da2b8ff9a01bdcc945a614c7f9796692a2af78",
-            "size_bytes": 171843
+            "sha256": "0da72302d2a35cfe357dd84a8e3a8d7f85d9397fd8d2f8acf4ba6bc62a1f124c",
+            "size_bytes": 214799
           },
           {
             "path": "gsm_map/mapapplicationcontexts.go",
@@ -1216,73 +1216,73 @@
           },
           {
             "path": "gsm_map/mapchdatatypes.go",
-            "sha256": "f0bb9c2dbad755ec976f8fe2db00bd55d6f41db688d5099abaa3bcec43bff2ea",
-            "size_bytes": 529774
+            "sha256": "c37903710e426488b4e70547b0cf7df54f5ee09b85d2c07839f1b6e639e7252d",
+            "size_bytes": 587449
           },
           {
             "path": "gsm_map/mapchdatatypes_2.go",
-            "sha256": "fdfa4338dbde669646cf072fea5358cb64e57cdfd5a3d5f511b65b9b28684a91",
-            "size_bytes": 509433
+            "sha256": "1bf732d4a81729db0da3935fb45dd0f6f44dfe9c8347a138759a4d281e70f1a6",
+            "size_bytes": 565322
           },
           {
             "path": "gsm_map/mapcommondatatypes.go",
-            "sha256": "6973afd976ff2ae98a38e1a23967d25eabff12129ef8ea569c0ab22c2ba81320",
-            "size_bytes": 118185
+            "sha256": "f1d3f4f49e94473e4b2e624a1cf5418c1611fc8f0d3bac8e776823145b145687",
+            "size_bytes": 144428
           },
           {
             "path": "gsm_map/mapcommondatatypes_2.go",
-            "sha256": "6a74ca0eb08c19e216a21129aa15b5c2ef785fc2db67ba05b166b1e53c16ce7a",
-            "size_bytes": 122693
+            "sha256": "8454e41c1341e048659d79173885d1f71b82fc27b5a54610405abf8e7a792726",
+            "size_bytes": 148674
           },
           {
             "path": "gsm_map/mapcommondatatypes_3.go",
-            "sha256": "a43c18b966bc121ac68a18b0f41e8ebfff0400229c96cca82ff4d207488ffadc",
-            "size_bytes": 119508
+            "sha256": "dcf392e91ad6fd28164fce74576aca939225a06f7791e4aae06cfc26452c42b3",
+            "size_bytes": 145925
           },
           {
             "path": "gsm_map/mapcommondatatypes_4.go",
-            "sha256": "3fed7f983cb080f22bc43ee2207f85d964d2adc1ca04393b17804ad1013dd1fb",
-            "size_bytes": 118880
+            "sha256": "c5eeb03d85677fd0bf07280983b0c150bd89cbaee863332319721aa93fbdf4f5",
+            "size_bytes": 145213
           },
           {
             "path": "gsm_map/mapcommondatatypes_5.go",
-            "sha256": "368f2b93676d18217331540e00b99baf0d370e52b4da0e79e4e075a8b5f8771b",
-            "size_bytes": 111942
+            "sha256": "8d1add1622bea6184d0675183862b0c052f086b42b30663fc03b02534d05fe84",
+            "size_bytes": 136685
           },
           {
             "path": "gsm_map/mapcommondatatypes_6.go",
-            "sha256": "695cf0a27a68c5ffbe930126140884d114b9f911316ce83172207d85e5a5b1fb",
-            "size_bytes": 111157
+            "sha256": "bd7eb487d22c836f5ad28193cbfde55e78118312e139fdb4e45b42455f41bf86",
+            "size_bytes": 135900
           },
           {
             "path": "gsm_map/mapdialogueinformation.go",
-            "sha256": "bd3fe6a17dee9abc1909645263482dd4415f5e3f44f41949f8453ab9820273d1",
-            "size_bytes": 63862
+            "sha256": "7cf22277001c1200fe05988be9859ca3297eb17d86136eb647b9a92db0d93bd2",
+            "size_bytes": 74341
           },
           {
             "path": "gsm_map/maperdatatypes.go",
-            "sha256": "e8e6b9f07977fa8616ae202f6ec59250cbd1fdddcdf3ae30f29ff6a892b1a152",
-            "size_bytes": 293828
+            "sha256": "2d30e73c7dcb23c24571373de7931f58fe7766ff34ca3a9dab8d3ba2ffb6b309",
+            "size_bytes": 356756
           },
           {
             "path": "gsm_map/maperdatatypes_2.go",
-            "sha256": "2e362d8cb15c4d2487c6980ef93b666c66fd2845bcb9b977574eaf0c65b474d1",
-            "size_bytes": 283138
+            "sha256": "3c9e43c1a4bde19acb12a7f84ea8a9712a1072507f60b2068f02940451d7aafc",
+            "size_bytes": 347244
           },
           {
             "path": "gsm_map/maperdatatypes_3.go",
-            "sha256": "b1245e851e1c28d813c20c1bddfe5a2d1bb5c8285da36231f4b080a33980e765",
-            "size_bytes": 295004
+            "sha256": "9c15fe01b67da609e209db2e2266a23159de55dc590f9878681491e92149afd1",
+            "size_bytes": 358216
           },
           {
             "path": "gsm_map/maperdatatypes_4.go",
-            "sha256": "15d644201f1af6e1a763c7cd788286ba10c252b23c0635cf466431c29f768fc0",
-            "size_bytes": 288104
+            "sha256": "f4a294a98ef5067c456e1f4b60df7baf0ec9582bd30df47521b6e92ff4f84cd7",
+            "size_bytes": 350896
           },
           {
             "path": "gsm_map/maperdatatypes_5.go",
-            "sha256": "958dbb29ebcada9aed8bcd8a04542eb9a3b8d0331d4f93021ae52b97ce4abec5",
-            "size_bytes": 280979
+            "sha256": "161480e1bdf247af345fe4302379264e9c7dce8b228e6ca52704105c0492371a",
+            "size_bytes": 343557
           },
           {
             "path": "gsm_map/maperrors.go",
@@ -1296,38 +1296,38 @@
           },
           {
             "path": "gsm_map/mapextensiondatatypes.go",
-            "sha256": "403de4e9636cc9257ed4d333749ea73fdc77594ab717f4d92d8af2a6a34eebb3",
-            "size_bytes": 34256
+            "sha256": "a327b13866cb466a318858d438b5e5621d7cfbb43b60bac1d652a1803113b924",
+            "size_bytes": 42276
           },
           {
             "path": "gsm_map/mapextensiondatatypes_2.go",
-            "sha256": "eaff2e6f5bc973dc565352a9f4e8ce47a55d9870ba8ab141d99c31f1b532342d",
-            "size_bytes": 36239
+            "sha256": "98fba82fd6c3435f68090818bd1a9e3ccd106e19451e9f3e301a5d3bcf7fc13c",
+            "size_bytes": 44799
           },
           {
             "path": "gsm_map/mapextensiondatatypes_3.go",
-            "sha256": "322685bbfeb77df57616de0423a5517885aee0bc5f1f255b77a0285ed1a6124f",
-            "size_bytes": 34373
+            "sha256": "7a911f14daeac7420b90aa984805e30bd89c709e079d8609345a192abe336254",
+            "size_bytes": 42423
           },
           {
             "path": "gsm_map/mapextensiondatatypes_4.go",
-            "sha256": "6fdd08ac00e039d34c1d21f638c22b2d5ad670099b7e1f7b1b463e48f45c21d9",
-            "size_bytes": 34373
+            "sha256": "458f6bda0776acb078a11050f2a79b01ee9a63a9aa37e2a09d936f0e66298695",
+            "size_bytes": 42423
           },
           {
             "path": "gsm_map/mapextensiondatatypes_5.go",
-            "sha256": "0809c8cedb2d20de1b1957b6b4929dcc87e5b04450fc81e7ee0c207128ca6608",
-            "size_bytes": 34373
+            "sha256": "a0a2b69fe49cf22af479539fbe48bdc508c5f3c50f392728e45d61d87613aee7",
+            "size_bytes": 42423
           },
           {
             "path": "gsm_map/mapextensiondatatypes_6.go",
-            "sha256": "aea5adf319f44bd96b4e58cb6f8f5f761f6fa1fac7b9d6a35294c6e38eafbcbe",
-            "size_bytes": 34373
+            "sha256": "a151c3c2907ebd71e3112e14b6716fdbd490f9f6f91edbd6cec96526f83b9f2c",
+            "size_bytes": 42423
           },
           {
             "path": "gsm_map/mapgrdatatypes.go",
-            "sha256": "e04b382d2de52f54dc936eb1d76707f529f4d50acc56b60476331b0bc2f0ce1a",
-            "size_bytes": 173186
+            "sha256": "ed1ee8adc8f695b925e93f64f2dd588463f3d773f4468b4d513c80443b46093c",
+            "size_bytes": 192010
           },
           {
             "path": "gsm_map/mapgroupcalloperations.go",
@@ -1336,13 +1336,13 @@
           },
           {
             "path": "gsm_map/maplcsdatatypes.go",
-            "sha256": "e9632799f7d3ab4f553a907c9a276dc56ae629fcdc07f2fa2c17b6ced81ace82",
-            "size_bytes": 474866
+            "sha256": "1565bbeff13bbd879d7e2196f27282ef529a1677c73cdc4ce0ea9e0e6ea1105e",
+            "size_bytes": 535127
           },
           {
             "path": "gsm_map/maplcsdatatypes_2.go",
-            "sha256": "2803d4fd8d4b93acd702a0c8e1e0137b25abbb50711453fc19f4bb9df5caabf3",
-            "size_bytes": 478054
+            "sha256": "3eb9a3c3ef3da6e59a7639db952bb20140f88690d67628ffe3045e661d39f375",
+            "size_bytes": 538815
           },
           {
             "path": "gsm_map/maplocationserviceoperations.go",
@@ -1356,53 +1356,53 @@
           },
           {
             "path": "gsm_map/mapmsdatatypes.go",
-            "sha256": "4e4e80000b504803b0a8b5e12fb075a1de9c554b009afef3108980bd15f4820d",
-            "size_bytes": 3573662
+            "sha256": "7e5d4a60d949b9eb6dddd3e7c2b7150e34ae6dd9b23a4a994caf455456a4b640",
+            "size_bytes": 4043611
           },
           {
             "path": "gsm_map/mapmsdatatypes_2.go",
-            "sha256": "d48b65727ca2d7992e93f401a9eea6c8983329e952a9f423868e2d9ee30e4877",
-            "size_bytes": 2477077
+            "sha256": "6ee51df975d083242a3ba5027ac69ef8b3a2eab9363195ad283dce12bf02b367",
+            "size_bytes": 2844133
           },
           {
             "path": "gsm_map/mapmsdatatypes_3.go",
-            "sha256": "b01ec3ce4fb7eda182f5f28f4ef442bf1c9fe97d4e57f13064d1e73380230746",
-            "size_bytes": 3354176
+            "sha256": "9a2d5d5ae5d467f4ecf224d355b53390b2bf1de19dd2ee3c720aef186ce82ed0",
+            "size_bytes": 3802054
           },
           {
             "path": "gsm_map/mapmsdatatypes_4.go",
-            "sha256": "43a43b9c28fde39f49ce923fead15a88e8671db8c203737167bbc0dfe8236aec",
-            "size_bytes": 3583120
+            "sha256": "f579a3bd436e5fc308a449efbc65aeacb113f0f6930ffe700810118795adc7bf",
+            "size_bytes": 4054660
           },
           {
             "path": "gsm_map/mapmsdatatypes_5.go",
-            "sha256": "4783f22239f2baf00abbc9154aaa98d1beb24b9868efbba2299fe2517390c197",
-            "size_bytes": 3177929
+            "sha256": "ce36ad29191ee01d6bc924320a749fb9f7e1a73101f3933312d6414981a77ef1",
+            "size_bytes": 3610667
           },
           {
             "path": "gsm_map/mapomdatatypes.go",
-            "sha256": "61bca8bbe2780b31a8c4b74dba3973e792406c1e537805b50800953d9b4e7cd9",
-            "size_bytes": 339212
+            "sha256": "796e53cf08adf8632479ed2e6e55b46b43ae36ae09ba629f771718590e8c45fc",
+            "size_bytes": 374119
           },
           {
             "path": "gsm_map/mapomdatatypes_2.go",
-            "sha256": "3df229341f55564c5db3d66ad9b35b9ae2cafe59ded129ef6e8ade8949f06886",
-            "size_bytes": 162724
+            "sha256": "aef94452b6082b45a40f4acfb9e660d75cd82a151f1b02c50ca5fd87bf0592d5",
+            "size_bytes": 179736
           },
           {
             "path": "gsm_map/mapomdatatypes_3.go",
-            "sha256": "9f061ccf95180f7155f8631de7e1e676fd9bd23e90a2db73772a10b32560dcda",
-            "size_bytes": 333181
+            "sha256": "b753af43e6518f4e8c529a7134f9a8bb73b23b0f0e799acd7abaffb7a770c4eb",
+            "size_bytes": 366563
           },
           {
             "path": "gsm_map/mapomdatatypes_4.go",
-            "sha256": "10448b71d724a4f604ab84a030594d6e0d53f55ffb23247f672dcb02a1b0195c",
-            "size_bytes": 340242
+            "sha256": "b32423b8f9885b119ba5f89fade7a5ea39aa3423a9fc0b78a0c5e29fc6442ac2",
+            "size_bytes": 375388
           },
           {
             "path": "gsm_map/mapomdatatypes_5.go",
-            "sha256": "33c1e27e7f7f079516ea9f5db5b1b1045286cf4384d5e905566e7ab55e70e392",
-            "size_bytes": 272755
+            "sha256": "04f7cc49714b8e917e35b1eb2fa10517d9775571f54499a7cbd0735cf195059d",
+            "size_bytes": 303992
           },
           {
             "path": "gsm_map/mapoperationandmaintenanceoperations.go",
@@ -1421,18 +1421,18 @@
           },
           {
             "path": "gsm_map/mapsmdatatypes.go",
-            "sha256": "0ec051efb1afe6607cf408dab710d32e8a6f44593419fd7793bcf4b4ae421fbd",
-            "size_bytes": 376719
+            "sha256": "03dad2dc905cee15724c6d4fb759108817ae4705b00436867db50d76a0848dfb",
+            "size_bytes": 433055
           },
           {
             "path": "gsm_map/mapsmdatatypes_2.go",
-            "sha256": "bb0e25ad394e0a32c64e009206d02713689eec1a83453f7ca3aecd6c92d2ff84",
-            "size_bytes": 275264
+            "sha256": "926307ad7d570d6f2a4397b712cd007ec512f9b2d0f7f347bdd7316c3e4c795a",
+            "size_bytes": 320503
           },
           {
             "path": "gsm_map/mapsmdatatypes_3.go",
-            "sha256": "5f8de77849929d7c8108aa94fbac837c022dd1116cf18a7b09900a6df5358622",
-            "size_bytes": 359379
+            "sha256": "437a0dedc2a3f04df309a39f284eb9e106ffbb462a5d7ccfa6c6ef37d55b2529",
+            "size_bytes": 412249
           },
           {
             "path": "gsm_map/mapsscode.go",
@@ -1466,33 +1466,33 @@
           },
           {
             "path": "gsm_map/mapssdatatypes.go",
-            "sha256": "5d427764dc96b906d12b53ab05bbae62017f459aebfcab27943face7b5b65c64",
-            "size_bytes": 258409
+            "sha256": "f34767edb5e93669f15c7a7df9568bc49a9d3f64b5713c330e26beaae5fb5ce8",
+            "size_bytes": 314056
           },
           {
             "path": "gsm_map/mapssdatatypes_2.go",
-            "sha256": "46d1bba07145f31e2fca063b112a39e053c0ffaa62e65be587d74f9e2070247a",
-            "size_bytes": 261689
+            "sha256": "91c169e978d9bad290f0d70bda8d247d398df7a2900a9ce8d26021628ef036fe",
+            "size_bytes": 317989
           },
           {
             "path": "gsm_map/mapssdatatypes_3.go",
-            "sha256": "f519199cfe27185b1be5b205859945a65605ea415580b954a65901924e525992",
-            "size_bytes": 259289
+            "sha256": "7b20260abfda41dbc713af20f14a93840fd4f63236fd0782bb71ac1b305b439a",
+            "size_bytes": 315104
           },
           {
             "path": "gsm_map/mapssdatatypes_4.go",
-            "sha256": "3eef808367c6421bb6a75c78264d957b148bdda8498b7dff5e03cfd5e427769e",
-            "size_bytes": 259289
+            "sha256": "8e45bcb583846953b9a7d549365f3e7c79361943cab71462cf01fcdcd85ce9a9",
+            "size_bytes": 315104
           },
           {
             "path": "gsm_map/mapssdatatypes_5.go",
-            "sha256": "be323cf6b860f6f447bea26207065cfe88ddf1b626b83b82c0c0e31ba42b12cd",
-            "size_bytes": 259289
+            "sha256": "01e855727e1d9446c8334cb9d01f531f1fdeb7c5b19ad773cc22df5a5701f598",
+            "size_bytes": 315104
           },
           {
             "path": "gsm_map/mapssdatatypes_6.go",
-            "sha256": "cb58a4c6d8262c4b3fdf76146626704d8ac6b9922b905ab5c75048683d00c93c",
-            "size_bytes": 259289
+            "sha256": "eb29efb6af626c31e7b9b551bfb29e46e1543cb1e6a3dbe575f9730db0f9b5c7",
+            "size_bytes": 315104
           },
           {
             "path": "gsm_map/mapsupplementaryserviceoperations.go",
@@ -1536,33 +1536,33 @@
           },
           {
             "path": "gsm_map/nokiamapextensions.go",
-            "sha256": "475f877b4b8cf71f838caff8a5668718fc858c91e30aa7f22d633150f0363cd4",
-            "size_bytes": 485223
+            "sha256": "e68e0079e413c7c92f8569671c853ca531cf2650007f41aa2e1de90f2ec478e4",
+            "size_bytes": 577646
           },
           {
             "path": "gsm_map/remoteoperationsgenericrospdus.go",
-            "sha256": "c203f51cedbbaffeff3d809aa1c47911b1514656f684c1887d2f523ec427e188",
-            "size_bytes": 92409
+            "sha256": "3a3686ce880955cb2ac6f2386c09d1c986fde7eddbe5a2584b838234d26d6029",
+            "size_bytes": 108015
           },
           {
             "path": "gsm_map/remoteoperationsinformationobjects.go",
-            "sha256": "8885d06b16b1c9d232bbf3b1c396678163ca18bebd38521834fd509bde62950b",
-            "size_bytes": 3434
+            "sha256": "0f46d55e9bba8600876311d5b72392d65e3093c3cbc25f88ab386dc4837b6113",
+            "size_bytes": 4569
           },
           {
             "path": "gsm_map/remoteoperationsusefuldefinitions.go",
-            "sha256": "ef6dc338d4754570d9ad8887ee2cca72838270a36918a9231e515c56bd0ef118",
-            "size_bytes": 55018
+            "sha256": "afac0c59dd5037312007f890eb5d4bd31873a4a08ef40accb76767cbc59df03d",
+            "size_bytes": 66343
           },
           {
             "path": "gsm_map/ssdatatypes.go",
-            "sha256": "6ab047d0bfd738db23eacc4045085f6d9451e73b368216f1e0c53edf92892ea9",
-            "size_bytes": 892932
+            "sha256": "01ee99137e8538a5291f49029fdec0f251e6a0056b26fa3a32ee3a58f59bf214",
+            "size_bytes": 1040839
           },
           {
             "path": "gsm_map/sserrors.go",
-            "sha256": "65abd2f363b622c8d579e7d66eb75286f7596149b4bc0381a5123ed640a9a081",
-            "size_bytes": 5547
+            "sha256": "101382d3d58cdc52d42b4b2ef3ba115dacd7954169e6ecf0a0926500dd81ca1c",
+            "size_bytes": 6703
           },
           {
             "path": "gsm_map/ssoperations.go",
@@ -1872,7 +1872,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "cb33d10b854b5431f729ef8cde321ce6c0c186aa",
+          "commit": "1c4348cc678a6af7ef23472d3409b5ea8c4d8f29",
           "dirty": false
         },
         "frontend": {
@@ -1881,17 +1881,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "603000f7e0123f49487955cf1a3147c7bcfbf1514339889d242caf9db29fb6a8",
-          "size_bytes": 135417
+          "sha256": "0938e72d6cad5f2812357f8c57ccb6c97fc5f5bdaf6736491399258d30265d61",
+          "size_bytes": 177543
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "0ed542f5ca55aa244040d7e117bae0e1a4a936034e3fba85463dd484d5db289c",
-          "size_bytes": 142362
+          "sha256": "cf0c9e96716ad2b0b9c4516c3925edf7cb1035d23c9af848eb5e49e4a3cb2ab6",
+          "size_bytes": 146636
         },
         "source_plan": {
           "path": "lpp/source-plan.json",
-          "sha256": "b8d6fda5f50f6b92e26f9f0fe6667be1d903ef011f49536436870f4e8b2e6504",
+          "sha256": "de6c5b1800272df506f3d4f9584d5e6a3d08991c9adeb36a06902ef227d8c6da",
           "size_bytes": 149910
         },
         "sources": [
@@ -1920,14 +1920,14 @@
         ],
         "ir": {
           "path": "lpp/resolved-schema.json",
-          "sha256": "5012b987adb190cd03a50815afd120839609044117d67820eddb47e9ec8cd4de",
+          "sha256": "983dacacb83a5a71bd6f5770aa7002f86e904ec7367f5c23da3bc709c2e0c1d9",
           "size_bytes": 1688929
         },
         "outputs": [
           {
             "path": "lpp/asn1_wire_vectors_test.go",
-            "sha256": "97be32fcd1f05165f4245eb8248b2bc9d1ae173597308e75bfaead4beccbf91b",
-            "size_bytes": 29363
+            "sha256": "11b43966600f6fcd940d170ec28cc8dbecccab8aaadac66c5426fe1d34a2aa7f",
+            "size_bytes": 29757
           },
           {
             "path": "lpp/doc.go",
@@ -1941,8 +1941,8 @@
           },
           {
             "path": "lpp/lpppdudefinitions.go",
-            "sha256": "6082f99a7f2cb0b557c58f459e6faafadf29c80a1125449056556fa1c20f70bd",
-            "size_bytes": 8535532
+            "sha256": "27ea0886b523869a81e325aaa684849b388d8df19a608a2d10aa5db3a429ee1d",
+            "size_bytes": 8535742
           },
           {
             "path": "lpp/per_helpers.go",
@@ -2250,7 +2250,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "cb33d10b854b5431f729ef8cde321ce6c0c186aa",
+          "commit": "1c4348cc678a6af7ef23472d3409b5ea8c4d8f29",
           "dirty": false
         },
         "frontend": {
@@ -2259,17 +2259,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "603000f7e0123f49487955cf1a3147c7bcfbf1514339889d242caf9db29fb6a8",
-          "size_bytes": 135417
+          "sha256": "0938e72d6cad5f2812357f8c57ccb6c97fc5f5bdaf6736491399258d30265d61",
+          "size_bytes": 177543
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "0ed542f5ca55aa244040d7e117bae0e1a4a936034e3fba85463dd484d5db289c",
-          "size_bytes": 142362
+          "sha256": "cf0c9e96716ad2b0b9c4516c3925edf7cb1035d23c9af848eb5e49e4a3cb2ab6",
+          "size_bytes": 146636
         },
         "source_plan": {
           "path": "lppa/source-plan.json",
-          "sha256": "d1424aa9fc1b3b401d1d1dbd46a0ccfb059c69c077497a56497a4e998ba99abf",
+          "sha256": "a338fb4803468b25da71137ad1b199771f24d2e60ac3c987a2229dcf9d406efa",
           "size_bytes": 75872
         },
         "sources": [
@@ -2338,14 +2338,14 @@
         ],
         "ir": {
           "path": "lppa/resolved-schema.json",
-          "sha256": "617dff6b6893cdecf5c00a9fa7e9b9e7f8bc864875698c7b85dec0005e0892dd",
+          "sha256": "16a75ba80a67130b411eb1aff187080f51fdea165e9dc4431f4c5f5852f7e0e3",
           "size_bytes": 461726
         },
         "outputs": [
           {
             "path": "lppa/asn1_wire_vectors_test.go",
-            "sha256": "a9692c39f52a784ea8f11bc7ef2378fef5cb94670c034b4b4201a72aa73cfab5",
-            "size_bytes": 22838
+            "sha256": "4f5e3c2e8c59df9a3d6b2be36b32010c4a1512ba22e2d97495b3848fd819cbe4",
+            "size_bytes": 23232
           },
           {
             "path": "lppa/dispatch.go",
@@ -2369,18 +2369,18 @@
           },
           {
             "path": "lppa/lppacontainers.go",
-            "sha256": "cc3ae06a9b8ccbc80c89aa3fd8b1eefccd49d654bb47cc5961f9d01f199c378e",
-            "size_bytes": 40147
+            "sha256": "074e2f5b467d72f79a17615445b38a42119eb7cc2680d5e24b0e879648f86d5c",
+            "size_bytes": 40153
           },
           {
             "path": "lppa/lppaies.go",
-            "sha256": "3c454df8a4dedc71f1fcba998f435f6571ff2047fc993f9a7e4b59f1d973fdac",
-            "size_bytes": 532432
+            "sha256": "755e153ed54634cadf2980ba0ac6c43d68be297a26379162765e465bc51f8c62",
+            "size_bytes": 532457
           },
           {
             "path": "lppa/lppapducontents.go",
-            "sha256": "703e38e4db2c597f93444c0996877781ef65dcadd4415fe5ab671654f94e99e0",
-            "size_bytes": 120702
+            "sha256": "1d1a49cb42d137b274966db4a86a643f009f31f34b164bd727ed276fbbd6e981",
+            "size_bytes": 120703
           },
           {
             "path": "lppa/lppapdudescriptions.go",
@@ -2698,7 +2698,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "cb33d10b854b5431f729ef8cde321ce6c0c186aa",
+          "commit": "1c4348cc678a6af7ef23472d3409b5ea8c4d8f29",
           "dirty": false
         },
         "frontend": {
@@ -2707,123 +2707,483 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "603000f7e0123f49487955cf1a3147c7bcfbf1514339889d242caf9db29fb6a8",
-          "size_bytes": 135417
+          "sha256": "0938e72d6cad5f2812357f8c57ccb6c97fc5f5bdaf6736491399258d30265d61",
+          "size_bytes": 177543
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "0ed542f5ca55aa244040d7e117bae0e1a4a936034e3fba85463dd484d5db289c",
-          "size_bytes": 142362
+          "sha256": "cf0c9e96716ad2b0b9c4516c3925edf7cb1035d23c9af848eb5e49e4a3cb2ab6",
+          "size_bytes": 146636
         },
         "source_plan": {
           "path": "lte-rrc/source-plan.json",
-          "sha256": "5b89134f4ed81510c145ebce3cb68e7b7f4fcd3d81c7b142cfcd171e814f9f14",
-          "size_bytes": 584617
+          "sha256": "782677d3595670cd99c5abb8020f6101e2d389ff1c20a2436a491970b05bc833",
+          "size_bytes": 638414
         },
         "sources": [
           {
-            "collection": "wireshark-asn1",
-            "path": "lte-rrc/EUTRA-InterNodeDefinitions.asn",
+            "collection": "rrc-36331-v19",
+            "path": "modules/EUTRA-InterNodeDefinitions.asn",
             "mode": "0644",
-            "sha256": "83e90362bbe2b2faae23763b868ba4d6f82e1cb24d7918316c9cd911e9e48fe0"
+            "sha256": "629d852c5f0d7e753ac103116760c1f214a17f771c02561b70afa18ab4edf250"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "lte-rrc/EUTRA-RRC-Definitions.asn",
+            "collection": "rrc-36331-v19",
+            "path": "modules/EUTRA-RRC-Definitions.asn",
             "mode": "0644",
-            "sha256": "a0abd6699fc952bf6aa1b4a5056852f149396fc0d8ad827d7c8439ff09b86fee"
+            "sha256": "4bd0cfb2d50206f2e6c342d0d07ba9b5e88992ca49d47e4eaa3948274e969554"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "lte-rrc/EUTRA-Sidelink-Preconf.asn",
+            "collection": "rrc-36331-v19",
+            "path": "modules/EUTRA-Sidelink-Preconf.asn",
             "mode": "0644",
-            "sha256": "5bc4aba7287f0d8c94b93819f33d76dee57a8c48c59d880bb36aca87f3aecd9a"
+            "sha256": "bcb8b4db3e2b5b7d75506630d7c50279ccf247f07119f42926be0faf9e406564"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "lte-rrc/EUTRA-UE-Variables.asn",
+            "collection": "rrc-36331-v19",
+            "path": "modules/EUTRA-UE-Variables.asn",
             "mode": "0644",
-            "sha256": "30b8c55ee8e7f1edab343e50e50587b699192d17f9563dc051d16af4e8fb7d9d"
+            "sha256": "d135b0582f57aa8314d8ee934061c2cb000b26a092404949bc3006385cb6d2c4"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "lte-rrc/NBIOT-InterNodeDefinitions.asn",
+            "collection": "rrc-36331-v19",
+            "path": "modules/NBIOT-InterNodeDefinitions.asn",
             "mode": "0644",
-            "sha256": "a24a9cc670d38f85024a879c87bb76bc9270e6c26fd82df154a251a25c7c9b81"
+            "sha256": "548a8e8544faeb788075fe7a8f941a48c33ef9d688620ac498767730e8447cd5"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "lte-rrc/NBIOT-RRC-Definitions.asn",
+            "collection": "rrc-36331-v19",
+            "path": "modules/NBIOT-RRC-Definitions.asn",
             "mode": "0644",
-            "sha256": "4cc44e4f6d05ea8135e52334834932cc91f6181ebcfa4ed5917939bf9270445a"
+            "sha256": "c533ba0082d78d3d7aa45289ce619227e660bfdddae8d06e0ca0881483579421"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "lte-rrc/NBIOT-UE-Variables.asn",
+            "collection": "rrc-36331-v19",
+            "path": "modules/NBIOT-UE-Variables.asn",
             "mode": "0644",
-            "sha256": "c0ea81ff0ef4a53a032d4eba9eee7291051e1cee1db661ecaa6aa65498618c71"
+            "sha256": "43eeff243455d7fb49e9fff09b9b4a2af0ba45ebdb551def653b74b801fe9d15"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "lte-rrc/PC5-RRC-Definitions.asn",
+            "collection": "rrc-36331-v19",
+            "path": "modules/PC5-RRC-Definitions.asn",
             "mode": "0644",
-            "sha256": "a806d70329558f4164e9d9d2fab9028560b1d0b3e6294a1efa42139f5ad33311"
+            "sha256": "dc40850e38a0ad8be0079be0583420ce7a5903facf4578b2553f5b2eb75c25ce"
           }
         ],
         "module_closure": [
           {
             "module": "EUTRA-InterNodeDefinitions",
-            "path": "wireshark-asn1/lte-rrc/EUTRA-InterNodeDefinitions.asn"
+            "path": "rrc-36331-v19/modules/EUTRA-InterNodeDefinitions.asn"
           },
           {
             "module": "EUTRA-RRC-Definitions",
-            "path": "wireshark-asn1/lte-rrc/EUTRA-RRC-Definitions.asn"
+            "path": "rrc-36331-v19/modules/EUTRA-RRC-Definitions.asn"
           },
           {
             "module": "EUTRA-Sidelink-Preconf",
-            "path": "wireshark-asn1/lte-rrc/EUTRA-Sidelink-Preconf.asn"
+            "path": "rrc-36331-v19/modules/EUTRA-Sidelink-Preconf.asn"
           },
           {
             "module": "EUTRA-UE-Variables",
-            "path": "wireshark-asn1/lte-rrc/EUTRA-UE-Variables.asn"
+            "path": "rrc-36331-v19/modules/EUTRA-UE-Variables.asn"
           },
           {
             "module": "NBIOT-InterNodeDefinitions",
-            "path": "wireshark-asn1/lte-rrc/NBIOT-InterNodeDefinitions.asn"
+            "path": "rrc-36331-v19/modules/NBIOT-InterNodeDefinitions.asn"
           },
           {
             "module": "NBIOT-RRC-Definitions",
-            "path": "wireshark-asn1/lte-rrc/NBIOT-RRC-Definitions.asn"
+            "path": "rrc-36331-v19/modules/NBIOT-RRC-Definitions.asn"
           },
           {
             "module": "NBIOT-UE-Variables",
-            "path": "wireshark-asn1/lte-rrc/NBIOT-UE-Variables.asn"
+            "path": "rrc-36331-v19/modules/NBIOT-UE-Variables.asn"
           },
           {
             "module": "PC5-RRC-Definitions",
-            "path": "wireshark-asn1/lte-rrc/PC5-RRC-Definitions.asn"
+            "path": "rrc-36331-v19/modules/PC5-RRC-Definitions.asn"
           }
         ],
         "corrections": [
           {
-            "source_collection": "wireshark-asn1",
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "The parameterized template is compile-time only after all 42 use sites are instantiated as the source-defined CHOICE.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "The NB-IoT assignment has the same name as the E-UTRA assignment in the official modules; qualify only this compiler input to preserve the distinct NB-IoT Go type and wire layout.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.7.1 NBIOT-RRC-Definitions"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "Instantiate the source-defined SetupRelease parameterized CHOICE as its two formal alternatives until the frontend emits this type reference; the value and PER layout are unchanged.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and the declaring ASN.1 module"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "The NB-IoT assignment has the same name as the E-UTRA assignment in the official modules; qualify only this compiler input to preserve the distinct NB-IoT Go type and wire layout.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.7.1 NBIOT-RRC-Definitions"
+          },
+          {
+            "source_collection": "rrc-36331-v19",
             "module": "NBIOT-RRC-Definitions",
             "symbol": "SetupRelease",
             "target_module": "EUTRA-RRC-Definitions",
-            "reason": "The selected Wireshark V19.3.0 source comments out the parameterized SetupRelease assignment and rewrites every use as an explicit CHOICE, but retains the now-unused NB-IoT import; the unmodified current specification retains both the type and import.",
-            "standard_reference": "3GPP TS 36.331 V19.3.0 (2026-08), current ETSI publication, sections 6.3.0 SetupRelease and 6.7.1 NBIOT-RRC-Definitions"
+            "reason": "All uses are instantiated as the source-defined CHOICE, so the parameterized template import is unused by the compiler frontend.",
+            "standard_reference": "3GPP TS 36.331 V19.4.0 (2026-09) clause 6.3.0 SetupRelease and clause 6.7.1 NBIOT-RRC-Definitions"
           }
         ],
         "ir": {
           "path": "lte-rrc/resolved-schema.json",
-          "sha256": "d1560d556e565414b929d54ee656bb80afb87d2d4502e55eeab3f3c44e71884c",
-          "size_bytes": 5596445
+          "sha256": "cbec3a60592cd0dc90c769971a05f9d2bc17c2a79740acad7357c25adc609ea1",
+          "size_bytes": 5691263
         },
         "outputs": [
           {
             "path": "rrc/asn1_wire_vectors_test.go",
-            "sha256": "31ec4b4b75d13eb37f05572387c2df0be054c09df9e3f0c1e460ffaec2f33ddd",
-            "size_bytes": 8922
+            "sha256": "1940170138ce4945da3ed88edb02143e4aa4fca3089c12833644e8759855f5a6",
+            "size_bytes": 9316
           },
           {
             "path": "rrc/doc.go",
@@ -2832,23 +3192,23 @@
           },
           {
             "path": "rrc/eutrainternodedefinitions.go",
-            "sha256": "39120b23026d55eac5655c08ba4e8e986f7d0b84ebaee085f4f749e72ad0687b",
-            "size_bytes": 566663
+            "sha256": "833752423eeae1d2cdc6714c75042e311a92c4a5c4316a7f43b69b55fc6a0682",
+            "size_bytes": 566673
           },
           {
             "path": "rrc/eutrarrcdefinitions.go",
-            "sha256": "28bf29fb785bf1b37ab124aaa269f2da66d15456d07a0acd2cbe8f1bc623cec7",
-            "size_bytes": 18586690
+            "sha256": "0a0202c68e4da806ebe9219a3e8ad1ddc142845a751736fb30b6869b65a4723b",
+            "size_bytes": 18587361
           },
           {
             "path": "rrc/eutrasidelinkpreconf.go",
-            "sha256": "ca929ec3bab1a2f5a37aa122ae5397bc8f026b05167c99aae1056587273cee57",
-            "size_bytes": 260003
+            "sha256": "e8cfcffde539e4caa228298b91f9f6b93b3d2672a333ca91e6cb415bfeddf687",
+            "size_bytes": 260018
           },
           {
             "path": "rrc/eutrauevariables.go",
-            "sha256": "cd9b5d9bbd6dff28771031a012639651879c0f672b5cf73c2b3ec1301da62a5c",
-            "size_bytes": 210292
+            "sha256": "4b8cad92a7b80f428cd387cc9504afe9b9cd34208411894b929aeb13f60cfaa2",
+            "size_bytes": 210298
           },
           {
             "path": "rrc/nbiotinternodedefinitions.go",
@@ -2857,13 +3217,13 @@
           },
           {
             "path": "rrc/nbiotrrcdefinitions.go",
-            "sha256": "6ffd6e32ff0b140ad59fb70646b953dedde603252331686dd70b946b34e32677",
-            "size_bytes": 3186302
+            "sha256": "145d4dcf2c6125ac4c9a2b6b50ccf5d7cf3b1a9ff02b0703dd15707cf6c01414",
+            "size_bytes": 3186378
           },
           {
             "path": "rrc/nbiotuevariables.go",
-            "sha256": "cb1418917d524f438751c1516f6244a4d9b4d59a00a3978f3e87c9ccb738754d",
-            "size_bytes": 22284
+            "sha256": "0410c44e942e0ac1888e387d1b5718fecbc7009b0d4ff1c31da2cf6c5e9bc9dd",
+            "size_bytes": 22285
           },
           {
             "path": "rrc/pc5rrcdefinitions.go",
@@ -2879,8 +3239,8 @@
         "standards": [
           {
             "authority": "3gpp",
-            "document": "3GPP TS 36.331 V19.3.0 (Release 19), clause 6.2.2 and ASN.1 annexes",
-            "status": "current release-19 publication verified 2026-09-01; selected raw source contains the complete V19.3.0 Release 18 and Release 19 extension chains, including v1800"
+            "document": "3GPP TS 36.331 V19.4.0 (Release 19), clause 6.2.2 and ASN.1 annexes",
+            "status": "current Release 19 publication verified 2026-10-01; formal ASN.1 extracted from authenticated 36331-j40.zip"
           },
           {
             "authority": "itu-t",
@@ -3106,7 +3466,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "cb33d10b854b5431f729ef8cde321ce6c0c186aa",
+          "commit": "1c4348cc678a6af7ef23472d3409b5ea8c4d8f29",
           "dirty": false
         },
         "frontend": {
@@ -3115,17 +3475,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "603000f7e0123f49487955cf1a3147c7bcfbf1514339889d242caf9db29fb6a8",
-          "size_bytes": 135417
+          "sha256": "0938e72d6cad5f2812357f8c57ccb6c97fc5f5bdaf6736491399258d30265d61",
+          "size_bytes": 177543
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "0ed542f5ca55aa244040d7e117bae0e1a4a936034e3fba85463dd484d5db289c",
-          "size_bytes": 142362
+          "sha256": "cf0c9e96716ad2b0b9c4516c3925edf7cb1035d23c9af848eb5e49e4a3cb2ab6",
+          "size_bytes": 146636
         },
         "source_plan": {
           "path": "rrc/source-plan.json",
-          "sha256": "23431dbd0e496b9b00a191d83ae52ff9f65c96e1a3d77df93d230a1cafb85709",
+          "sha256": "88b1513bb70c6b47ea10621236f7347245e02021288369d9df9512c74bb5c0d0",
           "size_bytes": 929329
         },
         "sources": [
@@ -3184,14 +3544,14 @@
         ],
         "ir": {
           "path": "rrc/resolved-schema.json",
-          "sha256": "a23d0abc5a4346e14db1fd33ae4643a454b4c37758953ad6d23a82b3d323a026",
+          "sha256": "c5a9d6a861965a96ad8e0a938397a07b39474ea4893a9e0b7c6f675fbce98b9b",
           "size_bytes": 10933060
         },
         "outputs": [
           {
             "path": "rrc/asn1_wire_vectors_test.go",
-            "sha256": "a9f35ff8693e067b0804a11a7b93c22414346ca5b67694d6e70ab950a6e32c2a",
-            "size_bytes": 9051
+            "sha256": "737dc4dd16862be75de87c88a072d0bf445f32982c2b8c3c2044517e4433772c",
+            "size_bytes": 9445
           },
           {
             "path": "rrc/classdefinitions.go",
@@ -3210,18 +3570,18 @@
           },
           {
             "path": "rrc/informationelements.go",
-            "sha256": "3886f182d76944c43d5a75718027ab710101c5ad208ea9db5a112392a0334767",
-            "size_bytes": 22068586
+            "sha256": "88e80f74cdc40e62df3f16db867c9a6fed3c5e4f217a6e202d4c9e547f50ec65",
+            "size_bytes": 22069408
           },
           {
             "path": "rrc/internodedefinitions.go",
-            "sha256": "65746c27c78fad23d06efedc136a656881e73fad6d701082fb15301543513bec",
-            "size_bytes": 2315519
+            "sha256": "83ccd02ffe9555afb8bc0502ac53a59aef3af395d4253dd7c63659f90e3f1c6d",
+            "size_bytes": 2315550
           },
           {
             "path": "rrc/pdudefinitions.go",
-            "sha256": "ec54d989d227ad7205f96e002b9f10d83f254653ea8f098d52f4d634bef7576b",
-            "size_bytes": 14136074
+            "sha256": "e3fd15f6ae5fde5278e4089cf996b4bf4d7a29889d638ff456025190f925fd52",
+            "size_bytes": 14136077
           },
           {
             "path": "rrc/per_helpers.go",
@@ -3458,7 +3818,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "cb33d10b854b5431f729ef8cde321ce6c0c186aa",
+          "commit": "1c4348cc678a6af7ef23472d3409b5ea8c4d8f29",
           "dirty": false
         },
         "frontend": {
@@ -3467,118 +3827,126 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "603000f7e0123f49487955cf1a3147c7bcfbf1514339889d242caf9db29fb6a8",
-          "size_bytes": 135417
+          "sha256": "0938e72d6cad5f2812357f8c57ccb6c97fc5f5bdaf6736491399258d30265d61",
+          "size_bytes": 177543
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "0ed542f5ca55aa244040d7e117bae0e1a4a936034e3fba85463dd484d5db289c",
-          "size_bytes": 142362
+          "sha256": "cf0c9e96716ad2b0b9c4516c3925edf7cb1035d23c9af848eb5e49e4a3cb2ab6",
+          "size_bytes": 146636
         },
         "source_plan": {
           "path": "s1ap/source-plan.json",
-          "sha256": "2804ab4633659264d5b694d0421e40a59d18197f672cfa17d7c456c258749ce2",
-          "size_bytes": 376279
+          "sha256": "1b1e438593c052cc9b017b2a7f544e69d2d1be78308540c9222cc3072d11e50d",
+          "size_bytes": 385543
         },
         "sources": [
           {
-            "collection": "wireshark-asn1",
-            "path": "s1ap/S1AP-CommonDataTypes.asn",
+            "collection": "s1ap-36413-v19",
+            "path": "modules/S1AP-CommonDataTypes.asn",
             "mode": "0644",
-            "sha256": "50846382ba007eda4fd245fbce8a1f617b523aeb013853d7dbdfd7a84e17dad8"
+            "sha256": "43f37889a193b174e27e8bb73d220714fe7a2afc63662d036e7f1bc13387cf72"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "s1ap/S1AP-Constants.asn",
+            "collection": "s1ap-36413-v19",
+            "path": "modules/S1AP-Constants.asn",
             "mode": "0644",
-            "sha256": "ac767ad08d8c39f126b06bb4493d83c1875b7750a2dcd025484f16760d05482f"
+            "sha256": "33720c2f0ad284b34f120c8fd70ef81c9d1afa006da5a75fdd6df7d6447bff72"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "s1ap/S1AP-Containers.asn",
+            "collection": "s1ap-36413-v19",
+            "path": "modules/S1AP-Containers.asn",
             "mode": "0644",
-            "sha256": "ce4d9958289058791a66e24fe7b4c39e00ecc79c9b47e7ac2bed2a7cb3f05ff3"
+            "sha256": "44e3c83a0acee6ee6efcae8bf25433a18e4bf67b15a828fa3707f05b8d0b5951"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "s1ap/S1AP-IEs.asn",
+            "collection": "s1ap-36413-v19",
+            "path": "modules/S1AP-IEs.asn",
             "mode": "0644",
-            "sha256": "ecb19e34768a591fb00617b1bc9aeadecd8fa5e5ab994a5c621b2a31e3d1351a"
+            "sha256": "544ab212047381da72c4584f3f3b7113ab6ebc32dd13fd345229752ba0e77e64"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "s1ap/S1AP-PDU-Contents.asn",
+            "collection": "s1ap-36413-v19",
+            "path": "modules/S1AP-PDU-Contents.asn",
             "mode": "0644",
-            "sha256": "ab36e8cd18b26531fd6d108ad212c58d944293de10240fc470200d91e98a1b52"
+            "sha256": "0d2389eaa8a15f8f3e817ea4086ce65303e718b87325a00237dd2a5c24a33b93"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "s1ap/S1AP-PDU-Descriptions.asn",
+            "collection": "s1ap-36413-v19",
+            "path": "modules/S1AP-PDU-Descriptions.asn",
             "mode": "0644",
-            "sha256": "7944143f30f49f37b7f4cb1eded98166cbf5efb96dca723c38117d4f6038618f"
+            "sha256": "c86f17f27f387b068868c534e0ad5936be8a3cd7be08747e2c13daba39a06ac2"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "s1ap/S1AP-SonTransfer-IEs.asn",
+            "collection": "s1ap-36413-v19",
+            "path": "modules/SonTransfer-IEs.asn",
             "mode": "0644",
-            "sha256": "49b8743732001b713ceeb199c0296e6acf7b6eeb312d40a219fd55009e8458c2"
+            "sha256": "8101aaa9ba91ca873399c12eca53f6281ef4410fb5e5925e062922595bb93f45"
           }
         ],
         "module_closure": [
           {
             "module": "S1AP-CommonDataTypes",
-            "path": "wireshark-asn1/s1ap/S1AP-CommonDataTypes.asn"
+            "path": "s1ap-36413-v19/modules/S1AP-CommonDataTypes.asn"
           },
           {
             "module": "S1AP-Constants",
-            "path": "wireshark-asn1/s1ap/S1AP-Constants.asn"
+            "path": "s1ap-36413-v19/modules/S1AP-Constants.asn"
           },
           {
             "module": "S1AP-Containers",
-            "path": "wireshark-asn1/s1ap/S1AP-Containers.asn"
+            "path": "s1ap-36413-v19/modules/S1AP-Containers.asn"
           },
           {
             "module": "S1AP-IEs",
-            "path": "wireshark-asn1/s1ap/S1AP-IEs.asn"
+            "path": "s1ap-36413-v19/modules/S1AP-IEs.asn"
           },
           {
             "module": "S1AP-PDU-Contents",
-            "path": "wireshark-asn1/s1ap/S1AP-PDU-Contents.asn"
+            "path": "s1ap-36413-v19/modules/S1AP-PDU-Contents.asn"
           },
           {
             "module": "S1AP-PDU-Descriptions",
-            "path": "wireshark-asn1/s1ap/S1AP-PDU-Descriptions.asn"
+            "path": "s1ap-36413-v19/modules/S1AP-PDU-Descriptions.asn"
           },
           {
             "module": "SonTransfer-IEs",
-            "path": "wireshark-asn1/s1ap/S1AP-SonTransfer-IEs.asn"
+            "path": "s1ap-36413-v19/modules/SonTransfer-IEs.asn"
           }
         ],
         "corrections": [
           {
-            "source_collection": "wireshark-asn1",
+            "source_collection": "s1ap-36413-v19",
+            "module": "",
+            "symbol": "",
+            "target_module": "",
+            "reason": "The same normative type is defined in S1AP-IEs; use that assignment to avoid a duplicate Go symbol while preserving its exact 32-bit wire type.",
+            "standard_reference": "3GPP TS 36.413 V19.2.0 (2026-07) clause 9.3.4 S1AP-IEs and Annex B.2 SonTransfer-IEs"
+          },
+          {
+            "source_collection": "s1ap-36413-v19",
             "module": "SonTransfer-IEs",
             "symbol": "MobilityInformation",
             "target_module": "S1AP-IEs",
-            "reason": "The selected Wireshark V19.1.0 source comments out the local SonTransfer-IEs definition to reuse S1AP-IEs but omits the corresponding import; current V19.2.0 retains the same normative definition in both formal modules.",
-            "standard_reference": "3GPP TS 36.413 V19.1.0 (selected source) Annex B.2 SonTransfer-IEs and section 9.3.4 S1AP-IEs; current ETSI TS 136 413 V19.2.0 (2026-07), published 2026-07-31"
+            "reason": "The official Annex B module duplicates the same 32-bit assignment from S1AP-IEs; source correction selects the existing definition without changing the wire type.",
+            "standard_reference": "3GPP TS 36.413 V19.2.0 (2026-07) clause 9.3.4 S1AP-IEs and Annex B.2 SonTransfer-IEs"
           }
         ],
         "ir": {
           "path": "s1ap/resolved-schema.json",
-          "sha256": "628c649f2b339c61e22ccc3a8406af40548da30efe3202a58e1af4c87e589f5f",
-          "size_bytes": 2208837
+          "sha256": "ad55f35a853210d3eeae56de1bde970c7da83ed23a89998d166a626d170c3ed6",
+          "size_bytes": 2234127
         },
         "outputs": [
           {
             "path": "s1ap/asn1_wire_vectors_test.go",
-            "sha256": "94309176029b8fe248cd8e250a1511caa0df7d0460f4b71f1dfd209cef978368",
-            "size_bytes": 25242
+            "sha256": "ff21039f232c3fa523eb5ae5c26c81752b0d63537595001d60aff4304d331763",
+            "size_bytes": 25636
           },
           {
             "path": "s1ap/dispatch.go",
-            "sha256": "acf79afa87e53b9b0750773b9f0e6d0c680db46bdd850908ebc3b81abc1f5337",
-            "size_bytes": 334325
+            "sha256": "7e75f636b395141e74208f1e4a70c3c08d799fbd301e881c6ab1e7da6f2f78e6",
+            "size_bytes": 332222
           },
           {
             "path": "s1ap/doc.go",
@@ -3597,23 +3965,23 @@
           },
           {
             "path": "s1ap/s1apconstants.go",
-            "sha256": "780bec4798fb4c7851cf9af6009656d75f7b57afe6cca4cd0ba272ed9e8f00e3",
-            "size_bytes": 56277
+            "sha256": "e04ea0ece5e8e68847036899dff17161b1ebcfdd56ae51a941c1ab2271da2af2",
+            "size_bytes": 54513
           },
           {
             "path": "s1ap/s1apcontainers.go",
-            "sha256": "7ff6258918eb1a0029d307ed41cfb3188f39b2e4a48d43e1a71474e7551b0912",
-            "size_bytes": 40121
+            "sha256": "9273febdfe7dff4a985a1a3de9462aae22b9c8df427fba7a253d1ab323cc7b97",
+            "size_bytes": 40127
           },
           {
             "path": "s1ap/s1apies.go",
-            "sha256": "5ff0877fdaaf44c0afa50a1931a73413fa6ecf530638b8d6b6f78faf784e5263",
-            "size_bytes": 1886235
+            "sha256": "a4734ccf19ac7a453d8daced799b50c866218b24fd8ffc4d01e4f43ce627e0d4",
+            "size_bytes": 1886303
           },
           {
             "path": "s1ap/s1appducontents.go",
-            "sha256": "44aced411141f9266bb5308b3f2c8aea52a31b979c83ea31b7946f45bd291c70",
-            "size_bytes": 946498
+            "sha256": "fda944feeeba03b33b814fb0f7536c899d0e6feca848454c630b4e6175e16c2e",
+            "size_bytes": 946432
           },
           {
             "path": "s1ap/s1appdudescriptions.go",
@@ -3622,15 +3990,15 @@
           },
           {
             "path": "s1ap/sontransferies.go",
-            "sha256": "8c3838f2b906fe10f36597d0bf664c5478ea13d99c232ed1baca7df3fc81e773",
-            "size_bytes": 218440
+            "sha256": "6dae3f9047b21cba5c4b879ffc25eb4170d249946a3c7331053e366df8338a67",
+            "size_bytes": 218448
           }
         ],
         "standards": [
           {
             "authority": "3gpp",
             "document": "3GPP TS 36.413 V19.2.0 (Release 19), clause 9 and Annex B",
-            "status": "current release-19 publication verified 2026-09-01; formal V19.2.0 ASN.1 is token-identical to the selected V19.1.0 source before declared Wireshark integration corrections"
+            "status": "current Release 19 publication verified 2026-10-01; formal ASN.1 extracted from authenticated 36413-j20.zip"
           },
           {
             "authority": "itu-t",
@@ -3856,7 +4224,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "cb33d10b854b5431f729ef8cde321ce6c0c186aa",
+          "commit": "1c4348cc678a6af7ef23472d3409b5ea8c4d8f29",
           "dirty": false
         },
         "frontend": {
@@ -3865,17 +4233,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "603000f7e0123f49487955cf1a3147c7bcfbf1514339889d242caf9db29fb6a8",
-          "size_bytes": 135417
+          "sha256": "0938e72d6cad5f2812357f8c57ccb6c97fc5f5bdaf6736491399258d30265d61",
+          "size_bytes": 177543
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "0ed542f5ca55aa244040d7e117bae0e1a4a936034e3fba85463dd484d5db289c",
-          "size_bytes": 142362
+          "sha256": "cf0c9e96716ad2b0b9c4516c3925edf7cb1035d23c9af848eb5e49e4a3cb2ab6",
+          "size_bytes": 146636
         },
         "source_plan": {
           "path": "sgp22/source-plan.json",
-          "sha256": "597309002d3f4102f22fcfceb46867ed9b796982b3b092e8b51858826f6c710d",
+          "sha256": "276552d57eb35bd58d3f22c33d7819e642a8c8944d6a122d6da8bfe8d7fa0ac2",
           "size_bytes": 68687
         },
         "sources": [
@@ -3958,14 +4326,14 @@
         ],
         "ir": {
           "path": "sgp22/resolved-schema.json",
-          "sha256": "343b9306efcc61d6d3ac771b57b8bfcd04ed611d7700cdcd350256dfb8353ead",
+          "sha256": "1ce03332e5d49f71ed825ce97a4671630cc68e5d244a239364719f06274e36fe",
           "size_bytes": 403623
         },
         "outputs": [
           {
             "path": "sgp22/asn1_wire_vectors_test.go",
-            "sha256": "8298faae0abe90dae3fe7c1af7c578a61694a2b8b9136989117333ec9f6d6d4c",
-            "size_bytes": 19026
+            "sha256": "77e88382066c3a62641003bc88551be66ffb4b0dffd7a6418a2f4f8590bc5aa3",
+            "size_bytes": 19420
           },
           {
             "path": "sgp22/pedefinitions.go",
@@ -3974,18 +4342,18 @@
           },
           {
             "path": "sgp22/pkix1explicit88.go",
-            "sha256": "5cc611204c86de3637780641a9b717e5933c23eb42ab6e7dfdfe932f15e213c1",
-            "size_bytes": 347596
+            "sha256": "73b2e2784b72ee0e741d2d8dbfb29506a90427771aa75e120e1b728eb728ba0e",
+            "size_bytes": 427749
           },
           {
             "path": "sgp22/pkix1implicit88.go",
-            "sha256": "f9ac4d2bc449b75de961c8cd6067cb0fab873d5b948f96e0fcfe680388e0dfb6",
-            "size_bytes": 179094
+            "sha256": "6772ebbf0d82b09d18044cfe1133a7c17c0b5e0b99d32cd16d05d8e5375b730d",
+            "size_bytes": 225056
           },
           {
             "path": "sgp22/rspdefinitions.go",
-            "sha256": "830381249b3e8dd1900df6016987943d06f6bb8da8386a5d7c4b23f3a1608d5a",
-            "size_bytes": 1292923
+            "sha256": "79c09eb20d384a40fcab7f384b289886ea6b29b94ca2bd7ce876993706674bef",
+            "size_bytes": 1476227
           }
         ],
         "standards": [
@@ -4203,8 +4571,8 @@
               },
               {
                 "path": "$WORK/sgp22/generated-provider/sgp22/prepare-download-certificate/output.json",
-                "sha256": "08736f9f2ec3bc1dc67c78d81bebb22038c16e504bdb7ac90b6383125d3b5cb9",
-                "size_bytes": 1855
+                "sha256": "4ef413511678e9ba60bdc765dc5c553d1a540582fa592b6878f300a249f54c26",
+                "size_bytes": 1910
               }
             ]
           }
@@ -4220,7 +4588,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "cb33d10b854b5431f729ef8cde321ce6c0c186aa",
+          "commit": "1c4348cc678a6af7ef23472d3409b5ea8c4d8f29",
           "dirty": false
         },
         "frontend": {
@@ -4229,17 +4597,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "603000f7e0123f49487955cf1a3147c7bcfbf1514339889d242caf9db29fb6a8",
-          "size_bytes": 135417
+          "sha256": "0938e72d6cad5f2812357f8c57ccb6c97fc5f5bdaf6736491399258d30265d61",
+          "size_bytes": 177543
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "0ed542f5ca55aa244040d7e117bae0e1a4a936034e3fba85463dd484d5db289c",
-          "size_bytes": 142362
+          "sha256": "cf0c9e96716ad2b0b9c4516c3925edf7cb1035d23c9af848eb5e49e4a3cb2ab6",
+          "size_bytes": 146636
         },
         "source_plan": {
           "path": "sgp32/source-plan.json",
-          "sha256": "60438ab49de452714af52e6681efe84a2751843d7b6b6405f2046bd9080dc5a0",
+          "sha256": "adb95e492d6658c21f56ca6645519dcfbb4ef2beff77391ada34ae36216ce16e",
           "size_bytes": 97863
         },
         "sources": [
@@ -4340,14 +4708,14 @@
         ],
         "ir": {
           "path": "sgp32/resolved-schema.json",
-          "sha256": "bed2ac71db9a18f0584f63da93d4e98772177223ee3ca41a5b09f3e164b6014c",
+          "sha256": "8b6c977f24be6004da3d7fe64eedd41e6064e3e5ed19019d6a6fec2cd56c497e",
           "size_bytes": 639153
         },
         "outputs": [
           {
             "path": "sgp32/asn1_wire_vectors_test.go",
-            "sha256": "8602409b0ae8530fc55bac72671509ada42271998955cf7a98f8d798a6be8a38",
-            "size_bytes": 7093
+            "sha256": "2b279277e2f33f7fc87606bc57d2f862909c33a2e8451840d7cd57d25a2cdb45",
+            "size_bytes": 7487
           },
           {
             "path": "sgp32/pedefinitions.go",
@@ -4356,23 +4724,23 @@
           },
           {
             "path": "sgp32/pkix1explicit88.go",
-            "sha256": "2f30fe9b8796404121b0d61e8c374290392437c44890c7c00f331574d04e2031",
-            "size_bytes": 347596
+            "sha256": "3c48d7d8c342489a82e6bec62b272eaa3b944c220a8689357864c37ba3f67604",
+            "size_bytes": 427749
           },
           {
             "path": "sgp32/pkix1implicit88.go",
-            "sha256": "f58511a2a04947aa516f938ad93af0d84fc05217f0d1c0c6cc83dfa2998591db",
-            "size_bytes": 179094
+            "sha256": "5ba2a48e26d254c8d04e9b1e665274094e217e71f5402e8835d002917cdb2c5e",
+            "size_bytes": 225056
           },
           {
             "path": "sgp32/rspdefinitions.go",
-            "sha256": "815c7393895b9c6e7dab52831dff91a78985a18e19f1d432f661ec1adc0cd05c",
-            "size_bytes": 1292923
+            "sha256": "5dafe1e722adf7ccdfa336321c4de8be0d432a4d7bc62c79c2c918fd8c184d86",
+            "size_bytes": 1476227
           },
           {
             "path": "sgp32/sgp32definitions.go",
-            "sha256": "d775fe6e4b3f4f6d696ba3e350d14ddee0db70b12083727ce125091379e111ba",
-            "size_bytes": 1672807
+            "sha256": "fd57a472b0f8d4870ae41520bddd0660d717f651067db78542b9c956fde05bda",
+            "size_bytes": 1890222
           }
         ],
         "standards": [
@@ -4591,8 +4959,8 @@
               },
               {
                 "path": "$WORK/sgp32/generated-provider/sgp32/get-certs-response-certificates/output.json",
-                "sha256": "d1b7b99794ee3c9b5058e13143d021df683d65eacb7f71050418b4083411e93d",
-                "size_bytes": 2917
+                "sha256": "9d66b4ebfaad0989f461fa61b84c3a2e659effc75a86d5bd26a7fd30cd45ca46",
+                "size_bytes": 3027
               }
             ]
           }
@@ -4608,7 +4976,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "cb33d10b854b5431f729ef8cde321ce6c0c186aa",
+          "commit": "1c4348cc678a6af7ef23472d3409b5ea8c4d8f29",
           "dirty": false
         },
         "frontend": {
@@ -4617,17 +4985,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "603000f7e0123f49487955cf1a3147c7bcfbf1514339889d242caf9db29fb6a8",
-          "size_bytes": 135417
+          "sha256": "0938e72d6cad5f2812357f8c57ccb6c97fc5f5bdaf6736491399258d30265d61",
+          "size_bytes": 177543
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "0ed542f5ca55aa244040d7e117bae0e1a4a936034e3fba85463dd484d5db289c",
-          "size_bytes": 142362
+          "sha256": "cf0c9e96716ad2b0b9c4516c3925edf7cb1035d23c9af848eb5e49e4a3cb2ab6",
+          "size_bytes": 146636
         },
         "source_plan": {
           "path": "tcap/source-plan.json",
-          "sha256": "3e5014b91e76671dd3a822a3a29b7567603a2a6fed38d9cafa42ab4ec67998ad",
+          "sha256": "6d8e3b1a85214f8c462dd9d9ee4a6e6472b6d22343c6dd6b71253953449af50d",
           "size_bytes": 25040
         },
         "sources": [
@@ -4706,44 +5074,44 @@
         ],
         "ir": {
           "path": "tcap/resolved-schema.json",
-          "sha256": "487a12c45ab781b488c338f92a4fb51d92af5e18598235f8c30467b50ea67da3",
+          "sha256": "e921c112762aefff07197a392fc65489760013e36a9b28ebd4f9dc6bf875dfd7",
           "size_bytes": 251023
         },
         "outputs": [
           {
             "path": "tcap/asn1_wire_vectors_test.go",
-            "sha256": "14190ae048397748751b94122eefdb633895a303a64ec77b3a67bc8b9ef97ce8",
-            "size_bytes": 12540
+            "sha256": "acee10596acb88f49fee59e64f59ecd7223167ff4c17cb3bef204afec951a6eb",
+            "size_bytes": 12934
           },
           {
             "path": "tcap/dialoguepdus.go",
-            "sha256": "cc040baae2436b2b4041f420aa85dd0d8b65f9a601d6599277bbf19926bf006b",
-            "size_bytes": 102034
+            "sha256": "6c33e2bae70a4728a6ebbdc4e3cfbacc621c0f81733ab7f42369de4fe70cc0d4",
+            "size_bytes": 116898
           },
           {
             "path": "tcap/remoteoperationsgenericrospdus.go",
-            "sha256": "f715746dff820e390398aa9c6b3a3f2f38fbe8e50abe9ad86a0f7879b6e1f8c7",
-            "size_bytes": 92406
+            "sha256": "8513d521d5955ab94c1b04c41b145b7c1f311ba440863b05c502f2e60e3d7bb1",
+            "size_bytes": 108012
           },
           {
             "path": "tcap/remoteoperationsinformationobjects.go",
-            "sha256": "baf0001ae22e97375471630bec73045e5c7fe6c5740d4b9231eb673c31e4de2f",
-            "size_bytes": 3431
+            "sha256": "6249751f606eed32e254ad417919c79e302a964b5366f49f481295995f37d871",
+            "size_bytes": 4566
           },
           {
             "path": "tcap/remoteoperationsusefuldefinitions.go",
-            "sha256": "389ad85e8ff8e044fb2824c3289ed5acc80fade30f4ed9c7ad8a39506501315f",
-            "size_bytes": 55015
+            "sha256": "8519c469cb6c12cd0cdb156df5181435ec9c50604bda88988c7d1cdaf2612e83",
+            "size_bytes": 66340
           },
           {
             "path": "tcap/tcapmessages.go",
-            "sha256": "c6a3e3838431d77376b93b3261f0aafc609914e5c8af5c7d5564b5ea502d4610",
-            "size_bytes": 78297
+            "sha256": "342a638e76a688e9931de7b0612f8b3cbfcf3b1541badc93fb7aad2d71189e00",
+            "size_bytes": 97699
           },
           {
             "path": "tcap/unidialoguepdus.go",
-            "sha256": "9d70405ddec311631f00226c8c5555ab47630661258288ceb490687ba22700bc",
-            "size_bytes": 18351
+            "sha256": "ac3e8c00ac0aeb3292f2a79af749958aa2e94ee940270b765e105502d8b7a1bc",
+            "size_bytes": 21959
           }
         ],
         "standards": [
@@ -4955,8 +5323,8 @@
               },
               {
                 "path": "$WORK/tcap/generated-provider/tcap/end-return-result/output.json",
-                "sha256": "64ae4cbc6416a113efdf9ed223165ecb386296b3a2dddaca0d7cc9410805289a",
-                "size_bytes": 320
+                "sha256": "b49623eef3d1c54288fe41a217fe68d14e658975dd7eb791e865d5f6efdf957c",
+                "size_bytes": 331
               }
             ]
           }
@@ -4972,7 +5340,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "cb33d10b854b5431f729ef8cde321ce6c0c186aa",
+          "commit": "1c4348cc678a6af7ef23472d3409b5ea8c4d8f29",
           "dirty": false
         },
         "frontend": {
@@ -4981,87 +5349,87 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "603000f7e0123f49487955cf1a3147c7bcfbf1514339889d242caf9db29fb6a8",
-          "size_bytes": 135417
+          "sha256": "0938e72d6cad5f2812357f8c57ccb6c97fc5f5bdaf6736491399258d30265d61",
+          "size_bytes": 177543
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "0ed542f5ca55aa244040d7e117bae0e1a4a936034e3fba85463dd484d5db289c",
-          "size_bytes": 142362
+          "sha256": "cf0c9e96716ad2b0b9c4516c3925edf7cb1035d23c9af848eb5e49e4a3cb2ab6",
+          "size_bytes": 146636
         },
         "source_plan": {
           "path": "x2ap/source-plan.json",
-          "sha256": "ffc1103f699c7148d28c7debc2c96b233cd26b7d5568e9dabcf41c60577a1b20",
-          "size_bytes": 476621
+          "sha256": "15e627aea4cd74b1fad010e4de2a459fa073e359220e9af6c53646b83b88c4bd",
+          "size_bytes": 490213
         },
         "sources": [
           {
-            "collection": "wireshark-asn1",
-            "path": "x2ap/X2AP-CommonDataTypes.asn",
+            "collection": "x2ap-36423-v19",
+            "path": "modules/X2AP-CommonDataTypes.asn",
             "mode": "0644",
-            "sha256": "5a5ee31c8b08bf7a3f9d37c004743015565bbd4c3f22a4c06a2f23fbfbf60613"
+            "sha256": "a6fdb694c8466cf9118b085f2b0d2ad1f21fc376048538ee87c51d54819ebdb5"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "x2ap/X2AP-Constants.asn",
+            "collection": "x2ap-36423-v19",
+            "path": "modules/X2AP-Constants.asn",
             "mode": "0644",
-            "sha256": "d2a63bb665e8fded580778c4b242412949360374d8e58c82e425e2bc7423d575"
+            "sha256": "e897a0dc497385037b008c05fe53ab3ff8aec38fcd2013b81f829a8604f9a748"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "x2ap/X2AP-Containers.asn",
+            "collection": "x2ap-36423-v19",
+            "path": "modules/X2AP-Containers.asn",
             "mode": "0644",
-            "sha256": "4b2bf1ff226f6fd420f2be43c496f9f65dedc5b09bb7fa7beef408b084219eb3"
+            "sha256": "a448672d6d999e509cb410497b3b9cd1e04f5f6a9c5564b1ee2f9207d0d1a728"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "x2ap/X2AP-IEs.asn",
+            "collection": "x2ap-36423-v19",
+            "path": "modules/X2AP-IEs.asn",
             "mode": "0644",
-            "sha256": "9ee94af7dce33bfaac3bff8e167848e18e3da0c423db516b15bc6980017339fc"
+            "sha256": "fac8b49d51b0235dece028abde77f6c9a8c449da489dcff401d0cb33b572c66c"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "x2ap/X2AP-PDU-Contents.asn",
+            "collection": "x2ap-36423-v19",
+            "path": "modules/X2AP-PDU-Contents.asn",
             "mode": "0644",
-            "sha256": "0d2b79936c40ce1425d4ff19e8f2ee0b7fbc906dc6da3375ed5b76d1bea0ca0c"
+            "sha256": "db5fe29cbf99e2dba61372d41693f4db4722ff64ca584f2588ee28b14545f863"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "x2ap/X2AP-PDU-Descriptions.asn",
+            "collection": "x2ap-36423-v19",
+            "path": "modules/X2AP-PDU-Descriptions.asn",
             "mode": "0644",
-            "sha256": "544b2a455232442875a8960041e4d5a6330de7a23b3010eeef54b11832e3cd70"
+            "sha256": "23578fdf7e6713262527a6c69fd9b684075a42d37fedc4a1def96499ab0e0f4f"
           }
         ],
         "module_closure": [
           {
             "module": "X2AP-CommonDataTypes",
-            "path": "wireshark-asn1/x2ap/X2AP-CommonDataTypes.asn"
+            "path": "x2ap-36423-v19/modules/X2AP-CommonDataTypes.asn"
           },
           {
             "module": "X2AP-Constants",
-            "path": "wireshark-asn1/x2ap/X2AP-Constants.asn"
+            "path": "x2ap-36423-v19/modules/X2AP-Constants.asn"
           },
           {
             "module": "X2AP-Containers",
-            "path": "wireshark-asn1/x2ap/X2AP-Containers.asn"
+            "path": "x2ap-36423-v19/modules/X2AP-Containers.asn"
           },
           {
             "module": "X2AP-IEs",
-            "path": "wireshark-asn1/x2ap/X2AP-IEs.asn"
+            "path": "x2ap-36423-v19/modules/X2AP-IEs.asn"
           },
           {
             "module": "X2AP-PDU-Contents",
-            "path": "wireshark-asn1/x2ap/X2AP-PDU-Contents.asn"
+            "path": "x2ap-36423-v19/modules/X2AP-PDU-Contents.asn"
           },
           {
             "module": "X2AP-PDU-Descriptions",
-            "path": "wireshark-asn1/x2ap/X2AP-PDU-Descriptions.asn"
+            "path": "x2ap-36423-v19/modules/X2AP-PDU-Descriptions.asn"
           }
         ],
         "ir": {
           "path": "x2ap/resolved-schema.json",
-          "sha256": "58c711dc0f61ba63bc8a414447352ca5699597dbf85ff45227f265c936294ff3",
-          "size_bytes": 2925245
+          "sha256": "f4900556616d01fd19611b196a58070b56b172b53faf0062a6d17b523238c489",
+          "size_bytes": 2972172
         },
         "outputs": [
           {
@@ -5071,8 +5439,8 @@
           },
           {
             "path": "x2ap/asn1_wire_vectors_test.go",
-            "sha256": "0e0781e07b2d22a7cb50b1828a5f4c58ffe0094624fb1ea3001b55f88aca2c7a",
-            "size_bytes": 26150
+            "sha256": "b85bff6fbdb857307e1793e3281643a5aaad50c355213f8b310d9317c8204675",
+            "size_bytes": 26544
           },
           {
             "path": "x2ap/dispatch.go",
@@ -5096,23 +5464,23 @@
           },
           {
             "path": "x2ap/x2apconstants.go",
-            "sha256": "3cbacfe52644e61a6d419953accfa7cc57d217c0e12c620d13ca903833f0f5b7",
-            "size_bytes": 71817
+            "sha256": "2ba831e909e753404c257a395cc2e865f4f1e1c75ff026ac6329b052e04eb102",
+            "size_bytes": 70861
           },
           {
             "path": "x2ap/x2apcontainers.go",
-            "sha256": "4ccd57ea7abf613247ed0aa297f977f646f23bf7c9130bbc40626a4b3871d241",
-            "size_bytes": 40147
+            "sha256": "33a18d1f31879bf63c470642b24b3b17e253948529d9ccc1428f0375fe569fa6",
+            "size_bytes": 40153
           },
           {
             "path": "x2ap/x2apies.go",
-            "sha256": "da7314fcd93f1beb374cf7f569b9afa7c16104d8e61dafc5163c0ba3e5c3f59b",
-            "size_bytes": 2327879
+            "sha256": "dbcebee5a17d1c6b74b5fbfa24bf034c466f1e7b5d1bf2028c66b102e3123d10",
+            "size_bytes": 2327790
           },
           {
             "path": "x2ap/x2appducontents.go",
-            "sha256": "973c27e501a97181455a1c0be750835297be48bbc35b3c1dfe8b8b1efedce626",
-            "size_bytes": 2242367
+            "sha256": "1be0047683ddbfbc4f816e69d82cc60c5a4dcbcb35fef7c612e39608c31494bf",
+            "size_bytes": 2242430
           },
           {
             "path": "x2ap/x2appdudescriptions.go",
@@ -5124,7 +5492,7 @@
           {
             "authority": "3gpp",
             "document": "3GPP TS 36.423 V19.1.0 (Release 19), clause 9 and ASN.1 annexes",
-            "status": "current release-19 publication verified 2026-09-01; selected raw source is the current formal ASN.1 edition"
+            "status": "current Release 19 publication verified 2026-10-01; formal ASN.1 extracted from authenticated 36423-j10.zip"
           },
           {
             "authority": "itu-t",
@@ -5343,7 +5711,7 @@
     }
   ],
   "outputs": {
-    "sha256": "1385e4f548a089cbd10deed0b82c4738463cfbf5d5f2576cde4f9194f46d2b58",
+    "sha256": "25cacd2d5580f995fc1aa2daa3f5825cae64d421ed910916eaf41ebad50e2955",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
@@ -5376,6 +5744,30 @@
         "size_bytes": 687
       },
       {
+        "path": "runtime/ber/constraints.go",
+        "mode": "0644",
+        "sha256": "7781d9acb01c204efa2ebceab8d22585b255f2b053239328e1a02bcb971b0da0",
+        "size_bytes": 7531
+      },
+      {
+        "path": "runtime/ber/constraints_example_test.go",
+        "mode": "0644",
+        "sha256": "790d81fd762c11d6d7422010d53accc26be36adc9bc4a37c9d42710d3fc2b01a",
+        "size_bytes": 511
+      },
+      {
+        "path": "runtime/ber/constraints_fuzz_test.go",
+        "mode": "0644",
+        "sha256": "e22e14dad2b0d2124661a966af65e39e1e62e006a46ad706b4441034b6f3bc36",
+        "size_bytes": 927
+      },
+      {
+        "path": "runtime/ber/constraints_test.go",
+        "mode": "0644",
+        "sha256": "f617797a19186854fa3038c3056edc3ef2ecf62b01a0d13005634332349cac71",
+        "size_bytes": 3312
+      },
+      {
         "path": "runtime/ber/constructed_bit_string_test.go",
         "mode": "0644",
         "sha256": "6d67ac9645df507a9f1fadad6b0c958ee112db90edcd79fee6458e63e886132d",
@@ -5384,8 +5776,8 @@
       {
         "path": "runtime/ber/decoder.go",
         "mode": "0644",
-        "sha256": "ed5310975ad5d6d4c4ddab68b7026c30971ce18494467cd41d85bcdda4aa3d3e",
-        "size_bytes": 51502
+        "sha256": "ec65fc17a62671ec2199a77cb3f2d6d4392b7f1096bd1430cebcbc0c976f602b",
+        "size_bytes": 52219
       },
       {
         "path": "runtime/ber/depth_overflow_test.go",
@@ -5396,8 +5788,8 @@
       {
         "path": "runtime/ber/encoder.go",
         "mode": "0644",
-        "sha256": "bff8554889cbb74002048ba3424fd369acc969803269e9788be58cec49625d95",
-        "size_bytes": 23916
+        "sha256": "b2ff7ffc17fefdfaf411111f402a49722c1011d216ba257c1429ba177b27bde5",
+        "size_bytes": 24187
       },
       {
         "path": "runtime/ber/encoder_limit_test.go",
@@ -5450,14 +5842,26 @@
       {
         "path": "runtime/ber/options.go",
         "mode": "0644",
-        "sha256": "00a02acf30ae286e4a88e91961e9f76b07f50f8f925ed56a172d16b2f032e0ff",
-        "size_bytes": 2116
+        "sha256": "82c40407f2e9762eb99dd910fd4f15ebc640c70c524379fc1dc5ab73d6aceb10",
+        "size_bytes": 2711
       },
       {
         "path": "runtime/ber/real_capacity_test.go",
         "mode": "0644",
         "sha256": "4848f49c63b74cdf75d0383f749e6b3f0f5fe943c4395b8de755ff92e5b6b55e",
         "size_bytes": 539
+      },
+      {
+        "path": "runtime/ber/real_constraint.go",
+        "mode": "0644",
+        "sha256": "f941904ce025f94b228920b32560edd25109902a1a1962d2bcb04986544e1725",
+        "size_bytes": 5130
+      },
+      {
+        "path": "runtime/ber/real_constraint_test.go",
+        "mode": "0644",
+        "sha256": "417ba647e70ec9bfaaa488dbd00fdca04089d6a39462f405e978f2033458fe57",
+        "size_bytes": 1896
       },
       {
         "path": "runtime/ber/real_decimal_test.go",
@@ -5738,8 +6142,8 @@
       {
         "path": "telecom/esim/sgp22/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "8298faae0abe90dae3fe7c1af7c578a61694a2b8b9136989117333ec9f6d6d4c",
-        "size_bytes": 19026
+        "sha256": "77e88382066c3a62641003bc88551be66ffb4b0dffd7a6418a2f4f8590bc5aa3",
+        "size_bytes": 19420
       },
       {
         "path": "telecom/esim/sgp22/pedefinitions.go",
@@ -5750,26 +6154,26 @@
       {
         "path": "telecom/esim/sgp22/pkix1explicit88.go",
         "mode": "0644",
-        "sha256": "5cc611204c86de3637780641a9b717e5933c23eb42ab6e7dfdfe932f15e213c1",
-        "size_bytes": 347596
+        "sha256": "73b2e2784b72ee0e741d2d8dbfb29506a90427771aa75e120e1b728eb728ba0e",
+        "size_bytes": 427749
       },
       {
         "path": "telecom/esim/sgp22/pkix1implicit88.go",
         "mode": "0644",
-        "sha256": "f9ac4d2bc449b75de961c8cd6067cb0fab873d5b948f96e0fcfe680388e0dfb6",
-        "size_bytes": 179094
+        "sha256": "6772ebbf0d82b09d18044cfe1133a7c17c0b5e0b99d32cd16d05d8e5375b730d",
+        "size_bytes": 225056
       },
       {
         "path": "telecom/esim/sgp22/rspdefinitions.go",
         "mode": "0644",
-        "sha256": "830381249b3e8dd1900df6016987943d06f6bb8da8386a5d7c4b23f3a1608d5a",
-        "size_bytes": 1292923
+        "sha256": "79c09eb20d384a40fcab7f384b289886ea6b29b94ca2bd7ce876993706674bef",
+        "size_bytes": 1476227
       },
       {
         "path": "telecom/esim/sgp32/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "8602409b0ae8530fc55bac72671509ada42271998955cf7a98f8d798a6be8a38",
-        "size_bytes": 7093
+        "sha256": "2b279277e2f33f7fc87606bc57d2f862909c33a2e8451840d7cd57d25a2cdb45",
+        "size_bytes": 7487
       },
       {
         "path": "telecom/esim/sgp32/pedefinitions.go",
@@ -5780,38 +6184,38 @@
       {
         "path": "telecom/esim/sgp32/pkix1explicit88.go",
         "mode": "0644",
-        "sha256": "2f30fe9b8796404121b0d61e8c374290392437c44890c7c00f331574d04e2031",
-        "size_bytes": 347596
+        "sha256": "3c48d7d8c342489a82e6bec62b272eaa3b944c220a8689357864c37ba3f67604",
+        "size_bytes": 427749
       },
       {
         "path": "telecom/esim/sgp32/pkix1implicit88.go",
         "mode": "0644",
-        "sha256": "f58511a2a04947aa516f938ad93af0d84fc05217f0d1c0c6cc83dfa2998591db",
-        "size_bytes": 179094
+        "sha256": "5ba2a48e26d254c8d04e9b1e665274094e217e71f5402e8835d002917cdb2c5e",
+        "size_bytes": 225056
       },
       {
         "path": "telecom/esim/sgp32/rspdefinitions.go",
         "mode": "0644",
-        "sha256": "815c7393895b9c6e7dab52831dff91a78985a18e19f1d432f661ec1adc0cd05c",
-        "size_bytes": 1292923
+        "sha256": "5dafe1e722adf7ccdfa336321c4de8be0d432a4d7bc62c79c2c918fd8c184d86",
+        "size_bytes": 1476227
       },
       {
         "path": "telecom/esim/sgp32/sgp32definitions.go",
         "mode": "0644",
-        "sha256": "d775fe6e4b3f4f6d696ba3e350d14ddee0db70b12083727ce125091379e111ba",
-        "size_bytes": 1672807
+        "sha256": "fd57a472b0f8d4870ae41520bddd0660d717f651067db78542b9c956fde05bda",
+        "size_bytes": 1890222
       },
       {
         "path": "telecom/esim/sgp32/sgp32definitions_test.go",
         "mode": "0644",
-        "sha256": "ce87e47abed7318d1960281ea2f5eec05282e830189d4d3b2b4de2804c0d4b99",
-        "size_bytes": 8205
+        "sha256": "529a1f364a32c021b9bd5adc62d937bff1836511c9d04d6908fae98fe73c1a58",
+        "size_bytes": 8208
       },
       {
         "path": "telecom/lte/lpp/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "97be32fcd1f05165f4245eb8248b2bc9d1ae173597308e75bfaead4beccbf91b",
-        "size_bytes": 29363
+        "sha256": "11b43966600f6fcd940d170ec28cc8dbecccab8aaadac66c5426fe1d34a2aa7f",
+        "size_bytes": 29757
       },
       {
         "path": "telecom/lte/lpp/doc.go",
@@ -5828,8 +6232,8 @@
       {
         "path": "telecom/lte/lpp/lpppdudefinitions.go",
         "mode": "0644",
-        "sha256": "6082f99a7f2cb0b557c58f459e6faafadf29c80a1125449056556fa1c20f70bd",
-        "size_bytes": 8535532
+        "sha256": "27ea0886b523869a81e325aaa684849b388d8df19a608a2d10aa5db3a429ee1d",
+        "size_bytes": 8535742
       },
       {
         "path": "telecom/lte/lpp/per_helpers.go",
@@ -5840,8 +6244,8 @@
       {
         "path": "telecom/lte/lppa/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "a9692c39f52a784ea8f11bc7ef2378fef5cb94670c034b4b4201a72aa73cfab5",
-        "size_bytes": 22838
+        "sha256": "4f5e3c2e8c59df9a3d6b2be36b32010c4a1512ba22e2d97495b3848fd819cbe4",
+        "size_bytes": 23232
       },
       {
         "path": "telecom/lte/lppa/dispatch.go",
@@ -5870,20 +6274,20 @@
       {
         "path": "telecom/lte/lppa/lppacontainers.go",
         "mode": "0644",
-        "sha256": "cc3ae06a9b8ccbc80c89aa3fd8b1eefccd49d654bb47cc5961f9d01f199c378e",
-        "size_bytes": 40147
+        "sha256": "074e2f5b467d72f79a17615445b38a42119eb7cc2680d5e24b0e879648f86d5c",
+        "size_bytes": 40153
       },
       {
         "path": "telecom/lte/lppa/lppaies.go",
         "mode": "0644",
-        "sha256": "3c454df8a4dedc71f1fcba998f435f6571ff2047fc993f9a7e4b59f1d973fdac",
-        "size_bytes": 532432
+        "sha256": "755e153ed54634cadf2980ba0ac6c43d68be297a26379162765e465bc51f8c62",
+        "size_bytes": 532457
       },
       {
         "path": "telecom/lte/lppa/lppapducontents.go",
         "mode": "0644",
-        "sha256": "703e38e4db2c597f93444c0996877781ef65dcadd4415fe5ab671654f94e99e0",
-        "size_bytes": 120702
+        "sha256": "1d1a49cb42d137b274966db4a86a643f009f31f34b164bd727ed276fbbd6e981",
+        "size_bytes": 120703
       },
       {
         "path": "telecom/lte/lppa/lppapdudescriptions.go",
@@ -5900,8 +6304,8 @@
       {
         "path": "telecom/lte/rrc/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "31ec4b4b75d13eb37f05572387c2df0be054c09df9e3f0c1e460ffaec2f33ddd",
-        "size_bytes": 8922
+        "sha256": "1940170138ce4945da3ed88edb02143e4aa4fca3089c12833644e8759855f5a6",
+        "size_bytes": 9316
       },
       {
         "path": "telecom/lte/rrc/choice_overflow_test.go",
@@ -5918,26 +6322,26 @@
       {
         "path": "telecom/lte/rrc/eutrainternodedefinitions.go",
         "mode": "0644",
-        "sha256": "39120b23026d55eac5655c08ba4e8e986f7d0b84ebaee085f4f749e72ad0687b",
-        "size_bytes": 566663
+        "sha256": "833752423eeae1d2cdc6714c75042e311a92c4a5c4316a7f43b69b55fc6a0682",
+        "size_bytes": 566673
       },
       {
         "path": "telecom/lte/rrc/eutrarrcdefinitions.go",
         "mode": "0644",
-        "sha256": "28bf29fb785bf1b37ab124aaa269f2da66d15456d07a0acd2cbe8f1bc623cec7",
-        "size_bytes": 18586690
+        "sha256": "0a0202c68e4da806ebe9219a3e8ad1ddc142845a751736fb30b6869b65a4723b",
+        "size_bytes": 18587361
       },
       {
         "path": "telecom/lte/rrc/eutrasidelinkpreconf.go",
         "mode": "0644",
-        "sha256": "ca929ec3bab1a2f5a37aa122ae5397bc8f026b05167c99aae1056587273cee57",
-        "size_bytes": 260003
+        "sha256": "e8cfcffde539e4caa228298b91f9f6b93b3d2672a333ca91e6cb415bfeddf687",
+        "size_bytes": 260018
       },
       {
         "path": "telecom/lte/rrc/eutrauevariables.go",
         "mode": "0644",
-        "sha256": "cd9b5d9bbd6dff28771031a012639651879c0f672b5cf73c2b3ec1301da62a5c",
-        "size_bytes": 210292
+        "sha256": "4b8cad92a7b80f428cd387cc9504afe9b9cd34208411894b929aeb13f60cfaa2",
+        "size_bytes": 210298
       },
       {
         "path": "telecom/lte/rrc/nbiotinternodedefinitions.go",
@@ -5948,14 +6352,14 @@
       {
         "path": "telecom/lte/rrc/nbiotrrcdefinitions.go",
         "mode": "0644",
-        "sha256": "6ffd6e32ff0b140ad59fb70646b953dedde603252331686dd70b946b34e32677",
-        "size_bytes": 3186302
+        "sha256": "145d4dcf2c6125ac4c9a2b6b50ccf5d7cf3b1a9ff02b0703dd15707cf6c01414",
+        "size_bytes": 3186378
       },
       {
         "path": "telecom/lte/rrc/nbiotuevariables.go",
         "mode": "0644",
-        "sha256": "cb1418917d524f438751c1516f6244a4d9b4d59a00a3978f3e87c9ccb738754d",
-        "size_bytes": 22284
+        "sha256": "0410c44e942e0ac1888e387d1b5718fecbc7009b0d4ff1c31da2cf6c5e9bc9dd",
+        "size_bytes": 22285
       },
       {
         "path": "telecom/lte/rrc/package_api_test.go",
@@ -5978,8 +6382,8 @@
       {
         "path": "telecom/lte/s1ap/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "94309176029b8fe248cd8e250a1511caa0df7d0460f4b71f1dfd209cef978368",
-        "size_bytes": 25242
+        "sha256": "ff21039f232c3fa523eb5ae5c26c81752b0d63537595001d60aff4304d331763",
+        "size_bytes": 25636
       },
       {
         "path": "telecom/lte/s1ap/choice_overflow_test.go",
@@ -5990,8 +6394,8 @@
       {
         "path": "telecom/lte/s1ap/dispatch.go",
         "mode": "0644",
-        "sha256": "acf79afa87e53b9b0750773b9f0e6d0c680db46bdd850908ebc3b81abc1f5337",
-        "size_bytes": 334325
+        "sha256": "7e75f636b395141e74208f1e4a70c3c08d799fbd301e881c6ab1e7da6f2f78e6",
+        "size_bytes": 332222
       },
       {
         "path": "telecom/lte/s1ap/doc.go",
@@ -6014,26 +6418,26 @@
       {
         "path": "telecom/lte/s1ap/s1apconstants.go",
         "mode": "0644",
-        "sha256": "780bec4798fb4c7851cf9af6009656d75f7b57afe6cca4cd0ba272ed9e8f00e3",
-        "size_bytes": 56277
+        "sha256": "e04ea0ece5e8e68847036899dff17161b1ebcfdd56ae51a941c1ab2271da2af2",
+        "size_bytes": 54513
       },
       {
         "path": "telecom/lte/s1ap/s1apcontainers.go",
         "mode": "0644",
-        "sha256": "7ff6258918eb1a0029d307ed41cfb3188f39b2e4a48d43e1a71474e7551b0912",
-        "size_bytes": 40121
+        "sha256": "9273febdfe7dff4a985a1a3de9462aae22b9c8df427fba7a253d1ab323cc7b97",
+        "size_bytes": 40127
       },
       {
         "path": "telecom/lte/s1ap/s1apies.go",
         "mode": "0644",
-        "sha256": "5ff0877fdaaf44c0afa50a1931a73413fa6ecf530638b8d6b6f78faf784e5263",
-        "size_bytes": 1886235
+        "sha256": "a4734ccf19ac7a453d8daced799b50c866218b24fd8ffc4d01e4f43ce627e0d4",
+        "size_bytes": 1886303
       },
       {
         "path": "telecom/lte/s1ap/s1appducontents.go",
         "mode": "0644",
-        "sha256": "44aced411141f9266bb5308b3f2c8aea52a31b979c83ea31b7946f45bd291c70",
-        "size_bytes": 946498
+        "sha256": "fda944feeeba03b33b814fb0f7536c899d0e6feca848454c630b4e6175e16c2e",
+        "size_bytes": 946432
       },
       {
         "path": "telecom/lte/s1ap/s1appdudescriptions.go",
@@ -6044,8 +6448,8 @@
       {
         "path": "telecom/lte/s1ap/sontransferies.go",
         "mode": "0644",
-        "sha256": "8c3838f2b906fe10f36597d0bf664c5478ea13d99c232ed1baca7df3fc81e773",
-        "size_bytes": 218440
+        "sha256": "6dae3f9047b21cba5c4b879ffc25eb4170d249946a3c7331053e366df8338a67",
+        "size_bytes": 218448
       },
       {
         "path": "telecom/lte/x2ap/asn1_contract_vectors_test.go",
@@ -6056,8 +6460,8 @@
       {
         "path": "telecom/lte/x2ap/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "0e0781e07b2d22a7cb50b1828a5f4c58ffe0094624fb1ea3001b55f88aca2c7a",
-        "size_bytes": 26150
+        "sha256": "b85bff6fbdb857307e1793e3281643a5aaad50c355213f8b310d9317c8204675",
+        "size_bytes": 26544
       },
       {
         "path": "telecom/lte/x2ap/dispatch.go",
@@ -6086,26 +6490,26 @@
       {
         "path": "telecom/lte/x2ap/x2apconstants.go",
         "mode": "0644",
-        "sha256": "3cbacfe52644e61a6d419953accfa7cc57d217c0e12c620d13ca903833f0f5b7",
-        "size_bytes": 71817
+        "sha256": "2ba831e909e753404c257a395cc2e865f4f1e1c75ff026ac6329b052e04eb102",
+        "size_bytes": 70861
       },
       {
         "path": "telecom/lte/x2ap/x2apcontainers.go",
         "mode": "0644",
-        "sha256": "4ccd57ea7abf613247ed0aa297f977f646f23bf7c9130bbc40626a4b3871d241",
-        "size_bytes": 40147
+        "sha256": "33a18d1f31879bf63c470642b24b3b17e253948529d9ccc1428f0375fe569fa6",
+        "size_bytes": 40153
       },
       {
         "path": "telecom/lte/x2ap/x2apies.go",
         "mode": "0644",
-        "sha256": "da7314fcd93f1beb374cf7f569b9afa7c16104d8e61dafc5163c0ba3e5c3f59b",
-        "size_bytes": 2327879
+        "sha256": "dbcebee5a17d1c6b74b5fbfa24bf034c466f1e7b5d1bf2028c66b102e3123d10",
+        "size_bytes": 2327790
       },
       {
         "path": "telecom/lte/x2ap/x2appducontents.go",
         "mode": "0644",
-        "sha256": "973c27e501a97181455a1c0be750835297be48bbc35b3c1dfe8b8b1efedce626",
-        "size_bytes": 2242367
+        "sha256": "1be0047683ddbfbc4f816e69d82cc60c5a4dcbcb35fef7c612e39608c31494bf",
+        "size_bytes": 2242430
       },
       {
         "path": "telecom/lte/x2ap/x2appdudescriptions.go",
@@ -6122,20 +6526,20 @@
       {
         "path": "telecom/ss7/gsm_map/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "e862ab966409a89c22804e8830a59e84ac5bd8a1de5dc6a8c0ee8b7720aef09e",
-        "size_bytes": 19719
+        "sha256": "d11ab9923a1de0260821ff5031de4e10bff8bd515cb44a55cf96f1ef17e22f25",
+        "size_bytes": 20113
       },
       {
         "path": "telecom/ss7/gsm_map/dummymap.go",
         "mode": "0644",
-        "sha256": "d15238df51e62ad6c4e4a7ebfec688d2a6e9d1dd76082b28e566377e6856ee8e",
-        "size_bytes": 534631
+        "sha256": "82089d5e50b528f112b5e0e3d94c1b0ba4f5bec64518e4673be2f7f93dc1ac8a",
+        "size_bytes": 611593
       },
       {
         "path": "telecom/ss7/gsm_map/ericssonmap.go",
         "mode": "0644",
-        "sha256": "76d1e4cc4043815ea465797542da2b8ff9a01bdcc945a614c7f9796692a2af78",
-        "size_bytes": 171843
+        "sha256": "0da72302d2a35cfe357dd84a8e3a8d7f85d9397fd8d2f8acf4ba6bc62a1f124c",
+        "size_bytes": 214799
       },
       {
         "path": "telecom/ss7/gsm_map/mapapplicationcontexts.go",
@@ -6188,86 +6592,86 @@
       {
         "path": "telecom/ss7/gsm_map/mapchdatatypes.go",
         "mode": "0644",
-        "sha256": "f0bb9c2dbad755ec976f8fe2db00bd55d6f41db688d5099abaa3bcec43bff2ea",
-        "size_bytes": 529774
+        "sha256": "c37903710e426488b4e70547b0cf7df54f5ee09b85d2c07839f1b6e639e7252d",
+        "size_bytes": 587449
       },
       {
         "path": "telecom/ss7/gsm_map/mapchdatatypes_2.go",
         "mode": "0644",
-        "sha256": "fdfa4338dbde669646cf072fea5358cb64e57cdfd5a3d5f511b65b9b28684a91",
-        "size_bytes": 509433
+        "sha256": "1bf732d4a81729db0da3935fb45dd0f6f44dfe9c8347a138759a4d281e70f1a6",
+        "size_bytes": 565322
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes.go",
         "mode": "0644",
-        "sha256": "6973afd976ff2ae98a38e1a23967d25eabff12129ef8ea569c0ab22c2ba81320",
-        "size_bytes": 118185
+        "sha256": "f1d3f4f49e94473e4b2e624a1cf5418c1611fc8f0d3bac8e776823145b145687",
+        "size_bytes": 144428
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_2.go",
         "mode": "0644",
-        "sha256": "6a74ca0eb08c19e216a21129aa15b5c2ef785fc2db67ba05b166b1e53c16ce7a",
-        "size_bytes": 122693
+        "sha256": "8454e41c1341e048659d79173885d1f71b82fc27b5a54610405abf8e7a792726",
+        "size_bytes": 148674
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_3.go",
         "mode": "0644",
-        "sha256": "a43c18b966bc121ac68a18b0f41e8ebfff0400229c96cca82ff4d207488ffadc",
-        "size_bytes": 119508
+        "sha256": "dcf392e91ad6fd28164fce74576aca939225a06f7791e4aae06cfc26452c42b3",
+        "size_bytes": 145925
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_4.go",
         "mode": "0644",
-        "sha256": "3fed7f983cb080f22bc43ee2207f85d964d2adc1ca04393b17804ad1013dd1fb",
-        "size_bytes": 118880
+        "sha256": "c5eeb03d85677fd0bf07280983b0c150bd89cbaee863332319721aa93fbdf4f5",
+        "size_bytes": 145213
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_5.go",
         "mode": "0644",
-        "sha256": "368f2b93676d18217331540e00b99baf0d370e52b4da0e79e4e075a8b5f8771b",
-        "size_bytes": 111942
+        "sha256": "8d1add1622bea6184d0675183862b0c052f086b42b30663fc03b02534d05fe84",
+        "size_bytes": 136685
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_6.go",
         "mode": "0644",
-        "sha256": "695cf0a27a68c5ffbe930126140884d114b9f911316ce83172207d85e5a5b1fb",
-        "size_bytes": 111157
+        "sha256": "bd7eb487d22c836f5ad28193cbfde55e78118312e139fdb4e45b42455f41bf86",
+        "size_bytes": 135900
       },
       {
         "path": "telecom/ss7/gsm_map/mapdialogueinformation.go",
         "mode": "0644",
-        "sha256": "bd3fe6a17dee9abc1909645263482dd4415f5e3f44f41949f8453ab9820273d1",
-        "size_bytes": 63862
+        "sha256": "7cf22277001c1200fe05988be9859ca3297eb17d86136eb647b9a92db0d93bd2",
+        "size_bytes": 74341
       },
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes.go",
         "mode": "0644",
-        "sha256": "e8e6b9f07977fa8616ae202f6ec59250cbd1fdddcdf3ae30f29ff6a892b1a152",
-        "size_bytes": 293828
+        "sha256": "2d30e73c7dcb23c24571373de7931f58fe7766ff34ca3a9dab8d3ba2ffb6b309",
+        "size_bytes": 356756
       },
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes_2.go",
         "mode": "0644",
-        "sha256": "2e362d8cb15c4d2487c6980ef93b666c66fd2845bcb9b977574eaf0c65b474d1",
-        "size_bytes": 283138
+        "sha256": "3c9e43c1a4bde19acb12a7f84ea8a9712a1072507f60b2068f02940451d7aafc",
+        "size_bytes": 347244
       },
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes_3.go",
         "mode": "0644",
-        "sha256": "b1245e851e1c28d813c20c1bddfe5a2d1bb5c8285da36231f4b080a33980e765",
-        "size_bytes": 295004
+        "sha256": "9c15fe01b67da609e209db2e2266a23159de55dc590f9878681491e92149afd1",
+        "size_bytes": 358216
       },
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes_4.go",
         "mode": "0644",
-        "sha256": "15d644201f1af6e1a763c7cd788286ba10c252b23c0635cf466431c29f768fc0",
-        "size_bytes": 288104
+        "sha256": "f4a294a98ef5067c456e1f4b60df7baf0ec9582bd30df47521b6e92ff4f84cd7",
+        "size_bytes": 350896
       },
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes_5.go",
         "mode": "0644",
-        "sha256": "958dbb29ebcada9aed8bcd8a04542eb9a3b8d0331d4f93021ae52b97ce4abec5",
-        "size_bytes": 280979
+        "sha256": "161480e1bdf247af345fe4302379264e9c7dce8b228e6ca52704105c0492371a",
+        "size_bytes": 343557
       },
       {
         "path": "telecom/ss7/gsm_map/maperrors.go",
@@ -6284,44 +6688,44 @@
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes.go",
         "mode": "0644",
-        "sha256": "403de4e9636cc9257ed4d333749ea73fdc77594ab717f4d92d8af2a6a34eebb3",
-        "size_bytes": 34256
+        "sha256": "a327b13866cb466a318858d438b5e5621d7cfbb43b60bac1d652a1803113b924",
+        "size_bytes": 42276
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_2.go",
         "mode": "0644",
-        "sha256": "eaff2e6f5bc973dc565352a9f4e8ce47a55d9870ba8ab141d99c31f1b532342d",
-        "size_bytes": 36239
+        "sha256": "98fba82fd6c3435f68090818bd1a9e3ccd106e19451e9f3e301a5d3bcf7fc13c",
+        "size_bytes": 44799
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_3.go",
         "mode": "0644",
-        "sha256": "322685bbfeb77df57616de0423a5517885aee0bc5f1f255b77a0285ed1a6124f",
-        "size_bytes": 34373
+        "sha256": "7a911f14daeac7420b90aa984805e30bd89c709e079d8609345a192abe336254",
+        "size_bytes": 42423
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_4.go",
         "mode": "0644",
-        "sha256": "6fdd08ac00e039d34c1d21f638c22b2d5ad670099b7e1f7b1b463e48f45c21d9",
-        "size_bytes": 34373
+        "sha256": "458f6bda0776acb078a11050f2a79b01ee9a63a9aa37e2a09d936f0e66298695",
+        "size_bytes": 42423
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_5.go",
         "mode": "0644",
-        "sha256": "0809c8cedb2d20de1b1957b6b4929dcc87e5b04450fc81e7ee0c207128ca6608",
-        "size_bytes": 34373
+        "sha256": "a0a2b69fe49cf22af479539fbe48bdc508c5f3c50f392728e45d61d87613aee7",
+        "size_bytes": 42423
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_6.go",
         "mode": "0644",
-        "sha256": "aea5adf319f44bd96b4e58cb6f8f5f761f6fa1fac7b9d6a35294c6e38eafbcbe",
-        "size_bytes": 34373
+        "sha256": "a151c3c2907ebd71e3112e14b6716fdbd490f9f6f91edbd6cec96526f83b9f2c",
+        "size_bytes": 42423
       },
       {
         "path": "telecom/ss7/gsm_map/mapgrdatatypes.go",
         "mode": "0644",
-        "sha256": "e04b382d2de52f54dc936eb1d76707f529f4d50acc56b60476331b0bc2f0ce1a",
-        "size_bytes": 173186
+        "sha256": "ed1ee8adc8f695b925e93f64f2dd588463f3d773f4468b4d513c80443b46093c",
+        "size_bytes": 192010
       },
       {
         "path": "telecom/ss7/gsm_map/mapgroupcalloperations.go",
@@ -6332,14 +6736,14 @@
       {
         "path": "telecom/ss7/gsm_map/maplcsdatatypes.go",
         "mode": "0644",
-        "sha256": "e9632799f7d3ab4f553a907c9a276dc56ae629fcdc07f2fa2c17b6ced81ace82",
-        "size_bytes": 474866
+        "sha256": "1565bbeff13bbd879d7e2196f27282ef529a1677c73cdc4ce0ea9e0e6ea1105e",
+        "size_bytes": 535127
       },
       {
         "path": "telecom/ss7/gsm_map/maplcsdatatypes_2.go",
         "mode": "0644",
-        "sha256": "2803d4fd8d4b93acd702a0c8e1e0137b25abbb50711453fc19f4bb9df5caabf3",
-        "size_bytes": 478054
+        "sha256": "3eb9a3c3ef3da6e59a7639db952bb20140f88690d67628ffe3045e661d39f375",
+        "size_bytes": 538815
       },
       {
         "path": "telecom/ss7/gsm_map/maplocationserviceoperations.go",
@@ -6356,62 +6760,62 @@
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes.go",
         "mode": "0644",
-        "sha256": "4e4e80000b504803b0a8b5e12fb075a1de9c554b009afef3108980bd15f4820d",
-        "size_bytes": 3573662
+        "sha256": "7e5d4a60d949b9eb6dddd3e7c2b7150e34ae6dd9b23a4a994caf455456a4b640",
+        "size_bytes": 4043611
       },
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes_2.go",
         "mode": "0644",
-        "sha256": "d48b65727ca2d7992e93f401a9eea6c8983329e952a9f423868e2d9ee30e4877",
-        "size_bytes": 2477077
+        "sha256": "6ee51df975d083242a3ba5027ac69ef8b3a2eab9363195ad283dce12bf02b367",
+        "size_bytes": 2844133
       },
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes_3.go",
         "mode": "0644",
-        "sha256": "b01ec3ce4fb7eda182f5f28f4ef442bf1c9fe97d4e57f13064d1e73380230746",
-        "size_bytes": 3354176
+        "sha256": "9a2d5d5ae5d467f4ecf224d355b53390b2bf1de19dd2ee3c720aef186ce82ed0",
+        "size_bytes": 3802054
       },
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes_4.go",
         "mode": "0644",
-        "sha256": "43a43b9c28fde39f49ce923fead15a88e8671db8c203737167bbc0dfe8236aec",
-        "size_bytes": 3583120
+        "sha256": "f579a3bd436e5fc308a449efbc65aeacb113f0f6930ffe700810118795adc7bf",
+        "size_bytes": 4054660
       },
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes_5.go",
         "mode": "0644",
-        "sha256": "4783f22239f2baf00abbc9154aaa98d1beb24b9868efbba2299fe2517390c197",
-        "size_bytes": 3177929
+        "sha256": "ce36ad29191ee01d6bc924320a749fb9f7e1a73101f3933312d6414981a77ef1",
+        "size_bytes": 3610667
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes.go",
         "mode": "0644",
-        "sha256": "61bca8bbe2780b31a8c4b74dba3973e792406c1e537805b50800953d9b4e7cd9",
-        "size_bytes": 339212
+        "sha256": "796e53cf08adf8632479ed2e6e55b46b43ae36ae09ba629f771718590e8c45fc",
+        "size_bytes": 374119
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes_2.go",
         "mode": "0644",
-        "sha256": "3df229341f55564c5db3d66ad9b35b9ae2cafe59ded129ef6e8ade8949f06886",
-        "size_bytes": 162724
+        "sha256": "aef94452b6082b45a40f4acfb9e660d75cd82a151f1b02c50ca5fd87bf0592d5",
+        "size_bytes": 179736
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes_3.go",
         "mode": "0644",
-        "sha256": "9f061ccf95180f7155f8631de7e1e676fd9bd23e90a2db73772a10b32560dcda",
-        "size_bytes": 333181
+        "sha256": "b753af43e6518f4e8c529a7134f9a8bb73b23b0f0e799acd7abaffb7a770c4eb",
+        "size_bytes": 366563
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes_4.go",
         "mode": "0644",
-        "sha256": "10448b71d724a4f604ab84a030594d6e0d53f55ffb23247f672dcb02a1b0195c",
-        "size_bytes": 340242
+        "sha256": "b32423b8f9885b119ba5f89fade7a5ea39aa3423a9fc0b78a0c5e29fc6442ac2",
+        "size_bytes": 375388
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes_5.go",
         "mode": "0644",
-        "sha256": "33c1e27e7f7f079516ea9f5db5b1b1045286cf4384d5e905566e7ab55e70e392",
-        "size_bytes": 272755
+        "sha256": "04f7cc49714b8e917e35b1eb2fa10517d9775571f54499a7cbd0735cf195059d",
+        "size_bytes": 303992
       },
       {
         "path": "telecom/ss7/gsm_map/mapoperationandmaintenanceoperations.go",
@@ -6434,20 +6838,20 @@
       {
         "path": "telecom/ss7/gsm_map/mapsmdatatypes.go",
         "mode": "0644",
-        "sha256": "0ec051efb1afe6607cf408dab710d32e8a6f44593419fd7793bcf4b4ae421fbd",
-        "size_bytes": 376719
+        "sha256": "03dad2dc905cee15724c6d4fb759108817ae4705b00436867db50d76a0848dfb",
+        "size_bytes": 433055
       },
       {
         "path": "telecom/ss7/gsm_map/mapsmdatatypes_2.go",
         "mode": "0644",
-        "sha256": "bb0e25ad394e0a32c64e009206d02713689eec1a83453f7ca3aecd6c92d2ff84",
-        "size_bytes": 275264
+        "sha256": "926307ad7d570d6f2a4397b712cd007ec512f9b2d0f7f347bdd7316c3e4c795a",
+        "size_bytes": 320503
       },
       {
         "path": "telecom/ss7/gsm_map/mapsmdatatypes_3.go",
         "mode": "0644",
-        "sha256": "5f8de77849929d7c8108aa94fbac837c022dd1116cf18a7b09900a6df5358622",
-        "size_bytes": 359379
+        "sha256": "437a0dedc2a3f04df309a39f284eb9e106ffbb462a5d7ccfa6c6ef37d55b2529",
+        "size_bytes": 412249
       },
       {
         "path": "telecom/ss7/gsm_map/mapsscode.go",
@@ -6488,38 +6892,38 @@
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes.go",
         "mode": "0644",
-        "sha256": "5d427764dc96b906d12b53ab05bbae62017f459aebfcab27943face7b5b65c64",
-        "size_bytes": 258409
+        "sha256": "f34767edb5e93669f15c7a7df9568bc49a9d3f64b5713c330e26beaae5fb5ce8",
+        "size_bytes": 314056
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_2.go",
         "mode": "0644",
-        "sha256": "46d1bba07145f31e2fca063b112a39e053c0ffaa62e65be587d74f9e2070247a",
-        "size_bytes": 261689
+        "sha256": "91c169e978d9bad290f0d70bda8d247d398df7a2900a9ce8d26021628ef036fe",
+        "size_bytes": 317989
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_3.go",
         "mode": "0644",
-        "sha256": "f519199cfe27185b1be5b205859945a65605ea415580b954a65901924e525992",
-        "size_bytes": 259289
+        "sha256": "7b20260abfda41dbc713af20f14a93840fd4f63236fd0782bb71ac1b305b439a",
+        "size_bytes": 315104
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_4.go",
         "mode": "0644",
-        "sha256": "3eef808367c6421bb6a75c78264d957b148bdda8498b7dff5e03cfd5e427769e",
-        "size_bytes": 259289
+        "sha256": "8e45bcb583846953b9a7d549365f3e7c79361943cab71462cf01fcdcd85ce9a9",
+        "size_bytes": 315104
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_5.go",
         "mode": "0644",
-        "sha256": "be323cf6b860f6f447bea26207065cfe88ddf1b626b83b82c0c0e31ba42b12cd",
-        "size_bytes": 259289
+        "sha256": "01e855727e1d9446c8334cb9d01f531f1fdeb7c5b19ad773cc22df5a5701f598",
+        "size_bytes": 315104
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_6.go",
         "mode": "0644",
-        "sha256": "cb58a4c6d8262c4b3fdf76146626704d8ac6b9922b905ab5c75048683d00c93c",
-        "size_bytes": 259289
+        "sha256": "eb29efb6af626c31e7b9b551bfb29e46e1543cb1e6a3dbe575f9730db0f9b5c7",
+        "size_bytes": 315104
       },
       {
         "path": "telecom/ss7/gsm_map/mapsupplementaryserviceoperations.go",
@@ -6572,38 +6976,38 @@
       {
         "path": "telecom/ss7/gsm_map/nokiamapextensions.go",
         "mode": "0644",
-        "sha256": "475f877b4b8cf71f838caff8a5668718fc858c91e30aa7f22d633150f0363cd4",
-        "size_bytes": 485223
+        "sha256": "e68e0079e413c7c92f8569671c853ca531cf2650007f41aa2e1de90f2ec478e4",
+        "size_bytes": 577646
       },
       {
         "path": "telecom/ss7/gsm_map/remoteoperationsgenericrospdus.go",
         "mode": "0644",
-        "sha256": "c203f51cedbbaffeff3d809aa1c47911b1514656f684c1887d2f523ec427e188",
-        "size_bytes": 92409
+        "sha256": "3a3686ce880955cb2ac6f2386c09d1c986fde7eddbe5a2584b838234d26d6029",
+        "size_bytes": 108015
       },
       {
         "path": "telecom/ss7/gsm_map/remoteoperationsinformationobjects.go",
         "mode": "0644",
-        "sha256": "8885d06b16b1c9d232bbf3b1c396678163ca18bebd38521834fd509bde62950b",
-        "size_bytes": 3434
+        "sha256": "0f46d55e9bba8600876311d5b72392d65e3093c3cbc25f88ab386dc4837b6113",
+        "size_bytes": 4569
       },
       {
         "path": "telecom/ss7/gsm_map/remoteoperationsusefuldefinitions.go",
         "mode": "0644",
-        "sha256": "ef6dc338d4754570d9ad8887ee2cca72838270a36918a9231e515c56bd0ef118",
-        "size_bytes": 55018
+        "sha256": "afac0c59dd5037312007f890eb5d4bd31873a4a08ef40accb76767cbc59df03d",
+        "size_bytes": 66343
       },
       {
         "path": "telecom/ss7/gsm_map/ssdatatypes.go",
         "mode": "0644",
-        "sha256": "6ab047d0bfd738db23eacc4045085f6d9451e73b368216f1e0c53edf92892ea9",
-        "size_bytes": 892932
+        "sha256": "01ee99137e8538a5291f49029fdec0f251e6a0056b26fa3a32ee3a58f59bf214",
+        "size_bytes": 1040839
       },
       {
         "path": "telecom/ss7/gsm_map/sserrors.go",
         "mode": "0644",
-        "sha256": "65abd2f363b622c8d579e7d66eb75286f7596149b4bc0381a5123ed640a9a081",
-        "size_bytes": 5547
+        "sha256": "101382d3d58cdc52d42b4b2ef3ba115dacd7954169e6ecf0a0926500dd81ca1c",
+        "size_bytes": 6703
       },
       {
         "path": "telecom/ss7/gsm_map/ssoperations.go",
@@ -6620,14 +7024,14 @@
       {
         "path": "telecom/ss7/tcap/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "14190ae048397748751b94122eefdb633895a303a64ec77b3a67bc8b9ef97ce8",
-        "size_bytes": 12540
+        "sha256": "acee10596acb88f49fee59e64f59ecd7223167ff4c17cb3bef204afec951a6eb",
+        "size_bytes": 12934
       },
       {
         "path": "telecom/ss7/tcap/dialoguepdus.go",
         "mode": "0644",
-        "sha256": "cc040baae2436b2b4041f420aa85dd0d8b65f9a601d6599277bbf19926bf006b",
-        "size_bytes": 102034
+        "sha256": "6c33e2bae70a4728a6ebbdc4e3cfbacc621c0f81733ab7f42369de4fe70cc0d4",
+        "size_bytes": 116898
       },
       {
         "path": "telecom/ss7/tcap/linked_invoke_test.go",
@@ -6638,38 +7042,38 @@
       {
         "path": "telecom/ss7/tcap/remoteoperationsgenericrospdus.go",
         "mode": "0644",
-        "sha256": "f715746dff820e390398aa9c6b3a3f2f38fbe8e50abe9ad86a0f7879b6e1f8c7",
-        "size_bytes": 92406
+        "sha256": "8513d521d5955ab94c1b04c41b145b7c1f311ba440863b05c502f2e60e3d7bb1",
+        "size_bytes": 108012
       },
       {
         "path": "telecom/ss7/tcap/remoteoperationsinformationobjects.go",
         "mode": "0644",
-        "sha256": "baf0001ae22e97375471630bec73045e5c7fe6c5740d4b9231eb673c31e4de2f",
-        "size_bytes": 3431
+        "sha256": "6249751f606eed32e254ad417919c79e302a964b5366f49f481295995f37d871",
+        "size_bytes": 4566
       },
       {
         "path": "telecom/ss7/tcap/remoteoperationsusefuldefinitions.go",
         "mode": "0644",
-        "sha256": "389ad85e8ff8e044fb2824c3289ed5acc80fade30f4ed9c7ad8a39506501315f",
-        "size_bytes": 55015
+        "sha256": "8519c469cb6c12cd0cdb156df5181435ec9c50604bda88988c7d1cdaf2612e83",
+        "size_bytes": 66340
       },
       {
         "path": "telecom/ss7/tcap/tcapmessages.go",
         "mode": "0644",
-        "sha256": "c6a3e3838431d77376b93b3261f0aafc609914e5c8af5c7d5564b5ea502d4610",
-        "size_bytes": 78297
+        "sha256": "342a638e76a688e9931de7b0612f8b3cbfcf3b1541badc93fb7aad2d71189e00",
+        "size_bytes": 97699
       },
       {
         "path": "telecom/ss7/tcap/unidialoguepdus.go",
         "mode": "0644",
-        "sha256": "9d70405ddec311631f00226c8c5555ab47630661258288ceb490687ba22700bc",
-        "size_bytes": 18351
+        "sha256": "ac3e8c00ac0aeb3292f2a79af749958aa2e94ee940270b765e105502d8b7a1bc",
+        "size_bytes": 21959
       },
       {
         "path": "telecom/umts/rrc/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "a9f35ff8693e067b0804a11a7b93c22414346ca5b67694d6e70ab950a6e32c2a",
-        "size_bytes": 9051
+        "sha256": "737dc4dd16862be75de87c88a072d0bf445f32982c2b8c3c2044517e4433772c",
+        "size_bytes": 9445
       },
       {
         "path": "telecom/umts/rrc/classdefinitions.go",
@@ -6692,14 +7096,14 @@
       {
         "path": "telecom/umts/rrc/informationelements.go",
         "mode": "0644",
-        "sha256": "3886f182d76944c43d5a75718027ab710101c5ad208ea9db5a112392a0334767",
-        "size_bytes": 22068586
+        "sha256": "88e80f74cdc40e62df3f16db867c9a6fed3c5e4f217a6e202d4c9e547f50ec65",
+        "size_bytes": 22069408
       },
       {
         "path": "telecom/umts/rrc/internodedefinitions.go",
         "mode": "0644",
-        "sha256": "65746c27c78fad23d06efedc136a656881e73fad6d701082fb15301543513bec",
-        "size_bytes": 2315519
+        "sha256": "83ccd02ffe9555afb8bc0502ac53a59aef3af395d4253dd7c63659f90e3f1c6d",
+        "size_bytes": 2315550
       },
       {
         "path": "telecom/umts/rrc/nonstandard_padding_test.go",
@@ -6710,8 +7114,8 @@
       {
         "path": "telecom/umts/rrc/pdudefinitions.go",
         "mode": "0644",
-        "sha256": "ec54d989d227ad7205f96e002b9f10d83f254653ea8f098d52f4d634bef7576b",
-        "size_bytes": 14136074
+        "sha256": "e3fd15f6ae5fde5278e4089cf996b4bf4d7a29889d638ff456025190f925fd52",
+        "size_bytes": 14136077
       },
       {
         "path": "telecom/umts/rrc/per_helpers.go",
@@ -6775,6 +7179,10 @@
         "$STAGE/runtime/ber/bit_length.go",
         "$STAGE/runtime/ber/bit_length_test.go",
         "$STAGE/runtime/ber/bit_string_encode_bounds_test.go",
+        "$STAGE/runtime/ber/constraints.go",
+        "$STAGE/runtime/ber/constraints_example_test.go",
+        "$STAGE/runtime/ber/constraints_fuzz_test.go",
+        "$STAGE/runtime/ber/constraints_test.go",
         "$STAGE/runtime/ber/constructed_bit_string_test.go",
         "$STAGE/runtime/ber/decoder.go",
         "$STAGE/runtime/ber/depth_overflow_test.go",
@@ -6789,6 +7197,8 @@
         "$STAGE/runtime/ber/oid_checked_test.go",
         "$STAGE/runtime/ber/options.go",
         "$STAGE/runtime/ber/real_capacity_test.go",
+        "$STAGE/runtime/ber/real_constraint.go",
+        "$STAGE/runtime/ber/real_constraint_test.go",
         "$STAGE/runtime/ber/real_decimal_test.go",
         "$STAGE/runtime/ber/retag_capacity_test.go",
         "$STAGE/runtime/ber/string_capacity_test.go",
@@ -7024,6 +7434,10 @@
         "$STAGE/runtime/ber/bit_length.go",
         "$STAGE/runtime/ber/bit_length_test.go",
         "$STAGE/runtime/ber/bit_string_encode_bounds_test.go",
+        "$STAGE/runtime/ber/constraints.go",
+        "$STAGE/runtime/ber/constraints_example_test.go",
+        "$STAGE/runtime/ber/constraints_fuzz_test.go",
+        "$STAGE/runtime/ber/constraints_test.go",
         "$STAGE/runtime/ber/constructed_bit_string_test.go",
         "$STAGE/runtime/ber/decoder.go",
         "$STAGE/runtime/ber/depth_overflow_test.go",
@@ -7038,6 +7452,8 @@
         "$STAGE/runtime/ber/oid_checked_test.go",
         "$STAGE/runtime/ber/options.go",
         "$STAGE/runtime/ber/real_capacity_test.go",
+        "$STAGE/runtime/ber/real_constraint.go",
+        "$STAGE/runtime/ber/real_constraint_test.go",
         "$STAGE/runtime/ber/real_decimal_test.go",
         "$STAGE/runtime/ber/retag_capacity_test.go",
         "$STAGE/runtime/ber/string_capacity_test.go",

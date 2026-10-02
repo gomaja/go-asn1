@@ -29,6 +29,8 @@ const (
 // ROS represents the ASN.1 CHOICE type ROS.
 type ROS struct {
 	Choice       int
+	berOriginal_ []byte        `json:"-"`
+	berSnapshot_ []byte        `json:"-"`
 	Invoke       *Invoke       `json:"Invoke,omitempty"`
 	ReturnResult *ReturnResult `json:"ReturnResult,omitempty"`
 	ReturnError  *ReturnError  `json:"ReturnError,omitempty"`
@@ -69,29 +71,37 @@ func NewROSReject(v Reject) ROS {
 
 // Invoke represents the ASN.1 type Invoke (SEQUENCE).
 type Invoke struct {
-	InvokeId InvokeId          `asn1:""`
-	LinkedId *InvokeLinkedId   `asn1:",optional" json:"LinkedId,omitempty"`
-	Opcode   Code              `asn1:""`
-	Argument *runtime.RawValue `asn1:",optional" json:"Argument,omitempty" asn1c:"raw-preserve"`
+	InvokeId     InvokeId          `asn1:""`
+	LinkedId     *InvokeLinkedId   `asn1:",optional" json:"LinkedId,omitempty"`
+	Opcode       Code              `asn1:""`
+	Argument     *runtime.RawValue `asn1:",optional" json:"Argument,omitempty" asn1c:"raw-preserve"`
+	berOriginal_ []byte            `asn1:"-" json:"-"`
+	berSnapshot_ []byte            `asn1:"-" json:"-"`
 }
 
 // ReturnResult represents the ASN.1 type ReturnResult (SEQUENCE).
 type ReturnResult struct {
-	InvokeId InvokeId            `asn1:""`
-	Result   *ReturnResultResult `asn1:",optional" json:"Result,omitempty"`
+	InvokeId     InvokeId            `asn1:""`
+	Result       *ReturnResultResult `asn1:",optional" json:"Result,omitempty"`
+	berOriginal_ []byte              `asn1:"-" json:"-"`
+	berSnapshot_ []byte              `asn1:"-" json:"-"`
 }
 
 // ReturnError represents the ASN.1 type ReturnError (SEQUENCE).
 type ReturnError struct {
-	InvokeId  InvokeId          `asn1:""`
-	Errcode   Code              `asn1:""`
-	Parameter *runtime.RawValue `asn1:",optional" json:"Parameter,omitempty" asn1c:"raw-preserve"`
+	InvokeId     InvokeId          `asn1:""`
+	Errcode      Code              `asn1:""`
+	Parameter    *runtime.RawValue `asn1:",optional" json:"Parameter,omitempty" asn1c:"raw-preserve"`
+	berOriginal_ []byte            `asn1:"-" json:"-"`
+	berSnapshot_ []byte            `asn1:"-" json:"-"`
 }
 
 // Reject represents the ASN.1 type Reject (SEQUENCE).
 type Reject struct {
-	InvokeId InvokeId                `asn1:""`
-	Problem  OperationsRejectProblem `asn1:""`
+	InvokeId     InvokeId                `asn1:""`
+	Problem      OperationsRejectProblem `asn1:""`
+	berOriginal_ []byte                  `asn1:"-" json:"-"`
+	berSnapshot_ []byte                  `asn1:"-" json:"-"`
 }
 
 // GeneralProblem represents the arbitrary-width ASN.1 INTEGER type GeneralProblem with named numbers.
@@ -864,9 +874,11 @@ const (
 
 // InvokeId represents the ASN.1 CHOICE type InvokeId.
 type InvokeId struct {
-	Choice  int
-	Present *big.Int  `json:"Present,omitempty"`
-	Absent  *struct{} `json:"Absent,omitempty"`
+	Choice       int
+	berOriginal_ []byte    `json:"-"`
+	berSnapshot_ []byte    `json:"-"`
+	Present      *big.Int  `json:"Present,omitempty"`
+	Absent       *struct{} `json:"Absent,omitempty"`
 }
 
 // NewInvokeIdPresent creates a InvokeId with the present alternative.
@@ -894,10 +906,12 @@ const (
 
 // Bind represents the ASN.1 CHOICE type Bind.
 type Bind struct {
-	Choice     int
-	BindInvoke *runtime.RawValue `json:"BindInvoke,omitempty" asn1c:"raw-preserve"`
-	BindResult *runtime.RawValue `json:"BindResult,omitempty" asn1c:"raw-preserve"`
-	BindError  *runtime.RawValue `json:"BindError,omitempty" asn1c:"raw-preserve"`
+	Choice       int
+	berOriginal_ []byte            `json:"-"`
+	berSnapshot_ []byte            `json:"-"`
+	BindInvoke   *runtime.RawValue `json:"BindInvoke,omitempty" asn1c:"raw-preserve"`
+	BindResult   *runtime.RawValue `json:"BindResult,omitempty" asn1c:"raw-preserve"`
+	BindError    *runtime.RawValue `json:"BindError,omitempty" asn1c:"raw-preserve"`
 }
 
 // NewBindBindInvoke creates a Bind with the bind-invoke alternative.
@@ -934,6 +948,8 @@ const (
 // Unbind represents the ASN.1 CHOICE type Unbind.
 type Unbind struct {
 	Choice       int
+	berOriginal_ []byte            `json:"-"`
+	berSnapshot_ []byte            `json:"-"`
 	UnbindInvoke *runtime.RawValue `json:"UnbindInvoke,omitempty" asn1c:"raw-preserve"`
 	UnbindResult *runtime.RawValue `json:"UnbindResult,omitempty" asn1c:"raw-preserve"`
 	UnbindError  *runtime.RawValue `json:"UnbindError,omitempty" asn1c:"raw-preserve"`
@@ -971,9 +987,11 @@ const (
 
 // ROSInvokeLinkedId represents the ASN.1 CHOICE type ROS-invoke-linkedId.
 type ROSInvokeLinkedId struct {
-	Choice  int
-	Present *big.Int  `json:"Present,omitempty"`
-	Absent  *struct{} `json:"Absent,omitempty"`
+	Choice       int
+	berOriginal_ []byte    `json:"-"`
+	berSnapshot_ []byte    `json:"-"`
+	Present      *big.Int  `json:"Present,omitempty"`
+	Absent       *struct{} `json:"Absent,omitempty"`
 }
 
 // NewROSInvokeLinkedIdPresent creates a ROSInvokeLinkedId with the present alternative.
@@ -994,8 +1012,10 @@ func NewROSInvokeLinkedIdAbsent(v struct{}) ROSInvokeLinkedId {
 
 // ROSReturnResultResult represents the ASN.1 type ROS-returnResult-result (SEQUENCE).
 type ROSReturnResultResult struct {
-	Opcode Code             `asn1:""`
-	Result runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
+	Opcode       Code             `asn1:""`
+	Result       runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
+	berOriginal_ []byte           `asn1:"-" json:"-"`
+	berSnapshot_ []byte           `asn1:"-" json:"-"`
 }
 
 // InvokeLinkedId choice constants.
@@ -1006,9 +1026,11 @@ const (
 
 // InvokeLinkedId represents the ASN.1 CHOICE type Invoke-linkedId.
 type InvokeLinkedId struct {
-	Choice  int
-	Present *big.Int  `json:"Present,omitempty"`
-	Absent  *struct{} `json:"Absent,omitempty"`
+	Choice       int
+	berOriginal_ []byte    `json:"-"`
+	berSnapshot_ []byte    `json:"-"`
+	Present      *big.Int  `json:"Present,omitempty"`
+	Absent       *struct{} `json:"Absent,omitempty"`
 }
 
 // NewInvokeLinkedIdPresent creates a InvokeLinkedId with the present alternative.
@@ -1029,8 +1051,10 @@ func NewInvokeLinkedIdAbsent(v struct{}) InvokeLinkedId {
 
 // ReturnResultResult represents the ASN.1 type ReturnResult-result (SEQUENCE).
 type ReturnResultResult struct {
-	Opcode Code             `asn1:""`
-	Result runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
+	Opcode       Code             `asn1:""`
+	Result       runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
+	berOriginal_ []byte           `asn1:"-" json:"-"`
+	berSnapshot_ []byte           `asn1:"-" json:"-"`
 }
 
 // OperationsRejectProblem choice constants.
@@ -1044,6 +1068,8 @@ const (
 // OperationsRejectProblem represents the ASN.1 CHOICE type Reject-problem.
 type OperationsRejectProblem struct {
 	Choice       int
+	berOriginal_ []byte               `json:"-"`
+	berSnapshot_ []byte               `json:"-"`
 	General      *GeneralProblem      `json:"General,omitempty"`
 	Invoke       *InvokeProblem       `json:"Invoke,omitempty"`
 	ReturnResult *ReturnResultProblem `json:"ReturnResult,omitempty"`
@@ -1083,13 +1109,26 @@ func NewOperationsRejectProblemReturnError(v ReturnErrorProblem) OperationsRejec
 }
 
 // MarshalBER encodes ROS to BER format.
-func (v *ROS) MarshalBER() ([]byte, error) {
+func (v *ROS) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ROS receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ROS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case ROSChoiceInvoke:
 		if v.Invoke == nil {
-			return nil, fmt.Errorf("choice ROS: invoke is nil")
+			return nil, fmt.Errorf("%w: choice ROS: invoke is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.Invoke.MarshalBER()
+		enc_0, err := v.Invoke.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
 		}
@@ -1104,9 +1143,9 @@ func (v *ROS) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case ROSChoiceReturnResult:
 		if v.ReturnResult == nil {
-			return nil, fmt.Errorf("choice ROS: returnResult is nil")
+			return nil, fmt.Errorf("%w: choice ROS: returnResult is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.ReturnResult.MarshalBER()
+		enc_1, err := v.ReturnResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnResult: %w", err)
 		}
@@ -1118,9 +1157,9 @@ func (v *ROS) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case ROSChoiceReturnError:
 		if v.ReturnError == nil {
-			return nil, fmt.Errorf("choice ROS: returnError is nil")
+			return nil, fmt.Errorf("%w: choice ROS: returnError is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.ReturnError.MarshalBER()
+		enc_2, err := v.ReturnError.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnError: %w", err)
 		}
@@ -1132,9 +1171,9 @@ func (v *ROS) MarshalBER() ([]byte, error) {
 		return enc_2, nil
 	case ROSChoiceReject:
 		if v.Reject == nil {
-			return nil, fmt.Errorf("choice ROS: reject is nil")
+			return nil, fmt.Errorf("%w: choice ROS: reject is nil", ber.ErrInvalidValue)
 		}
-		enc_3, err := v.Reject.MarshalBER()
+		enc_3, err := v.Reject.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding reject: %w", err)
 		}
@@ -1151,10 +1190,13 @@ func (v *ROS) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ROS to DER format.
 func (v *ROS) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ROS receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case ROSChoiceInvoke:
 		if v.Invoke == nil {
-			return nil, fmt.Errorf("choice ROS: invoke is nil")
+			return nil, fmt.Errorf("%w: choice ROS: invoke is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.Invoke.MarshalDER()
 		if err != nil {
@@ -1174,7 +1216,7 @@ func (v *ROS) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case ROSChoiceReturnResult:
 		if v.ReturnResult == nil {
-			return nil, fmt.Errorf("choice ROS: returnResult is nil")
+			return nil, fmt.Errorf("%w: choice ROS: returnResult is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.ReturnResult.MarshalDER()
 		if err != nil {
@@ -1191,7 +1233,7 @@ func (v *ROS) MarshalDER() ([]byte, error) {
 		return enc_der_1, nil
 	case ROSChoiceReturnError:
 		if v.ReturnError == nil {
-			return nil, fmt.Errorf("choice ROS: returnError is nil")
+			return nil, fmt.Errorf("%w: choice ROS: returnError is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.ReturnError.MarshalDER()
 		if err != nil {
@@ -1208,7 +1250,7 @@ func (v *ROS) MarshalDER() ([]byte, error) {
 		return enc_der_2, nil
 	case ROSChoiceReject:
 		if v.Reject == nil {
-			return nil, fmt.Errorf("choice ROS: reject is nil")
+			return nil, fmt.Errorf("%w: choice ROS: reject is nil", ber.ErrInvalidValue)
 		}
 		enc_der_3, err := v.Reject.MarshalDER()
 		if err != nil {
@@ -1235,7 +1277,23 @@ func (v *ROS) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ROS from BER/DER format.
-func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ROS destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -1327,24 +1385,37 @@ func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes Invoke to BER format.
-func (v *Invoke) MarshalBER() ([]byte, error) {
+func (v *Invoke) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Invoke receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *Invoke) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	if !((v.LinkedId == nil) || (v.LinkedId != nil)) {
 		return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 	}
 	var children []byte
-	enc_invokeid, err := v.InvokeId.MarshalBER()
+	enc_invokeid, err := v.InvokeId.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding invokeId: %w", err)
 	}
 	children = append(children, enc_invokeid...)
 	if v.LinkedId != nil {
-		enc_linkedid, err := v.LinkedId.MarshalBER()
+		enc_linkedid, err := v.LinkedId.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding linkedId: %w", err)
 		}
 		children = append(children, enc_linkedid...)
 	}
-	enc_opcode, err := v.Opcode.MarshalBER()
+	enc_opcode, err := v.Opcode.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding opcode: %w", err)
 	}
@@ -1358,6 +1429,9 @@ func (v *Invoke) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Invoke to DER format.
 func (v *Invoke) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Invoke receiver is nil", ber.ErrInvalidValue)
+	}
 	if !((v.LinkedId == nil) || (v.LinkedId != nil)) {
 		return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 	}
@@ -1394,11 +1468,27 @@ func (v *Invoke) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes Invoke from BER/DER format.
-func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: Invoke destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = Invoke{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding Invoke SEQUENCE: %w", err)
@@ -1422,7 +1512,7 @@ func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.InvokeId.UnmarshalBER(content[offset:offset+n_invokeid], opts...); unmErr != nil {
+	if unmErr := v.InvokeId.UnmarshalBER(content[offset:offset+n_invokeid], ber.ChildDecodeOptions(opts, "invokeId")...); unmErr != nil {
 		return fmt.Errorf("decoding invokeId: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -1449,7 +1539,7 @@ func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_linkedid.UnmarshalBER(content[offset:offset+n_linkedid], opts...); unmErr != nil {
+				if unmErr := dec_linkedid.UnmarshalBER(content[offset:offset+n_linkedid], ber.ChildDecodeOptions(opts, "linkedid")...); unmErr != nil {
 					return fmt.Errorf("decoding linkedId: %w", unmErr)
 				}
 				v.LinkedId = &dec_linkedid
@@ -1478,7 +1568,7 @@ func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], opts...); unmErr != nil {
+	if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], ber.ChildDecodeOptions(opts, "opcode")...); unmErr != nil {
 		return fmt.Errorf("decoding opcode: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -1520,15 +1610,28 @@ func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes ReturnResult to BER format.
-func (v *ReturnResult) MarshalBER() ([]byte, error) {
+func (v *ReturnResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReturnResult receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ReturnResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_invokeid, err := v.InvokeId.MarshalBER()
+	enc_invokeid, err := v.InvokeId.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding invokeId: %w", err)
 	}
 	children = append(children, enc_invokeid...)
 	if v.Result != nil {
-		enc_result, err := v.Result.MarshalBER()
+		enc_result, err := v.Result.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding result: %w", err)
 		}
@@ -1539,6 +1642,9 @@ func (v *ReturnResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ReturnResult to DER format.
 func (v *ReturnResult) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReturnResult receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_invokeid, err := v.InvokeId.MarshalDER()
 	if err != nil {
@@ -1563,11 +1669,27 @@ func (v *ReturnResult) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ReturnResult from BER/DER format.
-func (v *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ReturnResult destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ReturnResult{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ReturnResult SEQUENCE: %w", err)
@@ -1590,7 +1712,7 @@ func (v *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.InvokeId.UnmarshalBER(content[offset:offset+n_invokeid], opts...); unmErr != nil {
+	if unmErr := v.InvokeId.UnmarshalBER(content[offset:offset+n_invokeid], ber.ChildDecodeOptions(opts, "invokeId")...); unmErr != nil {
 		return fmt.Errorf("decoding invokeId: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -1615,7 +1737,7 @@ func (v *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_result.UnmarshalBER(content[offset:offset+n_result], opts...); unmErr != nil {
+				if unmErr := dec_result.UnmarshalBER(content[offset:offset+n_result], ber.ChildDecodeOptions(opts, "result")...); unmErr != nil {
 					return fmt.Errorf("decoding result: %w", unmErr)
 				}
 				v.Result = &dec_result
@@ -1635,14 +1757,27 @@ func (v *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 }
 
 // MarshalBER encodes ReturnError to BER format.
-func (v *ReturnError) MarshalBER() ([]byte, error) {
+func (v *ReturnError) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReturnError receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ReturnError) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_invokeid, err := v.InvokeId.MarshalBER()
+	enc_invokeid, err := v.InvokeId.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding invokeId: %w", err)
 	}
 	children = append(children, enc_invokeid...)
-	enc_errcode, err := v.Errcode.MarshalBER()
+	enc_errcode, err := v.Errcode.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding errcode: %w", err)
 	}
@@ -1656,6 +1791,9 @@ func (v *ReturnError) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ReturnError to DER format.
 func (v *ReturnError) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReturnError receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_invokeid, err := v.InvokeId.MarshalDER()
 	if err != nil {
@@ -1682,11 +1820,27 @@ func (v *ReturnError) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ReturnError from BER/DER format.
-func (v *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ReturnError destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ReturnError{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ReturnError SEQUENCE: %w", err)
@@ -1709,7 +1863,7 @@ func (v *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.InvokeId.UnmarshalBER(content[offset:offset+n_invokeid], opts...); unmErr != nil {
+	if unmErr := v.InvokeId.UnmarshalBER(content[offset:offset+n_invokeid], ber.ChildDecodeOptions(opts, "invokeId")...); unmErr != nil {
 		return fmt.Errorf("decoding invokeId: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -1732,7 +1886,7 @@ func (v *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.Errcode.UnmarshalBER(content[offset:offset+n_errcode], opts...); unmErr != nil {
+	if unmErr := v.Errcode.UnmarshalBER(content[offset:offset+n_errcode], ber.ChildDecodeOptions(opts, "errcode")...); unmErr != nil {
 		return fmt.Errorf("decoding errcode: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -1768,14 +1922,27 @@ func (v *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 }
 
 // MarshalBER encodes Reject to BER format.
-func (v *Reject) MarshalBER() ([]byte, error) {
+func (v *Reject) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Reject receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *Reject) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_invokeid, err := v.InvokeId.MarshalBER()
+	enc_invokeid, err := v.InvokeId.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding invokeId: %w", err)
 	}
 	children = append(children, enc_invokeid...)
-	enc_problem, err := v.Problem.MarshalBER()
+	enc_problem, err := v.Problem.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding problem: %w", err)
 	}
@@ -1785,6 +1952,9 @@ func (v *Reject) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Reject to DER format.
 func (v *Reject) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Reject receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_invokeid, err := v.InvokeId.MarshalDER()
 	if err != nil {
@@ -1807,11 +1977,27 @@ func (v *Reject) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes Reject from BER/DER format.
-func (v *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: Reject destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = Reject{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding Reject SEQUENCE: %w", err)
@@ -1835,7 +2021,7 @@ func (v *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.InvokeId.UnmarshalBER(content[offset:offset+n_invokeid], opts...); unmErr != nil {
+	if unmErr := v.InvokeId.UnmarshalBER(content[offset:offset+n_invokeid], ber.ChildDecodeOptions(opts, "invokeId")...); unmErr != nil {
 		return fmt.Errorf("decoding invokeId: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -1859,7 +2045,7 @@ func (v *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.Problem.UnmarshalBER(content[offset:offset+n_problem], opts...); unmErr != nil {
+	if unmErr := v.Problem.UnmarshalBER(content[offset:offset+n_problem], ber.ChildDecodeOptions(opts, "problem")...); unmErr != nil {
 		return fmt.Errorf("decoding problem: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -1875,11 +2061,24 @@ func (v *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes InvokeId to BER format.
-func (v *InvokeId) MarshalBER() ([]byte, error) {
+func (v *InvokeId) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: InvokeId receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *InvokeId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case InvokeIdChoicePresent:
 		if v.Present == nil {
-			return nil, fmt.Errorf("choice InvokeId: present is nil")
+			return nil, fmt.Errorf("%w: choice InvokeId: present is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
 		if encodeErr_enc_0 != nil {
@@ -1896,6 +2095,9 @@ func (v *InvokeId) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes InvokeId to DER format.
 func (v *InvokeId) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: InvokeId receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -1907,7 +2109,23 @@ func (v *InvokeId) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes InvokeId from BER/DER format.
-func (v *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: InvokeId destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -1949,11 +2167,24 @@ func (v *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes Bind to BER format.
-func (v *Bind) MarshalBER() ([]byte, error) {
+func (v *Bind) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Bind receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case BindChoiceBindInvoke:
 		if v.BindInvoke == nil {
-			return nil, fmt.Errorf("choice Bind: bind-invoke is nil")
+			return nil, fmt.Errorf("%w: choice Bind: bind-invoke is nil", ber.ErrInvalidValue)
 		}
 		enc_0 := v.BindInvoke.Bytes
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, enc_0)
@@ -1964,7 +2195,7 @@ func (v *Bind) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case BindChoiceBindResult:
 		if v.BindResult == nil {
-			return nil, fmt.Errorf("choice Bind: bind-result is nil")
+			return nil, fmt.Errorf("%w: choice Bind: bind-result is nil", ber.ErrInvalidValue)
 		}
 		enc_1 := v.BindResult.Bytes
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, enc_1)
@@ -1975,7 +2206,7 @@ func (v *Bind) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case BindChoiceBindError:
 		if v.BindError == nil {
-			return nil, fmt.Errorf("choice Bind: bind-error is nil")
+			return nil, fmt.Errorf("%w: choice Bind: bind-error is nil", ber.ErrInvalidValue)
 		}
 		enc_2 := v.BindError.Bytes
 		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, enc_2)
@@ -1991,6 +2222,9 @@ func (v *Bind) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Bind to DER format.
 func (v *Bind) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Bind receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -2002,7 +2236,23 @@ func (v *Bind) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes Bind from BER/DER format.
-func (v *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: Bind destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -2043,11 +2293,24 @@ func (v *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes Unbind to BER format.
-func (v *Unbind) MarshalBER() ([]byte, error) {
+func (v *Unbind) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Unbind receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case UnbindChoiceUnbindInvoke:
 		if v.UnbindInvoke == nil {
-			return nil, fmt.Errorf("choice Unbind: unbind-invoke is nil")
+			return nil, fmt.Errorf("%w: choice Unbind: unbind-invoke is nil", ber.ErrInvalidValue)
 		}
 		enc_0 := v.UnbindInvoke.Bytes
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, enc_0)
@@ -2058,7 +2321,7 @@ func (v *Unbind) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case UnbindChoiceUnbindResult:
 		if v.UnbindResult == nil {
-			return nil, fmt.Errorf("choice Unbind: unbind-result is nil")
+			return nil, fmt.Errorf("%w: choice Unbind: unbind-result is nil", ber.ErrInvalidValue)
 		}
 		enc_1 := v.UnbindResult.Bytes
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 20, enc_1)
@@ -2069,7 +2332,7 @@ func (v *Unbind) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case UnbindChoiceUnbindError:
 		if v.UnbindError == nil {
-			return nil, fmt.Errorf("choice Unbind: unbind-error is nil")
+			return nil, fmt.Errorf("%w: choice Unbind: unbind-error is nil", ber.ErrInvalidValue)
 		}
 		enc_2 := v.UnbindError.Bytes
 		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 21, enc_2)
@@ -2085,6 +2348,9 @@ func (v *Unbind) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Unbind to DER format.
 func (v *Unbind) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Unbind receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -2096,7 +2362,23 @@ func (v *Unbind) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes Unbind from BER/DER format.
-func (v *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: Unbind destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -2137,11 +2419,24 @@ func (v *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes ROSInvokeLinkedId to BER format.
-func (v *ROSInvokeLinkedId) MarshalBER() ([]byte, error) {
+func (v *ROSInvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ROSInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ROSInvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case ROSInvokeLinkedIdChoicePresent:
 		if v.Present == nil {
-			return nil, fmt.Errorf("choice ROSInvokeLinkedId: present is nil")
+			return nil, fmt.Errorf("%w: choice ROSInvokeLinkedId: present is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
 		if encodeErr_enc_0 != nil {
@@ -2168,6 +2463,9 @@ func (v *ROSInvokeLinkedId) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ROSInvokeLinkedId to DER format.
 func (v *ROSInvokeLinkedId) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ROSInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -2179,7 +2477,23 @@ func (v *ROSInvokeLinkedId) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ROSInvokeLinkedId from BER/DER format.
-func (v *ROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ROSInvokeLinkedId destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -2229,9 +2543,22 @@ func (v *ROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 }
 
 // MarshalBER encodes ROSReturnResultResult to BER format.
-func (v *ROSReturnResultResult) MarshalBER() ([]byte, error) {
+func (v *ROSReturnResultResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ROSReturnResultResult receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ROSReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_opcode, err := v.Opcode.MarshalBER()
+	enc_opcode, err := v.Opcode.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding opcode: %w", err)
 	}
@@ -2243,6 +2570,9 @@ func (v *ROSReturnResultResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ROSReturnResultResult to DER format.
 func (v *ROSReturnResultResult) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ROSReturnResultResult receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_opcode, err := v.Opcode.MarshalDER()
 	if err != nil {
@@ -2262,11 +2592,27 @@ func (v *ROSReturnResultResult) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ROSReturnResultResult from BER/DER format.
-func (v *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ROSReturnResultResult destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ROSReturnResultResult{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ROSReturnResultResult SEQUENCE: %w", err)
@@ -2289,7 +2635,7 @@ func (v *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], opts...); unmErr != nil {
+	if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], ber.ChildDecodeOptions(opts, "opcode")...); unmErr != nil {
 		return fmt.Errorf("decoding opcode: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -2325,11 +2671,24 @@ func (v *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes InvokeLinkedId to BER format.
-func (v *InvokeLinkedId) MarshalBER() ([]byte, error) {
+func (v *InvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: InvokeLinkedId receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *InvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case InvokeLinkedIdChoicePresent:
 		if v.Present == nil {
-			return nil, fmt.Errorf("choice InvokeLinkedId: present is nil")
+			return nil, fmt.Errorf("%w: choice InvokeLinkedId: present is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
 		if encodeErr_enc_0 != nil {
@@ -2356,6 +2715,9 @@ func (v *InvokeLinkedId) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes InvokeLinkedId to DER format.
 func (v *InvokeLinkedId) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: InvokeLinkedId receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -2367,7 +2729,23 @@ func (v *InvokeLinkedId) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes InvokeLinkedId from BER/DER format.
-func (v *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: InvokeLinkedId destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -2417,9 +2795,22 @@ func (v *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 }
 
 // MarshalBER encodes ReturnResultResult to BER format.
-func (v *ReturnResultResult) MarshalBER() ([]byte, error) {
+func (v *ReturnResultResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReturnResultResult receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_opcode, err := v.Opcode.MarshalBER()
+	enc_opcode, err := v.Opcode.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding opcode: %w", err)
 	}
@@ -2431,6 +2822,9 @@ func (v *ReturnResultResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ReturnResultResult to DER format.
 func (v *ReturnResultResult) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReturnResultResult receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_opcode, err := v.Opcode.MarshalDER()
 	if err != nil {
@@ -2450,11 +2844,27 @@ func (v *ReturnResultResult) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ReturnResultResult from BER/DER format.
-func (v *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ReturnResultResult destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ReturnResultResult{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ReturnResultResult SEQUENCE: %w", err)
@@ -2477,7 +2887,7 @@ func (v *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], opts...); unmErr != nil {
+	if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], ber.ChildDecodeOptions(opts, "opcode")...); unmErr != nil {
 		return fmt.Errorf("decoding opcode: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -2513,11 +2923,24 @@ func (v *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 }
 
 // MarshalBER encodes OperationsRejectProblem to BER format.
-func (v *OperationsRejectProblem) MarshalBER() ([]byte, error) {
+func (v *OperationsRejectProblem) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: OperationsRejectProblem receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *OperationsRejectProblem) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case OperationsRejectProblemChoiceGeneral:
 		if v.General == nil {
-			return nil, fmt.Errorf("choice OperationsRejectProblem: general is nil")
+			return nil, fmt.Errorf("%w: choice OperationsRejectProblem: general is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.General.BigInt())
 		if encodeErr_enc_0 != nil {
@@ -2531,7 +2954,7 @@ func (v *OperationsRejectProblem) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case OperationsRejectProblemChoiceInvoke:
 		if v.Invoke == nil {
-			return nil, fmt.Errorf("choice OperationsRejectProblem: invoke is nil")
+			return nil, fmt.Errorf("%w: choice OperationsRejectProblem: invoke is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeBigInt(v.Invoke.BigInt())
 		if encodeErr_enc_1 != nil {
@@ -2545,7 +2968,7 @@ func (v *OperationsRejectProblem) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case OperationsRejectProblemChoiceReturnResult:
 		if v.ReturnResult == nil {
-			return nil, fmt.Errorf("choice OperationsRejectProblem: returnResult is nil")
+			return nil, fmt.Errorf("%w: choice OperationsRejectProblem: returnResult is nil", ber.ErrInvalidValue)
 		}
 		enc_2, encodeErr_enc_2 := ber.EncodeBigInt(v.ReturnResult.BigInt())
 		if encodeErr_enc_2 != nil {
@@ -2559,7 +2982,7 @@ func (v *OperationsRejectProblem) MarshalBER() ([]byte, error) {
 		return enc_2, nil
 	case OperationsRejectProblemChoiceReturnError:
 		if v.ReturnError == nil {
-			return nil, fmt.Errorf("choice OperationsRejectProblem: returnError is nil")
+			return nil, fmt.Errorf("%w: choice OperationsRejectProblem: returnError is nil", ber.ErrInvalidValue)
 		}
 		enc_3, encodeErr_enc_3 := ber.EncodeBigInt(v.ReturnError.BigInt())
 		if encodeErr_enc_3 != nil {
@@ -2578,6 +3001,9 @@ func (v *OperationsRejectProblem) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes OperationsRejectProblem to DER format.
 func (v *OperationsRejectProblem) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: OperationsRejectProblem receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -2589,7 +3015,23 @@ func (v *OperationsRejectProblem) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes OperationsRejectProblem from BER/DER format.
-func (v *OperationsRejectProblem) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *OperationsRejectProblem) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: OperationsRejectProblem destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}

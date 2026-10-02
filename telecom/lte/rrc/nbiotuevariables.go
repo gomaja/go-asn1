@@ -56,6 +56,7 @@ type VarShortMACInputNBR13 = VarShortMACInput
 type VarShortResumeMACInputNBR13 = VarShortResumeMACInputR13
 
 // VarANRMeasReportNBR16MeasResultListR16 represents the ASN.1 type VarANR-MeasReport-NB-r16-measResultList-r16 (SEQUENCE_OF).
+
 type VarANRMeasReportNBR16MeasResultListR16 = []ANRMeasResultNBR16
 
 // MarshalUPER encodes VarANRMeasConfigNBR16 to UPER format.

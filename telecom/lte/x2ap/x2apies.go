@@ -110,6 +110,7 @@ type ABSStatus struct {
 type ActivationID = int64
 
 // AdditionalMeasurementTimingConfigurationList represents the ASN.1 type Additional-Measurement-Timing-Configuration-List (SEQUENCE_OF).
+
 type AdditionalMeasurementTimingConfigurationList = []AdditionalMeasurementTimingConfigurationItem
 
 // AdditionalMeasurementTimingConfigurationItem represents the ASN.1 type Additional-Measurement-Timing-Configuration-Item (SEQUENCE).
@@ -129,6 +130,7 @@ type AdditionalMeasurementTimingConfigurationItem struct {
 }
 
 // CSIRSMTCConfigurationList represents the ASN.1 type CSI-RS-MTC-Configuration-List (SEQUENCE_OF).
+
 type CSIRSMTCConfigurationList = []CSIRSMTCConfigurationItem
 
 // CSIRSMTCConfigurationItem represents the ASN.1 type CSI-RS-MTC-Configuration-Item (SEQUENCE).
@@ -149,6 +151,7 @@ type CSIRSMTCConfigurationItem struct {
 }
 
 // CSIRSNeighbourList represents the ASN.1 type CSI-RS-Neighbour-List (SEQUENCE_OF).
+
 type CSIRSNeighbourList = []CSIRSNeighbourItem
 
 // CSIRSNeighbourItem represents the ASN.1 type CSI-RS-Neighbour-Item (SEQUENCE).
@@ -168,6 +171,7 @@ type CSIRSNeighbourItem struct {
 }
 
 // CSIRSMTCNeighbourList represents the ASN.1 type CSI-RS-MTC-Neighbour-List (SEQUENCE_OF).
+
 type CSIRSMTCNeighbourList = []CSIRSMTCNeighbourItem
 
 // CSIRSMTCNeighbourItem represents the ASN.1 type CSI-RS-MTC-Neighbour-Item (SEQUENCE).
@@ -185,6 +189,7 @@ type CSIRSMTCNeighbourItem struct {
 }
 
 // AdditionalListofForwardingGTPTunnelEndpoint represents the ASN.1 type AdditionalListofForwardingGTPTunnelEndpoint (SEQUENCE_OF).
+
 type AdditionalListofForwardingGTPTunnelEndpoint = []AdditionalListofForwardingGTPTunnelEndpointItem
 
 // AdditionalListofForwardingGTPTunnelEndpointItem represents the ASN.1 type AdditionalListofForwardingGTPTunnelEndpoint-Item (SEQUENCE).
@@ -485,6 +490,7 @@ type ASSecurityInformation struct {
 }
 
 // AdditionalPLMNsItem represents the ASN.1 type AdditionalPLMNs-Item (SEQUENCE_OF).
+
 type AdditionalPLMNsItem = []PLMNIdentity
 
 // BandwidthReducedSI represents the ASN.1 ENUMERATED type BandwidthReducedSI.
@@ -526,6 +532,7 @@ type BenefitMetric = *big.Int
 type BitRate = int64
 
 // BroadcastPLMNsItem represents the ASN.1 type BroadcastPLMNs-Item (SEQUENCE_OF).
+
 type BroadcastPLMNsItem = []PLMNIdentity
 
 // BluetoothMeasurementConfiguration represents the ASN.1 type BluetoothMeasurementConfiguration (SEQUENCE).
@@ -546,6 +553,7 @@ type BluetoothMeasurementConfiguration struct {
 }
 
 // BluetoothMeasConfigNameList represents the ASN.1 type BluetoothMeasConfigNameList (SEQUENCE_OF).
+
 type BluetoothMeasConfigNameList = []BluetoothName
 
 // BluetoothMeasConfig represents the ASN.1 ENUMERATED type BluetoothMeasConfig.
@@ -568,6 +576,7 @@ func (v BluetoothMeasConfig) String() string {
 type BluetoothName = []byte
 
 // BPLMNIDInfoEUTRA represents the ASN.1 type BPLMN-ID-Info-EUTRA (SEQUENCE_OF).
+
 type BPLMNIDInfoEUTRA = []BPLMNIDInfoEUTRAItem
 
 // BPLMNIDInfoEUTRAItem represents the ASN.1 type BPLMN-ID-Info-EUTRA-Item (SEQUENCE).
@@ -588,6 +597,7 @@ type BPLMNIDInfoEUTRAItem struct {
 }
 
 // BPLMNIDInfoNR represents the ASN.1 type BPLMN-ID-Info-NR (SEQUENCE_OF).
+
 type BPLMNIDInfoNR = []BPLMNIDInfoNRItem
 
 // BPLMNIDInfoNRItem represents the ASN.1 type BPLMN-ID-Info-NR-Item (SEQUENCE).
@@ -608,6 +618,7 @@ type BPLMNIDInfoNRItem struct {
 }
 
 // BroadcastextPLMNs represents the ASN.1 type BroadcastextPLMNs (SEQUENCE_OF).
+
 type BroadcastextPLMNs = []PLMNIdentity
 
 // CapacityValue represents the ASN.1 type CapacityValue (INTEGER).
@@ -990,9 +1001,11 @@ func (v CellDeploymentStatusIndicator) String() string {
 }
 
 // CellIdListforMDT represents the ASN.1 type CellIdListforMDT (SEQUENCE_OF).
+
 type CellIdListforMDT = []ECGI
 
 // CellIdListforQMC represents the ASN.1 type CellIdListforQMC (SEQUENCE_OF).
+
 type CellIdListforQMC = []ECGI
 
 // CellReplacingInfo represents the ASN.1 type CellReplacingInfo (SEQUENCE).
@@ -1066,6 +1079,7 @@ type CellType struct {
 }
 
 // CPACcandidatePSCellsList represents the ASN.1 type CPACcandidatePSCells-list (SEQUENCE_OF).
+
 type CPACcandidatePSCellsList = []CPACcandidatePSCellsItem
 
 // CPACcandidatePSCellsItem represents the ASN.1 type CPACcandidatePSCells-item (SEQUENCE).
@@ -1172,6 +1186,7 @@ type CPCinformationREQD struct {
 }
 
 // CPCTargetSgNBReqdList represents the ASN.1 type CPC-target-SgNB-reqd-list (SEQUENCE_OF).
+
 type CPCTargetSgNBReqdList = []CPCTargetSgNBReqdItem
 
 // CPCTargetSgNBReqdItem represents the ASN.1 type CPC-target-SgNB-reqd-item (SEQUENCE).
@@ -1208,6 +1223,7 @@ type CPCinformationCONF struct {
 }
 
 // CPCTargetSgNBConfList represents the ASN.1 type CPC-target-SgNB-conf-list (SEQUENCE_OF).
+
 type CPCTargetSgNBConfList = []CPCTargetSgNBConfItem
 
 // CPCTargetSgNBConfItem represents the ASN.1 type CPC-target-SgNB-conf-item (SEQUENCE).
@@ -1271,6 +1287,7 @@ type CPCupdateMOD struct {
 }
 
 // CPCTargetSgNBModList represents the ASN.1 type CPC-target-SgNB-mod-list (SEQUENCE_OF).
+
 type CPCTargetSgNBModList = []CPCTargetSgNBModItem
 
 // CPCTargetSgNBModItem represents the ASN.1 type CPC-target-SgNB-mod-item (SEQUENCE).
@@ -1355,6 +1372,7 @@ func (v CHODCIndicator) String() string {
 }
 
 // CNTypeRestrictions represents the ASN.1 type CNTypeRestrictions (SEQUENCE_OF).
+
 type CNTypeRestrictions = []CNTypeRestrictionsItem
 
 // CNTypeRestrictionsItem represents the ASN.1 type CNTypeRestrictionsItem (SEQUENCE).
@@ -1373,6 +1391,7 @@ type CNTypeRestrictionsItem struct {
 }
 
 // CoMPHypothesisSet represents the ASN.1 type CoMPHypothesisSet (SEQUENCE_OF).
+
 type CoMPHypothesisSet = []CoMPHypothesisSetItem
 
 // CoMPHypothesisSetItem represents the ASN.1 type CoMPHypothesisSetItem (SEQUENCE).
@@ -1408,9 +1427,11 @@ type CoMPInformation struct {
 }
 
 // CoMPInformationItem represents the ASN.1 type CoMPInformationItem (SEQUENCE_OF).
+
 type CoMPInformationItem = []CoMPInformationItemElem
 
 // CoMPInformationStartTime represents the ASN.1 type CoMPInformationStartTime (SEQUENCE_OF).
+
 type CoMPInformationStartTime = []CoMPInformationStartTimeElem
 
 // CompositeAvailableCapacity represents the ASN.1 type CompositeAvailableCapacity (SEQUENCE).
@@ -1492,6 +1513,7 @@ type COUNTvaluePDCPSNlength18 struct {
 }
 
 // CoverageModificationList represents the ASN.1 type CoverageModificationList (SEQUENCE_OF).
+
 type CoverageModificationList = []CoverageModificationItem
 
 // CoverageModificationItem represents the ASN.1 type CoverageModification-Item (SEQUENCE).
@@ -1561,6 +1583,7 @@ type CriticalityDiagnostics struct {
 }
 
 // CriticalityDiagnosticsIEList represents the ASN.1 type CriticalityDiagnostics-IE-List (SEQUENCE_OF).
+
 type CriticalityDiagnosticsIEList = []CriticalityDiagnosticsIEListElem
 
 // CRNTI represents the ASN.1 type CRNTI (BIT_STRING).
@@ -1589,12 +1612,15 @@ func (v CSGMembershipStatus) String() string {
 type CSGId = runtime.BitString
 
 // CSIReportList represents the ASN.1 type CSIReportList (SEQUENCE_OF).
+
 type CSIReportList = []CSIReportListElem
 
 // CSIReportPerCSIProcess represents the ASN.1 type CSIReportPerCSIProcess (SEQUENCE_OF).
+
 type CSIReportPerCSIProcess = []CSIReportPerCSIProcessElem
 
 // CSIReportPerCSIProcessItem represents the ASN.1 type CSIReportPerCSIProcessItem (SEQUENCE_OF).
+
 type CSIReportPerCSIProcessItem = []CSIReportPerCSIProcessItemElem
 
 // CyclicPrefixDL represents the ASN.1 ENUMERATED type CyclicPrefixDL.
@@ -1702,6 +1728,7 @@ type CHOinformationACK struct {
 }
 
 // CandidateCellsToBeCancelledList represents the ASN.1 type CandidateCellsToBeCancelledList (SEQUENCE_OF).
+
 type CandidateCellsToBeCancelledList = []ECGI
 
 // CHOProbability represents the ASN.1 type CHO-Probability (INTEGER).
@@ -2158,9 +2185,11 @@ type ENDCResourceConfiguration struct {
 type EPCHandoverRestrictionListContainer = []byte
 
 // EPLMNs represents the ASN.1 type EPLMNs (SEQUENCE_OF).
+
 type EPLMNs = []PLMNIdentity
 
 // ERABActivityNotifyItemList represents the ASN.1 type ERABActivityNotifyItemList (SEQUENCE_OF).
+
 type ERABActivityNotifyItemList = []ERABActivityNotifyItem
 
 // ERABActivityNotifyItem represents the ASN.1 type ERABActivityNotifyItem (SEQUENCE).
@@ -2198,6 +2227,7 @@ type ERABLevelQoSParameters struct {
 }
 
 // ERABList represents the ASN.1 type E-RAB-List (SEQUENCE_OF).
+
 type ERABList = []ProtocolIESingleContainer
 
 // ERABItem represents the ASN.1 type E-RAB-Item (SEQUENCE).
@@ -2216,6 +2246,7 @@ type ERABItem struct {
 }
 
 // ERABsSubjectToEarlyStatusTransferList represents the ASN.1 type E-RABsSubjectToEarlyStatusTransfer-List (SEQUENCE_OF).
+
 type ERABsSubjectToEarlyStatusTransferList = []ERABsSubjectToEarlyStatusTransferItem
 
 // ERABsSubjectToEarlyStatusTransferItem represents the ASN.1 type E-RABsSubjectToEarlyStatusTransfer-Item (SEQUENCE).
@@ -2236,6 +2267,7 @@ type ERABsSubjectToEarlyStatusTransferItem struct {
 }
 
 // ERABsSubjectToDLDiscardingList represents the ASN.1 type E-RABsSubjectToDLDiscarding-List (SEQUENCE_OF).
+
 type ERABsSubjectToDLDiscardingList = []ERABsSubjectToDLDiscardingItem
 
 // ERABsSubjectToDLDiscardingItem represents the ASN.1 type E-RABsSubjectToDLDiscarding-Item (SEQUENCE).
@@ -2256,6 +2288,7 @@ type ERABsSubjectToDLDiscardingItem struct {
 }
 
 // ERABUsageReportList represents the ASN.1 type E-RABUsageReportList (SEQUENCE_OF).
+
 type ERABUsageReportList = []ProtocolIESingleContainer
 
 // ERABUsageReportItem represents the ASN.1 type E-RABUsageReport-Item (SEQUENCE).
@@ -2520,6 +2553,7 @@ func (v ForbiddenInterRATs) String() string {
 }
 
 // ForbiddenTAs represents the ASN.1 type ForbiddenTAs (SEQUENCE_OF).
+
 type ForbiddenTAs = []ForbiddenTAsItem
 
 // ForbiddenTAsItem represents the ASN.1 type ForbiddenTAs-Item (SEQUENCE).
@@ -2539,9 +2573,11 @@ type ForbiddenTAsItem struct {
 }
 
 // ForbiddenTACs represents the ASN.1 type ForbiddenTACs (SEQUENCE_OF).
+
 type ForbiddenTACs = []TAC
 
 // ForbiddenLAs represents the ASN.1 type ForbiddenLAs (SEQUENCE_OF).
+
 type ForbiddenLAs = []ForbiddenLAsItem
 
 // ForbiddenLAsItem represents the ASN.1 type ForbiddenLAs-Item (SEQUENCE).
@@ -2561,6 +2597,7 @@ type ForbiddenLAsItem struct {
 }
 
 // ForbiddenLACs represents the ASN.1 type ForbiddenLACs (SEQUENCE_OF).
+
 type ForbiddenLACs = []LAC
 
 // Fourframes represents the ASN.1 type Fourframes (BIT_STRING).
@@ -2722,6 +2759,7 @@ func (v GNBOverloadInformation) String() string {
 }
 
 // GTPTLAs represents the ASN.1 type GTPTLAs (SEQUENCE_OF).
+
 type GTPTLAs = []GTPTLAItem
 
 // GTPTLAItem represents the ASN.1 type GTPTLA-Item (SEQUENCE).
@@ -2757,6 +2795,7 @@ type GTPtunnelEndpoint struct {
 type GTPTEI = []byte
 
 // GUGroupIDList represents the ASN.1 type GUGroupIDList (SEQUENCE_OF).
+
 type GUGroupIDList = []GUGroupID
 
 // GUGroupID represents the ASN.1 type GU-Group-ID (SEQUENCE).
@@ -3744,6 +3783,7 @@ type MDTConfiguration struct {
 }
 
 // MDTPLMNList represents the ASN.1 type MDTPLMNList (SEQUENCE_OF).
+
 type MDTPLMNList = []PLMNIdentity
 
 // MDTLocationInfo represents the ASN.1 type MDT-Location-Info (BIT_STRING).
@@ -3833,12 +3873,14 @@ type MMEGroupID = []byte
 type MMECode = []byte
 
 // MBMSServiceAreaIdentityList represents the ASN.1 type MBMS-Service-Area-Identity-List (SEQUENCE_OF).
+
 type MBMSServiceAreaIdentityList = []MBMSServiceAreaIdentity
 
 // MBMSServiceAreaIdentity represents the ASN.1 type MBMS-Service-Area-Identity (OCTET_STRING).
 type MBMSServiceAreaIdentity = []byte
 
 // MBSFNSubframeInfolist represents the ASN.1 type MBSFN-Subframe-Infolist (SEQUENCE_OF).
+
 type MBSFNSubframeInfolist = []MBSFNSubframeInfo
 
 // MBSFNSubframeInfo represents the ASN.1 type MBSFN-Subframe-Info (SEQUENCE).
@@ -3886,6 +3928,7 @@ type MobilityParametersInformation struct {
 }
 
 // MultibandInfoList represents the ASN.1 type MultibandInfoList (SEQUENCE_OF).
+
 type MultibandInfoList = []BandInfo
 
 // MessageOversizeNotification represents the ASN.1 type MessageOversizeNotification (SEQUENCE).
@@ -3986,6 +4029,7 @@ func (v NBIoTULDLAlignmentOffset) String() string {
 type NBIoTRLFReportContainer = []byte
 
 // NeighbourInformation represents the ASN.1 type Neighbour-Information (SEQUENCE_OF).
+
 type NeighbourInformation = []NeighbourInformationElem
 
 // NextHopChainingCount represents the ASN.1 type NextHopChainingCount (INTEGER).
@@ -4046,6 +4090,7 @@ type NRCapacityValue struct {
 }
 
 // NRCarrierList represents the ASN.1 type NRCarrierList (SEQUENCE_OF).
+
 type NRCarrierList = []NRCarrierItem
 
 // NRCarrierItem represents the ASN.1 type NRCarrierItem (SEQUENCE).
@@ -4139,6 +4184,7 @@ type NRCGI struct {
 type NRRAReportContainer = []byte
 
 // NRRAReport represents the ASN.1 type NRRAReport (SEQUENCE_OF).
+
 type NRRAReport = []NRRAReportListItem
 
 // NRRAReportListItem represents the ASN.1 type NRRAReportList-Item (SEQUENCE).
@@ -4157,6 +4203,7 @@ type NRRAReportListItem struct {
 }
 
 // NRNeighbourInformation represents the ASN.1 type NRNeighbour-Information (SEQUENCE_OF).
+
 type NRNeighbourInformation = []NRNeighbourInformationElem
 
 // NPRACHConfiguration represents the ASN.1 type NPRACHConfiguration (SEQUENCE).
@@ -4258,10 +4305,8 @@ func (v NPRACHPreambleFormat) String() string {
 	}
 }
 
-// NonAnchorCarrierFrequency represents the ASN.1 type Non-anchorCarrierFrequency (OCTET_STRING).
-type NonAnchorCarrierFrequency = []byte
-
 // NonAnchorCarrierFrequencylist represents the ASN.1 type Non-AnchorCarrierFrequencylist (SEQUENCE_OF).
+
 type NonAnchorCarrierFrequencylist = []NonAnchorCarrierFrequencylistElem
 
 // NRPCI represents the ASN.1 type NRPCI (INTEGER).
@@ -4284,6 +4329,7 @@ func (v NRrestrictioninEPSasSecondaryRAT) String() string {
 }
 
 // MeasurementResultforNRCellsPossiblyAggregated represents the ASN.1 type MeasurementResultforNRCellsPossiblyAggregated (SEQUENCE_OF).
+
 type MeasurementResultforNRCellsPossiblyAggregated = []MeasurementResultforNRCellsPossiblyAggregatedItem
 
 // MeasurementResultforNRCellsPossiblyAggregatedItem represents the ASN.1 type MeasurementResultforNRCellsPossiblyAggregated-Item (SEQUENCE).
@@ -4768,6 +4814,7 @@ type PC5QoSParameters struct {
 }
 
 // PC5QoSFlowList represents the ASN.1 type PC5QoSFlowList (SEQUENCE_OF).
+
 type PC5QoSFlowList = []PC5QoSFlowItem
 
 // PC5QoSFlowItem represents the ASN.1 type PC5QoSFlowItem (SEQUENCE).
@@ -4892,6 +4939,7 @@ type PLMNAreaBasedQMC struct {
 }
 
 // PLMNListforQMC represents the ASN.1 type PLMNListforQMC (SEQUENCE_OF).
+
 type PLMNListforQMC = []PLMNIdentity
 
 // PreEmptionCapability represents the ASN.1 ENUMERATED type Pre-emptionCapability.
@@ -5063,6 +5111,7 @@ type ProtectedFootprintTimePattern struct {
 }
 
 // ProtectedResourceList represents the ASN.1 type ProtectedResourceList (SEQUENCE_OF).
+
 type ProtectedResourceList = []ProtectedResourceListItem
 
 // ProtectedResourceListItem represents the ASN.1 type ProtectedResourceList-Item (SEQUENCE).
@@ -5134,6 +5183,7 @@ func (v PSCellHistoryInformationRetrieve) String() string {
 }
 
 // PSCellUEHistoryInformation represents the ASN.1 type PSCell-UE-HistoryInformation (SEQUENCE_OF).
+
 type PSCellUEHistoryInformation = []LastVisitedPSCellItem
 
 // PSCellChangeHistory represents the ASN.1 ENUMERATED type PSCellChangeHistory.
@@ -5270,6 +5320,7 @@ func (v Range) String() string {
 type RANUENGAPID = int64
 
 // RATRestrictions represents the ASN.1 type RAT-Restrictions (SEQUENCE_OF).
+
 type RATRestrictions = []RATRestrictionsItem
 
 // RATRestrictionsItem represents the ASN.1 type RAT-RestrictionsItem (SEQUENCE).
@@ -5394,6 +5445,7 @@ type RelativeNarrowbandTxPower struct {
 }
 
 // ReplacingCellsList represents the ASN.1 type ReplacingCellsList (SEQUENCE_OF).
+
 type ReplacingCellsList = []ReplacingCellsListItem
 
 // ReplacingCellsListItem represents the ASN.1 type ReplacingCellsList-Item (SEQUENCE).
@@ -5836,15 +5888,18 @@ func (v RRCConnSetupIndicator) String() string {
 }
 
 // RSRPMeasurementResult represents the ASN.1 type RSRPMeasurementResult (SEQUENCE_OF).
+
 type RSRPMeasurementResult = []RSRPMeasurementResultElem
 
 // RSRPMRList represents the ASN.1 type RSRPMRList (SEQUENCE_OF).
+
 type RSRPMRList = []RSRPMRListElem
 
 // RRCContainer represents the ASN.1 type RRCContainer (OCTET_STRING).
 type RRCContainer = []byte
 
 // RaReportIndicationList represents the ASN.1 type RaReportIndicationList (SEQUENCE_OF).
+
 type RaReportIndicationList = []RaReportIndicationListItem
 
 // RaReportIndicationListItem represents the ASN.1 type RaReportIndicationList-Item (SEQUENCE).
@@ -5963,9 +6018,11 @@ func (v SCGreconfigNotification) String() string {
 }
 
 // SCGUEHistoryInformation represents the ASN.1 type SCG-UE-HistoryInformation (SEQUENCE_OF).
+
 type SCGUEHistoryInformation = []LastVisitedPSCellItem
 
 // SecondaryRATUsageReportList represents the ASN.1 type SecondaryRATUsageReportList (SEQUENCE_OF).
+
 type SecondaryRATUsageReportList = []ProtocolIESingleContainer
 
 // SecondaryRATUsageReportItem represents the ASN.1 type SecondaryRATUsageReport-Item (SEQUENCE).
@@ -6036,6 +6093,7 @@ type SensorMeasurementConfiguration struct {
 }
 
 // SensorMeasConfigNameList represents the ASN.1 type SensorMeasConfigNameList (SEQUENCE_OF).
+
 type SensorMeasConfigNameList = []SensorMeasConfigNameItem
 
 // SensorMeasConfigNameItem represents the ASN.1 type SensorMeasConfigNameItem (SEQUENCE).
@@ -6101,6 +6159,7 @@ func NewSensorNameConfigChoiceExtension(v ProtocolIESingleContainer) SensorNameC
 }
 
 // ServedCells represents the ASN.1 type ServedCells (SEQUENCE_OF).
+
 type ServedCells = []ServedCellsElem
 
 // ServedCellInformation represents the ASN.1 type ServedCell-Information (SEQUENCE).
@@ -6123,6 +6182,7 @@ type ServedCellInformation struct {
 }
 
 // ServedCellSpecificInfoReqNR represents the ASN.1 type ServedCellSpecificInfoReq-NR (SEQUENCE_OF).
+
 type ServedCellSpecificInfoReqNR = []ServedCellSpecificInfoReqNRItem
 
 // ServedCellSpecificInfoReqNRItem represents the ASN.1 type ServedCellSpecificInfoReq-NR-Item (SEQUENCE).
@@ -6429,6 +6489,7 @@ func (v SRVCCOperationPossible) String() string {
 }
 
 // SSBAreaCapacityValueList represents the ASN.1 type SSBAreaCapacityValue-List (SEQUENCE_OF).
+
 type SSBAreaCapacityValueList = []SSBAreaCapacityValueItem
 
 // SSBAreaCapacityValueItem represents the ASN.1 type SSBAreaCapacityValue-Item (SEQUENCE).
@@ -6447,6 +6508,7 @@ type SSBAreaCapacityValueItem struct {
 }
 
 // SSBAreaRadioResourceStatusList represents the ASN.1 type SSBAreaRadioResourceStatus-List (SEQUENCE_OF).
+
 type SSBAreaRadioResourceStatusList = []SSBAreaRadioResourceStatusItem
 
 // SSBAreaRadioResourceStatusItem represents the ASN.1 type SSBAreaRadioResourceStatus-Item (SEQUENCE).
@@ -6623,6 +6685,7 @@ func NewSubbandCQICodeword1TwoBitDifferentialCQI(v *big.Int) SubbandCQICodeword1
 }
 
 // SubbandCQIList represents the ASN.1 type SubbandCQIList (SEQUENCE_OF).
+
 type SubbandCQIList = []SubbandCQIItem
 
 // SubbandCQIItem represents the ASN.1 type SubbandCQIItem (SEQUENCE).
@@ -6875,6 +6938,7 @@ type TAIBasedMDT struct {
 }
 
 // TAIListforMDT represents the ASN.1 type TAIListforMDT (SEQUENCE_OF).
+
 type TAIListforMDT = []TAIItem
 
 // TAIItem represents the ASN.1 type TAI-Item (SEQUENCE).
@@ -6893,6 +6957,7 @@ type TAIItem struct {
 }
 
 // TAListforMDT represents the ASN.1 type TAListforMDT (SEQUENCE_OF).
+
 type TAListforMDT = []TAC
 
 // TABasedQMC represents the ASN.1 type TABasedQMC (SEQUENCE).
@@ -6911,6 +6976,7 @@ type TABasedQMC struct {
 }
 
 // TAListforQMC represents the ASN.1 type TAListforQMC (SEQUENCE_OF).
+
 type TAListforQMC = []TAC
 
 // TAIBasedQMC represents the ASN.1 type TAIBasedQMC (SEQUENCE).
@@ -6929,6 +6995,7 @@ type TAIBasedQMC struct {
 }
 
 // TAIListforQMC represents the ASN.1 type TAIListforQMC (SEQUENCE_OF).
+
 type TAIListforQMC = []TAIItem
 
 // TargetCellInNGRAN represents the ASN.1 type TargetCellInNGRAN (OCTET_STRING).
@@ -7021,6 +7088,7 @@ type TimeUEStayedInCell = int64
 type TimeUEStayedInCellEnhancedGranularity = int64
 
 // TNLAToAddList represents the ASN.1 type TNLA-To-Add-List (SEQUENCE_OF).
+
 type TNLAToAddList = []TNLAToAddItem
 
 // TNLAToAddItem represents the ASN.1 type TNLA-To-Add-Item (SEQUENCE).
@@ -7035,6 +7103,7 @@ type TNLAToAddItem struct {
 }
 
 // TNLAToUpdateList represents the ASN.1 type TNLA-To-Update-List (SEQUENCE_OF).
+
 type TNLAToUpdateList = []TNLAToUpdateItem
 
 // TNLAToUpdateItem represents the ASN.1 type TNLA-To-Update-Item (SEQUENCE).
@@ -7049,6 +7118,7 @@ type TNLAToUpdateItem struct {
 }
 
 // TNLAToRemoveList represents the ASN.1 type TNLA-To-Remove-List (SEQUENCE_OF).
+
 type TNLAToRemoveList = []TNLAToRemoveItem
 
 // TNLAToRemoveItem represents the ASN.1 type TNLA-To-Remove-Item (SEQUENCE).
@@ -7062,6 +7132,7 @@ type TNLAToRemoveItem struct {
 }
 
 // TNLASetupList represents the ASN.1 type TNLA-Setup-List (SEQUENCE_OF).
+
 type TNLASetupList = []TNLASetupItem
 
 // TNLASetupItem represents the ASN.1 type TNLA-Setup-Item (SEQUENCE).
@@ -7079,6 +7150,7 @@ type TNLASetupItem struct {
 }
 
 // TNLAFailedToSetupList represents the ASN.1 type TNLA-Failed-To-Setup-List (SEQUENCE_OF).
+
 type TNLAFailedToSetupList = []TNLAFailedToSetupItem
 
 // TNLAFailedToSetupItem represents the ASN.1 type TNLA-Failed-To-Setup-Item (SEQUENCE).
@@ -7132,6 +7204,7 @@ type TNLCapacityIndicator struct {
 }
 
 // TransportUPLayerAddressesInfoToAddList represents the ASN.1 type Transport-UP-Layer-Addresses-Info-To-Add-List (SEQUENCE_OF).
+
 type TransportUPLayerAddressesInfoToAddList = []TransportUPLayerAddressesInfoToAddItem
 
 // TransportUPLayerAddressesInfoToAddItem represents the ASN.1 type Transport-UP-Layer-Addresses-Info-To-Add-Item (SEQUENCE).
@@ -7151,6 +7224,7 @@ type TransportUPLayerAddressesInfoToAddItem struct {
 }
 
 // TransportUPLayerAddressesInfoToRemoveList represents the ASN.1 type Transport-UP-Layer-Addresses-Info-To-Remove-List (SEQUENCE_OF).
+
 type TransportUPLayerAddressesInfoToRemoveList = []TransportUPLayerAddressesInfoToRemoveItem
 
 // TransportUPLayerAddressesInfoToRemoveItem represents the ASN.1 type Transport-UP-Layer-Addresses-Info-To-Remove-Item (SEQUENCE).
@@ -7367,6 +7441,7 @@ func (v UEContextKeptIndicator) String() string {
 type UEID = runtime.BitString
 
 // UEHistoryInformation represents the ASN.1 type UE-HistoryInformation (SEQUENCE_OF).
+
 type UEHistoryInformation = []LastVisitedCellItem
 
 // UEHistoryInformationFromTheUE represents the ASN.1 type UE-HistoryInformationFromTheUE (OCTET_STRING).
@@ -7423,6 +7498,7 @@ type UESidelinkAggregateMaximumBitRate struct {
 }
 
 // UEsToBeResetList represents the ASN.1 type UEsToBeResetList (SEQUENCE_OF).
+
 type UEsToBeResetList = []UEsToBeResetListItem
 
 // UEsToBeResetListItem represents the ASN.1 type UEsToBeResetList-Item (SEQUENCE).
@@ -7499,6 +7575,7 @@ type ULGBRPRBUsage = int64
 type ULGBRPRBUsageForMIMO = int64
 
 // ULHighInterferenceIndicationInfo represents the ASN.1 type UL-HighInterferenceIndicationInfo (SEQUENCE_OF).
+
 type ULHighInterferenceIndicationInfo = []ULHighInterferenceIndicationInfoItem
 
 // ULHighInterferenceIndicationInfoItem represents the ASN.1 type UL-HighInterferenceIndicationInfo-Item (SEQUENCE).
@@ -7520,6 +7597,7 @@ type ULHighInterferenceIndicationInfoItem struct {
 type ULHighInterferenceIndication = runtime.BitString
 
 // ULInterferenceOverloadIndication represents the ASN.1 type UL-InterferenceOverloadIndication (SEQUENCE_OF).
+
 type ULInterferenceOverloadIndication = []ULInterferenceOverloadIndicationItem
 
 // ULInterferenceOverloadIndicationItem represents the ASN.1 ENUMERATED type UL-InterferenceOverloadIndication-Item.
@@ -7828,6 +7906,7 @@ type WLANMeasurementConfiguration struct {
 }
 
 // WLANMeasConfigNameList represents the ASN.1 type WLANMeasConfigNameList (SEQUENCE_OF).
+
 type WLANMeasConfigNameList = []WLANName
 
 // WLANMeasConfig represents the ASN.1 ENUMERATED type WLANMeasConfig.
@@ -8002,9 +8081,11 @@ type CSIReportPerCSIProcessItemElem struct {
 }
 
 // DynamicNAICSInformationPAList represents the ASN.1 type DynamicNAICSInformation-pA-list (SEQUENCE_OF).
+
 type DynamicNAICSInformationPAList = []PAValues
 
 // FreqBandNrItemSupportedSULBandList represents the ASN.1 type FreqBandNrItem-supportedSULBandList (SEQUENCE_OF).
+
 type FreqBandNrItemSupportedSULBandList = []SupportedSULFreqBandItem
 
 // NeighbourInformationElem represents the ASN.1 type Neighbour-Information-Elem (SEQUENCE).
@@ -8024,6 +8105,7 @@ type NeighbourInformationElem struct {
 }
 
 // NRFreqInfoFreqBandListNr represents the ASN.1 type NRFreqInfo-freqBandListNr (SEQUENCE_OF).
+
 type NRFreqInfoFreqBandListNr = []FreqBandNrItem
 
 // NRNeighbourInformationElem represents the ASN.1 type NRNeighbour-Information-Elem (SEQUENCE).
@@ -8113,7 +8195,7 @@ func NewNPRACHConfigurationFddOrTddTdd(v NPRACHConfigurationTDD) NPRACHConfigura
 
 // NonAnchorCarrierFrequencylistElem represents the ASN.1 type Non-AnchorCarrierFrequencylist-Elem (SEQUENCE).
 type NonAnchorCarrierFrequencylistElem struct {
-	NonAnchorCarrioerFrquency NonAnchorCarrierFrequency      `asn1:"tag:0,context,implicit"`
+	NonAnchorCarrioerFrquency []byte                         `asn1:"tag:0,context,implicit"`
 	IEExtensions              ProtocolExtensionContainer     `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_        bool                           `asn1:"-" json:"-"`
 	ExtCount_                 int64                          `asn1:"-" json:"-"`
@@ -53739,7 +53821,7 @@ func (v *NonAnchorCarrierFrequencylistElem) MarshalAPERTo(bb *per.BitBuffer) err
 	if err := per.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeOctetStringAligned(bb, []byte(v.NonAnchorCarrioerFrquency), 0, 0, false); err != nil {
+	if err := per.EncodeOctetStringAligned(bb, v.NonAnchorCarrioerFrquency, 0, 0, false); err != nil {
 		return fmt.Errorf("encoding non-anchorCarrioerFrquency: %w", err)
 	}
 	if v.IEExtensions != nil {
@@ -53826,7 +53908,7 @@ func (v *NonAnchorCarrierFrequencylistElem) UnmarshalAPERFrom(bb *per.BitBuffer)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NonAnchorCarrioerFrquency")
 	}
-	v.NonAnchorCarrioerFrquency = NonAnchorCarrierFrequency(val_nonanchorcarrioerfrquency)
+	v.NonAnchorCarrioerFrquency = val_nonanchorcarrioerfrquency
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {

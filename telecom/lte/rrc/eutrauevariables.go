@@ -141,6 +141,7 @@ type VarLogMeasReportR11 struct {
 }
 
 // LogMeasInfoList2R10 represents the ASN.1 type LogMeasInfoList2-r10 (SEQUENCE_OF).
+
 type LogMeasInfoList2R10 = []LogMeasInfoR10
 
 // VarMeasConfig represents the ASN.1 type VarMeasConfig (SEQUENCE).
@@ -214,9 +215,11 @@ type VarMeasIdleReportR16 struct {
 }
 
 // VarMeasReportList represents the ASN.1 type VarMeasReportList (SEQUENCE_OF).
+
 type VarMeasReportList = []VarMeasReport
 
 // VarMeasReportListR12 represents the ASN.1 type VarMeasReportList-r12 (SEQUENCE_OF).
+
 type VarMeasReportListR12 = []VarMeasReport
 
 // VarMeasReport represents the ASN.1 type VarMeasReport (SEQUENCE).
@@ -236,12 +239,15 @@ type VarMeasReport struct {
 }
 
 // CellsTriggeredList represents the ASN.1 type CellsTriggeredList (SEQUENCE_OF).
+
 type CellsTriggeredList = []CellsTriggeredListElem
 
 // CSIRSTriggeredListR12 represents the ASN.1 type CSI-RS-TriggeredList-r12 (SEQUENCE_OF).
+
 type CSIRSTriggeredListR12 = []MeasCSIRSIdR12
 
 // SSBIndexListR15 represents the ASN.1 type SSB-IndexList-r15 (SEQUENCE_OF).
+
 type SSBIndexListR15 = []RSIndexNRR15
 
 // VarMobilityHistoryReportR12 represents the ASN.1 type VarMobilityHistoryReport-r12 (SEQUENCE_OF).

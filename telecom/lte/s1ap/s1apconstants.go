@@ -393,26 +393,8 @@ const (
 	// IdTargetID is the integer constant for id-TargetID.
 	IdTargetID int64 = 4
 
-	// IdUnknown5 is the integer constant for id-Unknown-5.
-	IdUnknown5 int64 = 5
-
-	// IdUnknown6 is the integer constant for id-Unknown-6.
-	IdUnknown6 int64 = 6
-
-	// IdUnknown7 is the integer constant for id-Unknown-7.
-	IdUnknown7 int64 = 7
-
 	// IdENBUES1APID is the integer constant for id-eNB-UE-S1AP-ID.
 	IdENBUES1APID int64 = 8
-
-	// IdUnknown9 is the integer constant for id-Unknown-9.
-	IdUnknown9 int64 = 9
-
-	// IdUnknown10 is the integer constant for id-Unknown-10.
-	IdUnknown10 int64 = 10
-
-	// IdUnknown11 is the integer constant for id-Unknown-11.
-	IdUnknown11 int64 = 11
 
 	// IdERABSubjecttoDataForwardingList is the integer constant for id-E-RABSubjecttoDataForwardingList.
 	IdERABSubjecttoDataForwardingList int64 = 12
@@ -504,17 +486,11 @@ const (
 	// IdHandoverRestrictionList is the integer constant for id-HandoverRestrictionList.
 	IdHandoverRestrictionList int64 = 41
 
-	// IdUnknown42 is the integer constant for id-Unknown-42.
-	IdUnknown42 int64 = 42
-
 	// IdUEPagingID is the integer constant for id-UEPagingID.
 	IdUEPagingID int64 = 43
 
 	// IdPagingDRX is the integer constant for id-pagingDRX.
 	IdPagingDRX int64 = 44
-
-	// IdUnknown45 is the integer constant for id-Unknown-45.
-	IdUnknown45 int64 = 45
 
 	// IdTAIList is the integer constant for id-TAIList.
 	IdTAIList int64 = 46
@@ -540,14 +516,8 @@ const (
 	// IdERABToBeSetupListHOReq is the integer constant for id-E-RABToBeSetupListHOReq.
 	IdERABToBeSetupListHOReq int64 = 53
 
-	// IdUnknown54 is the integer constant for id-Unknown-54.
-	IdUnknown54 int64 = 54
-
 	// IdGERANtoLTEHOInformationRes is the integer constant for id-GERANtoLTEHOInformationRes.
 	IdGERANtoLTEHOInformationRes int64 = 55
-
-	// IdUnknown56 is the integer constant for id-Unknown-56.
-	IdUnknown56 int64 = 56
 
 	// IdUTRANtoLTEHOInformationRes is the integer constant for id-UTRANtoLTEHOInformationRes.
 	IdUTRANtoLTEHOInformationRes int64 = 57
@@ -564,9 +534,6 @@ const (
 	// IdMMEname is the integer constant for id-MMEname.
 	IdMMEname int64 = 61
 
-	// IdUnknown62 is the integer constant for id-Unknown-62.
-	IdUnknown62 int64 = 62
-
 	// IdServedPLMNs is the integer constant for id-ServedPLMNs.
 	IdServedPLMNs int64 = 63
 
@@ -581,9 +548,6 @@ const (
 
 	// IdTAI is the integer constant for id-TAI.
 	IdTAI int64 = 67
-
-	// IdUnknown68 is the integer constant for id-Unknown-68.
-	IdUnknown68 int64 = 68
 
 	// IdERABReleaseListBearerRelComp is the integer constant for id-E-RABReleaseListBearerRelComp.
 	IdERABReleaseListBearerRelComp int64 = 69
@@ -606,12 +570,6 @@ const (
 	// IdGUMMEIID is the integer constant for id-GUMMEI-ID.
 	IdGUMMEIID int64 = 75
 
-	// IdUnknown76 is the integer constant for id-Unknown-76.
-	IdUnknown76 int64 = 76
-
-	// IdUnknown77 is the integer constant for id-Unknown-77.
-	IdUnknown77 int64 = 77
-
 	// IdERABInformationListItem is the integer constant for id-E-RABInformationListItem.
 	IdERABInformationListItem int64 = 78
 
@@ -621,20 +579,11 @@ const (
 	// IdUEIdentityIndexValue is the integer constant for id-UEIdentityIndexValue.
 	IdUEIdentityIndexValue int64 = 80
 
-	// IdUnknown81 is the integer constant for id-Unknown-81.
-	IdUnknown81 int64 = 81
-
-	// IdUnknown82 is the integer constant for id-Unknown-82.
-	IdUnknown82 int64 = 82
-
 	// IdCdma2000HOStatus is the integer constant for id-cdma2000HOStatus.
 	IdCdma2000HOStatus int64 = 83
 
 	// IdCdma2000HORequiredIndication is the integer constant for id-cdma2000HORequiredIndication.
 	IdCdma2000HORequiredIndication int64 = 84
-
-	// IdUnknown85 is the integer constant for id-Unknown-85.
-	IdUnknown85 int64 = 85
 
 	// IdEUTRANTraceID is the integer constant for id-E-UTRAN-Trace-ID.
 	IdEUTRANTraceID int64 = 86
@@ -1065,9 +1014,6 @@ const (
 	// IdUERetentionInformation is the integer constant for id-UE-RetentionInformation.
 	IdUERetentionInformation int64 = 228
 
-	// IdUnknown229 is the integer constant for id-Unknown-229.
-	IdUnknown229 int64 = 229
-
 	// IdUEUsageType is the integer constant for id-UE-Usage-Type.
 	IdUEUsageType int64 = 230
 
@@ -1215,9 +1161,6 @@ const (
 	// IdSubscriptionBasedUEDifferentiationInfo is the integer constant for id-Subscription-Based-UE-DifferentiationInfo.
 	IdSubscriptionBasedUEDifferentiationInfo int64 = 278
 
-	// IdUnknown279 is the integer constant for id-Unknown-279.
-	IdUnknown279 int64 = 279
-
 	// IdEndIndication is the integer constant for id-EndIndication.
 	IdEndIndication int64 = 280
 
@@ -1244,9 +1187,6 @@ const (
 
 	// IdPSCellInformation is the integer constant for id-PSCellInformation.
 	IdPSCellInformation int64 = 288
-
-	// IdUnknown289 is the integer constant for id-Unknown-289.
-	IdUnknown289 int64 = 289
 
 	// IdLastNGRANPLMNIdentity is the integer constant for id-LastNG-RANPLMNIdentity.
 	IdLastNGRANPLMNIdentity int64 = 290
@@ -1391,9 +1331,6 @@ const (
 
 	// IdUEContextReferenceatSourceeNB is the integer constant for id-UEContextReferenceatSourceeNB.
 	IdUEContextReferenceatSourceeNB int64 = 337
-
-	// IdUnknown338 is the integer constant for id-Unknown-338.
-	IdUnknown338 int64 = 338
 
 	// IdLTENTNTAIInformation is the integer constant for id-LTE-NTN-TAI-Information.
 	IdLTENTNTAIInformation int64 = 339

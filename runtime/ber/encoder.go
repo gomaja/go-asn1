@@ -102,6 +102,13 @@ func EncodeInteger(v int64) []byte {
 	)
 }
 
+// EncodeUint64 encodes the full nonnegative uint64 range as an ASN.1 INTEGER.
+// ITU-T X.690 (02/2021) §8.3 requires a leading zero octet when bit 63 is set.
+func EncodeUint64(v uint64) []byte {
+	encoded, _ := EncodeBigInt(new(big.Int).SetUint64(v))
+	return encoded
+}
+
 func encodeIntBytes(v int64) []byte {
 	if v == 0 {
 		return []byte{0x00}

@@ -26,9 +26,11 @@ const (
 
 // Code represents the ASN.1 CHOICE type Code.
 type Code struct {
-	Choice int
-	Local  *big.Int                 `json:"Local,omitempty"`
-	Global runtime.ObjectIdentifier `json:"Global,omitempty"`
+	Choice       int
+	berOriginal_ []byte                   `json:"-"`
+	berSnapshot_ []byte                   `json:"-"`
+	Local        *big.Int                 `json:"Local,omitempty"`
+	Global       runtime.ObjectIdentifier `json:"Global,omitempty"`
 }
 
 // NewCodeLocal creates a Code with the local alternative.
@@ -51,11 +53,24 @@ func NewCodeGlobal(v runtime.ObjectIdentifier) Code {
 type Priority = *big.Int
 
 // MarshalBER encodes Code to BER format.
-func (v *Code) MarshalBER() ([]byte, error) {
+func (v *Code) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Code receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *Code) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case CodeChoiceLocal:
 		if v.Local == nil {
-			return nil, fmt.Errorf("choice Code: local is nil")
+			return nil, fmt.Errorf("%w: choice Code: local is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Local)
 		if encodeErr_enc_0 != nil {
@@ -75,6 +90,9 @@ func (v *Code) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Code to DER format.
 func (v *Code) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Code receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -86,7 +104,23 @@ func (v *Code) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes Code from BER/DER format.
-func (v *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: Code destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}

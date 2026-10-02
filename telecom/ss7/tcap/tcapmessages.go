@@ -30,6 +30,8 @@ const (
 // TCMessage represents the ASN.1 CHOICE type TCMessage.
 type TCMessage struct {
 	Choice         int
+	berOriginal_   []byte          `json:"-"`
+	berSnapshot_   []byte          `json:"-"`
 	Unidirectional *Unidirectional `json:"Unidirectional,omitempty"`
 	Begin          *Begin          `json:"Begin,omitempty"`
 	End            *End            `json:"End,omitempty"`
@@ -79,25 +81,31 @@ func NewTCMessageAbort(v Abort) TCMessage {
 
 // Unidirectional represents the ASN.1 type Unidirectional (SEQUENCE).
 type Unidirectional struct {
-	DialoguePortion  *DialoguePortion `asn1:",optional" json:"DialoguePortion,omitempty"`
-	Components       ComponentPortion `asn1:"tag:12,application,implicit"`
-	ComponentsIndef_ bool             `asn1:"-" json:"-"`
+	DialoguePortion  *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty"`
+	Components       *ComponentPortion `asn1:"tag:12,application,implicit"`
+	ComponentsIndef_ bool              `asn1:"-" json:"-"`
+	berOriginal_     []byte            `asn1:"-" json:"-"`
+	berSnapshot_     []byte            `asn1:"-" json:"-"`
 }
 
 // Begin represents the ASN.1 type Begin (SEQUENCE).
 type Begin struct {
 	Otid             OrigTransactionID `asn1:""`
 	DialoguePortion  *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty"`
-	Components       ComponentPortion  `asn1:"tag:12,application,implicit,optional" json:"Components,omitempty"`
+	Components       *ComponentPortion `asn1:"tag:12,application,implicit,optional" json:"Components,omitempty"`
 	ComponentsIndef_ bool              `asn1:"-" json:"-"`
+	berOriginal_     []byte            `asn1:"-" json:"-"`
+	berSnapshot_     []byte            `asn1:"-" json:"-"`
 }
 
 // End represents the ASN.1 type End (SEQUENCE).
 type End struct {
 	Dtid             DestTransactionID `asn1:""`
 	DialoguePortion  *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty"`
-	Components       ComponentPortion  `asn1:"tag:12,application,implicit,optional" json:"Components,omitempty"`
+	Components       *ComponentPortion `asn1:"tag:12,application,implicit,optional" json:"Components,omitempty"`
 	ComponentsIndef_ bool              `asn1:"-" json:"-"`
+	berOriginal_     []byte            `asn1:"-" json:"-"`
+	berSnapshot_     []byte            `asn1:"-" json:"-"`
 }
 
 // Continue represents the ASN.1 type Continue (SEQUENCE).
@@ -105,14 +113,18 @@ type Continue struct {
 	Otid             OrigTransactionID `asn1:""`
 	Dtid             DestTransactionID `asn1:""`
 	DialoguePortion  *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty"`
-	Components       ComponentPortion  `asn1:"tag:12,application,implicit,optional" json:"Components,omitempty"`
+	Components       *ComponentPortion `asn1:"tag:12,application,implicit,optional" json:"Components,omitempty"`
 	ComponentsIndef_ bool              `asn1:"-" json:"-"`
+	berOriginal_     []byte            `asn1:"-" json:"-"`
+	berSnapshot_     []byte            `asn1:"-" json:"-"`
 }
 
 // Abort represents the ASN.1 type Abort (SEQUENCE).
 type Abort struct {
-	Dtid   DestTransactionID `asn1:""`
-	Reason *AbortReason      `asn1:",optional" json:"Reason,omitempty"`
+	Dtid         DestTransactionID `asn1:""`
+	Reason       *AbortReason      `asn1:",optional" json:"Reason,omitempty"`
+	berOriginal_ []byte            `asn1:"-" json:"-"`
+	berSnapshot_ []byte            `asn1:"-" json:"-"`
 }
 
 // DialoguePortion represents the ASN.1 EXTERNAL type DialoguePortion.
@@ -153,7 +165,11 @@ func (v PAbortCause) String() string {
 }
 
 // ComponentPortion represents the ASN.1 type ComponentPortion (SEQUENCE_OF).
-type ComponentPortion = []Component
+type ComponentPortion struct {
+	Values       []Component `json:"Values"`
+	berOriginal_ []byte      `json:"-"`
+	berSnapshot_ []byte      `json:"-"`
+}
 
 // Component choice constants.
 const (
@@ -164,6 +180,8 @@ const (
 // Component represents the ASN.1 CHOICE type Component.
 type Component struct {
 	Choice              int
+	berOriginal_        []byte        `json:"-"`
+	berSnapshot_        []byte        `json:"-"`
 	BasicROS            *ROS          `json:"BasicROS,omitempty"`
 	ReturnResultNotLast *ReturnResult `json:"ReturnResultNotLast,omitempty"`
 }
@@ -192,9 +210,11 @@ const (
 
 // TCInvokeIdSet represents the ASN.1 CHOICE type TCInvokeIdSet.
 type TCInvokeIdSet struct {
-	Choice  int
-	Present *int64    `json:"Present,omitempty"`
-	Absent  *struct{} `json:"Absent,omitempty"`
+	Choice       int
+	berOriginal_ []byte    `json:"-"`
+	berSnapshot_ []byte    `json:"-"`
+	Present      *int64    `json:"Present,omitempty"`
+	Absent       *struct{} `json:"Absent,omitempty"`
 }
 
 // NewTCInvokeIdSetPresent creates a TCInvokeIdSet with the present alternative.
@@ -221,9 +241,11 @@ const (
 
 // AbortReason represents the ASN.1 CHOICE type Abort-reason.
 type AbortReason struct {
-	Choice      int
-	PAbortCause *PAbortCause     `json:"PAbortCause,omitempty"`
-	UAbortCause *DialoguePortion `json:"UAbortCause,omitempty"`
+	Choice       int
+	berOriginal_ []byte           `json:"-"`
+	berSnapshot_ []byte           `json:"-"`
+	PAbortCause  *PAbortCause     `json:"PAbortCause,omitempty"`
+	UAbortCause  *DialoguePortion `json:"UAbortCause,omitempty"`
 }
 
 // NewAbortReasonPAbortCause creates a AbortReason with the p-abortCause alternative.
@@ -250,9 +272,11 @@ const (
 
 // ComponentBasicROSInvokeLinkedId represents the ASN.1 CHOICE type Component-basicROS-invoke-linkedId.
 type ComponentBasicROSInvokeLinkedId struct {
-	Choice  int
-	Present *big.Int  `json:"Present,omitempty"`
-	Absent  *struct{} `json:"Absent,omitempty"`
+	Choice       int
+	berOriginal_ []byte    `json:"-"`
+	berSnapshot_ []byte    `json:"-"`
+	Present      *big.Int  `json:"Present,omitempty"`
+	Absent       *struct{} `json:"Absent,omitempty"`
 }
 
 // NewComponentBasicROSInvokeLinkedIdPresent creates a ComponentBasicROSInvokeLinkedId with the present alternative.
@@ -273,24 +297,41 @@ func NewComponentBasicROSInvokeLinkedIdAbsent(v struct{}) ComponentBasicROSInvok
 
 // ComponentBasicROSReturnResultResult represents the ASN.1 type Component-basicROS-returnResult-result (SEQUENCE).
 type ComponentBasicROSReturnResultResult struct {
-	Opcode Code             `asn1:""`
-	Result runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
+	Opcode       Code             `asn1:""`
+	Result       runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
+	berOriginal_ []byte           `asn1:"-" json:"-"`
+	berSnapshot_ []byte           `asn1:"-" json:"-"`
 }
 
 // ComponentReturnResultNotLastResult represents the ASN.1 type Component-returnResultNotLast-result (SEQUENCE).
 type ComponentReturnResultNotLastResult struct {
-	Opcode Code             `asn1:""`
-	Result runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
+	Opcode       Code             `asn1:""`
+	Result       runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
+	berOriginal_ []byte           `asn1:"-" json:"-"`
+	berSnapshot_ []byte           `asn1:"-" json:"-"`
 }
 
 // MarshalBER encodes TCMessage to BER format.
-func (v *TCMessage) MarshalBER() ([]byte, error) {
+func (v *TCMessage) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TCMessage receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *TCMessage) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case TCMessageChoiceUnidirectional:
 		if v.Unidirectional == nil {
-			return nil, fmt.Errorf("choice TCMessage: unidirectional is nil")
+			return nil, fmt.Errorf("%w: choice TCMessage: unidirectional is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.Unidirectional.MarshalBER()
+		enc_0, err := v.Unidirectional.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding unidirectional: %w", err)
 		}
@@ -302,9 +343,9 @@ func (v *TCMessage) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case TCMessageChoiceBegin:
 		if v.Begin == nil {
-			return nil, fmt.Errorf("choice TCMessage: begin is nil")
+			return nil, fmt.Errorf("%w: choice TCMessage: begin is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.Begin.MarshalBER()
+		enc_1, err := v.Begin.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding begin: %w", err)
 		}
@@ -316,9 +357,9 @@ func (v *TCMessage) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case TCMessageChoiceEnd:
 		if v.End == nil {
-			return nil, fmt.Errorf("choice TCMessage: end is nil")
+			return nil, fmt.Errorf("%w: choice TCMessage: end is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.End.MarshalBER()
+		enc_2, err := v.End.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding end: %w", err)
 		}
@@ -330,9 +371,9 @@ func (v *TCMessage) MarshalBER() ([]byte, error) {
 		return enc_2, nil
 	case TCMessageChoiceContinue:
 		if v.Continue == nil {
-			return nil, fmt.Errorf("choice TCMessage: continue is nil")
+			return nil, fmt.Errorf("%w: choice TCMessage: continue is nil", ber.ErrInvalidValue)
 		}
-		enc_3, err := v.Continue.MarshalBER()
+		enc_3, err := v.Continue.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding continue: %w", err)
 		}
@@ -344,9 +385,9 @@ func (v *TCMessage) MarshalBER() ([]byte, error) {
 		return enc_3, nil
 	case TCMessageChoiceAbort:
 		if v.Abort == nil {
-			return nil, fmt.Errorf("choice TCMessage: abort is nil")
+			return nil, fmt.Errorf("%w: choice TCMessage: abort is nil", ber.ErrInvalidValue)
 		}
-		enc_4, err := v.Abort.MarshalBER()
+		enc_4, err := v.Abort.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding abort: %w", err)
 		}
@@ -363,10 +404,13 @@ func (v *TCMessage) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TCMessage to DER format.
 func (v *TCMessage) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TCMessage receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case TCMessageChoiceUnidirectional:
 		if v.Unidirectional == nil {
-			return nil, fmt.Errorf("choice TCMessage: unidirectional is nil")
+			return nil, fmt.Errorf("%w: choice TCMessage: unidirectional is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.Unidirectional.MarshalDER()
 		if err != nil {
@@ -383,7 +427,7 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case TCMessageChoiceBegin:
 		if v.Begin == nil {
-			return nil, fmt.Errorf("choice TCMessage: begin is nil")
+			return nil, fmt.Errorf("%w: choice TCMessage: begin is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.Begin.MarshalDER()
 		if err != nil {
@@ -400,7 +444,7 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 		return enc_der_1, nil
 	case TCMessageChoiceEnd:
 		if v.End == nil {
-			return nil, fmt.Errorf("choice TCMessage: end is nil")
+			return nil, fmt.Errorf("%w: choice TCMessage: end is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.End.MarshalDER()
 		if err != nil {
@@ -417,7 +461,7 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 		return enc_der_2, nil
 	case TCMessageChoiceContinue:
 		if v.Continue == nil {
-			return nil, fmt.Errorf("choice TCMessage: continue is nil")
+			return nil, fmt.Errorf("%w: choice TCMessage: continue is nil", ber.ErrInvalidValue)
 		}
 		enc_der_3, err := v.Continue.MarshalDER()
 		if err != nil {
@@ -434,7 +478,7 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 		return enc_der_3, nil
 	case TCMessageChoiceAbort:
 		if v.Abort == nil {
-			return nil, fmt.Errorf("choice TCMessage: abort is nil")
+			return nil, fmt.Errorf("%w: choice TCMessage: abort is nil", ber.ErrInvalidValue)
 		}
 		enc_der_4, err := v.Abort.MarshalDER()
 		if err != nil {
@@ -461,7 +505,23 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes TCMessage from BER/DER format.
-func (v *TCMessage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *TCMessage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: TCMessage destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -565,19 +625,37 @@ func (v *TCMessage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes Unidirectional to BER format.
-func (v *Unidirectional) MarshalBER() ([]byte, error) {
+func (v *Unidirectional) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Unidirectional receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *Unidirectional) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.DialoguePortion != nil {
-		enc_dialogueportion, extErr := v.DialoguePortion.MarshalBER()
+		enc_dialogueportion, extErr := v.DialoguePortion.MarshalBER(opts...)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding dialoguePortion: %w", extErr)
 		}
 		children = append(children, enc_dialogueportion...)
 	}
-	if len(v.Components) < 1 {
-		return nil, fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+	if v.Components == nil {
+		return nil, fmt.Errorf("encoding components: %w: required collection is nil", ber.ErrInvalidValue)
 	}
-	enc_components, err := MarshalBERComponentPortion(v.Components)
+	if len((v.Components).Values) < 1 {
+		if constraintErr := ber.CheckEncodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_components, err := MarshalBERComponentPortion(v.Components, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding components: %w", err)
 	}
@@ -600,6 +678,9 @@ func (v *Unidirectional) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Unidirectional to DER format.
 func (v *Unidirectional) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Unidirectional receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.DialoguePortion != nil {
 		enc_dialogueportion, extErr := v.DialoguePortion.MarshalDER()
@@ -608,8 +689,13 @@ func (v *Unidirectional) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, enc_dialogueportion...)
 	}
-	if len(v.Components) < 1 {
-		return nil, fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+	if v.Components == nil {
+		return nil, fmt.Errorf("encoding components: %w: required collection is nil", ber.ErrInvalidValue)
+	}
+	if len((v.Components).Values) < 1 {
+		if constraintErr := ber.CheckEncodedLength(nil, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_components, err := MarshalDERComponentPortion(v.Components)
 	if err != nil {
@@ -627,11 +713,27 @@ func (v *Unidirectional) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes Unidirectional from BER/DER format.
-func (v *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: Unidirectional destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = Unidirectional{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding Unidirectional SEQUENCE: %w", err)
@@ -698,7 +800,7 @@ func (v *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 			v.ComponentsIndef_ = true
 		}
 	}
-	dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components, opts...)
+	dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components, ber.ChildDecodeOptions(opts, "components")...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding components: %w", unmErr)
 	}
@@ -710,8 +812,10 @@ func (v *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 	}
 
 	offset += n_components
-	if len(v.Components) < 1 {
-		return fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+	if len((v.Components).Values) < 1 {
+		if constraintErr := ber.CheckDecodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "Unidirectional", Cause: ber.ErrExtraData}
@@ -720,10 +824,25 @@ func (v *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 }
 
 // MarshalBER encodes Begin to BER format.
-func (v *Begin) MarshalBER() ([]byte, error) {
+func (v *Begin) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Begin receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *Begin) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Otid) < 1 || len(v.Otid) > 4 {
-		return nil, fmt.Errorf("otid length %d violates SIZE (1..4)", len(v.Otid))
+		if constraintErr := ber.CheckEncodedLength(opts, "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_otid, encodeErr_enc_otid := ber.EncodeOctetString([]byte(v.Otid))
 	if encodeErr_enc_otid != nil {
@@ -736,17 +855,19 @@ func (v *Begin) MarshalBER() ([]byte, error) {
 	enc_otid = retagged_enc_otid
 	children = append(children, enc_otid...)
 	if v.DialoguePortion != nil {
-		enc_dialogueportion, extErr := v.DialoguePortion.MarshalBER()
+		enc_dialogueportion, extErr := v.DialoguePortion.MarshalBER(opts...)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding dialoguePortion: %w", extErr)
 		}
 		children = append(children, enc_dialogueportion...)
 	}
 	if v.Components != nil {
-		if len(v.Components) < 1 {
-			return nil, fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+		if len((v.Components).Values) < 1 {
+			if constraintErr := ber.CheckEncodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_components, err := MarshalBERComponentPortion(v.Components)
+		enc_components, err := MarshalBERComponentPortion(v.Components, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding components: %w", err)
 		}
@@ -770,9 +891,14 @@ func (v *Begin) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Begin to DER format.
 func (v *Begin) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Begin receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Otid) < 1 || len(v.Otid) > 4 {
-		return nil, fmt.Errorf("otid length %d violates SIZE (1..4)", len(v.Otid))
+		if constraintErr := ber.CheckEncodedLength(nil, "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_otid, encodeErr_enc_otid := ber.EncodeOctetString([]byte(v.Otid))
 	if encodeErr_enc_otid != nil {
@@ -792,8 +918,10 @@ func (v *Begin) MarshalDER() ([]byte, error) {
 		children = append(children, enc_dialogueportion...)
 	}
 	if v.Components != nil {
-		if len(v.Components) < 1 {
-			return nil, fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+		if len((v.Components).Values) < 1 {
+			if constraintErr := ber.CheckEncodedLength(nil, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_components, err := MarshalDERComponentPortion(v.Components)
 		if err != nil {
@@ -812,11 +940,27 @@ func (v *Begin) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes Begin from BER/DER format.
-func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: Begin destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = Begin{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding Begin SEQUENCE: %w", err)
@@ -849,7 +993,9 @@ func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 	offset += n_otid
 	if len(v.Otid) < 1 || len(v.Otid) > 4 {
-		return fmt.Errorf("otid length %d violates SIZE (1..4)", len(v.Otid))
+		if constraintErr := ber.CheckDecodedLength(opts, "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode dialoguePortion
 	if offset < len(content) {
@@ -905,7 +1051,7 @@ func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 						v.ComponentsIndef_ = true
 					}
 				}
-				dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components, opts...)
+				dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components, ber.ChildDecodeOptions(opts, "components")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding components: %w", unmErr)
 				}
@@ -917,8 +1063,10 @@ func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_components
-				if len(v.Components) < 1 {
-					return fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+				if len((v.Components).Values) < 1 {
+					if constraintErr := ber.CheckDecodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -930,10 +1078,25 @@ func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes End to BER format.
-func (v *End) MarshalBER() ([]byte, error) {
+func (v *End) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: End receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *End) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		return nil, fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+		if constraintErr := ber.CheckEncodedLength(opts, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
@@ -946,17 +1109,19 @@ func (v *End) MarshalBER() ([]byte, error) {
 	enc_dtid = retagged_enc_dtid
 	children = append(children, enc_dtid...)
 	if v.DialoguePortion != nil {
-		enc_dialogueportion, extErr := v.DialoguePortion.MarshalBER()
+		enc_dialogueportion, extErr := v.DialoguePortion.MarshalBER(opts...)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding dialoguePortion: %w", extErr)
 		}
 		children = append(children, enc_dialogueportion...)
 	}
 	if v.Components != nil {
-		if len(v.Components) < 1 {
-			return nil, fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+		if len((v.Components).Values) < 1 {
+			if constraintErr := ber.CheckEncodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_components, err := MarshalBERComponentPortion(v.Components)
+		enc_components, err := MarshalBERComponentPortion(v.Components, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding components: %w", err)
 		}
@@ -980,9 +1145,14 @@ func (v *End) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes End to DER format.
 func (v *End) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: End receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		return nil, fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+		if constraintErr := ber.CheckEncodedLength(nil, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
@@ -1002,8 +1172,10 @@ func (v *End) MarshalDER() ([]byte, error) {
 		children = append(children, enc_dialogueportion...)
 	}
 	if v.Components != nil {
-		if len(v.Components) < 1 {
-			return nil, fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+		if len((v.Components).Values) < 1 {
+			if constraintErr := ber.CheckEncodedLength(nil, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_components, err := MarshalDERComponentPortion(v.Components)
 		if err != nil {
@@ -1022,11 +1194,27 @@ func (v *End) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes End from BER/DER format.
-func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: End destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = End{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding End SEQUENCE: %w", err)
@@ -1059,7 +1247,9 @@ func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 	offset += n_dtid
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		return fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+		if constraintErr := ber.CheckDecodedLength(opts, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode dialoguePortion
 	if offset < len(content) {
@@ -1115,7 +1305,7 @@ func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 						v.ComponentsIndef_ = true
 					}
 				}
-				dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components, opts...)
+				dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components, ber.ChildDecodeOptions(opts, "components")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding components: %w", unmErr)
 				}
@@ -1127,8 +1317,10 @@ func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_components
-				if len(v.Components) < 1 {
-					return fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+				if len((v.Components).Values) < 1 {
+					if constraintErr := ber.CheckDecodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1140,10 +1332,25 @@ func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes Continue to BER format.
-func (v *Continue) MarshalBER() ([]byte, error) {
+func (v *Continue) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Continue receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *Continue) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Otid) < 1 || len(v.Otid) > 4 {
-		return nil, fmt.Errorf("otid length %d violates SIZE (1..4)", len(v.Otid))
+		if constraintErr := ber.CheckEncodedLength(opts, "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_otid, encodeErr_enc_otid := ber.EncodeOctetString([]byte(v.Otid))
 	if encodeErr_enc_otid != nil {
@@ -1156,7 +1363,9 @@ func (v *Continue) MarshalBER() ([]byte, error) {
 	enc_otid = retagged_enc_otid
 	children = append(children, enc_otid...)
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		return nil, fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+		if constraintErr := ber.CheckEncodedLength(opts, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
@@ -1169,17 +1378,19 @@ func (v *Continue) MarshalBER() ([]byte, error) {
 	enc_dtid = retagged_enc_dtid
 	children = append(children, enc_dtid...)
 	if v.DialoguePortion != nil {
-		enc_dialogueportion, extErr := v.DialoguePortion.MarshalBER()
+		enc_dialogueportion, extErr := v.DialoguePortion.MarshalBER(opts...)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding dialoguePortion: %w", extErr)
 		}
 		children = append(children, enc_dialogueportion...)
 	}
 	if v.Components != nil {
-		if len(v.Components) < 1 {
-			return nil, fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+		if len((v.Components).Values) < 1 {
+			if constraintErr := ber.CheckEncodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_components, err := MarshalBERComponentPortion(v.Components)
+		enc_components, err := MarshalBERComponentPortion(v.Components, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding components: %w", err)
 		}
@@ -1203,9 +1414,14 @@ func (v *Continue) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Continue to DER format.
 func (v *Continue) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Continue receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Otid) < 1 || len(v.Otid) > 4 {
-		return nil, fmt.Errorf("otid length %d violates SIZE (1..4)", len(v.Otid))
+		if constraintErr := ber.CheckEncodedLength(nil, "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_otid, encodeErr_enc_otid := ber.EncodeOctetString([]byte(v.Otid))
 	if encodeErr_enc_otid != nil {
@@ -1218,7 +1434,9 @@ func (v *Continue) MarshalDER() ([]byte, error) {
 	enc_otid = retagged_enc_otid
 	children = append(children, enc_otid...)
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		return nil, fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+		if constraintErr := ber.CheckEncodedLength(nil, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
@@ -1238,8 +1456,10 @@ func (v *Continue) MarshalDER() ([]byte, error) {
 		children = append(children, enc_dialogueportion...)
 	}
 	if v.Components != nil {
-		if len(v.Components) < 1 {
-			return nil, fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+		if len((v.Components).Values) < 1 {
+			if constraintErr := ber.CheckEncodedLength(nil, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_components, err := MarshalDERComponentPortion(v.Components)
 		if err != nil {
@@ -1258,11 +1478,27 @@ func (v *Continue) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes Continue from BER/DER format.
-func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: Continue destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = Continue{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding Continue SEQUENCE: %w", err)
@@ -1295,7 +1531,9 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 	offset += n_otid
 	if len(v.Otid) < 1 || len(v.Otid) > 4 {
-		return fmt.Errorf("otid length %d violates SIZE (1..4)", len(v.Otid))
+		if constraintErr := ber.CheckDecodedLength(opts, "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode dtid
 	if offset >= len(content) {
@@ -1321,7 +1559,9 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 	offset += n_dtid
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		return fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+		if constraintErr := ber.CheckDecodedLength(opts, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode dialoguePortion
 	if offset < len(content) {
@@ -1377,7 +1617,7 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 						v.ComponentsIndef_ = true
 					}
 				}
-				dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components, opts...)
+				dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components, ber.ChildDecodeOptions(opts, "components")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding components: %w", unmErr)
 				}
@@ -1389,8 +1629,10 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				}
 
 				offset += n_components
-				if len(v.Components) < 1 {
-					return fmt.Errorf("components length %d violates SIZE (1..MAX)", len(v.Components))
+				if len((v.Components).Values) < 1 {
+					if constraintErr := ber.CheckDecodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1402,10 +1644,25 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes Abort to BER format.
-func (v *Abort) MarshalBER() ([]byte, error) {
+func (v *Abort) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Abort receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *Abort) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		return nil, fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+		if constraintErr := ber.CheckEncodedLength(opts, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
@@ -1418,7 +1675,7 @@ func (v *Abort) MarshalBER() ([]byte, error) {
 	enc_dtid = retagged_enc_dtid
 	children = append(children, enc_dtid...)
 	if v.Reason != nil {
-		enc_reason, err := v.Reason.MarshalBER()
+		enc_reason, err := v.Reason.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding reason: %w", err)
 		}
@@ -1429,9 +1686,14 @@ func (v *Abort) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Abort to DER format.
 func (v *Abort) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Abort receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		return nil, fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+		if constraintErr := ber.CheckEncodedLength(nil, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
 	if encodeErr_enc_dtid != nil {
@@ -1461,11 +1723,27 @@ func (v *Abort) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes Abort from BER/DER format.
-func (v *Abort) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *Abort) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: Abort destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = Abort{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding Abort SEQUENCE: %w", err)
@@ -1498,7 +1776,9 @@ func (v *Abort) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 	offset += n_dtid
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		return fmt.Errorf("dtid length %d violates SIZE (1..4)", len(v.Dtid))
+		if constraintErr := ber.CheckDecodedLength(opts, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode reason
 	if offset < len(content) {
@@ -1516,7 +1796,7 @@ func (v *Abort) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_reason.UnmarshalBER(content[offset:offset+n_reason], opts...); unmErr != nil {
+				if unmErr := dec_reason.UnmarshalBER(content[offset:offset+n_reason], ber.ChildDecodeOptions(opts, "reason")...); unmErr != nil {
 					return fmt.Errorf("decoding reason: %w", unmErr)
 				}
 				v.Reason = &dec_reason
@@ -1535,9 +1815,12 @@ func (v *Abort) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	return nil
 }
 
-func (v *DialoguePortion) MarshalBER() ([]byte, error) {
+func (v *DialoguePortion) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	if v == nil {
-		return nil, fmt.Errorf("EXTERNAL value is nil")
+		return nil, fmt.Errorf("%w: EXTERNAL value is nil", ber.ErrInvalidValue)
 	}
 	if original := runtime.External(*v).UnchangedBER(); original != nil {
 		return original, nil
@@ -1554,7 +1837,7 @@ func (v *DialoguePortion) MarshalBER() ([]byte, error) {
 }
 func (v *DialoguePortion) MarshalDER() ([]byte, error) {
 	if v == nil {
-		return nil, fmt.Errorf("EXTERNAL value is nil")
+		return nil, fmt.Errorf("%w: EXTERNAL value is nil", ber.ErrInvalidValue)
 	}
 	encoded, err := ber.EncodeExternalDER(runtime.External(*v))
 	if err != nil {
@@ -1574,7 +1857,7 @@ func (v *DialoguePortion) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 		return err
 	}
 	if v == nil {
-		return fmt.Errorf("EXTERNAL destination is nil")
+		return fmt.Errorf("%w: EXTERNAL destination is nil", ber.ErrInvalidValue)
 	}
 	t, n, value, err := ber.DecodeTLV(data, opts...)
 	if err != nil {
@@ -1599,13 +1882,29 @@ func (v *DialoguePortion) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 }
 
 // MarshalBERComponentPortion encodes a ComponentPortion list to BER.
-func MarshalBERComponentPortion(list ComponentPortion) ([]byte, error) {
+func MarshalBERComponentPortion(collection *ComponentPortion, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERComponentPortion(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERComponentPortion(collection *ComponentPortion, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	if len(list) < 1 {
-		return nil, fmt.Errorf("ComponentPortion length %d violates SIZE (1..MAX)", len(list))
+		if constraintErr := ber.CheckEncodedLength(opts, "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -1615,9 +1914,15 @@ func MarshalBERComponentPortion(list ComponentPortion) ([]byte, error) {
 }
 
 // MarshalDERComponentPortion encodes a ComponentPortion list to DER.
-func MarshalDERComponentPortion(list ComponentPortion) ([]byte, error) {
+func MarshalDERComponentPortion(collection *ComponentPortion) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	if len(list) < 1 {
-		return nil, fmt.Errorf("ComponentPortion length %d violates SIZE (1..MAX)", len(list))
+		if constraintErr := ber.CheckEncodedLength(nil, "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	var children []byte
 	for _, elem := range list {
@@ -1643,7 +1948,7 @@ func MarshalDERComponentPortion(list ComponentPortion) ([]byte, error) {
 }
 
 // UnmarshalBERComponentPortion decodes a ComponentPortion list from BER.
-func UnmarshalBERComponentPortion(data []byte, opts ...ber.DecodeOption) (ComponentPortion, error) {
+func UnmarshalBERComponentPortion(data []byte, opts ...ber.DecodeOption) (*ComponentPortion, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -1657,7 +1962,7 @@ func UnmarshalBERComponentPortion(data []byte, opts ...ber.DecodeOption) (Compon
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "ComponentPortion", Cause: ber.ErrExtraData}
 	}
-	var result ComponentPortion
+	var result []Component
 	offset := 0
 	for offset < len(content) {
 		var elem Component
@@ -1670,7 +1975,7 @@ func UnmarshalBERComponentPortion(data []byte, opts ...ber.DecodeOption) (Compon
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -1682,28 +1987,53 @@ func UnmarshalBERComponentPortion(data []byte, opts ...ber.DecodeOption) (Compon
 		offset += n
 	}
 	if len(result) < 1 {
-		return nil, fmt.Errorf("ComponentPortion length %d violates SIZE (1..MAX)", len(result))
+		if constraintErr := ber.CheckDecodedLength(opts, "ComponentPortion", "SIZE (1..MAX)", len(result)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
-	return result, nil
+	decoded := &ComponentPortion{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERComponentPortion(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes Component to BER format.
-func (v *Component) MarshalBER() ([]byte, error) {
+func (v *Component) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Component receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *Component) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case ComponentChoiceBasicROS:
 		if v.BasicROS == nil {
-			return nil, fmt.Errorf("choice Component: basicROS is nil")
+			return nil, fmt.Errorf("%w: choice Component: basicROS is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.BasicROS.MarshalBER()
+		enc_0, err := v.BasicROS.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicROS: %w", err)
 		}
 		return enc_0, nil
 	case ComponentChoiceReturnResultNotLast:
 		if v.ReturnResultNotLast == nil {
-			return nil, fmt.Errorf("choice Component: returnResultNotLast is nil")
+			return nil, fmt.Errorf("%w: choice Component: returnResultNotLast is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.ReturnResultNotLast.MarshalBER()
+		enc_1, err := v.ReturnResultNotLast.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnResultNotLast: %w", err)
 		}
@@ -1720,10 +2050,13 @@ func (v *Component) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Component to DER format.
 func (v *Component) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Component receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case ComponentChoiceBasicROS:
 		if v.BasicROS == nil {
-			return nil, fmt.Errorf("choice Component: basicROS is nil")
+			return nil, fmt.Errorf("%w: choice Component: basicROS is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.BasicROS.MarshalDER()
 		if err != nil {
@@ -1735,7 +2068,7 @@ func (v *Component) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case ComponentChoiceReturnResultNotLast:
 		if v.ReturnResultNotLast == nil {
-			return nil, fmt.Errorf("choice Component: returnResultNotLast is nil")
+			return nil, fmt.Errorf("%w: choice Component: returnResultNotLast is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.ReturnResultNotLast.MarshalDER()
 		if err != nil {
@@ -1762,7 +2095,23 @@ func (v *Component) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes Component from BER/DER format.
-func (v *Component) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *Component) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: Component destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -1811,7 +2160,20 @@ func (v *Component) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes TCInvokeIdSet to BER format.
-func (v *TCInvokeIdSet) MarshalBER() ([]byte, error) {
+func (v *TCInvokeIdSet) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TCInvokeIdSet receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *TCInvokeIdSet) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	if v.Choice == TCInvokeIdSetChoicePresent {
 		if v.Present == nil {
 			return nil, fmt.Errorf("encoding TCInvokeIdSet violates WITH COMPONENTS: Present must carry a constrained value")
@@ -1826,9 +2188,14 @@ func (v *TCInvokeIdSet) MarshalBER() ([]byte, error) {
 	switch v.Choice {
 	case TCInvokeIdSetChoicePresent:
 		if v.Present == nil {
-			return nil, fmt.Errorf("choice TCInvokeIdSet: present is nil")
+			return nil, fmt.Errorf("%w: choice TCInvokeIdSet: present is nil", ber.ErrInvalidValue)
 		}
 		enc_0 := ber.EncodeInteger(int64(*v.Present))
+		if !(int64(*v.Present) >= -128 && int64(*v.Present) <= 127) {
+			if constraintErr := ber.CheckEncodedValue(opts, "present", "(-128..127)", fmt.Sprint(int64(*v.Present))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		return enc_0, nil
 	case TCInvokeIdSetChoiceAbsent:
 		enc_1 := ber.EncodeNull()
@@ -1840,6 +2207,9 @@ func (v *TCInvokeIdSet) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TCInvokeIdSet to DER format.
 func (v *TCInvokeIdSet) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TCInvokeIdSet receiver is nil", ber.ErrInvalidValue)
+	}
 	if v.Choice == TCInvokeIdSetChoicePresent {
 		if v.Present == nil {
 			return nil, fmt.Errorf("encoding TCInvokeIdSet violates WITH COMPONENTS: Present must carry a constrained value")
@@ -1862,7 +2232,23 @@ func (v *TCInvokeIdSet) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes TCInvokeIdSet from BER/DER format.
-func (v *TCInvokeIdSet) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *TCInvokeIdSet) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: TCInvokeIdSet destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -1891,6 +2277,11 @@ func (v *TCInvokeIdSet) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 			return fmt.Errorf("decoding present: %w", intErr)
 		}
 		v.Present = &decVal
+		if !(int64(*v.Present) >= -128 && int64(*v.Present) <= 127) {
+			if constraintErr := ber.CheckDecodedValue(opts, "present", "(-128..127)", fmt.Sprint(int64(*v.Present))); constraintErr != nil {
+				return constraintErr
+			}
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 5 && peekTag.Constructed == false {
 		v.Choice = TCInvokeIdSetChoiceAbsent
 		_, nullErr := ber.DecodeNull(choiceData, opts...)
@@ -1915,13 +2306,31 @@ func (v *TCInvokeIdSet) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 }
 
 // MarshalBER encodes AbortReason to BER format.
-func (v *AbortReason) MarshalBER() ([]byte, error) {
+func (v *AbortReason) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AbortReason receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *AbortReason) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case AbortReasonChoicePAbortCause:
 		if v.PAbortCause == nil {
-			return nil, fmt.Errorf("choice AbortReason: p-abortCause is nil")
+			return nil, fmt.Errorf("%w: choice AbortReason: p-abortCause is nil", ber.ErrInvalidValue)
 		}
 		enc_0 := ber.EncodeInteger(int64(*v.PAbortCause))
+		if !(int64(*v.PAbortCause) >= 0 && int64(*v.PAbortCause) <= 127) {
+			if constraintErr := ber.CheckEncodedValue(opts, "p-abortCause", "(0..127)", fmt.Sprint(int64(*v.PAbortCause))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 10, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding p-abortCause: %w", tagErr_enc_0)
@@ -1930,9 +2339,9 @@ func (v *AbortReason) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case AbortReasonChoiceUAbortCause:
 		if v.UAbortCause == nil {
-			return nil, fmt.Errorf("choice AbortReason: u-abortCause is nil")
+			return nil, fmt.Errorf("%w: choice AbortReason: u-abortCause is nil", ber.ErrInvalidValue)
 		}
-		enc_1, extErr := v.UAbortCause.MarshalBER()
+		enc_1, extErr := v.UAbortCause.MarshalBER(opts...)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding u-abortCause: %w", extErr)
 		}
@@ -1944,6 +2353,9 @@ func (v *AbortReason) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AbortReason to DER format.
 func (v *AbortReason) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AbortReason receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -1955,7 +2367,23 @@ func (v *AbortReason) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes AbortReason from BER/DER format.
-func (v *AbortReason) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *AbortReason) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: AbortReason destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -1989,6 +2417,11 @@ func (v *AbortReason) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 		}
 		tmp := PAbortCause(decVal)
 		v.PAbortCause = &tmp
+		if !(int64(*v.PAbortCause) >= 0 && int64(*v.PAbortCause) <= 127) {
+			if constraintErr := ber.CheckDecodedValue(opts, "p-abortCause", "(0..127)", fmt.Sprint(int64(*v.PAbortCause))); constraintErr != nil {
+				return constraintErr
+			}
+		}
 	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 11 && peekTag.Constructed == true {
 		v.Choice = AbortReasonChoiceUAbortCause
 		var decodedExternal DialoguePortion
@@ -2003,11 +2436,24 @@ func (v *AbortReason) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 }
 
 // MarshalBER encodes ComponentBasicROSInvokeLinkedId to BER format.
-func (v *ComponentBasicROSInvokeLinkedId) MarshalBER() ([]byte, error) {
+func (v *ComponentBasicROSInvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ComponentBasicROSInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ComponentBasicROSInvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case ComponentBasicROSInvokeLinkedIdChoicePresent:
 		if v.Present == nil {
-			return nil, fmt.Errorf("choice ComponentBasicROSInvokeLinkedId: present is nil")
+			return nil, fmt.Errorf("%w: choice ComponentBasicROSInvokeLinkedId: present is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
 		if encodeErr_enc_0 != nil {
@@ -2034,6 +2480,9 @@ func (v *ComponentBasicROSInvokeLinkedId) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ComponentBasicROSInvokeLinkedId to DER format.
 func (v *ComponentBasicROSInvokeLinkedId) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ComponentBasicROSInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -2045,7 +2494,23 @@ func (v *ComponentBasicROSInvokeLinkedId) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ComponentBasicROSInvokeLinkedId from BER/DER format.
-func (v *ComponentBasicROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ComponentBasicROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ComponentBasicROSInvokeLinkedId destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -2095,9 +2560,22 @@ func (v *ComponentBasicROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.
 }
 
 // MarshalBER encodes ComponentBasicROSReturnResultResult to BER format.
-func (v *ComponentBasicROSReturnResultResult) MarshalBER() ([]byte, error) {
+func (v *ComponentBasicROSReturnResultResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ComponentBasicROSReturnResultResult receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ComponentBasicROSReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_opcode, err := v.Opcode.MarshalBER()
+	enc_opcode, err := v.Opcode.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding opcode: %w", err)
 	}
@@ -2109,6 +2587,9 @@ func (v *ComponentBasicROSReturnResultResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ComponentBasicROSReturnResultResult to DER format.
 func (v *ComponentBasicROSReturnResultResult) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ComponentBasicROSReturnResultResult receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_opcode, err := v.Opcode.MarshalDER()
 	if err != nil {
@@ -2128,11 +2609,27 @@ func (v *ComponentBasicROSReturnResultResult) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ComponentBasicROSReturnResultResult from BER/DER format.
-func (v *ComponentBasicROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ComponentBasicROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ComponentBasicROSReturnResultResult destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ComponentBasicROSReturnResultResult{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ComponentBasicROSReturnResultResult SEQUENCE: %w", err)
@@ -2155,7 +2652,7 @@ func (v *ComponentBasicROSReturnResultResult) UnmarshalBER(data []byte, opts ...
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], opts...); unmErr != nil {
+	if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], ber.ChildDecodeOptions(opts, "opcode")...); unmErr != nil {
 		return fmt.Errorf("decoding opcode: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -2191,9 +2688,22 @@ func (v *ComponentBasicROSReturnResultResult) UnmarshalBER(data []byte, opts ...
 }
 
 // MarshalBER encodes ComponentReturnResultNotLastResult to BER format.
-func (v *ComponentReturnResultNotLastResult) MarshalBER() ([]byte, error) {
+func (v *ComponentReturnResultNotLastResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ComponentReturnResultNotLastResult receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ComponentReturnResultNotLastResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_opcode, err := v.Opcode.MarshalBER()
+	enc_opcode, err := v.Opcode.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding opcode: %w", err)
 	}
@@ -2205,6 +2715,9 @@ func (v *ComponentReturnResultNotLastResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ComponentReturnResultNotLastResult to DER format.
 func (v *ComponentReturnResultNotLastResult) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ComponentReturnResultNotLastResult receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_opcode, err := v.Opcode.MarshalDER()
 	if err != nil {
@@ -2224,11 +2737,27 @@ func (v *ComponentReturnResultNotLastResult) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ComponentReturnResultNotLastResult from BER/DER format.
-func (v *ComponentReturnResultNotLastResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ComponentReturnResultNotLastResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ComponentReturnResultNotLastResult destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ComponentReturnResultNotLastResult{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ComponentReturnResultNotLastResult SEQUENCE: %w", err)
@@ -2251,7 +2780,7 @@ func (v *ComponentReturnResultNotLastResult) UnmarshalBER(data []byte, opts ...b
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], opts...); unmErr != nil {
+	if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], ber.ChildDecodeOptions(opts, "opcode")...); unmErr != nil {
 		return fmt.Errorf("decoding opcode: %w", unmErr)
 	}
 	if offset < 0 || offset >

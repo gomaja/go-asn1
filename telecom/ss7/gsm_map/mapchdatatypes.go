@@ -25,6 +25,8 @@ type CUGCheckInfo struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // NumberOfForwarding represents the ASN.1 type NumberOfForwarding (INTEGER).
@@ -65,6 +67,8 @@ type SendRoutingInfoArg struct {
 	ExtCount_                       int64                            `asn1:"-" json:"-"`
 	ExtPresent_                     []bool                           `asn1:"-" json:"-"`
 	ExtData_                        [][]byte                         `asn1:"-" json:"-"`
+	berOriginal_                    []byte                           `asn1:"-" json:"-"`
+	berSnapshot_                    []byte                           `asn1:"-" json:"-"`
 }
 
 // SuppressionOfAnnouncement represents the ASN.1 type SuppressionOfAnnouncement (NULL).
@@ -133,7 +137,7 @@ type SendRoutingInfoRes struct {
 	CugCheckInfo                    *CUGCheckInfo            `asn1:"tag:3,context,implicit,optional" json:"CugCheckInfo,omitempty"`
 	CugSubscriptionFlag             *struct{}                `asn1:"tag:6,context,implicit,optional" json:"CugSubscriptionFlag,omitempty"`
 	SubscriberInfo                  *SubscriberInfo          `asn1:"tag:7,context,implicit,optional" json:"SubscriberInfo,omitempty"`
-	SsList                          SSList                   `asn1:"tag:1,context,implicit,optional" json:"SsList,omitempty"`
+	SsList                          *SSList                  `asn1:"tag:1,context,implicit,optional" json:"SsList,omitempty"`
 	SsListIndef_                    bool                     `asn1:"-" json:"-"`
 	BasicService                    *ExtBasicServiceCode     `asn1:"tag:5,context,explicit,optional" json:"BasicService,omitempty"`
 	ForwardingInterrogationRequired *struct{}                `asn1:"tag:4,context,implicit,optional" json:"ForwardingInterrogationRequired,omitempty"`
@@ -147,7 +151,7 @@ type SendRoutingInfoRes struct {
 	SupportedCamelPhasesInVMSC      *SupportedCamelPhases    `asn1:"tag:15,context,implicit,optional" json:"SupportedCamelPhasesInVMSC,omitempty"`
 	OfferedCamel4CSIsInVMSC         *OfferedCamel4CSIs       `asn1:"tag:16,context,implicit,optional" json:"OfferedCamel4CSIsInVMSC,omitempty"`
 	RoutingInfo2                    *RoutingInfo             `asn1:"tag:17,context,explicit,optional" json:"RoutingInfo2,omitempty"`
-	SsList2                         SSList                   `asn1:"tag:18,context,implicit,optional" json:"SsList2,omitempty"`
+	SsList2                         *SSList                  `asn1:"tag:18,context,implicit,optional" json:"SsList2,omitempty"`
 	SsList2Indef_                   bool                     `asn1:"-" json:"-"`
 	BasicService2                   *ExtBasicServiceCode     `asn1:"tag:19,context,explicit,optional" json:"BasicService2,omitempty"`
 	AllowedServices                 *AllowedServices         `asn1:"tag:20,context,implicit,optional" json:"AllowedServices,omitempty"`
@@ -157,6 +161,8 @@ type SendRoutingInfoRes struct {
 	ExtCount_                       int64                    `asn1:"-" json:"-"`
 	ExtPresent_                     []bool                   `asn1:"-" json:"-"`
 	ExtData_                        [][]byte                 `asn1:"-" json:"-"`
+	berOriginal_                    []byte                   `asn1:"-" json:"-"`
+	berSnapshot_                    []byte                   `asn1:"-" json:"-"`
 }
 
 // AllowedServices represents the ASN.1 type AllowedServices (BIT_STRING).
@@ -201,6 +207,8 @@ type CCBSIndicators struct {
 	ExtCount_             int64               `asn1:"-" json:"-"`
 	ExtPresent_           []bool              `asn1:"-" json:"-"`
 	ExtData_              [][]byte            `asn1:"-" json:"-"`
+	berOriginal_          []byte              `asn1:"-" json:"-"`
+	berSnapshot_          []byte              `asn1:"-" json:"-"`
 }
 
 // RoutingInfo choice constants.
@@ -212,6 +220,8 @@ const (
 // RoutingInfo represents the ASN.1 CHOICE type RoutingInfo.
 type RoutingInfo struct {
 	Choice         int
+	berOriginal_   []byte             `json:"-"`
+	berSnapshot_   []byte             `json:"-"`
 	RoamingNumber  *ISDNAddressString `json:"RoamingNumber,omitempty"`
 	ForwardingData *ForwardingData    `json:"ForwardingData,omitempty"`
 }
@@ -242,6 +252,8 @@ type ForwardingData struct {
 	ExtCount_             int64                 `asn1:"-" json:"-"`
 	ExtPresent_           []bool                `asn1:"-" json:"-"`
 	ExtData_              [][]byte              `asn1:"-" json:"-"`
+	berOriginal_          []byte                `asn1:"-" json:"-"`
+	berSnapshot_          []byte                `asn1:"-" json:"-"`
 }
 
 // ProvideRoamingNumberArg represents the ASN.1 type ProvideRoamingNumberArg (SEQUENCE).
@@ -267,7 +279,7 @@ type ProvideRoamingNumberArg struct {
 	SuppressVTCSI                           *struct{}                  `asn1:"tag:19,context,implicit,optional" json:"SuppressVTCSI,omitempty"`
 	OfferedCamel4CSIsInInterrogatingNode    *OfferedCamel4CSIs         `asn1:"tag:20,context,implicit,optional" json:"OfferedCamel4CSIsInInterrogatingNode,omitempty"`
 	MtRoamingRetrySupported                 *struct{}                  `asn1:"tag:21,context,implicit,optional" json:"MtRoamingRetrySupported,omitempty"`
-	PagingArea                              PagingArea                 `asn1:"tag:22,context,implicit,optional" json:"PagingArea,omitempty"`
+	PagingArea                              *PagingArea                `asn1:"tag:22,context,implicit,optional" json:"PagingArea,omitempty"`
 	PagingAreaIndef_                        bool                       `asn1:"-" json:"-"`
 	CallPriority                            *EMLPPPriority             `asn1:"tag:23,context,implicit,optional" json:"CallPriority,omitempty"`
 	MtrfIndicator                           *struct{}                  `asn1:"tag:24,context,implicit,optional" json:"MtrfIndicator,omitempty"`
@@ -276,6 +288,8 @@ type ProvideRoamingNumberArg struct {
 	ExtCount_                               int64                      `asn1:"-" json:"-"`
 	ExtPresent_                             []bool                     `asn1:"-" json:"-"`
 	ExtData_                                [][]byte                   `asn1:"-" json:"-"`
+	berOriginal_                            []byte                     `asn1:"-" json:"-"`
+	berSnapshot_                            []byte                     `asn1:"-" json:"-"`
 }
 
 // ProvideRoamingNumberRes represents the ASN.1 type ProvideRoamingNumberRes (SEQUENCE).
@@ -287,29 +301,33 @@ type ProvideRoamingNumberRes struct {
 	ExtCount_                 int64               `asn1:"-" json:"-"`
 	ExtPresent_               []bool              `asn1:"-" json:"-"`
 	ExtData_                  [][]byte            `asn1:"-" json:"-"`
+	berOriginal_              []byte              `asn1:"-" json:"-"`
+	berSnapshot_              []byte              `asn1:"-" json:"-"`
 }
 
 // ResumeCallHandlingArg represents the ASN.1 type ResumeCallHandlingArg (SEQUENCE).
 type ResumeCallHandlingArg struct {
-	CallReferenceNumber             *CallReferenceNumber      `asn1:"tag:0,context,implicit,optional" json:"CallReferenceNumber,omitempty"`
-	BasicServiceGroup               *ExtBasicServiceCode      `asn1:"tag:1,context,explicit,optional" json:"BasicServiceGroup,omitempty"`
-	ForwardingData                  *ForwardingData           `asn1:"tag:2,context,implicit,optional" json:"ForwardingData,omitempty"`
-	Imsi                            *IMSI                     `asn1:"tag:3,context,implicit,optional" json:"Imsi,omitempty"`
-	CugCheckInfo                    *CUGCheckInfo             `asn1:"tag:4,context,implicit,optional" json:"CugCheckInfo,omitempty"`
-	OCSI                            *OCSI                     `asn1:"tag:5,context,implicit,optional" json:"OCSI,omitempty"`
-	ExtensionContainer              *ExtensionContainer       `asn1:"tag:7,context,implicit,optional" json:"ExtensionContainer,omitempty"`
-	CcbsPossible                    *struct{}                 `asn1:"tag:8,context,implicit,optional" json:"CcbsPossible,omitempty"`
-	Msisdn                          *ISDNAddressString        `asn1:"tag:9,context,implicit,optional" json:"Msisdn,omitempty"`
-	UuData                          *UUData                   `asn1:"tag:10,context,implicit,optional" json:"UuData,omitempty"`
-	AllInformationSent              *struct{}                 `asn1:"tag:11,context,implicit,optional" json:"AllInformationSent,omitempty"`
-	DCsi                            *DCSI                     `asn1:"tag:12,context,implicit,optional" json:"DCsi,omitempty"`
-	OBcsmCamelTDPCriteriaList       OBcsmCamelTDPCriteriaList `asn1:"tag:13,context,implicit,optional" json:"OBcsmCamelTDPCriteriaList,omitempty"`
-	OBcsmCamelTDPCriteriaListIndef_ bool                      `asn1:"-" json:"-"`
-	BasicServiceGroup2              *ExtBasicServiceCode      `asn1:"tag:14,context,explicit,optional" json:"BasicServiceGroup2,omitempty"`
-	MtRoamingRetry                  *struct{}                 `asn1:"tag:15,context,implicit,optional" json:"MtRoamingRetry,omitempty"`
-	ExtCount_                       int64                     `asn1:"-" json:"-"`
-	ExtPresent_                     []bool                    `asn1:"-" json:"-"`
-	ExtData_                        [][]byte                  `asn1:"-" json:"-"`
+	CallReferenceNumber             *CallReferenceNumber       `asn1:"tag:0,context,implicit,optional" json:"CallReferenceNumber,omitempty"`
+	BasicServiceGroup               *ExtBasicServiceCode       `asn1:"tag:1,context,explicit,optional" json:"BasicServiceGroup,omitempty"`
+	ForwardingData                  *ForwardingData            `asn1:"tag:2,context,implicit,optional" json:"ForwardingData,omitempty"`
+	Imsi                            *IMSI                      `asn1:"tag:3,context,implicit,optional" json:"Imsi,omitempty"`
+	CugCheckInfo                    *CUGCheckInfo              `asn1:"tag:4,context,implicit,optional" json:"CugCheckInfo,omitempty"`
+	OCSI                            *OCSI                      `asn1:"tag:5,context,implicit,optional" json:"OCSI,omitempty"`
+	ExtensionContainer              *ExtensionContainer        `asn1:"tag:7,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	CcbsPossible                    *struct{}                  `asn1:"tag:8,context,implicit,optional" json:"CcbsPossible,omitempty"`
+	Msisdn                          *ISDNAddressString         `asn1:"tag:9,context,implicit,optional" json:"Msisdn,omitempty"`
+	UuData                          *UUData                    `asn1:"tag:10,context,implicit,optional" json:"UuData,omitempty"`
+	AllInformationSent              *struct{}                  `asn1:"tag:11,context,implicit,optional" json:"AllInformationSent,omitempty"`
+	DCsi                            *DCSI                      `asn1:"tag:12,context,implicit,optional" json:"DCsi,omitempty"`
+	OBcsmCamelTDPCriteriaList       *OBcsmCamelTDPCriteriaList `asn1:"tag:13,context,implicit,optional" json:"OBcsmCamelTDPCriteriaList,omitempty"`
+	OBcsmCamelTDPCriteriaListIndef_ bool                       `asn1:"-" json:"-"`
+	BasicServiceGroup2              *ExtBasicServiceCode       `asn1:"tag:14,context,explicit,optional" json:"BasicServiceGroup2,omitempty"`
+	MtRoamingRetry                  *struct{}                  `asn1:"tag:15,context,implicit,optional" json:"MtRoamingRetry,omitempty"`
+	ExtCount_                       int64                      `asn1:"-" json:"-"`
+	ExtPresent_                     []bool                     `asn1:"-" json:"-"`
+	ExtData_                        [][]byte                   `asn1:"-" json:"-"`
+	berOriginal_                    []byte                     `asn1:"-" json:"-"`
+	berSnapshot_                    []byte                     `asn1:"-" json:"-"`
 }
 
 // UUData represents the ASN.1 type UU-Data (SEQUENCE).
@@ -321,6 +339,8 @@ type UUData struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // UUIndicator represents the ASN.1 type UUIndicator (OCTET_STRING).
@@ -335,6 +355,8 @@ type ResumeCallHandlingRes struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // CamelInfo represents the ASN.1 type CamelInfo (SEQUENCE).
@@ -346,6 +368,8 @@ type CamelInfo struct {
 	ExtCount_            int64                `asn1:"-" json:"-"`
 	ExtPresent_          []bool               `asn1:"-" json:"-"`
 	ExtData_             [][]byte             `asn1:"-" json:"-"`
+	berOriginal_         []byte               `asn1:"-" json:"-"`
+	berSnapshot_         []byte               `asn1:"-" json:"-"`
 }
 
 // ExtendedRoutingInfo choice constants.
@@ -357,6 +381,8 @@ const (
 // ExtendedRoutingInfo represents the ASN.1 CHOICE type ExtendedRoutingInfo.
 type ExtendedRoutingInfo struct {
 	Choice           int
+	berOriginal_     []byte            `json:"-"`
+	berSnapshot_     []byte            `json:"-"`
 	RoutingInfo      *RoutingInfo      `json:"RoutingInfo,omitempty"`
 	CamelRoutingInfo *CamelRoutingInfo `json:"CamelRoutingInfo,omitempty"`
 }
@@ -385,21 +411,25 @@ type CamelRoutingInfo struct {
 	ExtCount_                 int64                     `asn1:"-" json:"-"`
 	ExtPresent_               []bool                    `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                  `asn1:"-" json:"-"`
+	berOriginal_              []byte                    `asn1:"-" json:"-"`
+	berSnapshot_              []byte                    `asn1:"-" json:"-"`
 }
 
 // GmscCamelSubscriptionInfo represents the ASN.1 type GmscCamelSubscriptionInfo (SEQUENCE).
 type GmscCamelSubscriptionInfo struct {
-	TCSI                            *TCSI                     `asn1:"tag:0,context,implicit,optional" json:"TCSI,omitempty"`
-	OCSI                            *OCSI                     `asn1:"tag:1,context,implicit,optional" json:"OCSI,omitempty"`
-	ExtensionContainer              *ExtensionContainer       `asn1:"tag:2,context,implicit,optional" json:"ExtensionContainer,omitempty"`
-	OBcsmCamelTDPCriteriaList       OBcsmCamelTDPCriteriaList `asn1:"tag:3,context,implicit,optional" json:"OBcsmCamelTDPCriteriaList,omitempty"`
-	OBcsmCamelTDPCriteriaListIndef_ bool                      `asn1:"-" json:"-"`
-	TBCSMCAMELTDPCriteriaList       TBCSMCAMELTDPCriteriaList `asn1:"tag:4,context,implicit,optional" json:"TBCSMCAMELTDPCriteriaList,omitempty"`
-	TBCSMCAMELTDPCriteriaListIndef_ bool                      `asn1:"-" json:"-"`
-	DCsi                            *DCSI                     `asn1:"tag:5,context,implicit,optional" json:"DCsi,omitempty"`
-	ExtCount_                       int64                     `asn1:"-" json:"-"`
-	ExtPresent_                     []bool                    `asn1:"-" json:"-"`
-	ExtData_                        [][]byte                  `asn1:"-" json:"-"`
+	TCSI                            *TCSI                      `asn1:"tag:0,context,implicit,optional" json:"TCSI,omitempty"`
+	OCSI                            *OCSI                      `asn1:"tag:1,context,implicit,optional" json:"OCSI,omitempty"`
+	ExtensionContainer              *ExtensionContainer        `asn1:"tag:2,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	OBcsmCamelTDPCriteriaList       *OBcsmCamelTDPCriteriaList `asn1:"tag:3,context,implicit,optional" json:"OBcsmCamelTDPCriteriaList,omitempty"`
+	OBcsmCamelTDPCriteriaListIndef_ bool                       `asn1:"-" json:"-"`
+	TBCSMCAMELTDPCriteriaList       *TBCSMCAMELTDPCriteriaList `asn1:"tag:4,context,implicit,optional" json:"TBCSMCAMELTDPCriteriaList,omitempty"`
+	TBCSMCAMELTDPCriteriaListIndef_ bool                       `asn1:"-" json:"-"`
+	DCsi                            *DCSI                      `asn1:"tag:5,context,implicit,optional" json:"DCsi,omitempty"`
+	ExtCount_                       int64                      `asn1:"-" json:"-"`
+	ExtPresent_                     []bool                     `asn1:"-" json:"-"`
+	ExtData_                        [][]byte                   `asn1:"-" json:"-"`
+	berOriginal_                    []byte                     `asn1:"-" json:"-"`
+	berSnapshot_                    []byte                     `asn1:"-" json:"-"`
 }
 
 // SetReportingStateArg represents the ASN.1 type SetReportingStateArg (SEQUENCE).
@@ -411,6 +441,8 @@ type SetReportingStateArg struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // ReportingState represents the ASN.1 ENUMERATED type ReportingState.
@@ -439,6 +471,8 @@ type SetReportingStateRes struct {
 	ExtCount_            int64                 `asn1:"-" json:"-"`
 	ExtPresent_          []bool                `asn1:"-" json:"-"`
 	ExtData_             [][]byte              `asn1:"-" json:"-"`
+	berOriginal_         []byte                `asn1:"-" json:"-"`
+	berSnapshot_         []byte                `asn1:"-" json:"-"`
 }
 
 // CCBSSubscriberStatus represents the ASN.1 ENUMERATED type CCBS-SubscriberStatus.
@@ -472,6 +506,8 @@ type StatusReportArg struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // EventReportData represents the ASN.1 type EventReportData (SEQUENCE).
@@ -481,6 +517,8 @@ type EventReportData struct {
 	ExtCount_            int64                 `asn1:"-" json:"-"`
 	ExtPresent_          []bool                `asn1:"-" json:"-"`
 	ExtData_             [][]byte              `asn1:"-" json:"-"`
+	berOriginal_         []byte                `asn1:"-" json:"-"`
+	berSnapshot_         []byte                `asn1:"-" json:"-"`
 }
 
 // CallReportData represents the ASN.1 type CallReportData (SEQUENCE).
@@ -491,6 +529,8 @@ type CallReportData struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // MonitoringMode represents the ASN.1 ENUMERATED type MonitoringMode.
@@ -540,6 +580,8 @@ type StatusReportRes struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // RemoteUserFreeArg represents the ASN.1 type RemoteUserFreeArg (SEQUENCE).
@@ -554,6 +596,8 @@ type RemoteUserFreeArg struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // RemoteUserFreeRes represents the ASN.1 type RemoteUserFreeRes (SEQUENCE).
@@ -563,6 +607,8 @@ type RemoteUserFreeRes struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // RUFOutcome represents the ASN.1 ENUMERATED type RUF-Outcome.
@@ -603,6 +649,8 @@ type ISTAlertArg struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // ISTAlertRes represents the ASN.1 type IST-AlertRes (SEQUENCE).
@@ -614,6 +662,8 @@ type ISTAlertRes struct {
 	ExtCount_                int64                     `asn1:"-" json:"-"`
 	ExtPresent_              []bool                    `asn1:"-" json:"-"`
 	ExtData_                 [][]byte                  `asn1:"-" json:"-"`
+	berOriginal_             []byte                    `asn1:"-" json:"-"`
+	berSnapshot_             []byte                    `asn1:"-" json:"-"`
 }
 
 // ISTCommandArg represents the ASN.1 type IST-CommandArg (SEQUENCE).
@@ -623,6 +673,8 @@ type ISTCommandArg struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // ISTCommandRes represents the ASN.1 type IST-CommandRes (SEQUENCE).
@@ -631,6 +683,8 @@ type ISTCommandRes struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // CallTerminationIndicator represents the ASN.1 ENUMERATED type CallTerminationIndicator.
@@ -659,6 +713,8 @@ type ReleaseResourcesArg struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // ReleaseResourcesRes represents the ASN.1 type ReleaseResourcesRes (SEQUENCE).
@@ -667,13 +723,30 @@ type ReleaseResourcesRes struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
+	berOriginal_       []byte              `asn1:"-" json:"-"`
+	berSnapshot_       []byte              `asn1:"-" json:"-"`
 }
 
 // MarshalBER encodes CUGCheckInfo to BER format.
-func (v *CUGCheckInfo) MarshalBER() ([]byte, error) {
+func (v *CUGCheckInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CUGCheckInfo receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CUGCheckInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.CugInterlock) < 4 || len(v.CugInterlock) > 4 {
-		return nil, fmt.Errorf("cug-Interlock length %d violates SIZE (4)", len(v.CugInterlock))
+		if constraintErr := ber.CheckEncodedLength(opts, "cug-Interlock", "SIZE (4)", len(v.CugInterlock)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_cuginterlock, encodeErr_enc_cuginterlock := ber.EncodeOctetString([]byte(v.CugInterlock))
 	if encodeErr_enc_cuginterlock != nil {
@@ -685,7 +758,7 @@ func (v *CUGCheckInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_cugoutgoingaccess...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -706,9 +779,14 @@ func (v *CUGCheckInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CUGCheckInfo to DER format.
 func (v *CUGCheckInfo) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CUGCheckInfo receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.CugInterlock) < 4 || len(v.CugInterlock) > 4 {
-		return nil, fmt.Errorf("cug-Interlock length %d violates SIZE (4)", len(v.CugInterlock))
+		if constraintErr := ber.CheckEncodedLength(nil, "cug-Interlock", "SIZE (4)", len(v.CugInterlock)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_cuginterlock, encodeErr_enc_cuginterlock := ber.EncodeOctetString([]byte(v.CugInterlock))
 	if encodeErr_enc_cuginterlock != nil {
@@ -743,11 +821,27 @@ func (v *CUGCheckInfo) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CUGCheckInfo from BER/DER format.
-func (v *CUGCheckInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CUGCheckInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CUGCheckInfo destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CUGCheckInfo{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CUGCheckInfo SEQUENCE: %w", err)
@@ -772,7 +866,9 @@ func (v *CUGCheckInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 
 	offset += n
 	if len(v.CugInterlock) < 4 || len(v.CugInterlock) > 4 {
-		return fmt.Errorf("cug-Interlock length %d violates SIZE (4)", len(v.CugInterlock))
+		if constraintErr := ber.CheckDecodedLength(opts, "cug-Interlock", "SIZE (4)", len(v.CugInterlock)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode cug-OutgoingAccess
 	if offset < len(content) {
@@ -810,7 +906,7 @@ func (v *CUGCheckInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -851,13 +947,30 @@ func (v *CUGCheckInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 }
 
 // MarshalBER encodes SendRoutingInfoArg to BER format.
-func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
+func (v *SendRoutingInfoArg) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SendRoutingInfoArg receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SendRoutingInfoArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(v.Msisdn))
+		if constraintErr := ber.CheckEncodedLength(opts, "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(v.Msisdn))
+		if constraintErr := ber.CheckEncodedLength(opts, "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
 	if encodeErr_enc_msisdn != nil {
@@ -870,7 +983,7 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 	enc_msisdn = retagged_enc_msisdn
 	children = append(children, enc_msisdn...)
 	if v.CugCheckInfo != nil {
-		enc_cugcheckinfo, err := v.CugCheckInfo.MarshalBER()
+		enc_cugcheckinfo, err := v.CugCheckInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cug-CheckInfo: %w", err)
 		}
@@ -882,6 +995,11 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_cugcheckinfo...)
 	}
 	if v.NumberOfForwarding != nil {
+		if !(int64(*v.NumberOfForwarding) >= 1 && int64(*v.NumberOfForwarding) <= 5) {
+			if constraintErr := ber.CheckEncodedValue(opts, "numberOfForwarding", "(1..5)", fmt.Sprint(int64(*v.NumberOfForwarding))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_numberofforwarding := ber.EncodeInteger(int64(*v.NumberOfForwarding))
 		retagged_enc_numberofforwarding, tagErr_enc_numberofforwarding := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_numberofforwarding)
 		if tagErr_enc_numberofforwarding != nil {
@@ -907,6 +1025,11 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_orinterrogation...)
 	}
 	if v.OrCapability != nil {
+		if !(int64(*v.OrCapability) >= 1 && int64(*v.OrCapability) <= 127) {
+			if constraintErr := ber.CheckEncodedValue(opts, "or-Capability", "(1..127)", fmt.Sprint(int64(*v.OrCapability))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_orcapability := ber.EncodeInteger(int64(*v.OrCapability))
 		retagged_enc_orcapability, tagErr_enc_orcapability := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_orcapability)
 		if tagErr_enc_orcapability != nil {
@@ -916,10 +1039,14 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_orcapability...)
 	}
 	if len(v.GmscOrGsmSCFAddress) < 1 || len(v.GmscOrGsmSCFAddress) > 9 {
-		return nil, fmt.Errorf("gmsc-OrGsmSCF-Address length %d violates SIZE (1..9)", len(v.GmscOrGsmSCFAddress))
+		if constraintErr := ber.CheckEncodedLength(opts, "gmsc-OrGsmSCF-Address", "SIZE (1..9)", len(v.GmscOrGsmSCFAddress)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.GmscOrGsmSCFAddress) < 1 || len(v.GmscOrGsmSCFAddress) > 20 {
-		return nil, fmt.Errorf("gmsc-OrGsmSCF-Address length %d violates SIZE (1..20)", len(v.GmscOrGsmSCFAddress))
+		if constraintErr := ber.CheckEncodedLength(opts, "gmsc-OrGsmSCF-Address", "SIZE (1..20)", len(v.GmscOrGsmSCFAddress)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_gmscorgsmscfaddress, encodeErr_enc_gmscorgsmscfaddress := ber.EncodeOctetString([]byte(v.GmscOrGsmSCFAddress))
 	if encodeErr_enc_gmscorgsmscfaddress != nil {
@@ -933,7 +1060,9 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 	children = append(children, enc_gmscorgsmscfaddress...)
 	if v.CallReferenceNumber != nil {
 		if len(*v.CallReferenceNumber) < 1 || len(*v.CallReferenceNumber) > 8 {
-			return nil, fmt.Errorf("callReferenceNumber length %d violates SIZE (1..8)", len(*v.CallReferenceNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "callReferenceNumber", "SIZE (1..8)", len(*v.CallReferenceNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_callreferencenumber, encodeErr_enc_callreferencenumber := ber.EncodeOctetString([]byte(*v.CallReferenceNumber))
 		if encodeErr_enc_callreferencenumber != nil {
@@ -956,7 +1085,7 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_forwardingreason...)
 	}
 	if v.BasicServiceGroup != nil {
-		enc_basicservicegroup, err := v.BasicServiceGroup.MarshalBER()
+		enc_basicservicegroup, err := v.BasicServiceGroup.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceGroup: %w", err)
 		}
@@ -970,7 +1099,7 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_basicservicegroup...)
 	}
 	if v.NetworkSignalInfo != nil {
-		enc_networksignalinfo, err := v.NetworkSignalInfo.MarshalBER()
+		enc_networksignalinfo, err := v.NetworkSignalInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding networkSignalInfo: %w", err)
 		}
@@ -982,7 +1111,7 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_networksignalinfo...)
 	}
 	if v.CamelInfo != nil {
-		enc_camelinfo, err := v.CamelInfo.MarshalBER()
+		enc_camelinfo, err := v.CamelInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding camelInfo: %w", err)
 		}
@@ -1003,7 +1132,7 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_suppressionofannouncement...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -1016,7 +1145,9 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 	}
 	if v.AlertingPattern != nil {
 		if len(*v.AlertingPattern) < 1 || len(*v.AlertingPattern) > 1 {
-			return nil, fmt.Errorf("alertingPattern length %d violates SIZE (1)", len(*v.AlertingPattern))
+			if constraintErr := ber.CheckEncodedLength(opts, "alertingPattern", "SIZE (1)", len(*v.AlertingPattern)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_alertingpattern, encodeErr_enc_alertingpattern := ber.EncodeOctetString([]byte(*v.AlertingPattern))
 		if encodeErr_enc_alertingpattern != nil {
@@ -1039,6 +1170,11 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ccbscall...)
 	}
 	if v.SupportedCCBSPhase != nil {
+		if !(int64(*v.SupportedCCBSPhase) >= 1 && int64(*v.SupportedCCBSPhase) <= 127) {
+			if constraintErr := ber.CheckEncodedValue(opts, "supportedCCBS-Phase", "(1..127)", fmt.Sprint(int64(*v.SupportedCCBSPhase))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_supportedccbsphase := ber.EncodeInteger(int64(*v.SupportedCCBSPhase))
 		retagged_enc_supportedccbsphase, tagErr_enc_supportedccbsphase := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, enc_supportedccbsphase)
 		if tagErr_enc_supportedccbsphase != nil {
@@ -1048,7 +1184,7 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_supportedccbsphase...)
 	}
 	if v.AdditionalSignalInfo != nil {
-		enc_additionalsignalinfo, err := v.AdditionalSignalInfo.MarshalBER()
+		enc_additionalsignalinfo, err := v.AdditionalSignalInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding additionalSignalInfo: %w", err)
 		}
@@ -1079,7 +1215,9 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 	}
 	if v.CallDiversionTreatmentIndicator != nil {
 		if len(*v.CallDiversionTreatmentIndicator) < 1 || len(*v.CallDiversionTreatmentIndicator) > 1 {
-			return nil, fmt.Errorf("callDiversionTreatmentIndicator length %d violates SIZE (1)", len(*v.CallDiversionTreatmentIndicator))
+			if constraintErr := ber.CheckEncodedLength(opts, "callDiversionTreatmentIndicator", "SIZE (1)", len(*v.CallDiversionTreatmentIndicator)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_calldiversiontreatmentindicator, encodeErr_enc_calldiversiontreatmentindicator := ber.EncodeOctetString([]byte(*v.CallDiversionTreatmentIndicator))
 		if encodeErr_enc_calldiversiontreatmentindicator != nil {
@@ -1129,7 +1267,7 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_gsmscfinitiatedcall...)
 	}
 	if v.BasicServiceGroup2 != nil {
-		enc_basicservicegroup2, err := v.BasicServiceGroup2.MarshalBER()
+		enc_basicservicegroup2, err := v.BasicServiceGroup2.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceGroup2: %w", err)
 		}
@@ -1143,7 +1281,7 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_basicservicegroup2...)
 	}
 	if v.NetworkSignalInfo2 != nil {
-		enc_networksignalinfo2, err := v.NetworkSignalInfo2.MarshalBER()
+		enc_networksignalinfo2, err := v.NetworkSignalInfo2.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding networkSignalInfo2: %w", err)
 		}
@@ -1156,9 +1294,11 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 	}
 	if v.SuppressMTSS != nil {
 		if (*v.SuppressMTSS).BitLength < 2 || (*v.SuppressMTSS).BitLength > 16 {
-			return nil, fmt.Errorf("suppressMTSS length %d violates SIZE (2..16)", (*v.SuppressMTSS).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "suppressMTSS", "SIZE (2..16)", (*v.SuppressMTSS).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.SuppressMTSS.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1183,6 +1323,11 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mtroamingretrysupported...)
 	}
 	if v.CallPriority != nil {
+		if !(int64(*v.CallPriority) >= 0 && int64(*v.CallPriority) <= 15) {
+			if constraintErr := ber.CheckEncodedValue(opts, "callPriority", "(0..15)", fmt.Sprint(int64(*v.CallPriority))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_callpriority := ber.EncodeInteger(int64(*v.CallPriority))
 		retagged_enc_callpriority, tagErr_enc_callpriority := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 29, enc_callpriority)
 		if tagErr_enc_callpriority != nil {
@@ -1206,12 +1351,19 @@ func (v *SendRoutingInfoArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SendRoutingInfoArg to DER format.
 func (v *SendRoutingInfoArg) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SendRoutingInfoArg receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(v.Msisdn))
+		if constraintErr := ber.CheckEncodedLength(nil, "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-		return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(v.Msisdn))
+		if constraintErr := ber.CheckEncodedLength(nil, "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
 	if encodeErr_enc_msisdn != nil {
@@ -1236,6 +1388,11 @@ func (v *SendRoutingInfoArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_cugcheckinfo...)
 	}
 	if v.NumberOfForwarding != nil {
+		if !(int64(*v.NumberOfForwarding) >= 1 && int64(*v.NumberOfForwarding) <= 5) {
+			if constraintErr := ber.CheckEncodedValue(nil, "numberOfForwarding", "(1..5)", fmt.Sprint(int64(*v.NumberOfForwarding))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_numberofforwarding := ber.EncodeInteger(int64(*v.NumberOfForwarding))
 		retagged_enc_numberofforwarding, tagErr_enc_numberofforwarding := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_numberofforwarding)
 		if tagErr_enc_numberofforwarding != nil {
@@ -1261,6 +1418,11 @@ func (v *SendRoutingInfoArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_orinterrogation...)
 	}
 	if v.OrCapability != nil {
+		if !(int64(*v.OrCapability) >= 1 && int64(*v.OrCapability) <= 127) {
+			if constraintErr := ber.CheckEncodedValue(nil, "or-Capability", "(1..127)", fmt.Sprint(int64(*v.OrCapability))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_orcapability := ber.EncodeInteger(int64(*v.OrCapability))
 		retagged_enc_orcapability, tagErr_enc_orcapability := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_orcapability)
 		if tagErr_enc_orcapability != nil {
@@ -1270,10 +1432,14 @@ func (v *SendRoutingInfoArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_orcapability...)
 	}
 	if len(v.GmscOrGsmSCFAddress) < 1 || len(v.GmscOrGsmSCFAddress) > 9 {
-		return nil, fmt.Errorf("gmsc-OrGsmSCF-Address length %d violates SIZE (1..9)", len(v.GmscOrGsmSCFAddress))
+		if constraintErr := ber.CheckEncodedLength(nil, "gmsc-OrGsmSCF-Address", "SIZE (1..9)", len(v.GmscOrGsmSCFAddress)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.GmscOrGsmSCFAddress) < 1 || len(v.GmscOrGsmSCFAddress) > 20 {
-		return nil, fmt.Errorf("gmsc-OrGsmSCF-Address length %d violates SIZE (1..20)", len(v.GmscOrGsmSCFAddress))
+		if constraintErr := ber.CheckEncodedLength(nil, "gmsc-OrGsmSCF-Address", "SIZE (1..20)", len(v.GmscOrGsmSCFAddress)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_gmscorgsmscfaddress, encodeErr_enc_gmscorgsmscfaddress := ber.EncodeOctetString([]byte(v.GmscOrGsmSCFAddress))
 	if encodeErr_enc_gmscorgsmscfaddress != nil {
@@ -1287,7 +1453,9 @@ func (v *SendRoutingInfoArg) MarshalDER() ([]byte, error) {
 	children = append(children, enc_gmscorgsmscfaddress...)
 	if v.CallReferenceNumber != nil {
 		if len(*v.CallReferenceNumber) < 1 || len(*v.CallReferenceNumber) > 8 {
-			return nil, fmt.Errorf("callReferenceNumber length %d violates SIZE (1..8)", len(*v.CallReferenceNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "callReferenceNumber", "SIZE (1..8)", len(*v.CallReferenceNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_callreferencenumber, encodeErr_enc_callreferencenumber := ber.EncodeOctetString([]byte(*v.CallReferenceNumber))
 		if encodeErr_enc_callreferencenumber != nil {
@@ -1370,7 +1538,9 @@ func (v *SendRoutingInfoArg) MarshalDER() ([]byte, error) {
 	}
 	if v.AlertingPattern != nil {
 		if len(*v.AlertingPattern) < 1 || len(*v.AlertingPattern) > 1 {
-			return nil, fmt.Errorf("alertingPattern length %d violates SIZE (1)", len(*v.AlertingPattern))
+			if constraintErr := ber.CheckEncodedLength(nil, "alertingPattern", "SIZE (1)", len(*v.AlertingPattern)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_alertingpattern, encodeErr_enc_alertingpattern := ber.EncodeOctetString([]byte(*v.AlertingPattern))
 		if encodeErr_enc_alertingpattern != nil {
@@ -1393,6 +1563,11 @@ func (v *SendRoutingInfoArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ccbscall...)
 	}
 	if v.SupportedCCBSPhase != nil {
+		if !(int64(*v.SupportedCCBSPhase) >= 1 && int64(*v.SupportedCCBSPhase) <= 127) {
+			if constraintErr := ber.CheckEncodedValue(nil, "supportedCCBS-Phase", "(1..127)", fmt.Sprint(int64(*v.SupportedCCBSPhase))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_supportedccbsphase := ber.EncodeInteger(int64(*v.SupportedCCBSPhase))
 		retagged_enc_supportedccbsphase, tagErr_enc_supportedccbsphase := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, enc_supportedccbsphase)
 		if tagErr_enc_supportedccbsphase != nil {
@@ -1433,7 +1608,9 @@ func (v *SendRoutingInfoArg) MarshalDER() ([]byte, error) {
 	}
 	if v.CallDiversionTreatmentIndicator != nil {
 		if len(*v.CallDiversionTreatmentIndicator) < 1 || len(*v.CallDiversionTreatmentIndicator) > 1 {
-			return nil, fmt.Errorf("callDiversionTreatmentIndicator length %d violates SIZE (1)", len(*v.CallDiversionTreatmentIndicator))
+			if constraintErr := ber.CheckEncodedLength(nil, "callDiversionTreatmentIndicator", "SIZE (1)", len(*v.CallDiversionTreatmentIndicator)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_calldiversiontreatmentindicator, encodeErr_enc_calldiversiontreatmentindicator := ber.EncodeOctetString([]byte(*v.CallDiversionTreatmentIndicator))
 		if encodeErr_enc_calldiversiontreatmentindicator != nil {
@@ -1510,9 +1687,11 @@ func (v *SendRoutingInfoArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SuppressMTSS != nil {
 		if (*v.SuppressMTSS).BitLength < 2 || (*v.SuppressMTSS).BitLength > 16 {
-			return nil, fmt.Errorf("suppressMTSS length %d violates SIZE (2..16)", (*v.SuppressMTSS).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "suppressMTSS", "SIZE (2..16)", (*v.SuppressMTSS).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.SuppressMTSS.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1537,6 +1716,11 @@ func (v *SendRoutingInfoArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mtroamingretrysupported...)
 	}
 	if v.CallPriority != nil {
+		if !(int64(*v.CallPriority) >= 0 && int64(*v.CallPriority) <= 15) {
+			if constraintErr := ber.CheckEncodedValue(nil, "callPriority", "(0..15)", fmt.Sprint(int64(*v.CallPriority))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_callpriority := ber.EncodeInteger(int64(*v.CallPriority))
 		retagged_enc_callpriority, tagErr_enc_callpriority := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 29, enc_callpriority)
 		if tagErr_enc_callpriority != nil {
@@ -1562,11 +1746,27 @@ func (v *SendRoutingInfoArg) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SendRoutingInfoArg from BER/DER format.
-func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SendRoutingInfoArg destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SendRoutingInfoArg{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SendRoutingInfoArg SEQUENCE: %w", err)
@@ -1599,10 +1799,14 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 	offset += n_msisdn
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-		return fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(v.Msisdn))
+		if constraintErr := ber.CheckDecodedLength(opts, "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-		return fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(v.Msisdn))
+		if constraintErr := ber.CheckDecodedLength(opts, "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode cug-CheckInfo
 	if offset < len(content) {
@@ -1621,7 +1825,7 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					return fmt.Errorf("decoding cug-CheckInfo: %w", reconstructionErr_cugcheckinfo)
 				}
 				var dec_cugcheckinfo CUGCheckInfo
-				if unmErr := dec_cugcheckinfo.UnmarshalBER(reconstructed_cugcheckinfo, opts...); unmErr != nil {
+				if unmErr := dec_cugcheckinfo.UnmarshalBER(reconstructed_cugcheckinfo, ber.ChildDecodeOptions(opts, "cugcheckinfo")...); unmErr != nil {
 					return fmt.Errorf("decoding cug-CheckInfo: %w", unmErr)
 				}
 				v.CugCheckInfo = &dec_cugcheckinfo
@@ -1660,6 +1864,11 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_numberofforwarding
+				if !(int64(*v.NumberOfForwarding) >= 1 && int64(*v.NumberOfForwarding) <= 5) {
+					if constraintErr := ber.CheckDecodedValue(opts, "numberOfForwarding", "(1..5)", fmt.Sprint(int64(*v.NumberOfForwarding))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -1742,6 +1951,11 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_orcapability
+				if !(int64(*v.OrCapability) >= 1 && int64(*v.OrCapability) <= 127) {
+					if constraintErr := ber.CheckDecodedValue(opts, "or-Capability", "(1..127)", fmt.Sprint(int64(*v.OrCapability))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -1770,10 +1984,14 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 	offset += n_gmscorgsmscfaddress
 	if len(v.GmscOrGsmSCFAddress) < 1 || len(v.GmscOrGsmSCFAddress) > 9 {
-		return fmt.Errorf("gmsc-OrGsmSCF-Address length %d violates SIZE (1..9)", len(v.GmscOrGsmSCFAddress))
+		if constraintErr := ber.CheckDecodedLength(opts, "gmsc-OrGsmSCF-Address", "SIZE (1..9)", len(v.GmscOrGsmSCFAddress)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	if len(v.GmscOrGsmSCFAddress) < 1 || len(v.GmscOrGsmSCFAddress) > 20 {
-		return fmt.Errorf("gmsc-OrGsmSCF-Address length %d violates SIZE (1..20)", len(v.GmscOrGsmSCFAddress))
+		if constraintErr := ber.CheckDecodedLength(opts, "gmsc-OrGsmSCF-Address", "SIZE (1..20)", len(v.GmscOrGsmSCFAddress)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode callReferenceNumber
 	if offset < len(content) {
@@ -1797,7 +2015,9 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_callreferencenumber
 				if len(*v.CallReferenceNumber) < 1 || len(*v.CallReferenceNumber) > 8 {
-					return fmt.Errorf("callReferenceNumber length %d violates SIZE (1..8)", len(*v.CallReferenceNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "callReferenceNumber", "SIZE (1..8)", len(*v.CallReferenceNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -1844,7 +2064,7 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_basicservicegroup ExtBasicServiceCode
-				if unmErr := dec_basicservicegroup.UnmarshalBER(innerData_basicservicegroup, opts...); unmErr != nil {
+				if unmErr := dec_basicservicegroup.UnmarshalBER(innerData_basicservicegroup, ber.ChildDecodeOptions(opts, "basicservicegroup")...); unmErr != nil {
 					return fmt.Errorf("decoding basicServiceGroup: %w", unmErr)
 				}
 				v.BasicServiceGroup = &dec_basicservicegroup
@@ -1875,7 +2095,7 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					return fmt.Errorf("decoding networkSignalInfo: %w", reconstructionErr_networksignalinfo)
 				}
 				var dec_networksignalinfo ExternalSignalInfo
-				if unmErr := dec_networksignalinfo.UnmarshalBER(reconstructed_networksignalinfo, opts...); unmErr != nil {
+				if unmErr := dec_networksignalinfo.UnmarshalBER(reconstructed_networksignalinfo, ber.ChildDecodeOptions(opts, "networksignalinfo")...); unmErr != nil {
 					return fmt.Errorf("decoding networkSignalInfo: %w", unmErr)
 				}
 				v.NetworkSignalInfo = &dec_networksignalinfo
@@ -1906,7 +2126,7 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					return fmt.Errorf("decoding camelInfo: %w", reconstructionErr_camelinfo)
 				}
 				var dec_camelinfo CamelInfo
-				if unmErr := dec_camelinfo.UnmarshalBER(reconstructed_camelinfo, opts...); unmErr != nil {
+				if unmErr := dec_camelinfo.UnmarshalBER(reconstructed_camelinfo, ber.ChildDecodeOptions(opts, "camelinfo")...); unmErr != nil {
 					return fmt.Errorf("decoding camelInfo: %w", unmErr)
 				}
 				v.CamelInfo = &dec_camelinfo
@@ -1962,7 +2182,7 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -1998,7 +2218,9 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_alertingpattern
 				if len(*v.AlertingPattern) < 1 || len(*v.AlertingPattern) > 1 {
-					return fmt.Errorf("alertingPattern length %d violates SIZE (1)", len(*v.AlertingPattern))
+					if constraintErr := ber.CheckDecodedLength(opts, "alertingPattern", "SIZE (1)", len(*v.AlertingPattern)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -2053,6 +2275,11 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_supportedccbsphase
+				if !(int64(*v.SupportedCCBSPhase) >= 1 && int64(*v.SupportedCCBSPhase) <= 127) {
+					if constraintErr := ber.CheckDecodedValue(opts, "supportedCCBS-Phase", "(1..127)", fmt.Sprint(int64(*v.SupportedCCBSPhase))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -2073,7 +2300,7 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					return fmt.Errorf("decoding additionalSignalInfo: %w", reconstructionErr_additionalsignalinfo)
 				}
 				var dec_additionalsignalinfo ExtExternalSignalInfo
-				if unmErr := dec_additionalsignalinfo.UnmarshalBER(reconstructed_additionalsignalinfo, opts...); unmErr != nil {
+				if unmErr := dec_additionalsignalinfo.UnmarshalBER(reconstructed_additionalsignalinfo, ber.ChildDecodeOptions(opts, "additionalsignalinfo")...); unmErr != nil {
 					return fmt.Errorf("decoding additionalSignalInfo: %w", unmErr)
 				}
 				v.AdditionalSignalInfo = &dec_additionalsignalinfo
@@ -2163,7 +2390,9 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_calldiversiontreatmentindicator
 				if len(*v.CallDiversionTreatmentIndicator) < 1 || len(*v.CallDiversionTreatmentIndicator) > 1 {
-					return fmt.Errorf("callDiversionTreatmentIndicator length %d violates SIZE (1)", len(*v.CallDiversionTreatmentIndicator))
+					if constraintErr := ber.CheckDecodedLength(opts, "callDiversionTreatmentIndicator", "SIZE (1)", len(*v.CallDiversionTreatmentIndicator)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -2285,7 +2514,7 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_basicservicegroup2 ExtBasicServiceCode
-				if unmErr := dec_basicservicegroup2.UnmarshalBER(innerData_basicservicegroup2, opts...); unmErr != nil {
+				if unmErr := dec_basicservicegroup2.UnmarshalBER(innerData_basicservicegroup2, ber.ChildDecodeOptions(opts, "basicservicegroup2")...); unmErr != nil {
 					return fmt.Errorf("decoding basicServiceGroup2: %w", unmErr)
 				}
 				v.BasicServiceGroup2 = &dec_basicservicegroup2
@@ -2316,7 +2545,7 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					return fmt.Errorf("decoding networkSignalInfo2: %w", reconstructionErr_networksignalinfo2)
 				}
 				var dec_networksignalinfo2 ExternalSignalInfo
-				if unmErr := dec_networksignalinfo2.UnmarshalBER(reconstructed_networksignalinfo2, opts...); unmErr != nil {
+				if unmErr := dec_networksignalinfo2.UnmarshalBER(reconstructed_networksignalinfo2, ber.ChildDecodeOptions(opts, "networksignalinfo2")...); unmErr != nil {
 					return fmt.Errorf("decoding networkSignalInfo2: %w", unmErr)
 				}
 				v.NetworkSignalInfo2 = &dec_networksignalinfo2
@@ -2360,7 +2589,9 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_suppressmtss
 				if (*v.SuppressMTSS).BitLength < 2 || (*v.SuppressMTSS).BitLength > 16 {
-					return fmt.Errorf("suppressMTSS length %d violates SIZE (2..16)", (*v.SuppressMTSS).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "suppressMTSS", "SIZE (2..16)", (*v.SuppressMTSS).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -2416,6 +2647,11 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_callpriority
+				if !(int64(*v.CallPriority) >= 0 && int64(*v.CallPriority) <= 15) {
+					if constraintErr := ber.CheckDecodedValue(opts, "callPriority", "(0..15)", fmt.Sprint(int64(*v.CallPriority))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -2446,11 +2682,26 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 }
 
 // MarshalBER encodes SendRoutingInfoRes to BER format.
-func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
+func (v *SendRoutingInfoRes) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SendRoutingInfoRes receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SendRoutingInfoRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -2464,14 +2715,14 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if v.ExtendedRoutingInfo != nil {
-		enc_extendedroutinginfo, err := v.ExtendedRoutingInfo.MarshalBER()
+		enc_extendedroutinginfo, err := v.ExtendedRoutingInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extendedRoutingInfo: %w", err)
 		}
 		children = append(children, enc_extendedroutinginfo...)
 	}
 	if v.CugCheckInfo != nil {
-		enc_cugcheckinfo, err := v.CugCheckInfo.MarshalBER()
+		enc_cugcheckinfo, err := v.CugCheckInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cug-CheckInfo: %w", err)
 		}
@@ -2492,7 +2743,7 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_cugsubscriptionflag...)
 	}
 	if v.SubscriberInfo != nil {
-		enc_subscriberinfo, err := v.SubscriberInfo.MarshalBER()
+		enc_subscriberinfo, err := v.SubscriberInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding subscriberInfo: %w", err)
 		}
@@ -2504,10 +2755,12 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_subscriberinfo...)
 	}
 	if v.SsList != nil {
-		if len(v.SsList) < 1 || len(v.SsList) > 30 {
-			return nil, fmt.Errorf("ss-List length %d violates SIZE (1..30)", len(v.SsList))
+		if len((v.SsList).Values) < 1 || len((v.SsList).Values) > 30 {
+			if constraintErr := ber.CheckEncodedLength(opts, "ss-List", "SIZE (1..30)", len((v.SsList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_sslist, err := MarshalBERSSList(v.SsList)
+		enc_sslist, err := MarshalBERSSList(v.SsList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ss-List: %w", err)
 		}
@@ -2534,7 +2787,7 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_sslist...)
 	}
 	if v.BasicService != nil {
-		enc_basicservice, err := v.BasicService.MarshalBER()
+		enc_basicservice, err := v.BasicService.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicService: %w", err)
 		}
@@ -2558,10 +2811,14 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 	}
 	if v.VmscAddress != nil {
 		if len(*v.VmscAddress) < 1 || len(*v.VmscAddress) > 9 {
-			return nil, fmt.Errorf("vmsc-Address length %d violates SIZE (1..9)", len(*v.VmscAddress))
+			if constraintErr := ber.CheckEncodedLength(opts, "vmsc-Address", "SIZE (1..9)", len(*v.VmscAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.VmscAddress) < 1 || len(*v.VmscAddress) > 20 {
-			return nil, fmt.Errorf("vmsc-Address length %d violates SIZE (1..20)", len(*v.VmscAddress))
+			if constraintErr := ber.CheckEncodedLength(opts, "vmsc-Address", "SIZE (1..20)", len(*v.VmscAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_vmscaddress, encodeErr_enc_vmscaddress := ber.EncodeOctetString([]byte(*v.VmscAddress))
 		if encodeErr_enc_vmscaddress != nil {
@@ -2575,7 +2832,7 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_vmscaddress...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -2587,7 +2844,7 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.NaeaPreferredCI != nil {
-		enc_naeapreferredci, err := v.NaeaPreferredCI.MarshalBER()
+		enc_naeapreferredci, err := v.NaeaPreferredCI.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding naea-PreferredCI: %w", err)
 		}
@@ -2599,7 +2856,7 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_naeapreferredci...)
 	}
 	if v.CcbsIndicators != nil {
-		enc_ccbsindicators, err := v.CcbsIndicators.MarshalBER()
+		enc_ccbsindicators, err := v.CcbsIndicators.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ccbs-Indicators: %w", err)
 		}
@@ -2612,10 +2869,14 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 	}
 	if v.Msisdn != nil {
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+			if constraintErr := ber.CheckEncodedLength(opts, "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+			if constraintErr := ber.CheckEncodedLength(opts, "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
@@ -2638,6 +2899,11 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_numberportabilitystatus...)
 	}
 	if v.IstAlertTimer != nil {
+		if !(int64(*v.IstAlertTimer) >= 15 && int64(*v.IstAlertTimer) <= 255) {
+			if constraintErr := ber.CheckEncodedValue(opts, "istAlertTimer", "(15..255)", fmt.Sprint(int64(*v.IstAlertTimer))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_istalerttimer := ber.EncodeInteger(int64(*v.IstAlertTimer))
 		retagged_enc_istalerttimer, tagErr_enc_istalerttimer := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, enc_istalerttimer)
 		if tagErr_enc_istalerttimer != nil {
@@ -2648,9 +2914,11 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 	}
 	if v.SupportedCamelPhasesInVMSC != nil {
 		if (*v.SupportedCamelPhasesInVMSC).BitLength < 1 || (*v.SupportedCamelPhasesInVMSC).BitLength > 16 {
-			return nil, fmt.Errorf("supportedCamelPhasesInVMSC length %d violates SIZE (1..16)", (*v.SupportedCamelPhasesInVMSC).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "supportedCamelPhasesInVMSC", "SIZE (1..16)", (*v.SupportedCamelPhasesInVMSC).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.SupportedCamelPhasesInVMSC.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2667,9 +2935,11 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 	}
 	if v.OfferedCamel4CSIsInVMSC != nil {
 		if (*v.OfferedCamel4CSIsInVMSC).BitLength < 7 || (*v.OfferedCamel4CSIsInVMSC).BitLength > 16 {
-			return nil, fmt.Errorf("offeredCamel4CSIsInVMSC length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIsInVMSC).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "offeredCamel4CSIsInVMSC", "SIZE (7..16)", (*v.OfferedCamel4CSIsInVMSC).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.OfferedCamel4CSIsInVMSC.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2685,7 +2955,7 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_offeredcamel4csisinvmsc...)
 	}
 	if v.RoutingInfo2 != nil {
-		enc_routinginfo2, err := v.RoutingInfo2.MarshalBER()
+		enc_routinginfo2, err := v.RoutingInfo2.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding routingInfo2: %w", err)
 		}
@@ -2699,10 +2969,12 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_routinginfo2...)
 	}
 	if v.SsList2 != nil {
-		if len(v.SsList2) < 1 || len(v.SsList2) > 30 {
-			return nil, fmt.Errorf("ss-List2 length %d violates SIZE (1..30)", len(v.SsList2))
+		if len((v.SsList2).Values) < 1 || len((v.SsList2).Values) > 30 {
+			if constraintErr := ber.CheckEncodedLength(opts, "ss-List2", "SIZE (1..30)", len((v.SsList2).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_sslist2, err := MarshalBERSSList(v.SsList2)
+		enc_sslist2, err := MarshalBERSSList(v.SsList2, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ss-List2: %w", err)
 		}
@@ -2729,7 +3001,7 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_sslist2...)
 	}
 	if v.BasicService2 != nil {
-		enc_basicservice2, err := v.BasicService2.MarshalBER()
+		enc_basicservice2, err := v.BasicService2.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicService2: %w", err)
 		}
@@ -2744,9 +3016,11 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 	}
 	if v.AllowedServices != nil {
 		if (*v.AllowedServices).BitLength < 2 || (*v.AllowedServices).BitLength > 8 {
-			return nil, fmt.Errorf("allowedServices length %d violates SIZE (2..8)", (*v.AllowedServices).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "allowedServices", "SIZE (2..8)", (*v.AllowedServices).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.AllowedServices.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -2780,7 +3054,7 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_releaseresourcessupported...)
 	}
 	if v.GsmBearerCapability != nil {
-		enc_gsmbearercapability, err := v.GsmBearerCapability.MarshalBER()
+		enc_gsmbearercapability, err := v.GsmBearerCapability.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding gsm-BearerCapability: %w", err)
 		}
@@ -2806,10 +3080,15 @@ func (v *SendRoutingInfoRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SendRoutingInfoRes to DER format.
 func (v *SendRoutingInfoRes) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SendRoutingInfoRes receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -2863,8 +3142,10 @@ func (v *SendRoutingInfoRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_subscriberinfo...)
 	}
 	if v.SsList != nil {
-		if len(v.SsList) < 1 || len(v.SsList) > 30 {
-			return nil, fmt.Errorf("ss-List length %d violates SIZE (1..30)", len(v.SsList))
+		if len((v.SsList).Values) < 1 || len((v.SsList).Values) > 30 {
+			if constraintErr := ber.CheckEncodedLength(nil, "ss-List", "SIZE (1..30)", len((v.SsList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_sslist, err := MarshalDERSSList(v.SsList)
 		if err != nil {
@@ -2902,10 +3183,14 @@ func (v *SendRoutingInfoRes) MarshalDER() ([]byte, error) {
 	}
 	if v.VmscAddress != nil {
 		if len(*v.VmscAddress) < 1 || len(*v.VmscAddress) > 9 {
-			return nil, fmt.Errorf("vmsc-Address length %d violates SIZE (1..9)", len(*v.VmscAddress))
+			if constraintErr := ber.CheckEncodedLength(nil, "vmsc-Address", "SIZE (1..9)", len(*v.VmscAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.VmscAddress) < 1 || len(*v.VmscAddress) > 20 {
-			return nil, fmt.Errorf("vmsc-Address length %d violates SIZE (1..20)", len(*v.VmscAddress))
+			if constraintErr := ber.CheckEncodedLength(nil, "vmsc-Address", "SIZE (1..20)", len(*v.VmscAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_vmscaddress, encodeErr_enc_vmscaddress := ber.EncodeOctetString([]byte(*v.VmscAddress))
 		if encodeErr_enc_vmscaddress != nil {
@@ -2956,10 +3241,14 @@ func (v *SendRoutingInfoRes) MarshalDER() ([]byte, error) {
 	}
 	if v.Msisdn != nil {
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+			if constraintErr := ber.CheckEncodedLength(nil, "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+			if constraintErr := ber.CheckEncodedLength(nil, "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
@@ -2982,6 +3271,11 @@ func (v *SendRoutingInfoRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_numberportabilitystatus...)
 	}
 	if v.IstAlertTimer != nil {
+		if !(int64(*v.IstAlertTimer) >= 15 && int64(*v.IstAlertTimer) <= 255) {
+			if constraintErr := ber.CheckEncodedValue(nil, "istAlertTimer", "(15..255)", fmt.Sprint(int64(*v.IstAlertTimer))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_istalerttimer := ber.EncodeInteger(int64(*v.IstAlertTimer))
 		retagged_enc_istalerttimer, tagErr_enc_istalerttimer := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, enc_istalerttimer)
 		if tagErr_enc_istalerttimer != nil {
@@ -2992,9 +3286,11 @@ func (v *SendRoutingInfoRes) MarshalDER() ([]byte, error) {
 	}
 	if v.SupportedCamelPhasesInVMSC != nil {
 		if (*v.SupportedCamelPhasesInVMSC).BitLength < 1 || (*v.SupportedCamelPhasesInVMSC).BitLength > 16 {
-			return nil, fmt.Errorf("supportedCamelPhasesInVMSC length %d violates SIZE (1..16)", (*v.SupportedCamelPhasesInVMSC).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "supportedCamelPhasesInVMSC", "SIZE (1..16)", (*v.SupportedCamelPhasesInVMSC).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.SupportedCamelPhasesInVMSC.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3011,9 +3307,11 @@ func (v *SendRoutingInfoRes) MarshalDER() ([]byte, error) {
 	}
 	if v.OfferedCamel4CSIsInVMSC != nil {
 		if (*v.OfferedCamel4CSIsInVMSC).BitLength < 7 || (*v.OfferedCamel4CSIsInVMSC).BitLength > 16 {
-			return nil, fmt.Errorf("offeredCamel4CSIsInVMSC length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIsInVMSC).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "offeredCamel4CSIsInVMSC", "SIZE (7..16)", (*v.OfferedCamel4CSIsInVMSC).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.OfferedCamel4CSIsInVMSC.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3043,8 +3341,10 @@ func (v *SendRoutingInfoRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_routinginfo2...)
 	}
 	if v.SsList2 != nil {
-		if len(v.SsList2) < 1 || len(v.SsList2) > 30 {
-			return nil, fmt.Errorf("ss-List2 length %d violates SIZE (1..30)", len(v.SsList2))
+		if len((v.SsList2).Values) < 1 || len((v.SsList2).Values) > 30 {
+			if constraintErr := ber.CheckEncodedLength(nil, "ss-List2", "SIZE (1..30)", len((v.SsList2).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_sslist2, err := MarshalDERSSList(v.SsList2)
 		if err != nil {
@@ -3073,9 +3373,11 @@ func (v *SendRoutingInfoRes) MarshalDER() ([]byte, error) {
 	}
 	if v.AllowedServices != nil {
 		if (*v.AllowedServices).BitLength < 2 || (*v.AllowedServices).BitLength > 8 {
-			return nil, fmt.Errorf("allowedServices length %d violates SIZE (2..8)", (*v.AllowedServices).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "allowedServices", "SIZE (2..8)", (*v.AllowedServices).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.AllowedServices.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -3142,11 +3444,27 @@ func (v *SendRoutingInfoRes) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SendRoutingInfoRes from BER/DER format.
-func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SendRoutingInfoRes destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SendRoutingInfoRes{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SendRoutingInfoRes: %w", err)
@@ -3179,7 +3497,9 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_imsi
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+					if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3201,7 +3521,7 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extendedroutinginfo.UnmarshalBER(content[offset:offset+n_extendedroutinginfo], opts...); unmErr != nil {
+				if unmErr := dec_extendedroutinginfo.UnmarshalBER(content[offset:offset+n_extendedroutinginfo], ber.ChildDecodeOptions(opts, "extendedroutinginfo")...); unmErr != nil {
 					return fmt.Errorf("decoding extendedRoutingInfo: %w", unmErr)
 				}
 				v.ExtendedRoutingInfo = &dec_extendedroutinginfo
@@ -3232,7 +3552,7 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					return fmt.Errorf("decoding cug-CheckInfo: %w", reconstructionErr_cugcheckinfo)
 				}
 				var dec_cugcheckinfo CUGCheckInfo
-				if unmErr := dec_cugcheckinfo.UnmarshalBER(reconstructed_cugcheckinfo, opts...); unmErr != nil {
+				if unmErr := dec_cugcheckinfo.UnmarshalBER(reconstructed_cugcheckinfo, ber.ChildDecodeOptions(opts, "cugcheckinfo")...); unmErr != nil {
 					return fmt.Errorf("decoding cug-CheckInfo: %w", unmErr)
 				}
 				v.CugCheckInfo = &dec_cugcheckinfo
@@ -3289,7 +3609,7 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					return fmt.Errorf("decoding subscriberInfo: %w", reconstructionErr_subscriberinfo)
 				}
 				var dec_subscriberinfo SubscriberInfo
-				if unmErr := dec_subscriberinfo.UnmarshalBER(reconstructed_subscriberinfo, opts...); unmErr != nil {
+				if unmErr := dec_subscriberinfo.UnmarshalBER(reconstructed_subscriberinfo, ber.ChildDecodeOptions(opts, "subscriberinfo")...); unmErr != nil {
 					return fmt.Errorf("decoding subscriberInfo: %w", unmErr)
 				}
 				v.SubscriberInfo = &dec_subscriberinfo
@@ -3320,7 +3640,7 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if reconstructionErr_sslist != nil {
 					return fmt.Errorf("decoding ss-List: %w", reconstructionErr_sslist)
 				}
-				dec_sslist, unmErr := UnmarshalBERSSList(reconstructed_sslist, opts...)
+				dec_sslist, unmErr := UnmarshalBERSSList(reconstructed_sslist, ber.ChildDecodeOptions(opts, "ss-List")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding ss-List: %w", unmErr)
 				}
@@ -3342,8 +3662,10 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_sslist
-				if len(v.SsList) < 1 || len(v.SsList) > 30 {
-					return fmt.Errorf("ss-List length %d violates SIZE (1..30)", len(v.SsList))
+				if len((v.SsList).Values) < 1 || len((v.SsList).Values) > 30 {
+					if constraintErr := ber.CheckDecodedLength(opts, "ss-List", "SIZE (1..30)", len((v.SsList).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3362,7 +3684,7 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_basicservice ExtBasicServiceCode
-				if unmErr := dec_basicservice.UnmarshalBER(innerData_basicservice, opts...); unmErr != nil {
+				if unmErr := dec_basicservice.UnmarshalBER(innerData_basicservice, ber.ChildDecodeOptions(opts, "basicservice")...); unmErr != nil {
 					return fmt.Errorf("decoding basicService: %w", unmErr)
 				}
 				v.BasicService = &dec_basicservice
@@ -3423,10 +3745,14 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_vmscaddress
 				if len(*v.VmscAddress) < 1 || len(*v.VmscAddress) > 9 {
-					return fmt.Errorf("vmsc-Address length %d violates SIZE (1..9)", len(*v.VmscAddress))
+					if constraintErr := ber.CheckDecodedLength(opts, "vmsc-Address", "SIZE (1..9)", len(*v.VmscAddress)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 				if len(*v.VmscAddress) < 1 || len(*v.VmscAddress) > 20 {
-					return fmt.Errorf("vmsc-Address length %d violates SIZE (1..20)", len(*v.VmscAddress))
+					if constraintErr := ber.CheckDecodedLength(opts, "vmsc-Address", "SIZE (1..20)", len(*v.VmscAddress)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3448,7 +3774,7 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -3479,7 +3805,7 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					return fmt.Errorf("decoding naea-PreferredCI: %w", reconstructionErr_naeapreferredci)
 				}
 				var dec_naeapreferredci NAEAPreferredCI
-				if unmErr := dec_naeapreferredci.UnmarshalBER(reconstructed_naeapreferredci, opts...); unmErr != nil {
+				if unmErr := dec_naeapreferredci.UnmarshalBER(reconstructed_naeapreferredci, ber.ChildDecodeOptions(opts, "naeapreferredci")...); unmErr != nil {
 					return fmt.Errorf("decoding naea-PreferredCI: %w", unmErr)
 				}
 				v.NaeaPreferredCI = &dec_naeapreferredci
@@ -3510,7 +3836,7 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					return fmt.Errorf("decoding ccbs-Indicators: %w", reconstructionErr_ccbsindicators)
 				}
 				var dec_ccbsindicators CCBSIndicators
-				if unmErr := dec_ccbsindicators.UnmarshalBER(reconstructed_ccbsindicators, opts...); unmErr != nil {
+				if unmErr := dec_ccbsindicators.UnmarshalBER(reconstructed_ccbsindicators, ber.ChildDecodeOptions(opts, "ccbsindicators")...); unmErr != nil {
 					return fmt.Errorf("decoding ccbs-Indicators: %w", unmErr)
 				}
 				v.CcbsIndicators = &dec_ccbsindicators
@@ -3545,10 +3871,14 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_msisdn
 				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-					return fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+					if constraintErr := ber.CheckDecodedLength(opts, "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-					return fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+					if constraintErr := ber.CheckDecodedLength(opts, "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3605,6 +3935,11 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_istalerttimer
+				if !(int64(*v.IstAlertTimer) >= 15 && int64(*v.IstAlertTimer) <= 255) {
+					if constraintErr := ber.CheckDecodedValue(opts, "istAlertTimer", "(15..255)", fmt.Sprint(int64(*v.IstAlertTimer))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -3638,7 +3973,9 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_supportedcamelphasesinvmsc
 				if (*v.SupportedCamelPhasesInVMSC).BitLength < 1 || (*v.SupportedCamelPhasesInVMSC).BitLength > 16 {
-					return fmt.Errorf("supportedCamelPhasesInVMSC length %d violates SIZE (1..16)", (*v.SupportedCamelPhasesInVMSC).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "supportedCamelPhasesInVMSC", "SIZE (1..16)", (*v.SupportedCamelPhasesInVMSC).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3673,7 +4010,9 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_offeredcamel4csisinvmsc
 				if (*v.OfferedCamel4CSIsInVMSC).BitLength < 7 || (*v.OfferedCamel4CSIsInVMSC).BitLength > 16 {
-					return fmt.Errorf("offeredCamel4CSIsInVMSC length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIsInVMSC).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "offeredCamel4CSIsInVMSC", "SIZE (7..16)", (*v.OfferedCamel4CSIsInVMSC).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3692,7 +4031,7 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_routinginfo2 RoutingInfo
-				if unmErr := dec_routinginfo2.UnmarshalBER(innerData_routinginfo2, opts...); unmErr != nil {
+				if unmErr := dec_routinginfo2.UnmarshalBER(innerData_routinginfo2, ber.ChildDecodeOptions(opts, "routinginfo2")...); unmErr != nil {
 					return fmt.Errorf("decoding routingInfo2: %w", unmErr)
 				}
 				v.RoutingInfo2 = &dec_routinginfo2
@@ -3723,7 +4062,7 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if reconstructionErr_sslist2 != nil {
 					return fmt.Errorf("decoding ss-List2: %w", reconstructionErr_sslist2)
 				}
-				dec_sslist2, unmErr := UnmarshalBERSSList(reconstructed_sslist2, opts...)
+				dec_sslist2, unmErr := UnmarshalBERSSList(reconstructed_sslist2, ber.ChildDecodeOptions(opts, "ss-List2")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding ss-List2: %w", unmErr)
 				}
@@ -3745,8 +4084,10 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 
 				offset += n_sslist2
-				if len(v.SsList2) < 1 || len(v.SsList2) > 30 {
-					return fmt.Errorf("ss-List2 length %d violates SIZE (1..30)", len(v.SsList2))
+				if len((v.SsList2).Values) < 1 || len((v.SsList2).Values) > 30 {
+					if constraintErr := ber.CheckDecodedLength(opts, "ss-List2", "SIZE (1..30)", len((v.SsList2).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3765,7 +4106,7 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_basicservice2 ExtBasicServiceCode
-				if unmErr := dec_basicservice2.UnmarshalBER(innerData_basicservice2, opts...); unmErr != nil {
+				if unmErr := dec_basicservice2.UnmarshalBER(innerData_basicservice2, ber.ChildDecodeOptions(opts, "basicservice2")...); unmErr != nil {
 					return fmt.Errorf("decoding basicService2: %w", unmErr)
 				}
 				v.BasicService2 = &dec_basicservice2
@@ -3808,7 +4149,9 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_allowedservices
 				if (*v.AllowedServices).BitLength < 2 || (*v.AllowedServices).BitLength > 8 {
-					return fmt.Errorf("allowedServices length %d violates SIZE (2..8)", (*v.AllowedServices).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "allowedServices", "SIZE (2..8)", (*v.AllowedServices).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -3884,7 +4227,7 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					return fmt.Errorf("decoding gsm-BearerCapability: %w", reconstructionErr_gsmbearercapability)
 				}
 				var dec_gsmbearercapability ExternalSignalInfo
-				if unmErr := dec_gsmbearercapability.UnmarshalBER(reconstructed_gsmbearercapability, opts...); unmErr != nil {
+				if unmErr := dec_gsmbearercapability.UnmarshalBER(reconstructed_gsmbearercapability, ber.ChildDecodeOptions(opts, "gsmbearercapability")...); unmErr != nil {
 					return fmt.Errorf("decoding gsm-BearerCapability: %w", unmErr)
 				}
 				v.GsmBearerCapability = &dec_gsmbearercapability
@@ -3925,7 +4268,20 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 }
 
 // MarshalBER encodes CCBSIndicators to BER format.
-func (v *CCBSIndicators) MarshalBER() ([]byte, error) {
+func (v *CCBSIndicators) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CCBSIndicators receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CCBSIndicators) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.CcbsPossible != nil {
 		enc_ccbspossible := ber.EncodeNull()
@@ -3946,7 +4302,7 @@ func (v *CCBSIndicators) MarshalBER() ([]byte, error) {
 		children = append(children, enc_keepccbscallindicator...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -3972,6 +4328,9 @@ func (v *CCBSIndicators) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CCBSIndicators to DER format.
 func (v *CCBSIndicators) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CCBSIndicators receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.CcbsPossible != nil {
 		enc_ccbspossible := ber.EncodeNull()
@@ -4020,11 +4379,27 @@ func (v *CCBSIndicators) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CCBSIndicators from BER/DER format.
-func (v *CCBSIndicators) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CCBSIndicators) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CCBSIndicators destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CCBSIndicators{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CCBSIndicators SEQUENCE: %w", err)
@@ -4102,7 +4477,7 @@ func (v *CCBSIndicators) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -4143,28 +4518,45 @@ func (v *CCBSIndicators) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 }
 
 // MarshalBER encodes RoutingInfo to BER format.
-func (v *RoutingInfo) MarshalBER() ([]byte, error) {
+func (v *RoutingInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RoutingInfo receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *RoutingInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case RoutingInfoChoiceRoamingNumber:
 		if v.RoamingNumber == nil {
-			return nil, fmt.Errorf("choice RoutingInfo: roamingNumber is nil")
+			return nil, fmt.Errorf("%w: choice RoutingInfo: roamingNumber is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeOctetString([]byte(*v.RoamingNumber))
 		if encodeErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding roamingNumber: %w", encodeErr_enc_0)
 		}
 		if len(*v.RoamingNumber) < 1 || len(*v.RoamingNumber) > 9 {
-			return nil, fmt.Errorf("roamingNumber length %d violates SIZE (1..9)", len(*v.RoamingNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "roamingNumber", "SIZE (1..9)", len(*v.RoamingNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.RoamingNumber) < 1 || len(*v.RoamingNumber) > 20 {
-			return nil, fmt.Errorf("roamingNumber length %d violates SIZE (1..20)", len(*v.RoamingNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "roamingNumber", "SIZE (1..20)", len(*v.RoamingNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		return enc_0, nil
 	case RoutingInfoChoiceForwardingData:
 		if v.ForwardingData == nil {
-			return nil, fmt.Errorf("choice RoutingInfo: forwardingData is nil")
+			return nil, fmt.Errorf("%w: choice RoutingInfo: forwardingData is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.ForwardingData.MarshalBER()
+		enc_1, err := v.ForwardingData.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding forwardingData: %w", err)
 		}
@@ -4176,10 +4568,13 @@ func (v *RoutingInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RoutingInfo to DER format.
 func (v *RoutingInfo) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RoutingInfo receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case RoutingInfoChoiceForwardingData:
 		if v.ForwardingData == nil {
-			return nil, fmt.Errorf("choice RoutingInfo: forwardingData is nil")
+			return nil, fmt.Errorf("%w: choice RoutingInfo: forwardingData is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.ForwardingData.MarshalDER()
 		if err != nil {
@@ -4201,7 +4596,23 @@ func (v *RoutingInfo) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes RoutingInfo from BER/DER format.
-func (v *RoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *RoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: RoutingInfo destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -4232,10 +4643,14 @@ func (v *RoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 		tmp := ISDNAddressString(decVal)
 		v.RoamingNumber = &tmp
 		if len(*v.RoamingNumber) < 1 || len(*v.RoamingNumber) > 9 {
-			return fmt.Errorf("roamingNumber length %d violates SIZE (1..9)", len(*v.RoamingNumber))
+			if constraintErr := ber.CheckDecodedLength(opts, "roamingNumber", "SIZE (1..9)", len(*v.RoamingNumber)); constraintErr != nil {
+				return constraintErr
+			}
 		}
 		if len(*v.RoamingNumber) < 1 || len(*v.RoamingNumber) > 20 {
-			return fmt.Errorf("roamingNumber length %d violates SIZE (1..20)", len(*v.RoamingNumber))
+			if constraintErr := ber.CheckDecodedLength(opts, "roamingNumber", "SIZE (1..20)", len(*v.RoamingNumber)); constraintErr != nil {
+				return constraintErr
+			}
 		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 && peekTag.Constructed == true {
 		v.Choice = RoutingInfoChoiceForwardingData
@@ -4251,14 +4666,31 @@ func (v *RoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 }
 
 // MarshalBER encodes ForwardingData to BER format.
-func (v *ForwardingData) MarshalBER() ([]byte, error) {
+func (v *ForwardingData) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ForwardingData receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ForwardingData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ForwardedToNumber != nil {
 		if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 9 {
-			return nil, fmt.Errorf("forwardedToNumber length %d violates SIZE (1..9)", len(*v.ForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "forwardedToNumber", "SIZE (1..9)", len(*v.ForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 20 {
-			return nil, fmt.Errorf("forwardedToNumber length %d violates SIZE (1..20)", len(*v.ForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "forwardedToNumber", "SIZE (1..20)", len(*v.ForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_forwardedtonumber, encodeErr_enc_forwardedtonumber := ber.EncodeOctetString([]byte(*v.ForwardedToNumber))
 		if encodeErr_enc_forwardedtonumber != nil {
@@ -4273,7 +4705,9 @@ func (v *ForwardingData) MarshalBER() ([]byte, error) {
 	}
 	if v.ForwardedToSubaddress != nil {
 		if len(*v.ForwardedToSubaddress) < 1 || len(*v.ForwardedToSubaddress) > 21 {
-			return nil, fmt.Errorf("forwardedToSubaddress length %d violates SIZE (1..21)", len(*v.ForwardedToSubaddress))
+			if constraintErr := ber.CheckEncodedLength(opts, "forwardedToSubaddress", "SIZE (1..21)", len(*v.ForwardedToSubaddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_forwardedtosubaddress, encodeErr_enc_forwardedtosubaddress := ber.EncodeOctetString([]byte(*v.ForwardedToSubaddress))
 		if encodeErr_enc_forwardedtosubaddress != nil {
@@ -4288,7 +4722,9 @@ func (v *ForwardingData) MarshalBER() ([]byte, error) {
 	}
 	if v.ForwardingOptions != nil {
 		if len(*v.ForwardingOptions) < 1 || len(*v.ForwardingOptions) > 1 {
-			return nil, fmt.Errorf("forwardingOptions length %d violates SIZE (1)", len(*v.ForwardingOptions))
+			if constraintErr := ber.CheckEncodedLength(opts, "forwardingOptions", "SIZE (1)", len(*v.ForwardingOptions)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_forwardingoptions, encodeErr_enc_forwardingoptions := ber.EncodeOctetString([]byte(*v.ForwardingOptions))
 		if encodeErr_enc_forwardingoptions != nil {
@@ -4302,7 +4738,7 @@ func (v *ForwardingData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_forwardingoptions...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -4315,10 +4751,14 @@ func (v *ForwardingData) MarshalBER() ([]byte, error) {
 	}
 	if v.LongForwardedToNumber != nil {
 		if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 15 {
-			return nil, fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..15)", len(*v.LongForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "longForwardedToNumber", "SIZE (1..15)", len(*v.LongForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 20 {
-			return nil, fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..20)", len(*v.LongForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "longForwardedToNumber", "SIZE (1..20)", len(*v.LongForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_longforwardedtonumber, encodeErr_enc_longforwardedtonumber := ber.EncodeOctetString([]byte(*v.LongForwardedToNumber))
 		if encodeErr_enc_longforwardedtonumber != nil {
@@ -4346,13 +4786,20 @@ func (v *ForwardingData) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ForwardingData to DER format.
 func (v *ForwardingData) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ForwardingData receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ForwardedToNumber != nil {
 		if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 9 {
-			return nil, fmt.Errorf("forwardedToNumber length %d violates SIZE (1..9)", len(*v.ForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "forwardedToNumber", "SIZE (1..9)", len(*v.ForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 20 {
-			return nil, fmt.Errorf("forwardedToNumber length %d violates SIZE (1..20)", len(*v.ForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "forwardedToNumber", "SIZE (1..20)", len(*v.ForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_forwardedtonumber, encodeErr_enc_forwardedtonumber := ber.EncodeOctetString([]byte(*v.ForwardedToNumber))
 		if encodeErr_enc_forwardedtonumber != nil {
@@ -4367,7 +4814,9 @@ func (v *ForwardingData) MarshalDER() ([]byte, error) {
 	}
 	if v.ForwardedToSubaddress != nil {
 		if len(*v.ForwardedToSubaddress) < 1 || len(*v.ForwardedToSubaddress) > 21 {
-			return nil, fmt.Errorf("forwardedToSubaddress length %d violates SIZE (1..21)", len(*v.ForwardedToSubaddress))
+			if constraintErr := ber.CheckEncodedLength(nil, "forwardedToSubaddress", "SIZE (1..21)", len(*v.ForwardedToSubaddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_forwardedtosubaddress, encodeErr_enc_forwardedtosubaddress := ber.EncodeOctetString([]byte(*v.ForwardedToSubaddress))
 		if encodeErr_enc_forwardedtosubaddress != nil {
@@ -4382,7 +4831,9 @@ func (v *ForwardingData) MarshalDER() ([]byte, error) {
 	}
 	if v.ForwardingOptions != nil {
 		if len(*v.ForwardingOptions) < 1 || len(*v.ForwardingOptions) > 1 {
-			return nil, fmt.Errorf("forwardingOptions length %d violates SIZE (1)", len(*v.ForwardingOptions))
+			if constraintErr := ber.CheckEncodedLength(nil, "forwardingOptions", "SIZE (1)", len(*v.ForwardingOptions)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_forwardingoptions, encodeErr_enc_forwardingoptions := ber.EncodeOctetString([]byte(*v.ForwardingOptions))
 		if encodeErr_enc_forwardingoptions != nil {
@@ -4409,10 +4860,14 @@ func (v *ForwardingData) MarshalDER() ([]byte, error) {
 	}
 	if v.LongForwardedToNumber != nil {
 		if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 15 {
-			return nil, fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..15)", len(*v.LongForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "longForwardedToNumber", "SIZE (1..15)", len(*v.LongForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 20 {
-			return nil, fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..20)", len(*v.LongForwardedToNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "longForwardedToNumber", "SIZE (1..20)", len(*v.LongForwardedToNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_longforwardedtonumber, encodeErr_enc_longforwardedtonumber := ber.EncodeOctetString([]byte(*v.LongForwardedToNumber))
 		if encodeErr_enc_longforwardedtonumber != nil {
@@ -4442,11 +4897,27 @@ func (v *ForwardingData) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ForwardingData from BER/DER format.
-func (v *ForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ForwardingData destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ForwardingData{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ForwardingData SEQUENCE: %w", err)
@@ -4477,10 +4948,14 @@ func (v *ForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 
 				offset += n_forwardedtonumber
 				if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 9 {
-					return fmt.Errorf("forwardedToNumber length %d violates SIZE (1..9)", len(*v.ForwardedToNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "forwardedToNumber", "SIZE (1..9)", len(*v.ForwardedToNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 				if len(*v.ForwardedToNumber) < 1 || len(*v.ForwardedToNumber) > 20 {
-					return fmt.Errorf("forwardedToNumber length %d violates SIZE (1..20)", len(*v.ForwardedToNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "forwardedToNumber", "SIZE (1..20)", len(*v.ForwardedToNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4507,7 +4982,9 @@ func (v *ForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 
 				offset += n_forwardedtosubaddress
 				if len(*v.ForwardedToSubaddress) < 1 || len(*v.ForwardedToSubaddress) > 21 {
-					return fmt.Errorf("forwardedToSubaddress length %d violates SIZE (1..21)", len(*v.ForwardedToSubaddress))
+					if constraintErr := ber.CheckDecodedLength(opts, "forwardedToSubaddress", "SIZE (1..21)", len(*v.ForwardedToSubaddress)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4534,7 +5011,9 @@ func (v *ForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 
 				offset += n_forwardingoptions
 				if len(*v.ForwardingOptions) < 1 || len(*v.ForwardingOptions) > 1 {
-					return fmt.Errorf("forwardingOptions length %d violates SIZE (1)", len(*v.ForwardingOptions))
+					if constraintErr := ber.CheckDecodedLength(opts, "forwardingOptions", "SIZE (1)", len(*v.ForwardingOptions)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4556,7 +5035,7 @@ func (v *ForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -4592,10 +5071,14 @@ func (v *ForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 
 				offset += n_longforwardedtonumber
 				if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 15 {
-					return fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..15)", len(*v.LongForwardedToNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "longForwardedToNumber", "SIZE (1..15)", len(*v.LongForwardedToNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 				if len(*v.LongForwardedToNumber) < 1 || len(*v.LongForwardedToNumber) > 20 {
-					return fmt.Errorf("longForwardedToNumber length %d violates SIZE (1..20)", len(*v.LongForwardedToNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "longForwardedToNumber", "SIZE (1..20)", len(*v.LongForwardedToNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -4627,10 +5110,25 @@ func (v *ForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 }
 
 // MarshalBER encodes ProvideRoamingNumberArg to BER format.
-func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
+func (v *ProvideRoamingNumberArg) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProvideRoamingNumberArg receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ProvideRoamingNumberArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
@@ -4643,10 +5141,14 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if len(v.MscNumber) < 1 || len(v.MscNumber) > 9 {
-		return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..9)", len(v.MscNumber))
+		if constraintErr := ber.CheckEncodedLength(opts, "msc-Number", "SIZE (1..9)", len(v.MscNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.MscNumber) < 1 || len(v.MscNumber) > 20 {
-		return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..20)", len(v.MscNumber))
+		if constraintErr := ber.CheckEncodedLength(opts, "msc-Number", "SIZE (1..20)", len(v.MscNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_mscnumber, encodeErr_enc_mscnumber := ber.EncodeOctetString([]byte(v.MscNumber))
 	if encodeErr_enc_mscnumber != nil {
@@ -4660,10 +5162,14 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 	children = append(children, enc_mscnumber...)
 	if v.Msisdn != nil {
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+			if constraintErr := ber.CheckEncodedLength(opts, "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+			if constraintErr := ber.CheckEncodedLength(opts, "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
@@ -4678,7 +5184,9 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 	}
 	if v.Lmsi != nil {
 		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-			return nil, fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+			if constraintErr := ber.CheckEncodedLength(opts, "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
 		if encodeErr_enc_lmsi != nil {
@@ -4692,7 +5200,7 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_lmsi...)
 	}
 	if v.GsmBearerCapability != nil {
-		enc_gsmbearercapability, err := v.GsmBearerCapability.MarshalBER()
+		enc_gsmbearercapability, err := v.GsmBearerCapability.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding gsm-BearerCapability: %w", err)
 		}
@@ -4704,7 +5212,7 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_gsmbearercapability...)
 	}
 	if v.NetworkSignalInfo != nil {
-		enc_networksignalinfo, err := v.NetworkSignalInfo.MarshalBER()
+		enc_networksignalinfo, err := v.NetworkSignalInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding networkSignalInfo: %w", err)
 		}
@@ -4726,10 +5234,14 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 	}
 	if v.GmscAddress != nil {
 		if len(*v.GmscAddress) < 1 || len(*v.GmscAddress) > 9 {
-			return nil, fmt.Errorf("gmsc-Address length %d violates SIZE (1..9)", len(*v.GmscAddress))
+			if constraintErr := ber.CheckEncodedLength(opts, "gmsc-Address", "SIZE (1..9)", len(*v.GmscAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.GmscAddress) < 1 || len(*v.GmscAddress) > 20 {
-			return nil, fmt.Errorf("gmsc-Address length %d violates SIZE (1..20)", len(*v.GmscAddress))
+			if constraintErr := ber.CheckEncodedLength(opts, "gmsc-Address", "SIZE (1..20)", len(*v.GmscAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_gmscaddress, encodeErr_enc_gmscaddress := ber.EncodeOctetString([]byte(*v.GmscAddress))
 		if encodeErr_enc_gmscaddress != nil {
@@ -4744,7 +5256,9 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 	}
 	if v.CallReferenceNumber != nil {
 		if len(*v.CallReferenceNumber) < 1 || len(*v.CallReferenceNumber) > 8 {
-			return nil, fmt.Errorf("callReferenceNumber length %d violates SIZE (1..8)", len(*v.CallReferenceNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "callReferenceNumber", "SIZE (1..8)", len(*v.CallReferenceNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_callreferencenumber, encodeErr_enc_callreferencenumber := ber.EncodeOctetString([]byte(*v.CallReferenceNumber))
 		if encodeErr_enc_callreferencenumber != nil {
@@ -4767,7 +5281,7 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_orinterrogation...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -4780,7 +5294,9 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 	}
 	if v.AlertingPattern != nil {
 		if len(*v.AlertingPattern) < 1 || len(*v.AlertingPattern) > 1 {
-			return nil, fmt.Errorf("alertingPattern length %d violates SIZE (1)", len(*v.AlertingPattern))
+			if constraintErr := ber.CheckEncodedLength(opts, "alertingPattern", "SIZE (1)", len(*v.AlertingPattern)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_alertingpattern, encodeErr_enc_alertingpattern := ber.EncodeOctetString([]byte(*v.AlertingPattern))
 		if encodeErr_enc_alertingpattern != nil {
@@ -4804,9 +5320,11 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 	}
 	if v.SupportedCamelPhasesInInterrogatingNode != nil {
 		if (*v.SupportedCamelPhasesInInterrogatingNode).BitLength < 1 || (*v.SupportedCamelPhasesInInterrogatingNode).BitLength > 16 {
-			return nil, fmt.Errorf("supportedCamelPhasesInInterrogatingNode length %d violates SIZE (1..16)", (*v.SupportedCamelPhasesInInterrogatingNode).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "supportedCamelPhasesInInterrogatingNode", "SIZE (1..16)", (*v.SupportedCamelPhasesInInterrogatingNode).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.SupportedCamelPhasesInInterrogatingNode.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4822,7 +5340,7 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_supportedcamelphasesininterrogatingnode...)
 	}
 	if v.AdditionalSignalInfo != nil {
-		enc_additionalsignalinfo, err := v.AdditionalSignalInfo.MarshalBER()
+		enc_additionalsignalinfo, err := v.AdditionalSignalInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding additionalSignalInfo: %w", err)
 		}
@@ -4871,9 +5389,11 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 	}
 	if v.OfferedCamel4CSIsInInterrogatingNode != nil {
 		if (*v.OfferedCamel4CSIsInInterrogatingNode).BitLength < 7 || (*v.OfferedCamel4CSIsInInterrogatingNode).BitLength > 16 {
-			return nil, fmt.Errorf("offeredCamel4CSIsInInterrogatingNode length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIsInInterrogatingNode).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "offeredCamel4CSIsInInterrogatingNode", "SIZE (7..16)", (*v.OfferedCamel4CSIsInInterrogatingNode).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.OfferedCamel4CSIsInInterrogatingNode.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4898,10 +5418,12 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mtroamingretrysupported...)
 	}
 	if v.PagingArea != nil {
-		if len(v.PagingArea) < 1 || len(v.PagingArea) > 5 {
-			return nil, fmt.Errorf("pagingArea length %d violates SIZE (1..5)", len(v.PagingArea))
+		if len((v.PagingArea).Values) < 1 || len((v.PagingArea).Values) > 5 {
+			if constraintErr := ber.CheckEncodedLength(opts, "pagingArea", "SIZE (1..5)", len((v.PagingArea).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_pagingarea, err := MarshalBERPagingArea(v.PagingArea)
+		enc_pagingarea, err := MarshalBERPagingArea(v.PagingArea, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding pagingArea: %w", err)
 		}
@@ -4928,6 +5450,11 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_pagingarea...)
 	}
 	if v.CallPriority != nil {
+		if !(int64(*v.CallPriority) >= 0 && int64(*v.CallPriority) <= 15) {
+			if constraintErr := ber.CheckEncodedValue(opts, "callPriority", "(0..15)", fmt.Sprint(int64(*v.CallPriority))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_callpriority := ber.EncodeInteger(int64(*v.CallPriority))
 		retagged_enc_callpriority, tagErr_enc_callpriority := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 23, enc_callpriority)
 		if tagErr_enc_callpriority != nil {
@@ -4947,10 +5474,14 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 	}
 	if v.OldMSCNumber != nil {
 		if len(*v.OldMSCNumber) < 1 || len(*v.OldMSCNumber) > 9 {
-			return nil, fmt.Errorf("oldMSC-Number length %d violates SIZE (1..9)", len(*v.OldMSCNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "oldMSC-Number", "SIZE (1..9)", len(*v.OldMSCNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.OldMSCNumber) < 1 || len(*v.OldMSCNumber) > 20 {
-			return nil, fmt.Errorf("oldMSC-Number length %d violates SIZE (1..20)", len(*v.OldMSCNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "oldMSC-Number", "SIZE (1..20)", len(*v.OldMSCNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_oldmscnumber, encodeErr_enc_oldmscnumber := ber.EncodeOctetString([]byte(*v.OldMSCNumber))
 		if encodeErr_enc_oldmscnumber != nil {
@@ -4965,7 +5496,9 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 	}
 	if v.LastUsedLtePLMNId != nil {
 		if len(*v.LastUsedLtePLMNId) < 3 || len(*v.LastUsedLtePLMNId) > 3 {
-			return nil, fmt.Errorf("lastUsedLtePLMN-Id length %d violates SIZE (3)", len(*v.LastUsedLtePLMNId))
+			if constraintErr := ber.CheckEncodedLength(opts, "lastUsedLtePLMN-Id", "SIZE (3)", len(*v.LastUsedLtePLMNId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_lastusedlteplmnid, encodeErr_enc_lastusedlteplmnid := ber.EncodeOctetString([]byte(*v.LastUsedLtePLMNId))
 		if encodeErr_enc_lastusedlteplmnid != nil {
@@ -4993,9 +5526,14 @@ func (v *ProvideRoamingNumberArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ProvideRoamingNumberArg to DER format.
 func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProvideRoamingNumberArg receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
@@ -5008,10 +5546,14 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if len(v.MscNumber) < 1 || len(v.MscNumber) > 9 {
-		return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..9)", len(v.MscNumber))
+		if constraintErr := ber.CheckEncodedLength(nil, "msc-Number", "SIZE (1..9)", len(v.MscNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.MscNumber) < 1 || len(v.MscNumber) > 20 {
-		return nil, fmt.Errorf("msc-Number length %d violates SIZE (1..20)", len(v.MscNumber))
+		if constraintErr := ber.CheckEncodedLength(nil, "msc-Number", "SIZE (1..20)", len(v.MscNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_mscnumber, encodeErr_enc_mscnumber := ber.EncodeOctetString([]byte(v.MscNumber))
 	if encodeErr_enc_mscnumber != nil {
@@ -5025,10 +5567,14 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 	children = append(children, enc_mscnumber...)
 	if v.Msisdn != nil {
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+			if constraintErr := ber.CheckEncodedLength(nil, "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+			if constraintErr := ber.CheckEncodedLength(nil, "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
@@ -5043,7 +5589,9 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Lmsi != nil {
 		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-			return nil, fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+			if constraintErr := ber.CheckEncodedLength(nil, "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
 		if encodeErr_enc_lmsi != nil {
@@ -5091,10 +5639,14 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 	}
 	if v.GmscAddress != nil {
 		if len(*v.GmscAddress) < 1 || len(*v.GmscAddress) > 9 {
-			return nil, fmt.Errorf("gmsc-Address length %d violates SIZE (1..9)", len(*v.GmscAddress))
+			if constraintErr := ber.CheckEncodedLength(nil, "gmsc-Address", "SIZE (1..9)", len(*v.GmscAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.GmscAddress) < 1 || len(*v.GmscAddress) > 20 {
-			return nil, fmt.Errorf("gmsc-Address length %d violates SIZE (1..20)", len(*v.GmscAddress))
+			if constraintErr := ber.CheckEncodedLength(nil, "gmsc-Address", "SIZE (1..20)", len(*v.GmscAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_gmscaddress, encodeErr_enc_gmscaddress := ber.EncodeOctetString([]byte(*v.GmscAddress))
 		if encodeErr_enc_gmscaddress != nil {
@@ -5109,7 +5661,9 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 	}
 	if v.CallReferenceNumber != nil {
 		if len(*v.CallReferenceNumber) < 1 || len(*v.CallReferenceNumber) > 8 {
-			return nil, fmt.Errorf("callReferenceNumber length %d violates SIZE (1..8)", len(*v.CallReferenceNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "callReferenceNumber", "SIZE (1..8)", len(*v.CallReferenceNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_callreferencenumber, encodeErr_enc_callreferencenumber := ber.EncodeOctetString([]byte(*v.CallReferenceNumber))
 		if encodeErr_enc_callreferencenumber != nil {
@@ -5145,7 +5699,9 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 	}
 	if v.AlertingPattern != nil {
 		if len(*v.AlertingPattern) < 1 || len(*v.AlertingPattern) > 1 {
-			return nil, fmt.Errorf("alertingPattern length %d violates SIZE (1)", len(*v.AlertingPattern))
+			if constraintErr := ber.CheckEncodedLength(nil, "alertingPattern", "SIZE (1)", len(*v.AlertingPattern)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_alertingpattern, encodeErr_enc_alertingpattern := ber.EncodeOctetString([]byte(*v.AlertingPattern))
 		if encodeErr_enc_alertingpattern != nil {
@@ -5169,9 +5725,11 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SupportedCamelPhasesInInterrogatingNode != nil {
 		if (*v.SupportedCamelPhasesInInterrogatingNode).BitLength < 1 || (*v.SupportedCamelPhasesInInterrogatingNode).BitLength > 16 {
-			return nil, fmt.Errorf("supportedCamelPhasesInInterrogatingNode length %d violates SIZE (1..16)", (*v.SupportedCamelPhasesInInterrogatingNode).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "supportedCamelPhasesInInterrogatingNode", "SIZE (1..16)", (*v.SupportedCamelPhasesInInterrogatingNode).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.SupportedCamelPhasesInInterrogatingNode.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5236,9 +5794,11 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 	}
 	if v.OfferedCamel4CSIsInInterrogatingNode != nil {
 		if (*v.OfferedCamel4CSIsInInterrogatingNode).BitLength < 7 || (*v.OfferedCamel4CSIsInInterrogatingNode).BitLength > 16 {
-			return nil, fmt.Errorf("offeredCamel4CSIsInInterrogatingNode length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIsInInterrogatingNode).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "offeredCamel4CSIsInInterrogatingNode", "SIZE (7..16)", (*v.OfferedCamel4CSIsInInterrogatingNode).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.OfferedCamel4CSIsInInterrogatingNode.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5263,8 +5823,10 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mtroamingretrysupported...)
 	}
 	if v.PagingArea != nil {
-		if len(v.PagingArea) < 1 || len(v.PagingArea) > 5 {
-			return nil, fmt.Errorf("pagingArea length %d violates SIZE (1..5)", len(v.PagingArea))
+		if len((v.PagingArea).Values) < 1 || len((v.PagingArea).Values) > 5 {
+			if constraintErr := ber.CheckEncodedLength(nil, "pagingArea", "SIZE (1..5)", len((v.PagingArea).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_pagingarea, err := MarshalDERPagingArea(v.PagingArea)
 		if err != nil {
@@ -5278,6 +5840,11 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_pagingarea...)
 	}
 	if v.CallPriority != nil {
+		if !(int64(*v.CallPriority) >= 0 && int64(*v.CallPriority) <= 15) {
+			if constraintErr := ber.CheckEncodedValue(nil, "callPriority", "(0..15)", fmt.Sprint(int64(*v.CallPriority))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_callpriority := ber.EncodeInteger(int64(*v.CallPriority))
 		retagged_enc_callpriority, tagErr_enc_callpriority := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 23, enc_callpriority)
 		if tagErr_enc_callpriority != nil {
@@ -5297,10 +5864,14 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 	}
 	if v.OldMSCNumber != nil {
 		if len(*v.OldMSCNumber) < 1 || len(*v.OldMSCNumber) > 9 {
-			return nil, fmt.Errorf("oldMSC-Number length %d violates SIZE (1..9)", len(*v.OldMSCNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "oldMSC-Number", "SIZE (1..9)", len(*v.OldMSCNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.OldMSCNumber) < 1 || len(*v.OldMSCNumber) > 20 {
-			return nil, fmt.Errorf("oldMSC-Number length %d violates SIZE (1..20)", len(*v.OldMSCNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "oldMSC-Number", "SIZE (1..20)", len(*v.OldMSCNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_oldmscnumber, encodeErr_enc_oldmscnumber := ber.EncodeOctetString([]byte(*v.OldMSCNumber))
 		if encodeErr_enc_oldmscnumber != nil {
@@ -5315,7 +5886,9 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 	}
 	if v.LastUsedLtePLMNId != nil {
 		if len(*v.LastUsedLtePLMNId) < 3 || len(*v.LastUsedLtePLMNId) > 3 {
-			return nil, fmt.Errorf("lastUsedLtePLMN-Id length %d violates SIZE (3)", len(*v.LastUsedLtePLMNId))
+			if constraintErr := ber.CheckEncodedLength(nil, "lastUsedLtePLMN-Id", "SIZE (3)", len(*v.LastUsedLtePLMNId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_lastusedlteplmnid, encodeErr_enc_lastusedlteplmnid := ber.EncodeOctetString([]byte(*v.LastUsedLtePLMNId))
 		if encodeErr_enc_lastusedlteplmnid != nil {
@@ -5345,11 +5918,27 @@ func (v *ProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ProvideRoamingNumberArg from BER/DER format.
-func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ProvideRoamingNumberArg destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ProvideRoamingNumberArg{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ProvideRoamingNumberArg SEQUENCE: %w", err)
@@ -5382,7 +5971,9 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 	offset += n_imsi
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode msc-Number
 	if offset >= len(content) {
@@ -5408,10 +5999,14 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 	offset += n_mscnumber
 	if len(v.MscNumber) < 1 || len(v.MscNumber) > 9 {
-		return fmt.Errorf("msc-Number length %d violates SIZE (1..9)", len(v.MscNumber))
+		if constraintErr := ber.CheckDecodedLength(opts, "msc-Number", "SIZE (1..9)", len(v.MscNumber)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	if len(v.MscNumber) < 1 || len(v.MscNumber) > 20 {
-		return fmt.Errorf("msc-Number length %d violates SIZE (1..20)", len(v.MscNumber))
+		if constraintErr := ber.CheckDecodedLength(opts, "msc-Number", "SIZE (1..20)", len(v.MscNumber)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode msisdn
 	if offset < len(content) {
@@ -5434,10 +6029,14 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 				offset += n_msisdn
 				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-					return fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+					if constraintErr := ber.CheckDecodedLength(opts, "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-					return fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+					if constraintErr := ber.CheckDecodedLength(opts, "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5463,7 +6062,9 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 				offset += n_lmsi
 				if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-					return fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+					if constraintErr := ber.CheckDecodedLength(opts, "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5485,7 +6086,7 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 					return fmt.Errorf("decoding gsm-BearerCapability: %w", reconstructionErr_gsmbearercapability)
 				}
 				var dec_gsmbearercapability ExternalSignalInfo
-				if unmErr := dec_gsmbearercapability.UnmarshalBER(reconstructed_gsmbearercapability, opts...); unmErr != nil {
+				if unmErr := dec_gsmbearercapability.UnmarshalBER(reconstructed_gsmbearercapability, ber.ChildDecodeOptions(opts, "gsmbearercapability")...); unmErr != nil {
 					return fmt.Errorf("decoding gsm-BearerCapability: %w", unmErr)
 				}
 				v.GsmBearerCapability = &dec_gsmbearercapability
@@ -5516,7 +6117,7 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 					return fmt.Errorf("decoding networkSignalInfo: %w", reconstructionErr_networksignalinfo)
 				}
 				var dec_networksignalinfo ExternalSignalInfo
-				if unmErr := dec_networksignalinfo.UnmarshalBER(reconstructed_networksignalinfo, opts...); unmErr != nil {
+				if unmErr := dec_networksignalinfo.UnmarshalBER(reconstructed_networksignalinfo, ber.ChildDecodeOptions(opts, "networksignalinfo")...); unmErr != nil {
 					return fmt.Errorf("decoding networkSignalInfo: %w", unmErr)
 				}
 				v.NetworkSignalInfo = &dec_networksignalinfo
@@ -5577,10 +6178,14 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 				offset += n_gmscaddress
 				if len(*v.GmscAddress) < 1 || len(*v.GmscAddress) > 9 {
-					return fmt.Errorf("gmsc-Address length %d violates SIZE (1..9)", len(*v.GmscAddress))
+					if constraintErr := ber.CheckDecodedLength(opts, "gmsc-Address", "SIZE (1..9)", len(*v.GmscAddress)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 				if len(*v.GmscAddress) < 1 || len(*v.GmscAddress) > 20 {
-					return fmt.Errorf("gmsc-Address length %d violates SIZE (1..20)", len(*v.GmscAddress))
+					if constraintErr := ber.CheckDecodedLength(opts, "gmsc-Address", "SIZE (1..20)", len(*v.GmscAddress)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5607,7 +6212,9 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 				offset += n_callreferencenumber
 				if len(*v.CallReferenceNumber) < 1 || len(*v.CallReferenceNumber) > 8 {
-					return fmt.Errorf("callReferenceNumber length %d violates SIZE (1..8)", len(*v.CallReferenceNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "callReferenceNumber", "SIZE (1..8)", len(*v.CallReferenceNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5654,7 +6261,7 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -5689,7 +6296,9 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 				offset += n_alertingpattern
 				if len(*v.AlertingPattern) < 1 || len(*v.AlertingPattern) > 1 {
-					return fmt.Errorf("alertingPattern length %d violates SIZE (1)", len(*v.AlertingPattern))
+					if constraintErr := ber.CheckDecodedLength(opts, "alertingPattern", "SIZE (1)", len(*v.AlertingPattern)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5749,7 +6358,9 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 				offset += n_supportedcamelphasesininterrogatingnode
 				if (*v.SupportedCamelPhasesInInterrogatingNode).BitLength < 1 || (*v.SupportedCamelPhasesInInterrogatingNode).BitLength > 16 {
-					return fmt.Errorf("supportedCamelPhasesInInterrogatingNode length %d violates SIZE (1..16)", (*v.SupportedCamelPhasesInInterrogatingNode).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "supportedCamelPhasesInInterrogatingNode", "SIZE (1..16)", (*v.SupportedCamelPhasesInInterrogatingNode).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5771,7 +6382,7 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 					return fmt.Errorf("decoding additionalSignalInfo: %w", reconstructionErr_additionalsignalinfo)
 				}
 				var dec_additionalsignalinfo ExtExternalSignalInfo
-				if unmErr := dec_additionalsignalinfo.UnmarshalBER(reconstructed_additionalsignalinfo, opts...); unmErr != nil {
+				if unmErr := dec_additionalsignalinfo.UnmarshalBER(reconstructed_additionalsignalinfo, ber.ChildDecodeOptions(opts, "additionalsignalinfo")...); unmErr != nil {
 					return fmt.Errorf("decoding additionalSignalInfo: %w", unmErr)
 				}
 				v.AdditionalSignalInfo = &dec_additionalsignalinfo
@@ -5917,7 +6528,9 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 				offset += n_offeredcamel4csisininterrogatingnode
 				if (*v.OfferedCamel4CSIsInInterrogatingNode).BitLength < 7 || (*v.OfferedCamel4CSIsInInterrogatingNode).BitLength > 16 {
-					return fmt.Errorf("offeredCamel4CSIsInInterrogatingNode length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIsInInterrogatingNode).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "offeredCamel4CSIsInInterrogatingNode", "SIZE (7..16)", (*v.OfferedCamel4CSIsInInterrogatingNode).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -5965,7 +6578,7 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				if reconstructionErr_pagingarea != nil {
 					return fmt.Errorf("decoding pagingArea: %w", reconstructionErr_pagingarea)
 				}
-				dec_pagingarea, unmErr := UnmarshalBERPagingArea(reconstructed_pagingarea, opts...)
+				dec_pagingarea, unmErr := UnmarshalBERPagingArea(reconstructed_pagingarea, ber.ChildDecodeOptions(opts, "pagingArea")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding pagingArea: %w", unmErr)
 				}
@@ -5987,8 +6600,10 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_pagingarea
-				if len(v.PagingArea) < 1 || len(v.PagingArea) > 5 {
-					return fmt.Errorf("pagingArea length %d violates SIZE (1..5)", len(v.PagingArea))
+				if len((v.PagingArea).Values) < 1 || len((v.PagingArea).Values) > 5 {
+					if constraintErr := ber.CheckDecodedLength(opts, "pagingArea", "SIZE (1..5)", len((v.PagingArea).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -6017,6 +6632,11 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_callpriority
+				if !(int64(*v.CallPriority) >= 0 && int64(*v.CallPriority) <= 15) {
+					if constraintErr := ber.CheckDecodedValue(opts, "callPriority", "(0..15)", fmt.Sprint(int64(*v.CallPriority))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -6066,10 +6686,14 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 				offset += n_oldmscnumber
 				if len(*v.OldMSCNumber) < 1 || len(*v.OldMSCNumber) > 9 {
-					return fmt.Errorf("oldMSC-Number length %d violates SIZE (1..9)", len(*v.OldMSCNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "oldMSC-Number", "SIZE (1..9)", len(*v.OldMSCNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 				if len(*v.OldMSCNumber) < 1 || len(*v.OldMSCNumber) > 20 {
-					return fmt.Errorf("oldMSC-Number length %d violates SIZE (1..20)", len(*v.OldMSCNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "oldMSC-Number", "SIZE (1..20)", len(*v.OldMSCNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -6096,7 +6720,9 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 				offset += n_lastusedlteplmnid
 				if len(*v.LastUsedLtePLMNId) < 3 || len(*v.LastUsedLtePLMNId) > 3 {
-					return fmt.Errorf("lastUsedLtePLMN-Id length %d violates SIZE (3)", len(*v.LastUsedLtePLMNId))
+					if constraintErr := ber.CheckDecodedLength(opts, "lastUsedLtePLMN-Id", "SIZE (3)", len(*v.LastUsedLtePLMNId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -6128,13 +6754,30 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes ProvideRoamingNumberRes to BER format.
-func (v *ProvideRoamingNumberRes) MarshalBER() ([]byte, error) {
+func (v *ProvideRoamingNumberRes) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProvideRoamingNumberRes receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ProvideRoamingNumberRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.RoamingNumber) < 1 || len(v.RoamingNumber) > 9 {
-		return nil, fmt.Errorf("roamingNumber length %d violates SIZE (1..9)", len(v.RoamingNumber))
+		if constraintErr := ber.CheckEncodedLength(opts, "roamingNumber", "SIZE (1..9)", len(v.RoamingNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.RoamingNumber) < 1 || len(v.RoamingNumber) > 20 {
-		return nil, fmt.Errorf("roamingNumber length %d violates SIZE (1..20)", len(v.RoamingNumber))
+		if constraintErr := ber.CheckEncodedLength(opts, "roamingNumber", "SIZE (1..20)", len(v.RoamingNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_roamingnumber, encodeErr_enc_roamingnumber := ber.EncodeOctetString([]byte(v.RoamingNumber))
 	if encodeErr_enc_roamingnumber != nil {
@@ -6142,7 +6785,7 @@ func (v *ProvideRoamingNumberRes) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_roamingnumber...)
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -6154,10 +6797,14 @@ func (v *ProvideRoamingNumberRes) MarshalBER() ([]byte, error) {
 	}
 	if v.VmscAddress != nil {
 		if len(*v.VmscAddress) < 1 || len(*v.VmscAddress) > 9 {
-			return nil, fmt.Errorf("vmsc-Address length %d violates SIZE (1..9)", len(*v.VmscAddress))
+			if constraintErr := ber.CheckEncodedLength(opts, "vmsc-Address", "SIZE (1..9)", len(*v.VmscAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.VmscAddress) < 1 || len(*v.VmscAddress) > 20 {
-			return nil, fmt.Errorf("vmsc-Address length %d violates SIZE (1..20)", len(*v.VmscAddress))
+			if constraintErr := ber.CheckEncodedLength(opts, "vmsc-Address", "SIZE (1..20)", len(*v.VmscAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_vmscaddress, encodeErr_enc_vmscaddress := ber.EncodeOctetString([]byte(*v.VmscAddress))
 		if encodeErr_enc_vmscaddress != nil {
@@ -6180,12 +6827,19 @@ func (v *ProvideRoamingNumberRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ProvideRoamingNumberRes to DER format.
 func (v *ProvideRoamingNumberRes) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProvideRoamingNumberRes receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.RoamingNumber) < 1 || len(v.RoamingNumber) > 9 {
-		return nil, fmt.Errorf("roamingNumber length %d violates SIZE (1..9)", len(v.RoamingNumber))
+		if constraintErr := ber.CheckEncodedLength(nil, "roamingNumber", "SIZE (1..9)", len(v.RoamingNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.RoamingNumber) < 1 || len(v.RoamingNumber) > 20 {
-		return nil, fmt.Errorf("roamingNumber length %d violates SIZE (1..20)", len(v.RoamingNumber))
+		if constraintErr := ber.CheckEncodedLength(nil, "roamingNumber", "SIZE (1..20)", len(v.RoamingNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_roamingnumber, encodeErr_enc_roamingnumber := ber.EncodeOctetString([]byte(v.RoamingNumber))
 	if encodeErr_enc_roamingnumber != nil {
@@ -6205,10 +6859,14 @@ func (v *ProvideRoamingNumberRes) MarshalDER() ([]byte, error) {
 	}
 	if v.VmscAddress != nil {
 		if len(*v.VmscAddress) < 1 || len(*v.VmscAddress) > 9 {
-			return nil, fmt.Errorf("vmsc-Address length %d violates SIZE (1..9)", len(*v.VmscAddress))
+			if constraintErr := ber.CheckEncodedLength(nil, "vmsc-Address", "SIZE (1..9)", len(*v.VmscAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.VmscAddress) < 1 || len(*v.VmscAddress) > 20 {
-			return nil, fmt.Errorf("vmsc-Address length %d violates SIZE (1..20)", len(*v.VmscAddress))
+			if constraintErr := ber.CheckEncodedLength(nil, "vmsc-Address", "SIZE (1..20)", len(*v.VmscAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_vmscaddress, encodeErr_enc_vmscaddress := ber.EncodeOctetString([]byte(*v.VmscAddress))
 		if encodeErr_enc_vmscaddress != nil {
@@ -6233,11 +6891,27 @@ func (v *ProvideRoamingNumberRes) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ProvideRoamingNumberRes from BER/DER format.
-func (v *ProvideRoamingNumberRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ProvideRoamingNumberRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ProvideRoamingNumberRes destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ProvideRoamingNumberRes{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ProvideRoamingNumberRes SEQUENCE: %w", err)
@@ -6262,10 +6936,14 @@ func (v *ProvideRoamingNumberRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 	offset += n
 	if len(v.RoamingNumber) < 1 || len(v.RoamingNumber) > 9 {
-		return fmt.Errorf("roamingNumber length %d violates SIZE (1..9)", len(v.RoamingNumber))
+		if constraintErr := ber.CheckDecodedLength(opts, "roamingNumber", "SIZE (1..9)", len(v.RoamingNumber)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	if len(v.RoamingNumber) < 1 || len(v.RoamingNumber) > 20 {
-		return fmt.Errorf("roamingNumber length %d violates SIZE (1..20)", len(v.RoamingNumber))
+		if constraintErr := ber.CheckDecodedLength(opts, "roamingNumber", "SIZE (1..20)", len(v.RoamingNumber)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode extensionContainer
 	if offset < len(content) {
@@ -6284,7 +6962,7 @@ func (v *ProvideRoamingNumberRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -6335,10 +7013,14 @@ func (v *ProvideRoamingNumberRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 				offset += n
 				if len(*v.VmscAddress) < 1 || len(*v.VmscAddress) > 9 {
-					return fmt.Errorf("vmsc-Address length %d violates SIZE (1..9)", len(*v.VmscAddress))
+					if constraintErr := ber.CheckDecodedLength(opts, "vmsc-Address", "SIZE (1..9)", len(*v.VmscAddress)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 				if len(*v.VmscAddress) < 1 || len(*v.VmscAddress) > 20 {
-					return fmt.Errorf("vmsc-Address length %d violates SIZE (1..20)", len(*v.VmscAddress))
+					if constraintErr := ber.CheckDecodedLength(opts, "vmsc-Address", "SIZE (1..20)", len(*v.VmscAddress)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -6370,11 +7052,26 @@ func (v *ProvideRoamingNumberRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes ResumeCallHandlingArg to BER format.
-func (v *ResumeCallHandlingArg) MarshalBER() ([]byte, error) {
+func (v *ResumeCallHandlingArg) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ResumeCallHandlingArg receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ResumeCallHandlingArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.CallReferenceNumber != nil {
 		if len(*v.CallReferenceNumber) < 1 || len(*v.CallReferenceNumber) > 8 {
-			return nil, fmt.Errorf("callReferenceNumber length %d violates SIZE (1..8)", len(*v.CallReferenceNumber))
+			if constraintErr := ber.CheckEncodedLength(opts, "callReferenceNumber", "SIZE (1..8)", len(*v.CallReferenceNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_callreferencenumber, encodeErr_enc_callreferencenumber := ber.EncodeOctetString([]byte(*v.CallReferenceNumber))
 		if encodeErr_enc_callreferencenumber != nil {
@@ -6388,7 +7085,7 @@ func (v *ResumeCallHandlingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_callreferencenumber...)
 	}
 	if v.BasicServiceGroup != nil {
-		enc_basicservicegroup, err := v.BasicServiceGroup.MarshalBER()
+		enc_basicservicegroup, err := v.BasicServiceGroup.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceGroup: %w", err)
 		}
@@ -6402,7 +7099,7 @@ func (v *ResumeCallHandlingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_basicservicegroup...)
 	}
 	if v.ForwardingData != nil {
-		enc_forwardingdata, err := v.ForwardingData.MarshalBER()
+		enc_forwardingdata, err := v.ForwardingData.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding forwardingData: %w", err)
 		}
@@ -6415,7 +7112,9 @@ func (v *ResumeCallHandlingArg) MarshalBER() ([]byte, error) {
 	}
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -6429,7 +7128,7 @@ func (v *ResumeCallHandlingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if v.CugCheckInfo != nil {
-		enc_cugcheckinfo, err := v.CugCheckInfo.MarshalBER()
+		enc_cugcheckinfo, err := v.CugCheckInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cug-CheckInfo: %w", err)
 		}
@@ -6441,7 +7140,7 @@ func (v *ResumeCallHandlingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_cugcheckinfo...)
 	}
 	if v.OCSI != nil {
-		enc_ocsi, err := v.OCSI.MarshalBER()
+		enc_ocsi, err := v.OCSI.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding o-CSI: %w", err)
 		}
@@ -6453,7 +7152,7 @@ func (v *ResumeCallHandlingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ocsi...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -6475,10 +7174,14 @@ func (v *ResumeCallHandlingArg) MarshalBER() ([]byte, error) {
 	}
 	if v.Msisdn != nil {
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+			if constraintErr := ber.CheckEncodedLength(opts, "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+			if constraintErr := ber.CheckEncodedLength(opts, "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
@@ -6492,7 +7195,7 @@ func (v *ResumeCallHandlingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_msisdn...)
 	}
 	if v.UuData != nil {
-		enc_uudata, err := v.UuData.MarshalBER()
+		enc_uudata, err := v.UuData.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding uu-Data: %w", err)
 		}
@@ -6513,7 +7216,7 @@ func (v *ResumeCallHandlingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_allinformationsent...)
 	}
 	if v.DCsi != nil {
-		enc_dcsi, err := v.DCsi.MarshalBER()
+		enc_dcsi, err := v.DCsi.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding d-csi: %w", err)
 		}
@@ -6525,10 +7228,12 @@ func (v *ResumeCallHandlingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_dcsi...)
 	}
 	if v.OBcsmCamelTDPCriteriaList != nil {
-		if len(v.OBcsmCamelTDPCriteriaList) < 1 || len(v.OBcsmCamelTDPCriteriaList) > 10 {
-			return nil, fmt.Errorf("o-BcsmCamelTDPCriteriaList length %d violates SIZE (1..10)", len(v.OBcsmCamelTDPCriteriaList))
+		if len((v.OBcsmCamelTDPCriteriaList).Values) < 1 || len((v.OBcsmCamelTDPCriteriaList).Values) > 10 {
+			if constraintErr := ber.CheckEncodedLength(opts, "o-BcsmCamelTDPCriteriaList", "SIZE (1..10)", len((v.OBcsmCamelTDPCriteriaList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_obcsmcameltdpcriterialist, err := MarshalBEROBcsmCamelTDPCriteriaList(v.OBcsmCamelTDPCriteriaList)
+		enc_obcsmcameltdpcriterialist, err := MarshalBEROBcsmCamelTDPCriteriaList(v.OBcsmCamelTDPCriteriaList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding o-BcsmCamelTDPCriteriaList: %w", err)
 		}
@@ -6555,7 +7260,7 @@ func (v *ResumeCallHandlingArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_obcsmcameltdpcriterialist...)
 	}
 	if v.BasicServiceGroup2 != nil {
-		enc_basicservicegroup2, err := v.BasicServiceGroup2.MarshalBER()
+		enc_basicservicegroup2, err := v.BasicServiceGroup2.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceGroup2: %w", err)
 		}
@@ -6592,10 +7297,15 @@ func (v *ResumeCallHandlingArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ResumeCallHandlingArg to DER format.
 func (v *ResumeCallHandlingArg) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ResumeCallHandlingArg receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.CallReferenceNumber != nil {
 		if len(*v.CallReferenceNumber) < 1 || len(*v.CallReferenceNumber) > 8 {
-			return nil, fmt.Errorf("callReferenceNumber length %d violates SIZE (1..8)", len(*v.CallReferenceNumber))
+			if constraintErr := ber.CheckEncodedLength(nil, "callReferenceNumber", "SIZE (1..8)", len(*v.CallReferenceNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_callreferencenumber, encodeErr_enc_callreferencenumber := ber.EncodeOctetString([]byte(*v.CallReferenceNumber))
 		if encodeErr_enc_callreferencenumber != nil {
@@ -6636,7 +7346,9 @@ func (v *ResumeCallHandlingArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -6696,10 +7408,14 @@ func (v *ResumeCallHandlingArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Msisdn != nil {
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+			if constraintErr := ber.CheckEncodedLength(nil, "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			return nil, fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+			if constraintErr := ber.CheckEncodedLength(nil, "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(*v.Msisdn))
 		if encodeErr_enc_msisdn != nil {
@@ -6746,8 +7462,10 @@ func (v *ResumeCallHandlingArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_dcsi...)
 	}
 	if v.OBcsmCamelTDPCriteriaList != nil {
-		if len(v.OBcsmCamelTDPCriteriaList) < 1 || len(v.OBcsmCamelTDPCriteriaList) > 10 {
-			return nil, fmt.Errorf("o-BcsmCamelTDPCriteriaList length %d violates SIZE (1..10)", len(v.OBcsmCamelTDPCriteriaList))
+		if len((v.OBcsmCamelTDPCriteriaList).Values) < 1 || len((v.OBcsmCamelTDPCriteriaList).Values) > 10 {
+			if constraintErr := ber.CheckEncodedLength(nil, "o-BcsmCamelTDPCriteriaList", "SIZE (1..10)", len((v.OBcsmCamelTDPCriteriaList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_obcsmcameltdpcriterialist, err := MarshalDEROBcsmCamelTDPCriteriaList(v.OBcsmCamelTDPCriteriaList)
 		if err != nil {
@@ -6800,11 +7518,27 @@ func (v *ResumeCallHandlingArg) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ResumeCallHandlingArg from BER/DER format.
-func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ResumeCallHandlingArg destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ResumeCallHandlingArg{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ResumeCallHandlingArg SEQUENCE: %w", err)
@@ -6835,7 +7569,9 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_callreferencenumber
 				if len(*v.CallReferenceNumber) < 1 || len(*v.CallReferenceNumber) > 8 {
-					return fmt.Errorf("callReferenceNumber length %d violates SIZE (1..8)", len(*v.CallReferenceNumber))
+					if constraintErr := ber.CheckDecodedLength(opts, "callReferenceNumber", "SIZE (1..8)", len(*v.CallReferenceNumber)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -6854,7 +7590,7 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_basicservicegroup ExtBasicServiceCode
-				if unmErr := dec_basicservicegroup.UnmarshalBER(innerData_basicservicegroup, opts...); unmErr != nil {
+				if unmErr := dec_basicservicegroup.UnmarshalBER(innerData_basicservicegroup, ber.ChildDecodeOptions(opts, "basicservicegroup")...); unmErr != nil {
 					return fmt.Errorf("decoding basicServiceGroup: %w", unmErr)
 				}
 				v.BasicServiceGroup = &dec_basicservicegroup
@@ -6885,7 +7621,7 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("decoding forwardingData: %w", reconstructionErr_forwardingdata)
 				}
 				var dec_forwardingdata ForwardingData
-				if unmErr := dec_forwardingdata.UnmarshalBER(reconstructed_forwardingdata, opts...); unmErr != nil {
+				if unmErr := dec_forwardingdata.UnmarshalBER(reconstructed_forwardingdata, ber.ChildDecodeOptions(opts, "forwardingdata")...); unmErr != nil {
 					return fmt.Errorf("decoding forwardingData: %w", unmErr)
 				}
 				v.ForwardingData = &dec_forwardingdata
@@ -6919,7 +7655,9 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_imsi
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+					if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -6941,7 +7679,7 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("decoding cug-CheckInfo: %w", reconstructionErr_cugcheckinfo)
 				}
 				var dec_cugcheckinfo CUGCheckInfo
-				if unmErr := dec_cugcheckinfo.UnmarshalBER(reconstructed_cugcheckinfo, opts...); unmErr != nil {
+				if unmErr := dec_cugcheckinfo.UnmarshalBER(reconstructed_cugcheckinfo, ber.ChildDecodeOptions(opts, "cugcheckinfo")...); unmErr != nil {
 					return fmt.Errorf("decoding cug-CheckInfo: %w", unmErr)
 				}
 				v.CugCheckInfo = &dec_cugcheckinfo
@@ -6971,7 +7709,7 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("decoding o-CSI: %w", reconstructionErr_ocsi)
 				}
 				var dec_ocsi OCSI
-				if unmErr := dec_ocsi.UnmarshalBER(reconstructed_ocsi, opts...); unmErr != nil {
+				if unmErr := dec_ocsi.UnmarshalBER(reconstructed_ocsi, ber.ChildDecodeOptions(opts, "ocsi")...); unmErr != nil {
 					return fmt.Errorf("decoding o-CSI: %w", unmErr)
 				}
 				v.OCSI = &dec_ocsi
@@ -7001,7 +7739,7 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -7061,10 +7799,14 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_msisdn
 				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-					return fmt.Errorf("msisdn length %d violates SIZE (1..9)", len(*v.Msisdn))
+					if constraintErr := ber.CheckDecodedLength(opts, "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 				if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-					return fmt.Errorf("msisdn length %d violates SIZE (1..20)", len(*v.Msisdn))
+					if constraintErr := ber.CheckDecodedLength(opts, "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -7086,7 +7828,7 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("decoding uu-Data: %w", reconstructionErr_uudata)
 				}
 				var dec_uudata UUData
-				if unmErr := dec_uudata.UnmarshalBER(reconstructed_uudata, opts...); unmErr != nil {
+				if unmErr := dec_uudata.UnmarshalBER(reconstructed_uudata, ber.ChildDecodeOptions(opts, "uudata")...); unmErr != nil {
 					return fmt.Errorf("decoding uu-Data: %w", unmErr)
 				}
 				v.UuData = &dec_uudata
@@ -7142,7 +7884,7 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("decoding d-csi: %w", reconstructionErr_dcsi)
 				}
 				var dec_dcsi DCSI
-				if unmErr := dec_dcsi.UnmarshalBER(reconstructed_dcsi, opts...); unmErr != nil {
+				if unmErr := dec_dcsi.UnmarshalBER(reconstructed_dcsi, ber.ChildDecodeOptions(opts, "dcsi")...); unmErr != nil {
 					return fmt.Errorf("decoding d-csi: %w", unmErr)
 				}
 				v.DCsi = &dec_dcsi
@@ -7172,7 +7914,7 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if reconstructionErr_obcsmcameltdpcriterialist != nil {
 					return fmt.Errorf("decoding o-BcsmCamelTDPCriteriaList: %w", reconstructionErr_obcsmcameltdpcriterialist)
 				}
-				dec_obcsmcameltdpcriterialist, unmErr := UnmarshalBEROBcsmCamelTDPCriteriaList(reconstructed_obcsmcameltdpcriterialist, opts...)
+				dec_obcsmcameltdpcriterialist, unmErr := UnmarshalBEROBcsmCamelTDPCriteriaList(reconstructed_obcsmcameltdpcriterialist, ber.ChildDecodeOptions(opts, "o-BcsmCamelTDPCriteriaList")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding o-BcsmCamelTDPCriteriaList: %w", unmErr)
 				}
@@ -7195,8 +7937,10 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 
 				offset += n_obcsmcameltdpcriterialist
-				if len(v.OBcsmCamelTDPCriteriaList) < 1 || len(v.OBcsmCamelTDPCriteriaList) > 10 {
-					return fmt.Errorf("o-BcsmCamelTDPCriteriaList length %d violates SIZE (1..10)", len(v.OBcsmCamelTDPCriteriaList))
+				if len((v.OBcsmCamelTDPCriteriaList).Values) < 1 || len((v.OBcsmCamelTDPCriteriaList).Values) > 10 {
+					if constraintErr := ber.CheckDecodedLength(opts, "o-BcsmCamelTDPCriteriaList", "SIZE (1..10)", len((v.OBcsmCamelTDPCriteriaList).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -7215,7 +7959,7 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_basicservicegroup2 ExtBasicServiceCode
-				if unmErr := dec_basicservicegroup2.UnmarshalBER(innerData_basicservicegroup2, opts...); unmErr != nil {
+				if unmErr := dec_basicservicegroup2.UnmarshalBER(innerData_basicservicegroup2, ber.ChildDecodeOptions(opts, "basicservicegroup2")...); unmErr != nil {
 					return fmt.Errorf("decoding basicServiceGroup2: %w", unmErr)
 				}
 				v.BasicServiceGroup2 = &dec_basicservicegroup2
@@ -7281,11 +8025,26 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes UUData to BER format.
-func (v *UUData) MarshalBER() ([]byte, error) {
+func (v *UUData) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: UUData receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *UUData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.UuIndicator != nil {
 		if len(*v.UuIndicator) < 1 || len(*v.UuIndicator) > 1 {
-			return nil, fmt.Errorf("uuIndicator length %d violates SIZE (1)", len(*v.UuIndicator))
+			if constraintErr := ber.CheckEncodedLength(opts, "uuIndicator", "SIZE (1)", len(*v.UuIndicator)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_uuindicator, encodeErr_enc_uuindicator := ber.EncodeOctetString([]byte(*v.UuIndicator))
 		if encodeErr_enc_uuindicator != nil {
@@ -7300,7 +8059,9 @@ func (v *UUData) MarshalBER() ([]byte, error) {
 	}
 	if v.Uui != nil {
 		if len(*v.Uui) < 1 || len(*v.Uui) > 131 {
-			return nil, fmt.Errorf("uui length %d violates SIZE (1..131)", len(*v.Uui))
+			if constraintErr := ber.CheckEncodedLength(opts, "uui", "SIZE (1..131)", len(*v.Uui)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_uui, encodeErr_enc_uui := ber.EncodeOctetString([]byte(*v.Uui))
 		if encodeErr_enc_uui != nil {
@@ -7323,7 +8084,7 @@ func (v *UUData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_uuscfinteraction...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -7349,10 +8110,15 @@ func (v *UUData) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes UUData to DER format.
 func (v *UUData) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: UUData receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.UuIndicator != nil {
 		if len(*v.UuIndicator) < 1 || len(*v.UuIndicator) > 1 {
-			return nil, fmt.Errorf("uuIndicator length %d violates SIZE (1)", len(*v.UuIndicator))
+			if constraintErr := ber.CheckEncodedLength(nil, "uuIndicator", "SIZE (1)", len(*v.UuIndicator)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_uuindicator, encodeErr_enc_uuindicator := ber.EncodeOctetString([]byte(*v.UuIndicator))
 		if encodeErr_enc_uuindicator != nil {
@@ -7367,7 +8133,9 @@ func (v *UUData) MarshalDER() ([]byte, error) {
 	}
 	if v.Uui != nil {
 		if len(*v.Uui) < 1 || len(*v.Uui) > 131 {
-			return nil, fmt.Errorf("uui length %d violates SIZE (1..131)", len(*v.Uui))
+			if constraintErr := ber.CheckEncodedLength(nil, "uui", "SIZE (1..131)", len(*v.Uui)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_uui, encodeErr_enc_uui := ber.EncodeOctetString([]byte(*v.Uui))
 		if encodeErr_enc_uui != nil {
@@ -7418,11 +8186,27 @@ func (v *UUData) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes UUData from BER/DER format.
-func (v *UUData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *UUData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: UUData destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = UUData{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding UUData SEQUENCE: %w", err)
@@ -7453,7 +8237,9 @@ func (v *UUData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 				offset += n_uuindicator
 				if len(*v.UuIndicator) < 1 || len(*v.UuIndicator) > 1 {
-					return fmt.Errorf("uuIndicator length %d violates SIZE (1)", len(*v.UuIndicator))
+					if constraintErr := ber.CheckDecodedLength(opts, "uuIndicator", "SIZE (1)", len(*v.UuIndicator)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -7479,7 +8265,9 @@ func (v *UUData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 				offset += n_uui
 				if len(*v.Uui) < 1 || len(*v.Uui) > 131 {
-					return fmt.Errorf("uui length %d violates SIZE (1..131)", len(*v.Uui))
+					if constraintErr := ber.CheckDecodedLength(opts, "uui", "SIZE (1..131)", len(*v.Uui)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -7527,7 +8315,7 @@ func (v *UUData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -7568,10 +8356,23 @@ func (v *UUData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes ResumeCallHandlingRes to BER format.
-func (v *ResumeCallHandlingRes) MarshalBER() ([]byte, error) {
+func (v *ResumeCallHandlingRes) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ResumeCallHandlingRes receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ResumeCallHandlingRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -7592,6 +8393,9 @@ func (v *ResumeCallHandlingRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ResumeCallHandlingRes to DER format.
 func (v *ResumeCallHandlingRes) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ResumeCallHandlingRes receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
@@ -7617,11 +8421,27 @@ func (v *ResumeCallHandlingRes) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ResumeCallHandlingRes from BER/DER format.
-func (v *ResumeCallHandlingRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ResumeCallHandlingRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ResumeCallHandlingRes destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ResumeCallHandlingRes{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ResumeCallHandlingRes SEQUENCE: %w", err)
@@ -7647,7 +8467,7 @@ func (v *ResumeCallHandlingRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -7688,12 +8508,27 @@ func (v *ResumeCallHandlingRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes CamelInfo to BER format.
-func (v *CamelInfo) MarshalBER() ([]byte, error) {
+func (v *CamelInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CamelInfo receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CamelInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if (v.SupportedCamelPhases).BitLength < 1 || (v.SupportedCamelPhases).BitLength > 16 {
-		return nil, fmt.Errorf("supportedCamelPhases length %d violates SIZE (1..16)", (v.SupportedCamelPhases).BitLength)
+		if constraintErr := ber.CheckEncodedLength(opts, "supportedCamelPhases", "SIZE (1..16)", (v.SupportedCamelPhases).BitLength); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 	if v.SupportedCamelPhases.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -7707,7 +8542,7 @@ func (v *CamelInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_suppresstcsi...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -7715,9 +8550,11 @@ func (v *CamelInfo) MarshalBER() ([]byte, error) {
 	}
 	if v.OfferedCamel4CSIs != nil {
 		if (*v.OfferedCamel4CSIs).BitLength < 7 || (*v.OfferedCamel4CSIs).BitLength > 16 {
-			return nil, fmt.Errorf("offeredCamel4CSIs length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIs).BitLength)
+			if constraintErr := ber.CheckEncodedLength(opts, "offeredCamel4CSIs", "SIZE (7..16)", (*v.OfferedCamel4CSIs).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7747,11 +8584,16 @@ func (v *CamelInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CamelInfo to DER format.
 func (v *CamelInfo) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CamelInfo receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if (v.SupportedCamelPhases).BitLength < 1 || (v.SupportedCamelPhases).BitLength > 16 {
-		return nil, fmt.Errorf("supportedCamelPhases length %d violates SIZE (1..16)", (v.SupportedCamelPhases).BitLength)
+		if constraintErr := ber.CheckEncodedLength(nil, "supportedCamelPhases", "SIZE (1..16)", (v.SupportedCamelPhases).BitLength); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 	if v.SupportedCamelPhases.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -7773,9 +8615,11 @@ func (v *CamelInfo) MarshalDER() ([]byte, error) {
 	}
 	if v.OfferedCamel4CSIs != nil {
 		if (*v.OfferedCamel4CSIs).BitLength < 7 || (*v.OfferedCamel4CSIs).BitLength > 16 {
-			return nil, fmt.Errorf("offeredCamel4CSIs length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIs).BitLength)
+			if constraintErr := ber.CheckEncodedLength(nil, "offeredCamel4CSIs", "SIZE (7..16)", (*v.OfferedCamel4CSIs).BitLength); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7807,11 +8651,27 @@ func (v *CamelInfo) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CamelInfo from BER/DER format.
-func (v *CamelInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CamelInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CamelInfo destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CamelInfo{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CamelInfo SEQUENCE: %w", err)
@@ -7840,7 +8700,9 @@ func (v *CamelInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 	offset += n
 	if (v.SupportedCamelPhases).BitLength < 1 || (v.SupportedCamelPhases).BitLength > 16 {
-		return fmt.Errorf("supportedCamelPhases length %d violates SIZE (1..16)", (v.SupportedCamelPhases).BitLength)
+		if constraintErr := ber.CheckDecodedLength(opts, "supportedCamelPhases", "SIZE (1..16)", (v.SupportedCamelPhases).BitLength); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode suppress-T-CSI
 	if offset < len(content) {
@@ -7878,7 +8740,7 @@ func (v *CamelInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -7922,7 +8784,9 @@ func (v *CamelInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 				offset += n_offeredcamel4csis
 				if (*v.OfferedCamel4CSIs).BitLength < 7 || (*v.OfferedCamel4CSIs).BitLength > 16 {
-					return fmt.Errorf("offeredCamel4CSIs length %d violates SIZE (7..16)", (*v.OfferedCamel4CSIs).BitLength)
+					if constraintErr := ber.CheckDecodedLength(opts, "offeredCamel4CSIs", "SIZE (7..16)", (*v.OfferedCamel4CSIs).BitLength); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -7954,22 +8818,35 @@ func (v *CamelInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes ExtendedRoutingInfo to BER format.
-func (v *ExtendedRoutingInfo) MarshalBER() ([]byte, error) {
+func (v *ExtendedRoutingInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ExtendedRoutingInfo receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ExtendedRoutingInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case ExtendedRoutingInfoChoiceRoutingInfo:
 		if v.RoutingInfo == nil {
-			return nil, fmt.Errorf("choice ExtendedRoutingInfo: routingInfo is nil")
+			return nil, fmt.Errorf("%w: choice ExtendedRoutingInfo: routingInfo is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.RoutingInfo.MarshalBER()
+		enc_0, err := v.RoutingInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding routingInfo: %w", err)
 		}
 		return enc_0, nil
 	case ExtendedRoutingInfoChoiceCamelRoutingInfo:
 		if v.CamelRoutingInfo == nil {
-			return nil, fmt.Errorf("choice ExtendedRoutingInfo: camelRoutingInfo is nil")
+			return nil, fmt.Errorf("%w: choice ExtendedRoutingInfo: camelRoutingInfo is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.CamelRoutingInfo.MarshalBER()
+		enc_1, err := v.CamelRoutingInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding camelRoutingInfo: %w", err)
 		}
@@ -7986,10 +8863,13 @@ func (v *ExtendedRoutingInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ExtendedRoutingInfo to DER format.
 func (v *ExtendedRoutingInfo) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ExtendedRoutingInfo receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case ExtendedRoutingInfoChoiceRoutingInfo:
 		if v.RoutingInfo == nil {
-			return nil, fmt.Errorf("choice ExtendedRoutingInfo: routingInfo is nil")
+			return nil, fmt.Errorf("%w: choice ExtendedRoutingInfo: routingInfo is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.RoutingInfo.MarshalDER()
 		if err != nil {
@@ -8001,7 +8881,7 @@ func (v *ExtendedRoutingInfo) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case ExtendedRoutingInfoChoiceCamelRoutingInfo:
 		if v.CamelRoutingInfo == nil {
-			return nil, fmt.Errorf("choice ExtendedRoutingInfo: camelRoutingInfo is nil")
+			return nil, fmt.Errorf("%w: choice ExtendedRoutingInfo: camelRoutingInfo is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.CamelRoutingInfo.MarshalDER()
 		if err != nil {
@@ -8028,7 +8908,23 @@ func (v *ExtendedRoutingInfo) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ExtendedRoutingInfo from BER/DER format.
-func (v *ExtendedRoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ExtendedRoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ExtendedRoutingInfo destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -8077,16 +8973,29 @@ func (v *ExtendedRoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBER encodes CamelRoutingInfo to BER format.
-func (v *CamelRoutingInfo) MarshalBER() ([]byte, error) {
+func (v *CamelRoutingInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CamelRoutingInfo receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CamelRoutingInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ForwardingData != nil {
-		enc_forwardingdata, err := v.ForwardingData.MarshalBER()
+		enc_forwardingdata, err := v.ForwardingData.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding forwardingData: %w", err)
 		}
 		children = append(children, enc_forwardingdata...)
 	}
-	enc_gmsccamelsubscriptioninfo, err := v.GmscCamelSubscriptionInfo.MarshalBER()
+	enc_gmsccamelsubscriptioninfo, err := v.GmscCamelSubscriptionInfo.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding gmscCamelSubscriptionInfo: %w", err)
 	}
@@ -8097,7 +9006,7 @@ func (v *CamelRoutingInfo) MarshalBER() ([]byte, error) {
 	enc_gmsccamelsubscriptioninfo = retagged_enc_gmsccamelsubscriptioninfo
 	children = append(children, enc_gmsccamelsubscriptioninfo...)
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -8123,6 +9032,9 @@ func (v *CamelRoutingInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CamelRoutingInfo to DER format.
 func (v *CamelRoutingInfo) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CamelRoutingInfo receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ForwardingData != nil {
 		enc_forwardingdata, err := v.ForwardingData.MarshalDER()
@@ -8170,11 +9082,27 @@ func (v *CamelRoutingInfo) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CamelRoutingInfo from BER/DER format.
-func (v *CamelRoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CamelRoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CamelRoutingInfo destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CamelRoutingInfo{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CamelRoutingInfo SEQUENCE: %w", err)
@@ -8200,7 +9128,7 @@ func (v *CamelRoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_forwardingdata.UnmarshalBER(content[offset:offset+n_forwardingdata], opts...); unmErr != nil {
+				if unmErr := dec_forwardingdata.UnmarshalBER(content[offset:offset+n_forwardingdata], ber.ChildDecodeOptions(opts, "forwardingdata")...); unmErr != nil {
 					return fmt.Errorf("decoding forwardingData: %w", unmErr)
 				}
 				v.ForwardingData = &dec_forwardingdata
@@ -8234,7 +9162,7 @@ func (v *CamelRoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 	if reconstructionErr_gmsccamelsubscriptioninfo != nil {
 		return fmt.Errorf("decoding gmscCamelSubscriptionInfo: %w", reconstructionErr_gmsccamelsubscriptioninfo)
 	}
-	if unmErr := v.GmscCamelSubscriptionInfo.UnmarshalBER(reconstructed_gmsccamelsubscriptioninfo, opts...); unmErr != nil {
+	if unmErr := v.GmscCamelSubscriptionInfo.UnmarshalBER(reconstructed_gmsccamelsubscriptioninfo, ber.ChildDecodeOptions(opts, "gmscCamelSubscriptionInfo")...); unmErr != nil {
 		return fmt.Errorf("decoding gmscCamelSubscriptionInfo: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -8261,7 +9189,7 @@ func (v *CamelRoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -8302,10 +9230,23 @@ func (v *CamelRoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 }
 
 // MarshalBER encodes GmscCamelSubscriptionInfo to BER format.
-func (v *GmscCamelSubscriptionInfo) MarshalBER() ([]byte, error) {
+func (v *GmscCamelSubscriptionInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GmscCamelSubscriptionInfo receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *GmscCamelSubscriptionInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.TCSI != nil {
-		enc_tcsi, err := v.TCSI.MarshalBER()
+		enc_tcsi, err := v.TCSI.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding t-CSI: %w", err)
 		}
@@ -8317,7 +9258,7 @@ func (v *GmscCamelSubscriptionInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_tcsi...)
 	}
 	if v.OCSI != nil {
-		enc_ocsi, err := v.OCSI.MarshalBER()
+		enc_ocsi, err := v.OCSI.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding o-CSI: %w", err)
 		}
@@ -8329,7 +9270,7 @@ func (v *GmscCamelSubscriptionInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ocsi...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -8341,10 +9282,12 @@ func (v *GmscCamelSubscriptionInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.OBcsmCamelTDPCriteriaList != nil {
-		if len(v.OBcsmCamelTDPCriteriaList) < 1 || len(v.OBcsmCamelTDPCriteriaList) > 10 {
-			return nil, fmt.Errorf("o-BcsmCamelTDP-CriteriaList length %d violates SIZE (1..10)", len(v.OBcsmCamelTDPCriteriaList))
+		if len((v.OBcsmCamelTDPCriteriaList).Values) < 1 || len((v.OBcsmCamelTDPCriteriaList).Values) > 10 {
+			if constraintErr := ber.CheckEncodedLength(opts, "o-BcsmCamelTDP-CriteriaList", "SIZE (1..10)", len((v.OBcsmCamelTDPCriteriaList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_obcsmcameltdpcriterialist, err := MarshalBEROBcsmCamelTDPCriteriaList(v.OBcsmCamelTDPCriteriaList)
+		enc_obcsmcameltdpcriterialist, err := MarshalBEROBcsmCamelTDPCriteriaList(v.OBcsmCamelTDPCriteriaList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding o-BcsmCamelTDP-CriteriaList: %w", err)
 		}
@@ -8371,10 +9314,12 @@ func (v *GmscCamelSubscriptionInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_obcsmcameltdpcriterialist...)
 	}
 	if v.TBCSMCAMELTDPCriteriaList != nil {
-		if len(v.TBCSMCAMELTDPCriteriaList) < 1 || len(v.TBCSMCAMELTDPCriteriaList) > 10 {
-			return nil, fmt.Errorf("t-BCSM-CAMEL-TDP-CriteriaList length %d violates SIZE (1..10)", len(v.TBCSMCAMELTDPCriteriaList))
+		if len((v.TBCSMCAMELTDPCriteriaList).Values) < 1 || len((v.TBCSMCAMELTDPCriteriaList).Values) > 10 {
+			if constraintErr := ber.CheckEncodedLength(opts, "t-BCSM-CAMEL-TDP-CriteriaList", "SIZE (1..10)", len((v.TBCSMCAMELTDPCriteriaList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
-		enc_tbcsmcameltdpcriterialist, err := MarshalBERTBCSMCAMELTDPCriteriaList(v.TBCSMCAMELTDPCriteriaList)
+		enc_tbcsmcameltdpcriterialist, err := MarshalBERTBCSMCAMELTDPCriteriaList(v.TBCSMCAMELTDPCriteriaList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding t-BCSM-CAMEL-TDP-CriteriaList: %w", err)
 		}
@@ -8401,7 +9346,7 @@ func (v *GmscCamelSubscriptionInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_tbcsmcameltdpcriterialist...)
 	}
 	if v.DCsi != nil {
-		enc_dcsi, err := v.DCsi.MarshalBER()
+		enc_dcsi, err := v.DCsi.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding d-csi: %w", err)
 		}
@@ -8427,6 +9372,9 @@ func (v *GmscCamelSubscriptionInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GmscCamelSubscriptionInfo to DER format.
 func (v *GmscCamelSubscriptionInfo) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GmscCamelSubscriptionInfo receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.TCSI != nil {
 		enc_tcsi, err := v.TCSI.MarshalDER()
@@ -8465,8 +9413,10 @@ func (v *GmscCamelSubscriptionInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.OBcsmCamelTDPCriteriaList != nil {
-		if len(v.OBcsmCamelTDPCriteriaList) < 1 || len(v.OBcsmCamelTDPCriteriaList) > 10 {
-			return nil, fmt.Errorf("o-BcsmCamelTDP-CriteriaList length %d violates SIZE (1..10)", len(v.OBcsmCamelTDPCriteriaList))
+		if len((v.OBcsmCamelTDPCriteriaList).Values) < 1 || len((v.OBcsmCamelTDPCriteriaList).Values) > 10 {
+			if constraintErr := ber.CheckEncodedLength(nil, "o-BcsmCamelTDP-CriteriaList", "SIZE (1..10)", len((v.OBcsmCamelTDPCriteriaList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_obcsmcameltdpcriterialist, err := MarshalDEROBcsmCamelTDPCriteriaList(v.OBcsmCamelTDPCriteriaList)
 		if err != nil {
@@ -8480,8 +9430,10 @@ func (v *GmscCamelSubscriptionInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_obcsmcameltdpcriterialist...)
 	}
 	if v.TBCSMCAMELTDPCriteriaList != nil {
-		if len(v.TBCSMCAMELTDPCriteriaList) < 1 || len(v.TBCSMCAMELTDPCriteriaList) > 10 {
-			return nil, fmt.Errorf("t-BCSM-CAMEL-TDP-CriteriaList length %d violates SIZE (1..10)", len(v.TBCSMCAMELTDPCriteriaList))
+		if len((v.TBCSMCAMELTDPCriteriaList).Values) < 1 || len((v.TBCSMCAMELTDPCriteriaList).Values) > 10 {
+			if constraintErr := ber.CheckEncodedLength(nil, "t-BCSM-CAMEL-TDP-CriteriaList", "SIZE (1..10)", len((v.TBCSMCAMELTDPCriteriaList).Values)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_tbcsmcameltdpcriterialist, err := MarshalDERTBCSMCAMELTDPCriteriaList(v.TBCSMCAMELTDPCriteriaList)
 		if err != nil {
@@ -8523,11 +9475,27 @@ func (v *GmscCamelSubscriptionInfo) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes GmscCamelSubscriptionInfo from BER/DER format.
-func (v *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: GmscCamelSubscriptionInfo destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = GmscCamelSubscriptionInfo{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding GmscCamelSubscriptionInfo SEQUENCE: %w", err)
@@ -8553,7 +9521,7 @@ func (v *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.Decode
 					return fmt.Errorf("decoding t-CSI: %w", reconstructionErr_tcsi)
 				}
 				var dec_tcsi TCSI
-				if unmErr := dec_tcsi.UnmarshalBER(reconstructed_tcsi, opts...); unmErr != nil {
+				if unmErr := dec_tcsi.UnmarshalBER(reconstructed_tcsi, ber.ChildDecodeOptions(opts, "tcsi")...); unmErr != nil {
 					return fmt.Errorf("decoding t-CSI: %w", unmErr)
 				}
 				v.TCSI = &dec_tcsi
@@ -8583,7 +9551,7 @@ func (v *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.Decode
 					return fmt.Errorf("decoding o-CSI: %w", reconstructionErr_ocsi)
 				}
 				var dec_ocsi OCSI
-				if unmErr := dec_ocsi.UnmarshalBER(reconstructed_ocsi, opts...); unmErr != nil {
+				if unmErr := dec_ocsi.UnmarshalBER(reconstructed_ocsi, ber.ChildDecodeOptions(opts, "ocsi")...); unmErr != nil {
 					return fmt.Errorf("decoding o-CSI: %w", unmErr)
 				}
 				v.OCSI = &dec_ocsi
@@ -8613,7 +9581,7 @@ func (v *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.Decode
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -8644,7 +9612,7 @@ func (v *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.Decode
 				if reconstructionErr_obcsmcameltdpcriterialist != nil {
 					return fmt.Errorf("decoding o-BcsmCamelTDP-CriteriaList: %w", reconstructionErr_obcsmcameltdpcriterialist)
 				}
-				dec_obcsmcameltdpcriterialist, unmErr := UnmarshalBEROBcsmCamelTDPCriteriaList(reconstructed_obcsmcameltdpcriterialist, opts...)
+				dec_obcsmcameltdpcriterialist, unmErr := UnmarshalBEROBcsmCamelTDPCriteriaList(reconstructed_obcsmcameltdpcriterialist, ber.ChildDecodeOptions(opts, "o-BcsmCamelTDP-CriteriaList")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding o-BcsmCamelTDP-CriteriaList: %w", unmErr)
 				}
@@ -8667,8 +9635,10 @@ func (v *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_obcsmcameltdpcriterialist
-				if len(v.OBcsmCamelTDPCriteriaList) < 1 || len(v.OBcsmCamelTDPCriteriaList) > 10 {
-					return fmt.Errorf("o-BcsmCamelTDP-CriteriaList length %d violates SIZE (1..10)", len(v.OBcsmCamelTDPCriteriaList))
+				if len((v.OBcsmCamelTDPCriteriaList).Values) < 1 || len((v.OBcsmCamelTDPCriteriaList).Values) > 10 {
+					if constraintErr := ber.CheckDecodedLength(opts, "o-BcsmCamelTDP-CriteriaList", "SIZE (1..10)", len((v.OBcsmCamelTDPCriteriaList).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -8690,7 +9660,7 @@ func (v *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.Decode
 				if reconstructionErr_tbcsmcameltdpcriterialist != nil {
 					return fmt.Errorf("decoding t-BCSM-CAMEL-TDP-CriteriaList: %w", reconstructionErr_tbcsmcameltdpcriterialist)
 				}
-				dec_tbcsmcameltdpcriterialist, unmErr := UnmarshalBERTBCSMCAMELTDPCriteriaList(reconstructed_tbcsmcameltdpcriterialist, opts...)
+				dec_tbcsmcameltdpcriterialist, unmErr := UnmarshalBERTBCSMCAMELTDPCriteriaList(reconstructed_tbcsmcameltdpcriterialist, ber.ChildDecodeOptions(opts, "t-BCSM-CAMEL-TDP-CriteriaList")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding t-BCSM-CAMEL-TDP-CriteriaList: %w", unmErr)
 				}
@@ -8713,8 +9683,10 @@ func (v *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_tbcsmcameltdpcriterialist
-				if len(v.TBCSMCAMELTDPCriteriaList) < 1 || len(v.TBCSMCAMELTDPCriteriaList) > 10 {
-					return fmt.Errorf("t-BCSM-CAMEL-TDP-CriteriaList length %d violates SIZE (1..10)", len(v.TBCSMCAMELTDPCriteriaList))
+				if len((v.TBCSMCAMELTDPCriteriaList).Values) < 1 || len((v.TBCSMCAMELTDPCriteriaList).Values) > 10 {
+					if constraintErr := ber.CheckDecodedLength(opts, "t-BCSM-CAMEL-TDP-CriteriaList", "SIZE (1..10)", len((v.TBCSMCAMELTDPCriteriaList).Values)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -8736,7 +9708,7 @@ func (v *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.Decode
 					return fmt.Errorf("decoding d-csi: %w", reconstructionErr_dcsi)
 				}
 				var dec_dcsi DCSI
-				if unmErr := dec_dcsi.UnmarshalBER(reconstructed_dcsi, opts...); unmErr != nil {
+				if unmErr := dec_dcsi.UnmarshalBER(reconstructed_dcsi, ber.ChildDecodeOptions(opts, "dcsi")...); unmErr != nil {
 					return fmt.Errorf("decoding d-csi: %w", unmErr)
 				}
 				v.DCsi = &dec_dcsi
@@ -8776,11 +9748,26 @@ func (v *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes SetReportingStateArg to BER format.
-func (v *SetReportingStateArg) MarshalBER() ([]byte, error) {
+func (v *SetReportingStateArg) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SetReportingStateArg receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SetReportingStateArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -8795,7 +9782,9 @@ func (v *SetReportingStateArg) MarshalBER() ([]byte, error) {
 	}
 	if v.Lmsi != nil {
 		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-			return nil, fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+			if constraintErr := ber.CheckEncodedLength(opts, "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
 		if encodeErr_enc_lmsi != nil {
@@ -8818,7 +9807,7 @@ func (v *SetReportingStateArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ccbsmonitoring...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -8844,10 +9833,15 @@ func (v *SetReportingStateArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SetReportingStateArg to DER format.
 func (v *SetReportingStateArg) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SetReportingStateArg receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+			if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
 		if encodeErr_enc_imsi != nil {
@@ -8862,7 +9856,9 @@ func (v *SetReportingStateArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Lmsi != nil {
 		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-			return nil, fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+			if constraintErr := ber.CheckEncodedLength(nil, "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
 		if encodeErr_enc_lmsi != nil {
@@ -8913,11 +9909,27 @@ func (v *SetReportingStateArg) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SetReportingStateArg from BER/DER format.
-func (v *SetReportingStateArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SetReportingStateArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SetReportingStateArg destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SetReportingStateArg{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SetReportingStateArg SEQUENCE: %w", err)
@@ -8947,7 +9959,9 @@ func (v *SetReportingStateArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 				offset += n_imsi
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(*v.Imsi))
+					if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -8973,7 +9987,9 @@ func (v *SetReportingStateArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 				offset += n_lmsi
 				if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-					return fmt.Errorf("lmsi length %d violates SIZE (4)", len(*v.Lmsi))
+					if constraintErr := ber.CheckDecodedLength(opts, "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -9022,7 +10038,7 @@ func (v *SetReportingStateArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -9063,7 +10079,20 @@ func (v *SetReportingStateArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes SetReportingStateRes to BER format.
-func (v *SetReportingStateRes) MarshalBER() ([]byte, error) {
+func (v *SetReportingStateRes) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SetReportingStateRes receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SetReportingStateRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.CcbsSubscriberStatus != nil {
 		enc_ccbssubscriberstatus := ber.EncodeEnumerated(int64(*v.CcbsSubscriberStatus))
@@ -9075,7 +10104,7 @@ func (v *SetReportingStateRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ccbssubscriberstatus...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -9101,6 +10130,9 @@ func (v *SetReportingStateRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SetReportingStateRes to DER format.
 func (v *SetReportingStateRes) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SetReportingStateRes receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.CcbsSubscriberStatus != nil {
 		enc_ccbssubscriberstatus := ber.EncodeEnumerated(int64(*v.CcbsSubscriberStatus))
@@ -9140,11 +10172,27 @@ func (v *SetReportingStateRes) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SetReportingStateRes from BER/DER format.
-func (v *SetReportingStateRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SetReportingStateRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SetReportingStateRes destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SetReportingStateRes{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SetReportingStateRes SEQUENCE: %w", err)
@@ -9198,7 +10246,7 @@ func (v *SetReportingStateRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -9239,10 +10287,25 @@ func (v *SetReportingStateRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes StatusReportArg to BER format.
-func (v *StatusReportArg) MarshalBER() ([]byte, error) {
+func (v *StatusReportArg) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: StatusReportArg receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *StatusReportArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
@@ -9255,7 +10318,7 @@ func (v *StatusReportArg) MarshalBER() ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if v.EventReportData != nil {
-		enc_eventreportdata, err := v.EventReportData.MarshalBER()
+		enc_eventreportdata, err := v.EventReportData.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eventReportData: %w", err)
 		}
@@ -9267,7 +10330,7 @@ func (v *StatusReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_eventreportdata...)
 	}
 	if v.CallReportdata != nil {
-		enc_callreportdata, err := v.CallReportdata.MarshalBER()
+		enc_callreportdata, err := v.CallReportdata.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding callReportdata: %w", err)
 		}
@@ -9279,7 +10342,7 @@ func (v *StatusReportArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_callreportdata...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -9305,9 +10368,14 @@ func (v *StatusReportArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes StatusReportArg to DER format.
 func (v *StatusReportArg) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: StatusReportArg receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
@@ -9372,11 +10440,27 @@ func (v *StatusReportArg) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes StatusReportArg from BER/DER format.
-func (v *StatusReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *StatusReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: StatusReportArg destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = StatusReportArg{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding StatusReportArg SEQUENCE: %w", err)
@@ -9409,7 +10493,9 @@ func (v *StatusReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 
 	offset += n_imsi
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode eventReportData
 	if offset < len(content) {
@@ -9428,7 +10514,7 @@ func (v *StatusReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 					return fmt.Errorf("decoding eventReportData: %w", reconstructionErr_eventreportdata)
 				}
 				var dec_eventreportdata EventReportData
-				if unmErr := dec_eventreportdata.UnmarshalBER(reconstructed_eventreportdata, opts...); unmErr != nil {
+				if unmErr := dec_eventreportdata.UnmarshalBER(reconstructed_eventreportdata, ber.ChildDecodeOptions(opts, "eventreportdata")...); unmErr != nil {
 					return fmt.Errorf("decoding eventReportData: %w", unmErr)
 				}
 				v.EventReportData = &dec_eventreportdata
@@ -9459,7 +10545,7 @@ func (v *StatusReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 					return fmt.Errorf("decoding callReportdata: %w", reconstructionErr_callreportdata)
 				}
 				var dec_callreportdata CallReportData
-				if unmErr := dec_callreportdata.UnmarshalBER(reconstructed_callreportdata, opts...); unmErr != nil {
+				if unmErr := dec_callreportdata.UnmarshalBER(reconstructed_callreportdata, ber.ChildDecodeOptions(opts, "callreportdata")...); unmErr != nil {
 					return fmt.Errorf("decoding callReportdata: %w", unmErr)
 				}
 				v.CallReportdata = &dec_callreportdata
@@ -9490,7 +10576,7 @@ func (v *StatusReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -9531,7 +10617,20 @@ func (v *StatusReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 }
 
 // MarshalBER encodes EventReportData to BER format.
-func (v *EventReportData) MarshalBER() ([]byte, error) {
+func (v *EventReportData) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EventReportData receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EventReportData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.CcbsSubscriberStatus != nil {
 		enc_ccbssubscriberstatus := ber.EncodeEnumerated(int64(*v.CcbsSubscriberStatus))
@@ -9543,7 +10642,7 @@ func (v *EventReportData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ccbssubscriberstatus...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -9569,6 +10668,9 @@ func (v *EventReportData) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EventReportData to DER format.
 func (v *EventReportData) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EventReportData receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.CcbsSubscriberStatus != nil {
 		enc_ccbssubscriberstatus := ber.EncodeEnumerated(int64(*v.CcbsSubscriberStatus))
@@ -9608,11 +10710,27 @@ func (v *EventReportData) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EventReportData from BER/DER format.
-func (v *EventReportData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EventReportData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EventReportData destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EventReportData{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EventReportData SEQUENCE: %w", err)
@@ -9666,7 +10784,7 @@ func (v *EventReportData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -9707,7 +10825,20 @@ func (v *EventReportData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 }
 
 // MarshalBER encodes CallReportData to BER format.
-func (v *CallReportData) MarshalBER() ([]byte, error) {
+func (v *CallReportData) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CallReportData receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CallReportData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.MonitoringMode != nil {
 		enc_monitoringmode := ber.EncodeEnumerated(int64(*v.MonitoringMode))
@@ -9728,7 +10859,7 @@ func (v *CallReportData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_calloutcome...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -9754,6 +10885,9 @@ func (v *CallReportData) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CallReportData to DER format.
 func (v *CallReportData) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CallReportData receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.MonitoringMode != nil {
 		enc_monitoringmode := ber.EncodeEnumerated(int64(*v.MonitoringMode))
@@ -9802,11 +10936,27 @@ func (v *CallReportData) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CallReportData from BER/DER format.
-func (v *CallReportData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CallReportData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CallReportData destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CallReportData{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CallReportData SEQUENCE: %w", err)
@@ -9887,7 +11037,7 @@ func (v *CallReportData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -9928,10 +11078,23 @@ func (v *CallReportData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 }
 
 // MarshalBER encodes StatusReportRes to BER format.
-func (v *StatusReportRes) MarshalBER() ([]byte, error) {
+func (v *StatusReportRes) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: StatusReportRes receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *StatusReportRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -9957,6 +11120,9 @@ func (v *StatusReportRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes StatusReportRes to DER format.
 func (v *StatusReportRes) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: StatusReportRes receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
@@ -9987,11 +11153,27 @@ func (v *StatusReportRes) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes StatusReportRes from BER/DER format.
-func (v *StatusReportRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *StatusReportRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: StatusReportRes destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = StatusReportRes{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding StatusReportRes SEQUENCE: %w", err)
@@ -10017,7 +11199,7 @@ func (v *StatusReportRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -10058,10 +11240,25 @@ func (v *StatusReportRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 }
 
 // MarshalBER encodes RemoteUserFreeArg to BER format.
-func (v *RemoteUserFreeArg) MarshalBER() ([]byte, error) {
+func (v *RemoteUserFreeArg) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RemoteUserFreeArg receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *RemoteUserFreeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
@@ -10073,7 +11270,7 @@ func (v *RemoteUserFreeArg) MarshalBER() ([]byte, error) {
 	}
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
-	enc_callinfo, err := v.CallInfo.MarshalBER()
+	enc_callinfo, err := v.CallInfo.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding callInfo: %w", err)
 	}
@@ -10083,7 +11280,7 @@ func (v *RemoteUserFreeArg) MarshalBER() ([]byte, error) {
 	}
 	enc_callinfo = retagged_enc_callinfo
 	children = append(children, enc_callinfo...)
-	enc_ccbsfeature, err := v.CcbsFeature.MarshalBER()
+	enc_ccbsfeature, err := v.CcbsFeature.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding ccbs-Feature: %w", err)
 	}
@@ -10094,10 +11291,14 @@ func (v *RemoteUserFreeArg) MarshalBER() ([]byte, error) {
 	enc_ccbsfeature = retagged_enc_ccbsfeature
 	children = append(children, enc_ccbsfeature...)
 	if len(v.TranslatedBNumber) < 1 || len(v.TranslatedBNumber) > 9 {
-		return nil, fmt.Errorf("translatedB-Number length %d violates SIZE (1..9)", len(v.TranslatedBNumber))
+		if constraintErr := ber.CheckEncodedLength(opts, "translatedB-Number", "SIZE (1..9)", len(v.TranslatedBNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.TranslatedBNumber) < 1 || len(v.TranslatedBNumber) > 20 {
-		return nil, fmt.Errorf("translatedB-Number length %d violates SIZE (1..20)", len(v.TranslatedBNumber))
+		if constraintErr := ber.CheckEncodedLength(opts, "translatedB-Number", "SIZE (1..20)", len(v.TranslatedBNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_translatedbnumber, encodeErr_enc_translatedbnumber := ber.EncodeOctetString([]byte(v.TranslatedBNumber))
 	if encodeErr_enc_translatedbnumber != nil {
@@ -10120,7 +11321,9 @@ func (v *RemoteUserFreeArg) MarshalBER() ([]byte, error) {
 	}
 	if v.AlertingPattern != nil {
 		if len(*v.AlertingPattern) < 1 || len(*v.AlertingPattern) > 1 {
-			return nil, fmt.Errorf("alertingPattern length %d violates SIZE (1)", len(*v.AlertingPattern))
+			if constraintErr := ber.CheckEncodedLength(opts, "alertingPattern", "SIZE (1)", len(*v.AlertingPattern)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_alertingpattern, encodeErr_enc_alertingpattern := ber.EncodeOctetString([]byte(*v.AlertingPattern))
 		if encodeErr_enc_alertingpattern != nil {
@@ -10134,7 +11337,7 @@ func (v *RemoteUserFreeArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_alertingpattern...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -10160,9 +11363,14 @@ func (v *RemoteUserFreeArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RemoteUserFreeArg to DER format.
 func (v *RemoteUserFreeArg) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RemoteUserFreeArg receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
@@ -10195,10 +11403,14 @@ func (v *RemoteUserFreeArg) MarshalDER() ([]byte, error) {
 	enc_ccbsfeature = retagged_enc_ccbsfeature
 	children = append(children, enc_ccbsfeature...)
 	if len(v.TranslatedBNumber) < 1 || len(v.TranslatedBNumber) > 9 {
-		return nil, fmt.Errorf("translatedB-Number length %d violates SIZE (1..9)", len(v.TranslatedBNumber))
+		if constraintErr := ber.CheckEncodedLength(nil, "translatedB-Number", "SIZE (1..9)", len(v.TranslatedBNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.TranslatedBNumber) < 1 || len(v.TranslatedBNumber) > 20 {
-		return nil, fmt.Errorf("translatedB-Number length %d violates SIZE (1..20)", len(v.TranslatedBNumber))
+		if constraintErr := ber.CheckEncodedLength(nil, "translatedB-Number", "SIZE (1..20)", len(v.TranslatedBNumber)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_translatedbnumber, encodeErr_enc_translatedbnumber := ber.EncodeOctetString([]byte(v.TranslatedBNumber))
 	if encodeErr_enc_translatedbnumber != nil {
@@ -10221,7 +11433,9 @@ func (v *RemoteUserFreeArg) MarshalDER() ([]byte, error) {
 	}
 	if v.AlertingPattern != nil {
 		if len(*v.AlertingPattern) < 1 || len(*v.AlertingPattern) > 1 {
-			return nil, fmt.Errorf("alertingPattern length %d violates SIZE (1)", len(*v.AlertingPattern))
+			if constraintErr := ber.CheckEncodedLength(nil, "alertingPattern", "SIZE (1)", len(*v.AlertingPattern)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_alertingpattern, encodeErr_enc_alertingpattern := ber.EncodeOctetString([]byte(*v.AlertingPattern))
 		if encodeErr_enc_alertingpattern != nil {
@@ -10263,11 +11477,27 @@ func (v *RemoteUserFreeArg) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes RemoteUserFreeArg from BER/DER format.
-func (v *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: RemoteUserFreeArg destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = RemoteUserFreeArg{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding RemoteUserFreeArg SEQUENCE: %w", err)
@@ -10300,7 +11530,9 @@ func (v *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 
 	offset += n_imsi
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode callInfo
 	if offset >= len(content) {
@@ -10322,7 +11554,7 @@ func (v *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if reconstructionErr_callinfo != nil {
 		return fmt.Errorf("decoding callInfo: %w", reconstructionErr_callinfo)
 	}
-	if unmErr := v.CallInfo.UnmarshalBER(reconstructed_callinfo, opts...); unmErr != nil {
+	if unmErr := v.CallInfo.UnmarshalBER(reconstructed_callinfo, ber.ChildDecodeOptions(opts, "callInfo")...); unmErr != nil {
 		return fmt.Errorf("decoding callInfo: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -10351,7 +11583,7 @@ func (v *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if reconstructionErr_ccbsfeature != nil {
 		return fmt.Errorf("decoding ccbs-Feature: %w", reconstructionErr_ccbsfeature)
 	}
-	if unmErr := v.CcbsFeature.UnmarshalBER(reconstructed_ccbsfeature, opts...); unmErr != nil {
+	if unmErr := v.CcbsFeature.UnmarshalBER(reconstructed_ccbsfeature, ber.ChildDecodeOptions(opts, "ccbsFeature")...); unmErr != nil {
 		return fmt.Errorf("decoding ccbs-Feature: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -10385,10 +11617,14 @@ func (v *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 
 	offset += n_translatedbnumber
 	if len(v.TranslatedBNumber) < 1 || len(v.TranslatedBNumber) > 9 {
-		return fmt.Errorf("translatedB-Number length %d violates SIZE (1..9)", len(v.TranslatedBNumber))
+		if constraintErr := ber.CheckDecodedLength(opts, "translatedB-Number", "SIZE (1..9)", len(v.TranslatedBNumber)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	if len(v.TranslatedBNumber) < 1 || len(v.TranslatedBNumber) > 20 {
-		return fmt.Errorf("translatedB-Number length %d violates SIZE (1..20)", len(v.TranslatedBNumber))
+		if constraintErr := ber.CheckDecodedLength(opts, "translatedB-Number", "SIZE (1..20)", len(v.TranslatedBNumber)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode replaceB-Number
 	if offset < len(content) {
@@ -10438,7 +11674,9 @@ func (v *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 
 				offset += n_alertingpattern
 				if len(*v.AlertingPattern) < 1 || len(*v.AlertingPattern) > 1 {
-					return fmt.Errorf("alertingPattern length %d violates SIZE (1)", len(*v.AlertingPattern))
+					if constraintErr := ber.CheckDecodedLength(opts, "alertingPattern", "SIZE (1)", len(*v.AlertingPattern)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -10460,7 +11698,7 @@ func (v *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -10501,7 +11739,20 @@ func (v *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 }
 
 // MarshalBER encodes RemoteUserFreeRes to BER format.
-func (v *RemoteUserFreeRes) MarshalBER() ([]byte, error) {
+func (v *RemoteUserFreeRes) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RemoteUserFreeRes receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *RemoteUserFreeRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_rufoutcome := ber.EncodeEnumerated(int64(v.RufOutcome))
 	retagged_enc_rufoutcome, tagErr_enc_rufoutcome := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_rufoutcome)
@@ -10511,7 +11762,7 @@ func (v *RemoteUserFreeRes) MarshalBER() ([]byte, error) {
 	enc_rufoutcome = retagged_enc_rufoutcome
 	children = append(children, enc_rufoutcome...)
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -10537,6 +11788,9 @@ func (v *RemoteUserFreeRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RemoteUserFreeRes to DER format.
 func (v *RemoteUserFreeRes) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RemoteUserFreeRes receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_rufoutcome := ber.EncodeEnumerated(int64(v.RufOutcome))
 	retagged_enc_rufoutcome, tagErr_enc_rufoutcome := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_rufoutcome)
@@ -10574,11 +11828,27 @@ func (v *RemoteUserFreeRes) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes RemoteUserFreeRes from BER/DER format.
-func (v *RemoteUserFreeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *RemoteUserFreeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: RemoteUserFreeRes destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = RemoteUserFreeRes{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding RemoteUserFreeRes SEQUENCE: %w", err)
@@ -10631,7 +11901,7 @@ func (v *RemoteUserFreeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -10672,10 +11942,25 @@ func (v *RemoteUserFreeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 }
 
 // MarshalBER encodes ISTAlertArg to BER format.
-func (v *ISTAlertArg) MarshalBER() ([]byte, error) {
+func (v *ISTAlertArg) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ISTAlertArg receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ISTAlertArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
@@ -10688,7 +11973,7 @@ func (v *ISTAlertArg) MarshalBER() ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -10714,9 +11999,14 @@ func (v *ISTAlertArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ISTAlertArg to DER format.
 func (v *ISTAlertArg) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ISTAlertArg receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
@@ -10757,11 +12047,27 @@ func (v *ISTAlertArg) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ISTAlertArg from BER/DER format.
-func (v *ISTAlertArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ISTAlertArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ISTAlertArg destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ISTAlertArg{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ISTAlertArg SEQUENCE: %w", err)
@@ -10794,7 +12100,9 @@ func (v *ISTAlertArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 
 	offset += n_imsi
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode extensionContainer
 	if offset < len(content) {
@@ -10813,7 +12121,7 @@ func (v *ISTAlertArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -10854,9 +12162,27 @@ func (v *ISTAlertArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 }
 
 // MarshalBER encodes ISTAlertRes to BER format.
-func (v *ISTAlertRes) MarshalBER() ([]byte, error) {
+func (v *ISTAlertRes) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ISTAlertRes receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ISTAlertRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.IstAlertTimer != nil {
+		if !(int64(*v.IstAlertTimer) >= 15 && int64(*v.IstAlertTimer) <= 255) {
+			if constraintErr := ber.CheckEncodedValue(opts, "istAlertTimer", "(15..255)", fmt.Sprint(int64(*v.IstAlertTimer))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_istalerttimer := ber.EncodeInteger(int64(*v.IstAlertTimer))
 		retagged_enc_istalerttimer, tagErr_enc_istalerttimer := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_istalerttimer)
 		if tagErr_enc_istalerttimer != nil {
@@ -10884,7 +12210,7 @@ func (v *ISTAlertRes) MarshalBER() ([]byte, error) {
 		children = append(children, enc_callterminationindicator...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -10910,8 +12236,16 @@ func (v *ISTAlertRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ISTAlertRes to DER format.
 func (v *ISTAlertRes) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ISTAlertRes receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.IstAlertTimer != nil {
+		if !(int64(*v.IstAlertTimer) >= 15 && int64(*v.IstAlertTimer) <= 255) {
+			if constraintErr := ber.CheckEncodedValue(nil, "istAlertTimer", "(15..255)", fmt.Sprint(int64(*v.IstAlertTimer))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_istalerttimer := ber.EncodeInteger(int64(*v.IstAlertTimer))
 		retagged_enc_istalerttimer, tagErr_enc_istalerttimer := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_istalerttimer)
 		if tagErr_enc_istalerttimer != nil {
@@ -10967,11 +12301,27 @@ func (v *ISTAlertRes) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ISTAlertRes from BER/DER format.
-func (v *ISTAlertRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ISTAlertRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ISTAlertRes destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ISTAlertRes{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ISTAlertRes SEQUENCE: %w", err)
@@ -11005,6 +12355,11 @@ func (v *ISTAlertRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 				}
 
 				offset += n_istalerttimer
+				if !(int64(*v.IstAlertTimer) >= 15 && int64(*v.IstAlertTimer) <= 255) {
+					if constraintErr := ber.CheckDecodedValue(opts, "istAlertTimer", "(15..255)", fmt.Sprint(int64(*v.IstAlertTimer))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -11079,7 +12434,7 @@ func (v *ISTAlertRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -11120,10 +12475,25 @@ func (v *ISTAlertRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 }
 
 // MarshalBER encodes ISTCommandArg to BER format.
-func (v *ISTCommandArg) MarshalBER() ([]byte, error) {
+func (v *ISTCommandArg) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ISTCommandArg receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ISTCommandArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
@@ -11136,7 +12506,7 @@ func (v *ISTCommandArg) MarshalBER() ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -11162,9 +12532,14 @@ func (v *ISTCommandArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ISTCommandArg to DER format.
 func (v *ISTCommandArg) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ISTCommandArg receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return nil, fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
 	if encodeErr_enc_imsi != nil {
@@ -11205,11 +12580,27 @@ func (v *ISTCommandArg) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ISTCommandArg from BER/DER format.
-func (v *ISTCommandArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ISTCommandArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ISTCommandArg destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ISTCommandArg{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ISTCommandArg SEQUENCE: %w", err)
@@ -11242,7 +12633,9 @@ func (v *ISTCommandArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 
 	offset += n_imsi
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		return fmt.Errorf("imsi length %d violates SIZE (3..8)", len(v.Imsi))
+		if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode extensionContainer
 	if offset < len(content) {
@@ -11261,7 +12654,7 @@ func (v *ISTCommandArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -11302,10 +12695,23 @@ func (v *ISTCommandArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 }
 
 // MarshalBER encodes ISTCommandRes to BER format.
-func (v *ISTCommandRes) MarshalBER() ([]byte, error) {
+func (v *ISTCommandRes) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ISTCommandRes receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ISTCommandRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -11326,6 +12732,9 @@ func (v *ISTCommandRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ISTCommandRes to DER format.
 func (v *ISTCommandRes) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ISTCommandRes receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
@@ -11351,11 +12760,27 @@ func (v *ISTCommandRes) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ISTCommandRes from BER/DER format.
-func (v *ISTCommandRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ISTCommandRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ISTCommandRes destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ISTCommandRes{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ISTCommandRes SEQUENCE: %w", err)
@@ -11381,7 +12806,7 @@ func (v *ISTCommandRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -11422,13 +12847,30 @@ func (v *ISTCommandRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 }
 
 // MarshalBER encodes ReleaseResourcesArg to BER format.
-func (v *ReleaseResourcesArg) MarshalBER() ([]byte, error) {
+func (v *ReleaseResourcesArg) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReleaseResourcesArg receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ReleaseResourcesArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Msrn) < 1 || len(v.Msrn) > 9 {
-		return nil, fmt.Errorf("msrn length %d violates SIZE (1..9)", len(v.Msrn))
+		if constraintErr := ber.CheckEncodedLength(opts, "msrn", "SIZE (1..9)", len(v.Msrn)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.Msrn) < 1 || len(v.Msrn) > 20 {
-		return nil, fmt.Errorf("msrn length %d violates SIZE (1..20)", len(v.Msrn))
+		if constraintErr := ber.CheckEncodedLength(opts, "msrn", "SIZE (1..20)", len(v.Msrn)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_msrn, encodeErr_enc_msrn := ber.EncodeOctetString([]byte(v.Msrn))
 	if encodeErr_enc_msrn != nil {
@@ -11436,7 +12878,7 @@ func (v *ReleaseResourcesArg) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_msrn...)
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -11457,12 +12899,19 @@ func (v *ReleaseResourcesArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ReleaseResourcesArg to DER format.
 func (v *ReleaseResourcesArg) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReleaseResourcesArg receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Msrn) < 1 || len(v.Msrn) > 9 {
-		return nil, fmt.Errorf("msrn length %d violates SIZE (1..9)", len(v.Msrn))
+		if constraintErr := ber.CheckEncodedLength(nil, "msrn", "SIZE (1..9)", len(v.Msrn)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	if len(v.Msrn) < 1 || len(v.Msrn) > 20 {
-		return nil, fmt.Errorf("msrn length %d violates SIZE (1..20)", len(v.Msrn))
+		if constraintErr := ber.CheckEncodedLength(nil, "msrn", "SIZE (1..20)", len(v.Msrn)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_msrn, encodeErr_enc_msrn := ber.EncodeOctetString([]byte(v.Msrn))
 	if encodeErr_enc_msrn != nil {
@@ -11493,11 +12942,27 @@ func (v *ReleaseResourcesArg) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ReleaseResourcesArg from BER/DER format.
-func (v *ReleaseResourcesArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ReleaseResourcesArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ReleaseResourcesArg destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ReleaseResourcesArg{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ReleaseResourcesArg SEQUENCE: %w", err)
@@ -11522,10 +12987,14 @@ func (v *ReleaseResourcesArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 	offset += n
 	if len(v.Msrn) < 1 || len(v.Msrn) > 9 {
-		return fmt.Errorf("msrn length %d violates SIZE (1..9)", len(v.Msrn))
+		if constraintErr := ber.CheckDecodedLength(opts, "msrn", "SIZE (1..9)", len(v.Msrn)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	if len(v.Msrn) < 1 || len(v.Msrn) > 20 {
-		return fmt.Errorf("msrn length %d violates SIZE (1..20)", len(v.Msrn))
+		if constraintErr := ber.CheckDecodedLength(opts, "msrn", "SIZE (1..20)", len(v.Msrn)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode extensionContainer
 	if offset < len(content) {
@@ -11544,7 +13013,7 @@ func (v *ReleaseResourcesArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -11585,10 +13054,23 @@ func (v *ReleaseResourcesArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBER encodes ReleaseResourcesRes to BER format.
-func (v *ReleaseResourcesRes) MarshalBER() ([]byte, error) {
+func (v *ReleaseResourcesRes) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReleaseResourcesRes receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ReleaseResourcesRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -11609,6 +13091,9 @@ func (v *ReleaseResourcesRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ReleaseResourcesRes to DER format.
 func (v *ReleaseResourcesRes) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReleaseResourcesRes receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
@@ -11634,11 +13119,27 @@ func (v *ReleaseResourcesRes) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ReleaseResourcesRes from BER/DER format.
-func (v *ReleaseResourcesRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ReleaseResourcesRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ReleaseResourcesRes destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ReleaseResourcesRes{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ReleaseResourcesRes SEQUENCE: %w", err)
@@ -11664,7 +13165,7 @@ func (v *ReleaseResourcesRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], opts...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer

@@ -25,6 +25,8 @@ type EuiccPackageRequest struct {
 	ExtCount_          int64              `asn1:"-" json:"-"`
 	ExtPresent_        []bool             `asn1:"-" json:"-"`
 	ExtData_           [][]byte           `asn1:"-" json:"-"`
+	berOriginal_       []byte             `asn1:"-" json:"-"`
+	berSnapshot_       []byte             `asn1:"-" json:"-"`
 }
 
 // EuiccPackageSigned represents the ASN.1 type EuiccPackageSigned (SEQUENCE).
@@ -37,6 +39,8 @@ type EuiccPackageSigned struct {
 	ExtCount_        int64          `asn1:"-" json:"-"`
 	ExtPresent_      []bool         `asn1:"-" json:"-"`
 	ExtData_         [][]byte       `asn1:"-" json:"-"`
+	berOriginal_     []byte         `asn1:"-" json:"-"`
+	berSnapshot_     []byte         `asn1:"-" json:"-"`
 }
 
 // EuiccPackage choice constants.
@@ -47,13 +51,15 @@ const (
 
 // EuiccPackage represents the ASN.1 CHOICE type EuiccPackage.
 type EuiccPackage struct {
-	Choice   int
-	PsmoList EuiccPackagePsmoList `json:"PsmoList,omitempty"`
-	EcoList  EuiccPackageEcoList  `json:"EcoList,omitempty"`
+	Choice       int
+	berOriginal_ []byte                `json:"-"`
+	berSnapshot_ []byte                `json:"-"`
+	PsmoList     *EuiccPackagePsmoList `json:"PsmoList,omitempty"`
+	EcoList      *EuiccPackageEcoList  `json:"EcoList,omitempty"`
 }
 
 // NewEuiccPackagePsmoList creates a EuiccPackage with the psmoList alternative.
-func NewEuiccPackagePsmoList(v EuiccPackagePsmoList) EuiccPackage {
+func NewEuiccPackagePsmoList(v *EuiccPackagePsmoList) EuiccPackage {
 	return EuiccPackage{
 		Choice:   EuiccPackageChoicePsmoList,
 		PsmoList: v,
@@ -61,7 +67,7 @@ func NewEuiccPackagePsmoList(v EuiccPackagePsmoList) EuiccPackage {
 }
 
 // NewEuiccPackageEcoList creates a EuiccPackage with the ecoList alternative.
-func NewEuiccPackageEcoList(v EuiccPackageEcoList) EuiccPackage {
+func NewEuiccPackageEcoList(v *EuiccPackageEcoList) EuiccPackage {
 	return EuiccPackage{
 		Choice:  EuiccPackageChoiceEcoList,
 		EcoList: v,
@@ -80,11 +86,13 @@ type EimConfigurationData struct {
 	EimSupportedProtocol                      *EimSupportedProtocol                        `asn1:"tag:7,context,implicit,optional" json:"EimSupportedProtocol,omitempty"`
 	EuiccCiPKId                               *SubjectKeyIdentifier                        `asn1:"tag:8,context,implicit,optional" json:"EuiccCiPKId,omitempty"`
 	IndirectProfileDownload                   *struct{}                                    `asn1:"tag:9,context,implicit,optional" json:"IndirectProfileDownload,omitempty"`
-	ESipaProprietaryProtocolInformation       VendorSpecificExtension                      `asn1:"tag:10,context,implicit,optional" json:"ESipaProprietaryProtocolInformation,omitempty"`
+	ESipaProprietaryProtocolInformation       *VendorSpecificExtension                     `asn1:"tag:10,context,implicit,optional" json:"ESipaProprietaryProtocolInformation,omitempty"`
 	ESipaProprietaryProtocolInformationIndef_ bool                                         `asn1:"-" json:"-"`
 	ExtCount_                                 int64                                        `asn1:"-" json:"-"`
 	ExtPresent_                               []bool                                       `asn1:"-" json:"-"`
 	ExtData_                                  [][]byte                                     `asn1:"-" json:"-"`
+	berOriginal_                              []byte                                       `asn1:"-" json:"-"`
+	berSnapshot_                              []byte                                       `asn1:"-" json:"-"`
 }
 
 // EimIdType represents the arbitrary-width ASN.1 INTEGER type EimIdType with named numbers.
@@ -211,11 +219,13 @@ const (
 
 // Eco represents the ASN.1 CHOICE type Eco.
 type Eco struct {
-	Choice    int
-	AddEim    *EimConfigurationData `json:"AddEim,omitempty"`
-	DeleteEim *EcoDeleteEim         `json:"DeleteEim,omitempty"`
-	UpdateEim *EimConfigurationData `json:"UpdateEim,omitempty"`
-	ListEim   *EcoListEim           `json:"ListEim,omitempty"`
+	Choice       int
+	berOriginal_ []byte                `json:"-"`
+	berSnapshot_ []byte                `json:"-"`
+	AddEim       *EimConfigurationData `json:"AddEim,omitempty"`
+	DeleteEim    *EcoDeleteEim         `json:"DeleteEim,omitempty"`
+	UpdateEim    *EimConfigurationData `json:"UpdateEim,omitempty"`
+	ListEim      *EcoListEim           `json:"ListEim,omitempty"`
 }
 
 // NewEcoAddEim creates a Eco with the addEim alternative.
@@ -266,6 +276,8 @@ const (
 // Psmo represents the ASN.1 CHOICE type Psmo.
 type Psmo struct {
 	Choice                   int
+	berOriginal_             []byte                         `json:"-"`
+	berSnapshot_             []byte                         `json:"-"`
 	Enable                   *PsmoEnable                    `json:"Enable,omitempty"`
 	Disable                  *PsmoDisable                   `json:"Disable,omitempty"`
 	Delete                   *PsmoDelete                    `json:"Delete,omitempty"`
@@ -359,6 +371,8 @@ type IpaEuiccDataRequest struct {
 	ExtCount_                        int64                                                `asn1:"-" json:"-"`
 	ExtPresent_                      []bool                                               `asn1:"-" json:"-"`
 	ExtData_                         [][]byte                                             `asn1:"-" json:"-"`
+	berOriginal_                     []byte                                               `asn1:"-" json:"-"`
+	berSnapshot_                     []byte                                               `asn1:"-" json:"-"`
 }
 
 // ProfileDownloadTriggerRequest represents the ASN.1 type ProfileDownloadTriggerRequest (SEQUENCE).
@@ -368,6 +382,8 @@ type ProfileDownloadTriggerRequest struct {
 	ExtCount_           int64                `asn1:"-" json:"-"`
 	ExtPresent_         []bool               `asn1:"-" json:"-"`
 	ExtData_            [][]byte             `asn1:"-" json:"-"`
+	berOriginal_        []byte               `asn1:"-" json:"-"`
+	berSnapshot_        []byte               `asn1:"-" json:"-"`
 }
 
 // ProfileDownloadData choice constants.
@@ -380,6 +396,8 @@ const (
 // ProfileDownloadData represents the ASN.1 CHOICE type ProfileDownloadData.
 type ProfileDownloadData struct {
 	Choice             int
+	berOriginal_       []byte                          `json:"-"`
+	berSnapshot_       []byte                          `json:"-"`
 	ActivationCode     *string                         `json:"ActivationCode,omitempty"`
 	ContactDefaultSmdp *struct{}                       `json:"ContactDefaultSmdp,omitempty"`
 	ContactSmds        *ProfileDownloadDataContactSmds `json:"ContactSmds,omitempty"`
@@ -410,7 +428,11 @@ func NewProfileDownloadDataContactSmds(v ProfileDownloadDataContactSmds) Profile
 }
 
 // EimAcknowledgements represents the ASN.1 type EimAcknowledgements (SEQUENCE_OF).
-type EimAcknowledgements = []SequenceNumber
+type EimAcknowledgements struct {
+	Values       []SequenceNumber `json:"Values"`
+	berOriginal_ []byte           `json:"-"`
+	berSnapshot_ []byte           `json:"-"`
+}
 
 // SequenceNumber represents the ASN.1 type SequenceNumber (INTEGER).
 type SequenceNumber = *big.Int
@@ -425,6 +447,8 @@ const (
 // EuiccPackageResult represents the ASN.1 CHOICE type EuiccPackageResult.
 type EuiccPackageResult struct {
 	Choice                    int
+	berOriginal_              []byte                     `json:"-"`
+	berSnapshot_              []byte                     `json:"-"`
 	EuiccPackageResultSigned  *EuiccPackageResultSigned  `json:"EuiccPackageResultSigned,omitempty"`
 	EuiccPackageErrorSigned   *EuiccPackageErrorSigned   `json:"EuiccPackageErrorSigned,omitempty"`
 	EuiccPackageErrorUnsigned *EuiccPackageErrorUnsigned `json:"EuiccPackageErrorUnsigned,omitempty"`
@@ -461,19 +485,23 @@ type EuiccPackageResultSigned struct {
 	ExtCount_                    int64                        `asn1:"-" json:"-"`
 	ExtPresent_                  []bool                       `asn1:"-" json:"-"`
 	ExtData_                     [][]byte                     `asn1:"-" json:"-"`
+	berOriginal_                 []byte                       `asn1:"-" json:"-"`
+	berSnapshot_                 []byte                       `asn1:"-" json:"-"`
 }
 
 // EuiccPackageResultDataSigned represents the ASN.1 type EuiccPackageResultDataSigned (SEQUENCE).
 type EuiccPackageResultDataSigned struct {
-	EimId             string                                  `asn1:"tag:0,context,implicit"`
-	CounterValue      *big.Int                                `asn1:"tag:1,context,implicit"`
-	EimTransactionId  *TransactionId                          `asn1:"tag:2,context,implicit,optional" json:"EimTransactionId,omitempty"`
-	SeqNumber         *big.Int                                `asn1:"tag:3,context,implicit"`
-	EuiccResult       EuiccPackageResultDataSignedEuiccResult `asn1:""`
-	EuiccResultIndef_ bool                                    `asn1:"-" json:"-"`
-	ExtCount_         int64                                   `asn1:"-" json:"-"`
-	ExtPresent_       []bool                                  `asn1:"-" json:"-"`
-	ExtData_          [][]byte                                `asn1:"-" json:"-"`
+	EimId             string                                   `asn1:"tag:0,context,implicit"`
+	CounterValue      *big.Int                                 `asn1:"tag:1,context,implicit"`
+	EimTransactionId  *TransactionId                           `asn1:"tag:2,context,implicit,optional" json:"EimTransactionId,omitempty"`
+	SeqNumber         *big.Int                                 `asn1:"tag:3,context,implicit"`
+	EuiccResult       *EuiccPackageResultDataSignedEuiccResult `asn1:""`
+	EuiccResultIndef_ bool                                     `asn1:"-" json:"-"`
+	ExtCount_         int64                                    `asn1:"-" json:"-"`
+	ExtPresent_       []bool                                   `asn1:"-" json:"-"`
+	ExtData_          [][]byte                                 `asn1:"-" json:"-"`
+	berOriginal_      []byte                                   `asn1:"-" json:"-"`
+	berSnapshot_      []byte                                   `asn1:"-" json:"-"`
 }
 
 // EuiccResultData choice constants.
@@ -498,11 +526,13 @@ const (
 // EuiccResultData represents the ASN.1 CHOICE type EuiccResultData.
 type EuiccResultData struct {
 	Choice                         int
+	berOriginal_                   []byte                                    `json:"-"`
+	berSnapshot_                   []byte                                    `json:"-"`
 	EnableResult                   *EnableProfileResult                      `json:"EnableResult,omitempty"`
 	DisableResult                  *DisableProfileResult                     `json:"DisableResult,omitempty"`
 	DeleteResult                   *DeleteProfileResult                      `json:"DeleteResult,omitempty"`
 	ListProfileInfoResult          *SGPProfileInfoListResponse               `json:"ListProfileInfoResult,omitempty"`
-	GetRATResult                   RulesAuthorisationTable                   `json:"GetRATResult,omitempty"`
+	GetRATResult                   *RulesAuthorisationTable                  `json:"GetRATResult,omitempty"`
 	ConfigureImmediateEnableResult *ConfigureImmediateEnableResult           `json:"ConfigureImmediateEnableResult,omitempty"`
 	AddEimResult                   *AddEimResult                             `json:"AddEimResult,omitempty"`
 	DeleteEimResult                *DeleteEimResult                          `json:"DeleteEimResult,omitempty"`
@@ -548,7 +578,7 @@ func NewEuiccResultDataListProfileInfoResult(v SGPProfileInfoListResponse) Euicc
 }
 
 // NewEuiccResultDataGetRATResult creates a EuiccResultData with the getRATResult alternative.
-func NewEuiccResultDataGetRATResult(v RulesAuthorisationTable) EuiccResultData {
+func NewEuiccResultDataGetRATResult(v *RulesAuthorisationTable) EuiccResultData {
 	return EuiccResultData{
 		Choice:       EuiccResultDataChoiceGetRATResult,
 		GetRATResult: v,
@@ -642,6 +672,8 @@ type EuiccPackageErrorSigned struct {
 	ExtCount_                   int64                       `asn1:"-" json:"-"`
 	ExtPresent_                 []bool                      `asn1:"-" json:"-"`
 	ExtData_                    [][]byte                    `asn1:"-" json:"-"`
+	berOriginal_                []byte                      `asn1:"-" json:"-"`
+	berSnapshot_                []byte                      `asn1:"-" json:"-"`
 }
 
 // EuiccPackageErrorDataSigned represents the ASN.1 type EuiccPackageErrorDataSigned (SEQUENCE).
@@ -653,6 +685,8 @@ type EuiccPackageErrorDataSigned struct {
 	ExtCount_             int64                 `asn1:"-" json:"-"`
 	ExtPresent_           []bool                `asn1:"-" json:"-"`
 	ExtData_              [][]byte              `asn1:"-" json:"-"`
+	berOriginal_          []byte                `asn1:"-" json:"-"`
+	berSnapshot_          []byte                `asn1:"-" json:"-"`
 }
 
 // EuiccPackageErrorCode represents the arbitrary-width ASN.1 INTEGER type EuiccPackageErrorCode with named numbers.
@@ -904,6 +938,8 @@ type EuiccPackageErrorUnsigned struct {
 	ExtCount_                     int64                          `asn1:"-" json:"-"`
 	ExtPresent_                   []bool                         `asn1:"-" json:"-"`
 	ExtData_                      [][]byte                       `asn1:"-" json:"-"`
+	berOriginal_                  []byte                         `asn1:"-" json:"-"`
+	berSnapshot_                  []byte                         `asn1:"-" json:"-"`
 }
 
 // ConfigureImmediateEnableResult represents the arbitrary-width ASN.1 INTEGER type ConfigureImmediateEnableResult with named numbers.
@@ -1467,12 +1503,14 @@ const (
 // SGPProfileInfoListResponse represents the ASN.1 CHOICE type ProfileInfoListResponse.
 type SGPProfileInfoListResponse struct {
 	Choice               int
-	ProfileInfoListOk    SGPProfileInfoListResponseProfileInfoListOk `json:"ProfileInfoListOk,omitempty"`
-	ProfileInfoListError *SGPProfileInfoListError                    `json:"ProfileInfoListError,omitempty"`
+	berOriginal_         []byte                                       `json:"-"`
+	berSnapshot_         []byte                                       `json:"-"`
+	ProfileInfoListOk    *SGPProfileInfoListResponseProfileInfoListOk `json:"ProfileInfoListOk,omitempty"`
+	ProfileInfoListError *SGPProfileInfoListError                     `json:"ProfileInfoListError,omitempty"`
 }
 
 // NewSGPProfileInfoListResponseProfileInfoListOk creates a SGPProfileInfoListResponse with the profileInfoListOk alternative.
-func NewSGPProfileInfoListResponseProfileInfoListOk(v SGPProfileInfoListResponseProfileInfoListOk) SGPProfileInfoListResponse {
+func NewSGPProfileInfoListResponseProfileInfoListOk(v *SGPProfileInfoListResponseProfileInfoListOk) SGPProfileInfoListResponse {
 	return SGPProfileInfoListResponse{
 		Choice:            SGPProfileInfoListResponseChoiceProfileInfoListOk,
 		ProfileInfoListOk: v,
@@ -1967,6 +2005,8 @@ const (
 // AddEimResult represents the ASN.1 CHOICE type AddEimResult.
 type AddEimResult struct {
 	Choice           int
+	berOriginal_     []byte                             `json:"-"`
+	berSnapshot_     []byte                             `json:"-"`
 	AssociationToken *big.Int                           `json:"AssociationToken,omitempty"`
 	AddEimResultCode *AddEimResultAddEimResultCodeValue `json:"AddEimResultCode,omitempty"`
 }
@@ -2263,12 +2303,14 @@ const (
 // ListEimResult represents the ASN.1 CHOICE type ListEimResult.
 type ListEimResult struct {
 	Choice       int
-	EimIdList    ListEimResultEimIdList          `json:"EimIdList,omitempty"`
+	berOriginal_ []byte                          `json:"-"`
+	berSnapshot_ []byte                          `json:"-"`
+	EimIdList    *ListEimResultEimIdList         `json:"EimIdList,omitempty"`
 	ListEimError *ListEimResultListEimErrorValue `json:"ListEimError,omitempty"`
 }
 
 // NewListEimResultEimIdList creates a ListEimResult with the eimIdList alternative.
-func NewListEimResultEimIdList(v ListEimResultEimIdList) ListEimResult {
+func NewListEimResultEimIdList(v *ListEimResultEimIdList) ListEimResult {
 	return ListEimResult{
 		Choice:    ListEimResultChoiceEimIdList,
 		EimIdList: v,
@@ -2285,11 +2327,13 @@ func NewListEimResultListEimError(v ListEimResultListEimErrorValue) ListEimResul
 
 // EimIdInfo represents the ASN.1 type EimIdInfo (SEQUENCE).
 type EimIdInfo struct {
-	EimId       string     `asn1:"tag:0,context,implicit"`
-	EimIdType   *EimIdType `asn1:"tag:2,context,implicit,optional" json:"EimIdType,omitempty"`
-	ExtCount_   int64      `asn1:"-" json:"-"`
-	ExtPresent_ []bool     `asn1:"-" json:"-"`
-	ExtData_    [][]byte   `asn1:"-" json:"-"`
+	EimId        string     `asn1:"tag:0,context,implicit"`
+	EimIdType    *EimIdType `asn1:"tag:2,context,implicit,optional" json:"EimIdType,omitempty"`
+	ExtCount_    int64      `asn1:"-" json:"-"`
+	ExtPresent_  []bool     `asn1:"-" json:"-"`
+	ExtData_     [][]byte   `asn1:"-" json:"-"`
+	berOriginal_ []byte     `asn1:"-" json:"-"`
+	berSnapshot_ []byte     `asn1:"-" json:"-"`
 }
 
 // IpaEuiccDataErrorCode represents the arbitrary-width ASN.1 INTEGER type IpaEuiccDataErrorCode with named numbers.
@@ -2419,6 +2463,8 @@ type IpaEuiccDataResponseError struct {
 	ExtCount_             int64                 `asn1:"-" json:"-"`
 	ExtPresent_           []bool                `asn1:"-" json:"-"`
 	ExtData_              [][]byte              `asn1:"-" json:"-"`
+	berOriginal_          []byte                `asn1:"-" json:"-"`
+	berSnapshot_          []byte                `asn1:"-" json:"-"`
 }
 
 // IpaEuiccDataResponse choice constants.
@@ -2430,6 +2476,8 @@ const (
 // IpaEuiccDataResponse represents the ASN.1 CHOICE type IpaEuiccDataResponse.
 type IpaEuiccDataResponse struct {
 	Choice                    int
+	berOriginal_              []byte                     `json:"-"`
+	berSnapshot_              []byte                     `json:"-"`
 	IpaEuiccData              *IpaEuiccData              `json:"IpaEuiccData,omitempty"`
 	IpaEuiccDataResponseError *IpaEuiccDataResponseError `json:"IpaEuiccDataResponseError,omitempty"`
 }
@@ -2451,30 +2499,40 @@ func NewIpaEuiccDataResponseIpaEuiccDataResponseError(v IpaEuiccDataResponseErro
 }
 
 // PendingNotificationList represents the ASN.1 type PendingNotificationList (SEQUENCE_OF).
-type PendingNotificationList = []SGPPendingNotification
+type PendingNotificationList struct {
+	Values       []SGPPendingNotification `json:"Values"`
+	berOriginal_ []byte                   `json:"-"`
+	berSnapshot_ []byte                   `json:"-"`
+}
 
 // EuiccPackageResultList represents the ASN.1 type EuiccPackageResultList (SEQUENCE_OF).
-type EuiccPackageResultList = []EuiccPackageResult
+type EuiccPackageResultList struct {
+	Values       []EuiccPackageResult `json:"Values"`
+	berOriginal_ []byte               `json:"-"`
+	berSnapshot_ []byte               `json:"-"`
+}
 
 // IpaEuiccData represents the ASN.1 type IpaEuiccData (SEQUENCE).
 type IpaEuiccData struct {
-	NotificationsList            PendingNotificationList `asn1:"tag:0,context,implicit,optional" json:"NotificationsList,omitempty"`
-	NotificationsListIndef_      bool                    `asn1:"-" json:"-"`
-	DefaultSmdpAddress           *string                 `asn1:"tag:1,context,implicit,optional" json:"DefaultSmdpAddress,omitempty"`
-	EuiccPackageResultList       EuiccPackageResultList  `asn1:"tag:2,context,implicit,optional" json:"EuiccPackageResultList,omitempty"`
-	EuiccPackageResultListIndef_ bool                    `asn1:"-" json:"-"`
-	EuiccInfo1                   *EUICCInfo1             `asn1:"tag:32,context,implicit,optional" json:"EuiccInfo1,omitempty"`
-	EuiccInfo2                   *SGPEUICCInfo2          `asn1:"tag:34,context,implicit,optional" json:"EuiccInfo2,omitempty"`
-	RootSmdsAddress              *string                 `asn1:"tag:3,context,implicit,optional" json:"RootSmdsAddress,omitempty"`
-	AssociationToken             *big.Int                `asn1:"tag:4,context,implicit,optional" json:"AssociationToken,omitempty"`
-	EumCertificate               *Certificate            `asn1:"tag:5,context,implicit,optional" json:"EumCertificate,omitempty"`
-	EuiccCertificate             *Certificate            `asn1:"tag:6,context,implicit,optional" json:"EuiccCertificate,omitempty"`
-	EimTransactionId             *TransactionId          `asn1:"tag:7,context,implicit,optional" json:"EimTransactionId,omitempty"`
-	IpaCapabilities              *IpaCapabilities        `asn1:"tag:8,context,implicit,optional" json:"IpaCapabilities,omitempty"`
-	DeviceInfo                   *DeviceInfo             `asn1:"tag:9,context,implicit,optional" json:"DeviceInfo,omitempty"`
-	ExtCount_                    int64                   `asn1:"-" json:"-"`
-	ExtPresent_                  []bool                  `asn1:"-" json:"-"`
-	ExtData_                     [][]byte                `asn1:"-" json:"-"`
+	NotificationsList            *PendingNotificationList `asn1:"tag:0,context,implicit,optional" json:"NotificationsList,omitempty"`
+	NotificationsListIndef_      bool                     `asn1:"-" json:"-"`
+	DefaultSmdpAddress           *string                  `asn1:"tag:1,context,implicit,optional" json:"DefaultSmdpAddress,omitempty"`
+	EuiccPackageResultList       *EuiccPackageResultList  `asn1:"tag:2,context,implicit,optional" json:"EuiccPackageResultList,omitempty"`
+	EuiccPackageResultListIndef_ bool                     `asn1:"-" json:"-"`
+	EuiccInfo1                   *EUICCInfo1              `asn1:"tag:32,context,implicit,optional" json:"EuiccInfo1,omitempty"`
+	EuiccInfo2                   *SGPEUICCInfo2           `asn1:"tag:34,context,implicit,optional" json:"EuiccInfo2,omitempty"`
+	RootSmdsAddress              *string                  `asn1:"tag:3,context,implicit,optional" json:"RootSmdsAddress,omitempty"`
+	AssociationToken             *big.Int                 `asn1:"tag:4,context,implicit,optional" json:"AssociationToken,omitempty"`
+	EumCertificate               *Certificate             `asn1:"tag:5,context,implicit,optional" json:"EumCertificate,omitempty"`
+	EuiccCertificate             *Certificate             `asn1:"tag:6,context,implicit,optional" json:"EuiccCertificate,omitempty"`
+	EimTransactionId             *TransactionId           `asn1:"tag:7,context,implicit,optional" json:"EimTransactionId,omitempty"`
+	IpaCapabilities              *IpaCapabilities         `asn1:"tag:8,context,implicit,optional" json:"IpaCapabilities,omitempty"`
+	DeviceInfo                   *DeviceInfo              `asn1:"tag:9,context,implicit,optional" json:"DeviceInfo,omitempty"`
+	ExtCount_                    int64                    `asn1:"-" json:"-"`
+	ExtPresent_                  []bool                   `asn1:"-" json:"-"`
+	ExtData_                     [][]byte                 `asn1:"-" json:"-"`
+	berOriginal_                 []byte                   `asn1:"-" json:"-"`
+	berSnapshot_                 []byte                   `asn1:"-" json:"-"`
 }
 
 // ProfileDownloadTriggerResult represents the ASN.1 type ProfileDownloadTriggerResult (SEQUENCE).
@@ -2484,6 +2542,8 @@ type ProfileDownloadTriggerResult struct {
 	ExtCount_                        int64                                                        `asn1:"-" json:"-"`
 	ExtPresent_                      []bool                                                       `asn1:"-" json:"-"`
 	ExtData_                         [][]byte                                                     `asn1:"-" json:"-"`
+	berOriginal_                     []byte                                                       `asn1:"-" json:"-"`
+	berSnapshot_                     []byte                                                       `asn1:"-" json:"-"`
 }
 
 // ISDRProprietaryApplicationTemplateIoT represents the ASN.1 type ISDRProprietaryApplicationTemplateIoT (SEQUENCE).
@@ -2492,14 +2552,18 @@ type ISDRProprietaryApplicationTemplateIoT struct {
 	ExtCount_          int64             `asn1:"-" json:"-"`
 	ExtPresent_        []bool            `asn1:"-" json:"-"`
 	ExtData_           [][]byte          `asn1:"-" json:"-"`
+	berOriginal_       []byte            `asn1:"-" json:"-"`
+	berSnapshot_       []byte            `asn1:"-" json:"-"`
 }
 
 // IpaeActivationRequest represents the ASN.1 type IpaeActivationRequest (SEQUENCE).
 type IpaeActivationRequest struct {
-	IpaeOption  runtime.BitString `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64             `asn1:"-" json:"-"`
-	ExtPresent_ []bool            `asn1:"-" json:"-"`
-	ExtData_    [][]byte          `asn1:"-" json:"-"`
+	IpaeOption   runtime.BitString `asn1:"tag:0,context,implicit"`
+	ExtCount_    int64             `asn1:"-" json:"-"`
+	ExtPresent_  []bool            `asn1:"-" json:"-"`
+	ExtData_     [][]byte          `asn1:"-" json:"-"`
+	berOriginal_ []byte            `asn1:"-" json:"-"`
+	berSnapshot_ []byte            `asn1:"-" json:"-"`
 }
 
 // IpaeActivationResponse represents the ASN.1 type IpaeActivationResponse (SEQUENCE).
@@ -2508,89 +2572,99 @@ type IpaeActivationResponse struct {
 	ExtCount_            int64                                           `asn1:"-" json:"-"`
 	ExtPresent_          []bool                                          `asn1:"-" json:"-"`
 	ExtData_             [][]byte                                        `asn1:"-" json:"-"`
+	berOriginal_         []byte                                          `asn1:"-" json:"-"`
+	berSnapshot_         []byte                                          `asn1:"-" json:"-"`
 }
 
 // IpaCapabilities represents the ASN.1 type IpaCapabilities (SEQUENCE).
 type IpaCapabilities struct {
-	IpaFeatures                               runtime.BitString       `asn1:"tag:0,context,implicit"`
-	IpaSupportedProtocols                     *runtime.BitString      `asn1:"tag:1,context,implicit,optional" json:"IpaSupportedProtocols,omitempty"`
-	ESipaProprietaryProtocolInformation       VendorSpecificExtension `asn1:"tag:2,context,implicit,optional" json:"ESipaProprietaryProtocolInformation,omitempty"`
-	ESipaProprietaryProtocolInformationIndef_ bool                    `asn1:"-" json:"-"`
-	ExtCount_                                 int64                   `asn1:"-" json:"-"`
-	ExtPresent_                               []bool                  `asn1:"-" json:"-"`
-	ExtData_                                  [][]byte                `asn1:"-" json:"-"`
+	IpaFeatures                               runtime.BitString        `asn1:"tag:0,context,implicit"`
+	IpaSupportedProtocols                     *runtime.BitString       `asn1:"tag:1,context,implicit,optional" json:"IpaSupportedProtocols,omitempty"`
+	ESipaProprietaryProtocolInformation       *VendorSpecificExtension `asn1:"tag:2,context,implicit,optional" json:"ESipaProprietaryProtocolInformation,omitempty"`
+	ESipaProprietaryProtocolInformationIndef_ bool                     `asn1:"-" json:"-"`
+	ExtCount_                                 int64                    `asn1:"-" json:"-"`
+	ExtPresent_                               []bool                   `asn1:"-" json:"-"`
+	ExtData_                                  [][]byte                 `asn1:"-" json:"-"`
+	berOriginal_                              []byte                   `asn1:"-" json:"-"`
+	berSnapshot_                              []byte                   `asn1:"-" json:"-"`
 }
 
 // SGPProfileInfo represents the ASN.1 type ProfileInfo (SEQUENCE).
 type SGPProfileInfo struct {
-	Iccid                                  *Iccid                                      `asn1:",optional" json:"Iccid,omitempty"`
-	IsdpAid                                *OctetTo16                                  `asn1:"tag:15,application,implicit,optional" json:"IsdpAid,omitempty"`
-	ProfileState                           *ProfileState                               `asn1:"tag:112,context,implicit,optional" json:"ProfileState,omitempty"`
-	ProfileNickname                        *string                                     `asn1:"tag:16,context,implicit,optional" json:"ProfileNickname,omitempty"`
-	ServiceProviderName                    *string                                     `asn1:"tag:17,context,implicit,optional" json:"ServiceProviderName,omitempty"`
-	ProfileName                            *string                                     `asn1:"tag:18,context,implicit,optional" json:"ProfileName,omitempty"`
-	IconType                               *IconType                                   `asn1:"tag:19,context,implicit,optional" json:"IconType,omitempty"`
-	Icon                                   []byte                                      `asn1:"tag:20,context,implicit,optional" json:"Icon,omitempty"`
-	ProfileClass                           *ProfileClass                               `asn1:"tag:21,context,implicit,optional" json:"ProfileClass,omitempty"`
-	NotificationConfigurationInfo          SGPProfileInfoNotificationConfigurationInfo `asn1:"tag:22,context,implicit,optional" json:"NotificationConfigurationInfo,omitempty"`
-	NotificationConfigurationInfoIndef_    bool                                        `asn1:"-" json:"-"`
-	ProfileOwner                           *OperatorId                                 `asn1:"tag:23,context,implicit,optional" json:"ProfileOwner,omitempty"`
-	DpProprietaryData                      *DpProprietaryData                          `asn1:"tag:24,context,implicit,optional" json:"DpProprietaryData,omitempty"`
-	ProfilePolicyRules                     *PprIds                                     `asn1:"tag:25,context,implicit,optional" json:"ProfilePolicyRules,omitempty"`
-	ServiceSpecificDataStoredInEuicc       VendorSpecificExtension                     `asn1:"tag:34,context,implicit,optional" json:"ServiceSpecificDataStoredInEuicc,omitempty"`
-	ServiceSpecificDataStoredInEuiccIndef_ bool                                        `asn1:"-" json:"-"`
-	EcallIndication                        *bool                                       `asn1:"tag:123,context,implicit,optional" json:"EcallIndication,omitempty"`
-	EcallIndicationRaw_                    byte                                        `asn1:"-" json:"-"`
-	FallbackAttribute                      *bool                                       `asn1:"tag:38,context,implicit,optional" json:"FallbackAttribute,omitempty"`
-	FallbackAttributeRaw_                  byte                                        `asn1:"-" json:"-"`
-	FallbackAllowed                        *bool                                       `asn1:"tag:103,context,implicit,optional" json:"FallbackAllowed,omitempty"`
-	FallbackAllowedRaw_                    byte                                        `asn1:"-" json:"-"`
-	IotSpecificProfileInfo                 *SGPProfileInfoIotSpecificProfileInfo       `asn1:"tag:100,context,implicit,optional" json:"IotSpecificProfileInfo,omitempty"`
-	ExtCount_                              int64                                       `asn1:"-" json:"-"`
-	ExtPresent_                            []bool                                      `asn1:"-" json:"-"`
-	ExtData_                               [][]byte                                    `asn1:"-" json:"-"`
+	Iccid                                  *Iccid                                       `asn1:",optional" json:"Iccid,omitempty"`
+	IsdpAid                                *OctetTo16                                   `asn1:"tag:15,application,implicit,optional" json:"IsdpAid,omitempty"`
+	ProfileState                           *ProfileState                                `asn1:"tag:112,context,implicit,optional" json:"ProfileState,omitempty"`
+	ProfileNickname                        *string                                      `asn1:"tag:16,context,implicit,optional" json:"ProfileNickname,omitempty"`
+	ServiceProviderName                    *string                                      `asn1:"tag:17,context,implicit,optional" json:"ServiceProviderName,omitempty"`
+	ProfileName                            *string                                      `asn1:"tag:18,context,implicit,optional" json:"ProfileName,omitempty"`
+	IconType                               *IconType                                    `asn1:"tag:19,context,implicit,optional" json:"IconType,omitempty"`
+	Icon                                   []byte                                       `asn1:"tag:20,context,implicit,optional" json:"Icon,omitempty"`
+	ProfileClass                           *ProfileClass                                `asn1:"tag:21,context,implicit,optional" json:"ProfileClass,omitempty"`
+	NotificationConfigurationInfo          *SGPProfileInfoNotificationConfigurationInfo `asn1:"tag:22,context,implicit,optional" json:"NotificationConfigurationInfo,omitempty"`
+	NotificationConfigurationInfoIndef_    bool                                         `asn1:"-" json:"-"`
+	ProfileOwner                           *OperatorId                                  `asn1:"tag:23,context,implicit,optional" json:"ProfileOwner,omitempty"`
+	DpProprietaryData                      *DpProprietaryData                           `asn1:"tag:24,context,implicit,optional" json:"DpProprietaryData,omitempty"`
+	ProfilePolicyRules                     *PprIds                                      `asn1:"tag:25,context,implicit,optional" json:"ProfilePolicyRules,omitempty"`
+	ServiceSpecificDataStoredInEuicc       *VendorSpecificExtension                     `asn1:"tag:34,context,implicit,optional" json:"ServiceSpecificDataStoredInEuicc,omitempty"`
+	ServiceSpecificDataStoredInEuiccIndef_ bool                                         `asn1:"-" json:"-"`
+	EcallIndication                        *bool                                        `asn1:"tag:123,context,implicit,optional" json:"EcallIndication,omitempty"`
+	EcallIndicationRaw_                    byte                                         `asn1:"-" json:"-"`
+	FallbackAttribute                      *bool                                        `asn1:"tag:38,context,implicit,optional" json:"FallbackAttribute,omitempty"`
+	FallbackAttributeRaw_                  byte                                         `asn1:"-" json:"-"`
+	FallbackAllowed                        *bool                                        `asn1:"tag:103,context,implicit,optional" json:"FallbackAllowed,omitempty"`
+	FallbackAllowedRaw_                    byte                                         `asn1:"-" json:"-"`
+	IotSpecificProfileInfo                 *SGPProfileInfoIotSpecificProfileInfo        `asn1:"tag:100,context,implicit,optional" json:"IotSpecificProfileInfo,omitempty"`
+	ExtCount_                              int64                                        `asn1:"-" json:"-"`
+	ExtPresent_                            []bool                                       `asn1:"-" json:"-"`
+	ExtData_                               [][]byte                                     `asn1:"-" json:"-"`
+	berOriginal_                           []byte                                       `asn1:"-" json:"-"`
+	berSnapshot_                           []byte                                       `asn1:"-" json:"-"`
 }
 
 // SGPUpdateMetadataRequest represents the ASN.1 type UpdateMetadataRequest (SEQUENCE).
 type SGPUpdateMetadataRequest struct {
-	ServiceProviderName                    *string                 `asn1:"tag:17,context,implicit,optional" json:"ServiceProviderName,omitempty"`
-	ProfileName                            *string                 `asn1:"tag:18,context,implicit,optional" json:"ProfileName,omitempty"`
-	IconType                               *IconType               `asn1:"tag:19,context,implicit,optional" json:"IconType,omitempty"`
-	Icon                                   []byte                  `asn1:"tag:20,context,implicit,optional" json:"Icon,omitempty"`
-	ProfilePolicyRules                     *PprIds                 `asn1:"tag:25,context,implicit,optional" json:"ProfilePolicyRules,omitempty"`
-	ServiceSpecificDataStoredInEuicc       VendorSpecificExtension `asn1:"tag:34,context,implicit,optional" json:"ServiceSpecificDataStoredInEuicc,omitempty"`
-	ServiceSpecificDataStoredInEuiccIndef_ bool                    `asn1:"-" json:"-"`
-	FallbackAllowed                        *bool                   `asn1:"tag:103,context,implicit,optional" json:"FallbackAllowed,omitempty"`
-	FallbackAllowedRaw_                    byte                    `asn1:"-" json:"-"`
-	ExtCount_                              int64                   `asn1:"-" json:"-"`
-	ExtPresent_                            []bool                  `asn1:"-" json:"-"`
-	ExtData_                               [][]byte                `asn1:"-" json:"-"`
+	ServiceProviderName                    *string                  `asn1:"tag:17,context,implicit,optional" json:"ServiceProviderName,omitempty"`
+	ProfileName                            *string                  `asn1:"tag:18,context,implicit,optional" json:"ProfileName,omitempty"`
+	IconType                               *IconType                `asn1:"tag:19,context,implicit,optional" json:"IconType,omitempty"`
+	Icon                                   []byte                   `asn1:"tag:20,context,implicit,optional" json:"Icon,omitempty"`
+	ProfilePolicyRules                     *PprIds                  `asn1:"tag:25,context,implicit,optional" json:"ProfilePolicyRules,omitempty"`
+	ServiceSpecificDataStoredInEuicc       *VendorSpecificExtension `asn1:"tag:34,context,implicit,optional" json:"ServiceSpecificDataStoredInEuicc,omitempty"`
+	ServiceSpecificDataStoredInEuiccIndef_ bool                     `asn1:"-" json:"-"`
+	FallbackAllowed                        *bool                    `asn1:"tag:103,context,implicit,optional" json:"FallbackAllowed,omitempty"`
+	FallbackAllowedRaw_                    byte                     `asn1:"-" json:"-"`
+	ExtCount_                              int64                    `asn1:"-" json:"-"`
+	ExtPresent_                            []bool                   `asn1:"-" json:"-"`
+	ExtData_                               [][]byte                 `asn1:"-" json:"-"`
+	berOriginal_                           []byte                   `asn1:"-" json:"-"`
+	berSnapshot_                           []byte                   `asn1:"-" json:"-"`
 }
 
 // SGPStoreMetadataRequest represents the ASN.1 type StoreMetadataRequest (SEQUENCE).
 type SGPStoreMetadataRequest struct {
-	Iccid                                     Iccid                                                `asn1:""`
-	ServiceProviderName                       string                                               `asn1:"tag:17,context,implicit"`
-	ProfileName                               string                                               `asn1:"tag:18,context,implicit"`
-	IconType                                  *IconType                                            `asn1:"tag:19,context,implicit,optional" json:"IconType,omitempty"`
-	Icon                                      []byte                                               `asn1:"tag:20,context,implicit,optional" json:"Icon,omitempty"`
-	ProfileClass                              *ProfileClass                                        `asn1:"tag:21,context,implicit,optional" json:"ProfileClass,omitempty"`
-	NotificationConfigurationInfo             SGPStoreMetadataRequestNotificationConfigurationInfo `asn1:"tag:22,context,implicit,optional" json:"NotificationConfigurationInfo,omitempty"`
-	NotificationConfigurationInfoIndef_       bool                                                 `asn1:"-" json:"-"`
-	ProfileOwner                              *OperatorId                                          `asn1:"tag:23,context,implicit,optional" json:"ProfileOwner,omitempty"`
-	ProfilePolicyRules                        *PprIds                                              `asn1:"tag:25,context,implicit,optional" json:"ProfilePolicyRules,omitempty"`
-	ServiceSpecificDataStoredInEuicc          VendorSpecificExtension                              `asn1:"tag:34,context,implicit,optional" json:"ServiceSpecificDataStoredInEuicc,omitempty"`
-	ServiceSpecificDataStoredInEuiccIndef_    bool                                                 `asn1:"-" json:"-"`
-	ServiceSpecificDataNotStoredInEuicc       VendorSpecificExtension                              `asn1:"tag:35,context,implicit,optional" json:"ServiceSpecificDataNotStoredInEuicc,omitempty"`
-	ServiceSpecificDataNotStoredInEuiccIndef_ bool                                                 `asn1:"-" json:"-"`
-	EcallIndication                           *bool                                                `asn1:"tag:123,context,implicit,optional" json:"EcallIndication,omitempty"`
-	EcallIndicationRaw_                       byte                                                 `asn1:"-" json:"-"`
-	FallbackAllowed                           *bool                                                `asn1:"tag:103,context,implicit,optional" json:"FallbackAllowed,omitempty"`
-	FallbackAllowedRaw_                       byte                                                 `asn1:"-" json:"-"`
-	IotSpecificMetadata                       *SGPStoreMetadataRequestIotSpecificMetadata          `asn1:"tag:100,context,implicit,optional" json:"IotSpecificMetadata,omitempty"`
-	ExtCount_                                 int64                                                `asn1:"-" json:"-"`
-	ExtPresent_                               []bool                                               `asn1:"-" json:"-"`
-	ExtData_                                  [][]byte                                             `asn1:"-" json:"-"`
+	Iccid                                     Iccid                                                 `asn1:""`
+	ServiceProviderName                       string                                                `asn1:"tag:17,context,implicit"`
+	ProfileName                               string                                                `asn1:"tag:18,context,implicit"`
+	IconType                                  *IconType                                             `asn1:"tag:19,context,implicit,optional" json:"IconType,omitempty"`
+	Icon                                      []byte                                                `asn1:"tag:20,context,implicit,optional" json:"Icon,omitempty"`
+	ProfileClass                              *ProfileClass                                         `asn1:"tag:21,context,implicit,optional" json:"ProfileClass,omitempty"`
+	NotificationConfigurationInfo             *SGPStoreMetadataRequestNotificationConfigurationInfo `asn1:"tag:22,context,implicit,optional" json:"NotificationConfigurationInfo,omitempty"`
+	NotificationConfigurationInfoIndef_       bool                                                  `asn1:"-" json:"-"`
+	ProfileOwner                              *OperatorId                                           `asn1:"tag:23,context,implicit,optional" json:"ProfileOwner,omitempty"`
+	ProfilePolicyRules                        *PprIds                                               `asn1:"tag:25,context,implicit,optional" json:"ProfilePolicyRules,omitempty"`
+	ServiceSpecificDataStoredInEuicc          *VendorSpecificExtension                              `asn1:"tag:34,context,implicit,optional" json:"ServiceSpecificDataStoredInEuicc,omitempty"`
+	ServiceSpecificDataStoredInEuiccIndef_    bool                                                  `asn1:"-" json:"-"`
+	ServiceSpecificDataNotStoredInEuicc       *VendorSpecificExtension                              `asn1:"tag:35,context,implicit,optional" json:"ServiceSpecificDataNotStoredInEuicc,omitempty"`
+	ServiceSpecificDataNotStoredInEuiccIndef_ bool                                                  `asn1:"-" json:"-"`
+	EcallIndication                           *bool                                                 `asn1:"tag:123,context,implicit,optional" json:"EcallIndication,omitempty"`
+	EcallIndicationRaw_                       byte                                                  `asn1:"-" json:"-"`
+	FallbackAllowed                           *bool                                                 `asn1:"tag:103,context,implicit,optional" json:"FallbackAllowed,omitempty"`
+	FallbackAllowedRaw_                       byte                                                  `asn1:"-" json:"-"`
+	IotSpecificMetadata                       *SGPStoreMetadataRequestIotSpecificMetadata           `asn1:"tag:100,context,implicit,optional" json:"IotSpecificMetadata,omitempty"`
+	ExtCount_                                 int64                                                 `asn1:"-" json:"-"`
+	ExtPresent_                               []bool                                                `asn1:"-" json:"-"`
+	ExtData_                                  [][]byte                                              `asn1:"-" json:"-"`
+	berOriginal_                              []byte                                                `asn1:"-" json:"-"`
+	berSnapshot_                              []byte                                                `asn1:"-" json:"-"`
 }
 
 // SGPAuthenticateClientRequest represents the ASN.1 type AuthenticateClientRequest (SEQUENCE).
@@ -2600,53 +2674,59 @@ type SGPAuthenticateClientRequest struct {
 	ExtCount_                  int64                         `asn1:"-" json:"-"`
 	ExtPresent_                []bool                        `asn1:"-" json:"-"`
 	ExtData_                   [][]byte                      `asn1:"-" json:"-"`
+	berOriginal_               []byte                        `asn1:"-" json:"-"`
+	berSnapshot_               []byte                        `asn1:"-" json:"-"`
 }
 
 // SGPEUICCInfo2 represents the ASN.1 type EUICCInfo2 (SEQUENCE).
 type SGPEUICCInfo2 struct {
-	ProfileVersion                              VersionType                                        `asn1:"tag:1,context,implicit"`
-	Svn                                         VersionType                                        `asn1:"tag:2,context,implicit"`
-	EuiccFirmwareVer                            VersionType                                        `asn1:"tag:3,context,implicit"`
-	ExtCardResource                             []byte                                             `asn1:"tag:4,context,implicit"`
-	UiccCapability                              UICCCapability                                     `asn1:"tag:5,context,implicit"`
-	Ts102241Version                             *VersionType                                       `asn1:"tag:6,context,implicit,optional" json:"Ts102241Version,omitempty"`
-	GlobalplatformVersion                       *VersionType                                       `asn1:"tag:7,context,implicit,optional" json:"GlobalplatformVersion,omitempty"`
-	RspCapability                               RspCapability                                      `asn1:"tag:8,context,implicit"`
-	EuiccCiPKIdListForVerification              SGPEUICCInfo2EuiccCiPKIdListForVerification        `asn1:"tag:9,context,implicit"`
-	EuiccCiPKIdListForVerificationIndef_        bool                                               `asn1:"-" json:"-"`
-	EuiccCiPKIdListForSigning                   SGPEUICCInfo2EuiccCiPKIdListForSigning             `asn1:"tag:10,context,implicit"`
-	EuiccCiPKIdListForSigningIndef_             bool                                               `asn1:"-" json:"-"`
-	EuiccCategory                               *SGPEUICCInfo2EuiccCategoryValue                   `asn1:"tag:11,context,implicit,optional" json:"EuiccCategory,omitempty"`
-	ForbiddenProfilePolicyRules                 *PprIds                                            `asn1:"tag:25,context,implicit,optional" json:"ForbiddenProfilePolicyRules,omitempty"`
-	PpVersion                                   VersionType                                        `asn1:""`
-	SasAcreditationNumber                       string                                             `asn1:""`
-	CertificationDataObject                     *CertificationDataObject                           `asn1:"tag:12,context,implicit,optional" json:"CertificationDataObject,omitempty"`
-	TreProperties                               *runtime.BitString                                 `asn1:"tag:13,context,implicit,optional" json:"TreProperties,omitempty"`
-	TreProductReference                         *string                                            `asn1:"tag:14,context,implicit,optional" json:"TreProductReference,omitempty"`
-	AdditionalEuiccProfilePackageVersions       SGPEUICCInfo2AdditionalEuiccProfilePackageVersions `asn1:"tag:15,context,implicit,optional" json:"AdditionalEuiccProfilePackageVersions,omitempty"`
-	AdditionalEuiccProfilePackageVersionsIndef_ bool                                               `asn1:"-" json:"-"`
-	IpaMode                                     *IpaMode                                           `asn1:"tag:16,context,implicit,optional" json:"IpaMode,omitempty"`
-	EuiccCiPKIdListForSigningV3                 SGPEUICCInfo2EuiccCiPKIdListForSigningV3           `asn1:"tag:17,context,implicit,optional" json:"EuiccCiPKIdListForSigningV3,omitempty"`
-	EuiccCiPKIdListForSigningV3Indef_           bool                                               `asn1:"-" json:"-"`
-	AdditionalEuiccInfo                         []byte                                             `asn1:"tag:18,context,implicit,optional" json:"AdditionalEuiccInfo,omitempty"`
-	HighestSvn                                  *VersionType                                       `asn1:"tag:19,context,implicit,optional" json:"HighestSvn,omitempty"`
-	IotSpecificInfo                             *SGPIoTSpecificInfo                                `asn1:"tag:20,context,implicit,optional" json:"IotSpecificInfo,omitempty"`
-	EuiccMinimumSecurityLevel                   []byte                                             `asn1:"tag:21,context,implicit,optional" json:"EuiccMinimumSecurityLevel,omitempty"`
-	ExtCount_                                   int64                                              `asn1:"-" json:"-"`
-	ExtPresent_                                 []bool                                             `asn1:"-" json:"-"`
-	ExtData_                                    [][]byte                                           `asn1:"-" json:"-"`
+	ProfileVersion                              VersionType                                         `asn1:"tag:1,context,implicit"`
+	Svn                                         VersionType                                         `asn1:"tag:2,context,implicit"`
+	EuiccFirmwareVer                            VersionType                                         `asn1:"tag:3,context,implicit"`
+	ExtCardResource                             []byte                                              `asn1:"tag:4,context,implicit"`
+	UiccCapability                              UICCCapability                                      `asn1:"tag:5,context,implicit"`
+	Ts102241Version                             *VersionType                                        `asn1:"tag:6,context,implicit,optional" json:"Ts102241Version,omitempty"`
+	GlobalplatformVersion                       *VersionType                                        `asn1:"tag:7,context,implicit,optional" json:"GlobalplatformVersion,omitempty"`
+	RspCapability                               RspCapability                                       `asn1:"tag:8,context,implicit"`
+	EuiccCiPKIdListForVerification              *SGPEUICCInfo2EuiccCiPKIdListForVerification        `asn1:"tag:9,context,implicit"`
+	EuiccCiPKIdListForVerificationIndef_        bool                                                `asn1:"-" json:"-"`
+	EuiccCiPKIdListForSigning                   *SGPEUICCInfo2EuiccCiPKIdListForSigning             `asn1:"tag:10,context,implicit"`
+	EuiccCiPKIdListForSigningIndef_             bool                                                `asn1:"-" json:"-"`
+	EuiccCategory                               *SGPEUICCInfo2EuiccCategoryValue                    `asn1:"tag:11,context,implicit,optional" json:"EuiccCategory,omitempty"`
+	ForbiddenProfilePolicyRules                 *PprIds                                             `asn1:"tag:25,context,implicit,optional" json:"ForbiddenProfilePolicyRules,omitempty"`
+	PpVersion                                   VersionType                                         `asn1:""`
+	SasAcreditationNumber                       string                                              `asn1:""`
+	CertificationDataObject                     *CertificationDataObject                            `asn1:"tag:12,context,implicit,optional" json:"CertificationDataObject,omitempty"`
+	TreProperties                               *runtime.BitString                                  `asn1:"tag:13,context,implicit,optional" json:"TreProperties,omitempty"`
+	TreProductReference                         *string                                             `asn1:"tag:14,context,implicit,optional" json:"TreProductReference,omitempty"`
+	AdditionalEuiccProfilePackageVersions       *SGPEUICCInfo2AdditionalEuiccProfilePackageVersions `asn1:"tag:15,context,implicit,optional" json:"AdditionalEuiccProfilePackageVersions,omitempty"`
+	AdditionalEuiccProfilePackageVersionsIndef_ bool                                                `asn1:"-" json:"-"`
+	IpaMode                                     *IpaMode                                            `asn1:"tag:16,context,implicit,optional" json:"IpaMode,omitempty"`
+	EuiccCiPKIdListForSigningV3                 *SGPEUICCInfo2EuiccCiPKIdListForSigningV3           `asn1:"tag:17,context,implicit,optional" json:"EuiccCiPKIdListForSigningV3,omitempty"`
+	EuiccCiPKIdListForSigningV3Indef_           bool                                                `asn1:"-" json:"-"`
+	AdditionalEuiccInfo                         []byte                                              `asn1:"tag:18,context,implicit,optional" json:"AdditionalEuiccInfo,omitempty"`
+	HighestSvn                                  *VersionType                                        `asn1:"tag:19,context,implicit,optional" json:"HighestSvn,omitempty"`
+	IotSpecificInfo                             *SGPIoTSpecificInfo                                 `asn1:"tag:20,context,implicit,optional" json:"IotSpecificInfo,omitempty"`
+	EuiccMinimumSecurityLevel                   []byte                                              `asn1:"tag:21,context,implicit,optional" json:"EuiccMinimumSecurityLevel,omitempty"`
+	ExtCount_                                   int64                                               `asn1:"-" json:"-"`
+	ExtPresent_                                 []bool                                              `asn1:"-" json:"-"`
+	ExtData_                                    [][]byte                                            `asn1:"-" json:"-"`
+	berOriginal_                                []byte                                              `asn1:"-" json:"-"`
+	berSnapshot_                                []byte                                              `asn1:"-" json:"-"`
 }
 
 // SGPIoTSpecificInfo represents the ASN.1 type IoTSpecificInfo (SEQUENCE).
 type SGPIoTSpecificInfo struct {
-	IotVersion                     IoTSpecificInfoIotVersion `asn1:"tag:0,context,implicit"`
-	IotVersionIndef_               bool                      `asn1:"-" json:"-"`
-	EcallSupported                 *struct{}                 `asn1:"tag:1,context,implicit,optional" json:"EcallSupported,omitempty"`
-	FallbackSupported              *struct{}                 `asn1:"tag:2,context,implicit,optional" json:"FallbackSupported,omitempty"`
-	FallbackAllowedUpdateSupported *struct{}                 `asn1:"tag:3,context,implicit,optional" json:"FallbackAllowedUpdateSupported,omitempty"`
-	ExtCount_                      int64                     `asn1:"-" json:"-"`
-	ExtPresent_                    []bool                    `asn1:"-" json:"-"`
-	ExtData_                       [][]byte                  `asn1:"-" json:"-"`
+	IotVersion                     *IoTSpecificInfoIotVersion `asn1:"tag:0,context,implicit"`
+	IotVersionIndef_               bool                       `asn1:"-" json:"-"`
+	EcallSupported                 *struct{}                  `asn1:"tag:1,context,implicit,optional" json:"EcallSupported,omitempty"`
+	FallbackSupported              *struct{}                  `asn1:"tag:2,context,implicit,optional" json:"FallbackSupported,omitempty"`
+	FallbackAllowedUpdateSupported *struct{}                  `asn1:"tag:3,context,implicit,optional" json:"FallbackAllowedUpdateSupported,omitempty"`
+	ExtCount_                      int64                      `asn1:"-" json:"-"`
+	ExtPresent_                    []bool                     `asn1:"-" json:"-"`
+	ExtData_                       [][]byte                   `asn1:"-" json:"-"`
+	berOriginal_                   []byte                     `asn1:"-" json:"-"`
+	berSnapshot_                   []byte                     `asn1:"-" json:"-"`
 }
 
 // IpaMode represents the arbitrary-width ASN.1 INTEGER type IpaMode with named numbers.
@@ -2753,11 +2833,13 @@ func (v *IpaMode) UnmarshalJSON(data []byte) error {
 
 // AddInitialEimRequest represents the ASN.1 type AddInitialEimRequest (SEQUENCE).
 type AddInitialEimRequest struct {
-	EimConfigurationDataList       AddInitialEimRequestEimConfigurationDataList `asn1:"tag:0,context,implicit"`
-	EimConfigurationDataListIndef_ bool                                         `asn1:"-" json:"-"`
-	ExtCount_                      int64                                        `asn1:"-" json:"-"`
-	ExtPresent_                    []bool                                       `asn1:"-" json:"-"`
-	ExtData_                       [][]byte                                     `asn1:"-" json:"-"`
+	EimConfigurationDataList       *AddInitialEimRequestEimConfigurationDataList `asn1:"tag:0,context,implicit"`
+	EimConfigurationDataListIndef_ bool                                          `asn1:"-" json:"-"`
+	ExtCount_                      int64                                         `asn1:"-" json:"-"`
+	ExtPresent_                    []bool                                        `asn1:"-" json:"-"`
+	ExtData_                       [][]byte                                      `asn1:"-" json:"-"`
+	berOriginal_                   []byte                                        `asn1:"-" json:"-"`
+	berSnapshot_                   []byte                                        `asn1:"-" json:"-"`
 }
 
 // AddInitialEimResponse choice constants.
@@ -2769,12 +2851,14 @@ const (
 // AddInitialEimResponse represents the ASN.1 CHOICE type AddInitialEimResponse.
 type AddInitialEimResponse struct {
 	Choice             int
-	AddInitialEimOk    AddInitialEimResponseAddInitialEimOk          `json:"AddInitialEimOk,omitempty"`
+	berOriginal_       []byte                                        `json:"-"`
+	berSnapshot_       []byte                                        `json:"-"`
+	AddInitialEimOk    *AddInitialEimResponseAddInitialEimOk         `json:"AddInitialEimOk,omitempty"`
 	AddInitialEimError *AddInitialEimResponseAddInitialEimErrorValue `json:"AddInitialEimError,omitempty"`
 }
 
 // NewAddInitialEimResponseAddInitialEimOk creates a AddInitialEimResponse with the addInitialEimOk alternative.
-func NewAddInitialEimResponseAddInitialEimOk(v AddInitialEimResponseAddInitialEimOk) AddInitialEimResponse {
+func NewAddInitialEimResponseAddInitialEimOk(v *AddInitialEimResponseAddInitialEimOk) AddInitialEimResponse {
 	return AddInitialEimResponse{
 		Choice:          AddInitialEimResponseChoiceAddInitialEimOk,
 		AddInitialEimOk: v,
@@ -2795,6 +2879,8 @@ type SGPEuiccMemoryResetRequest struct {
 	ExtCount_    int64             `asn1:"-" json:"-"`
 	ExtPresent_  []bool            `asn1:"-" json:"-"`
 	ExtData_     [][]byte          `asn1:"-" json:"-"`
+	berOriginal_ []byte            `asn1:"-" json:"-"`
+	berSnapshot_ []byte            `asn1:"-" json:"-"`
 }
 
 // SGPEuiccMemoryResetResponse represents the ASN.1 type EuiccMemoryResetResponse (SEQUENCE).
@@ -2805,14 +2891,18 @@ type SGPEuiccMemoryResetResponse struct {
 	ExtCount_                        int64                                                          `asn1:"-" json:"-"`
 	ExtPresent_                      []bool                                                         `asn1:"-" json:"-"`
 	ExtData_                         [][]byte                                                       `asn1:"-" json:"-"`
+	berOriginal_                     []byte                                                         `asn1:"-" json:"-"`
+	berSnapshot_                     []byte                                                         `asn1:"-" json:"-"`
 }
 
 // GetCertsRequest represents the ASN.1 type GetCertsRequest (SEQUENCE).
 type GetCertsRequest struct {
-	EuiccCiPKId *SubjectKeyIdentifier `asn1:"tag:0,context,implicit,optional" json:"EuiccCiPKId,omitempty"`
-	ExtCount_   int64                 `asn1:"-" json:"-"`
-	ExtPresent_ []bool                `asn1:"-" json:"-"`
-	ExtData_    [][]byte              `asn1:"-" json:"-"`
+	EuiccCiPKId  *SubjectKeyIdentifier `asn1:"tag:0,context,implicit,optional" json:"EuiccCiPKId,omitempty"`
+	ExtCount_    int64                 `asn1:"-" json:"-"`
+	ExtPresent_  []bool                `asn1:"-" json:"-"`
+	ExtData_     [][]byte              `asn1:"-" json:"-"`
+	berOriginal_ []byte                `asn1:"-" json:"-"`
+	berSnapshot_ []byte                `asn1:"-" json:"-"`
 }
 
 // GetCertsResponse choice constants.
@@ -2824,6 +2914,8 @@ const (
 // GetCertsResponse represents the ASN.1 CHOICE type GetCertsResponse.
 type GetCertsResponse struct {
 	Choice        int
+	berOriginal_  []byte                              `json:"-"`
+	berSnapshot_  []byte                              `json:"-"`
 	Certs         *GetCertsResponseCerts              `json:"Certs,omitempty"`
 	GetCertsError *GetCertsResponseGetCertsErrorValue `json:"GetCertsError,omitempty"`
 }
@@ -2850,6 +2942,8 @@ type SGPRetrieveNotificationsListRequest struct {
 	ExtCount_      int64                                              `asn1:"-" json:"-"`
 	ExtPresent_    []bool                                             `asn1:"-" json:"-"`
 	ExtData_       [][]byte                                           `asn1:"-" json:"-"`
+	berOriginal_   []byte                                             `asn1:"-" json:"-"`
+	berSnapshot_   []byte                                             `asn1:"-" json:"-"`
 }
 
 // SGPRetrieveNotificationsListResponse choice constants.
@@ -2862,13 +2956,15 @@ const (
 // SGPRetrieveNotificationsListResponse represents the ASN.1 CHOICE type RetrieveNotificationsListResponse.
 type SGPRetrieveNotificationsListResponse struct {
 	Choice                       int
-	NotificationList             PendingNotificationList                                                `json:"NotificationList,omitempty"`
+	berOriginal_                 []byte                                                                 `json:"-"`
+	berSnapshot_                 []byte                                                                 `json:"-"`
+	NotificationList             *PendingNotificationList                                               `json:"NotificationList,omitempty"`
 	NotificationsListResultError *SGPRetrieveNotificationsListResponseNotificationsListResultErrorValue `json:"NotificationsListResultError,omitempty"`
-	EuiccPackageResultList       EuiccPackageResultList                                                 `json:"EuiccPackageResultList,omitempty"`
+	EuiccPackageResultList       *EuiccPackageResultList                                                `json:"EuiccPackageResultList,omitempty"`
 }
 
 // NewSGPRetrieveNotificationsListResponseNotificationList creates a SGPRetrieveNotificationsListResponse with the notificationList alternative.
-func NewSGPRetrieveNotificationsListResponseNotificationList(v PendingNotificationList) SGPRetrieveNotificationsListResponse {
+func NewSGPRetrieveNotificationsListResponseNotificationList(v *PendingNotificationList) SGPRetrieveNotificationsListResponse {
 	return SGPRetrieveNotificationsListResponse{
 		Choice:           SGPRetrieveNotificationsListResponseChoiceNotificationList,
 		NotificationList: v,
@@ -2884,7 +2980,7 @@ func NewSGPRetrieveNotificationsListResponseNotificationsListResultError(v SGPRe
 }
 
 // NewSGPRetrieveNotificationsListResponseEuiccPackageResultList creates a SGPRetrieveNotificationsListResponse with the euiccPackageResultList alternative.
-func NewSGPRetrieveNotificationsListResponseEuiccPackageResultList(v EuiccPackageResultList) SGPRetrieveNotificationsListResponse {
+func NewSGPRetrieveNotificationsListResponseEuiccPackageResultList(v *EuiccPackageResultList) SGPRetrieveNotificationsListResponse {
 	return SGPRetrieveNotificationsListResponse{
 		Choice:                 SGPRetrieveNotificationsListResponseChoiceEuiccPackageResultList,
 		EuiccPackageResultList: v,
@@ -2898,6 +2994,8 @@ type ImmediateEnableRequest struct {
 	ExtCount_       int64    `asn1:"-" json:"-"`
 	ExtPresent_     []bool   `asn1:"-" json:"-"`
 	ExtData_        [][]byte `asn1:"-" json:"-"`
+	berOriginal_    []byte   `asn1:"-" json:"-"`
+	berSnapshot_    []byte   `asn1:"-" json:"-"`
 }
 
 // ImmediateEnableResponse represents the ASN.1 type ImmediateEnableResponse (SEQUENCE).
@@ -2906,6 +3004,8 @@ type ImmediateEnableResponse struct {
 	ExtCount_             int64                                             `asn1:"-" json:"-"`
 	ExtPresent_           []bool                                            `asn1:"-" json:"-"`
 	ExtData_              [][]byte                                          `asn1:"-" json:"-"`
+	berOriginal_          []byte                                            `asn1:"-" json:"-"`
+	berSnapshot_          []byte                                            `asn1:"-" json:"-"`
 }
 
 // ProfileRollbackRequest represents the ASN.1 type ProfileRollbackRequest (SEQUENCE).
@@ -2915,6 +3015,8 @@ type ProfileRollbackRequest struct {
 	ExtCount_       int64    `asn1:"-" json:"-"`
 	ExtPresent_     []bool   `asn1:"-" json:"-"`
 	ExtData_        [][]byte `asn1:"-" json:"-"`
+	berOriginal_    []byte   `asn1:"-" json:"-"`
+	berSnapshot_    []byte   `asn1:"-" json:"-"`
 }
 
 // ProfileRollbackResponse represents the ASN.1 type ProfileRollbackResponse (SEQUENCE).
@@ -2924,6 +3026,8 @@ type ProfileRollbackResponse struct {
 	ExtCount_          int64                                 `asn1:"-" json:"-"`
 	ExtPresent_        []bool                                `asn1:"-" json:"-"`
 	ExtData_           [][]byte                              `asn1:"-" json:"-"`
+	berOriginal_       []byte                                `asn1:"-" json:"-"`
+	berSnapshot_       []byte                                `asn1:"-" json:"-"`
 }
 
 // ConfigureImmediateProfileEnablingRequest represents the ASN.1 type ConfigureImmediateProfileEnablingRequest (SEQUENCE).
@@ -2934,6 +3038,8 @@ type ConfigureImmediateProfileEnablingRequest struct {
 	ExtCount_           int64                    `asn1:"-" json:"-"`
 	ExtPresent_         []bool                   `asn1:"-" json:"-"`
 	ExtData_            [][]byte                 `asn1:"-" json:"-"`
+	berOriginal_        []byte                   `asn1:"-" json:"-"`
+	berSnapshot_        []byte                   `asn1:"-" json:"-"`
 }
 
 // ConfigureImmediateProfileEnablingResponse represents the ASN.1 type ConfigureImmediateProfileEnablingResponse (SEQUENCE).
@@ -2942,6 +3048,8 @@ type ConfigureImmediateProfileEnablingResponse struct {
 	ExtCount_                   int64                                                                     `asn1:"-" json:"-"`
 	ExtPresent_                 []bool                                                                    `asn1:"-" json:"-"`
 	ExtData_                    [][]byte                                                                  `asn1:"-" json:"-"`
+	berOriginal_                []byte                                                                    `asn1:"-" json:"-"`
+	berSnapshot_                []byte                                                                    `asn1:"-" json:"-"`
 }
 
 // GetEimConfigurationDataRequest represents the ASN.1 type GetEimConfigurationDataRequest (SEQUENCE).
@@ -2950,15 +3058,19 @@ type GetEimConfigurationDataRequest struct {
 	ExtCount_      int64                                         `asn1:"-" json:"-"`
 	ExtPresent_    []bool                                        `asn1:"-" json:"-"`
 	ExtData_       [][]byte                                      `asn1:"-" json:"-"`
+	berOriginal_   []byte                                        `asn1:"-" json:"-"`
+	berSnapshot_   []byte                                        `asn1:"-" json:"-"`
 }
 
 // GetEimConfigurationDataResponse represents the ASN.1 type GetEimConfigurationDataResponse (SEQUENCE).
 type GetEimConfigurationDataResponse struct {
-	EimConfigurationDataList       GetEimConfigurationDataResponseEimConfigurationDataList `asn1:"tag:0,context,implicit"`
-	EimConfigurationDataListIndef_ bool                                                    `asn1:"-" json:"-"`
-	ExtCount_                      int64                                                   `asn1:"-" json:"-"`
-	ExtPresent_                    []bool                                                  `asn1:"-" json:"-"`
-	ExtData_                       [][]byte                                                `asn1:"-" json:"-"`
+	EimConfigurationDataList       *GetEimConfigurationDataResponseEimConfigurationDataList `asn1:"tag:0,context,implicit"`
+	EimConfigurationDataListIndef_ bool                                                     `asn1:"-" json:"-"`
+	ExtCount_                      int64                                                    `asn1:"-" json:"-"`
+	ExtPresent_                    []bool                                                   `asn1:"-" json:"-"`
+	ExtData_                       [][]byte                                                 `asn1:"-" json:"-"`
+	berOriginal_                   []byte                                                   `asn1:"-" json:"-"`
+	berSnapshot_                   []byte                                                   `asn1:"-" json:"-"`
 }
 
 // ExecuteFallbackMechanismRequest represents the ASN.1 type ExecuteFallbackMechanismRequest (SEQUENCE).
@@ -2968,6 +3080,8 @@ type ExecuteFallbackMechanismRequest struct {
 	ExtCount_       int64    `asn1:"-" json:"-"`
 	ExtPresent_     []bool   `asn1:"-" json:"-"`
 	ExtData_        [][]byte `asn1:"-" json:"-"`
+	berOriginal_    []byte   `asn1:"-" json:"-"`
+	berSnapshot_    []byte   `asn1:"-" json:"-"`
 }
 
 // ExecuteFallbackMechanismResponse represents the ASN.1 type ExecuteFallbackMechanismResponse (SEQUENCE).
@@ -2976,6 +3090,8 @@ type ExecuteFallbackMechanismResponse struct {
 	ExtCount_                      int64                                                               `asn1:"-" json:"-"`
 	ExtPresent_                    []bool                                                              `asn1:"-" json:"-"`
 	ExtData_                       [][]byte                                                            `asn1:"-" json:"-"`
+	berOriginal_                   []byte                                                              `asn1:"-" json:"-"`
+	berSnapshot_                   []byte                                                              `asn1:"-" json:"-"`
 }
 
 // ReturnFromFallbackRequest represents the ASN.1 type ReturnFromFallbackRequest (SEQUENCE).
@@ -2985,6 +3101,8 @@ type ReturnFromFallbackRequest struct {
 	ExtCount_       int64    `asn1:"-" json:"-"`
 	ExtPresent_     []bool   `asn1:"-" json:"-"`
 	ExtData_        [][]byte `asn1:"-" json:"-"`
+	berOriginal_    []byte   `asn1:"-" json:"-"`
+	berSnapshot_    []byte   `asn1:"-" json:"-"`
 }
 
 // ReturnFromFallbackResponse represents the ASN.1 type ReturnFromFallbackResponse (SEQUENCE).
@@ -2993,6 +3111,8 @@ type ReturnFromFallbackResponse struct {
 	ExtCount_                int64                                                   `asn1:"-" json:"-"`
 	ExtPresent_              []bool                                                  `asn1:"-" json:"-"`
 	ExtData_                 [][]byte                                                `asn1:"-" json:"-"`
+	berOriginal_             []byte                                                  `asn1:"-" json:"-"`
+	berSnapshot_             []byte                                                  `asn1:"-" json:"-"`
 }
 
 // EnableEmergencyProfileRequest represents the ASN.1 type EnableEmergencyProfileRequest (SEQUENCE).
@@ -3002,6 +3122,8 @@ type EnableEmergencyProfileRequest struct {
 	ExtCount_       int64    `asn1:"-" json:"-"`
 	ExtPresent_     []bool   `asn1:"-" json:"-"`
 	ExtData_        [][]byte `asn1:"-" json:"-"`
+	berOriginal_    []byte   `asn1:"-" json:"-"`
+	berSnapshot_    []byte   `asn1:"-" json:"-"`
 }
 
 // EnableEmergencyProfileResponse represents the ASN.1 type EnableEmergencyProfileResponse (SEQUENCE).
@@ -3010,6 +3132,8 @@ type EnableEmergencyProfileResponse struct {
 	ExtCount_                    int64                                                           `asn1:"-" json:"-"`
 	ExtPresent_                  []bool                                                          `asn1:"-" json:"-"`
 	ExtData_                     [][]byte                                                        `asn1:"-" json:"-"`
+	berOriginal_                 []byte                                                          `asn1:"-" json:"-"`
+	berSnapshot_                 []byte                                                          `asn1:"-" json:"-"`
 }
 
 // DisableEmergencyProfileRequest represents the ASN.1 type DisableEmergencyProfileRequest (SEQUENCE).
@@ -3019,6 +3143,8 @@ type DisableEmergencyProfileRequest struct {
 	ExtCount_       int64    `asn1:"-" json:"-"`
 	ExtPresent_     []bool   `asn1:"-" json:"-"`
 	ExtData_        [][]byte `asn1:"-" json:"-"`
+	berOriginal_    []byte   `asn1:"-" json:"-"`
+	berSnapshot_    []byte   `asn1:"-" json:"-"`
 }
 
 // DisableEmergencyProfileResponse represents the ASN.1 type DisableEmergencyProfileResponse (SEQUENCE).
@@ -3027,13 +3153,17 @@ type DisableEmergencyProfileResponse struct {
 	ExtCount_                     int64                                                             `asn1:"-" json:"-"`
 	ExtPresent_                   []bool                                                            `asn1:"-" json:"-"`
 	ExtData_                      [][]byte                                                          `asn1:"-" json:"-"`
+	berOriginal_                  []byte                                                            `asn1:"-" json:"-"`
+	berSnapshot_                  []byte                                                            `asn1:"-" json:"-"`
 }
 
 // GetConnectivityParametersRequest represents the ASN.1 type GetConnectivityParametersRequest (SEQUENCE).
 type GetConnectivityParametersRequest struct {
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
+	ExtCount_    int64    `asn1:"-" json:"-"`
+	ExtPresent_  []bool   `asn1:"-" json:"-"`
+	ExtData_     [][]byte `asn1:"-" json:"-"`
+	berOriginal_ []byte   `asn1:"-" json:"-"`
+	berSnapshot_ []byte   `asn1:"-" json:"-"`
 }
 
 // GetConnectivityParametersResponse choice constants.
@@ -3045,6 +3175,8 @@ const (
 // GetConnectivityParametersResponse represents the ASN.1 CHOICE type GetConnectivityParametersResponse.
 type GetConnectivityParametersResponse struct {
 	Choice                      int
+	berOriginal_                []byte                       `json:"-"`
+	berSnapshot_                []byte                       `json:"-"`
 	ConnectivityParameters      *ConnectivityParameters      `json:"ConnectivityParameters,omitempty"`
 	ConnectivityParametersError *ConnectivityParametersError `json:"ConnectivityParametersError,omitempty"`
 }
@@ -3067,10 +3199,12 @@ func NewGetConnectivityParametersResponseConnectivityParametersError(v Connectiv
 
 // ConnectivityParameters represents the ASN.1 type ConnectivityParameters (SEQUENCE).
 type ConnectivityParameters struct {
-	HttpParams  []byte   `asn1:"tag:1,context,implicit,optional" json:"HttpParams,omitempty"`
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
+	HttpParams   []byte   `asn1:"tag:1,context,implicit,optional" json:"HttpParams,omitempty"`
+	ExtCount_    int64    `asn1:"-" json:"-"`
+	ExtPresent_  []bool   `asn1:"-" json:"-"`
+	ExtData_     [][]byte `asn1:"-" json:"-"`
+	berOriginal_ []byte   `asn1:"-" json:"-"`
+	berSnapshot_ []byte   `asn1:"-" json:"-"`
 }
 
 // ConnectivityParametersError represents the arbitrary-width ASN.1 INTEGER type ConnectivityParametersError with named numbers.
@@ -3181,6 +3315,8 @@ type SGPSetDefaultDpAddressRequest struct {
 	ExtCount_        int64    `asn1:"-" json:"-"`
 	ExtPresent_      []bool   `asn1:"-" json:"-"`
 	ExtData_         [][]byte `asn1:"-" json:"-"`
+	berOriginal_     []byte   `asn1:"-" json:"-"`
+	berSnapshot_     []byte   `asn1:"-" json:"-"`
 }
 
 // SGPSetDefaultDpAddressResponse represents the ASN.1 type SetDefaultDpAddressResponse (SEQUENCE).
@@ -3189,6 +3325,8 @@ type SGPSetDefaultDpAddressResponse struct {
 	ExtCount_                 int64                                                        `asn1:"-" json:"-"`
 	ExtPresent_               []bool                                                       `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                                                     `asn1:"-" json:"-"`
+	berOriginal_              []byte                                                       `asn1:"-" json:"-"`
+	berSnapshot_              []byte                                                       `asn1:"-" json:"-"`
 }
 
 // SGPPrepareDownloadResponse choice constants.
@@ -3201,6 +3339,8 @@ const (
 // SGPPrepareDownloadResponse represents the ASN.1 CHOICE type PrepareDownloadResponse.
 type SGPPrepareDownloadResponse struct {
 	Choice                    int
+	berOriginal_              []byte                            `json:"-"`
+	berSnapshot_              []byte                            `json:"-"`
 	DownloadResponseOk        *PrepareDownloadResponseOk        `json:"DownloadResponseOk,omitempty"`
 	DownloadResponseError     *PrepareDownloadResponseError     `json:"DownloadResponseError,omitempty"`
 	CompactDownloadResponseOk *CompactPrepareDownloadResponseOk `json:"CompactDownloadResponseOk,omitempty"`
@@ -3237,15 +3377,19 @@ type CompactPrepareDownloadResponseOk struct {
 	ExtCount_           int64               `asn1:"-" json:"-"`
 	ExtPresent_         []bool              `asn1:"-" json:"-"`
 	ExtData_            [][]byte            `asn1:"-" json:"-"`
+	berOriginal_        []byte              `asn1:"-" json:"-"`
+	berSnapshot_        []byte              `asn1:"-" json:"-"`
 }
 
 // CompactEuiccSigned2 represents the ASN.1 type CompactEuiccSigned2 (SEQUENCE).
 type CompactEuiccSigned2 struct {
-	EuiccOtpk   []byte   `asn1:"tag:73,application,implicit,optional" json:"EuiccOtpk,omitempty"`
-	HashCc      *Octet32 `asn1:",optional" json:"HashCc,omitempty"`
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
+	EuiccOtpk    []byte   `asn1:"tag:73,application,implicit,optional" json:"EuiccOtpk,omitempty"`
+	HashCc       *Octet32 `asn1:",optional" json:"HashCc,omitempty"`
+	ExtCount_    int64    `asn1:"-" json:"-"`
+	ExtPresent_  []bool   `asn1:"-" json:"-"`
+	ExtData_     [][]byte `asn1:"-" json:"-"`
+	berOriginal_ []byte   `asn1:"-" json:"-"`
+	berSnapshot_ []byte   `asn1:"-" json:"-"`
 }
 
 // SGPEuiccSigned1 represents the ASN.1 type EuiccSigned1 (SEQUENCE).
@@ -3258,6 +3402,8 @@ type SGPEuiccSigned1 struct {
 	ExtCount_       int64         `asn1:"-" json:"-"`
 	ExtPresent_     []bool        `asn1:"-" json:"-"`
 	ExtData_        [][]byte      `asn1:"-" json:"-"`
+	berOriginal_    []byte        `asn1:"-" json:"-"`
+	berSnapshot_    []byte        `asn1:"-" json:"-"`
 }
 
 // SGPAuthenticateResponseOk represents the ASN.1 type AuthenticateResponseOk (SEQUENCE).
@@ -3269,6 +3415,8 @@ type SGPAuthenticateResponseOk struct {
 	ExtCount_        int64           `asn1:"-" json:"-"`
 	ExtPresent_      []bool          `asn1:"-" json:"-"`
 	ExtData_         [][]byte        `asn1:"-" json:"-"`
+	berOriginal_     []byte          `asn1:"-" json:"-"`
+	berSnapshot_     []byte          `asn1:"-" json:"-"`
 }
 
 // SGPAuthenticateServerResponse choice constants.
@@ -3281,6 +3429,8 @@ const (
 // SGPAuthenticateServerResponse represents the ASN.1 CHOICE type AuthenticateServerResponse.
 type SGPAuthenticateServerResponse struct {
 	Choice                        int
+	berOriginal_                  []byte                         `json:"-"`
+	berSnapshot_                  []byte                         `json:"-"`
 	AuthenticateResponseOk        *SGPAuthenticateResponseOk     `json:"AuthenticateResponseOk,omitempty"`
 	AuthenticateResponseError     *AuthenticateResponseError     `json:"AuthenticateResponseError,omitempty"`
 	CompactAuthenticateResponseOk *CompactAuthenticateResponseOk `json:"CompactAuthenticateResponseOk,omitempty"`
@@ -3319,6 +3469,8 @@ type CompactAuthenticateResponseOk struct {
 	ExtCount_        int64                                   `asn1:"-" json:"-"`
 	ExtPresent_      []bool                                  `asn1:"-" json:"-"`
 	ExtData_         [][]byte                                `asn1:"-" json:"-"`
+	berOriginal_     []byte                                  `asn1:"-" json:"-"`
+	berSnapshot_     []byte                                  `asn1:"-" json:"-"`
 }
 
 // CompactEuiccSigned1 represents the ASN.1 type CompactEuiccSigned1 (SEQUENCE).
@@ -3328,6 +3480,8 @@ type CompactEuiccSigned1 struct {
 	ExtCount_       int64       `asn1:"-" json:"-"`
 	ExtPresent_     []bool      `asn1:"-" json:"-"`
 	ExtData_        [][]byte    `asn1:"-" json:"-"`
+	berOriginal_    []byte      `asn1:"-" json:"-"`
+	berSnapshot_    []byte      `asn1:"-" json:"-"`
 }
 
 // SGPPendingNotification choice constants.
@@ -3341,6 +3495,8 @@ const (
 // SGPPendingNotification represents the ASN.1 CHOICE type PendingNotification.
 type SGPPendingNotification struct {
 	Choice                           int
+	berOriginal_                     []byte                            `json:"-"`
+	berSnapshot_                     []byte                            `json:"-"`
 	ProfileInstallationResult        *SGPProfileInstallationResult     `json:"ProfileInstallationResult,omitempty"`
 	OtherSignedNotification          *OtherSignedNotification          `json:"OtherSignedNotification,omitempty"`
 	CompactProfileInstallationResult *CompactProfileInstallationResult `json:"CompactProfileInstallationResult,omitempty"`
@@ -3386,6 +3542,8 @@ type SGPProfileInstallationResult struct {
 	ExtCount_                     int64                         `asn1:"-" json:"-"`
 	ExtPresent_                   []bool                        `asn1:"-" json:"-"`
 	ExtData_                      [][]byte                      `asn1:"-" json:"-"`
+	berOriginal_                  []byte                        `asn1:"-" json:"-"`
+	berSnapshot_                  []byte                        `asn1:"-" json:"-"`
 }
 
 // CompactProfileInstallationResult represents the ASN.1 type CompactProfileInstallationResult (SEQUENCE).
@@ -3395,6 +3553,8 @@ type CompactProfileInstallationResult struct {
 	ExtCount_                            int64                                `asn1:"-" json:"-"`
 	ExtPresent_                          []bool                               `asn1:"-" json:"-"`
 	ExtData_                             [][]byte                             `asn1:"-" json:"-"`
+	berOriginal_                         []byte                               `asn1:"-" json:"-"`
+	berSnapshot_                         []byte                               `asn1:"-" json:"-"`
 }
 
 // CompactProfileInstallationResultData represents the ASN.1 type CompactProfileInstallationResultData (SEQUENCE).
@@ -3407,6 +3567,8 @@ type CompactProfileInstallationResultData struct {
 	ExtCount_          int64                                                  `asn1:"-" json:"-"`
 	ExtPresent_        []bool                                                 `asn1:"-" json:"-"`
 	ExtData_           [][]byte                                               `asn1:"-" json:"-"`
+	berOriginal_       []byte                                                 `asn1:"-" json:"-"`
+	berSnapshot_       []byte                                                 `asn1:"-" json:"-"`
 }
 
 // CompactSuccessResult represents the ASN.1 type CompactSuccessResult (SEQUENCE).
@@ -3416,6 +3578,8 @@ type CompactSuccessResult struct {
 	ExtCount_    int64    `asn1:"-" json:"-"`
 	ExtPresent_  []bool   `asn1:"-" json:"-"`
 	ExtData_     [][]byte `asn1:"-" json:"-"`
+	berOriginal_ []byte   `asn1:"-" json:"-"`
+	berSnapshot_ []byte   `asn1:"-" json:"-"`
 }
 
 // CompactOtherSignedNotification represents the ASN.1 type CompactOtherSignedNotification (SEQUENCE).
@@ -3427,6 +3591,8 @@ type CompactOtherSignedNotification struct {
 	ExtCount_                   int64                `asn1:"-" json:"-"`
 	ExtPresent_                 []bool               `asn1:"-" json:"-"`
 	ExtData_                    [][]byte             `asn1:"-" json:"-"`
+	berOriginal_                []byte               `asn1:"-" json:"-"`
+	berSnapshot_                []byte               `asn1:"-" json:"-"`
 }
 
 // SGPCancelSessionResponse choice constants.
@@ -3439,6 +3605,8 @@ const (
 // SGPCancelSessionResponse represents the ASN.1 CHOICE type CancelSessionResponse.
 type SGPCancelSessionResponse struct {
 	Choice                         int
+	berOriginal_                   []byte                                                   `json:"-"`
+	berSnapshot_                   []byte                                                   `json:"-"`
 	CancelSessionResponseOk        *CancelSessionResponseOk                                 `json:"CancelSessionResponseOk,omitempty"`
 	CancelSessionResponseError     *SGPCancelSessionResponseCancelSessionResponseErrorValue `json:"CancelSessionResponseError,omitempty"`
 	CompactCancelSessionResponseOk *CompactCancelSessionResponseOk                          `json:"CompactCancelSessionResponseOk,omitempty"`
@@ -3475,14 +3643,18 @@ type CompactCancelSessionResponseOk struct {
 	ExtCount_                       int64                           `asn1:"-" json:"-"`
 	ExtPresent_                     []bool                          `asn1:"-" json:"-"`
 	ExtData_                        [][]byte                        `asn1:"-" json:"-"`
+	berOriginal_                    []byte                          `asn1:"-" json:"-"`
+	berSnapshot_                    []byte                          `asn1:"-" json:"-"`
 }
 
 // CompactEuiccCancelSessionSigned represents the ASN.1 type CompactEuiccCancelSessionSigned (SEQUENCE).
 type CompactEuiccCancelSessionSigned struct {
-	Reason      *CancelSessionReason `asn1:"tag:0,context,implicit,optional" json:"Reason,omitempty"`
-	ExtCount_   int64                `asn1:"-" json:"-"`
-	ExtPresent_ []bool               `asn1:"-" json:"-"`
-	ExtData_    [][]byte             `asn1:"-" json:"-"`
+	Reason       *CancelSessionReason `asn1:"tag:0,context,implicit,optional" json:"Reason,omitempty"`
+	ExtCount_    int64                `asn1:"-" json:"-"`
+	ExtPresent_  []bool               `asn1:"-" json:"-"`
+	ExtData_     [][]byte             `asn1:"-" json:"-"`
+	berOriginal_ []byte               `asn1:"-" json:"-"`
+	berSnapshot_ []byte               `asn1:"-" json:"-"`
 }
 
 // EsipaMessageFromIpaToEim choice constants.
@@ -3500,6 +3672,8 @@ const (
 // EsipaMessageFromIpaToEim represents the ASN.1 CHOICE type EsipaMessageFromIpaToEim.
 type EsipaMessageFromIpaToEim struct {
 	Choice                             int
+	berOriginal_                       []byte                              `json:"-"`
+	berSnapshot_                       []byte                              `json:"-"`
 	InitiateAuthenticationRequestEsipa *InitiateAuthenticationRequestEsipa `json:"InitiateAuthenticationRequestEsipa,omitempty"`
 	AuthenticateClientRequestEsipa     *AuthenticateClientRequestEsipa     `json:"AuthenticateClientRequestEsipa,omitempty"`
 	GetBoundProfilePackageRequestEsipa *GetBoundProfilePackageRequestEsipa `json:"GetBoundProfilePackageRequestEsipa,omitempty"`
@@ -3588,6 +3762,8 @@ const (
 // EsipaMessageFromEimToIpa represents the ASN.1 CHOICE type EsipaMessageFromEimToIpa.
 type EsipaMessageFromEimToIpa struct {
 	Choice                              int
+	berOriginal_                        []byte                               `json:"-"`
+	berSnapshot_                        []byte                               `json:"-"`
 	InitiateAuthenticationResponseEsipa *InitiateAuthenticationResponseEsipa `json:"InitiateAuthenticationResponseEsipa,omitempty"`
 	AuthenticateClientResponseEsipa     *AuthenticateClientResponseEsipa     `json:"AuthenticateClientResponseEsipa,omitempty"`
 	GetBoundProfilePackageResponseEsipa *GetBoundProfilePackageResponseEsipa `json:"GetBoundProfilePackageResponseEsipa,omitempty"`
@@ -3662,6 +3838,8 @@ type InitiateAuthenticationRequestEsipa struct {
 	ExtCount_        int64          `asn1:"-" json:"-"`
 	ExtPresent_      []bool         `asn1:"-" json:"-"`
 	ExtData_         [][]byte       `asn1:"-" json:"-"`
+	berOriginal_     []byte         `asn1:"-" json:"-"`
+	berSnapshot_     []byte         `asn1:"-" json:"-"`
 }
 
 // InitiateAuthenticationResponseEsipa choice constants.
@@ -3673,6 +3851,8 @@ const (
 // InitiateAuthenticationResponseEsipa represents the ASN.1 CHOICE type InitiateAuthenticationResponseEsipa.
 type InitiateAuthenticationResponseEsipa struct {
 	Choice                           int
+	berOriginal_                     []byte                                                                    `json:"-"`
+	berSnapshot_                     []byte                                                                    `json:"-"`
 	InitiateAuthenticationOkEsipa    *InitiateAuthenticationOkEsipa                                            `json:"InitiateAuthenticationOkEsipa,omitempty"`
 	InitiateAuthenticationErrorEsipa *InitiateAuthenticationResponseEsipaInitiateAuthenticationErrorEsipaValue `json:"InitiateAuthenticationErrorEsipa,omitempty"`
 }
@@ -3705,6 +3885,8 @@ type InitiateAuthenticationOkEsipa struct {
 	ExtCount_                   int64          `asn1:"-" json:"-"`
 	ExtPresent_                 []bool         `asn1:"-" json:"-"`
 	ExtData_                    [][]byte       `asn1:"-" json:"-"`
+	berOriginal_                []byte         `asn1:"-" json:"-"`
+	berSnapshot_                []byte         `asn1:"-" json:"-"`
 }
 
 // AuthenticateClientRequestEsipa represents the ASN.1 type AuthenticateClientRequestEsipa (SEQUENCE).
@@ -3714,6 +3896,8 @@ type AuthenticateClientRequestEsipa struct {
 	ExtCount_                  int64                         `asn1:"-" json:"-"`
 	ExtPresent_                []bool                        `asn1:"-" json:"-"`
 	ExtData_                   [][]byte                      `asn1:"-" json:"-"`
+	berOriginal_               []byte                        `asn1:"-" json:"-"`
+	berSnapshot_               []byte                        `asn1:"-" json:"-"`
 }
 
 // AuthenticateClientResponseEsipa choice constants.
@@ -3726,6 +3910,8 @@ const (
 // AuthenticateClientResponseEsipa represents the ASN.1 CHOICE type AuthenticateClientResponseEsipa.
 type AuthenticateClientResponseEsipa struct {
 	Choice                       int
+	berOriginal_                 []byte                                                            `json:"-"`
+	berSnapshot_                 []byte                                                            `json:"-"`
 	AuthenticateClientOkDPEsipa  *AuthenticateClientOkDPEsipa                                      `json:"AuthenticateClientOkDPEsipa,omitempty"`
 	AuthenticateClientOkDSEsipa  *AuthenticateClientOkDSEsipa                                      `json:"AuthenticateClientOkDSEsipa,omitempty"`
 	AuthenticateClientErrorEsipa *AuthenticateClientResponseEsipaAuthenticateClientErrorEsipaValue `json:"AuthenticateClientErrorEsipa,omitempty"`
@@ -3766,6 +3952,8 @@ type AuthenticateClientOkDPEsipa struct {
 	ExtCount_       int64                    `asn1:"-" json:"-"`
 	ExtPresent_     []bool                   `asn1:"-" json:"-"`
 	ExtData_        [][]byte                 `asn1:"-" json:"-"`
+	berOriginal_    []byte                   `asn1:"-" json:"-"`
+	berSnapshot_    []byte                   `asn1:"-" json:"-"`
 }
 
 // AuthenticateClientOkDSEsipa represents the ASN.1 type AuthenticateClientOkDSEsipa (SEQUENCE).
@@ -3775,6 +3963,8 @@ type AuthenticateClientOkDSEsipa struct {
 	ExtCount_              int64                          `asn1:"-" json:"-"`
 	ExtPresent_            []bool                         `asn1:"-" json:"-"`
 	ExtData_               [][]byte                       `asn1:"-" json:"-"`
+	berOriginal_           []byte                         `asn1:"-" json:"-"`
+	berSnapshot_           []byte                         `asn1:"-" json:"-"`
 }
 
 // GetBoundProfilePackageRequestEsipa represents the ASN.1 type GetBoundProfilePackageRequestEsipa (SEQUENCE).
@@ -3784,6 +3974,8 @@ type GetBoundProfilePackageRequestEsipa struct {
 	ExtCount_               int64                      `asn1:"-" json:"-"`
 	ExtPresent_             []bool                     `asn1:"-" json:"-"`
 	ExtData_                [][]byte                   `asn1:"-" json:"-"`
+	berOriginal_            []byte                     `asn1:"-" json:"-"`
+	berSnapshot_            []byte                     `asn1:"-" json:"-"`
 }
 
 // GetBoundProfilePackageResponseEsipa choice constants.
@@ -3795,6 +3987,8 @@ const (
 // GetBoundProfilePackageResponseEsipa represents the ASN.1 CHOICE type GetBoundProfilePackageResponseEsipa.
 type GetBoundProfilePackageResponseEsipa struct {
 	Choice                           int
+	berOriginal_                     []byte                                                                    `json:"-"`
+	berSnapshot_                     []byte                                                                    `json:"-"`
 	GetBoundProfilePackageOkEsipa    *GetBoundProfilePackageOkEsipa                                            `json:"GetBoundProfilePackageOkEsipa,omitempty"`
 	GetBoundProfilePackageErrorEsipa *GetBoundProfilePackageResponseEsipaGetBoundProfilePackageErrorEsipaValue `json:"GetBoundProfilePackageErrorEsipa,omitempty"`
 }
@@ -3822,6 +4016,8 @@ type GetBoundProfilePackageOkEsipa struct {
 	ExtCount_           int64               `asn1:"-" json:"-"`
 	ExtPresent_         []bool              `asn1:"-" json:"-"`
 	ExtData_            [][]byte            `asn1:"-" json:"-"`
+	berOriginal_        []byte              `asn1:"-" json:"-"`
+	berSnapshot_        []byte              `asn1:"-" json:"-"`
 }
 
 // HandleNotificationEsipa choice constants.
@@ -3833,6 +4029,8 @@ const (
 // HandleNotificationEsipa represents the ASN.1 CHOICE type HandleNotificationEsipa.
 type HandleNotificationEsipa struct {
 	Choice                  int
+	berOriginal_            []byte                   `json:"-"`
+	berSnapshot_            []byte                   `json:"-"`
 	PendingNotification     *SGPPendingNotification  `json:"PendingNotification,omitempty"`
 	ProvideEimPackageResult *ProvideEimPackageResult `json:"ProvideEimPackageResult,omitempty"`
 }
@@ -3860,6 +4058,8 @@ type CancelSessionRequestEsipa struct {
 	ExtCount_             int64                    `asn1:"-" json:"-"`
 	ExtPresent_           []bool                   `asn1:"-" json:"-"`
 	ExtData_              [][]byte                 `asn1:"-" json:"-"`
+	berOriginal_          []byte                   `asn1:"-" json:"-"`
+	berSnapshot_          []byte                   `asn1:"-" json:"-"`
 }
 
 // CancelSessionResponseEsipa choice constants.
@@ -3871,6 +4071,8 @@ const (
 // CancelSessionResponseEsipa represents the ASN.1 CHOICE type CancelSessionResponseEsipa.
 type CancelSessionResponseEsipa struct {
 	Choice             int
+	berOriginal_       []byte                                             `json:"-"`
+	berSnapshot_       []byte                                             `json:"-"`
 	CancelSessionOk    *SGPCancelSessionOk                                `json:"CancelSessionOk,omitempty"`
 	CancelSessionError *CancelSessionResponseEsipaCancelSessionErrorValue `json:"CancelSessionError,omitempty"`
 }
@@ -3893,9 +4095,11 @@ func NewCancelSessionResponseEsipaCancelSessionError(v CancelSessionResponseEsip
 
 // SGPCancelSessionOk represents the ASN.1 type CancelSessionOk (SEQUENCE).
 type SGPCancelSessionOk struct {
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
+	ExtCount_    int64    `asn1:"-" json:"-"`
+	ExtPresent_  []bool   `asn1:"-" json:"-"`
+	ExtData_     [][]byte `asn1:"-" json:"-"`
+	berOriginal_ []byte   `asn1:"-" json:"-"`
+	berSnapshot_ []byte   `asn1:"-" json:"-"`
 }
 
 // StateChangeCause represents the arbitrary-width ASN.1 INTEGER type StateChangeCause with named numbers.
@@ -4063,6 +4267,8 @@ type GetEimPackageRequest struct {
 	ExtCount_         int64             `asn1:"-" json:"-"`
 	ExtPresent_       []bool            `asn1:"-" json:"-"`
 	ExtData_          [][]byte          `asn1:"-" json:"-"`
+	berOriginal_      []byte            `asn1:"-" json:"-"`
+	berSnapshot_      []byte            `asn1:"-" json:"-"`
 }
 
 // GetEimPackageResponse choice constants.
@@ -4076,6 +4282,8 @@ const (
 // GetEimPackageResponse represents the ASN.1 CHOICE type GetEimPackageResponse.
 type GetEimPackageResponse struct {
 	Choice                        int
+	berOriginal_                  []byte                                     `json:"-"`
+	berSnapshot_                  []byte                                     `json:"-"`
 	EuiccPackageRequest           *EuiccPackageRequest                       `json:"EuiccPackageRequest,omitempty"`
 	IpaEuiccDataRequest           *IpaEuiccDataRequest                       `json:"IpaEuiccDataRequest,omitempty"`
 	ProfileDownloadTriggerRequest *ProfileDownloadTriggerRequest             `json:"ProfileDownloadTriggerRequest,omitempty"`
@@ -4232,6 +4440,8 @@ type EimPackageResultResponseError struct {
 	ExtCount_                 int64                     `asn1:"-" json:"-"`
 	ExtPresent_               []bool                    `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                  `asn1:"-" json:"-"`
+	berOriginal_              []byte                    `asn1:"-" json:"-"`
+	berSnapshot_              []byte                    `asn1:"-" json:"-"`
 }
 
 // EimPackageResult choice constants.
@@ -4246,6 +4456,8 @@ const (
 // EimPackageResult represents the ASN.1 CHOICE type EimPackageResult.
 type EimPackageResult struct {
 	Choice                        int
+	berOriginal_                  []byte                               `json:"-"`
+	berSnapshot_                  []byte                               `json:"-"`
 	EuiccPackageResult            *EuiccPackageResult                  `json:"EuiccPackageResult,omitempty"`
 	EPRAndNotifications           *EimPackageResultEPRAndNotifications `json:"EPRAndNotifications,omitempty"`
 	IpaEuiccDataResponse          *IpaEuiccDataResponse                `json:"IpaEuiccDataResponse,omitempty"`
@@ -4300,6 +4512,8 @@ type ProvideEimPackageResult struct {
 	ExtCount_        int64            `asn1:"-" json:"-"`
 	ExtPresent_      []bool           `asn1:"-" json:"-"`
 	ExtData_         [][]byte         `asn1:"-" json:"-"`
+	berOriginal_     []byte           `asn1:"-" json:"-"`
+	berSnapshot_     []byte           `asn1:"-" json:"-"`
 }
 
 // ProvideEimPackageResultResponse choice constants.
@@ -4312,13 +4526,15 @@ const (
 // ProvideEimPackageResultResponse represents the ASN.1 CHOICE type ProvideEimPackageResultResponse.
 type ProvideEimPackageResultResponse struct {
 	Choice                       int
-	EimAcknowledgements          EimAcknowledgements                                               `json:"EimAcknowledgements,omitempty"`
+	berOriginal_                 []byte                                                            `json:"-"`
+	berSnapshot_                 []byte                                                            `json:"-"`
+	EimAcknowledgements          *EimAcknowledgements                                              `json:"EimAcknowledgements,omitempty"`
 	EmptyResponse                *ProvideEimPackageResultResponseEmptyResponse                     `json:"EmptyResponse,omitempty"`
 	ProvideEimPackageResultError *ProvideEimPackageResultResponseProvideEimPackageResultErrorValue `json:"ProvideEimPackageResultError,omitempty"`
 }
 
 // NewProvideEimPackageResultResponseEimAcknowledgements creates a ProvideEimPackageResultResponse with the eimAcknowledgements alternative.
-func NewProvideEimPackageResultResponseEimAcknowledgements(v EimAcknowledgements) ProvideEimPackageResultResponse {
+func NewProvideEimPackageResultResponseEimAcknowledgements(v *EimAcknowledgements) ProvideEimPackageResultResponse {
 	return ProvideEimPackageResultResponse{
 		Choice:              ProvideEimPackageResultResponseChoiceEimAcknowledgements,
 		EimAcknowledgements: v,
@@ -4352,9 +4568,11 @@ const (
 // TransferEimPackageRequest represents the ASN.1 CHOICE type TransferEimPackageRequest.
 type TransferEimPackageRequest struct {
 	Choice                        int
+	berOriginal_                  []byte                         `json:"-"`
+	berSnapshot_                  []byte                         `json:"-"`
 	EuiccPackageRequest           *EuiccPackageRequest           `json:"EuiccPackageRequest,omitempty"`
 	IpaEuiccDataRequest           *IpaEuiccDataRequest           `json:"IpaEuiccDataRequest,omitempty"`
-	EimAcknowledgements           EimAcknowledgements            `json:"EimAcknowledgements,omitempty"`
+	EimAcknowledgements           *EimAcknowledgements           `json:"EimAcknowledgements,omitempty"`
 	ProfileDownloadTriggerRequest *ProfileDownloadTriggerRequest `json:"ProfileDownloadTriggerRequest,omitempty"`
 }
 
@@ -4375,7 +4593,7 @@ func NewTransferEimPackageRequestIpaEuiccDataRequest(v IpaEuiccDataRequest) Tran
 }
 
 // NewTransferEimPackageRequestEimAcknowledgements creates a TransferEimPackageRequest with the eimAcknowledgements alternative.
-func NewTransferEimPackageRequestEimAcknowledgements(v EimAcknowledgements) TransferEimPackageRequest {
+func NewTransferEimPackageRequestEimAcknowledgements(v *EimAcknowledgements) TransferEimPackageRequest {
 	return TransferEimPackageRequest{
 		Choice:              TransferEimPackageRequestChoiceEimAcknowledgements,
 		EimAcknowledgements: v,
@@ -4404,6 +4622,8 @@ const (
 // TransferEimPackageResponse represents the ASN.1 CHOICE type TransferEimPackageResponse.
 type TransferEimPackageResponse struct {
 	Choice                    int
+	berOriginal_              []byte                                          `json:"-"`
+	berSnapshot_              []byte                                          `json:"-"`
 	EuiccPackageResult        *EuiccPackageResult                             `json:"EuiccPackageResult,omitempty"`
 	EPRAndNotifications       *TransferEimPackageResponseEPRAndNotifications  `json:"EPRAndNotifications,omitempty"`
 	IpaEuiccDataResponse      *IpaEuiccDataResponse                           `json:"IpaEuiccDataResponse,omitempty"`
@@ -4475,6 +4695,8 @@ type EimPackageReceivedWithCid struct {
 	ExtCount_     int64                                   `asn1:"-" json:"-"`
 	ExtPresent_   []bool                                  `asn1:"-" json:"-"`
 	ExtData_      [][]byte                                `asn1:"-" json:"-"`
+	berOriginal_  []byte                                  `asn1:"-" json:"-"`
+	berSnapshot_  []byte                                  `asn1:"-" json:"-"`
 }
 
 // EimPackageErrorWithCid represents the ASN.1 type EimPackageErrorWithCid (SEQUENCE).
@@ -4484,13 +4706,23 @@ type EimPackageErrorWithCid struct {
 	ExtCount_       int64                                `asn1:"-" json:"-"`
 	ExtPresent_     []bool                               `asn1:"-" json:"-"`
 	ExtData_        [][]byte                             `asn1:"-" json:"-"`
+	berOriginal_    []byte                               `asn1:"-" json:"-"`
+	berSnapshot_    []byte                               `asn1:"-" json:"-"`
 }
 
 // EuiccPackagePsmoList represents the ASN.1 type EuiccPackage-psmoList (SEQUENCE_OF).
-type EuiccPackagePsmoList = []Psmo
+type EuiccPackagePsmoList struct {
+	Values       []Psmo `json:"Values"`
+	berOriginal_ []byte `json:"-"`
+	berSnapshot_ []byte `json:"-"`
+}
 
 // EuiccPackageEcoList represents the ASN.1 type EuiccPackage-ecoList (SEQUENCE_OF).
-type EuiccPackageEcoList = []Eco
+type EuiccPackageEcoList struct {
+	Values       []Eco  `json:"Values"`
+	berOriginal_ []byte `json:"-"`
+	berSnapshot_ []byte `json:"-"`
+}
 
 // EimConfigurationDataEimPublicKeyData choice constants.
 const (
@@ -4501,6 +4733,8 @@ const (
 // EimConfigurationDataEimPublicKeyData represents the ASN.1 CHOICE type EimConfigurationData-eimPublicKeyData.
 type EimConfigurationDataEimPublicKeyData struct {
 	Choice         int
+	berOriginal_   []byte                `json:"-"`
+	berSnapshot_   []byte                `json:"-"`
 	EimPublicKey   *SubjectPublicKeyInfo `json:"EimPublicKey,omitempty"`
 	EimCertificate *Certificate          `json:"EimCertificate,omitempty"`
 }
@@ -4530,6 +4764,8 @@ const (
 // EimConfigurationDataTrustedPublicKeyDataTls represents the ASN.1 CHOICE type EimConfigurationData-trustedPublicKeyDataTls.
 type EimConfigurationDataTrustedPublicKeyDataTls struct {
 	Choice                int
+	berOriginal_          []byte                `json:"-"`
+	berSnapshot_          []byte                `json:"-"`
 	TrustedEimPkTls       *SubjectPublicKeyInfo `json:"TrustedEimPkTls,omitempty"`
 	TrustedCertificateTls *Certificate          `json:"TrustedCertificateTls,omitempty"`
 }
@@ -4552,17 +4788,21 @@ func NewEimConfigurationDataTrustedPublicKeyDataTlsTrustedCertificateTls(v Certi
 
 // EcoDeleteEim represents the ASN.1 type Eco-deleteEim (SEQUENCE).
 type EcoDeleteEim struct {
-	EimId       string   `asn1:"tag:0,context,implicit"`
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
+	EimId        string   `asn1:"tag:0,context,implicit"`
+	ExtCount_    int64    `asn1:"-" json:"-"`
+	ExtPresent_  []bool   `asn1:"-" json:"-"`
+	ExtData_     [][]byte `asn1:"-" json:"-"`
+	berOriginal_ []byte   `asn1:"-" json:"-"`
+	berSnapshot_ []byte   `asn1:"-" json:"-"`
 }
 
 // EcoListEim represents the ASN.1 type Eco-listEim (SEQUENCE).
 type EcoListEim struct {
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
+	ExtCount_    int64    `asn1:"-" json:"-"`
+	ExtPresent_  []bool   `asn1:"-" json:"-"`
+	ExtData_     [][]byte `asn1:"-" json:"-"`
+	berOriginal_ []byte   `asn1:"-" json:"-"`
+	berSnapshot_ []byte   `asn1:"-" json:"-"`
 }
 
 // PsmoEnable represents the ASN.1 type Psmo-enable (SEQUENCE).
@@ -4572,29 +4812,37 @@ type PsmoEnable struct {
 	ExtCount_    int64     `asn1:"-" json:"-"`
 	ExtPresent_  []bool    `asn1:"-" json:"-"`
 	ExtData_     [][]byte  `asn1:"-" json:"-"`
+	berOriginal_ []byte    `asn1:"-" json:"-"`
+	berSnapshot_ []byte    `asn1:"-" json:"-"`
 }
 
 // PsmoDisable represents the ASN.1 type Psmo-disable (SEQUENCE).
 type PsmoDisable struct {
-	Iccid       Iccid    `asn1:"tag:26,application,implicit"`
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
+	Iccid        Iccid    `asn1:"tag:26,application,implicit"`
+	ExtCount_    int64    `asn1:"-" json:"-"`
+	ExtPresent_  []bool   `asn1:"-" json:"-"`
+	ExtData_     [][]byte `asn1:"-" json:"-"`
+	berOriginal_ []byte   `asn1:"-" json:"-"`
+	berSnapshot_ []byte   `asn1:"-" json:"-"`
 }
 
 // PsmoDelete represents the ASN.1 type Psmo-delete (SEQUENCE).
 type PsmoDelete struct {
-	Iccid       Iccid    `asn1:"tag:26,application,implicit"`
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
+	Iccid        Iccid    `asn1:"tag:26,application,implicit"`
+	ExtCount_    int64    `asn1:"-" json:"-"`
+	ExtPresent_  []bool   `asn1:"-" json:"-"`
+	ExtData_     [][]byte `asn1:"-" json:"-"`
+	berOriginal_ []byte   `asn1:"-" json:"-"`
+	berSnapshot_ []byte   `asn1:"-" json:"-"`
 }
 
 // PsmoGetRAT represents the ASN.1 type Psmo-getRAT (SEQUENCE).
 type PsmoGetRAT struct {
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
+	ExtCount_    int64    `asn1:"-" json:"-"`
+	ExtPresent_  []bool   `asn1:"-" json:"-"`
+	ExtData_     [][]byte `asn1:"-" json:"-"`
+	berOriginal_ []byte   `asn1:"-" json:"-"`
+	berSnapshot_ []byte   `asn1:"-" json:"-"`
 }
 
 // PsmoConfigureImmediateEnable represents the ASN.1 type Psmo-configureImmediateEnable (SEQUENCE).
@@ -4605,21 +4853,27 @@ type PsmoConfigureImmediateEnable struct {
 	ExtCount_           int64                    `asn1:"-" json:"-"`
 	ExtPresent_         []bool                   `asn1:"-" json:"-"`
 	ExtData_            [][]byte                 `asn1:"-" json:"-"`
+	berOriginal_        []byte                   `asn1:"-" json:"-"`
+	berSnapshot_        []byte                   `asn1:"-" json:"-"`
 }
 
 // PsmoSetFallbackAttribute represents the ASN.1 type Psmo-setFallbackAttribute (SEQUENCE).
 type PsmoSetFallbackAttribute struct {
-	Iccid       Iccid    `asn1:"tag:26,application,implicit"`
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
+	Iccid        Iccid    `asn1:"tag:26,application,implicit"`
+	ExtCount_    int64    `asn1:"-" json:"-"`
+	ExtPresent_  []bool   `asn1:"-" json:"-"`
+	ExtData_     [][]byte `asn1:"-" json:"-"`
+	berOriginal_ []byte   `asn1:"-" json:"-"`
+	berSnapshot_ []byte   `asn1:"-" json:"-"`
 }
 
 // PsmoUnsetFallbackAttribute represents the ASN.1 type Psmo-unsetFallbackAttribute (SEQUENCE).
 type PsmoUnsetFallbackAttribute struct {
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
+	ExtCount_    int64    `asn1:"-" json:"-"`
+	ExtPresent_  []bool   `asn1:"-" json:"-"`
+	ExtData_     [][]byte `asn1:"-" json:"-"`
+	berOriginal_ []byte   `asn1:"-" json:"-"`
+	berSnapshot_ []byte   `asn1:"-" json:"-"`
 }
 
 // IpaEuiccDataRequestSearchCriteriaNotification choice constants.
@@ -4631,6 +4885,8 @@ const (
 // IpaEuiccDataRequestSearchCriteriaNotification represents the ASN.1 CHOICE type IpaEuiccDataRequest-searchCriteriaNotification.
 type IpaEuiccDataRequestSearchCriteriaNotification struct {
 	Choice                     int
+	berOriginal_               []byte             `json:"-"`
+	berSnapshot_               []byte             `json:"-"`
 	SeqNumber                  *big.Int           `json:"SeqNumber,omitempty"`
 	ProfileManagementOperation *NotificationEvent `json:"ProfileManagementOperation,omitempty"`
 }
@@ -4658,8 +4914,10 @@ const (
 
 // IpaEuiccDataRequestSearchCriteriaEuiccPackageResult represents the ASN.1 CHOICE type IpaEuiccDataRequest-searchCriteriaEuiccPackageResult.
 type IpaEuiccDataRequestSearchCriteriaEuiccPackageResult struct {
-	Choice    int
-	SeqNumber *big.Int `json:"SeqNumber,omitempty"`
+	Choice       int
+	berOriginal_ []byte   `json:"-"`
+	berSnapshot_ []byte   `json:"-"`
+	SeqNumber    *big.Int `json:"SeqNumber,omitempty"`
 }
 
 // NewIpaEuiccDataRequestSearchCriteriaEuiccPackageResultSeqNumber creates a IpaEuiccDataRequestSearchCriteriaEuiccPackageResult with the seqNumber alternative.
@@ -4672,14 +4930,20 @@ func NewIpaEuiccDataRequestSearchCriteriaEuiccPackageResultSeqNumber(v *big.Int)
 
 // ProfileDownloadDataContactSmds represents the ASN.1 type ProfileDownloadData-contactSmds (SEQUENCE).
 type ProfileDownloadDataContactSmds struct {
-	SmdsAddress *string  `asn1:"tag:0,context,implicit,optional" json:"SmdsAddress,omitempty"`
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
+	SmdsAddress  *string  `asn1:"tag:0,context,implicit,optional" json:"SmdsAddress,omitempty"`
+	ExtCount_    int64    `asn1:"-" json:"-"`
+	ExtPresent_  []bool   `asn1:"-" json:"-"`
+	ExtData_     [][]byte `asn1:"-" json:"-"`
+	berOriginal_ []byte   `asn1:"-" json:"-"`
+	berSnapshot_ []byte   `asn1:"-" json:"-"`
 }
 
 // EuiccPackageResultDataSignedEuiccResult represents the ASN.1 type EuiccPackageResultDataSigned-euiccResult (SEQUENCE_OF).
-type EuiccPackageResultDataSignedEuiccResult = []EuiccResultData
+type EuiccPackageResultDataSignedEuiccResult struct {
+	Values       []EuiccResultData `json:"Values"`
+	berOriginal_ []byte            `json:"-"`
+	berSnapshot_ []byte            `json:"-"`
+}
 
 // EuiccResultDataProcessingTerminatedValue represents the arbitrary-width ASN.1 INTEGER type EuiccResultData-processingTerminated-Value with named numbers.
 type EuiccResultDataProcessingTerminatedValue struct {
@@ -4802,7 +5066,11 @@ func (v *EuiccResultDataProcessingTerminatedValue) UnmarshalJSON(data []byte) er
 }
 
 // SGPProfileInfoListResponseProfileInfoListOk represents the ASN.1 type ProfileInfoListResponse-profileInfoListOk (SEQUENCE_OF).
-type SGPProfileInfoListResponseProfileInfoListOk = []SGPProfileInfo
+type SGPProfileInfoListResponseProfileInfoListOk struct {
+	Values       []SGPProfileInfo `json:"Values"`
+	berOriginal_ []byte           `json:"-"`
+	berSnapshot_ []byte           `json:"-"`
+}
 
 // AddEimResultAddEimResultCodeValue represents the arbitrary-width ASN.1 INTEGER type AddEimResult-addEimResultCode-Value with named numbers.
 type AddEimResultAddEimResultCodeValue struct {
@@ -4961,7 +5229,11 @@ func (v *AddEimResultAddEimResultCodeValue) UnmarshalJSON(data []byte) error {
 }
 
 // ListEimResultEimIdList represents the ASN.1 type ListEimResult-eimIdList (SEQUENCE_OF).
-type ListEimResultEimIdList = []EimIdInfo
+type ListEimResultEimIdList struct {
+	Values       []EimIdInfo `json:"Values"`
+	berOriginal_ []byte      `json:"-"`
+	berSnapshot_ []byte      `json:"-"`
+}
 
 // ListEimResultListEimErrorValue represents the arbitrary-width ASN.1 INTEGER type ListEimResult-listEimError-Value with named numbers.
 type ListEimResultListEimErrorValue struct {
@@ -5065,6 +5337,8 @@ const (
 // ProfileDownloadTriggerResultProfileDownloadTriggerResultData represents the ASN.1 CHOICE type ProfileDownloadTriggerResult-profileDownloadTriggerResultData.
 type ProfileDownloadTriggerResultProfileDownloadTriggerResultData struct {
 	Choice                    int
+	berOriginal_              []byte                                                                            `json:"-"`
+	berSnapshot_              []byte                                                                            `json:"-"`
 	ProfileInstallationResult *SGPProfileInstallationResult                                                     `json:"ProfileInstallationResult,omitempty"`
 	ProfileDownloadError      *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError `json:"ProfileDownloadError,omitempty"`
 }
@@ -5092,6 +5366,8 @@ type ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownload
 	ExtCount_                  int64                                                                                                           `asn1:"-" json:"-"`
 	ExtPresent_                []bool                                                                                                          `asn1:"-" json:"-"`
 	ExtData_                   [][]byte                                                                                                        `asn1:"-" json:"-"`
+	berOriginal_               []byte                                                                                                          `asn1:"-" json:"-"`
+	berSnapshot_               []byte                                                                                                          `asn1:"-" json:"-"`
 }
 
 // ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadErrorProfileDownloadErrorReasonValue represents the arbitrary-width ASN.1 INTEGER type ProfileDownloadTriggerResult-profileDownloadTriggerResultData-profileDownloadError-profileDownloadErrorReason-Value with named numbers.
@@ -5299,30 +5575,50 @@ func (v *IpaeActivationResponseIpaeActivationResultValue) UnmarshalJSON(data []b
 }
 
 // SGPProfileInfoNotificationConfigurationInfo represents the ASN.1 type ProfileInfo-notificationConfigurationInfo (SEQUENCE_OF).
-type SGPProfileInfoNotificationConfigurationInfo = []NotificationConfigurationInformation
+type SGPProfileInfoNotificationConfigurationInfo struct {
+	Values       []NotificationConfigurationInformation `json:"Values"`
+	berOriginal_ []byte                                 `json:"-"`
+	berSnapshot_ []byte                                 `json:"-"`
+}
 
 // SGPProfileInfoIotSpecificProfileInfo represents the ASN.1 type ProfileInfo-iotSpecificProfileInfo (SEQUENCE).
 type SGPProfileInfoIotSpecificProfileInfo struct {
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
+	ExtCount_    int64    `asn1:"-" json:"-"`
+	ExtPresent_  []bool   `asn1:"-" json:"-"`
+	ExtData_     [][]byte `asn1:"-" json:"-"`
+	berOriginal_ []byte   `asn1:"-" json:"-"`
+	berSnapshot_ []byte   `asn1:"-" json:"-"`
 }
 
 // SGPStoreMetadataRequestNotificationConfigurationInfo represents the ASN.1 type StoreMetadataRequest-notificationConfigurationInfo (SEQUENCE_OF).
-type SGPStoreMetadataRequestNotificationConfigurationInfo = []NotificationConfigurationInformation
+type SGPStoreMetadataRequestNotificationConfigurationInfo struct {
+	Values       []NotificationConfigurationInformation `json:"Values"`
+	berOriginal_ []byte                                 `json:"-"`
+	berSnapshot_ []byte                                 `json:"-"`
+}
 
 // SGPStoreMetadataRequestIotSpecificMetadata represents the ASN.1 type StoreMetadataRequest-iotSpecificMetadata (SEQUENCE).
 type SGPStoreMetadataRequestIotSpecificMetadata struct {
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
+	ExtCount_    int64    `asn1:"-" json:"-"`
+	ExtPresent_  []bool   `asn1:"-" json:"-"`
+	ExtData_     [][]byte `asn1:"-" json:"-"`
+	berOriginal_ []byte   `asn1:"-" json:"-"`
+	berSnapshot_ []byte   `asn1:"-" json:"-"`
 }
 
 // SGPEUICCInfo2EuiccCiPKIdListForVerification represents the ASN.1 type EUICCInfo2-euiccCiPKIdListForVerification (SEQUENCE_OF).
-type SGPEUICCInfo2EuiccCiPKIdListForVerification = []SubjectKeyIdentifier
+type SGPEUICCInfo2EuiccCiPKIdListForVerification struct {
+	Values       []SubjectKeyIdentifier `json:"Values"`
+	berOriginal_ []byte                 `json:"-"`
+	berSnapshot_ []byte                 `json:"-"`
+}
 
 // SGPEUICCInfo2EuiccCiPKIdListForSigning represents the ASN.1 type EUICCInfo2-euiccCiPKIdListForSigning (SEQUENCE_OF).
-type SGPEUICCInfo2EuiccCiPKIdListForSigning = []SubjectKeyIdentifier
+type SGPEUICCInfo2EuiccCiPKIdListForSigning struct {
+	Values       []SubjectKeyIdentifier `json:"Values"`
+	berOriginal_ []byte                 `json:"-"`
+	berSnapshot_ []byte                 `json:"-"`
+}
 
 // SGPEUICCInfo2EuiccCategoryValue represents the arbitrary-width ASN.1 INTEGER type EUICCInfo2-euiccCategory-Value with named numbers.
 type SGPEUICCInfo2EuiccCategoryValue struct {
@@ -5445,16 +5741,32 @@ func (v *SGPEUICCInfo2EuiccCategoryValue) UnmarshalJSON(data []byte) error {
 }
 
 // SGPEUICCInfo2AdditionalEuiccProfilePackageVersions represents the ASN.1 type EUICCInfo2-additionalEuiccProfilePackageVersions (SEQUENCE_OF).
-type SGPEUICCInfo2AdditionalEuiccProfilePackageVersions = []VersionType
+type SGPEUICCInfo2AdditionalEuiccProfilePackageVersions struct {
+	Values       []VersionType `json:"Values"`
+	berOriginal_ []byte        `json:"-"`
+	berSnapshot_ []byte        `json:"-"`
+}
 
 // SGPEUICCInfo2EuiccCiPKIdListForSigningV3 represents the ASN.1 type EUICCInfo2-euiccCiPKIdListForSigningV3 (SEQUENCE_OF).
-type SGPEUICCInfo2EuiccCiPKIdListForSigningV3 = []SubjectKeyIdentifier
+type SGPEUICCInfo2EuiccCiPKIdListForSigningV3 struct {
+	Values       []SubjectKeyIdentifier `json:"Values"`
+	berOriginal_ []byte                 `json:"-"`
+	berSnapshot_ []byte                 `json:"-"`
+}
 
 // IoTSpecificInfoIotVersion represents the ASN.1 type IoTSpecificInfo-iotVersion (SEQUENCE_OF).
-type IoTSpecificInfoIotVersion = []VersionType
+type IoTSpecificInfoIotVersion struct {
+	Values       []VersionType `json:"Values"`
+	berOriginal_ []byte        `json:"-"`
+	berSnapshot_ []byte        `json:"-"`
+}
 
 // AddInitialEimRequestEimConfigurationDataList represents the ASN.1 type AddInitialEimRequest-eimConfigurationDataList (SEQUENCE_OF).
-type AddInitialEimRequestEimConfigurationDataList = []EimConfigurationData
+type AddInitialEimRequestEimConfigurationDataList struct {
+	Values       []EimConfigurationData `json:"Values"`
+	berOriginal_ []byte                 `json:"-"`
+	berSnapshot_ []byte                 `json:"-"`
+}
 
 // AddInitialEimResponseAddInitialEimOkElem choice constants.
 const (
@@ -5465,6 +5777,8 @@ const (
 // AddInitialEimResponseAddInitialEimOkElem represents the ASN.1 CHOICE type AddInitialEimResponse-addInitialEimOk-Elem.
 type AddInitialEimResponseAddInitialEimOkElem struct {
 	Choice           int
+	berOriginal_     []byte    `json:"-"`
+	berSnapshot_     []byte    `json:"-"`
 	AssociationToken *big.Int  `json:"AssociationToken,omitempty"`
 	AddOk            *struct{} `json:"AddOk,omitempty"`
 }
@@ -5486,7 +5800,11 @@ func NewAddInitialEimResponseAddInitialEimOkElemAddOk(v struct{}) AddInitialEimR
 }
 
 // AddInitialEimResponseAddInitialEimOk represents the ASN.1 type AddInitialEimResponse-addInitialEimOk (SEQUENCE_OF).
-type AddInitialEimResponseAddInitialEimOk = []AddInitialEimResponseAddInitialEimOkElem
+type AddInitialEimResponseAddInitialEimOk struct {
+	Values       []AddInitialEimResponseAddInitialEimOkElem `json:"Values"`
+	berOriginal_ []byte                                     `json:"-"`
+	berSnapshot_ []byte                                     `json:"-"`
+}
 
 // AddInitialEimResponseAddInitialEimErrorValue represents the arbitrary-width ASN.1 INTEGER type AddInitialEimResponse-addInitialEimError-Value with named numbers.
 type AddInitialEimResponseAddInitialEimErrorValue struct {
@@ -6002,6 +6320,8 @@ type GetCertsResponseCerts struct {
 	ExtCount_        int64       `asn1:"-" json:"-"`
 	ExtPresent_      []bool      `asn1:"-" json:"-"`
 	ExtData_         [][]byte    `asn1:"-" json:"-"`
+	berOriginal_     []byte      `asn1:"-" json:"-"`
+	berSnapshot_     []byte      `asn1:"-" json:"-"`
 }
 
 // GetCertsResponseGetCertsErrorValue represents the arbitrary-width ASN.1 INTEGER type GetCertsResponse-getCertsError-Value with named numbers.
@@ -6116,6 +6436,8 @@ const (
 // SGPRetrieveNotificationsListRequestSearchCriteria represents the ASN.1 CHOICE type RetrieveNotificationsListRequest-searchCriteria.
 type SGPRetrieveNotificationsListRequestSearchCriteria struct {
 	Choice                     int
+	berOriginal_               []byte             `json:"-"`
+	berSnapshot_               []byte             `json:"-"`
 	SeqNumber                  *big.Int           `json:"SeqNumber,omitempty"`
 	ProfileManagementOperation *NotificationEvent `json:"ProfileManagementOperation,omitempty"`
 	EuiccPackageResults        *struct{}          `json:"EuiccPackageResults,omitempty"`
@@ -6623,8 +6945,10 @@ const (
 
 // GetEimConfigurationDataRequestSearchCriteria represents the ASN.1 CHOICE type GetEimConfigurationDataRequest-searchCriteria.
 type GetEimConfigurationDataRequestSearchCriteria struct {
-	Choice int
-	EimId  *string `json:"EimId,omitempty"`
+	Choice       int
+	berOriginal_ []byte  `json:"-"`
+	berSnapshot_ []byte  `json:"-"`
+	EimId        *string `json:"EimId,omitempty"`
 }
 
 // NewGetEimConfigurationDataRequestSearchCriteriaEimId creates a GetEimConfigurationDataRequestSearchCriteria with the eimId alternative.
@@ -6636,7 +6960,11 @@ func NewGetEimConfigurationDataRequestSearchCriteriaEimId(v string) GetEimConfig
 }
 
 // GetEimConfigurationDataResponseEimConfigurationDataList represents the ASN.1 type GetEimConfigurationDataResponse-eimConfigurationDataList (SEQUENCE_OF).
-type GetEimConfigurationDataResponseEimConfigurationDataList = []EimConfigurationData
+type GetEimConfigurationDataResponseEimConfigurationDataList struct {
+	Values       []EimConfigurationData `json:"Values"`
+	berOriginal_ []byte                 `json:"-"`
+	berSnapshot_ []byte                 `json:"-"`
+}
 
 // ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue represents the arbitrary-width ASN.1 INTEGER type ExecuteFallbackMechanismResponse-executeFallbackMechanismResult-Value with named numbers.
 type ExecuteFallbackMechanismResponseExecuteFallbackMechanismResultValue struct {
@@ -7283,6 +7611,8 @@ const (
 // CompactAuthenticateResponseOkSignedData represents the ASN.1 CHOICE type CompactAuthenticateResponseOk-signedData.
 type CompactAuthenticateResponseOkSignedData struct {
 	Choice              int
+	berOriginal_        []byte               `json:"-"`
+	berSnapshot_        []byte               `json:"-"`
 	EuiccSigned1        *SGPEuiccSigned1     `json:"EuiccSigned1,omitempty"`
 	CompactEuiccSigned1 *CompactEuiccSigned1 `json:"CompactEuiccSigned1,omitempty"`
 }
@@ -7312,6 +7642,8 @@ const (
 // CompactProfileInstallationResultDataCompactFinalResult represents the ASN.1 CHOICE type CompactProfileInstallationResultData-compactFinalResult.
 type CompactProfileInstallationResultDataCompactFinalResult struct {
 	Choice               int
+	berOriginal_         []byte                `json:"-"`
+	berSnapshot_         []byte                `json:"-"`
 	CompactSuccessResult *CompactSuccessResult `json:"CompactSuccessResult,omitempty"`
 	ErrorResult          *ErrorResult          `json:"ErrorResult,omitempty"`
 }
@@ -8207,19 +8539,23 @@ func (v *GetEimPackageResponseEimPackageErrorValue) UnmarshalJSON(data []byte) e
 
 // EimPackageResultEPRAndNotifications represents the ASN.1 type EimPackageResult-ePRAndNotifications (SEQUENCE).
 type EimPackageResultEPRAndNotifications struct {
-	EuiccPackageResult     EuiccPackageResult      `asn1:"tag:81,context,explicit"`
-	NotificationList       PendingNotificationList `asn1:"tag:0,context,implicit"`
-	NotificationListIndef_ bool                    `asn1:"-" json:"-"`
-	ExtCount_              int64                   `asn1:"-" json:"-"`
-	ExtPresent_            []bool                  `asn1:"-" json:"-"`
-	ExtData_               [][]byte                `asn1:"-" json:"-"`
+	EuiccPackageResult     EuiccPackageResult       `asn1:"tag:81,context,explicit"`
+	NotificationList       *PendingNotificationList `asn1:"tag:0,context,implicit"`
+	NotificationListIndef_ bool                     `asn1:"-" json:"-"`
+	ExtCount_              int64                    `asn1:"-" json:"-"`
+	ExtPresent_            []bool                   `asn1:"-" json:"-"`
+	ExtData_               [][]byte                 `asn1:"-" json:"-"`
+	berOriginal_           []byte                   `asn1:"-" json:"-"`
+	berSnapshot_           []byte                   `asn1:"-" json:"-"`
 }
 
 // ProvideEimPackageResultResponseEmptyResponse represents the ASN.1 type ProvideEimPackageResultResponse-emptyResponse (SEQUENCE).
 type ProvideEimPackageResultResponseEmptyResponse struct {
-	ExtCount_   int64    `asn1:"-" json:"-"`
-	ExtPresent_ []bool   `asn1:"-" json:"-"`
-	ExtData_    [][]byte `asn1:"-" json:"-"`
+	ExtCount_    int64    `asn1:"-" json:"-"`
+	ExtPresent_  []bool   `asn1:"-" json:"-"`
+	ExtData_     [][]byte `asn1:"-" json:"-"`
+	berOriginal_ []byte   `asn1:"-" json:"-"`
+	berSnapshot_ []byte   `asn1:"-" json:"-"`
 }
 
 // ProvideEimPackageResultResponseProvideEimPackageResultErrorValue represents the arbitrary-width ASN.1 INTEGER type ProvideEimPackageResultResponse-provideEimPackageResultError-Value with named numbers.
@@ -8344,12 +8680,14 @@ func (v *ProvideEimPackageResultResponseProvideEimPackageResultErrorValue) Unmar
 
 // TransferEimPackageResponseEPRAndNotifications represents the ASN.1 type TransferEimPackageResponse-ePRAndNotifications (SEQUENCE).
 type TransferEimPackageResponseEPRAndNotifications struct {
-	EuiccPackageResult     EuiccPackageResult      `asn1:"tag:81,context,explicit"`
-	NotificationList       PendingNotificationList `asn1:"tag:0,context,implicit"`
-	NotificationListIndef_ bool                    `asn1:"-" json:"-"`
-	ExtCount_              int64                   `asn1:"-" json:"-"`
-	ExtPresent_            []bool                  `asn1:"-" json:"-"`
-	ExtData_               [][]byte                `asn1:"-" json:"-"`
+	EuiccPackageResult     EuiccPackageResult       `asn1:"tag:81,context,explicit"`
+	NotificationList       *PendingNotificationList `asn1:"tag:0,context,implicit"`
+	NotificationListIndef_ bool                     `asn1:"-" json:"-"`
+	ExtCount_              int64                    `asn1:"-" json:"-"`
+	ExtPresent_            []bool                   `asn1:"-" json:"-"`
+	ExtData_               [][]byte                 `asn1:"-" json:"-"`
+	berOriginal_           []byte                   `asn1:"-" json:"-"`
+	berSnapshot_           []byte                   `asn1:"-" json:"-"`
 }
 
 // TransferEimPackageResponseEimPackageErrorValue represents the arbitrary-width ASN.1 INTEGER type TransferEimPackageResponse-eimPackageError-Value with named numbers.
@@ -8472,6 +8810,8 @@ const (
 // EimPackageReceivedWithCidCorrelationId represents the ASN.1 CHOICE type EimPackageReceivedWithCid-correlationId.
 type EimPackageReceivedWithCidCorrelationId struct {
 	Choice           int
+	berOriginal_     []byte         `json:"-"`
+	berSnapshot_     []byte         `json:"-"`
 	EimTransactionId *TransactionId `json:"EimTransactionId,omitempty"`
 	EidValue         *Octet16       `json:"EidValue,omitempty"`
 }
@@ -8501,6 +8841,8 @@ const (
 // EimPackageErrorWithCidCorrelationId represents the ASN.1 CHOICE type EimPackageErrorWithCid-correlationId.
 type EimPackageErrorWithCidCorrelationId struct {
 	Choice           int
+	berOriginal_     []byte         `json:"-"`
+	berSnapshot_     []byte         `json:"-"`
 	EimTransactionId *TransactionId `json:"EimTransactionId,omitempty"`
 	EidValue         *Octet16       `json:"EidValue,omitempty"`
 }
@@ -8522,9 +8864,22 @@ func NewEimPackageErrorWithCidCorrelationIdEidValue(v Octet16) EimPackageErrorWi
 }
 
 // MarshalBER encodes EuiccPackageRequest to BER format.
-func (v *EuiccPackageRequest) MarshalBER() ([]byte, error) {
+func (v *EuiccPackageRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackageRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EuiccPackageRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_euiccpackagesigned, err := v.EuiccPackageSigned.MarshalBER()
+	enc_euiccpackagesigned, err := v.EuiccPackageSigned.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccPackageSigned: %w", err)
 	}
@@ -8554,6 +8909,9 @@ func (v *EuiccPackageRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EuiccPackageRequest to DER format.
 func (v *EuiccPackageRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackageRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_euiccpackagesigned, err := v.EuiccPackageSigned.MarshalDER()
 	if err != nil {
@@ -8592,11 +8950,27 @@ func (v *EuiccPackageRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EuiccPackageRequest from BER/DER format.
-func (v *EuiccPackageRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EuiccPackageRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EuiccPackageRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EuiccPackageRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EuiccPackageRequest: %w", err)
@@ -8623,7 +8997,7 @@ func (v *EuiccPackageRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.EuiccPackageSigned.UnmarshalBER(content[offset:offset+n_euiccpackagesigned], opts...); unmErr != nil {
+	if unmErr := v.EuiccPackageSigned.UnmarshalBER(content[offset:offset+n_euiccpackagesigned], ber.ChildDecodeOptions(opts, "euiccPackageSigned")...); unmErr != nil {
 		return fmt.Errorf("decoding euiccPackageSigned: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -8683,10 +9057,25 @@ func (v *EuiccPackageRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBER encodes EuiccPackageSigned to BER format.
-func (v *EuiccPackageSigned) MarshalBER() ([]byte, error) {
+func (v *EuiccPackageSigned) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackageSigned receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EuiccPackageSigned) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckEncodedLength(opts, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
@@ -8699,7 +9088,9 @@ func (v *EuiccPackageSigned) MarshalBER() ([]byte, error) {
 	enc_eimid = retagged_enc_eimid
 	children = append(children, enc_eimid...)
 	if len(v.EidValue) < 16 || len(v.EidValue) > 16 {
-		return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(v.EidValue))
+		if constraintErr := ber.CheckEncodedLength(opts, "eidValue", "SIZE (16)", len(v.EidValue)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_eidvalue, encodeErr_enc_eidvalue := ber.EncodeOctetString([]byte(v.EidValue))
 	if encodeErr_enc_eidvalue != nil {
@@ -8712,7 +9103,7 @@ func (v *EuiccPackageSigned) MarshalBER() ([]byte, error) {
 	enc_eidvalue = retagged_enc_eidvalue
 	children = append(children, enc_eidvalue...)
 	if v.CounterValue == nil {
-		return nil, fmt.Errorf("encoding counterValue: required INTEGER is nil")
+		return nil, fmt.Errorf("encoding counterValue: %w: required INTEGER is nil", ber.ErrInvalidValue)
 	}
 	enc_countervalue, encodeErr_enc_countervalue := ber.EncodeBigInt(v.CounterValue)
 	if encodeErr_enc_countervalue != nil {
@@ -8726,7 +9117,9 @@ func (v *EuiccPackageSigned) MarshalBER() ([]byte, error) {
 	children = append(children, enc_countervalue...)
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -8739,7 +9132,7 @@ func (v *EuiccPackageSigned) MarshalBER() ([]byte, error) {
 		enc_eimtransactionid = retagged_enc_eimtransactionid
 		children = append(children, enc_eimtransactionid...)
 	}
-	enc_euiccpackage, err := v.EuiccPackage.MarshalBER()
+	enc_euiccpackage, err := v.EuiccPackage.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccPackage: %w", err)
 	}
@@ -8759,9 +9152,14 @@ func (v *EuiccPackageSigned) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EuiccPackageSigned to DER format.
 func (v *EuiccPackageSigned) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackageSigned receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckEncodedLength(nil, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
@@ -8774,7 +9172,9 @@ func (v *EuiccPackageSigned) MarshalDER() ([]byte, error) {
 	enc_eimid = retagged_enc_eimid
 	children = append(children, enc_eimid...)
 	if len(v.EidValue) < 16 || len(v.EidValue) > 16 {
-		return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(v.EidValue))
+		if constraintErr := ber.CheckEncodedLength(nil, "eidValue", "SIZE (16)", len(v.EidValue)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_eidvalue, encodeErr_enc_eidvalue := ber.EncodeOctetString([]byte(v.EidValue))
 	if encodeErr_enc_eidvalue != nil {
@@ -8787,7 +9187,7 @@ func (v *EuiccPackageSigned) MarshalDER() ([]byte, error) {
 	enc_eidvalue = retagged_enc_eidvalue
 	children = append(children, enc_eidvalue...)
 	if v.CounterValue == nil {
-		return nil, fmt.Errorf("encoding counterValue: required INTEGER is nil")
+		return nil, fmt.Errorf("encoding counterValue: %w: required INTEGER is nil", ber.ErrInvalidValue)
 	}
 	enc_countervalue, encodeErr_enc_countervalue := ber.EncodeBigInt(v.CounterValue)
 	if encodeErr_enc_countervalue != nil {
@@ -8801,7 +9201,9 @@ func (v *EuiccPackageSigned) MarshalDER() ([]byte, error) {
 	children = append(children, enc_countervalue...)
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(nil, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -8836,11 +9238,27 @@ func (v *EuiccPackageSigned) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EuiccPackageSigned from BER/DER format.
-func (v *EuiccPackageSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EuiccPackageSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EuiccPackageSigned destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EuiccPackageSigned{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EuiccPackageSigned SEQUENCE: %w", err)
@@ -8877,7 +9295,9 @@ func (v *EuiccPackageSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 	offset += n_eimid
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckDecodedLength(opts, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode eidValue
 	if offset >= len(content) {
@@ -8903,7 +9323,9 @@ func (v *EuiccPackageSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 	offset += n_eidvalue
 	if len(v.EidValue) < 16 || len(v.EidValue) > 16 {
-		return fmt.Errorf("eidValue length %d violates SIZE (16)", len(v.EidValue))
+		if constraintErr := ber.CheckDecodedLength(opts, "eidValue", "SIZE (16)", len(v.EidValue)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode counterValue
 	if offset >= len(content) {
@@ -8955,7 +9377,9 @@ func (v *EuiccPackageSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_eimtransactionid
 				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+					if constraintErr := ber.CheckDecodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -8975,7 +9399,7 @@ func (v *EuiccPackageSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.EuiccPackage.UnmarshalBER(content[offset:offset+n_euiccpackage], opts...); unmErr != nil {
+	if unmErr := v.EuiccPackage.UnmarshalBER(content[offset:offset+n_euiccpackage], ber.ChildDecodeOptions(opts, "euiccPackage")...); unmErr != nil {
 		return fmt.Errorf("decoding euiccPackage: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -9012,10 +9436,23 @@ func (v *EuiccPackageSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 }
 
 // MarshalBER encodes EuiccPackage to BER format.
-func (v *EuiccPackage) MarshalBER() ([]byte, error) {
+func (v *EuiccPackage) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackage receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EuiccPackage) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case EuiccPackageChoicePsmoList:
-		enc_0, err := MarshalBEREuiccPackagePsmoList(v.PsmoList)
+		enc_0, err := MarshalBEREuiccPackagePsmoList(v.PsmoList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding psmoList: %w", err)
 		}
@@ -9026,7 +9463,7 @@ func (v *EuiccPackage) MarshalBER() ([]byte, error) {
 		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case EuiccPackageChoiceEcoList:
-		enc_1, err := MarshalBEREuiccPackageEcoList(v.EcoList)
+		enc_1, err := MarshalBEREuiccPackageEcoList(v.EcoList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ecoList: %w", err)
 		}
@@ -9043,6 +9480,9 @@ func (v *EuiccPackage) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EuiccPackage to DER format.
 func (v *EuiccPackage) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackage receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case EuiccPackageChoicePsmoList:
 		enc_der_0, err := MarshalDEREuiccPackagePsmoList(v.PsmoList)
@@ -9084,7 +9524,23 @@ func (v *EuiccPackage) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EuiccPackage from BER/DER format.
-func (v *EuiccPackage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EuiccPackage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EuiccPackage destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -9116,7 +9572,7 @@ func (v *EuiccPackage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 		if reconstructionErr != nil {
 			return reconstructionErr
 		}
-		dec, unmErr := UnmarshalBEREuiccPackagePsmoList(reconstructed, opts...)
+		dec, unmErr := UnmarshalBEREuiccPackagePsmoList(reconstructed, ber.ChildDecodeOptions(opts, "psmoList")...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding psmoList: %w", unmErr)
 		}
@@ -9131,7 +9587,7 @@ func (v *EuiccPackage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 		if reconstructionErr != nil {
 			return reconstructionErr
 		}
-		dec, unmErr := UnmarshalBEREuiccPackageEcoList(reconstructed, opts...)
+		dec, unmErr := UnmarshalBEREuiccPackageEcoList(reconstructed, ber.ChildDecodeOptions(opts, "ecoList")...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding ecoList: %w", unmErr)
 		}
@@ -9143,10 +9599,25 @@ func (v *EuiccPackage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 }
 
 // MarshalBER encodes EimConfigurationData to BER format.
-func (v *EimConfigurationData) MarshalBER() ([]byte, error) {
+func (v *EimConfigurationData) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimConfigurationData receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EimConfigurationData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckEncodedLength(opts, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
@@ -9207,7 +9678,7 @@ func (v *EimConfigurationData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_associationtoken...)
 	}
 	if v.EimPublicKeyData != nil {
-		enc_eimpublickeydata, err := v.EimPublicKeyData.MarshalBER()
+		enc_eimpublickeydata, err := v.EimPublicKeyData.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eimPublicKeyData: %w", err)
 		}
@@ -9221,7 +9692,7 @@ func (v *EimConfigurationData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_eimpublickeydata...)
 	}
 	if v.TrustedPublicKeyDataTls != nil {
-		enc_trustedpublickeydatatls, err := v.TrustedPublicKeyDataTls.MarshalBER()
+		enc_trustedpublickeydatatls, err := v.TrustedPublicKeyDataTls.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding trustedPublicKeyDataTls: %w", err)
 		}
@@ -9235,7 +9706,7 @@ func (v *EimConfigurationData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_trustedpublickeydatatls...)
 	}
 	if v.EimSupportedProtocol != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.EimSupportedProtocol.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -9272,7 +9743,7 @@ func (v *EimConfigurationData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_indirectprofiledownload...)
 	}
 	if v.ESipaProprietaryProtocolInformation != nil {
-		enc_esipaproprietaryprotocolinformation, err := MarshalBERVendorSpecificExtension(v.ESipaProprietaryProtocolInformation)
+		enc_esipaproprietaryprotocolinformation, err := MarshalBERVendorSpecificExtension(v.ESipaProprietaryProtocolInformation, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eSipaProprietaryProtocolInformation: %w", err)
 		}
@@ -9313,9 +9784,14 @@ func (v *EimConfigurationData) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EimConfigurationData to DER format.
 func (v *EimConfigurationData) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimConfigurationData receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckEncodedLength(nil, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
@@ -9404,7 +9880,7 @@ func (v *EimConfigurationData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_trustedpublickeydatatls...)
 	}
 	if v.EimSupportedProtocol != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.EimSupportedProtocol.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -9469,11 +9945,27 @@ func (v *EimConfigurationData) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EimConfigurationData from BER/DER format.
-func (v *EimConfigurationData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EimConfigurationData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EimConfigurationData destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EimConfigurationData{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EimConfigurationData SEQUENCE: %w", err)
@@ -9510,7 +10002,9 @@ func (v *EimConfigurationData) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 	offset += n_eimid
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckDecodedLength(opts, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode eimFqdn
 	if offset < len(content) {
@@ -9635,7 +10129,7 @@ func (v *EimConfigurationData) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_eimpublickeydata EimConfigurationDataEimPublicKeyData
-				if unmErr := dec_eimpublickeydata.UnmarshalBER(innerData_eimpublickeydata, opts...); unmErr != nil {
+				if unmErr := dec_eimpublickeydata.UnmarshalBER(innerData_eimpublickeydata, ber.ChildDecodeOptions(opts, "eimpublickeydata")...); unmErr != nil {
 					return fmt.Errorf("decoding eimPublicKeyData: %w", unmErr)
 				}
 				v.EimPublicKeyData = &dec_eimpublickeydata
@@ -9663,7 +10157,7 @@ func (v *EimConfigurationData) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_trustedpublickeydatatls EimConfigurationDataTrustedPublicKeyDataTls
-				if unmErr := dec_trustedpublickeydatatls.UnmarshalBER(innerData_trustedpublickeydatatls, opts...); unmErr != nil {
+				if unmErr := dec_trustedpublickeydatatls.UnmarshalBER(innerData_trustedpublickeydatatls, ber.ChildDecodeOptions(opts, "trustedpublickeydatatls")...); unmErr != nil {
 					return fmt.Errorf("decoding trustedPublicKeyDataTls: %w", unmErr)
 				}
 				v.TrustedPublicKeyDataTls = &dec_trustedpublickeydatatls
@@ -9775,7 +10269,7 @@ func (v *EimConfigurationData) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if reconstructionErr_esipaproprietaryprotocolinformation != nil {
 					return fmt.Errorf("decoding eSipaProprietaryProtocolInformation: %w", reconstructionErr_esipaproprietaryprotocolinformation)
 				}
-				dec_esipaproprietaryprotocolinformation, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_esipaproprietaryprotocolinformation, opts...)
+				dec_esipaproprietaryprotocolinformation, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_esipaproprietaryprotocolinformation, ber.ChildDecodeOptions(opts, "eSipaProprietaryProtocolInformation")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding eSipaProprietaryProtocolInformation: %w", unmErr)
 				}
@@ -9828,13 +10322,26 @@ func (v *EimConfigurationData) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes Eco to BER format.
-func (v *Eco) MarshalBER() ([]byte, error) {
+func (v *Eco) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Eco receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *Eco) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case EcoChoiceAddEim:
 		if v.AddEim == nil {
-			return nil, fmt.Errorf("choice Eco: addEim is nil")
+			return nil, fmt.Errorf("%w: choice Eco: addEim is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.AddEim.MarshalBER()
+		enc_0, err := v.AddEim.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding addEim: %w", err)
 		}
@@ -9846,9 +10353,9 @@ func (v *Eco) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case EcoChoiceDeleteEim:
 		if v.DeleteEim == nil {
-			return nil, fmt.Errorf("choice Eco: deleteEim is nil")
+			return nil, fmt.Errorf("%w: choice Eco: deleteEim is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.DeleteEim.MarshalBER()
+		enc_1, err := v.DeleteEim.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding deleteEim: %w", err)
 		}
@@ -9860,9 +10367,9 @@ func (v *Eco) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case EcoChoiceUpdateEim:
 		if v.UpdateEim == nil {
-			return nil, fmt.Errorf("choice Eco: updateEim is nil")
+			return nil, fmt.Errorf("%w: choice Eco: updateEim is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.UpdateEim.MarshalBER()
+		enc_2, err := v.UpdateEim.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding updateEim: %w", err)
 		}
@@ -9874,9 +10381,9 @@ func (v *Eco) MarshalBER() ([]byte, error) {
 		return enc_2, nil
 	case EcoChoiceListEim:
 		if v.ListEim == nil {
-			return nil, fmt.Errorf("choice Eco: listEim is nil")
+			return nil, fmt.Errorf("%w: choice Eco: listEim is nil", ber.ErrInvalidValue)
 		}
-		enc_3, err := v.ListEim.MarshalBER()
+		enc_3, err := v.ListEim.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding listEim: %w", err)
 		}
@@ -9893,10 +10400,13 @@ func (v *Eco) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Eco to DER format.
 func (v *Eco) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Eco receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case EcoChoiceAddEim:
 		if v.AddEim == nil {
-			return nil, fmt.Errorf("choice Eco: addEim is nil")
+			return nil, fmt.Errorf("%w: choice Eco: addEim is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.AddEim.MarshalDER()
 		if err != nil {
@@ -9913,7 +10423,7 @@ func (v *Eco) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case EcoChoiceDeleteEim:
 		if v.DeleteEim == nil {
-			return nil, fmt.Errorf("choice Eco: deleteEim is nil")
+			return nil, fmt.Errorf("%w: choice Eco: deleteEim is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.DeleteEim.MarshalDER()
 		if err != nil {
@@ -9930,7 +10440,7 @@ func (v *Eco) MarshalDER() ([]byte, error) {
 		return enc_der_1, nil
 	case EcoChoiceUpdateEim:
 		if v.UpdateEim == nil {
-			return nil, fmt.Errorf("choice Eco: updateEim is nil")
+			return nil, fmt.Errorf("%w: choice Eco: updateEim is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.UpdateEim.MarshalDER()
 		if err != nil {
@@ -9947,7 +10457,7 @@ func (v *Eco) MarshalDER() ([]byte, error) {
 		return enc_der_2, nil
 	case EcoChoiceListEim:
 		if v.ListEim == nil {
-			return nil, fmt.Errorf("choice Eco: listEim is nil")
+			return nil, fmt.Errorf("%w: choice Eco: listEim is nil", ber.ErrInvalidValue)
 		}
 		enc_der_3, err := v.ListEim.MarshalDER()
 		if err != nil {
@@ -9974,7 +10484,23 @@ func (v *Eco) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes Eco from BER/DER format.
-func (v *Eco) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *Eco) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: Eco destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -10063,13 +10589,26 @@ func (v *Eco) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes Psmo to BER format.
-func (v *Psmo) MarshalBER() ([]byte, error) {
+func (v *Psmo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Psmo receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *Psmo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case PsmoChoiceEnable:
 		if v.Enable == nil {
-			return nil, fmt.Errorf("choice Psmo: enable is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: enable is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.Enable.MarshalBER()
+		enc_0, err := v.Enable.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding enable: %w", err)
 		}
@@ -10081,9 +10620,9 @@ func (v *Psmo) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case PsmoChoiceDisable:
 		if v.Disable == nil {
-			return nil, fmt.Errorf("choice Psmo: disable is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: disable is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.Disable.MarshalBER()
+		enc_1, err := v.Disable.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding disable: %w", err)
 		}
@@ -10095,9 +10634,9 @@ func (v *Psmo) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case PsmoChoiceDelete:
 		if v.Delete == nil {
-			return nil, fmt.Errorf("choice Psmo: delete is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: delete is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.Delete.MarshalBER()
+		enc_2, err := v.Delete.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding delete: %w", err)
 		}
@@ -10109,18 +10648,18 @@ func (v *Psmo) MarshalBER() ([]byte, error) {
 		return enc_2, nil
 	case PsmoChoiceListProfileInfo:
 		if v.ListProfileInfo == nil {
-			return nil, fmt.Errorf("choice Psmo: listProfileInfo is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: listProfileInfo is nil", ber.ErrInvalidValue)
 		}
-		enc_3, err := v.ListProfileInfo.MarshalBER()
+		enc_3, err := v.ListProfileInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding listProfileInfo: %w", err)
 		}
 		return enc_3, nil
 	case PsmoChoiceGetRAT:
 		if v.GetRAT == nil {
-			return nil, fmt.Errorf("choice Psmo: getRAT is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: getRAT is nil", ber.ErrInvalidValue)
 		}
-		enc_4, err := v.GetRAT.MarshalBER()
+		enc_4, err := v.GetRAT.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding getRAT: %w", err)
 		}
@@ -10132,9 +10671,9 @@ func (v *Psmo) MarshalBER() ([]byte, error) {
 		return enc_4, nil
 	case PsmoChoiceConfigureImmediateEnable:
 		if v.ConfigureImmediateEnable == nil {
-			return nil, fmt.Errorf("choice Psmo: configureImmediateEnable is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: configureImmediateEnable is nil", ber.ErrInvalidValue)
 		}
-		enc_5, err := v.ConfigureImmediateEnable.MarshalBER()
+		enc_5, err := v.ConfigureImmediateEnable.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding configureImmediateEnable: %w", err)
 		}
@@ -10146,9 +10685,9 @@ func (v *Psmo) MarshalBER() ([]byte, error) {
 		return enc_5, nil
 	case PsmoChoiceSetFallbackAttribute:
 		if v.SetFallbackAttribute == nil {
-			return nil, fmt.Errorf("choice Psmo: setFallbackAttribute is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: setFallbackAttribute is nil", ber.ErrInvalidValue)
 		}
-		enc_6, err := v.SetFallbackAttribute.MarshalBER()
+		enc_6, err := v.SetFallbackAttribute.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding setFallbackAttribute: %w", err)
 		}
@@ -10160,9 +10699,9 @@ func (v *Psmo) MarshalBER() ([]byte, error) {
 		return enc_6, nil
 	case PsmoChoiceUnsetFallbackAttribute:
 		if v.UnsetFallbackAttribute == nil {
-			return nil, fmt.Errorf("choice Psmo: unsetFallbackAttribute is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: unsetFallbackAttribute is nil", ber.ErrInvalidValue)
 		}
-		enc_7, err := v.UnsetFallbackAttribute.MarshalBER()
+		enc_7, err := v.UnsetFallbackAttribute.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding unsetFallbackAttribute: %w", err)
 		}
@@ -10174,9 +10713,9 @@ func (v *Psmo) MarshalBER() ([]byte, error) {
 		return enc_7, nil
 	case PsmoChoiceSetDefaultDpAddress:
 		if v.SetDefaultDpAddress == nil {
-			return nil, fmt.Errorf("choice Psmo: setDefaultDpAddress is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: setDefaultDpAddress is nil", ber.ErrInvalidValue)
 		}
-		enc_8, err := v.SetDefaultDpAddress.MarshalBER()
+		enc_8, err := v.SetDefaultDpAddress.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding setDefaultDpAddress: %w", err)
 		}
@@ -10188,10 +10727,13 @@ func (v *Psmo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Psmo to DER format.
 func (v *Psmo) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Psmo receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case PsmoChoiceEnable:
 		if v.Enable == nil {
-			return nil, fmt.Errorf("choice Psmo: enable is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: enable is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.Enable.MarshalDER()
 		if err != nil {
@@ -10208,7 +10750,7 @@ func (v *Psmo) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case PsmoChoiceDisable:
 		if v.Disable == nil {
-			return nil, fmt.Errorf("choice Psmo: disable is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: disable is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.Disable.MarshalDER()
 		if err != nil {
@@ -10225,7 +10767,7 @@ func (v *Psmo) MarshalDER() ([]byte, error) {
 		return enc_der_1, nil
 	case PsmoChoiceDelete:
 		if v.Delete == nil {
-			return nil, fmt.Errorf("choice Psmo: delete is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: delete is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.Delete.MarshalDER()
 		if err != nil {
@@ -10242,7 +10784,7 @@ func (v *Psmo) MarshalDER() ([]byte, error) {
 		return enc_der_2, nil
 	case PsmoChoiceListProfileInfo:
 		if v.ListProfileInfo == nil {
-			return nil, fmt.Errorf("choice Psmo: listProfileInfo is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: listProfileInfo is nil", ber.ErrInvalidValue)
 		}
 		enc_der_3, err := v.ListProfileInfo.MarshalDER()
 		if err != nil {
@@ -10254,7 +10796,7 @@ func (v *Psmo) MarshalDER() ([]byte, error) {
 		return enc_der_3, nil
 	case PsmoChoiceGetRAT:
 		if v.GetRAT == nil {
-			return nil, fmt.Errorf("choice Psmo: getRAT is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: getRAT is nil", ber.ErrInvalidValue)
 		}
 		enc_der_4, err := v.GetRAT.MarshalDER()
 		if err != nil {
@@ -10271,7 +10813,7 @@ func (v *Psmo) MarshalDER() ([]byte, error) {
 		return enc_der_4, nil
 	case PsmoChoiceConfigureImmediateEnable:
 		if v.ConfigureImmediateEnable == nil {
-			return nil, fmt.Errorf("choice Psmo: configureImmediateEnable is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: configureImmediateEnable is nil", ber.ErrInvalidValue)
 		}
 		enc_der_5, err := v.ConfigureImmediateEnable.MarshalDER()
 		if err != nil {
@@ -10288,7 +10830,7 @@ func (v *Psmo) MarshalDER() ([]byte, error) {
 		return enc_der_5, nil
 	case PsmoChoiceSetFallbackAttribute:
 		if v.SetFallbackAttribute == nil {
-			return nil, fmt.Errorf("choice Psmo: setFallbackAttribute is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: setFallbackAttribute is nil", ber.ErrInvalidValue)
 		}
 		enc_der_6, err := v.SetFallbackAttribute.MarshalDER()
 		if err != nil {
@@ -10305,7 +10847,7 @@ func (v *Psmo) MarshalDER() ([]byte, error) {
 		return enc_der_6, nil
 	case PsmoChoiceUnsetFallbackAttribute:
 		if v.UnsetFallbackAttribute == nil {
-			return nil, fmt.Errorf("choice Psmo: unsetFallbackAttribute is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: unsetFallbackAttribute is nil", ber.ErrInvalidValue)
 		}
 		enc_der_7, err := v.UnsetFallbackAttribute.MarshalDER()
 		if err != nil {
@@ -10322,7 +10864,7 @@ func (v *Psmo) MarshalDER() ([]byte, error) {
 		return enc_der_7, nil
 	case PsmoChoiceSetDefaultDpAddress:
 		if v.SetDefaultDpAddress == nil {
-			return nil, fmt.Errorf("choice Psmo: setDefaultDpAddress is nil")
+			return nil, fmt.Errorf("%w: choice Psmo: setDefaultDpAddress is nil", ber.ErrInvalidValue)
 		}
 		enc_der_8, err := v.SetDefaultDpAddress.MarshalDER()
 		if err != nil {
@@ -10344,7 +10886,23 @@ func (v *Psmo) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes Psmo from BER/DER format.
-func (v *Psmo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *Psmo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: Psmo destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -10492,7 +11050,20 @@ func (v *Psmo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes IpaEuiccDataRequest to BER format.
-func (v *IpaEuiccDataRequest) MarshalBER() ([]byte, error) {
+func (v *IpaEuiccDataRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaEuiccDataRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *IpaEuiccDataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_taglist, encodeErr_enc_taglist := ber.EncodeOctetString(v.TagList)
 	if encodeErr_enc_taglist != nil {
@@ -10512,7 +11083,7 @@ func (v *IpaEuiccDataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_euicccipkidentifiertobeused...)
 	}
 	if v.SearchCriteriaNotification != nil {
-		enc_searchcriterianotification, err := v.SearchCriteriaNotification.MarshalBER()
+		enc_searchcriterianotification, err := v.SearchCriteriaNotification.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding searchCriteriaNotification: %w", err)
 		}
@@ -10526,7 +11097,7 @@ func (v *IpaEuiccDataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_searchcriterianotification...)
 	}
 	if v.SearchCriteriaEuiccPackageResult != nil {
-		enc_searchcriteriaeuiccpackageresult, err := v.SearchCriteriaEuiccPackageResult.MarshalBER()
+		enc_searchcriteriaeuiccpackageresult, err := v.SearchCriteriaEuiccPackageResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding searchCriteriaEuiccPackageResult: %w", err)
 		}
@@ -10541,7 +11112,9 @@ func (v *IpaEuiccDataRequest) MarshalBER() ([]byte, error) {
 	}
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -10569,6 +11142,9 @@ func (v *IpaEuiccDataRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes IpaEuiccDataRequest to DER format.
 func (v *IpaEuiccDataRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaEuiccDataRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_taglist, encodeErr_enc_taglist := ber.EncodeOctetString(v.TagList)
 	if encodeErr_enc_taglist != nil {
@@ -10617,7 +11193,9 @@ func (v *IpaEuiccDataRequest) MarshalDER() ([]byte, error) {
 	}
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(nil, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -10652,11 +11230,27 @@ func (v *IpaEuiccDataRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes IpaEuiccDataRequest from BER/DER format.
-func (v *IpaEuiccDataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *IpaEuiccDataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: IpaEuiccDataRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = IpaEuiccDataRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding IpaEuiccDataRequest: %w", err)
@@ -10725,7 +11319,7 @@ func (v *IpaEuiccDataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_searchcriterianotification IpaEuiccDataRequestSearchCriteriaNotification
-				if unmErr := dec_searchcriterianotification.UnmarshalBER(innerData_searchcriterianotification, opts...); unmErr != nil {
+				if unmErr := dec_searchcriterianotification.UnmarshalBER(innerData_searchcriterianotification, ber.ChildDecodeOptions(opts, "searchcriterianotification")...); unmErr != nil {
 					return fmt.Errorf("decoding searchCriteriaNotification: %w", unmErr)
 				}
 				v.SearchCriteriaNotification = &dec_searchcriterianotification
@@ -10753,7 +11347,7 @@ func (v *IpaEuiccDataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_searchcriteriaeuiccpackageresult IpaEuiccDataRequestSearchCriteriaEuiccPackageResult
-				if unmErr := dec_searchcriteriaeuiccpackageresult.UnmarshalBER(innerData_searchcriteriaeuiccpackageresult, opts...); unmErr != nil {
+				if unmErr := dec_searchcriteriaeuiccpackageresult.UnmarshalBER(innerData_searchcriteriaeuiccpackageresult, ber.ChildDecodeOptions(opts, "searchcriteriaeuiccpackageresult")...); unmErr != nil {
 					return fmt.Errorf("decoding searchCriteriaEuiccPackageResult: %w", unmErr)
 				}
 				v.SearchCriteriaEuiccPackageResult = &dec_searchcriteriaeuiccpackageresult
@@ -10789,7 +11383,9 @@ func (v *IpaEuiccDataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 				offset += n_eimtransactionid
 				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+					if constraintErr := ber.CheckDecodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -10821,10 +11417,23 @@ func (v *IpaEuiccDataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBER encodes ProfileDownloadTriggerRequest to BER format.
-func (v *ProfileDownloadTriggerRequest) MarshalBER() ([]byte, error) {
+func (v *ProfileDownloadTriggerRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProfileDownloadTriggerRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ProfileDownloadTriggerRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ProfileDownloadData != nil {
-		enc_profiledownloaddata, err := v.ProfileDownloadData.MarshalBER()
+		enc_profiledownloaddata, err := v.ProfileDownloadData.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileDownloadData: %w", err)
 		}
@@ -10839,7 +11448,9 @@ func (v *ProfileDownloadTriggerRequest) MarshalBER() ([]byte, error) {
 	}
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -10867,6 +11478,9 @@ func (v *ProfileDownloadTriggerRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ProfileDownloadTriggerRequest to DER format.
 func (v *ProfileDownloadTriggerRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProfileDownloadTriggerRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ProfileDownloadData != nil {
 		enc_profiledownloaddata, err := v.ProfileDownloadData.MarshalDER()
@@ -10884,7 +11498,9 @@ func (v *ProfileDownloadTriggerRequest) MarshalDER() ([]byte, error) {
 	}
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(nil, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -10919,11 +11535,27 @@ func (v *ProfileDownloadTriggerRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ProfileDownloadTriggerRequest from BER/DER format.
-func (v *ProfileDownloadTriggerRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ProfileDownloadTriggerRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ProfileDownloadTriggerRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ProfileDownloadTriggerRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ProfileDownloadTriggerRequest: %w", err)
@@ -10949,7 +11581,7 @@ func (v *ProfileDownloadTriggerRequest) UnmarshalBER(data []byte, opts ...ber.De
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_profiledownloaddata ProfileDownloadData
-				if unmErr := dec_profiledownloaddata.UnmarshalBER(innerData_profiledownloaddata, opts...); unmErr != nil {
+				if unmErr := dec_profiledownloaddata.UnmarshalBER(innerData_profiledownloaddata, ber.ChildDecodeOptions(opts, "profiledownloaddata")...); unmErr != nil {
 					return fmt.Errorf("decoding profileDownloadData: %w", unmErr)
 				}
 				v.ProfileDownloadData = &dec_profiledownloaddata
@@ -10983,7 +11615,9 @@ func (v *ProfileDownloadTriggerRequest) UnmarshalBER(data []byte, opts ...ber.De
 
 				offset += n_eimtransactionid
 				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+					if constraintErr := ber.CheckDecodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -11015,18 +11649,33 @@ func (v *ProfileDownloadTriggerRequest) UnmarshalBER(data []byte, opts ...ber.De
 }
 
 // MarshalBER encodes ProfileDownloadData to BER format.
-func (v *ProfileDownloadData) MarshalBER() ([]byte, error) {
+func (v *ProfileDownloadData) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProfileDownloadData receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ProfileDownloadData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case ProfileDownloadDataChoiceActivationCode:
 		if v.ActivationCode == nil {
-			return nil, fmt.Errorf("choice ProfileDownloadData: activationCode is nil")
+			return nil, fmt.Errorf("%w: choice ProfileDownloadData: activationCode is nil", ber.ErrInvalidValue)
 		}
 		enc_0, stringErr := ber.EncodeStringTagChecked(12, *v.ActivationCode)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding activationCode: %w", stringErr)
 		}
 		if len([]rune(*v.ActivationCode)) > 255 {
-			return nil, fmt.Errorf("activationCode length %d violates SIZE (0..255)", len([]rune(*v.ActivationCode)))
+			if constraintErr := ber.CheckEncodedLength(opts, "activationCode", "SIZE (0..255)", len([]rune(*v.ActivationCode))); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
@@ -11044,9 +11693,9 @@ func (v *ProfileDownloadData) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case ProfileDownloadDataChoiceContactSmds:
 		if v.ContactSmds == nil {
-			return nil, fmt.Errorf("choice ProfileDownloadData: contactSmds is nil")
+			return nil, fmt.Errorf("%w: choice ProfileDownloadData: contactSmds is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.ContactSmds.MarshalBER()
+		enc_2, err := v.ContactSmds.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding contactSmds: %w", err)
 		}
@@ -11063,10 +11712,13 @@ func (v *ProfileDownloadData) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ProfileDownloadData to DER format.
 func (v *ProfileDownloadData) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProfileDownloadData receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case ProfileDownloadDataChoiceContactSmds:
 		if v.ContactSmds == nil {
-			return nil, fmt.Errorf("choice ProfileDownloadData: contactSmds is nil")
+			return nil, fmt.Errorf("%w: choice ProfileDownloadData: contactSmds is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.ContactSmds.MarshalDER()
 		if err != nil {
@@ -11093,7 +11745,23 @@ func (v *ProfileDownloadData) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ProfileDownloadData from BER/DER format.
-func (v *ProfileDownloadData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ProfileDownloadData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ProfileDownloadData destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -11127,7 +11795,9 @@ func (v *ProfileDownloadData) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		}
 		v.ActivationCode = &decVal
 		if len([]rune(*v.ActivationCode)) > 255 {
-			return fmt.Errorf("activationCode length %d violates SIZE (0..255)", len([]rune(*v.ActivationCode)))
+			if constraintErr := ber.CheckDecodedLength(opts, "activationCode", "SIZE (0..255)", len([]rune(*v.ActivationCode))); constraintErr != nil {
+				return constraintErr
+			}
 		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = ProfileDownloadDataChoiceContactDefaultSmdp
@@ -11161,11 +11831,25 @@ func (v *ProfileDownloadData) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBEREimAcknowledgements encodes a EimAcknowledgements list to BER.
-func MarshalBEREimAcknowledgements(list EimAcknowledgements) ([]byte, error) {
+func MarshalBEREimAcknowledgements(collection *EimAcknowledgements, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBEREimAcknowledgements(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBEREimAcknowledgements(collection *EimAcknowledgements, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for elemIndex, elem := range list {
 		if elem == nil {
-			return nil, fmt.Errorf("encoding EimAcknowledgements[%d]: required INTEGER is nil", elemIndex)
+			return nil, fmt.Errorf("%w: encoding EimAcknowledgements[%d]: required INTEGER is nil", ber.ErrInvalidValue, elemIndex)
 		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeBigInt(elem)
 		if encodeErr_encodedElem != nil {
@@ -11177,11 +11861,15 @@ func MarshalBEREimAcknowledgements(list EimAcknowledgements) ([]byte, error) {
 }
 
 // MarshalDEREimAcknowledgements encodes a EimAcknowledgements list to DER.
-func MarshalDEREimAcknowledgements(list EimAcknowledgements) ([]byte, error) {
+func MarshalDEREimAcknowledgements(collection *EimAcknowledgements) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for elemIndex, elem := range list {
 		if elem == nil {
-			return nil, fmt.Errorf("encoding EimAcknowledgements[%d]: required INTEGER is nil", elemIndex)
+			return nil, fmt.Errorf("%w: encoding EimAcknowledgements[%d]: required INTEGER is nil", ber.ErrInvalidValue, elemIndex)
 		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeBigInt(elem)
 		if encodeErr_encodedElem != nil {
@@ -11205,7 +11893,7 @@ func MarshalDEREimAcknowledgements(list EimAcknowledgements) ([]byte, error) {
 }
 
 // UnmarshalBEREimAcknowledgements decodes a EimAcknowledgements list from BER.
-func UnmarshalBEREimAcknowledgements(data []byte, opts ...ber.DecodeOption) (EimAcknowledgements, error) {
+func UnmarshalBEREimAcknowledgements(data []byte, opts ...ber.DecodeOption) (*EimAcknowledgements, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -11219,7 +11907,7 @@ func UnmarshalBEREimAcknowledgements(data []byte, opts ...ber.DecodeOption) (Eim
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "EimAcknowledgements", Cause: ber.ErrExtraData}
 	}
-	var result EimAcknowledgements
+	var result []SequenceNumber
 	offset := 0
 	for offset < len(content) {
 		val, n, intErr := ber.DecodeBigInt(content[offset:], opts...)
@@ -11234,17 +11922,40 @@ func UnmarshalBEREimAcknowledgements(data []byte, opts ...ber.DecodeOption) (Eim
 
 		offset += n
 	}
-	return result, nil
+	decoded := &EimAcknowledgements{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBEREimAcknowledgements(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes EuiccPackageResult to BER format.
-func (v *EuiccPackageResult) MarshalBER() ([]byte, error) {
+func (v *EuiccPackageResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackageResult receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EuiccPackageResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case EuiccPackageResultChoiceEuiccPackageResultSigned:
 		if v.EuiccPackageResultSigned == nil {
-			return nil, fmt.Errorf("choice EuiccPackageResult: euiccPackageResultSigned is nil")
+			return nil, fmt.Errorf("%w: choice EuiccPackageResult: euiccPackageResultSigned is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.EuiccPackageResultSigned.MarshalBER()
+		enc_0, err := v.EuiccPackageResultSigned.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccPackageResultSigned: %w", err)
 		}
@@ -11263,9 +11974,9 @@ func (v *EuiccPackageResult) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case EuiccPackageResultChoiceEuiccPackageErrorSigned:
 		if v.EuiccPackageErrorSigned == nil {
-			return nil, fmt.Errorf("choice EuiccPackageResult: euiccPackageErrorSigned is nil")
+			return nil, fmt.Errorf("%w: choice EuiccPackageResult: euiccPackageErrorSigned is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.EuiccPackageErrorSigned.MarshalBER()
+		enc_1, err := v.EuiccPackageErrorSigned.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccPackageErrorSigned: %w", err)
 		}
@@ -11284,9 +11995,9 @@ func (v *EuiccPackageResult) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case EuiccPackageResultChoiceEuiccPackageErrorUnsigned:
 		if v.EuiccPackageErrorUnsigned == nil {
-			return nil, fmt.Errorf("choice EuiccPackageResult: euiccPackageErrorUnsigned is nil")
+			return nil, fmt.Errorf("%w: choice EuiccPackageResult: euiccPackageErrorUnsigned is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.EuiccPackageErrorUnsigned.MarshalBER()
+		enc_2, err := v.EuiccPackageErrorUnsigned.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccPackageErrorUnsigned: %w", err)
 		}
@@ -11310,10 +12021,13 @@ func (v *EuiccPackageResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EuiccPackageResult to DER format.
 func (v *EuiccPackageResult) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackageResult receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case EuiccPackageResultChoiceEuiccPackageResultSigned:
 		if v.EuiccPackageResultSigned == nil {
-			return nil, fmt.Errorf("choice EuiccPackageResult: euiccPackageResultSigned is nil")
+			return nil, fmt.Errorf("%w: choice EuiccPackageResult: euiccPackageResultSigned is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.EuiccPackageResultSigned.MarshalDER()
 		if err != nil {
@@ -11337,7 +12051,7 @@ func (v *EuiccPackageResult) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case EuiccPackageResultChoiceEuiccPackageErrorSigned:
 		if v.EuiccPackageErrorSigned == nil {
-			return nil, fmt.Errorf("choice EuiccPackageResult: euiccPackageErrorSigned is nil")
+			return nil, fmt.Errorf("%w: choice EuiccPackageResult: euiccPackageErrorSigned is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.EuiccPackageErrorSigned.MarshalDER()
 		if err != nil {
@@ -11361,7 +12075,7 @@ func (v *EuiccPackageResult) MarshalDER() ([]byte, error) {
 		return enc_der_1, nil
 	case EuiccPackageResultChoiceEuiccPackageErrorUnsigned:
 		if v.EuiccPackageErrorUnsigned == nil {
-			return nil, fmt.Errorf("choice EuiccPackageResult: euiccPackageErrorUnsigned is nil")
+			return nil, fmt.Errorf("%w: choice EuiccPackageResult: euiccPackageErrorUnsigned is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.EuiccPackageErrorUnsigned.MarshalDER()
 		if err != nil {
@@ -11395,7 +12109,23 @@ func (v *EuiccPackageResult) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EuiccPackageResult from BER/DER format.
-func (v *EuiccPackageResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EuiccPackageResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EuiccPackageResult destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -11482,9 +12212,22 @@ func (v *EuiccPackageResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 }
 
 // MarshalBER encodes EuiccPackageResultSigned to BER format.
-func (v *EuiccPackageResultSigned) MarshalBER() ([]byte, error) {
+func (v *EuiccPackageResultSigned) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackageResultSigned receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EuiccPackageResultSigned) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_euiccpackageresultdatasigned, err := v.EuiccPackageResultDataSigned.MarshalBER()
+	enc_euiccpackageresultdatasigned, err := v.EuiccPackageResultDataSigned.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccPackageResultDataSigned: %w", err)
 	}
@@ -11514,6 +12257,9 @@ func (v *EuiccPackageResultSigned) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EuiccPackageResultSigned to DER format.
 func (v *EuiccPackageResultSigned) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackageResultSigned receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_euiccpackageresultdatasigned, err := v.EuiccPackageResultDataSigned.MarshalDER()
 	if err != nil {
@@ -11547,11 +12293,27 @@ func (v *EuiccPackageResultSigned) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EuiccPackageResultSigned from BER/DER format.
-func (v *EuiccPackageResultSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EuiccPackageResultSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EuiccPackageResultSigned destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EuiccPackageResultSigned{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EuiccPackageResultSigned SEQUENCE: %w", err)
@@ -11575,7 +12337,7 @@ func (v *EuiccPackageResultSigned) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.EuiccPackageResultDataSigned.UnmarshalBER(content[offset:offset+n_euiccpackageresultdatasigned], opts...); unmErr != nil {
+	if unmErr := v.EuiccPackageResultDataSigned.UnmarshalBER(content[offset:offset+n_euiccpackageresultdatasigned], ber.ChildDecodeOptions(opts, "euiccPackageResultDataSigned")...); unmErr != nil {
 		return fmt.Errorf("decoding euiccPackageResultDataSigned: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -11635,10 +12397,25 @@ func (v *EuiccPackageResultSigned) UnmarshalBER(data []byte, opts ...ber.DecodeO
 }
 
 // MarshalBER encodes EuiccPackageResultDataSigned to BER format.
-func (v *EuiccPackageResultDataSigned) MarshalBER() ([]byte, error) {
+func (v *EuiccPackageResultDataSigned) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackageResultDataSigned receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EuiccPackageResultDataSigned) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckEncodedLength(opts, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
@@ -11651,7 +12428,7 @@ func (v *EuiccPackageResultDataSigned) MarshalBER() ([]byte, error) {
 	enc_eimid = retagged_enc_eimid
 	children = append(children, enc_eimid...)
 	if v.CounterValue == nil {
-		return nil, fmt.Errorf("encoding counterValue: required INTEGER is nil")
+		return nil, fmt.Errorf("encoding counterValue: %w: required INTEGER is nil", ber.ErrInvalidValue)
 	}
 	enc_countervalue, encodeErr_enc_countervalue := ber.EncodeBigInt(v.CounterValue)
 	if encodeErr_enc_countervalue != nil {
@@ -11665,7 +12442,9 @@ func (v *EuiccPackageResultDataSigned) MarshalBER() ([]byte, error) {
 	children = append(children, enc_countervalue...)
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -11679,7 +12458,7 @@ func (v *EuiccPackageResultDataSigned) MarshalBER() ([]byte, error) {
 		children = append(children, enc_eimtransactionid...)
 	}
 	if v.SeqNumber == nil {
-		return nil, fmt.Errorf("encoding seqNumber: required INTEGER is nil")
+		return nil, fmt.Errorf("encoding seqNumber: %w: required INTEGER is nil", ber.ErrInvalidValue)
 	}
 	enc_seqnumber, encodeErr_enc_seqnumber := ber.EncodeBigInt(v.SeqNumber)
 	if encodeErr_enc_seqnumber != nil {
@@ -11691,7 +12470,10 @@ func (v *EuiccPackageResultDataSigned) MarshalBER() ([]byte, error) {
 	}
 	enc_seqnumber = retagged_enc_seqnumber
 	children = append(children, enc_seqnumber...)
-	enc_euiccresult, err := MarshalBEREuiccPackageResultDataSignedEuiccResult(v.EuiccResult)
+	if v.EuiccResult == nil {
+		return nil, fmt.Errorf("encoding euiccResult: %w: required collection is nil", ber.ErrInvalidValue)
+	}
+	enc_euiccresult, err := MarshalBEREuiccPackageResultDataSignedEuiccResult(v.EuiccResult, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccResult: %w", err)
 	}
@@ -11711,9 +12493,14 @@ func (v *EuiccPackageResultDataSigned) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EuiccPackageResultDataSigned to DER format.
 func (v *EuiccPackageResultDataSigned) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackageResultDataSigned receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckEncodedLength(nil, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
@@ -11726,7 +12513,7 @@ func (v *EuiccPackageResultDataSigned) MarshalDER() ([]byte, error) {
 	enc_eimid = retagged_enc_eimid
 	children = append(children, enc_eimid...)
 	if v.CounterValue == nil {
-		return nil, fmt.Errorf("encoding counterValue: required INTEGER is nil")
+		return nil, fmt.Errorf("encoding counterValue: %w: required INTEGER is nil", ber.ErrInvalidValue)
 	}
 	enc_countervalue, encodeErr_enc_countervalue := ber.EncodeBigInt(v.CounterValue)
 	if encodeErr_enc_countervalue != nil {
@@ -11740,7 +12527,9 @@ func (v *EuiccPackageResultDataSigned) MarshalDER() ([]byte, error) {
 	children = append(children, enc_countervalue...)
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(nil, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -11754,7 +12543,7 @@ func (v *EuiccPackageResultDataSigned) MarshalDER() ([]byte, error) {
 		children = append(children, enc_eimtransactionid...)
 	}
 	if v.SeqNumber == nil {
-		return nil, fmt.Errorf("encoding seqNumber: required INTEGER is nil")
+		return nil, fmt.Errorf("encoding seqNumber: %w: required INTEGER is nil", ber.ErrInvalidValue)
 	}
 	enc_seqnumber, encodeErr_enc_seqnumber := ber.EncodeBigInt(v.SeqNumber)
 	if encodeErr_enc_seqnumber != nil {
@@ -11766,6 +12555,9 @@ func (v *EuiccPackageResultDataSigned) MarshalDER() ([]byte, error) {
 	}
 	enc_seqnumber = retagged_enc_seqnumber
 	children = append(children, enc_seqnumber...)
+	if v.EuiccResult == nil {
+		return nil, fmt.Errorf("encoding euiccResult: %w: required collection is nil", ber.ErrInvalidValue)
+	}
 	enc_euiccresult, err := MarshalDEREuiccPackageResultDataSignedEuiccResult(v.EuiccResult)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccResult: %w", err)
@@ -11788,11 +12580,27 @@ func (v *EuiccPackageResultDataSigned) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EuiccPackageResultDataSigned from BER/DER format.
-func (v *EuiccPackageResultDataSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EuiccPackageResultDataSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EuiccPackageResultDataSigned destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EuiccPackageResultDataSigned{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EuiccPackageResultDataSigned SEQUENCE: %w", err)
@@ -11829,7 +12637,9 @@ func (v *EuiccPackageResultDataSigned) UnmarshalBER(data []byte, opts ...ber.Dec
 
 	offset += n_eimid
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckDecodedLength(opts, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode counterValue
 	if offset >= len(content) {
@@ -11879,7 +12689,9 @@ func (v *EuiccPackageResultDataSigned) UnmarshalBER(data []byte, opts ...ber.Dec
 
 				offset += n_eimtransactionid
 				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+					if constraintErr := ber.CheckDecodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -11933,7 +12745,7 @@ func (v *EuiccPackageResultDataSigned) UnmarshalBER(data []byte, opts ...ber.Dec
 			v.EuiccResultIndef_ = true
 		}
 	}
-	dec_euiccresult, unmErr := UnmarshalBEREuiccPackageResultDataSignedEuiccResult(tlv_euiccresult, opts...)
+	dec_euiccresult, unmErr := UnmarshalBEREuiccPackageResultDataSignedEuiccResult(tlv_euiccresult, ber.ChildDecodeOptions(opts, "euiccResult")...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding euiccResult: %w", unmErr)
 	}
@@ -11971,11 +12783,24 @@ func (v *EuiccPackageResultDataSigned) UnmarshalBER(data []byte, opts ...ber.Dec
 }
 
 // MarshalBER encodes EuiccResultData to BER format.
-func (v *EuiccResultData) MarshalBER() ([]byte, error) {
+func (v *EuiccResultData) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccResultData receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EuiccResultData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case EuiccResultDataChoiceEnableResult:
 		if v.EnableResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: enableResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: enableResult is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.EnableResult.BigInt())
 		if encodeErr_enc_0 != nil {
@@ -11989,7 +12814,7 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case EuiccResultDataChoiceDisableResult:
 		if v.DisableResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: disableResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: disableResult is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeBigInt(v.DisableResult.BigInt())
 		if encodeErr_enc_1 != nil {
@@ -12003,7 +12828,7 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case EuiccResultDataChoiceDeleteResult:
 		if v.DeleteResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: deleteResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: deleteResult is nil", ber.ErrInvalidValue)
 		}
 		enc_2, encodeErr_enc_2 := ber.EncodeBigInt(v.DeleteResult.BigInt())
 		if encodeErr_enc_2 != nil {
@@ -12017,15 +12842,15 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		return enc_2, nil
 	case EuiccResultDataChoiceListProfileInfoResult:
 		if v.ListProfileInfoResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: listProfileInfoResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: listProfileInfoResult is nil", ber.ErrInvalidValue)
 		}
-		enc_3, err := v.ListProfileInfoResult.MarshalBER()
+		enc_3, err := v.ListProfileInfoResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding listProfileInfoResult: %w", err)
 		}
 		return enc_3, nil
 	case EuiccResultDataChoiceGetRATResult:
-		enc_4, err := MarshalBERRulesAuthorisationTable(v.GetRATResult)
+		enc_4, err := MarshalBERRulesAuthorisationTable(v.GetRATResult, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding getRATResult: %w", err)
 		}
@@ -12037,7 +12862,7 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		return enc_4, nil
 	case EuiccResultDataChoiceConfigureImmediateEnableResult:
 		if v.ConfigureImmediateEnableResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: configureImmediateEnableResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: configureImmediateEnableResult is nil", ber.ErrInvalidValue)
 		}
 		enc_5, encodeErr_enc_5 := ber.EncodeBigInt(v.ConfigureImmediateEnableResult.BigInt())
 		if encodeErr_enc_5 != nil {
@@ -12051,9 +12876,9 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		return enc_5, nil
 	case EuiccResultDataChoiceAddEimResult:
 		if v.AddEimResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: addEimResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: addEimResult is nil", ber.ErrInvalidValue)
 		}
-		enc_6, err := v.AddEimResult.MarshalBER()
+		enc_6, err := v.AddEimResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding addEimResult: %w", err)
 		}
@@ -12067,7 +12892,7 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		return enc_6, nil
 	case EuiccResultDataChoiceDeleteEimResult:
 		if v.DeleteEimResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: deleteEimResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: deleteEimResult is nil", ber.ErrInvalidValue)
 		}
 		enc_7, encodeErr_enc_7 := ber.EncodeBigInt(v.DeleteEimResult.BigInt())
 		if encodeErr_enc_7 != nil {
@@ -12081,7 +12906,7 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		return enc_7, nil
 	case EuiccResultDataChoiceUpdateEimResult:
 		if v.UpdateEimResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: updateEimResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: updateEimResult is nil", ber.ErrInvalidValue)
 		}
 		enc_8, encodeErr_enc_8 := ber.EncodeBigInt(v.UpdateEimResult.BigInt())
 		if encodeErr_enc_8 != nil {
@@ -12095,9 +12920,9 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		return enc_8, nil
 	case EuiccResultDataChoiceListEimResult:
 		if v.ListEimResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: listEimResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: listEimResult is nil", ber.ErrInvalidValue)
 		}
-		enc_9, err := v.ListEimResult.MarshalBER()
+		enc_9, err := v.ListEimResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding listEimResult: %w", err)
 		}
@@ -12111,7 +12936,7 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		return enc_9, nil
 	case EuiccResultDataChoiceRollbackResult:
 		if v.RollbackResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: rollbackResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: rollbackResult is nil", ber.ErrInvalidValue)
 		}
 		enc_10, encodeErr_enc_10 := ber.EncodeBigInt(v.RollbackResult.BigInt())
 		if encodeErr_enc_10 != nil {
@@ -12125,7 +12950,7 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		return enc_10, nil
 	case EuiccResultDataChoiceSetFallbackAttributeResult:
 		if v.SetFallbackAttributeResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: setFallbackAttributeResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: setFallbackAttributeResult is nil", ber.ErrInvalidValue)
 		}
 		enc_11, encodeErr_enc_11 := ber.EncodeBigInt(v.SetFallbackAttributeResult.BigInt())
 		if encodeErr_enc_11 != nil {
@@ -12139,7 +12964,7 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		return enc_11, nil
 	case EuiccResultDataChoiceUnsetFallbackAttributeResult:
 		if v.UnsetFallbackAttributeResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: unsetFallbackAttributeResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: unsetFallbackAttributeResult is nil", ber.ErrInvalidValue)
 		}
 		enc_12, encodeErr_enc_12 := ber.EncodeBigInt(v.UnsetFallbackAttributeResult.BigInt())
 		if encodeErr_enc_12 != nil {
@@ -12153,7 +12978,7 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		return enc_12, nil
 	case EuiccResultDataChoiceProcessingTerminated:
 		if v.ProcessingTerminated == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: processingTerminated is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: processingTerminated is nil", ber.ErrInvalidValue)
 		}
 		enc_13, encodeErr_enc_13 := ber.EncodeBigInt(v.ProcessingTerminated.BigInt())
 		if encodeErr_enc_13 != nil {
@@ -12162,9 +12987,9 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 		return enc_13, nil
 	case EuiccResultDataChoiceSetDefaultDpAddressResult:
 		if v.SetDefaultDpAddressResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: setDefaultDpAddressResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: setDefaultDpAddressResult is nil", ber.ErrInvalidValue)
 		}
-		enc_14, err := v.SetDefaultDpAddressResult.MarshalBER()
+		enc_14, err := v.SetDefaultDpAddressResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding setDefaultDpAddressResult: %w", err)
 		}
@@ -12176,10 +13001,13 @@ func (v *EuiccResultData) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EuiccResultData to DER format.
 func (v *EuiccResultData) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccResultData receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case EuiccResultDataChoiceListProfileInfoResult:
 		if v.ListProfileInfoResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: listProfileInfoResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: listProfileInfoResult is nil", ber.ErrInvalidValue)
 		}
 		enc_der_3, err := v.ListProfileInfoResult.MarshalDER()
 		if err != nil {
@@ -12205,7 +13033,7 @@ func (v *EuiccResultData) MarshalDER() ([]byte, error) {
 		return enc_der_4, nil
 	case EuiccResultDataChoiceAddEimResult:
 		if v.AddEimResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: addEimResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: addEimResult is nil", ber.ErrInvalidValue)
 		}
 		enc_der_6, err := v.AddEimResult.MarshalDER()
 		if err != nil {
@@ -12224,7 +13052,7 @@ func (v *EuiccResultData) MarshalDER() ([]byte, error) {
 		return enc_der_6, nil
 	case EuiccResultDataChoiceListEimResult:
 		if v.ListEimResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: listEimResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: listEimResult is nil", ber.ErrInvalidValue)
 		}
 		enc_der_9, err := v.ListEimResult.MarshalDER()
 		if err != nil {
@@ -12243,7 +13071,7 @@ func (v *EuiccResultData) MarshalDER() ([]byte, error) {
 		return enc_der_9, nil
 	case EuiccResultDataChoiceSetDefaultDpAddressResult:
 		if v.SetDefaultDpAddressResult == nil {
-			return nil, fmt.Errorf("choice EuiccResultData: setDefaultDpAddressResult is nil")
+			return nil, fmt.Errorf("%w: choice EuiccResultData: setDefaultDpAddressResult is nil", ber.ErrInvalidValue)
 		}
 		enc_der_14, err := v.SetDefaultDpAddressResult.MarshalDER()
 		if err != nil {
@@ -12265,7 +13093,23 @@ func (v *EuiccResultData) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EuiccResultData from BER/DER format.
-func (v *EuiccResultData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EuiccResultData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EuiccResultData destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -12349,7 +13193,7 @@ func (v *EuiccResultData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 		if reconstructionErr != nil {
 			return reconstructionErr
 		}
-		dec, unmErr := UnmarshalBERRulesAuthorisationTable(reconstructed, opts...)
+		dec, unmErr := UnmarshalBERRulesAuthorisationTable(reconstructed, ber.ChildDecodeOptions(opts, "getRATResult")...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding getRATResult: %w", unmErr)
 		}
@@ -12491,9 +13335,22 @@ func (v *EuiccResultData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 }
 
 // MarshalBER encodes EuiccPackageErrorSigned to BER format.
-func (v *EuiccPackageErrorSigned) MarshalBER() ([]byte, error) {
+func (v *EuiccPackageErrorSigned) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackageErrorSigned receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EuiccPackageErrorSigned) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_euiccpackageerrordatasigned, err := v.EuiccPackageErrorDataSigned.MarshalBER()
+	enc_euiccpackageerrordatasigned, err := v.EuiccPackageErrorDataSigned.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccPackageErrorDataSigned: %w", err)
 	}
@@ -12523,6 +13380,9 @@ func (v *EuiccPackageErrorSigned) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EuiccPackageErrorSigned to DER format.
 func (v *EuiccPackageErrorSigned) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackageErrorSigned receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_euiccpackageerrordatasigned, err := v.EuiccPackageErrorDataSigned.MarshalDER()
 	if err != nil {
@@ -12556,11 +13416,27 @@ func (v *EuiccPackageErrorSigned) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EuiccPackageErrorSigned from BER/DER format.
-func (v *EuiccPackageErrorSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EuiccPackageErrorSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EuiccPackageErrorSigned destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EuiccPackageErrorSigned{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EuiccPackageErrorSigned SEQUENCE: %w", err)
@@ -12584,7 +13460,7 @@ func (v *EuiccPackageErrorSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.EuiccPackageErrorDataSigned.UnmarshalBER(content[offset:offset+n_euiccpackageerrordatasigned], opts...); unmErr != nil {
+	if unmErr := v.EuiccPackageErrorDataSigned.UnmarshalBER(content[offset:offset+n_euiccpackageerrordatasigned], ber.ChildDecodeOptions(opts, "euiccPackageErrorDataSigned")...); unmErr != nil {
 		return fmt.Errorf("decoding euiccPackageErrorDataSigned: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -12644,10 +13520,25 @@ func (v *EuiccPackageErrorSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes EuiccPackageErrorDataSigned to BER format.
-func (v *EuiccPackageErrorDataSigned) MarshalBER() ([]byte, error) {
+func (v *EuiccPackageErrorDataSigned) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackageErrorDataSigned receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EuiccPackageErrorDataSigned) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckEncodedLength(opts, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
@@ -12660,7 +13551,7 @@ func (v *EuiccPackageErrorDataSigned) MarshalBER() ([]byte, error) {
 	enc_eimid = retagged_enc_eimid
 	children = append(children, enc_eimid...)
 	if v.CounterValue == nil {
-		return nil, fmt.Errorf("encoding counterValue: required INTEGER is nil")
+		return nil, fmt.Errorf("encoding counterValue: %w: required INTEGER is nil", ber.ErrInvalidValue)
 	}
 	enc_countervalue, encodeErr_enc_countervalue := ber.EncodeBigInt(v.CounterValue)
 	if encodeErr_enc_countervalue != nil {
@@ -12674,7 +13565,9 @@ func (v *EuiccPackageErrorDataSigned) MarshalBER() ([]byte, error) {
 	children = append(children, enc_countervalue...)
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -12707,9 +13600,14 @@ func (v *EuiccPackageErrorDataSigned) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EuiccPackageErrorDataSigned to DER format.
 func (v *EuiccPackageErrorDataSigned) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackageErrorDataSigned receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckEncodedLength(nil, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
@@ -12722,7 +13620,7 @@ func (v *EuiccPackageErrorDataSigned) MarshalDER() ([]byte, error) {
 	enc_eimid = retagged_enc_eimid
 	children = append(children, enc_eimid...)
 	if v.CounterValue == nil {
-		return nil, fmt.Errorf("encoding counterValue: required INTEGER is nil")
+		return nil, fmt.Errorf("encoding counterValue: %w: required INTEGER is nil", ber.ErrInvalidValue)
 	}
 	enc_countervalue, encodeErr_enc_countervalue := ber.EncodeBigInt(v.CounterValue)
 	if encodeErr_enc_countervalue != nil {
@@ -12736,7 +13634,9 @@ func (v *EuiccPackageErrorDataSigned) MarshalDER() ([]byte, error) {
 	children = append(children, enc_countervalue...)
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(nil, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -12771,11 +13671,27 @@ func (v *EuiccPackageErrorDataSigned) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EuiccPackageErrorDataSigned from BER/DER format.
-func (v *EuiccPackageErrorDataSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EuiccPackageErrorDataSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EuiccPackageErrorDataSigned destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EuiccPackageErrorDataSigned{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EuiccPackageErrorDataSigned SEQUENCE: %w", err)
@@ -12812,7 +13728,9 @@ func (v *EuiccPackageErrorDataSigned) UnmarshalBER(data []byte, opts ...ber.Deco
 
 	offset += n_eimid
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckDecodedLength(opts, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode counterValue
 	if offset >= len(content) {
@@ -12862,7 +13780,9 @@ func (v *EuiccPackageErrorDataSigned) UnmarshalBER(data []byte, opts ...ber.Deco
 
 				offset += n_eimtransactionid
 				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+					if constraintErr := ber.CheckDecodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -12913,10 +13833,25 @@ func (v *EuiccPackageErrorDataSigned) UnmarshalBER(data []byte, opts ...ber.Deco
 }
 
 // MarshalBER encodes EuiccPackageErrorUnsigned to BER format.
-func (v *EuiccPackageErrorUnsigned) MarshalBER() ([]byte, error) {
+func (v *EuiccPackageErrorUnsigned) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackageErrorUnsigned receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EuiccPackageErrorUnsigned) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckEncodedLength(opts, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
@@ -12930,7 +13865,9 @@ func (v *EuiccPackageErrorUnsigned) MarshalBER() ([]byte, error) {
 	children = append(children, enc_eimid...)
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -12982,9 +13919,14 @@ func (v *EuiccPackageErrorUnsigned) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EuiccPackageErrorUnsigned to DER format.
 func (v *EuiccPackageErrorUnsigned) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EuiccPackageErrorUnsigned receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckEncodedLength(nil, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
@@ -12998,7 +13940,9 @@ func (v *EuiccPackageErrorUnsigned) MarshalDER() ([]byte, error) {
 	children = append(children, enc_eimid...)
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(nil, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -13052,11 +13996,27 @@ func (v *EuiccPackageErrorUnsigned) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EuiccPackageErrorUnsigned from BER/DER format.
-func (v *EuiccPackageErrorUnsigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EuiccPackageErrorUnsigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EuiccPackageErrorUnsigned destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EuiccPackageErrorUnsigned{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EuiccPackageErrorUnsigned SEQUENCE: %w", err)
@@ -13093,7 +14053,9 @@ func (v *EuiccPackageErrorUnsigned) UnmarshalBER(data []byte, opts ...ber.Decode
 
 	offset += n_eimid
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckDecodedLength(opts, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode eimTransactionId
 	if offset < len(content) {
@@ -13116,7 +14078,9 @@ func (v *EuiccPackageErrorUnsigned) UnmarshalBER(data []byte, opts ...ber.Decode
 
 				offset += n_eimtransactionid
 				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+					if constraintErr := ber.CheckDecodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -13205,10 +14169,23 @@ func (v *EuiccPackageErrorUnsigned) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes SGPProfileInfoListResponse to BER format.
-func (v *SGPProfileInfoListResponse) MarshalBER() ([]byte, error) {
+func (v *SGPProfileInfoListResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPProfileInfoListResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPProfileInfoListResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case SGPProfileInfoListResponseChoiceProfileInfoListOk:
-		enc_0, err := MarshalBERSGPProfileInfoListResponseProfileInfoListOk(v.ProfileInfoListOk)
+		enc_0, err := MarshalBERSGPProfileInfoListResponseProfileInfoListOk(v.ProfileInfoListOk, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileInfoListOk: %w", err)
 		}
@@ -13227,7 +14204,7 @@ func (v *SGPProfileInfoListResponse) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case SGPProfileInfoListResponseChoiceProfileInfoListError:
 		if v.ProfileInfoListError == nil {
-			return nil, fmt.Errorf("choice SGPProfileInfoListResponse: profileInfoListError is nil")
+			return nil, fmt.Errorf("%w: choice SGPProfileInfoListResponse: profileInfoListError is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeBigInt(v.ProfileInfoListError.BigInt())
 		if encodeErr_enc_1 != nil {
@@ -13253,6 +14230,9 @@ func (v *SGPProfileInfoListResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPProfileInfoListResponse to DER format.
 func (v *SGPProfileInfoListResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPProfileInfoListResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case SGPProfileInfoListResponseChoiceProfileInfoListOk:
 		enc_der_0, err := MarshalDERSGPProfileInfoListResponseProfileInfoListOk(v.ProfileInfoListOk)
@@ -13287,7 +14267,23 @@ func (v *SGPProfileInfoListResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPProfileInfoListResponse from BER/DER format.
-func (v *SGPProfileInfoListResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPProfileInfoListResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPProfileInfoListResponse destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -13332,7 +14328,7 @@ func (v *SGPProfileInfoListResponse) UnmarshalBER(data []byte, opts ...ber.Decod
 		if reconstructionErr != nil {
 			return reconstructionErr
 		}
-		dec, unmErr := UnmarshalBERSGPProfileInfoListResponseProfileInfoListOk(reconstructed, opts...)
+		dec, unmErr := UnmarshalBERSGPProfileInfoListResponseProfileInfoListOk(reconstructed, ber.ChildDecodeOptions(opts, "profileInfoListOk")...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding profileInfoListOk: %w", unmErr)
 		}
@@ -13359,11 +14355,24 @@ func (v *SGPProfileInfoListResponse) UnmarshalBER(data []byte, opts ...ber.Decod
 }
 
 // MarshalBER encodes AddEimResult to BER format.
-func (v *AddEimResult) MarshalBER() ([]byte, error) {
+func (v *AddEimResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AddEimResult receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *AddEimResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case AddEimResultChoiceAssociationToken:
 		if v.AssociationToken == nil {
-			return nil, fmt.Errorf("choice AddEimResult: associationToken is nil")
+			return nil, fmt.Errorf("%w: choice AddEimResult: associationToken is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.AssociationToken)
 		if encodeErr_enc_0 != nil {
@@ -13377,7 +14386,7 @@ func (v *AddEimResult) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case AddEimResultChoiceAddEimResultCode:
 		if v.AddEimResultCode == nil {
-			return nil, fmt.Errorf("choice AddEimResult: addEimResultCode is nil")
+			return nil, fmt.Errorf("%w: choice AddEimResult: addEimResultCode is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeBigInt(v.AddEimResultCode.BigInt())
 		if encodeErr_enc_1 != nil {
@@ -13391,6 +14400,9 @@ func (v *AddEimResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AddEimResult to DER format.
 func (v *AddEimResult) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AddEimResult receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -13402,7 +14414,23 @@ func (v *AddEimResult) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes AddEimResult from BER/DER format.
-func (v *AddEimResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *AddEimResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: AddEimResult destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -13453,10 +14481,23 @@ func (v *AddEimResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 }
 
 // MarshalBER encodes ListEimResult to BER format.
-func (v *ListEimResult) MarshalBER() ([]byte, error) {
+func (v *ListEimResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ListEimResult receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ListEimResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case ListEimResultChoiceEimIdList:
-		enc_0, err := MarshalBERListEimResultEimIdList(v.EimIdList)
+		enc_0, err := MarshalBERListEimResultEimIdList(v.EimIdList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eimIdList: %w", err)
 		}
@@ -13468,7 +14509,7 @@ func (v *ListEimResult) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case ListEimResultChoiceListEimError:
 		if v.ListEimError == nil {
-			return nil, fmt.Errorf("choice ListEimResult: listEimError is nil")
+			return nil, fmt.Errorf("%w: choice ListEimResult: listEimError is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeBigInt(v.ListEimError.BigInt())
 		if encodeErr_enc_1 != nil {
@@ -13487,6 +14528,9 @@ func (v *ListEimResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ListEimResult to DER format.
 func (v *ListEimResult) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ListEimResult receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case ListEimResultChoiceEimIdList:
 		enc_der_0, err := MarshalDERListEimResultEimIdList(v.EimIdList)
@@ -13514,7 +14558,23 @@ func (v *ListEimResult) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ListEimResult from BER/DER format.
-func (v *ListEimResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ListEimResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ListEimResult destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -13546,7 +14606,7 @@ func (v *ListEimResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 		if reconstructionErr != nil {
 			return reconstructionErr
 		}
-		dec, unmErr := UnmarshalBERListEimResultEimIdList(reconstructed, opts...)
+		dec, unmErr := UnmarshalBERListEimResultEimIdList(reconstructed, ber.ChildDecodeOptions(opts, "eimIdList")...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding eimIdList: %w", unmErr)
 		}
@@ -13573,10 +14633,25 @@ func (v *ListEimResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 }
 
 // MarshalBER encodes EimIdInfo to BER format.
-func (v *EimIdInfo) MarshalBER() ([]byte, error) {
+func (v *EimIdInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimIdInfo receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EimIdInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckEncodedLength(opts, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
@@ -13615,9 +14690,14 @@ func (v *EimIdInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EimIdInfo to DER format.
 func (v *EimIdInfo) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimIdInfo receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckEncodedLength(nil, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
@@ -13658,11 +14738,27 @@ func (v *EimIdInfo) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EimIdInfo from BER/DER format.
-func (v *EimIdInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EimIdInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EimIdInfo destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EimIdInfo{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EimIdInfo SEQUENCE: %w", err)
@@ -13699,7 +14795,9 @@ func (v *EimIdInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 	offset += n_eimid
 	if len([]rune(v.EimId)) < 1 || len([]rune(v.EimId)) > 128 {
-		return fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(v.EimId)))
+		if constraintErr := ber.CheckDecodedLength(opts, "eimId", "SIZE (1..128)", len([]rune(v.EimId))); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode eimIdType
 	if offset < len(content) {
@@ -13758,11 +14856,26 @@ func (v *EimIdInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes IpaEuiccDataResponseError to BER format.
-func (v *IpaEuiccDataResponseError) MarshalBER() ([]byte, error) {
+func (v *IpaEuiccDataResponseError) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaEuiccDataResponseError receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *IpaEuiccDataResponseError) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -13795,10 +14908,15 @@ func (v *IpaEuiccDataResponseError) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes IpaEuiccDataResponseError to DER format.
 func (v *IpaEuiccDataResponseError) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaEuiccDataResponseError receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(nil, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -13833,11 +14951,27 @@ func (v *IpaEuiccDataResponseError) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes IpaEuiccDataResponseError from BER/DER format.
-func (v *IpaEuiccDataResponseError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *IpaEuiccDataResponseError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: IpaEuiccDataResponseError destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = IpaEuiccDataResponseError{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding IpaEuiccDataResponseError SEQUENCE: %w", err)
@@ -13867,7 +15001,9 @@ func (v *IpaEuiccDataResponseError) UnmarshalBER(data []byte, opts ...ber.Decode
 
 				offset += n_eimtransactionid
 				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+					if constraintErr := ber.CheckDecodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -13918,13 +15054,26 @@ func (v *IpaEuiccDataResponseError) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes IpaEuiccDataResponse to BER format.
-func (v *IpaEuiccDataResponse) MarshalBER() ([]byte, error) {
+func (v *IpaEuiccDataResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaEuiccDataResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *IpaEuiccDataResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case IpaEuiccDataResponseChoiceIpaEuiccData:
 		if v.IpaEuiccData == nil {
-			return nil, fmt.Errorf("choice IpaEuiccDataResponse: ipaEuiccData is nil")
+			return nil, fmt.Errorf("%w: choice IpaEuiccDataResponse: ipaEuiccData is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.IpaEuiccData.MarshalBER()
+		enc_0, err := v.IpaEuiccData.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ipaEuiccData: %w", err)
 		}
@@ -13943,9 +15092,9 @@ func (v *IpaEuiccDataResponse) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case IpaEuiccDataResponseChoiceIpaEuiccDataResponseError:
 		if v.IpaEuiccDataResponseError == nil {
-			return nil, fmt.Errorf("choice IpaEuiccDataResponse: ipaEuiccDataResponseError is nil")
+			return nil, fmt.Errorf("%w: choice IpaEuiccDataResponse: ipaEuiccDataResponseError is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.IpaEuiccDataResponseError.MarshalBER()
+		enc_1, err := v.IpaEuiccDataResponseError.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ipaEuiccDataResponseError: %w", err)
 		}
@@ -13969,10 +15118,13 @@ func (v *IpaEuiccDataResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes IpaEuiccDataResponse to DER format.
 func (v *IpaEuiccDataResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaEuiccDataResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case IpaEuiccDataResponseChoiceIpaEuiccData:
 		if v.IpaEuiccData == nil {
-			return nil, fmt.Errorf("choice IpaEuiccDataResponse: ipaEuiccData is nil")
+			return nil, fmt.Errorf("%w: choice IpaEuiccDataResponse: ipaEuiccData is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.IpaEuiccData.MarshalDER()
 		if err != nil {
@@ -13996,7 +15148,7 @@ func (v *IpaEuiccDataResponse) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case IpaEuiccDataResponseChoiceIpaEuiccDataResponseError:
 		if v.IpaEuiccDataResponseError == nil {
-			return nil, fmt.Errorf("choice IpaEuiccDataResponse: ipaEuiccDataResponseError is nil")
+			return nil, fmt.Errorf("%w: choice IpaEuiccDataResponse: ipaEuiccDataResponseError is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.IpaEuiccDataResponseError.MarshalDER()
 		if err != nil {
@@ -14030,7 +15182,23 @@ func (v *IpaEuiccDataResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes IpaEuiccDataResponse from BER/DER format.
-func (v *IpaEuiccDataResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *IpaEuiccDataResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: IpaEuiccDataResponse destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -14102,10 +15270,24 @@ func (v *IpaEuiccDataResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBERPendingNotificationList encodes a PendingNotificationList list to BER.
-func MarshalBERPendingNotificationList(list PendingNotificationList) ([]byte, error) {
+func MarshalBERPendingNotificationList(collection *PendingNotificationList, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERPendingNotificationList(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERPendingNotificationList(collection *PendingNotificationList, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -14115,7 +15297,11 @@ func MarshalBERPendingNotificationList(list PendingNotificationList) ([]byte, er
 }
 
 // MarshalDERPendingNotificationList encodes a PendingNotificationList list to DER.
-func MarshalDERPendingNotificationList(list PendingNotificationList) ([]byte, error) {
+func MarshalDERPendingNotificationList(collection *PendingNotificationList) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -14135,7 +15321,7 @@ func MarshalDERPendingNotificationList(list PendingNotificationList) ([]byte, er
 }
 
 // UnmarshalBERPendingNotificationList decodes a PendingNotificationList list from BER.
-func UnmarshalBERPendingNotificationList(data []byte, opts ...ber.DecodeOption) (PendingNotificationList, error) {
+func UnmarshalBERPendingNotificationList(data []byte, opts ...ber.DecodeOption) (*PendingNotificationList, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -14146,7 +15332,7 @@ func UnmarshalBERPendingNotificationList(data []byte, opts ...ber.DecodeOption) 
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "PendingNotificationList", Cause: ber.ErrExtraData}
 	}
-	var result PendingNotificationList
+	var result []SGPPendingNotification
 	offset := 0
 	for offset < len(content) {
 		var elem SGPPendingNotification
@@ -14159,7 +15345,7 @@ func UnmarshalBERPendingNotificationList(data []byte, opts ...ber.DecodeOption) 
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -14170,14 +15356,38 @@ func UnmarshalBERPendingNotificationList(data []byte, opts ...ber.DecodeOption) 
 
 		offset += n
 	}
-	return result, nil
+	decoded := &PendingNotificationList{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERPendingNotificationList(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBEREuiccPackageResultList encodes a EuiccPackageResultList list to BER.
-func MarshalBEREuiccPackageResultList(list EuiccPackageResultList) ([]byte, error) {
+func MarshalBEREuiccPackageResultList(collection *EuiccPackageResultList, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBEREuiccPackageResultList(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBEREuiccPackageResultList(collection *EuiccPackageResultList, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -14187,7 +15397,11 @@ func MarshalBEREuiccPackageResultList(list EuiccPackageResultList) ([]byte, erro
 }
 
 // MarshalDEREuiccPackageResultList encodes a EuiccPackageResultList list to DER.
-func MarshalDEREuiccPackageResultList(list EuiccPackageResultList) ([]byte, error) {
+func MarshalDEREuiccPackageResultList(collection *EuiccPackageResultList) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -14207,7 +15421,7 @@ func MarshalDEREuiccPackageResultList(list EuiccPackageResultList) ([]byte, erro
 }
 
 // UnmarshalBEREuiccPackageResultList decodes a EuiccPackageResultList list from BER.
-func UnmarshalBEREuiccPackageResultList(data []byte, opts ...ber.DecodeOption) (EuiccPackageResultList, error) {
+func UnmarshalBEREuiccPackageResultList(data []byte, opts ...ber.DecodeOption) (*EuiccPackageResultList, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -14218,7 +15432,7 @@ func UnmarshalBEREuiccPackageResultList(data []byte, opts ...ber.DecodeOption) (
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "EuiccPackageResultList", Cause: ber.ErrExtraData}
 	}
-	var result EuiccPackageResultList
+	var result []EuiccPackageResult
 	offset := 0
 	for offset < len(content) {
 		var elem EuiccPackageResult
@@ -14231,7 +15445,7 @@ func UnmarshalBEREuiccPackageResultList(data []byte, opts ...ber.DecodeOption) (
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -14242,14 +15456,37 @@ func UnmarshalBEREuiccPackageResultList(data []byte, opts ...ber.DecodeOption) (
 
 		offset += n
 	}
-	return result, nil
+	decoded := &EuiccPackageResultList{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBEREuiccPackageResultList(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes IpaEuiccData to BER format.
-func (v *IpaEuiccData) MarshalBER() ([]byte, error) {
+func (v *IpaEuiccData) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaEuiccData receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *IpaEuiccData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.NotificationsList != nil {
-		enc_notificationslist, err := MarshalBERPendingNotificationList(v.NotificationsList)
+		enc_notificationslist, err := MarshalBERPendingNotificationList(v.NotificationsList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding notificationsList: %w", err)
 		}
@@ -14288,7 +15525,7 @@ func (v *IpaEuiccData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_defaultsmdpaddress...)
 	}
 	if v.EuiccPackageResultList != nil {
-		enc_euiccpackageresultlist, err := MarshalBEREuiccPackageResultList(v.EuiccPackageResultList)
+		enc_euiccpackageresultlist, err := MarshalBEREuiccPackageResultList(v.EuiccPackageResultList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccPackageResultList: %w", err)
 		}
@@ -14315,14 +15552,14 @@ func (v *IpaEuiccData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_euiccpackageresultlist...)
 	}
 	if v.EuiccInfo1 != nil {
-		enc_euiccinfo1, err := v.EuiccInfo1.MarshalBER()
+		enc_euiccinfo1, err := v.EuiccInfo1.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccInfo1: %w", err)
 		}
 		children = append(children, enc_euiccinfo1...)
 	}
 	if v.EuiccInfo2 != nil {
-		enc_euiccinfo2, err := v.EuiccInfo2.MarshalBER()
+		enc_euiccinfo2, err := v.EuiccInfo2.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccInfo2: %w", err)
 		}
@@ -14353,7 +15590,7 @@ func (v *IpaEuiccData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_associationtoken...)
 	}
 	if v.EumCertificate != nil {
-		enc_eumcertificate, err := v.EumCertificate.MarshalBER()
+		enc_eumcertificate, err := v.EumCertificate.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eumCertificate: %w", err)
 		}
@@ -14365,7 +15602,7 @@ func (v *IpaEuiccData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_eumcertificate...)
 	}
 	if v.EuiccCertificate != nil {
-		enc_euicccertificate, err := v.EuiccCertificate.MarshalBER()
+		enc_euicccertificate, err := v.EuiccCertificate.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccCertificate: %w", err)
 		}
@@ -14378,7 +15615,9 @@ func (v *IpaEuiccData) MarshalBER() ([]byte, error) {
 	}
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -14392,7 +15631,7 @@ func (v *IpaEuiccData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_eimtransactionid...)
 	}
 	if v.IpaCapabilities != nil {
-		enc_ipacapabilities, err := v.IpaCapabilities.MarshalBER()
+		enc_ipacapabilities, err := v.IpaCapabilities.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ipaCapabilities: %w", err)
 		}
@@ -14404,7 +15643,7 @@ func (v *IpaEuiccData) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ipacapabilities...)
 	}
 	if v.DeviceInfo != nil {
-		enc_deviceinfo, err := v.DeviceInfo.MarshalBER()
+		enc_deviceinfo, err := v.DeviceInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding deviceInfo: %w", err)
 		}
@@ -14430,6 +15669,9 @@ func (v *IpaEuiccData) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes IpaEuiccData to DER format.
 func (v *IpaEuiccData) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaEuiccData receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.NotificationsList != nil {
 		enc_notificationslist, err := MarshalDERPendingNotificationList(v.NotificationsList)
@@ -14531,7 +15773,9 @@ func (v *IpaEuiccData) MarshalDER() ([]byte, error) {
 	}
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(nil, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -14585,11 +15829,27 @@ func (v *IpaEuiccData) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes IpaEuiccData from BER/DER format.
-func (v *IpaEuiccData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *IpaEuiccData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: IpaEuiccData destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = IpaEuiccData{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding IpaEuiccData SEQUENCE: %w", err)
@@ -14615,7 +15875,7 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				if reconstructionErr_notificationslist != nil {
 					return fmt.Errorf("decoding notificationsList: %w", reconstructionErr_notificationslist)
 				}
-				dec_notificationslist, unmErr := UnmarshalBERPendingNotificationList(reconstructed_notificationslist, opts...)
+				dec_notificationslist, unmErr := UnmarshalBERPendingNotificationList(reconstructed_notificationslist, ber.ChildDecodeOptions(opts, "notificationsList")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding notificationsList: %w", unmErr)
 				}
@@ -14685,7 +15945,7 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				if reconstructionErr_euiccpackageresultlist != nil {
 					return fmt.Errorf("decoding euiccPackageResultList: %w", reconstructionErr_euiccpackageresultlist)
 				}
-				dec_euiccpackageresultlist, unmErr := UnmarshalBEREuiccPackageResultList(reconstructed_euiccpackageresultlist, opts...)
+				dec_euiccpackageresultlist, unmErr := UnmarshalBEREuiccPackageResultList(reconstructed_euiccpackageresultlist, ber.ChildDecodeOptions(opts, "euiccPackageResultList")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding euiccPackageResultList: %w", unmErr)
 				}
@@ -14727,7 +15987,7 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_euiccinfo1.UnmarshalBER(content[offset:offset+n_euiccinfo1], opts...); unmErr != nil {
+				if unmErr := dec_euiccinfo1.UnmarshalBER(content[offset:offset+n_euiccinfo1], ber.ChildDecodeOptions(opts, "euiccinfo1")...); unmErr != nil {
 					return fmt.Errorf("decoding euiccInfo1: %w", unmErr)
 				}
 				v.EuiccInfo1 = &dec_euiccinfo1
@@ -14756,7 +16016,7 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_euiccinfo2.UnmarshalBER(content[offset:offset+n_euiccinfo2], opts...); unmErr != nil {
+				if unmErr := dec_euiccinfo2.UnmarshalBER(content[offset:offset+n_euiccinfo2], ber.ChildDecodeOptions(opts, "euiccinfo2")...); unmErr != nil {
 					return fmt.Errorf("decoding euiccInfo2: %w", unmErr)
 				}
 				v.EuiccInfo2 = &dec_euiccinfo2
@@ -14840,7 +16100,7 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 					return fmt.Errorf("decoding eumCertificate: %w", reconstructionErr_eumcertificate)
 				}
 				var dec_eumcertificate Certificate
-				if unmErr := dec_eumcertificate.UnmarshalBER(reconstructed_eumcertificate, opts...); unmErr != nil {
+				if unmErr := dec_eumcertificate.UnmarshalBER(reconstructed_eumcertificate, ber.ChildDecodeOptions(opts, "eumcertificate")...); unmErr != nil {
 					return fmt.Errorf("decoding eumCertificate: %w", unmErr)
 				}
 				v.EumCertificate = &dec_eumcertificate
@@ -14871,7 +16131,7 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 					return fmt.Errorf("decoding euiccCertificate: %w", reconstructionErr_euicccertificate)
 				}
 				var dec_euicccertificate Certificate
-				if unmErr := dec_euicccertificate.UnmarshalBER(reconstructed_euicccertificate, opts...); unmErr != nil {
+				if unmErr := dec_euicccertificate.UnmarshalBER(reconstructed_euicccertificate, ber.ChildDecodeOptions(opts, "euicccertificate")...); unmErr != nil {
 					return fmt.Errorf("decoding euiccCertificate: %w", unmErr)
 				}
 				v.EuiccCertificate = &dec_euicccertificate
@@ -14907,7 +16167,9 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 
 				offset += n_eimtransactionid
 				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+					if constraintErr := ber.CheckDecodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -14929,7 +16191,7 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 					return fmt.Errorf("decoding ipaCapabilities: %w", reconstructionErr_ipacapabilities)
 				}
 				var dec_ipacapabilities IpaCapabilities
-				if unmErr := dec_ipacapabilities.UnmarshalBER(reconstructed_ipacapabilities, opts...); unmErr != nil {
+				if unmErr := dec_ipacapabilities.UnmarshalBER(reconstructed_ipacapabilities, ber.ChildDecodeOptions(opts, "ipacapabilities")...); unmErr != nil {
 					return fmt.Errorf("decoding ipaCapabilities: %w", unmErr)
 				}
 				v.IpaCapabilities = &dec_ipacapabilities
@@ -14960,7 +16222,7 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 					return fmt.Errorf("decoding deviceInfo: %w", reconstructionErr_deviceinfo)
 				}
 				var dec_deviceinfo DeviceInfo
-				if unmErr := dec_deviceinfo.UnmarshalBER(reconstructed_deviceinfo, opts...); unmErr != nil {
+				if unmErr := dec_deviceinfo.UnmarshalBER(reconstructed_deviceinfo, ber.ChildDecodeOptions(opts, "deviceinfo")...); unmErr != nil {
 					return fmt.Errorf("decoding deviceInfo: %w", unmErr)
 				}
 				v.DeviceInfo = &dec_deviceinfo
@@ -15000,11 +16262,26 @@ func (v *IpaEuiccData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 }
 
 // MarshalBER encodes ProfileDownloadTriggerResult to BER format.
-func (v *ProfileDownloadTriggerResult) MarshalBER() ([]byte, error) {
+func (v *ProfileDownloadTriggerResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProfileDownloadTriggerResult receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ProfileDownloadTriggerResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -15017,7 +16294,7 @@ func (v *ProfileDownloadTriggerResult) MarshalBER() ([]byte, error) {
 		enc_eimtransactionid = retagged_enc_eimtransactionid
 		children = append(children, enc_eimtransactionid...)
 	}
-	enc_profiledownloadtriggerresultdata, err := v.ProfileDownloadTriggerResultData.MarshalBER()
+	enc_profiledownloadtriggerresultdata, err := v.ProfileDownloadTriggerResultData.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding profileDownloadTriggerResultData: %w", err)
 	}
@@ -15037,10 +16314,15 @@ func (v *ProfileDownloadTriggerResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ProfileDownloadTriggerResult to DER format.
 func (v *ProfileDownloadTriggerResult) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProfileDownloadTriggerResult receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(nil, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -15080,11 +16362,27 @@ func (v *ProfileDownloadTriggerResult) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ProfileDownloadTriggerResult from BER/DER format.
-func (v *ProfileDownloadTriggerResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ProfileDownloadTriggerResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ProfileDownloadTriggerResult destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ProfileDownloadTriggerResult{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ProfileDownloadTriggerResult: %w", err)
@@ -15117,7 +16415,9 @@ func (v *ProfileDownloadTriggerResult) UnmarshalBER(data []byte, opts ...ber.Dec
 
 				offset += n_eimtransactionid
 				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+					if constraintErr := ber.CheckDecodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -15137,7 +16437,7 @@ func (v *ProfileDownloadTriggerResult) UnmarshalBER(data []byte, opts ...ber.Dec
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.ProfileDownloadTriggerResultData.UnmarshalBER(content[offset:offset+n_profiledownloadtriggerresultdata], opts...); unmErr != nil {
+	if unmErr := v.ProfileDownloadTriggerResultData.UnmarshalBER(content[offset:offset+n_profiledownloadtriggerresultdata], ber.ChildDecodeOptions(opts, "profileDownloadTriggerResultData")...); unmErr != nil {
 		return fmt.Errorf("decoding profileDownloadTriggerResultData: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -15174,9 +16474,22 @@ func (v *ProfileDownloadTriggerResult) UnmarshalBER(data []byte, opts ...ber.Dec
 }
 
 // MarshalBER encodes ISDRProprietaryApplicationTemplateIoT to BER format.
-func (v *ISDRProprietaryApplicationTemplateIoT) MarshalBER() ([]byte, error) {
+func (v *ISDRProprietaryApplicationTemplateIoT) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ISDRProprietaryApplicationTemplateIoT receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ISDRProprietaryApplicationTemplateIoT) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 	if v.EuiccConfiguration.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -15205,8 +16518,11 @@ func (v *ISDRProprietaryApplicationTemplateIoT) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ISDRProprietaryApplicationTemplateIoT to DER format.
 func (v *ISDRProprietaryApplicationTemplateIoT) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ISDRProprietaryApplicationTemplateIoT receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 	if v.EuiccConfiguration.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -15242,11 +16558,27 @@ func (v *ISDRProprietaryApplicationTemplateIoT) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ISDRProprietaryApplicationTemplateIoT from BER/DER format.
-func (v *ISDRProprietaryApplicationTemplateIoT) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ISDRProprietaryApplicationTemplateIoT) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ISDRProprietaryApplicationTemplateIoT destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ISDRProprietaryApplicationTemplateIoT{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ISDRProprietaryApplicationTemplateIoT: %w", err)
@@ -15316,9 +16648,22 @@ func (v *ISDRProprietaryApplicationTemplateIoT) UnmarshalBER(data []byte, opts .
 }
 
 // MarshalBER encodes IpaeActivationRequest to BER format.
-func (v *IpaeActivationRequest) MarshalBER() ([]byte, error) {
+func (v *IpaeActivationRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaeActivationRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *IpaeActivationRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 	if v.IpaeOption.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -15347,8 +16692,11 @@ func (v *IpaeActivationRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes IpaeActivationRequest to DER format.
 func (v *IpaeActivationRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaeActivationRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 	if v.IpaeOption.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -15384,11 +16732,27 @@ func (v *IpaeActivationRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes IpaeActivationRequest from BER/DER format.
-func (v *IpaeActivationRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *IpaeActivationRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: IpaeActivationRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = IpaeActivationRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding IpaeActivationRequest: %w", err)
@@ -15458,7 +16822,20 @@ func (v *IpaeActivationRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes IpaeActivationResponse to BER format.
-func (v *IpaeActivationResponse) MarshalBER() ([]byte, error) {
+func (v *IpaeActivationResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaeActivationResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *IpaeActivationResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_ipaeactivationresult, encodeErr_enc_ipaeactivationresult := ber.EncodeBigInt((v.IpaeActivationResult).BigInt())
 	if encodeErr_enc_ipaeactivationresult != nil {
@@ -15485,6 +16862,9 @@ func (v *IpaeActivationResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes IpaeActivationResponse to DER format.
 func (v *IpaeActivationResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaeActivationResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_ipaeactivationresult, encodeErr_enc_ipaeactivationresult := ber.EncodeBigInt((v.IpaeActivationResult).BigInt())
 	if encodeErr_enc_ipaeactivationresult != nil {
@@ -15518,11 +16898,27 @@ func (v *IpaeActivationResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes IpaeActivationResponse from BER/DER format.
-func (v *IpaeActivationResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *IpaeActivationResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: IpaeActivationResponse destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = IpaeActivationResponse{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding IpaeActivationResponse: %w", err)
@@ -15593,9 +16989,22 @@ func (v *IpaeActivationResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 }
 
 // MarshalBER encodes IpaCapabilities to BER format.
-func (v *IpaCapabilities) MarshalBER() ([]byte, error) {
+func (v *IpaCapabilities) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaCapabilities receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *IpaCapabilities) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 	if v.IpaFeatures.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -15610,7 +17019,7 @@ func (v *IpaCapabilities) MarshalBER() ([]byte, error) {
 	enc_ipafeatures = retagged_enc_ipafeatures
 	children = append(children, enc_ipafeatures...)
 	if v.IpaSupportedProtocols != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.IpaSupportedProtocols.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15626,7 +17035,7 @@ func (v *IpaCapabilities) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ipasupportedprotocols...)
 	}
 	if v.ESipaProprietaryProtocolInformation != nil {
-		enc_esipaproprietaryprotocolinformation, err := MarshalBERVendorSpecificExtension(v.ESipaProprietaryProtocolInformation)
+		enc_esipaproprietaryprotocolinformation, err := MarshalBERVendorSpecificExtension(v.ESipaProprietaryProtocolInformation, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eSipaProprietaryProtocolInformation: %w", err)
 		}
@@ -15667,8 +17076,11 @@ func (v *IpaCapabilities) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes IpaCapabilities to DER format.
 func (v *IpaCapabilities) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaCapabilities receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 	if v.IpaFeatures.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -15683,7 +17095,7 @@ func (v *IpaCapabilities) MarshalDER() ([]byte, error) {
 	enc_ipafeatures = retagged_enc_ipafeatures
 	children = append(children, enc_ipafeatures...)
 	if v.IpaSupportedProtocols != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.IpaSupportedProtocols.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15727,11 +17139,27 @@ func (v *IpaCapabilities) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes IpaCapabilities from BER/DER format.
-func (v *IpaCapabilities) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *IpaCapabilities) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: IpaCapabilities destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = IpaCapabilities{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding IpaCapabilities SEQUENCE: %w", err)
@@ -15820,7 +17248,7 @@ func (v *IpaCapabilities) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if reconstructionErr_esipaproprietaryprotocolinformation != nil {
 					return fmt.Errorf("decoding eSipaProprietaryProtocolInformation: %w", reconstructionErr_esipaproprietaryprotocolinformation)
 				}
-				dec_esipaproprietaryprotocolinformation, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_esipaproprietaryprotocolinformation, opts...)
+				dec_esipaproprietaryprotocolinformation, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_esipaproprietaryprotocolinformation, ber.ChildDecodeOptions(opts, "eSipaProprietaryProtocolInformation")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding eSipaProprietaryProtocolInformation: %w", unmErr)
 				}
@@ -15873,11 +17301,26 @@ func (v *IpaCapabilities) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 }
 
 // MarshalBER encodes SGPProfileInfo to BER format.
-func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
+func (v *SGPProfileInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPProfileInfo receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPProfileInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.Iccid != nil {
 		if len(*v.Iccid) < 10 || len(*v.Iccid) > 10 {
-			return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(*v.Iccid))
+			if constraintErr := ber.CheckEncodedLength(opts, "iccid", "SIZE (10)", len(*v.Iccid)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(*v.Iccid))
 		if encodeErr_enc_iccid != nil {
@@ -15892,7 +17335,9 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 	}
 	if v.IsdpAid != nil {
 		if len(*v.IsdpAid) < 1 || len(*v.IsdpAid) > 16 {
-			return nil, fmt.Errorf("isdpAid length %d violates SIZE (1..16)", len(*v.IsdpAid))
+			if constraintErr := ber.CheckEncodedLength(opts, "isdpAid", "SIZE (1..16)", len(*v.IsdpAid)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_isdpaid, encodeErr_enc_isdpaid := ber.EncodeOctetString([]byte(*v.IsdpAid))
 		if encodeErr_enc_isdpaid != nil {
@@ -15919,7 +17364,9 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 	}
 	if v.ProfileNickname != nil {
 		if len([]rune(*v.ProfileNickname)) > 64 {
-			return nil, fmt.Errorf("profileNickname length %d violates SIZE (0..64)", len([]rune(*v.ProfileNickname)))
+			if constraintErr := ber.CheckEncodedLength(opts, "profileNickname", "SIZE (0..64)", len([]rune(*v.ProfileNickname))); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_profilenickname, stringErr := ber.EncodeStringTagChecked(12, *v.ProfileNickname)
 		if stringErr != nil {
@@ -15934,7 +17381,9 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 	}
 	if v.ServiceProviderName != nil {
 		if len([]rune(*v.ServiceProviderName)) > 32 {
-			return nil, fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(*v.ServiceProviderName)))
+			if constraintErr := ber.CheckEncodedLength(opts, "serviceProviderName", "SIZE (0..32)", len([]rune(*v.ServiceProviderName))); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_serviceprovidername, stringErr := ber.EncodeStringTagChecked(12, *v.ServiceProviderName)
 		if stringErr != nil {
@@ -15949,7 +17398,9 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 	}
 	if v.ProfileName != nil {
 		if len([]rune(*v.ProfileName)) > 64 {
-			return nil, fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(*v.ProfileName)))
+			if constraintErr := ber.CheckEncodedLength(opts, "profileName", "SIZE (0..64)", len([]rune(*v.ProfileName))); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_profilename, stringErr := ber.EncodeStringTagChecked(12, *v.ProfileName)
 		if stringErr != nil {
@@ -15976,7 +17427,9 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 	}
 	if v.Icon != nil {
 		if len(v.Icon) > 1024 {
-			return nil, fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+			if constraintErr := ber.CheckEncodedLength(opts, "icon", "SIZE (0..1024)", len(v.Icon)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_icon, encodeErr_enc_icon := ber.EncodeOctetString(v.Icon)
 		if encodeErr_enc_icon != nil {
@@ -16002,7 +17455,7 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profileclass...)
 	}
 	if v.NotificationConfigurationInfo != nil {
-		enc_notificationconfigurationinfo, err := MarshalBERSGPProfileInfoNotificationConfigurationInfo(v.NotificationConfigurationInfo)
+		enc_notificationconfigurationinfo, err := MarshalBERSGPProfileInfoNotificationConfigurationInfo(v.NotificationConfigurationInfo, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding notificationConfigurationInfo: %w", err)
 		}
@@ -16029,7 +17482,7 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_notificationconfigurationinfo...)
 	}
 	if v.ProfileOwner != nil {
-		enc_profileowner, err := v.ProfileOwner.MarshalBER()
+		enc_profileowner, err := v.ProfileOwner.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileOwner: %w", err)
 		}
@@ -16041,7 +17494,7 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profileowner...)
 	}
 	if v.DpProprietaryData != nil {
-		enc_dpproprietarydata, err := v.DpProprietaryData.MarshalBER()
+		enc_dpproprietarydata, err := v.DpProprietaryData.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding dpProprietaryData: %w", err)
 		}
@@ -16053,7 +17506,7 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_dpproprietarydata...)
 	}
 	if v.ProfilePolicyRules != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -16069,7 +17522,7 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profilepolicyrules...)
 	}
 	if v.ServiceSpecificDataStoredInEuicc != nil {
-		enc_servicespecificdatastoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc)
+		enc_servicespecificdatastoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding serviceSpecificDataStoredInEuicc: %w", err)
 		}
@@ -16138,7 +17591,7 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_fallbackallowed...)
 	}
 	if v.IotSpecificProfileInfo != nil {
-		enc_iotspecificprofileinfo, err := v.IotSpecificProfileInfo.MarshalBER()
+		enc_iotspecificprofileinfo, err := v.IotSpecificProfileInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding iotSpecificProfileInfo: %w", err)
 		}
@@ -16164,10 +17617,15 @@ func (v *SGPProfileInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPProfileInfo to DER format.
 func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPProfileInfo receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.Iccid != nil {
 		if len(*v.Iccid) < 10 || len(*v.Iccid) > 10 {
-			return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(*v.Iccid))
+			if constraintErr := ber.CheckEncodedLength(nil, "iccid", "SIZE (10)", len(*v.Iccid)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(*v.Iccid))
 		if encodeErr_enc_iccid != nil {
@@ -16182,7 +17640,9 @@ func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
 	}
 	if v.IsdpAid != nil {
 		if len(*v.IsdpAid) < 1 || len(*v.IsdpAid) > 16 {
-			return nil, fmt.Errorf("isdpAid length %d violates SIZE (1..16)", len(*v.IsdpAid))
+			if constraintErr := ber.CheckEncodedLength(nil, "isdpAid", "SIZE (1..16)", len(*v.IsdpAid)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_isdpaid, encodeErr_enc_isdpaid := ber.EncodeOctetString([]byte(*v.IsdpAid))
 		if encodeErr_enc_isdpaid != nil {
@@ -16209,7 +17669,9 @@ func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
 	}
 	if v.ProfileNickname != nil {
 		if len([]rune(*v.ProfileNickname)) > 64 {
-			return nil, fmt.Errorf("profileNickname length %d violates SIZE (0..64)", len([]rune(*v.ProfileNickname)))
+			if constraintErr := ber.CheckEncodedLength(nil, "profileNickname", "SIZE (0..64)", len([]rune(*v.ProfileNickname))); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_profilenickname, stringErr := ber.EncodeStringTagChecked(12, *v.ProfileNickname)
 		if stringErr != nil {
@@ -16224,7 +17686,9 @@ func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
 	}
 	if v.ServiceProviderName != nil {
 		if len([]rune(*v.ServiceProviderName)) > 32 {
-			return nil, fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(*v.ServiceProviderName)))
+			if constraintErr := ber.CheckEncodedLength(nil, "serviceProviderName", "SIZE (0..32)", len([]rune(*v.ServiceProviderName))); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_serviceprovidername, stringErr := ber.EncodeStringTagChecked(12, *v.ServiceProviderName)
 		if stringErr != nil {
@@ -16239,7 +17703,9 @@ func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
 	}
 	if v.ProfileName != nil {
 		if len([]rune(*v.ProfileName)) > 64 {
-			return nil, fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(*v.ProfileName)))
+			if constraintErr := ber.CheckEncodedLength(nil, "profileName", "SIZE (0..64)", len([]rune(*v.ProfileName))); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_profilename, stringErr := ber.EncodeStringTagChecked(12, *v.ProfileName)
 		if stringErr != nil {
@@ -16266,7 +17732,9 @@ func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
 	}
 	if v.Icon != nil {
 		if len(v.Icon) > 1024 {
-			return nil, fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+			if constraintErr := ber.CheckEncodedLength(nil, "icon", "SIZE (0..1024)", len(v.Icon)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_icon, encodeErr_enc_icon := ber.EncodeOctetString(v.Icon)
 		if encodeErr_enc_icon != nil {
@@ -16328,7 +17796,7 @@ func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_dpproprietarydata...)
 	}
 	if v.ProfilePolicyRules != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -16416,11 +17884,27 @@ func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPProfileInfo from BER/DER format.
-func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPProfileInfo destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPProfileInfo{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPProfileInfo: %w", err)
@@ -16453,7 +17937,9 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 
 				offset += n_iccid
 				if len(*v.Iccid) < 10 || len(*v.Iccid) > 10 {
-					return fmt.Errorf("iccid length %d violates SIZE (10)", len(*v.Iccid))
+					if constraintErr := ber.CheckDecodedLength(opts, "iccid", "SIZE (10)", len(*v.Iccid)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -16479,7 +17965,9 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 
 				offset += n_isdpaid
 				if len(*v.IsdpAid) < 1 || len(*v.IsdpAid) > 16 {
-					return fmt.Errorf("isdpAid length %d violates SIZE (1..16)", len(*v.IsdpAid))
+					if constraintErr := ber.CheckDecodedLength(opts, "isdpAid", "SIZE (1..16)", len(*v.IsdpAid)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -16540,7 +18028,9 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 
 				offset += n_profilenickname
 				if len([]rune(*v.ProfileNickname)) > 64 {
-					return fmt.Errorf("profileNickname length %d violates SIZE (0..64)", len([]rune(*v.ProfileNickname)))
+					if constraintErr := ber.CheckDecodedLength(opts, "profileNickname", "SIZE (0..64)", len([]rune(*v.ProfileNickname))); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -16570,7 +18060,9 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 
 				offset += n_serviceprovidername
 				if len([]rune(*v.ServiceProviderName)) > 32 {
-					return fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(*v.ServiceProviderName)))
+					if constraintErr := ber.CheckDecodedLength(opts, "serviceProviderName", "SIZE (0..32)", len([]rune(*v.ServiceProviderName))); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -16599,7 +18091,9 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 
 				offset += n_profilename
 				if len([]rune(*v.ProfileName)) > 64 {
-					return fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(*v.ProfileName)))
+					if constraintErr := ber.CheckDecodedLength(opts, "profileName", "SIZE (0..64)", len([]rune(*v.ProfileName))); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -16655,7 +18149,9 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 
 				offset += n_icon
 				if len(v.Icon) > 1024 {
-					return fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+					if constraintErr := ber.CheckDecodedLength(opts, "icon", "SIZE (0..1024)", len(v.Icon)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -16708,7 +18204,7 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				if reconstructionErr_notificationconfigurationinfo != nil {
 					return fmt.Errorf("decoding notificationConfigurationInfo: %w", reconstructionErr_notificationconfigurationinfo)
 				}
-				dec_notificationconfigurationinfo, unmErr := UnmarshalBERSGPProfileInfoNotificationConfigurationInfo(reconstructed_notificationconfigurationinfo, opts...)
+				dec_notificationconfigurationinfo, unmErr := UnmarshalBERSGPProfileInfoNotificationConfigurationInfo(reconstructed_notificationconfigurationinfo, ber.ChildDecodeOptions(opts, "notificationConfigurationInfo")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding notificationConfigurationInfo: %w", unmErr)
 				}
@@ -16751,7 +18247,7 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 					return fmt.Errorf("decoding profileOwner: %w", reconstructionErr_profileowner)
 				}
 				var dec_profileowner OperatorId
-				if unmErr := dec_profileowner.UnmarshalBER(reconstructed_profileowner, opts...); unmErr != nil {
+				if unmErr := dec_profileowner.UnmarshalBER(reconstructed_profileowner, ber.ChildDecodeOptions(opts, "profileowner")...); unmErr != nil {
 					return fmt.Errorf("decoding profileOwner: %w", unmErr)
 				}
 				v.ProfileOwner = &dec_profileowner
@@ -16782,7 +18278,7 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 					return fmt.Errorf("decoding dpProprietaryData: %w", reconstructionErr_dpproprietarydata)
 				}
 				var dec_dpproprietarydata DpProprietaryData
-				if unmErr := dec_dpproprietarydata.UnmarshalBER(reconstructed_dpproprietarydata, opts...); unmErr != nil {
+				if unmErr := dec_dpproprietarydata.UnmarshalBER(reconstructed_dpproprietarydata, ber.ChildDecodeOptions(opts, "dpproprietarydata")...); unmErr != nil {
 					return fmt.Errorf("decoding dpProprietaryData: %w", unmErr)
 				}
 				v.DpProprietaryData = &dec_dpproprietarydata
@@ -16845,7 +18341,7 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				if reconstructionErr_servicespecificdatastoredineuicc != nil {
 					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w", reconstructionErr_servicespecificdatastoredineuicc)
 				}
-				dec_servicespecificdatastoredineuicc, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatastoredineuicc, opts...)
+				dec_servicespecificdatastoredineuicc, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatastoredineuicc, ber.ChildDecodeOptions(opts, "serviceSpecificDataStoredInEuicc")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w", unmErr)
 				}
@@ -16978,7 +18474,7 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 					return fmt.Errorf("decoding iotSpecificProfileInfo: %w", reconstructionErr_iotspecificprofileinfo)
 				}
 				var dec_iotspecificprofileinfo SGPProfileInfoIotSpecificProfileInfo
-				if unmErr := dec_iotspecificprofileinfo.UnmarshalBER(reconstructed_iotspecificprofileinfo, opts...); unmErr != nil {
+				if unmErr := dec_iotspecificprofileinfo.UnmarshalBER(reconstructed_iotspecificprofileinfo, ber.ChildDecodeOptions(opts, "iotspecificprofileinfo")...); unmErr != nil {
 					return fmt.Errorf("decoding iotSpecificProfileInfo: %w", unmErr)
 				}
 				v.IotSpecificProfileInfo = &dec_iotspecificprofileinfo
@@ -17019,11 +18515,26 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 }
 
 // MarshalBER encodes SGPUpdateMetadataRequest to BER format.
-func (v *SGPUpdateMetadataRequest) MarshalBER() ([]byte, error) {
+func (v *SGPUpdateMetadataRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPUpdateMetadataRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPUpdateMetadataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ServiceProviderName != nil {
 		if len([]rune(*v.ServiceProviderName)) > 32 {
-			return nil, fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(*v.ServiceProviderName)))
+			if constraintErr := ber.CheckEncodedLength(opts, "serviceProviderName", "SIZE (0..32)", len([]rune(*v.ServiceProviderName))); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_serviceprovidername, stringErr := ber.EncodeStringTagChecked(12, *v.ServiceProviderName)
 		if stringErr != nil {
@@ -17038,7 +18549,9 @@ func (v *SGPUpdateMetadataRequest) MarshalBER() ([]byte, error) {
 	}
 	if v.ProfileName != nil {
 		if len([]rune(*v.ProfileName)) > 64 {
-			return nil, fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(*v.ProfileName)))
+			if constraintErr := ber.CheckEncodedLength(opts, "profileName", "SIZE (0..64)", len([]rune(*v.ProfileName))); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_profilename, stringErr := ber.EncodeStringTagChecked(12, *v.ProfileName)
 		if stringErr != nil {
@@ -17065,7 +18578,9 @@ func (v *SGPUpdateMetadataRequest) MarshalBER() ([]byte, error) {
 	}
 	if v.Icon != nil {
 		if len(v.Icon) > 1024 {
-			return nil, fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+			if constraintErr := ber.CheckEncodedLength(opts, "icon", "SIZE (0..1024)", len(v.Icon)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_icon, encodeErr_enc_icon := ber.EncodeOctetString(v.Icon)
 		if encodeErr_enc_icon != nil {
@@ -17079,7 +18594,7 @@ func (v *SGPUpdateMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_icon...)
 	}
 	if v.ProfilePolicyRules != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -17095,7 +18610,7 @@ func (v *SGPUpdateMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profilepolicyrules...)
 	}
 	if v.ServiceSpecificDataStoredInEuicc != nil {
-		enc_servicespecificdatastoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc)
+		enc_servicespecificdatastoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding serviceSpecificDataStoredInEuicc: %w", err)
 		}
@@ -17150,10 +18665,15 @@ func (v *SGPUpdateMetadataRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPUpdateMetadataRequest to DER format.
 func (v *SGPUpdateMetadataRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPUpdateMetadataRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ServiceProviderName != nil {
 		if len([]rune(*v.ServiceProviderName)) > 32 {
-			return nil, fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(*v.ServiceProviderName)))
+			if constraintErr := ber.CheckEncodedLength(nil, "serviceProviderName", "SIZE (0..32)", len([]rune(*v.ServiceProviderName))); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_serviceprovidername, stringErr := ber.EncodeStringTagChecked(12, *v.ServiceProviderName)
 		if stringErr != nil {
@@ -17168,7 +18688,9 @@ func (v *SGPUpdateMetadataRequest) MarshalDER() ([]byte, error) {
 	}
 	if v.ProfileName != nil {
 		if len([]rune(*v.ProfileName)) > 64 {
-			return nil, fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(*v.ProfileName)))
+			if constraintErr := ber.CheckEncodedLength(nil, "profileName", "SIZE (0..64)", len([]rune(*v.ProfileName))); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_profilename, stringErr := ber.EncodeStringTagChecked(12, *v.ProfileName)
 		if stringErr != nil {
@@ -17195,7 +18717,9 @@ func (v *SGPUpdateMetadataRequest) MarshalDER() ([]byte, error) {
 	}
 	if v.Icon != nil {
 		if len(v.Icon) > 1024 {
-			return nil, fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+			if constraintErr := ber.CheckEncodedLength(nil, "icon", "SIZE (0..1024)", len(v.Icon)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_icon, encodeErr_enc_icon := ber.EncodeOctetString(v.Icon)
 		if encodeErr_enc_icon != nil {
@@ -17209,7 +18733,7 @@ func (v *SGPUpdateMetadataRequest) MarshalDER() ([]byte, error) {
 		children = append(children, enc_icon...)
 	}
 	if v.ProfilePolicyRules != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -17267,11 +18791,27 @@ func (v *SGPUpdateMetadataRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPUpdateMetadataRequest from BER/DER format.
-func (v *SGPUpdateMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPUpdateMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPUpdateMetadataRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPUpdateMetadataRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPUpdateMetadataRequest: %w", err)
@@ -17308,7 +18848,9 @@ func (v *SGPUpdateMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 				offset += n_serviceprovidername
 				if len([]rune(*v.ServiceProviderName)) > 32 {
-					return fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(*v.ServiceProviderName)))
+					if constraintErr := ber.CheckDecodedLength(opts, "serviceProviderName", "SIZE (0..32)", len([]rune(*v.ServiceProviderName))); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -17337,7 +18879,9 @@ func (v *SGPUpdateMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 				offset += n_profilename
 				if len([]rune(*v.ProfileName)) > 64 {
-					return fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(*v.ProfileName)))
+					if constraintErr := ber.CheckDecodedLength(opts, "profileName", "SIZE (0..64)", len([]rune(*v.ProfileName))); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -17393,7 +18937,9 @@ func (v *SGPUpdateMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 				offset += n_icon
 				if len(v.Icon) > 1024 {
-					return fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+					if constraintErr := ber.CheckDecodedLength(opts, "icon", "SIZE (0..1024)", len(v.Icon)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -17447,7 +18993,7 @@ func (v *SGPUpdateMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if reconstructionErr_servicespecificdatastoredineuicc != nil {
 					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w", reconstructionErr_servicespecificdatastoredineuicc)
 				}
-				dec_servicespecificdatastoredineuicc, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatastoredineuicc, opts...)
+				dec_servicespecificdatastoredineuicc, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatastoredineuicc, ber.ChildDecodeOptions(opts, "serviceSpecificDataStoredInEuicc")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w", unmErr)
 				}
@@ -17530,10 +19076,25 @@ func (v *SGPUpdateMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeO
 }
 
 // MarshalBER encodes SGPStoreMetadataRequest to BER format.
-func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
+func (v *SGPStoreMetadataRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPStoreMetadataRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPStoreMetadataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
-		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+		if constraintErr := ber.CheckEncodedLength(opts, "iccid", "SIZE (10)", len(v.Iccid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
@@ -17546,7 +19107,9 @@ func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 	enc_iccid = retagged_enc_iccid
 	children = append(children, enc_iccid...)
 	if len([]rune(v.ServiceProviderName)) > 32 {
-		return nil, fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(v.ServiceProviderName)))
+		if constraintErr := ber.CheckEncodedLength(opts, "serviceProviderName", "SIZE (0..32)", len([]rune(v.ServiceProviderName))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_serviceprovidername, stringErr := ber.EncodeStringTagChecked(12, v.ServiceProviderName)
 	if stringErr != nil {
@@ -17559,7 +19122,9 @@ func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 	enc_serviceprovidername = retagged_enc_serviceprovidername
 	children = append(children, enc_serviceprovidername...)
 	if len([]rune(v.ProfileName)) > 64 {
-		return nil, fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(v.ProfileName)))
+		if constraintErr := ber.CheckEncodedLength(opts, "profileName", "SIZE (0..64)", len([]rune(v.ProfileName))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_profilename, stringErr := ber.EncodeStringTagChecked(12, v.ProfileName)
 	if stringErr != nil {
@@ -17585,7 +19150,9 @@ func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 	}
 	if v.Icon != nil {
 		if len(v.Icon) > 1024 {
-			return nil, fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+			if constraintErr := ber.CheckEncodedLength(opts, "icon", "SIZE (0..1024)", len(v.Icon)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_icon, encodeErr_enc_icon := ber.EncodeOctetString(v.Icon)
 		if encodeErr_enc_icon != nil {
@@ -17611,7 +19178,7 @@ func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profileclass...)
 	}
 	if v.NotificationConfigurationInfo != nil {
-		enc_notificationconfigurationinfo, err := MarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(v.NotificationConfigurationInfo)
+		enc_notificationconfigurationinfo, err := MarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(v.NotificationConfigurationInfo, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding notificationConfigurationInfo: %w", err)
 		}
@@ -17638,7 +19205,7 @@ func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_notificationconfigurationinfo...)
 	}
 	if v.ProfileOwner != nil {
-		enc_profileowner, err := v.ProfileOwner.MarshalBER()
+		enc_profileowner, err := v.ProfileOwner.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileOwner: %w", err)
 		}
@@ -17650,7 +19217,7 @@ func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profileowner...)
 	}
 	if v.ProfilePolicyRules != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -17666,7 +19233,7 @@ func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_profilepolicyrules...)
 	}
 	if v.ServiceSpecificDataStoredInEuicc != nil {
-		enc_servicespecificdatastoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc)
+		enc_servicespecificdatastoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding serviceSpecificDataStoredInEuicc: %w", err)
 		}
@@ -17693,7 +19260,7 @@ func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_servicespecificdatastoredineuicc...)
 	}
 	if v.ServiceSpecificDataNotStoredInEuicc != nil {
-		enc_servicespecificdatanotstoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataNotStoredInEuicc)
+		enc_servicespecificdatanotstoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataNotStoredInEuicc, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding serviceSpecificDataNotStoredInEuicc: %w", err)
 		}
@@ -17748,7 +19315,7 @@ func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 		children = append(children, enc_fallbackallowed...)
 	}
 	if v.IotSpecificMetadata != nil {
-		enc_iotspecificmetadata, err := v.IotSpecificMetadata.MarshalBER()
+		enc_iotspecificmetadata, err := v.IotSpecificMetadata.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding iotSpecificMetadata: %w", err)
 		}
@@ -17774,9 +19341,14 @@ func (v *SGPStoreMetadataRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPStoreMetadataRequest to DER format.
 func (v *SGPStoreMetadataRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPStoreMetadataRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
-		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+		if constraintErr := ber.CheckEncodedLength(nil, "iccid", "SIZE (10)", len(v.Iccid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
@@ -17789,7 +19361,9 @@ func (v *SGPStoreMetadataRequest) MarshalDER() ([]byte, error) {
 	enc_iccid = retagged_enc_iccid
 	children = append(children, enc_iccid...)
 	if len([]rune(v.ServiceProviderName)) > 32 {
-		return nil, fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(v.ServiceProviderName)))
+		if constraintErr := ber.CheckEncodedLength(nil, "serviceProviderName", "SIZE (0..32)", len([]rune(v.ServiceProviderName))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_serviceprovidername, stringErr := ber.EncodeStringTagChecked(12, v.ServiceProviderName)
 	if stringErr != nil {
@@ -17802,7 +19376,9 @@ func (v *SGPStoreMetadataRequest) MarshalDER() ([]byte, error) {
 	enc_serviceprovidername = retagged_enc_serviceprovidername
 	children = append(children, enc_serviceprovidername...)
 	if len([]rune(v.ProfileName)) > 64 {
-		return nil, fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(v.ProfileName)))
+		if constraintErr := ber.CheckEncodedLength(nil, "profileName", "SIZE (0..64)", len([]rune(v.ProfileName))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_profilename, stringErr := ber.EncodeStringTagChecked(12, v.ProfileName)
 	if stringErr != nil {
@@ -17828,7 +19404,9 @@ func (v *SGPStoreMetadataRequest) MarshalDER() ([]byte, error) {
 	}
 	if v.Icon != nil {
 		if len(v.Icon) > 1024 {
-			return nil, fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+			if constraintErr := ber.CheckEncodedLength(nil, "icon", "SIZE (0..1024)", len(v.Icon)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_icon, encodeErr_enc_icon := ber.EncodeOctetString(v.Icon)
 		if encodeErr_enc_icon != nil {
@@ -17878,7 +19456,7 @@ func (v *SGPStoreMetadataRequest) MarshalDER() ([]byte, error) {
 		children = append(children, enc_profileowner...)
 	}
 	if v.ProfilePolicyRules != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -17969,11 +19547,27 @@ func (v *SGPStoreMetadataRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPStoreMetadataRequest from BER/DER format.
-func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPStoreMetadataRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPStoreMetadataRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPStoreMetadataRequest: %w", err)
@@ -18009,7 +19603,9 @@ func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 	offset += n_iccid
 	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
-		return fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+		if constraintErr := ber.CheckDecodedLength(opts, "iccid", "SIZE (10)", len(v.Iccid)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode serviceProviderName
 	if offset >= len(content) {
@@ -18040,7 +19636,9 @@ func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 	offset += n_serviceprovidername
 	if len([]rune(v.ServiceProviderName)) > 32 {
-		return fmt.Errorf("serviceProviderName length %d violates SIZE (0..32)", len([]rune(v.ServiceProviderName)))
+		if constraintErr := ber.CheckDecodedLength(opts, "serviceProviderName", "SIZE (0..32)", len([]rune(v.ServiceProviderName))); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode profileName
 	if offset >= len(content) {
@@ -18070,7 +19668,9 @@ func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 	offset += n_profilename
 	if len([]rune(v.ProfileName)) > 64 {
-		return fmt.Errorf("profileName length %d violates SIZE (0..64)", len([]rune(v.ProfileName)))
+		if constraintErr := ber.CheckDecodedLength(opts, "profileName", "SIZE (0..64)", len([]rune(v.ProfileName))); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode iconType
 	if offset < len(content) {
@@ -18123,7 +19723,9 @@ func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 				offset += n_icon
 				if len(v.Icon) > 1024 {
-					return fmt.Errorf("icon length %d violates SIZE (0..1024)", len(v.Icon))
+					if constraintErr := ber.CheckDecodedLength(opts, "icon", "SIZE (0..1024)", len(v.Icon)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -18175,7 +19777,7 @@ func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				if reconstructionErr_notificationconfigurationinfo != nil {
 					return fmt.Errorf("decoding notificationConfigurationInfo: %w", reconstructionErr_notificationconfigurationinfo)
 				}
-				dec_notificationconfigurationinfo, unmErr := UnmarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(reconstructed_notificationconfigurationinfo, opts...)
+				dec_notificationconfigurationinfo, unmErr := UnmarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(reconstructed_notificationconfigurationinfo, ber.ChildDecodeOptions(opts, "notificationConfigurationInfo")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding notificationConfigurationInfo: %w", unmErr)
 				}
@@ -18218,7 +19820,7 @@ func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 					return fmt.Errorf("decoding profileOwner: %w", reconstructionErr_profileowner)
 				}
 				var dec_profileowner OperatorId
-				if unmErr := dec_profileowner.UnmarshalBER(reconstructed_profileowner, opts...); unmErr != nil {
+				if unmErr := dec_profileowner.UnmarshalBER(reconstructed_profileowner, ber.ChildDecodeOptions(opts, "profileowner")...); unmErr != nil {
 					return fmt.Errorf("decoding profileOwner: %w", unmErr)
 				}
 				v.ProfileOwner = &dec_profileowner
@@ -18280,7 +19882,7 @@ func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				if reconstructionErr_servicespecificdatastoredineuicc != nil {
 					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w", reconstructionErr_servicespecificdatastoredineuicc)
 				}
-				dec_servicespecificdatastoredineuicc, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatastoredineuicc, opts...)
+				dec_servicespecificdatastoredineuicc, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatastoredineuicc, ber.ChildDecodeOptions(opts, "serviceSpecificDataStoredInEuicc")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding serviceSpecificDataStoredInEuicc: %w", unmErr)
 				}
@@ -18323,7 +19925,7 @@ func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				if reconstructionErr_servicespecificdatanotstoredineuicc != nil {
 					return fmt.Errorf("decoding serviceSpecificDataNotStoredInEuicc: %w", reconstructionErr_servicespecificdatanotstoredineuicc)
 				}
-				dec_servicespecificdatanotstoredineuicc, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatanotstoredineuicc, opts...)
+				dec_servicespecificdatanotstoredineuicc, unmErr := UnmarshalBERVendorSpecificExtension(reconstructed_servicespecificdatanotstoredineuicc, ber.ChildDecodeOptions(opts, "serviceSpecificDataNotStoredInEuicc")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding serviceSpecificDataNotStoredInEuicc: %w", unmErr)
 				}
@@ -18424,7 +20026,7 @@ func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 					return fmt.Errorf("decoding iotSpecificMetadata: %w", reconstructionErr_iotspecificmetadata)
 				}
 				var dec_iotspecificmetadata SGPStoreMetadataRequestIotSpecificMetadata
-				if unmErr := dec_iotspecificmetadata.UnmarshalBER(reconstructed_iotspecificmetadata, opts...); unmErr != nil {
+				if unmErr := dec_iotspecificmetadata.UnmarshalBER(reconstructed_iotspecificmetadata, ber.ChildDecodeOptions(opts, "iotspecificmetadata")...); unmErr != nil {
 					return fmt.Errorf("decoding iotSpecificMetadata: %w", unmErr)
 				}
 				v.IotSpecificMetadata = &dec_iotspecificmetadata
@@ -18465,10 +20067,25 @@ func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes SGPAuthenticateClientRequest to BER format.
-func (v *SGPAuthenticateClientRequest) MarshalBER() ([]byte, error) {
+func (v *SGPAuthenticateClientRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPAuthenticateClientRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPAuthenticateClientRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckEncodedLength(opts, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
@@ -18480,7 +20097,7 @@ func (v *SGPAuthenticateClientRequest) MarshalBER() ([]byte, error) {
 	}
 	enc_transactionid = retagged_enc_transactionid
 	children = append(children, enc_transactionid...)
-	enc_authenticateserverresponse, err := v.AuthenticateServerResponse.MarshalBER()
+	enc_authenticateserverresponse, err := v.AuthenticateServerResponse.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding authenticateServerResponse: %w", err)
 	}
@@ -18500,9 +20117,14 @@ func (v *SGPAuthenticateClientRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPAuthenticateClientRequest to DER format.
 func (v *SGPAuthenticateClientRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPAuthenticateClientRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckEncodedLength(nil, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
@@ -18541,11 +20163,27 @@ func (v *SGPAuthenticateClientRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPAuthenticateClientRequest from BER/DER format.
-func (v *SGPAuthenticateClientRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPAuthenticateClientRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPAuthenticateClientRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPAuthenticateClientRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPAuthenticateClientRequest: %w", err)
@@ -18581,7 +20219,9 @@ func (v *SGPAuthenticateClientRequest) UnmarshalBER(data []byte, opts ...ber.Dec
 
 	offset += n_transactionid
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckDecodedLength(opts, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode authenticateServerResponse
 	if offset >= len(content) {
@@ -18603,7 +20243,7 @@ func (v *SGPAuthenticateClientRequest) UnmarshalBER(data []byte, opts ...ber.Dec
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.AuthenticateServerResponse.UnmarshalBER(content[offset:offset+n_authenticateserverresponse], opts...); unmErr != nil {
+	if unmErr := v.AuthenticateServerResponse.UnmarshalBER(content[offset:offset+n_authenticateserverresponse], ber.ChildDecodeOptions(opts, "authenticateServerResponse")...); unmErr != nil {
 		return fmt.Errorf("decoding authenticateServerResponse: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -18640,10 +20280,25 @@ func (v *SGPAuthenticateClientRequest) UnmarshalBER(data []byte, opts ...ber.Dec
 }
 
 // MarshalBER encodes SGPEUICCInfo2 to BER format.
-func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
+func (v *SGPEUICCInfo2) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPEUICCInfo2 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPEUICCInfo2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.ProfileVersion) < 3 || len(v.ProfileVersion) > 3 {
-		return nil, fmt.Errorf("profileVersion length %d violates SIZE (3)", len(v.ProfileVersion))
+		if constraintErr := ber.CheckEncodedLength(opts, "profileVersion", "SIZE (3)", len(v.ProfileVersion)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_profileversion, encodeErr_enc_profileversion := ber.EncodeOctetString([]byte(v.ProfileVersion))
 	if encodeErr_enc_profileversion != nil {
@@ -18656,7 +20311,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	enc_profileversion = retagged_enc_profileversion
 	children = append(children, enc_profileversion...)
 	if len(v.Svn) < 3 || len(v.Svn) > 3 {
-		return nil, fmt.Errorf("svn length %d violates SIZE (3)", len(v.Svn))
+		if constraintErr := ber.CheckEncodedLength(opts, "svn", "SIZE (3)", len(v.Svn)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_svn, encodeErr_enc_svn := ber.EncodeOctetString([]byte(v.Svn))
 	if encodeErr_enc_svn != nil {
@@ -18669,7 +20326,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	enc_svn = retagged_enc_svn
 	children = append(children, enc_svn...)
 	if len(v.EuiccFirmwareVer) < 3 || len(v.EuiccFirmwareVer) > 3 {
-		return nil, fmt.Errorf("euiccFirmwareVer length %d violates SIZE (3)", len(v.EuiccFirmwareVer))
+		if constraintErr := ber.CheckEncodedLength(opts, "euiccFirmwareVer", "SIZE (3)", len(v.EuiccFirmwareVer)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_euiccfirmwarever, encodeErr_enc_euiccfirmwarever := ber.EncodeOctetString([]byte(v.EuiccFirmwareVer))
 	if encodeErr_enc_euiccfirmwarever != nil {
@@ -18691,7 +20350,7 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	}
 	enc_extcardresource = retagged_enc_extcardresource
 	children = append(children, enc_extcardresource...)
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 	if v.UiccCapability.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -18707,7 +20366,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	children = append(children, enc_uicccapability...)
 	if v.Ts102241Version != nil {
 		if len(*v.Ts102241Version) < 3 || len(*v.Ts102241Version) > 3 {
-			return nil, fmt.Errorf("ts102241Version length %d violates SIZE (3)", len(*v.Ts102241Version))
+			if constraintErr := ber.CheckEncodedLength(opts, "ts102241Version", "SIZE (3)", len(*v.Ts102241Version)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_ts102241version, encodeErr_enc_ts102241version := ber.EncodeOctetString([]byte(*v.Ts102241Version))
 		if encodeErr_enc_ts102241version != nil {
@@ -18722,7 +20383,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	}
 	if v.GlobalplatformVersion != nil {
 		if len(*v.GlobalplatformVersion) < 3 || len(*v.GlobalplatformVersion) > 3 {
-			return nil, fmt.Errorf("globalplatformVersion length %d violates SIZE (3)", len(*v.GlobalplatformVersion))
+			if constraintErr := ber.CheckEncodedLength(opts, "globalplatformVersion", "SIZE (3)", len(*v.GlobalplatformVersion)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_globalplatformversion, encodeErr_enc_globalplatformversion := ber.EncodeOctetString([]byte(*v.GlobalplatformVersion))
 		if encodeErr_enc_globalplatformversion != nil {
@@ -18735,7 +20398,7 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 		enc_globalplatformversion = retagged_enc_globalplatformversion
 		children = append(children, enc_globalplatformversion...)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 	if v.RspCapability.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -18749,7 +20412,10 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	}
 	enc_rspcapability = retagged_enc_rspcapability
 	children = append(children, enc_rspcapability...)
-	enc_euicccipkidlistforverification, err := MarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(v.EuiccCiPKIdListForVerification)
+	if v.EuiccCiPKIdListForVerification == nil {
+		return nil, fmt.Errorf("encoding euiccCiPKIdListForVerification: %w: required collection is nil", ber.ErrInvalidValue)
+	}
+	enc_euicccipkidlistforverification, err := MarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(v.EuiccCiPKIdListForVerification, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccCiPKIdListForVerification: %w", err)
 	}
@@ -18774,7 +20440,10 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 		enc_euicccipkidlistforverification = retagged_enc_euicccipkidlistforverification
 	}
 	children = append(children, enc_euicccipkidlistforverification...)
-	enc_euicccipkidlistforsigning, err := MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(v.EuiccCiPKIdListForSigning)
+	if v.EuiccCiPKIdListForSigning == nil {
+		return nil, fmt.Errorf("encoding euiccCiPKIdListForSigning: %w: required collection is nil", ber.ErrInvalidValue)
+	}
+	enc_euicccipkidlistforsigning, err := MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(v.EuiccCiPKIdListForSigning, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccCiPKIdListForSigning: %w", err)
 	}
@@ -18812,7 +20481,7 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 		children = append(children, enc_euicccategory...)
 	}
 	if v.ForbiddenProfilePolicyRules != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ForbiddenProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -18828,7 +20497,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 		children = append(children, enc_forbiddenprofilepolicyrules...)
 	}
 	if len(v.PpVersion) < 3 || len(v.PpVersion) > 3 {
-		return nil, fmt.Errorf("ppVersion length %d violates SIZE (3)", len(v.PpVersion))
+		if constraintErr := ber.CheckEncodedLength(opts, "ppVersion", "SIZE (3)", len(v.PpVersion)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_ppversion, encodeErr_enc_ppversion := ber.EncodeOctetString([]byte(v.PpVersion))
 	if encodeErr_enc_ppversion != nil {
@@ -18836,7 +20507,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_ppversion...)
 	if len([]rune(v.SasAcreditationNumber)) > 64 {
-		return nil, fmt.Errorf("sasAcreditationNumber length %d violates SIZE (0..64)", len([]rune(v.SasAcreditationNumber)))
+		if constraintErr := ber.CheckEncodedLength(opts, "sasAcreditationNumber", "SIZE (0..64)", len([]rune(v.SasAcreditationNumber))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_sasacreditationnumber, stringErr := ber.EncodeStringTagChecked(12, v.SasAcreditationNumber)
 	if stringErr != nil {
@@ -18844,7 +20517,7 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_sasacreditationnumber...)
 	if v.CertificationDataObject != nil {
-		enc_certificationdataobject, err := v.CertificationDataObject.MarshalBER()
+		enc_certificationdataobject, err := v.CertificationDataObject.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding certificationDataObject: %w", err)
 		}
@@ -18856,7 +20529,7 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 		children = append(children, enc_certificationdataobject...)
 	}
 	if v.TreProperties != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.TreProperties.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -18884,7 +20557,7 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 		children = append(children, enc_treproductreference...)
 	}
 	if v.AdditionalEuiccProfilePackageVersions != nil {
-		enc_additionaleuiccprofilepackageversions, err := MarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(v.AdditionalEuiccProfilePackageVersions)
+		enc_additionaleuiccprofilepackageversions, err := MarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(v.AdditionalEuiccProfilePackageVersions, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding additionalEuiccProfilePackageVersions: %w", err)
 		}
@@ -18923,7 +20596,7 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ipamode...)
 	}
 	if v.EuiccCiPKIdListForSigningV3 != nil {
-		enc_euicccipkidlistforsigningv3, err := MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(v.EuiccCiPKIdListForSigningV3)
+		enc_euicccipkidlistforsigningv3, err := MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(v.EuiccCiPKIdListForSigningV3, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccCiPKIdListForSigningV3: %w", err)
 		}
@@ -18951,7 +20624,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	}
 	if v.AdditionalEuiccInfo != nil {
 		if len(v.AdditionalEuiccInfo) > 32 {
-			return nil, fmt.Errorf("additionalEuiccInfo length %d violates SIZE (0..32)", len(v.AdditionalEuiccInfo))
+			if constraintErr := ber.CheckEncodedLength(opts, "additionalEuiccInfo", "SIZE (0..32)", len(v.AdditionalEuiccInfo)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_additionaleuiccinfo, encodeErr_enc_additionaleuiccinfo := ber.EncodeOctetString(v.AdditionalEuiccInfo)
 		if encodeErr_enc_additionaleuiccinfo != nil {
@@ -18966,7 +20641,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	}
 	if v.HighestSvn != nil {
 		if len(*v.HighestSvn) < 3 || len(*v.HighestSvn) > 3 {
-			return nil, fmt.Errorf("highestSvn length %d violates SIZE (3)", len(*v.HighestSvn))
+			if constraintErr := ber.CheckEncodedLength(opts, "highestSvn", "SIZE (3)", len(*v.HighestSvn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_highestsvn, encodeErr_enc_highestsvn := ber.EncodeOctetString([]byte(*v.HighestSvn))
 		if encodeErr_enc_highestsvn != nil {
@@ -18980,7 +20657,7 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 		children = append(children, enc_highestsvn...)
 	}
 	if v.IotSpecificInfo != nil {
-		enc_iotspecificinfo, err := v.IotSpecificInfo.MarshalBER()
+		enc_iotspecificinfo, err := v.IotSpecificInfo.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding iotSpecificInfo: %w", err)
 		}
@@ -18993,7 +20670,9 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 	}
 	if v.EuiccMinimumSecurityLevel != nil {
 		if len(v.EuiccMinimumSecurityLevel) < 1 || len(v.EuiccMinimumSecurityLevel) > 1 {
-			return nil, fmt.Errorf("euiccMinimumSecurityLevel length %d violates SIZE (1)", len(v.EuiccMinimumSecurityLevel))
+			if constraintErr := ber.CheckEncodedLength(opts, "euiccMinimumSecurityLevel", "SIZE (1)", len(v.EuiccMinimumSecurityLevel)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_euiccminimumsecuritylevel, encodeErr_enc_euiccminimumsecuritylevel := ber.EncodeOctetString(v.EuiccMinimumSecurityLevel)
 		if encodeErr_enc_euiccminimumsecuritylevel != nil {
@@ -19021,9 +20700,14 @@ func (v *SGPEUICCInfo2) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPEUICCInfo2 to DER format.
 func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPEUICCInfo2 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.ProfileVersion) < 3 || len(v.ProfileVersion) > 3 {
-		return nil, fmt.Errorf("profileVersion length %d violates SIZE (3)", len(v.ProfileVersion))
+		if constraintErr := ber.CheckEncodedLength(nil, "profileVersion", "SIZE (3)", len(v.ProfileVersion)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_profileversion, encodeErr_enc_profileversion := ber.EncodeOctetString([]byte(v.ProfileVersion))
 	if encodeErr_enc_profileversion != nil {
@@ -19036,7 +20720,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	enc_profileversion = retagged_enc_profileversion
 	children = append(children, enc_profileversion...)
 	if len(v.Svn) < 3 || len(v.Svn) > 3 {
-		return nil, fmt.Errorf("svn length %d violates SIZE (3)", len(v.Svn))
+		if constraintErr := ber.CheckEncodedLength(nil, "svn", "SIZE (3)", len(v.Svn)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_svn, encodeErr_enc_svn := ber.EncodeOctetString([]byte(v.Svn))
 	if encodeErr_enc_svn != nil {
@@ -19049,7 +20735,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	enc_svn = retagged_enc_svn
 	children = append(children, enc_svn...)
 	if len(v.EuiccFirmwareVer) < 3 || len(v.EuiccFirmwareVer) > 3 {
-		return nil, fmt.Errorf("euiccFirmwareVer length %d violates SIZE (3)", len(v.EuiccFirmwareVer))
+		if constraintErr := ber.CheckEncodedLength(nil, "euiccFirmwareVer", "SIZE (3)", len(v.EuiccFirmwareVer)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_euiccfirmwarever, encodeErr_enc_euiccfirmwarever := ber.EncodeOctetString([]byte(v.EuiccFirmwareVer))
 	if encodeErr_enc_euiccfirmwarever != nil {
@@ -19071,7 +20759,7 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	}
 	enc_extcardresource = retagged_enc_extcardresource
 	children = append(children, enc_extcardresource...)
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 	if v.UiccCapability.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -19087,7 +20775,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	children = append(children, enc_uicccapability...)
 	if v.Ts102241Version != nil {
 		if len(*v.Ts102241Version) < 3 || len(*v.Ts102241Version) > 3 {
-			return nil, fmt.Errorf("ts102241Version length %d violates SIZE (3)", len(*v.Ts102241Version))
+			if constraintErr := ber.CheckEncodedLength(nil, "ts102241Version", "SIZE (3)", len(*v.Ts102241Version)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_ts102241version, encodeErr_enc_ts102241version := ber.EncodeOctetString([]byte(*v.Ts102241Version))
 		if encodeErr_enc_ts102241version != nil {
@@ -19102,7 +20792,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	}
 	if v.GlobalplatformVersion != nil {
 		if len(*v.GlobalplatformVersion) < 3 || len(*v.GlobalplatformVersion) > 3 {
-			return nil, fmt.Errorf("globalplatformVersion length %d violates SIZE (3)", len(*v.GlobalplatformVersion))
+			if constraintErr := ber.CheckEncodedLength(nil, "globalplatformVersion", "SIZE (3)", len(*v.GlobalplatformVersion)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_globalplatformversion, encodeErr_enc_globalplatformversion := ber.EncodeOctetString([]byte(*v.GlobalplatformVersion))
 		if encodeErr_enc_globalplatformversion != nil {
@@ -19115,7 +20807,7 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 		enc_globalplatformversion = retagged_enc_globalplatformversion
 		children = append(children, enc_globalplatformversion...)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 	if v.RspCapability.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -19129,6 +20821,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	}
 	enc_rspcapability = retagged_enc_rspcapability
 	children = append(children, enc_rspcapability...)
+	if v.EuiccCiPKIdListForVerification == nil {
+		return nil, fmt.Errorf("encoding euiccCiPKIdListForVerification: %w: required collection is nil", ber.ErrInvalidValue)
+	}
 	enc_euicccipkidlistforverification, err := MarshalDERSGPEUICCInfo2EuiccCiPKIdListForVerification(v.EuiccCiPKIdListForVerification)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccCiPKIdListForVerification: %w", err)
@@ -19139,6 +20834,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	}
 	enc_euicccipkidlistforverification = retagged_enc_euicccipkidlistforverification
 	children = append(children, enc_euicccipkidlistforverification...)
+	if v.EuiccCiPKIdListForSigning == nil {
+		return nil, fmt.Errorf("encoding euiccCiPKIdListForSigning: %w: required collection is nil", ber.ErrInvalidValue)
+	}
 	enc_euicccipkidlistforsigning, err := MarshalDERSGPEUICCInfo2EuiccCiPKIdListForSigning(v.EuiccCiPKIdListForSigning)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccCiPKIdListForSigning: %w", err)
@@ -19162,7 +20860,7 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 		children = append(children, enc_euicccategory...)
 	}
 	if v.ForbiddenProfilePolicyRules != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.ForbiddenProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -19178,7 +20876,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 		children = append(children, enc_forbiddenprofilepolicyrules...)
 	}
 	if len(v.PpVersion) < 3 || len(v.PpVersion) > 3 {
-		return nil, fmt.Errorf("ppVersion length %d violates SIZE (3)", len(v.PpVersion))
+		if constraintErr := ber.CheckEncodedLength(nil, "ppVersion", "SIZE (3)", len(v.PpVersion)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_ppversion, encodeErr_enc_ppversion := ber.EncodeOctetString([]byte(v.PpVersion))
 	if encodeErr_enc_ppversion != nil {
@@ -19186,7 +20886,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_ppversion...)
 	if len([]rune(v.SasAcreditationNumber)) > 64 {
-		return nil, fmt.Errorf("sasAcreditationNumber length %d violates SIZE (0..64)", len([]rune(v.SasAcreditationNumber)))
+		if constraintErr := ber.CheckEncodedLength(nil, "sasAcreditationNumber", "SIZE (0..64)", len([]rune(v.SasAcreditationNumber))); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_sasacreditationnumber, stringErr := ber.EncodeStringTagChecked(12, v.SasAcreditationNumber)
 	if stringErr != nil {
@@ -19206,7 +20908,7 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 		children = append(children, enc_certificationdataobject...)
 	}
 	if v.TreProperties != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 		if v.TreProperties.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -19271,7 +20973,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	}
 	if v.AdditionalEuiccInfo != nil {
 		if len(v.AdditionalEuiccInfo) > 32 {
-			return nil, fmt.Errorf("additionalEuiccInfo length %d violates SIZE (0..32)", len(v.AdditionalEuiccInfo))
+			if constraintErr := ber.CheckEncodedLength(nil, "additionalEuiccInfo", "SIZE (0..32)", len(v.AdditionalEuiccInfo)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_additionaleuiccinfo, encodeErr_enc_additionaleuiccinfo := ber.EncodeOctetString(v.AdditionalEuiccInfo)
 		if encodeErr_enc_additionaleuiccinfo != nil {
@@ -19286,7 +20990,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	}
 	if v.HighestSvn != nil {
 		if len(*v.HighestSvn) < 3 || len(*v.HighestSvn) > 3 {
-			return nil, fmt.Errorf("highestSvn length %d violates SIZE (3)", len(*v.HighestSvn))
+			if constraintErr := ber.CheckEncodedLength(nil, "highestSvn", "SIZE (3)", len(*v.HighestSvn)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_highestsvn, encodeErr_enc_highestsvn := ber.EncodeOctetString([]byte(*v.HighestSvn))
 		if encodeErr_enc_highestsvn != nil {
@@ -19313,7 +21019,9 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	}
 	if v.EuiccMinimumSecurityLevel != nil {
 		if len(v.EuiccMinimumSecurityLevel) < 1 || len(v.EuiccMinimumSecurityLevel) > 1 {
-			return nil, fmt.Errorf("euiccMinimumSecurityLevel length %d violates SIZE (1)", len(v.EuiccMinimumSecurityLevel))
+			if constraintErr := ber.CheckEncodedLength(nil, "euiccMinimumSecurityLevel", "SIZE (1)", len(v.EuiccMinimumSecurityLevel)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_euiccminimumsecuritylevel, encodeErr_enc_euiccminimumsecuritylevel := ber.EncodeOctetString(v.EuiccMinimumSecurityLevel)
 		if encodeErr_enc_euiccminimumsecuritylevel != nil {
@@ -19348,11 +21056,27 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPEUICCInfo2 from BER/DER format.
-func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPEUICCInfo2 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPEUICCInfo2{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPEUICCInfo2: %w", err)
@@ -19389,7 +21113,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 
 	offset += n_profileversion
 	if len(v.ProfileVersion) < 3 || len(v.ProfileVersion) > 3 {
-		return fmt.Errorf("profileVersion length %d violates SIZE (3)", len(v.ProfileVersion))
+		if constraintErr := ber.CheckDecodedLength(opts, "profileVersion", "SIZE (3)", len(v.ProfileVersion)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode svn
 	if offset >= len(content) {
@@ -19415,7 +21141,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 
 	offset += n_svn
 	if len(v.Svn) < 3 || len(v.Svn) > 3 {
-		return fmt.Errorf("svn length %d violates SIZE (3)", len(v.Svn))
+		if constraintErr := ber.CheckDecodedLength(opts, "svn", "SIZE (3)", len(v.Svn)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode euiccFirmwareVer
 	if offset >= len(content) {
@@ -19442,7 +21170,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 
 	offset += n_euiccfirmwarever
 	if len(v.EuiccFirmwareVer) < 3 || len(v.EuiccFirmwareVer) > 3 {
-		return fmt.Errorf("euiccFirmwareVer length %d violates SIZE (3)", len(v.EuiccFirmwareVer))
+		if constraintErr := ber.CheckDecodedLength(opts, "euiccFirmwareVer", "SIZE (3)", len(v.EuiccFirmwareVer)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode extCardResource
 	if offset >= len(content) {
@@ -19522,7 +21252,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 
 				offset += n_ts102241version
 				if len(*v.Ts102241Version) < 3 || len(*v.Ts102241Version) > 3 {
-					return fmt.Errorf("ts102241Version length %d violates SIZE (3)", len(*v.Ts102241Version))
+					if constraintErr := ber.CheckDecodedLength(opts, "ts102241Version", "SIZE (3)", len(*v.Ts102241Version)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -19549,7 +21281,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 
 				offset += n_globalplatformversion
 				if len(*v.GlobalplatformVersion) < 3 || len(*v.GlobalplatformVersion) > 3 {
-					return fmt.Errorf("globalplatformVersion length %d violates SIZE (3)", len(*v.GlobalplatformVersion))
+					if constraintErr := ber.CheckDecodedLength(opts, "globalplatformVersion", "SIZE (3)", len(*v.GlobalplatformVersion)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -19607,7 +21341,7 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 	if reconstructionErr_euicccipkidlistforverification != nil {
 		return fmt.Errorf("decoding euiccCiPKIdListForVerification: %w", reconstructionErr_euicccipkidlistforverification)
 	}
-	dec_euicccipkidlistforverification, unmErr := UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(reconstructed_euicccipkidlistforverification, opts...)
+	dec_euicccipkidlistforverification, unmErr := UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(reconstructed_euicccipkidlistforverification, ber.ChildDecodeOptions(opts, "euiccCiPKIdListForVerification")...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding euiccCiPKIdListForVerification: %w", unmErr)
 	}
@@ -19651,7 +21385,7 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 	if reconstructionErr_euicccipkidlistforsigning != nil {
 		return fmt.Errorf("decoding euiccCiPKIdListForSigning: %w", reconstructionErr_euicccipkidlistforsigning)
 	}
-	dec_euicccipkidlistforsigning, unmErr := UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(reconstructed_euicccipkidlistforsigning, opts...)
+	dec_euicccipkidlistforsigning, unmErr := UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(reconstructed_euicccipkidlistforsigning, ber.ChildDecodeOptions(opts, "euiccCiPKIdListForSigning")...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding euiccCiPKIdListForSigning: %w", unmErr)
 	}
@@ -19753,7 +21487,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 
 	offset += n
 	if len(v.PpVersion) < 3 || len(v.PpVersion) > 3 {
-		return fmt.Errorf("ppVersion length %d violates SIZE (3)", len(v.PpVersion))
+		if constraintErr := ber.CheckDecodedLength(opts, "ppVersion", "SIZE (3)", len(v.PpVersion)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode sasAcreditationNumber
 	if offset >= len(content) {
@@ -19771,7 +21507,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 
 	offset += n
 	if len([]rune(v.SasAcreditationNumber)) > 64 {
-		return fmt.Errorf("sasAcreditationNumber length %d violates SIZE (0..64)", len([]rune(v.SasAcreditationNumber)))
+		if constraintErr := ber.CheckDecodedLength(opts, "sasAcreditationNumber", "SIZE (0..64)", len([]rune(v.SasAcreditationNumber))); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode certificationDataObject
 	if offset < len(content) {
@@ -19790,7 +21528,7 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 					return fmt.Errorf("decoding certificationDataObject: %w", reconstructionErr_certificationdataobject)
 				}
 				var dec_certificationdataobject CertificationDataObject
-				if unmErr := dec_certificationdataobject.UnmarshalBER(reconstructed_certificationdataobject, opts...); unmErr != nil {
+				if unmErr := dec_certificationdataobject.UnmarshalBER(reconstructed_certificationdataobject, ber.ChildDecodeOptions(opts, "certificationdataobject")...); unmErr != nil {
 					return fmt.Errorf("decoding certificationDataObject: %w", unmErr)
 				}
 				v.CertificationDataObject = &dec_certificationdataobject
@@ -19880,7 +21618,7 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 				if reconstructionErr_additionaleuiccprofilepackageversions != nil {
 					return fmt.Errorf("decoding additionalEuiccProfilePackageVersions: %w", reconstructionErr_additionaleuiccprofilepackageversions)
 				}
-				dec_additionaleuiccprofilepackageversions, unmErr := UnmarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(reconstructed_additionaleuiccprofilepackageversions, opts...)
+				dec_additionaleuiccprofilepackageversions, unmErr := UnmarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(reconstructed_additionaleuiccprofilepackageversions, ber.ChildDecodeOptions(opts, "additionalEuiccProfilePackageVersions")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding additionalEuiccProfilePackageVersions: %w", unmErr)
 				}
@@ -19953,7 +21691,7 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 				if reconstructionErr_euicccipkidlistforsigningv3 != nil {
 					return fmt.Errorf("decoding euiccCiPKIdListForSigningV3: %w", reconstructionErr_euicccipkidlistforsigningv3)
 				}
-				dec_euicccipkidlistforsigningv3, unmErr := UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(reconstructed_euicccipkidlistforsigningv3, opts...)
+				dec_euicccipkidlistforsigningv3, unmErr := UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(reconstructed_euicccipkidlistforsigningv3, ber.ChildDecodeOptions(opts, "euiccCiPKIdListForSigningV3")...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding euiccCiPKIdListForSigningV3: %w", unmErr)
 				}
@@ -20001,7 +21739,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 
 				offset += n_additionaleuiccinfo
 				if len(v.AdditionalEuiccInfo) > 32 {
-					return fmt.Errorf("additionalEuiccInfo length %d violates SIZE (0..32)", len(v.AdditionalEuiccInfo))
+					if constraintErr := ber.CheckDecodedLength(opts, "additionalEuiccInfo", "SIZE (0..32)", len(v.AdditionalEuiccInfo)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -20027,7 +21767,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 
 				offset += n_highestsvn
 				if len(*v.HighestSvn) < 3 || len(*v.HighestSvn) > 3 {
-					return fmt.Errorf("highestSvn length %d violates SIZE (3)", len(*v.HighestSvn))
+					if constraintErr := ber.CheckDecodedLength(opts, "highestSvn", "SIZE (3)", len(*v.HighestSvn)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -20049,7 +21791,7 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 					return fmt.Errorf("decoding iotSpecificInfo: %w", reconstructionErr_iotspecificinfo)
 				}
 				var dec_iotspecificinfo SGPIoTSpecificInfo
-				if unmErr := dec_iotspecificinfo.UnmarshalBER(reconstructed_iotspecificinfo, opts...); unmErr != nil {
+				if unmErr := dec_iotspecificinfo.UnmarshalBER(reconstructed_iotspecificinfo, ber.ChildDecodeOptions(opts, "iotspecificinfo")...); unmErr != nil {
 					return fmt.Errorf("decoding iotSpecificInfo: %w", unmErr)
 				}
 				v.IotSpecificInfo = &dec_iotspecificinfo
@@ -20085,7 +21827,9 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 
 				offset += n_euiccminimumsecuritylevel
 				if len(v.EuiccMinimumSecurityLevel) < 1 || len(v.EuiccMinimumSecurityLevel) > 1 {
-					return fmt.Errorf("euiccMinimumSecurityLevel length %d violates SIZE (1)", len(v.EuiccMinimumSecurityLevel))
+					if constraintErr := ber.CheckDecodedLength(opts, "euiccMinimumSecurityLevel", "SIZE (1)", len(v.EuiccMinimumSecurityLevel)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -20117,9 +21861,25 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 }
 
 // MarshalBER encodes SGPIoTSpecificInfo to BER format.
-func (v *SGPIoTSpecificInfo) MarshalBER() ([]byte, error) {
+func (v *SGPIoTSpecificInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPIoTSpecificInfo receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPIoTSpecificInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_iotversion, err := MarshalBERIoTSpecificInfoIotVersion(v.IotVersion)
+	if v.IotVersion == nil {
+		return nil, fmt.Errorf("encoding iotVersion: %w: required collection is nil", ber.ErrInvalidValue)
+	}
+	enc_iotversion, err := MarshalBERIoTSpecificInfoIotVersion(v.IotVersion, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding iotVersion: %w", err)
 	}
@@ -20186,7 +21946,13 @@ func (v *SGPIoTSpecificInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPIoTSpecificInfo to DER format.
 func (v *SGPIoTSpecificInfo) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPIoTSpecificInfo receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
+	if v.IotVersion == nil {
+		return nil, fmt.Errorf("encoding iotVersion: %w: required collection is nil", ber.ErrInvalidValue)
+	}
 	enc_iotversion, err := MarshalDERIoTSpecificInfoIotVersion(v.IotVersion)
 	if err != nil {
 		return nil, fmt.Errorf("encoding iotVersion: %w", err)
@@ -20241,11 +22007,27 @@ func (v *SGPIoTSpecificInfo) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPIoTSpecificInfo from BER/DER format.
-func (v *SGPIoTSpecificInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPIoTSpecificInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPIoTSpecificInfo destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPIoTSpecificInfo{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPIoTSpecificInfo SEQUENCE: %w", err)
@@ -20275,7 +22057,7 @@ func (v *SGPIoTSpecificInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if reconstructionErr_iotversion != nil {
 		return fmt.Errorf("decoding iotVersion: %w", reconstructionErr_iotversion)
 	}
-	dec_iotversion, unmErr := UnmarshalBERIoTSpecificInfoIotVersion(reconstructed_iotversion, opts...)
+	dec_iotversion, unmErr := UnmarshalBERIoTSpecificInfoIotVersion(reconstructed_iotversion, ber.ChildDecodeOptions(opts, "iotVersion")...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding iotVersion: %w", unmErr)
 	}
@@ -20402,9 +22184,25 @@ func (v *SGPIoTSpecificInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 }
 
 // MarshalBER encodes AddInitialEimRequest to BER format.
-func (v *AddInitialEimRequest) MarshalBER() ([]byte, error) {
+func (v *AddInitialEimRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AddInitialEimRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *AddInitialEimRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_eimconfigurationdatalist, err := MarshalBERAddInitialEimRequestEimConfigurationDataList(v.EimConfigurationDataList)
+	if v.EimConfigurationDataList == nil {
+		return nil, fmt.Errorf("encoding eimConfigurationDataList: %w: required collection is nil", ber.ErrInvalidValue)
+	}
+	enc_eimconfigurationdatalist, err := MarshalBERAddInitialEimRequestEimConfigurationDataList(v.EimConfigurationDataList, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding eimConfigurationDataList: %w", err)
 	}
@@ -20444,7 +22242,13 @@ func (v *AddInitialEimRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AddInitialEimRequest to DER format.
 func (v *AddInitialEimRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AddInitialEimRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
+	if v.EimConfigurationDataList == nil {
+		return nil, fmt.Errorf("encoding eimConfigurationDataList: %w: required collection is nil", ber.ErrInvalidValue)
+	}
 	enc_eimconfigurationdatalist, err := MarshalDERAddInitialEimRequestEimConfigurationDataList(v.EimConfigurationDataList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding eimConfigurationDataList: %w", err)
@@ -20477,11 +22281,27 @@ func (v *AddInitialEimRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes AddInitialEimRequest from BER/DER format.
-func (v *AddInitialEimRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *AddInitialEimRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: AddInitialEimRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = AddInitialEimRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding AddInitialEimRequest: %w", err)
@@ -20514,7 +22334,7 @@ func (v *AddInitialEimRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if reconstructionErr_eimconfigurationdatalist != nil {
 		return fmt.Errorf("decoding eimConfigurationDataList: %w", reconstructionErr_eimconfigurationdatalist)
 	}
-	dec_eimconfigurationdatalist, unmErr := UnmarshalBERAddInitialEimRequestEimConfigurationDataList(reconstructed_eimconfigurationdatalist, opts...)
+	dec_eimconfigurationdatalist, unmErr := UnmarshalBERAddInitialEimRequestEimConfigurationDataList(reconstructed_eimconfigurationdatalist, ber.ChildDecodeOptions(opts, "eimConfigurationDataList")...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding eimConfigurationDataList: %w", unmErr)
 	}
@@ -20564,10 +22384,23 @@ func (v *AddInitialEimRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes AddInitialEimResponse to BER format.
-func (v *AddInitialEimResponse) MarshalBER() ([]byte, error) {
+func (v *AddInitialEimResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AddInitialEimResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *AddInitialEimResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case AddInitialEimResponseChoiceAddInitialEimOk:
-		enc_0, err := MarshalBERAddInitialEimResponseAddInitialEimOk(v.AddInitialEimOk)
+		enc_0, err := MarshalBERAddInitialEimResponseAddInitialEimOk(v.AddInitialEimOk, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding addInitialEimOk: %w", err)
 		}
@@ -20586,7 +22419,7 @@ func (v *AddInitialEimResponse) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case AddInitialEimResponseChoiceAddInitialEimError:
 		if v.AddInitialEimError == nil {
-			return nil, fmt.Errorf("choice AddInitialEimResponse: addInitialEimError is nil")
+			return nil, fmt.Errorf("%w: choice AddInitialEimResponse: addInitialEimError is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeBigInt(v.AddInitialEimError.BigInt())
 		if encodeErr_enc_1 != nil {
@@ -20612,6 +22445,9 @@ func (v *AddInitialEimResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AddInitialEimResponse to DER format.
 func (v *AddInitialEimResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AddInitialEimResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case AddInitialEimResponseChoiceAddInitialEimOk:
 		enc_der_0, err := MarshalDERAddInitialEimResponseAddInitialEimOk(v.AddInitialEimOk)
@@ -20646,7 +22482,23 @@ func (v *AddInitialEimResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes AddInitialEimResponse from BER/DER format.
-func (v *AddInitialEimResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *AddInitialEimResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: AddInitialEimResponse destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -20691,7 +22543,7 @@ func (v *AddInitialEimResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		if reconstructionErr != nil {
 			return reconstructionErr
 		}
-		dec, unmErr := UnmarshalBERAddInitialEimResponseAddInitialEimOk(reconstructed, opts...)
+		dec, unmErr := UnmarshalBERAddInitialEimResponseAddInitialEimOk(reconstructed, ber.ChildDecodeOptions(opts, "addInitialEimOk")...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding addInitialEimOk: %w", unmErr)
 		}
@@ -20718,9 +22570,22 @@ func (v *AddInitialEimResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes SGPEuiccMemoryResetRequest to BER format.
-func (v *SGPEuiccMemoryResetRequest) MarshalBER() ([]byte, error) {
+func (v *SGPEuiccMemoryResetRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPEuiccMemoryResetRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPEuiccMemoryResetRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 	if v.ResetOptions.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -20749,8 +22614,11 @@ func (v *SGPEuiccMemoryResetRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPEuiccMemoryResetRequest to DER format.
 func (v *SGPEuiccMemoryResetRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPEuiccMemoryResetRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:487
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
 	if v.ResetOptions.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -20786,11 +22654,27 @@ func (v *SGPEuiccMemoryResetRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPEuiccMemoryResetRequest from BER/DER format.
-func (v *SGPEuiccMemoryResetRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPEuiccMemoryResetRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPEuiccMemoryResetRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPEuiccMemoryResetRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPEuiccMemoryResetRequest: %w", err)
@@ -20860,7 +22744,20 @@ func (v *SGPEuiccMemoryResetRequest) UnmarshalBER(data []byte, opts ...ber.Decod
 }
 
 // MarshalBER encodes SGPEuiccMemoryResetResponse to BER format.
-func (v *SGPEuiccMemoryResetResponse) MarshalBER() ([]byte, error) {
+func (v *SGPEuiccMemoryResetResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPEuiccMemoryResetResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPEuiccMemoryResetResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_resetresult, encodeErr_enc_resetresult := ber.EncodeBigInt((v.ResetResult).BigInt())
 	if encodeErr_enc_resetresult != nil {
@@ -20911,6 +22808,9 @@ func (v *SGPEuiccMemoryResetResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPEuiccMemoryResetResponse to DER format.
 func (v *SGPEuiccMemoryResetResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPEuiccMemoryResetResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_resetresult, encodeErr_enc_resetresult := ber.EncodeBigInt((v.ResetResult).BigInt())
 	if encodeErr_enc_resetresult != nil {
@@ -20968,11 +22868,27 @@ func (v *SGPEuiccMemoryResetResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPEuiccMemoryResetResponse from BER/DER format.
-func (v *SGPEuiccMemoryResetResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPEuiccMemoryResetResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPEuiccMemoryResetResponse destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPEuiccMemoryResetResponse{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPEuiccMemoryResetResponse: %w", err)
@@ -21103,7 +23019,20 @@ func (v *SGPEuiccMemoryResetResponse) UnmarshalBER(data []byte, opts ...ber.Deco
 }
 
 // MarshalBER encodes GetCertsRequest to BER format.
-func (v *GetCertsRequest) MarshalBER() ([]byte, error) {
+func (v *GetCertsRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetCertsRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *GetCertsRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.EuiccCiPKId != nil {
 		enc_euicccipkid, encodeErr_enc_euicccipkid := ber.EncodeOctetString([]byte(*v.EuiccCiPKId))
@@ -21132,6 +23061,9 @@ func (v *GetCertsRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GetCertsRequest to DER format.
 func (v *GetCertsRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetCertsRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.EuiccCiPKId != nil {
 		enc_euicccipkid, encodeErr_enc_euicccipkid := ber.EncodeOctetString([]byte(*v.EuiccCiPKId))
@@ -21167,11 +23099,27 @@ func (v *GetCertsRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes GetCertsRequest from BER/DER format.
-func (v *GetCertsRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *GetCertsRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: GetCertsRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = GetCertsRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding GetCertsRequest: %w", err)
@@ -21233,13 +23181,26 @@ func (v *GetCertsRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 }
 
 // MarshalBER encodes GetCertsResponse to BER format.
-func (v *GetCertsResponse) MarshalBER() ([]byte, error) {
+func (v *GetCertsResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetCertsResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *GetCertsResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case GetCertsResponseChoiceCerts:
 		if v.Certs == nil {
-			return nil, fmt.Errorf("choice GetCertsResponse: certs is nil")
+			return nil, fmt.Errorf("%w: choice GetCertsResponse: certs is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.Certs.MarshalBER()
+		enc_0, err := v.Certs.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding certs: %w", err)
 		}
@@ -21258,7 +23219,7 @@ func (v *GetCertsResponse) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case GetCertsResponseChoiceGetCertsError:
 		if v.GetCertsError == nil {
-			return nil, fmt.Errorf("choice GetCertsResponse: getCertsError is nil")
+			return nil, fmt.Errorf("%w: choice GetCertsResponse: getCertsError is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeBigInt(v.GetCertsError.BigInt())
 		if encodeErr_enc_1 != nil {
@@ -21284,10 +23245,13 @@ func (v *GetCertsResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GetCertsResponse to DER format.
 func (v *GetCertsResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetCertsResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case GetCertsResponseChoiceCerts:
 		if v.Certs == nil {
-			return nil, fmt.Errorf("choice GetCertsResponse: certs is nil")
+			return nil, fmt.Errorf("%w: choice GetCertsResponse: certs is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.Certs.MarshalDER()
 		if err != nil {
@@ -21321,7 +23285,23 @@ func (v *GetCertsResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes GetCertsResponse from BER/DER format.
-func (v *GetCertsResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *GetCertsResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: GetCertsResponse destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -21393,10 +23373,23 @@ func (v *GetCertsResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 }
 
 // MarshalBER encodes SGPRetrieveNotificationsListRequest to BER format.
-func (v *SGPRetrieveNotificationsListRequest) MarshalBER() ([]byte, error) {
+func (v *SGPRetrieveNotificationsListRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPRetrieveNotificationsListRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPRetrieveNotificationsListRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.SearchCriteria != nil {
-		enc_searchcriteria, err := v.SearchCriteria.MarshalBER()
+		enc_searchcriteria, err := v.SearchCriteria.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding searchCriteria: %w", err)
 		}
@@ -21424,6 +23417,9 @@ func (v *SGPRetrieveNotificationsListRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPRetrieveNotificationsListRequest to DER format.
 func (v *SGPRetrieveNotificationsListRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPRetrieveNotificationsListRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.SearchCriteria != nil {
 		enc_searchcriteria, err := v.SearchCriteria.MarshalDER()
@@ -21461,11 +23457,27 @@ func (v *SGPRetrieveNotificationsListRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPRetrieveNotificationsListRequest from BER/DER format.
-func (v *SGPRetrieveNotificationsListRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPRetrieveNotificationsListRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPRetrieveNotificationsListRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPRetrieveNotificationsListRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPRetrieveNotificationsListRequest: %w", err)
@@ -21491,7 +23503,7 @@ func (v *SGPRetrieveNotificationsListRequest) UnmarshalBER(data []byte, opts ...
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_searchcriteria SGPRetrieveNotificationsListRequestSearchCriteria
-				if unmErr := dec_searchcriteria.UnmarshalBER(innerData_searchcriteria, opts...); unmErr != nil {
+				if unmErr := dec_searchcriteria.UnmarshalBER(innerData_searchcriteria, ber.ChildDecodeOptions(opts, "searchcriteria")...); unmErr != nil {
 					return fmt.Errorf("decoding searchCriteria: %w", unmErr)
 				}
 				v.SearchCriteria = &dec_searchcriteria
@@ -21531,10 +23543,23 @@ func (v *SGPRetrieveNotificationsListRequest) UnmarshalBER(data []byte, opts ...
 }
 
 // MarshalBER encodes SGPRetrieveNotificationsListResponse to BER format.
-func (v *SGPRetrieveNotificationsListResponse) MarshalBER() ([]byte, error) {
+func (v *SGPRetrieveNotificationsListResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPRetrieveNotificationsListResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPRetrieveNotificationsListResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case SGPRetrieveNotificationsListResponseChoiceNotificationList:
-		enc_0, err := MarshalBERPendingNotificationList(v.NotificationList)
+		enc_0, err := MarshalBERPendingNotificationList(v.NotificationList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding notificationList: %w", err)
 		}
@@ -21553,7 +23578,7 @@ func (v *SGPRetrieveNotificationsListResponse) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case SGPRetrieveNotificationsListResponseChoiceNotificationsListResultError:
 		if v.NotificationsListResultError == nil {
-			return nil, fmt.Errorf("choice SGPRetrieveNotificationsListResponse: notificationsListResultError is nil")
+			return nil, fmt.Errorf("%w: choice SGPRetrieveNotificationsListResponse: notificationsListResultError is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeBigInt(v.NotificationsListResultError.BigInt())
 		if encodeErr_enc_1 != nil {
@@ -21573,7 +23598,7 @@ func (v *SGPRetrieveNotificationsListResponse) MarshalBER() ([]byte, error) {
 		}
 		return enc_1, nil
 	case SGPRetrieveNotificationsListResponseChoiceEuiccPackageResultList:
-		enc_2, err := MarshalBEREuiccPackageResultList(v.EuiccPackageResultList)
+		enc_2, err := MarshalBEREuiccPackageResultList(v.EuiccPackageResultList, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccPackageResultList: %w", err)
 		}
@@ -21597,6 +23622,9 @@ func (v *SGPRetrieveNotificationsListResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPRetrieveNotificationsListResponse to DER format.
 func (v *SGPRetrieveNotificationsListResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPRetrieveNotificationsListResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case SGPRetrieveNotificationsListResponseChoiceNotificationList:
 		enc_der_0, err := MarshalDERPendingNotificationList(v.NotificationList)
@@ -21652,7 +23680,23 @@ func (v *SGPRetrieveNotificationsListResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPRetrieveNotificationsListResponse from BER/DER format.
-func (v *SGPRetrieveNotificationsListResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPRetrieveNotificationsListResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPRetrieveNotificationsListResponse destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -21697,7 +23741,7 @@ func (v *SGPRetrieveNotificationsListResponse) UnmarshalBER(data []byte, opts ..
 		if reconstructionErr != nil {
 			return reconstructionErr
 		}
-		dec, unmErr := UnmarshalBERPendingNotificationList(reconstructed, opts...)
+		dec, unmErr := UnmarshalBERPendingNotificationList(reconstructed, ber.ChildDecodeOptions(opts, "notificationList")...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding notificationList: %w", unmErr)
 		}
@@ -21727,7 +23771,7 @@ func (v *SGPRetrieveNotificationsListResponse) UnmarshalBER(data []byte, opts ..
 		if reconstructionErr != nil {
 			return reconstructionErr
 		}
-		dec, unmErr := UnmarshalBEREuiccPackageResultList(reconstructed, opts...)
+		dec, unmErr := UnmarshalBEREuiccPackageResultList(reconstructed, ber.ChildDecodeOptions(opts, "euiccPackageResultList")...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding euiccPackageResultList: %w", unmErr)
 		}
@@ -21739,7 +23783,20 @@ func (v *SGPRetrieveNotificationsListResponse) UnmarshalBER(data []byte, opts ..
 }
 
 // MarshalBER encodes ImmediateEnableRequest to BER format.
-func (v *ImmediateEnableRequest) MarshalBER() ([]byte, error) {
+func (v *ImmediateEnableRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ImmediateEnableRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ImmediateEnableRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	var enc_refreshflag []byte
 	if v.RefreshFlagRaw_ != 0 {
@@ -21768,6 +23825,9 @@ func (v *ImmediateEnableRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ImmediateEnableRequest to DER format.
 func (v *ImmediateEnableRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ImmediateEnableRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_refreshflag := ber.EncodeBoolean(v.RefreshFlag)
 	retagged_enc_refreshflag, tagErr_enc_refreshflag := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_refreshflag)
@@ -21798,11 +23858,27 @@ func (v *ImmediateEnableRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ImmediateEnableRequest from BER/DER format.
-func (v *ImmediateEnableRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ImmediateEnableRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ImmediateEnableRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ImmediateEnableRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ImmediateEnableRequest: %w", err)
@@ -21871,7 +23947,20 @@ func (v *ImmediateEnableRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 }
 
 // MarshalBER encodes ImmediateEnableResponse to BER format.
-func (v *ImmediateEnableResponse) MarshalBER() ([]byte, error) {
+func (v *ImmediateEnableResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ImmediateEnableResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ImmediateEnableResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_immediateenableresult, encodeErr_enc_immediateenableresult := ber.EncodeBigInt((v.ImmediateEnableResult).BigInt())
 	if encodeErr_enc_immediateenableresult != nil {
@@ -21898,6 +23987,9 @@ func (v *ImmediateEnableResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ImmediateEnableResponse to DER format.
 func (v *ImmediateEnableResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ImmediateEnableResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_immediateenableresult, encodeErr_enc_immediateenableresult := ber.EncodeBigInt((v.ImmediateEnableResult).BigInt())
 	if encodeErr_enc_immediateenableresult != nil {
@@ -21931,11 +24023,27 @@ func (v *ImmediateEnableResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ImmediateEnableResponse from BER/DER format.
-func (v *ImmediateEnableResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ImmediateEnableResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ImmediateEnableResponse destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ImmediateEnableResponse{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ImmediateEnableResponse: %w", err)
@@ -22006,7 +24114,20 @@ func (v *ImmediateEnableResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes ProfileRollbackRequest to BER format.
-func (v *ProfileRollbackRequest) MarshalBER() ([]byte, error) {
+func (v *ProfileRollbackRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProfileRollbackRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ProfileRollbackRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	var enc_refreshflag []byte
 	if v.RefreshFlagRaw_ != 0 {
@@ -22035,6 +24156,9 @@ func (v *ProfileRollbackRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ProfileRollbackRequest to DER format.
 func (v *ProfileRollbackRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProfileRollbackRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_refreshflag := ber.EncodeBoolean(v.RefreshFlag)
 	retagged_enc_refreshflag, tagErr_enc_refreshflag := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_refreshflag)
@@ -22065,11 +24189,27 @@ func (v *ProfileRollbackRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ProfileRollbackRequest from BER/DER format.
-func (v *ProfileRollbackRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ProfileRollbackRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ProfileRollbackRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ProfileRollbackRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ProfileRollbackRequest: %w", err)
@@ -22138,7 +24278,20 @@ func (v *ProfileRollbackRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 }
 
 // MarshalBER encodes ProfileRollbackResponse to BER format.
-func (v *ProfileRollbackResponse) MarshalBER() ([]byte, error) {
+func (v *ProfileRollbackResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProfileRollbackResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ProfileRollbackResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_cmdresult, encodeErr_enc_cmdresult := ber.EncodeBigInt((v.CmdResult).BigInt())
 	if encodeErr_enc_cmdresult != nil {
@@ -22146,7 +24299,7 @@ func (v *ProfileRollbackResponse) MarshalBER() ([]byte, error) {
 	}
 	children = append(children, enc_cmdresult...)
 	if v.EUICCPackageResult != nil {
-		enc_euiccpackageresult, err := v.EUICCPackageResult.MarshalBER()
+		enc_euiccpackageresult, err := v.EUICCPackageResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eUICCPackageResult: %w", err)
 		}
@@ -22167,6 +24320,9 @@ func (v *ProfileRollbackResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ProfileRollbackResponse to DER format.
 func (v *ProfileRollbackResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProfileRollbackResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_cmdresult, encodeErr_enc_cmdresult := ber.EncodeBigInt((v.CmdResult).BigInt())
 	if encodeErr_enc_cmdresult != nil {
@@ -22202,11 +24358,27 @@ func (v *ProfileRollbackResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ProfileRollbackResponse from BER/DER format.
-func (v *ProfileRollbackResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ProfileRollbackResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ProfileRollbackResponse destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ProfileRollbackResponse{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ProfileRollbackResponse: %w", err)
@@ -22254,7 +24426,7 @@ func (v *ProfileRollbackResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_euiccpackageresult.UnmarshalBER(content[offset:offset+n_euiccpackageresult], opts...); unmErr != nil {
+				if unmErr := dec_euiccpackageresult.UnmarshalBER(content[offset:offset+n_euiccpackageresult], ber.ChildDecodeOptions(opts, "euiccpackageresult")...); unmErr != nil {
 					return fmt.Errorf("decoding eUICCPackageResult: %w", unmErr)
 				}
 				v.EUICCPackageResult = &dec_euiccpackageresult
@@ -22295,7 +24467,20 @@ func (v *ProfileRollbackResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes ConfigureImmediateProfileEnablingRequest to BER format.
-func (v *ConfigureImmediateProfileEnablingRequest) MarshalBER() ([]byte, error) {
+func (v *ConfigureImmediateProfileEnablingRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ConfigureImmediateProfileEnablingRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ConfigureImmediateProfileEnablingRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ImmediateEnableFlag != nil {
 		enc_immediateenableflag := ber.EncodeNull()
@@ -22345,6 +24530,9 @@ func (v *ConfigureImmediateProfileEnablingRequest) MarshalBER() ([]byte, error) 
 
 // MarshalDER encodes ConfigureImmediateProfileEnablingRequest to DER format.
 func (v *ConfigureImmediateProfileEnablingRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ConfigureImmediateProfileEnablingRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ImmediateEnableFlag != nil {
 		enc_immediateenableflag := ber.EncodeNull()
@@ -22401,11 +24589,27 @@ func (v *ConfigureImmediateProfileEnablingRequest) MarshalDER() ([]byte, error) 
 }
 
 // UnmarshalBER decodes ConfigureImmediateProfileEnablingRequest from BER/DER format.
-func (v *ConfigureImmediateProfileEnablingRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ConfigureImmediateProfileEnablingRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ConfigureImmediateProfileEnablingRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ConfigureImmediateProfileEnablingRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ConfigureImmediateProfileEnablingRequest: %w", err)
@@ -22522,7 +24726,20 @@ func (v *ConfigureImmediateProfileEnablingRequest) UnmarshalBER(data []byte, opt
 }
 
 // MarshalBER encodes ConfigureImmediateProfileEnablingResponse to BER format.
-func (v *ConfigureImmediateProfileEnablingResponse) MarshalBER() ([]byte, error) {
+func (v *ConfigureImmediateProfileEnablingResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ConfigureImmediateProfileEnablingResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ConfigureImmediateProfileEnablingResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_configimmediateenableresult, encodeErr_enc_configimmediateenableresult := ber.EncodeBigInt((v.ConfigImmediateEnableResult).BigInt())
 	if encodeErr_enc_configimmediateenableresult != nil {
@@ -22549,6 +24766,9 @@ func (v *ConfigureImmediateProfileEnablingResponse) MarshalBER() ([]byte, error)
 
 // MarshalDER encodes ConfigureImmediateProfileEnablingResponse to DER format.
 func (v *ConfigureImmediateProfileEnablingResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ConfigureImmediateProfileEnablingResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_configimmediateenableresult, encodeErr_enc_configimmediateenableresult := ber.EncodeBigInt((v.ConfigImmediateEnableResult).BigInt())
 	if encodeErr_enc_configimmediateenableresult != nil {
@@ -22582,11 +24802,27 @@ func (v *ConfigureImmediateProfileEnablingResponse) MarshalDER() ([]byte, error)
 }
 
 // UnmarshalBER decodes ConfigureImmediateProfileEnablingResponse from BER/DER format.
-func (v *ConfigureImmediateProfileEnablingResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ConfigureImmediateProfileEnablingResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ConfigureImmediateProfileEnablingResponse destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ConfigureImmediateProfileEnablingResponse{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ConfigureImmediateProfileEnablingResponse: %w", err)
@@ -22657,10 +24893,23 @@ func (v *ConfigureImmediateProfileEnablingResponse) UnmarshalBER(data []byte, op
 }
 
 // MarshalBER encodes GetEimConfigurationDataRequest to BER format.
-func (v *GetEimConfigurationDataRequest) MarshalBER() ([]byte, error) {
+func (v *GetEimConfigurationDataRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetEimConfigurationDataRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *GetEimConfigurationDataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.SearchCriteria != nil {
-		enc_searchcriteria, err := v.SearchCriteria.MarshalBER()
+		enc_searchcriteria, err := v.SearchCriteria.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding searchCriteria: %w", err)
 		}
@@ -22688,6 +24937,9 @@ func (v *GetEimConfigurationDataRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GetEimConfigurationDataRequest to DER format.
 func (v *GetEimConfigurationDataRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetEimConfigurationDataRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.SearchCriteria != nil {
 		enc_searchcriteria, err := v.SearchCriteria.MarshalDER()
@@ -22725,11 +24977,27 @@ func (v *GetEimConfigurationDataRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes GetEimConfigurationDataRequest from BER/DER format.
-func (v *GetEimConfigurationDataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *GetEimConfigurationDataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: GetEimConfigurationDataRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = GetEimConfigurationDataRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding GetEimConfigurationDataRequest: %w", err)
@@ -22755,7 +25023,7 @@ func (v *GetEimConfigurationDataRequest) UnmarshalBER(data []byte, opts ...ber.D
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_searchcriteria GetEimConfigurationDataRequestSearchCriteria
-				if unmErr := dec_searchcriteria.UnmarshalBER(innerData_searchcriteria, opts...); unmErr != nil {
+				if unmErr := dec_searchcriteria.UnmarshalBER(innerData_searchcriteria, ber.ChildDecodeOptions(opts, "searchcriteria")...); unmErr != nil {
 					return fmt.Errorf("decoding searchCriteria: %w", unmErr)
 				}
 				v.SearchCriteria = &dec_searchcriteria
@@ -22795,9 +25063,25 @@ func (v *GetEimConfigurationDataRequest) UnmarshalBER(data []byte, opts ...ber.D
 }
 
 // MarshalBER encodes GetEimConfigurationDataResponse to BER format.
-func (v *GetEimConfigurationDataResponse) MarshalBER() ([]byte, error) {
+func (v *GetEimConfigurationDataResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetEimConfigurationDataResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *GetEimConfigurationDataResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_eimconfigurationdatalist, err := MarshalBERGetEimConfigurationDataResponseEimConfigurationDataList(v.EimConfigurationDataList)
+	if v.EimConfigurationDataList == nil {
+		return nil, fmt.Errorf("encoding eimConfigurationDataList: %w: required collection is nil", ber.ErrInvalidValue)
+	}
+	enc_eimconfigurationdatalist, err := MarshalBERGetEimConfigurationDataResponseEimConfigurationDataList(v.EimConfigurationDataList, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding eimConfigurationDataList: %w", err)
 	}
@@ -22837,7 +25121,13 @@ func (v *GetEimConfigurationDataResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GetEimConfigurationDataResponse to DER format.
 func (v *GetEimConfigurationDataResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetEimConfigurationDataResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
+	if v.EimConfigurationDataList == nil {
+		return nil, fmt.Errorf("encoding eimConfigurationDataList: %w: required collection is nil", ber.ErrInvalidValue)
+	}
 	enc_eimconfigurationdatalist, err := MarshalDERGetEimConfigurationDataResponseEimConfigurationDataList(v.EimConfigurationDataList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding eimConfigurationDataList: %w", err)
@@ -22870,11 +25160,27 @@ func (v *GetEimConfigurationDataResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes GetEimConfigurationDataResponse from BER/DER format.
-func (v *GetEimConfigurationDataResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *GetEimConfigurationDataResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: GetEimConfigurationDataResponse destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = GetEimConfigurationDataResponse{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding GetEimConfigurationDataResponse: %w", err)
@@ -22907,7 +25213,7 @@ func (v *GetEimConfigurationDataResponse) UnmarshalBER(data []byte, opts ...ber.
 	if reconstructionErr_eimconfigurationdatalist != nil {
 		return fmt.Errorf("decoding eimConfigurationDataList: %w", reconstructionErr_eimconfigurationdatalist)
 	}
-	dec_eimconfigurationdatalist, unmErr := UnmarshalBERGetEimConfigurationDataResponseEimConfigurationDataList(reconstructed_eimconfigurationdatalist, opts...)
+	dec_eimconfigurationdatalist, unmErr := UnmarshalBERGetEimConfigurationDataResponseEimConfigurationDataList(reconstructed_eimconfigurationdatalist, ber.ChildDecodeOptions(opts, "eimConfigurationDataList")...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding eimConfigurationDataList: %w", unmErr)
 	}
@@ -22957,7 +25263,20 @@ func (v *GetEimConfigurationDataResponse) UnmarshalBER(data []byte, opts ...ber.
 }
 
 // MarshalBER encodes ExecuteFallbackMechanismRequest to BER format.
-func (v *ExecuteFallbackMechanismRequest) MarshalBER() ([]byte, error) {
+func (v *ExecuteFallbackMechanismRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ExecuteFallbackMechanismRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ExecuteFallbackMechanismRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	var enc_refreshflag []byte
 	if v.RefreshFlagRaw_ != 0 {
@@ -22986,6 +25305,9 @@ func (v *ExecuteFallbackMechanismRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ExecuteFallbackMechanismRequest to DER format.
 func (v *ExecuteFallbackMechanismRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ExecuteFallbackMechanismRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_refreshflag := ber.EncodeBoolean(v.RefreshFlag)
 	retagged_enc_refreshflag, tagErr_enc_refreshflag := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_refreshflag)
@@ -23016,11 +25338,27 @@ func (v *ExecuteFallbackMechanismRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ExecuteFallbackMechanismRequest from BER/DER format.
-func (v *ExecuteFallbackMechanismRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ExecuteFallbackMechanismRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ExecuteFallbackMechanismRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ExecuteFallbackMechanismRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ExecuteFallbackMechanismRequest: %w", err)
@@ -23089,7 +25427,20 @@ func (v *ExecuteFallbackMechanismRequest) UnmarshalBER(data []byte, opts ...ber.
 }
 
 // MarshalBER encodes ExecuteFallbackMechanismResponse to BER format.
-func (v *ExecuteFallbackMechanismResponse) MarshalBER() ([]byte, error) {
+func (v *ExecuteFallbackMechanismResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ExecuteFallbackMechanismResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ExecuteFallbackMechanismResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_executefallbackmechanismresult, encodeErr_enc_executefallbackmechanismresult := ber.EncodeBigInt((v.ExecuteFallbackMechanismResult).BigInt())
 	if encodeErr_enc_executefallbackmechanismresult != nil {
@@ -23116,6 +25467,9 @@ func (v *ExecuteFallbackMechanismResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ExecuteFallbackMechanismResponse to DER format.
 func (v *ExecuteFallbackMechanismResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ExecuteFallbackMechanismResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_executefallbackmechanismresult, encodeErr_enc_executefallbackmechanismresult := ber.EncodeBigInt((v.ExecuteFallbackMechanismResult).BigInt())
 	if encodeErr_enc_executefallbackmechanismresult != nil {
@@ -23149,11 +25503,27 @@ func (v *ExecuteFallbackMechanismResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ExecuteFallbackMechanismResponse from BER/DER format.
-func (v *ExecuteFallbackMechanismResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ExecuteFallbackMechanismResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ExecuteFallbackMechanismResponse destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ExecuteFallbackMechanismResponse{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ExecuteFallbackMechanismResponse: %w", err)
@@ -23224,7 +25594,20 @@ func (v *ExecuteFallbackMechanismResponse) UnmarshalBER(data []byte, opts ...ber
 }
 
 // MarshalBER encodes ReturnFromFallbackRequest to BER format.
-func (v *ReturnFromFallbackRequest) MarshalBER() ([]byte, error) {
+func (v *ReturnFromFallbackRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReturnFromFallbackRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ReturnFromFallbackRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	var enc_refreshflag []byte
 	if v.RefreshFlagRaw_ != 0 {
@@ -23253,6 +25636,9 @@ func (v *ReturnFromFallbackRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ReturnFromFallbackRequest to DER format.
 func (v *ReturnFromFallbackRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReturnFromFallbackRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_refreshflag := ber.EncodeBoolean(v.RefreshFlag)
 	retagged_enc_refreshflag, tagErr_enc_refreshflag := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_refreshflag)
@@ -23283,11 +25669,27 @@ func (v *ReturnFromFallbackRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ReturnFromFallbackRequest from BER/DER format.
-func (v *ReturnFromFallbackRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ReturnFromFallbackRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ReturnFromFallbackRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ReturnFromFallbackRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ReturnFromFallbackRequest: %w", err)
@@ -23356,7 +25758,20 @@ func (v *ReturnFromFallbackRequest) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes ReturnFromFallbackResponse to BER format.
-func (v *ReturnFromFallbackResponse) MarshalBER() ([]byte, error) {
+func (v *ReturnFromFallbackResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReturnFromFallbackResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ReturnFromFallbackResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_returnfromfallbackresult, encodeErr_enc_returnfromfallbackresult := ber.EncodeBigInt((v.ReturnFromFallbackResult).BigInt())
 	if encodeErr_enc_returnfromfallbackresult != nil {
@@ -23383,6 +25798,9 @@ func (v *ReturnFromFallbackResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ReturnFromFallbackResponse to DER format.
 func (v *ReturnFromFallbackResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReturnFromFallbackResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_returnfromfallbackresult, encodeErr_enc_returnfromfallbackresult := ber.EncodeBigInt((v.ReturnFromFallbackResult).BigInt())
 	if encodeErr_enc_returnfromfallbackresult != nil {
@@ -23416,11 +25834,27 @@ func (v *ReturnFromFallbackResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ReturnFromFallbackResponse from BER/DER format.
-func (v *ReturnFromFallbackResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ReturnFromFallbackResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ReturnFromFallbackResponse destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ReturnFromFallbackResponse{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ReturnFromFallbackResponse: %w", err)
@@ -23491,7 +25925,20 @@ func (v *ReturnFromFallbackResponse) UnmarshalBER(data []byte, opts ...ber.Decod
 }
 
 // MarshalBER encodes EnableEmergencyProfileRequest to BER format.
-func (v *EnableEmergencyProfileRequest) MarshalBER() ([]byte, error) {
+func (v *EnableEmergencyProfileRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EnableEmergencyProfileRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EnableEmergencyProfileRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	var enc_refreshflag []byte
 	if v.RefreshFlagRaw_ != 0 {
@@ -23520,6 +25967,9 @@ func (v *EnableEmergencyProfileRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EnableEmergencyProfileRequest to DER format.
 func (v *EnableEmergencyProfileRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EnableEmergencyProfileRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_refreshflag := ber.EncodeBoolean(v.RefreshFlag)
 	retagged_enc_refreshflag, tagErr_enc_refreshflag := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_refreshflag)
@@ -23550,11 +26000,27 @@ func (v *EnableEmergencyProfileRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EnableEmergencyProfileRequest from BER/DER format.
-func (v *EnableEmergencyProfileRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EnableEmergencyProfileRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EnableEmergencyProfileRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EnableEmergencyProfileRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EnableEmergencyProfileRequest: %w", err)
@@ -23623,7 +26089,20 @@ func (v *EnableEmergencyProfileRequest) UnmarshalBER(data []byte, opts ...ber.De
 }
 
 // MarshalBER encodes EnableEmergencyProfileResponse to BER format.
-func (v *EnableEmergencyProfileResponse) MarshalBER() ([]byte, error) {
+func (v *EnableEmergencyProfileResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EnableEmergencyProfileResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EnableEmergencyProfileResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_enableemergencyprofileresult, encodeErr_enc_enableemergencyprofileresult := ber.EncodeBigInt((v.EnableEmergencyProfileResult).BigInt())
 	if encodeErr_enc_enableemergencyprofileresult != nil {
@@ -23650,6 +26129,9 @@ func (v *EnableEmergencyProfileResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EnableEmergencyProfileResponse to DER format.
 func (v *EnableEmergencyProfileResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EnableEmergencyProfileResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_enableemergencyprofileresult, encodeErr_enc_enableemergencyprofileresult := ber.EncodeBigInt((v.EnableEmergencyProfileResult).BigInt())
 	if encodeErr_enc_enableemergencyprofileresult != nil {
@@ -23683,11 +26165,27 @@ func (v *EnableEmergencyProfileResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EnableEmergencyProfileResponse from BER/DER format.
-func (v *EnableEmergencyProfileResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EnableEmergencyProfileResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EnableEmergencyProfileResponse destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EnableEmergencyProfileResponse{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EnableEmergencyProfileResponse: %w", err)
@@ -23758,7 +26256,20 @@ func (v *EnableEmergencyProfileResponse) UnmarshalBER(data []byte, opts ...ber.D
 }
 
 // MarshalBER encodes DisableEmergencyProfileRequest to BER format.
-func (v *DisableEmergencyProfileRequest) MarshalBER() ([]byte, error) {
+func (v *DisableEmergencyProfileRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: DisableEmergencyProfileRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *DisableEmergencyProfileRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	var enc_refreshflag []byte
 	if v.RefreshFlagRaw_ != 0 {
@@ -23787,6 +26298,9 @@ func (v *DisableEmergencyProfileRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes DisableEmergencyProfileRequest to DER format.
 func (v *DisableEmergencyProfileRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: DisableEmergencyProfileRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_refreshflag := ber.EncodeBoolean(v.RefreshFlag)
 	retagged_enc_refreshflag, tagErr_enc_refreshflag := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_refreshflag)
@@ -23817,11 +26331,27 @@ func (v *DisableEmergencyProfileRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes DisableEmergencyProfileRequest from BER/DER format.
-func (v *DisableEmergencyProfileRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *DisableEmergencyProfileRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: DisableEmergencyProfileRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = DisableEmergencyProfileRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding DisableEmergencyProfileRequest: %w", err)
@@ -23890,7 +26420,20 @@ func (v *DisableEmergencyProfileRequest) UnmarshalBER(data []byte, opts ...ber.D
 }
 
 // MarshalBER encodes DisableEmergencyProfileResponse to BER format.
-func (v *DisableEmergencyProfileResponse) MarshalBER() ([]byte, error) {
+func (v *DisableEmergencyProfileResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: DisableEmergencyProfileResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *DisableEmergencyProfileResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_disableemergencyprofileresult, encodeErr_enc_disableemergencyprofileresult := ber.EncodeBigInt((v.DisableEmergencyProfileResult).BigInt())
 	if encodeErr_enc_disableemergencyprofileresult != nil {
@@ -23917,6 +26460,9 @@ func (v *DisableEmergencyProfileResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes DisableEmergencyProfileResponse to DER format.
 func (v *DisableEmergencyProfileResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: DisableEmergencyProfileResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_disableemergencyprofileresult, encodeErr_enc_disableemergencyprofileresult := ber.EncodeBigInt((v.DisableEmergencyProfileResult).BigInt())
 	if encodeErr_enc_disableemergencyprofileresult != nil {
@@ -23950,11 +26496,27 @@ func (v *DisableEmergencyProfileResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes DisableEmergencyProfileResponse from BER/DER format.
-func (v *DisableEmergencyProfileResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *DisableEmergencyProfileResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: DisableEmergencyProfileResponse destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = DisableEmergencyProfileResponse{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding DisableEmergencyProfileResponse: %w", err)
@@ -24025,7 +26587,20 @@ func (v *DisableEmergencyProfileResponse) UnmarshalBER(data []byte, opts ...ber.
 }
 
 // MarshalBER encodes GetConnectivityParametersRequest to BER format.
-func (v *GetConnectivityParametersRequest) MarshalBER() ([]byte, error) {
+func (v *GetConnectivityParametersRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetConnectivityParametersRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *GetConnectivityParametersRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -24042,6 +26617,9 @@ func (v *GetConnectivityParametersRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GetConnectivityParametersRequest to DER format.
 func (v *GetConnectivityParametersRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetConnectivityParametersRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
@@ -24065,11 +26643,27 @@ func (v *GetConnectivityParametersRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes GetConnectivityParametersRequest from BER/DER format.
-func (v *GetConnectivityParametersRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *GetConnectivityParametersRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: GetConnectivityParametersRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = GetConnectivityParametersRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding GetConnectivityParametersRequest: %w", err)
@@ -24108,13 +26702,26 @@ func (v *GetConnectivityParametersRequest) UnmarshalBER(data []byte, opts ...ber
 }
 
 // MarshalBER encodes GetConnectivityParametersResponse to BER format.
-func (v *GetConnectivityParametersResponse) MarshalBER() ([]byte, error) {
+func (v *GetConnectivityParametersResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetConnectivityParametersResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *GetConnectivityParametersResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case GetConnectivityParametersResponseChoiceConnectivityParameters:
 		if v.ConnectivityParameters == nil {
-			return nil, fmt.Errorf("choice GetConnectivityParametersResponse: connectivityParameters is nil")
+			return nil, fmt.Errorf("%w: choice GetConnectivityParametersResponse: connectivityParameters is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.ConnectivityParameters.MarshalBER()
+		enc_0, err := v.ConnectivityParameters.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding connectivityParameters: %w", err)
 		}
@@ -24133,7 +26740,7 @@ func (v *GetConnectivityParametersResponse) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case GetConnectivityParametersResponseChoiceConnectivityParametersError:
 		if v.ConnectivityParametersError == nil {
-			return nil, fmt.Errorf("choice GetConnectivityParametersResponse: connectivityParametersError is nil")
+			return nil, fmt.Errorf("%w: choice GetConnectivityParametersResponse: connectivityParametersError is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeBigInt(v.ConnectivityParametersError.BigInt())
 		if encodeErr_enc_1 != nil {
@@ -24159,10 +26766,13 @@ func (v *GetConnectivityParametersResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GetConnectivityParametersResponse to DER format.
 func (v *GetConnectivityParametersResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetConnectivityParametersResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case GetConnectivityParametersResponseChoiceConnectivityParameters:
 		if v.ConnectivityParameters == nil {
-			return nil, fmt.Errorf("choice GetConnectivityParametersResponse: connectivityParameters is nil")
+			return nil, fmt.Errorf("%w: choice GetConnectivityParametersResponse: connectivityParameters is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.ConnectivityParameters.MarshalDER()
 		if err != nil {
@@ -24196,7 +26806,23 @@ func (v *GetConnectivityParametersResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes GetConnectivityParametersResponse from BER/DER format.
-func (v *GetConnectivityParametersResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *GetConnectivityParametersResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: GetConnectivityParametersResponse destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -24268,7 +26894,20 @@ func (v *GetConnectivityParametersResponse) UnmarshalBER(data []byte, opts ...be
 }
 
 // MarshalBER encodes ConnectivityParameters to BER format.
-func (v *ConnectivityParameters) MarshalBER() ([]byte, error) {
+func (v *ConnectivityParameters) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ConnectivityParameters receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ConnectivityParameters) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.HttpParams != nil {
 		enc_httpparams, encodeErr_enc_httpparams := ber.EncodeOctetString(v.HttpParams)
@@ -24297,6 +26936,9 @@ func (v *ConnectivityParameters) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ConnectivityParameters to DER format.
 func (v *ConnectivityParameters) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ConnectivityParameters receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.HttpParams != nil {
 		enc_httpparams, encodeErr_enc_httpparams := ber.EncodeOctetString(v.HttpParams)
@@ -24327,11 +26969,27 @@ func (v *ConnectivityParameters) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ConnectivityParameters from BER/DER format.
-func (v *ConnectivityParameters) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ConnectivityParameters) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ConnectivityParameters destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ConnectivityParameters{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ConnectivityParameters SEQUENCE: %w", err)
@@ -24390,7 +27048,20 @@ func (v *ConnectivityParameters) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 }
 
 // MarshalBER encodes SGPSetDefaultDpAddressRequest to BER format.
-func (v *SGPSetDefaultDpAddressRequest) MarshalBER() ([]byte, error) {
+func (v *SGPSetDefaultDpAddressRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPSetDefaultDpAddressRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPSetDefaultDpAddressRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_defaultdpaddress, stringErr := ber.EncodeStringTagChecked(12, v.DefaultDpAddress)
 	if stringErr != nil {
@@ -24417,6 +27088,9 @@ func (v *SGPSetDefaultDpAddressRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPSetDefaultDpAddressRequest to DER format.
 func (v *SGPSetDefaultDpAddressRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPSetDefaultDpAddressRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_defaultdpaddress, stringErr := ber.EncodeStringTagChecked(12, v.DefaultDpAddress)
 	if stringErr != nil {
@@ -24450,11 +27124,27 @@ func (v *SGPSetDefaultDpAddressRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPSetDefaultDpAddressRequest from BER/DER format.
-func (v *SGPSetDefaultDpAddressRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPSetDefaultDpAddressRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPSetDefaultDpAddressRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPSetDefaultDpAddressRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPSetDefaultDpAddressRequest: %w", err)
@@ -24520,7 +27210,20 @@ func (v *SGPSetDefaultDpAddressRequest) UnmarshalBER(data []byte, opts ...ber.De
 }
 
 // MarshalBER encodes SGPSetDefaultDpAddressResponse to BER format.
-func (v *SGPSetDefaultDpAddressResponse) MarshalBER() ([]byte, error) {
+func (v *SGPSetDefaultDpAddressResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPSetDefaultDpAddressResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPSetDefaultDpAddressResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_setdefaultdpaddressresult, encodeErr_enc_setdefaultdpaddressresult := ber.EncodeBigInt((v.SetDefaultDpAddressResult).BigInt())
 	if encodeErr_enc_setdefaultdpaddressresult != nil {
@@ -24547,6 +27250,9 @@ func (v *SGPSetDefaultDpAddressResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPSetDefaultDpAddressResponse to DER format.
 func (v *SGPSetDefaultDpAddressResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPSetDefaultDpAddressResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_setdefaultdpaddressresult, encodeErr_enc_setdefaultdpaddressresult := ber.EncodeBigInt((v.SetDefaultDpAddressResult).BigInt())
 	if encodeErr_enc_setdefaultdpaddressresult != nil {
@@ -24580,11 +27286,27 @@ func (v *SGPSetDefaultDpAddressResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPSetDefaultDpAddressResponse from BER/DER format.
-func (v *SGPSetDefaultDpAddressResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPSetDefaultDpAddressResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPSetDefaultDpAddressResponse destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPSetDefaultDpAddressResponse{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPSetDefaultDpAddressResponse: %w", err)
@@ -24655,13 +27377,26 @@ func (v *SGPSetDefaultDpAddressResponse) UnmarshalBER(data []byte, opts ...ber.D
 }
 
 // MarshalBER encodes SGPPrepareDownloadResponse to BER format.
-func (v *SGPPrepareDownloadResponse) MarshalBER() ([]byte, error) {
+func (v *SGPPrepareDownloadResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPPrepareDownloadResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPPrepareDownloadResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case SGPPrepareDownloadResponseChoiceDownloadResponseOk:
 		if v.DownloadResponseOk == nil {
-			return nil, fmt.Errorf("choice SGPPrepareDownloadResponse: downloadResponseOk is nil")
+			return nil, fmt.Errorf("%w: choice SGPPrepareDownloadResponse: downloadResponseOk is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.DownloadResponseOk.MarshalBER()
+		enc_0, err := v.DownloadResponseOk.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding downloadResponseOk: %w", err)
 		}
@@ -24680,9 +27415,9 @@ func (v *SGPPrepareDownloadResponse) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case SGPPrepareDownloadResponseChoiceDownloadResponseError:
 		if v.DownloadResponseError == nil {
-			return nil, fmt.Errorf("choice SGPPrepareDownloadResponse: downloadResponseError is nil")
+			return nil, fmt.Errorf("%w: choice SGPPrepareDownloadResponse: downloadResponseError is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.DownloadResponseError.MarshalBER()
+		enc_1, err := v.DownloadResponseError.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding downloadResponseError: %w", err)
 		}
@@ -24701,9 +27436,9 @@ func (v *SGPPrepareDownloadResponse) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case SGPPrepareDownloadResponseChoiceCompactDownloadResponseOk:
 		if v.CompactDownloadResponseOk == nil {
-			return nil, fmt.Errorf("choice SGPPrepareDownloadResponse: compactDownloadResponseOk is nil")
+			return nil, fmt.Errorf("%w: choice SGPPrepareDownloadResponse: compactDownloadResponseOk is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.CompactDownloadResponseOk.MarshalBER()
+		enc_2, err := v.CompactDownloadResponseOk.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding compactDownloadResponseOk: %w", err)
 		}
@@ -24727,10 +27462,13 @@ func (v *SGPPrepareDownloadResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPPrepareDownloadResponse to DER format.
 func (v *SGPPrepareDownloadResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPPrepareDownloadResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case SGPPrepareDownloadResponseChoiceDownloadResponseOk:
 		if v.DownloadResponseOk == nil {
-			return nil, fmt.Errorf("choice SGPPrepareDownloadResponse: downloadResponseOk is nil")
+			return nil, fmt.Errorf("%w: choice SGPPrepareDownloadResponse: downloadResponseOk is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.DownloadResponseOk.MarshalDER()
 		if err != nil {
@@ -24754,7 +27492,7 @@ func (v *SGPPrepareDownloadResponse) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case SGPPrepareDownloadResponseChoiceDownloadResponseError:
 		if v.DownloadResponseError == nil {
-			return nil, fmt.Errorf("choice SGPPrepareDownloadResponse: downloadResponseError is nil")
+			return nil, fmt.Errorf("%w: choice SGPPrepareDownloadResponse: downloadResponseError is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.DownloadResponseError.MarshalDER()
 		if err != nil {
@@ -24778,7 +27516,7 @@ func (v *SGPPrepareDownloadResponse) MarshalDER() ([]byte, error) {
 		return enc_der_1, nil
 	case SGPPrepareDownloadResponseChoiceCompactDownloadResponseOk:
 		if v.CompactDownloadResponseOk == nil {
-			return nil, fmt.Errorf("choice SGPPrepareDownloadResponse: compactDownloadResponseOk is nil")
+			return nil, fmt.Errorf("%w: choice SGPPrepareDownloadResponse: compactDownloadResponseOk is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.CompactDownloadResponseOk.MarshalDER()
 		if err != nil {
@@ -24812,7 +27550,23 @@ func (v *SGPPrepareDownloadResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPPrepareDownloadResponse from BER/DER format.
-func (v *SGPPrepareDownloadResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPPrepareDownloadResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPPrepareDownloadResponse destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -24899,9 +27653,22 @@ func (v *SGPPrepareDownloadResponse) UnmarshalBER(data []byte, opts ...ber.Decod
 }
 
 // MarshalBER encodes CompactPrepareDownloadResponseOk to BER format.
-func (v *CompactPrepareDownloadResponseOk) MarshalBER() ([]byte, error) {
+func (v *CompactPrepareDownloadResponseOk) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactPrepareDownloadResponseOk receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CompactPrepareDownloadResponseOk) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_compacteuiccsigned2, err := v.CompactEuiccSigned2.MarshalBER()
+	enc_compacteuiccsigned2, err := v.CompactEuiccSigned2.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding compactEuiccSigned2: %w", err)
 	}
@@ -24931,6 +27698,9 @@ func (v *CompactPrepareDownloadResponseOk) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CompactPrepareDownloadResponseOk to DER format.
 func (v *CompactPrepareDownloadResponseOk) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactPrepareDownloadResponseOk receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_compacteuiccsigned2, err := v.CompactEuiccSigned2.MarshalDER()
 	if err != nil {
@@ -24964,11 +27734,27 @@ func (v *CompactPrepareDownloadResponseOk) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CompactPrepareDownloadResponseOk from BER/DER format.
-func (v *CompactPrepareDownloadResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CompactPrepareDownloadResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CompactPrepareDownloadResponseOk destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CompactPrepareDownloadResponseOk{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CompactPrepareDownloadResponseOk SEQUENCE: %w", err)
@@ -24992,7 +27778,7 @@ func (v *CompactPrepareDownloadResponseOk) UnmarshalBER(data []byte, opts ...ber
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.CompactEuiccSigned2.UnmarshalBER(content[offset:offset+n_compacteuiccsigned2], opts...); unmErr != nil {
+	if unmErr := v.CompactEuiccSigned2.UnmarshalBER(content[offset:offset+n_compacteuiccsigned2], ber.ChildDecodeOptions(opts, "compactEuiccSigned2")...); unmErr != nil {
 		return fmt.Errorf("decoding compactEuiccSigned2: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -25052,7 +27838,20 @@ func (v *CompactPrepareDownloadResponseOk) UnmarshalBER(data []byte, opts ...ber
 }
 
 // MarshalBER encodes CompactEuiccSigned2 to BER format.
-func (v *CompactEuiccSigned2) MarshalBER() ([]byte, error) {
+func (v *CompactEuiccSigned2) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactEuiccSigned2 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CompactEuiccSigned2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.EuiccOtpk != nil {
 		enc_euiccotpk, encodeErr_enc_euiccotpk := ber.EncodeOctetString(v.EuiccOtpk)
@@ -25068,7 +27867,9 @@ func (v *CompactEuiccSigned2) MarshalBER() ([]byte, error) {
 	}
 	if v.HashCc != nil {
 		if len(*v.HashCc) < 32 || len(*v.HashCc) > 32 {
-			return nil, fmt.Errorf("hashCc length %d violates SIZE (32)", len(*v.HashCc))
+			if constraintErr := ber.CheckEncodedLength(opts, "hashCc", "SIZE (32)", len(*v.HashCc)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_hashcc, encodeErr_enc_hashcc := ber.EncodeOctetString([]byte(*v.HashCc))
 		if encodeErr_enc_hashcc != nil {
@@ -25091,6 +27892,9 @@ func (v *CompactEuiccSigned2) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CompactEuiccSigned2 to DER format.
 func (v *CompactEuiccSigned2) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactEuiccSigned2 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.EuiccOtpk != nil {
 		enc_euiccotpk, encodeErr_enc_euiccotpk := ber.EncodeOctetString(v.EuiccOtpk)
@@ -25106,7 +27910,9 @@ func (v *CompactEuiccSigned2) MarshalDER() ([]byte, error) {
 	}
 	if v.HashCc != nil {
 		if len(*v.HashCc) < 32 || len(*v.HashCc) > 32 {
-			return nil, fmt.Errorf("hashCc length %d violates SIZE (32)", len(*v.HashCc))
+			if constraintErr := ber.CheckEncodedLength(nil, "hashCc", "SIZE (32)", len(*v.HashCc)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_hashcc, encodeErr_enc_hashcc := ber.EncodeOctetString([]byte(*v.HashCc))
 		if encodeErr_enc_hashcc != nil {
@@ -25131,11 +27937,27 @@ func (v *CompactEuiccSigned2) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CompactEuiccSigned2 from BER/DER format.
-func (v *CompactEuiccSigned2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CompactEuiccSigned2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CompactEuiccSigned2 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CompactEuiccSigned2{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CompactEuiccSigned2 SEQUENCE: %w", err)
@@ -25185,7 +28007,9 @@ func (v *CompactEuiccSigned2) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 				offset += n
 				if len(*v.HashCc) < 32 || len(*v.HashCc) > 32 {
-					return fmt.Errorf("hashCc length %d violates SIZE (32)", len(*v.HashCc))
+					if constraintErr := ber.CheckDecodedLength(opts, "hashCc", "SIZE (32)", len(*v.HashCc)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -25217,10 +28041,25 @@ func (v *CompactEuiccSigned2) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBER encodes SGPEuiccSigned1 to BER format.
-func (v *SGPEuiccSigned1) MarshalBER() ([]byte, error) {
+func (v *SGPEuiccSigned1) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPEuiccSigned1 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPEuiccSigned1) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckEncodedLength(opts, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
@@ -25243,7 +28082,9 @@ func (v *SGPEuiccSigned1) MarshalBER() ([]byte, error) {
 	enc_serveraddress = retagged_enc_serveraddress
 	children = append(children, enc_serveraddress...)
 	if len(v.ServerChallenge) < 16 || len(v.ServerChallenge) > 16 {
-		return nil, fmt.Errorf("serverChallenge length %d violates SIZE (16)", len(v.ServerChallenge))
+		if constraintErr := ber.CheckEncodedLength(opts, "serverChallenge", "SIZE (16)", len(v.ServerChallenge)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_serverchallenge, encodeErr_enc_serverchallenge := ber.EncodeOctetString([]byte(v.ServerChallenge))
 	if encodeErr_enc_serverchallenge != nil {
@@ -25255,12 +28096,12 @@ func (v *SGPEuiccSigned1) MarshalBER() ([]byte, error) {
 	}
 	enc_serverchallenge = retagged_enc_serverchallenge
 	children = append(children, enc_serverchallenge...)
-	enc_euiccinfo2, err := v.EuiccInfo2.MarshalBER()
+	enc_euiccinfo2, err := v.EuiccInfo2.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccInfo2: %w", err)
 	}
 	children = append(children, enc_euiccinfo2...)
-	enc_ctxparams1, err := v.CtxParams1.MarshalBER()
+	enc_ctxparams1, err := v.CtxParams1.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding ctxParams1: %w", err)
 	}
@@ -25280,9 +28121,14 @@ func (v *SGPEuiccSigned1) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPEuiccSigned1 to DER format.
 func (v *SGPEuiccSigned1) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPEuiccSigned1 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckEncodedLength(nil, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
@@ -25305,7 +28151,9 @@ func (v *SGPEuiccSigned1) MarshalDER() ([]byte, error) {
 	enc_serveraddress = retagged_enc_serveraddress
 	children = append(children, enc_serveraddress...)
 	if len(v.ServerChallenge) < 16 || len(v.ServerChallenge) > 16 {
-		return nil, fmt.Errorf("serverChallenge length %d violates SIZE (16)", len(v.ServerChallenge))
+		if constraintErr := ber.CheckEncodedLength(nil, "serverChallenge", "SIZE (16)", len(v.ServerChallenge)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_serverchallenge, encodeErr_enc_serverchallenge := ber.EncodeOctetString([]byte(v.ServerChallenge))
 	if encodeErr_enc_serverchallenge != nil {
@@ -25344,11 +28192,27 @@ func (v *SGPEuiccSigned1) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPEuiccSigned1 from BER/DER format.
-func (v *SGPEuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPEuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPEuiccSigned1 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPEuiccSigned1{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPEuiccSigned1 SEQUENCE: %w", err)
@@ -25382,7 +28246,9 @@ func (v *SGPEuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 
 	offset += n_transactionid
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckDecodedLength(opts, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode serverAddress
 	if offset >= len(content) {
@@ -25437,7 +28303,9 @@ func (v *SGPEuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 
 	offset += n_serverchallenge
 	if len(v.ServerChallenge) < 16 || len(v.ServerChallenge) > 16 {
-		return fmt.Errorf("serverChallenge length %d violates SIZE (16)", len(v.ServerChallenge))
+		if constraintErr := ber.CheckDecodedLength(opts, "serverChallenge", "SIZE (16)", len(v.ServerChallenge)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode euiccInfo2
 	if offset >= len(content) {
@@ -25458,7 +28326,7 @@ func (v *SGPEuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.EuiccInfo2.UnmarshalBER(content[offset:offset+n_euiccinfo2], opts...); unmErr != nil {
+	if unmErr := v.EuiccInfo2.UnmarshalBER(content[offset:offset+n_euiccinfo2], ber.ChildDecodeOptions(opts, "euiccInfo2")...); unmErr != nil {
 		return fmt.Errorf("decoding euiccInfo2: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -25481,7 +28349,7 @@ func (v *SGPEuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.CtxParams1.UnmarshalBER(content[offset:offset+n_ctxparams1], opts...); unmErr != nil {
+	if unmErr := v.CtxParams1.UnmarshalBER(content[offset:offset+n_ctxparams1], ber.ChildDecodeOptions(opts, "ctxParams1")...); unmErr != nil {
 		return fmt.Errorf("decoding ctxParams1: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -25517,9 +28385,22 @@ func (v *SGPEuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 }
 
 // MarshalBER encodes SGPAuthenticateResponseOk to BER format.
-func (v *SGPAuthenticateResponseOk) MarshalBER() ([]byte, error) {
+func (v *SGPAuthenticateResponseOk) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPAuthenticateResponseOk receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPAuthenticateResponseOk) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_euiccsigned1, err := v.EuiccSigned1.MarshalBER()
+	enc_euiccsigned1, err := v.EuiccSigned1.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccSigned1: %w", err)
 	}
@@ -25534,12 +28415,12 @@ func (v *SGPAuthenticateResponseOk) MarshalBER() ([]byte, error) {
 	}
 	enc_euiccsignature1 = retagged_enc_euiccsignature1
 	children = append(children, enc_euiccsignature1...)
-	enc_euicccertificate, err := v.EuiccCertificate.MarshalBER()
+	enc_euicccertificate, err := v.EuiccCertificate.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccCertificate: %w", err)
 	}
 	children = append(children, enc_euicccertificate...)
-	enc_eumcertificate, err := v.EumCertificate.MarshalBER()
+	enc_eumcertificate, err := v.EumCertificate.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding eumCertificate: %w", err)
 	}
@@ -25559,6 +28440,9 @@ func (v *SGPAuthenticateResponseOk) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPAuthenticateResponseOk to DER format.
 func (v *SGPAuthenticateResponseOk) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPAuthenticateResponseOk receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_euiccsigned1, err := v.EuiccSigned1.MarshalDER()
 	if err != nil {
@@ -25602,11 +28486,27 @@ func (v *SGPAuthenticateResponseOk) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPAuthenticateResponseOk from BER/DER format.
-func (v *SGPAuthenticateResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPAuthenticateResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPAuthenticateResponseOk destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPAuthenticateResponseOk{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPAuthenticateResponseOk SEQUENCE: %w", err)
@@ -25629,7 +28529,7 @@ func (v *SGPAuthenticateResponseOk) UnmarshalBER(data []byte, opts ...ber.Decode
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.EuiccSigned1.UnmarshalBER(content[offset:offset+n_euiccsigned1], opts...); unmErr != nil {
+	if unmErr := v.EuiccSigned1.UnmarshalBER(content[offset:offset+n_euiccsigned1], ber.ChildDecodeOptions(opts, "euiccSigned1")...); unmErr != nil {
 		return fmt.Errorf("decoding euiccSigned1: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -25675,7 +28575,7 @@ func (v *SGPAuthenticateResponseOk) UnmarshalBER(data []byte, opts ...ber.Decode
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.EuiccCertificate.UnmarshalBER(content[offset:offset+n_euicccertificate], opts...); unmErr != nil {
+	if unmErr := v.EuiccCertificate.UnmarshalBER(content[offset:offset+n_euicccertificate], ber.ChildDecodeOptions(opts, "euiccCertificate")...); unmErr != nil {
 		return fmt.Errorf("decoding euiccCertificate: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -25698,7 +28598,7 @@ func (v *SGPAuthenticateResponseOk) UnmarshalBER(data []byte, opts ...ber.Decode
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.EumCertificate.UnmarshalBER(content[offset:offset+n_eumcertificate], opts...); unmErr != nil {
+	if unmErr := v.EumCertificate.UnmarshalBER(content[offset:offset+n_eumcertificate], ber.ChildDecodeOptions(opts, "eumCertificate")...); unmErr != nil {
 		return fmt.Errorf("decoding eumCertificate: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -25734,13 +28634,26 @@ func (v *SGPAuthenticateResponseOk) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes SGPAuthenticateServerResponse to BER format.
-func (v *SGPAuthenticateServerResponse) MarshalBER() ([]byte, error) {
+func (v *SGPAuthenticateServerResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPAuthenticateServerResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPAuthenticateServerResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case SGPAuthenticateServerResponseChoiceAuthenticateResponseOk:
 		if v.AuthenticateResponseOk == nil {
-			return nil, fmt.Errorf("choice SGPAuthenticateServerResponse: authenticateResponseOk is nil")
+			return nil, fmt.Errorf("%w: choice SGPAuthenticateServerResponse: authenticateResponseOk is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.AuthenticateResponseOk.MarshalBER()
+		enc_0, err := v.AuthenticateResponseOk.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding authenticateResponseOk: %w", err)
 		}
@@ -25759,9 +28672,9 @@ func (v *SGPAuthenticateServerResponse) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case SGPAuthenticateServerResponseChoiceAuthenticateResponseError:
 		if v.AuthenticateResponseError == nil {
-			return nil, fmt.Errorf("choice SGPAuthenticateServerResponse: authenticateResponseError is nil")
+			return nil, fmt.Errorf("%w: choice SGPAuthenticateServerResponse: authenticateResponseError is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.AuthenticateResponseError.MarshalBER()
+		enc_1, err := v.AuthenticateResponseError.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding authenticateResponseError: %w", err)
 		}
@@ -25780,9 +28693,9 @@ func (v *SGPAuthenticateServerResponse) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case SGPAuthenticateServerResponseChoiceCompactAuthenticateResponseOk:
 		if v.CompactAuthenticateResponseOk == nil {
-			return nil, fmt.Errorf("choice SGPAuthenticateServerResponse: compactAuthenticateResponseOk is nil")
+			return nil, fmt.Errorf("%w: choice SGPAuthenticateServerResponse: compactAuthenticateResponseOk is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.CompactAuthenticateResponseOk.MarshalBER()
+		enc_2, err := v.CompactAuthenticateResponseOk.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding compactAuthenticateResponseOk: %w", err)
 		}
@@ -25806,10 +28719,13 @@ func (v *SGPAuthenticateServerResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPAuthenticateServerResponse to DER format.
 func (v *SGPAuthenticateServerResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPAuthenticateServerResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case SGPAuthenticateServerResponseChoiceAuthenticateResponseOk:
 		if v.AuthenticateResponseOk == nil {
-			return nil, fmt.Errorf("choice SGPAuthenticateServerResponse: authenticateResponseOk is nil")
+			return nil, fmt.Errorf("%w: choice SGPAuthenticateServerResponse: authenticateResponseOk is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.AuthenticateResponseOk.MarshalDER()
 		if err != nil {
@@ -25833,7 +28749,7 @@ func (v *SGPAuthenticateServerResponse) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case SGPAuthenticateServerResponseChoiceAuthenticateResponseError:
 		if v.AuthenticateResponseError == nil {
-			return nil, fmt.Errorf("choice SGPAuthenticateServerResponse: authenticateResponseError is nil")
+			return nil, fmt.Errorf("%w: choice SGPAuthenticateServerResponse: authenticateResponseError is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.AuthenticateResponseError.MarshalDER()
 		if err != nil {
@@ -25857,7 +28773,7 @@ func (v *SGPAuthenticateServerResponse) MarshalDER() ([]byte, error) {
 		return enc_der_1, nil
 	case SGPAuthenticateServerResponseChoiceCompactAuthenticateResponseOk:
 		if v.CompactAuthenticateResponseOk == nil {
-			return nil, fmt.Errorf("choice SGPAuthenticateServerResponse: compactAuthenticateResponseOk is nil")
+			return nil, fmt.Errorf("%w: choice SGPAuthenticateServerResponse: compactAuthenticateResponseOk is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.CompactAuthenticateResponseOk.MarshalDER()
 		if err != nil {
@@ -25891,7 +28807,23 @@ func (v *SGPAuthenticateServerResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPAuthenticateServerResponse from BER/DER format.
-func (v *SGPAuthenticateServerResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPAuthenticateServerResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPAuthenticateServerResponse destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -25978,9 +28910,22 @@ func (v *SGPAuthenticateServerResponse) UnmarshalBER(data []byte, opts ...ber.De
 }
 
 // MarshalBER encodes CompactAuthenticateResponseOk to BER format.
-func (v *CompactAuthenticateResponseOk) MarshalBER() ([]byte, error) {
+func (v *CompactAuthenticateResponseOk) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactAuthenticateResponseOk receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CompactAuthenticateResponseOk) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_signeddata, err := v.SignedData.MarshalBER()
+	enc_signeddata, err := v.SignedData.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding signedData: %w", err)
 	}
@@ -25996,7 +28941,7 @@ func (v *CompactAuthenticateResponseOk) MarshalBER() ([]byte, error) {
 	enc_euiccsignature1 = retagged_enc_euiccsignature1
 	children = append(children, enc_euiccsignature1...)
 	if v.EuiccCertificate != nil {
-		enc_euicccertificate, err := v.EuiccCertificate.MarshalBER()
+		enc_euicccertificate, err := v.EuiccCertificate.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccCertificate: %w", err)
 		}
@@ -26008,7 +28953,7 @@ func (v *CompactAuthenticateResponseOk) MarshalBER() ([]byte, error) {
 		children = append(children, enc_euicccertificate...)
 	}
 	if v.EumCertificate != nil {
-		enc_eumcertificate, err := v.EumCertificate.MarshalBER()
+		enc_eumcertificate, err := v.EumCertificate.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eumCertificate: %w", err)
 		}
@@ -26034,6 +28979,9 @@ func (v *CompactAuthenticateResponseOk) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CompactAuthenticateResponseOk to DER format.
 func (v *CompactAuthenticateResponseOk) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactAuthenticateResponseOk receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_signeddata, err := v.SignedData.MarshalDER()
 	if err != nil {
@@ -26091,11 +29039,27 @@ func (v *CompactAuthenticateResponseOk) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CompactAuthenticateResponseOk from BER/DER format.
-func (v *CompactAuthenticateResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CompactAuthenticateResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CompactAuthenticateResponseOk destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CompactAuthenticateResponseOk{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CompactAuthenticateResponseOk SEQUENCE: %w", err)
@@ -26118,7 +29082,7 @@ func (v *CompactAuthenticateResponseOk) UnmarshalBER(data []byte, opts ...ber.De
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.SignedData.UnmarshalBER(content[offset:offset+n_signeddata], opts...); unmErr != nil {
+	if unmErr := v.SignedData.UnmarshalBER(content[offset:offset+n_signeddata], ber.ChildDecodeOptions(opts, "signedData")...); unmErr != nil {
 		return fmt.Errorf("decoding signedData: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -26167,7 +29131,7 @@ func (v *CompactAuthenticateResponseOk) UnmarshalBER(data []byte, opts ...ber.De
 					return fmt.Errorf("decoding euiccCertificate: %w", reconstructionErr_euicccertificate)
 				}
 				var dec_euicccertificate Certificate
-				if unmErr := dec_euicccertificate.UnmarshalBER(reconstructed_euicccertificate, opts...); unmErr != nil {
+				if unmErr := dec_euicccertificate.UnmarshalBER(reconstructed_euicccertificate, ber.ChildDecodeOptions(opts, "euicccertificate")...); unmErr != nil {
 					return fmt.Errorf("decoding euiccCertificate: %w", unmErr)
 				}
 				v.EuiccCertificate = &dec_euicccertificate
@@ -26197,7 +29161,7 @@ func (v *CompactAuthenticateResponseOk) UnmarshalBER(data []byte, opts ...ber.De
 					return fmt.Errorf("decoding eumCertificate: %w", reconstructionErr_eumcertificate)
 				}
 				var dec_eumcertificate Certificate
-				if unmErr := dec_eumcertificate.UnmarshalBER(reconstructed_eumcertificate, opts...); unmErr != nil {
+				if unmErr := dec_eumcertificate.UnmarshalBER(reconstructed_eumcertificate, ber.ChildDecodeOptions(opts, "eumcertificate")...); unmErr != nil {
 					return fmt.Errorf("decoding eumCertificate: %w", unmErr)
 				}
 				v.EumCertificate = &dec_eumcertificate
@@ -26237,7 +29201,20 @@ func (v *CompactAuthenticateResponseOk) UnmarshalBER(data []byte, opts ...ber.De
 }
 
 // MarshalBER encodes CompactEuiccSigned1 to BER format.
-func (v *CompactEuiccSigned1) MarshalBER() ([]byte, error) {
+func (v *CompactEuiccSigned1) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactEuiccSigned1 receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CompactEuiccSigned1) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_extcardresource, encodeErr_enc_extcardresource := ber.EncodeOctetString(v.ExtCardResource)
 	if encodeErr_enc_extcardresource != nil {
@@ -26250,7 +29227,7 @@ func (v *CompactEuiccSigned1) MarshalBER() ([]byte, error) {
 	enc_extcardresource = retagged_enc_extcardresource
 	children = append(children, enc_extcardresource...)
 	if v.CtxParams1 != nil {
-		enc_ctxparams1, err := v.CtxParams1.MarshalBER()
+		enc_ctxparams1, err := v.CtxParams1.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ctxParams1: %w", err)
 		}
@@ -26278,6 +29255,9 @@ func (v *CompactEuiccSigned1) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CompactEuiccSigned1 to DER format.
 func (v *CompactEuiccSigned1) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactEuiccSigned1 receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_extcardresource, encodeErr_enc_extcardresource := ber.EncodeOctetString(v.ExtCardResource)
 	if encodeErr_enc_extcardresource != nil {
@@ -26320,11 +29300,27 @@ func (v *CompactEuiccSigned1) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CompactEuiccSigned1 from BER/DER format.
-func (v *CompactEuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CompactEuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CompactEuiccSigned1 destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CompactEuiccSigned1{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CompactEuiccSigned1 SEQUENCE: %w", err)
@@ -26371,7 +29367,7 @@ func (v *CompactEuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_ctxparams1 CtxParams1
-				if unmErr := dec_ctxparams1.UnmarshalBER(innerData_ctxparams1, opts...); unmErr != nil {
+				if unmErr := dec_ctxparams1.UnmarshalBER(innerData_ctxparams1, ber.ChildDecodeOptions(opts, "ctxparams1")...); unmErr != nil {
 					return fmt.Errorf("decoding ctxParams1: %w", unmErr)
 				}
 				v.CtxParams1 = &dec_ctxparams1
@@ -26411,31 +29407,44 @@ func (v *CompactEuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBER encodes SGPPendingNotification to BER format.
-func (v *SGPPendingNotification) MarshalBER() ([]byte, error) {
+func (v *SGPPendingNotification) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPPendingNotification receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPPendingNotification) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case SGPPendingNotificationChoiceProfileInstallationResult:
 		if v.ProfileInstallationResult == nil {
-			return nil, fmt.Errorf("choice SGPPendingNotification: profileInstallationResult is nil")
+			return nil, fmt.Errorf("%w: choice SGPPendingNotification: profileInstallationResult is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.ProfileInstallationResult.MarshalBER()
+		enc_0, err := v.ProfileInstallationResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileInstallationResult: %w", err)
 		}
 		return enc_0, nil
 	case SGPPendingNotificationChoiceOtherSignedNotification:
 		if v.OtherSignedNotification == nil {
-			return nil, fmt.Errorf("choice SGPPendingNotification: otherSignedNotification is nil")
+			return nil, fmt.Errorf("%w: choice SGPPendingNotification: otherSignedNotification is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.OtherSignedNotification.MarshalBER()
+		enc_1, err := v.OtherSignedNotification.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding otherSignedNotification: %w", err)
 		}
 		return enc_1, nil
 	case SGPPendingNotificationChoiceCompactProfileInstallationResult:
 		if v.CompactProfileInstallationResult == nil {
-			return nil, fmt.Errorf("choice SGPPendingNotification: compactProfileInstallationResult is nil")
+			return nil, fmt.Errorf("%w: choice SGPPendingNotification: compactProfileInstallationResult is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.CompactProfileInstallationResult.MarshalBER()
+		enc_2, err := v.CompactProfileInstallationResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding compactProfileInstallationResult: %w", err)
 		}
@@ -26447,9 +29456,9 @@ func (v *SGPPendingNotification) MarshalBER() ([]byte, error) {
 		return enc_2, nil
 	case SGPPendingNotificationChoiceCompactOtherSignedNotification:
 		if v.CompactOtherSignedNotification == nil {
-			return nil, fmt.Errorf("choice SGPPendingNotification: compactOtherSignedNotification is nil")
+			return nil, fmt.Errorf("%w: choice SGPPendingNotification: compactOtherSignedNotification is nil", ber.ErrInvalidValue)
 		}
-		enc_3, err := v.CompactOtherSignedNotification.MarshalBER()
+		enc_3, err := v.CompactOtherSignedNotification.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding compactOtherSignedNotification: %w", err)
 		}
@@ -26466,10 +29475,13 @@ func (v *SGPPendingNotification) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPPendingNotification to DER format.
 func (v *SGPPendingNotification) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPPendingNotification receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case SGPPendingNotificationChoiceProfileInstallationResult:
 		if v.ProfileInstallationResult == nil {
-			return nil, fmt.Errorf("choice SGPPendingNotification: profileInstallationResult is nil")
+			return nil, fmt.Errorf("%w: choice SGPPendingNotification: profileInstallationResult is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.ProfileInstallationResult.MarshalDER()
 		if err != nil {
@@ -26481,7 +29493,7 @@ func (v *SGPPendingNotification) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case SGPPendingNotificationChoiceOtherSignedNotification:
 		if v.OtherSignedNotification == nil {
-			return nil, fmt.Errorf("choice SGPPendingNotification: otherSignedNotification is nil")
+			return nil, fmt.Errorf("%w: choice SGPPendingNotification: otherSignedNotification is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.OtherSignedNotification.MarshalDER()
 		if err != nil {
@@ -26493,7 +29505,7 @@ func (v *SGPPendingNotification) MarshalDER() ([]byte, error) {
 		return enc_der_1, nil
 	case SGPPendingNotificationChoiceCompactProfileInstallationResult:
 		if v.CompactProfileInstallationResult == nil {
-			return nil, fmt.Errorf("choice SGPPendingNotification: compactProfileInstallationResult is nil")
+			return nil, fmt.Errorf("%w: choice SGPPendingNotification: compactProfileInstallationResult is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.CompactProfileInstallationResult.MarshalDER()
 		if err != nil {
@@ -26510,7 +29522,7 @@ func (v *SGPPendingNotification) MarshalDER() ([]byte, error) {
 		return enc_der_2, nil
 	case SGPPendingNotificationChoiceCompactOtherSignedNotification:
 		if v.CompactOtherSignedNotification == nil {
-			return nil, fmt.Errorf("choice SGPPendingNotification: compactOtherSignedNotification is nil")
+			return nil, fmt.Errorf("%w: choice SGPPendingNotification: compactOtherSignedNotification is nil", ber.ErrInvalidValue)
 		}
 		enc_der_3, err := v.CompactOtherSignedNotification.MarshalDER()
 		if err != nil {
@@ -26537,7 +29549,23 @@ func (v *SGPPendingNotification) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPPendingNotification from BER/DER format.
-func (v *SGPPendingNotification) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPPendingNotification) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPPendingNotification destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -26610,9 +29638,22 @@ func (v *SGPPendingNotification) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 }
 
 // MarshalBER encodes SGPProfileInstallationResult to BER format.
-func (v *SGPProfileInstallationResult) MarshalBER() ([]byte, error) {
+func (v *SGPProfileInstallationResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPProfileInstallationResult receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPProfileInstallationResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_profileinstallationresultdata, err := v.ProfileInstallationResultData.MarshalBER()
+	enc_profileinstallationresultdata, err := v.ProfileInstallationResultData.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding profileInstallationResultData: %w", err)
 	}
@@ -26642,6 +29683,9 @@ func (v *SGPProfileInstallationResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPProfileInstallationResult to DER format.
 func (v *SGPProfileInstallationResult) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPProfileInstallationResult receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_profileinstallationresultdata, err := v.ProfileInstallationResultData.MarshalDER()
 	if err != nil {
@@ -26680,11 +29724,27 @@ func (v *SGPProfileInstallationResult) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPProfileInstallationResult from BER/DER format.
-func (v *SGPProfileInstallationResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPProfileInstallationResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPProfileInstallationResult destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPProfileInstallationResult{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPProfileInstallationResult: %w", err)
@@ -26716,7 +29776,7 @@ func (v *SGPProfileInstallationResult) UnmarshalBER(data []byte, opts ...ber.Dec
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.ProfileInstallationResultData.UnmarshalBER(content[offset:offset+n_profileinstallationresultdata], opts...); unmErr != nil {
+	if unmErr := v.ProfileInstallationResultData.UnmarshalBER(content[offset:offset+n_profileinstallationresultdata], ber.ChildDecodeOptions(opts, "profileInstallationResultData")...); unmErr != nil {
 		return fmt.Errorf("decoding profileInstallationResultData: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -26776,9 +29836,22 @@ func (v *SGPProfileInstallationResult) UnmarshalBER(data []byte, opts ...ber.Dec
 }
 
 // MarshalBER encodes CompactProfileInstallationResult to BER format.
-func (v *CompactProfileInstallationResult) MarshalBER() ([]byte, error) {
+func (v *CompactProfileInstallationResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactProfileInstallationResult receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CompactProfileInstallationResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_compactprofileinstallationresultdata, err := v.CompactProfileInstallationResultData.MarshalBER()
+	enc_compactprofileinstallationresultdata, err := v.CompactProfileInstallationResultData.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding compactProfileInstallationResultData: %w", err)
 	}
@@ -26813,6 +29886,9 @@ func (v *CompactProfileInstallationResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CompactProfileInstallationResult to DER format.
 func (v *CompactProfileInstallationResult) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactProfileInstallationResult receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_compactprofileinstallationresultdata, err := v.CompactProfileInstallationResultData.MarshalDER()
 	if err != nil {
@@ -26851,11 +29927,27 @@ func (v *CompactProfileInstallationResult) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CompactProfileInstallationResult from BER/DER format.
-func (v *CompactProfileInstallationResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CompactProfileInstallationResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CompactProfileInstallationResult destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CompactProfileInstallationResult{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CompactProfileInstallationResult SEQUENCE: %w", err)
@@ -26884,7 +29976,7 @@ func (v *CompactProfileInstallationResult) UnmarshalBER(data []byte, opts ...ber
 	if reconstructionErr_compactprofileinstallationresultdata != nil {
 		return fmt.Errorf("decoding compactProfileInstallationResultData: %w", reconstructionErr_compactprofileinstallationresultdata)
 	}
-	if unmErr := v.CompactProfileInstallationResultData.UnmarshalBER(reconstructed_compactprofileinstallationresultdata, opts...); unmErr != nil {
+	if unmErr := v.CompactProfileInstallationResultData.UnmarshalBER(reconstructed_compactprofileinstallationresultdata, ber.ChildDecodeOptions(opts, "compactProfileInstallationResultData")...); unmErr != nil {
 		return fmt.Errorf("decoding compactProfileInstallationResultData: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -26944,10 +30036,25 @@ func (v *CompactProfileInstallationResult) UnmarshalBER(data []byte, opts ...ber
 }
 
 // MarshalBER encodes CompactProfileInstallationResultData to BER format.
-func (v *CompactProfileInstallationResultData) MarshalBER() ([]byte, error) {
+func (v *CompactProfileInstallationResultData) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactProfileInstallationResultData receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CompactProfileInstallationResultData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckEncodedLength(opts, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
@@ -26960,7 +30067,7 @@ func (v *CompactProfileInstallationResultData) MarshalBER() ([]byte, error) {
 	enc_transactionid = retagged_enc_transactionid
 	children = append(children, enc_transactionid...)
 	if v.SeqNumber == nil {
-		return nil, fmt.Errorf("encoding seqNumber: required INTEGER is nil")
+		return nil, fmt.Errorf("encoding seqNumber: %w: required INTEGER is nil", ber.ErrInvalidValue)
 	}
 	enc_seqnumber, encodeErr_enc_seqnumber := ber.EncodeBigInt(v.SeqNumber)
 	if encodeErr_enc_seqnumber != nil {
@@ -26976,7 +30083,7 @@ func (v *CompactProfileInstallationResultData) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_iccidpresent...)
 	}
-	enc_compactfinalresult, err := v.CompactFinalResult.MarshalBER()
+	enc_compactfinalresult, err := v.CompactFinalResult.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding compactFinalResult: %w", err)
 	}
@@ -27003,9 +30110,14 @@ func (v *CompactProfileInstallationResultData) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CompactProfileInstallationResultData to DER format.
 func (v *CompactProfileInstallationResultData) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactProfileInstallationResultData receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckEncodedLength(nil, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
@@ -27018,7 +30130,7 @@ func (v *CompactProfileInstallationResultData) MarshalDER() ([]byte, error) {
 	enc_transactionid = retagged_enc_transactionid
 	children = append(children, enc_transactionid...)
 	if v.SeqNumber == nil {
-		return nil, fmt.Errorf("encoding seqNumber: required INTEGER is nil")
+		return nil, fmt.Errorf("encoding seqNumber: %w: required INTEGER is nil", ber.ErrInvalidValue)
 	}
 	enc_seqnumber, encodeErr_enc_seqnumber := ber.EncodeBigInt(v.SeqNumber)
 	if encodeErr_enc_seqnumber != nil {
@@ -27058,11 +30170,27 @@ func (v *CompactProfileInstallationResultData) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CompactProfileInstallationResultData from BER/DER format.
-func (v *CompactProfileInstallationResultData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CompactProfileInstallationResultData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CompactProfileInstallationResultData destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CompactProfileInstallationResultData{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CompactProfileInstallationResultData SEQUENCE: %w", err)
@@ -27095,7 +30223,9 @@ func (v *CompactProfileInstallationResultData) UnmarshalBER(data []byte, opts ..
 
 	offset += n_transactionid
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckDecodedLength(opts, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode seqNumber
 	if offset >= len(content) {
@@ -27149,7 +30279,7 @@ func (v *CompactProfileInstallationResultData) UnmarshalBER(data []byte, opts ..
 		return fmt.Errorf("decoding compactFinalResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_compactfinalresult)
 	}
 	// Decode inner value from explicit tag wrapper
-	if unmErr := v.CompactFinalResult.UnmarshalBER(innerData_compactfinalresult, opts...); unmErr != nil {
+	if unmErr := v.CompactFinalResult.UnmarshalBER(innerData_compactfinalresult, ber.ChildDecodeOptions(opts, "compactFinalResult")...); unmErr != nil {
 		return fmt.Errorf("decoding compactFinalResult: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -27185,10 +30315,25 @@ func (v *CompactProfileInstallationResultData) UnmarshalBER(data []byte, opts ..
 }
 
 // MarshalBER encodes CompactSuccessResult to BER format.
-func (v *CompactSuccessResult) MarshalBER() ([]byte, error) {
+func (v *CompactSuccessResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactSuccessResult receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CompactSuccessResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.CompactAid) < 2 || len(v.CompactAid) > 2 {
-		return nil, fmt.Errorf("compactAid length %d violates SIZE (2)", len(v.CompactAid))
+		if constraintErr := ber.CheckEncodedLength(opts, "compactAid", "SIZE (2)", len(v.CompactAid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_compactaid, encodeErr_enc_compactaid := ber.EncodeOctetString(v.CompactAid)
 	if encodeErr_enc_compactaid != nil {
@@ -27222,9 +30367,14 @@ func (v *CompactSuccessResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CompactSuccessResult to DER format.
 func (v *CompactSuccessResult) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactSuccessResult receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.CompactAid) < 2 || len(v.CompactAid) > 2 {
-		return nil, fmt.Errorf("compactAid length %d violates SIZE (2)", len(v.CompactAid))
+		if constraintErr := ber.CheckEncodedLength(nil, "compactAid", "SIZE (2)", len(v.CompactAid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_compactaid, encodeErr_enc_compactaid := ber.EncodeOctetString(v.CompactAid)
 	if encodeErr_enc_compactaid != nil {
@@ -27260,11 +30410,27 @@ func (v *CompactSuccessResult) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CompactSuccessResult from BER/DER format.
-func (v *CompactSuccessResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CompactSuccessResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CompactSuccessResult destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CompactSuccessResult{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CompactSuccessResult SEQUENCE: %w", err)
@@ -27297,7 +30463,9 @@ func (v *CompactSuccessResult) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 	offset += n_compactaid
 	if len(v.CompactAid) < 2 || len(v.CompactAid) > 2 {
-		return fmt.Errorf("compactAid length %d violates SIZE (2)", len(v.CompactAid))
+		if constraintErr := ber.CheckDecodedLength(opts, "compactAid", "SIZE (2)", len(v.CompactAid)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode simaResponse
 	if offset < len(content) {
@@ -27346,11 +30514,26 @@ func (v *CompactSuccessResult) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes CompactOtherSignedNotification to BER format.
-func (v *CompactOtherSignedNotification) MarshalBER() ([]byte, error) {
+func (v *CompactOtherSignedNotification) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactOtherSignedNotification receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CompactOtherSignedNotification) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.EidValue != nil {
 		if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
-			return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+			if constraintErr := ber.CheckEncodedLength(opts, "eidValue", "SIZE (16)", len(*v.EidValue)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eidvalue, encodeErr_enc_eidvalue := ber.EncodeOctetString([]byte(*v.EidValue))
 		if encodeErr_enc_eidvalue != nil {
@@ -27363,7 +30546,7 @@ func (v *CompactOtherSignedNotification) MarshalBER() ([]byte, error) {
 		enc_eidvalue = retagged_enc_eidvalue
 		children = append(children, enc_eidvalue...)
 	}
-	enc_tbsothernotification, err := v.TbsOtherNotification.MarshalBER()
+	enc_tbsothernotification, err := v.TbsOtherNotification.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding tbsOtherNotification: %w", err)
 	}
@@ -27400,10 +30583,15 @@ func (v *CompactOtherSignedNotification) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CompactOtherSignedNotification to DER format.
 func (v *CompactOtherSignedNotification) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactOtherSignedNotification receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.EidValue != nil {
 		if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
-			return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+			if constraintErr := ber.CheckEncodedLength(nil, "eidValue", "SIZE (16)", len(*v.EidValue)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eidvalue, encodeErr_enc_eidvalue := ber.EncodeOctetString([]byte(*v.EidValue))
 		if encodeErr_enc_eidvalue != nil {
@@ -27455,11 +30643,27 @@ func (v *CompactOtherSignedNotification) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CompactOtherSignedNotification from BER/DER format.
-func (v *CompactOtherSignedNotification) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CompactOtherSignedNotification) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CompactOtherSignedNotification destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CompactOtherSignedNotification{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CompactOtherSignedNotification SEQUENCE: %w", err)
@@ -27489,7 +30693,9 @@ func (v *CompactOtherSignedNotification) UnmarshalBER(data []byte, opts ...ber.D
 
 				offset += n_eidvalue
 				if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
-					return fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+					if constraintErr := ber.CheckDecodedLength(opts, "eidValue", "SIZE (16)", len(*v.EidValue)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -27509,7 +30715,7 @@ func (v *CompactOtherSignedNotification) UnmarshalBER(data []byte, opts ...ber.D
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.TbsOtherNotification.UnmarshalBER(content[offset:offset+n_tbsothernotification], opts...); unmErr != nil {
+	if unmErr := v.TbsOtherNotification.UnmarshalBER(content[offset:offset+n_tbsothernotification], ber.ChildDecodeOptions(opts, "tbsOtherNotification")...); unmErr != nil {
 		return fmt.Errorf("decoding tbsOtherNotification: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -27590,13 +30796,26 @@ func (v *CompactOtherSignedNotification) UnmarshalBER(data []byte, opts ...ber.D
 }
 
 // MarshalBER encodes SGPCancelSessionResponse to BER format.
-func (v *SGPCancelSessionResponse) MarshalBER() ([]byte, error) {
+func (v *SGPCancelSessionResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPCancelSessionResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPCancelSessionResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case SGPCancelSessionResponseChoiceCancelSessionResponseOk:
 		if v.CancelSessionResponseOk == nil {
-			return nil, fmt.Errorf("choice SGPCancelSessionResponse: cancelSessionResponseOk is nil")
+			return nil, fmt.Errorf("%w: choice SGPCancelSessionResponse: cancelSessionResponseOk is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.CancelSessionResponseOk.MarshalBER()
+		enc_0, err := v.CancelSessionResponseOk.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cancelSessionResponseOk: %w", err)
 		}
@@ -27615,7 +30834,7 @@ func (v *SGPCancelSessionResponse) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case SGPCancelSessionResponseChoiceCancelSessionResponseError:
 		if v.CancelSessionResponseError == nil {
-			return nil, fmt.Errorf("choice SGPCancelSessionResponse: cancelSessionResponseError is nil")
+			return nil, fmt.Errorf("%w: choice SGPCancelSessionResponse: cancelSessionResponseError is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeBigInt(v.CancelSessionResponseError.BigInt())
 		if encodeErr_enc_1 != nil {
@@ -27636,9 +30855,9 @@ func (v *SGPCancelSessionResponse) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case SGPCancelSessionResponseChoiceCompactCancelSessionResponseOk:
 		if v.CompactCancelSessionResponseOk == nil {
-			return nil, fmt.Errorf("choice SGPCancelSessionResponse: compactCancelSessionResponseOk is nil")
+			return nil, fmt.Errorf("%w: choice SGPCancelSessionResponse: compactCancelSessionResponseOk is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.CompactCancelSessionResponseOk.MarshalBER()
+		enc_2, err := v.CompactCancelSessionResponseOk.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding compactCancelSessionResponseOk: %w", err)
 		}
@@ -27662,10 +30881,13 @@ func (v *SGPCancelSessionResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPCancelSessionResponse to DER format.
 func (v *SGPCancelSessionResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPCancelSessionResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case SGPCancelSessionResponseChoiceCancelSessionResponseOk:
 		if v.CancelSessionResponseOk == nil {
-			return nil, fmt.Errorf("choice SGPCancelSessionResponse: cancelSessionResponseOk is nil")
+			return nil, fmt.Errorf("%w: choice SGPCancelSessionResponse: cancelSessionResponseOk is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.CancelSessionResponseOk.MarshalDER()
 		if err != nil {
@@ -27689,7 +30911,7 @@ func (v *SGPCancelSessionResponse) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case SGPCancelSessionResponseChoiceCompactCancelSessionResponseOk:
 		if v.CompactCancelSessionResponseOk == nil {
-			return nil, fmt.Errorf("choice SGPCancelSessionResponse: compactCancelSessionResponseOk is nil")
+			return nil, fmt.Errorf("%w: choice SGPCancelSessionResponse: compactCancelSessionResponseOk is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.CompactCancelSessionResponseOk.MarshalDER()
 		if err != nil {
@@ -27723,7 +30945,23 @@ func (v *SGPCancelSessionResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPCancelSessionResponse from BER/DER format.
-func (v *SGPCancelSessionResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPCancelSessionResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPCancelSessionResponse destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -27810,9 +31048,22 @@ func (v *SGPCancelSessionResponse) UnmarshalBER(data []byte, opts ...ber.DecodeO
 }
 
 // MarshalBER encodes CompactCancelSessionResponseOk to BER format.
-func (v *CompactCancelSessionResponseOk) MarshalBER() ([]byte, error) {
+func (v *CompactCancelSessionResponseOk) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactCancelSessionResponseOk receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CompactCancelSessionResponseOk) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_compacteuicccancelsessionsigned, err := v.CompactEuiccCancelSessionSigned.MarshalBER()
+	enc_compacteuicccancelsessionsigned, err := v.CompactEuiccCancelSessionSigned.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding compactEuiccCancelSessionSigned: %w", err)
 	}
@@ -27842,6 +31093,9 @@ func (v *CompactCancelSessionResponseOk) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CompactCancelSessionResponseOk to DER format.
 func (v *CompactCancelSessionResponseOk) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactCancelSessionResponseOk receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_compacteuicccancelsessionsigned, err := v.CompactEuiccCancelSessionSigned.MarshalDER()
 	if err != nil {
@@ -27875,11 +31129,27 @@ func (v *CompactCancelSessionResponseOk) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CompactCancelSessionResponseOk from BER/DER format.
-func (v *CompactCancelSessionResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CompactCancelSessionResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CompactCancelSessionResponseOk destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CompactCancelSessionResponseOk{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CompactCancelSessionResponseOk SEQUENCE: %w", err)
@@ -27903,7 +31173,7 @@ func (v *CompactCancelSessionResponseOk) UnmarshalBER(data []byte, opts ...ber.D
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.CompactEuiccCancelSessionSigned.UnmarshalBER(content[offset:offset+n_compacteuicccancelsessionsigned], opts...); unmErr != nil {
+	if unmErr := v.CompactEuiccCancelSessionSigned.UnmarshalBER(content[offset:offset+n_compacteuicccancelsessionsigned], ber.ChildDecodeOptions(opts, "compactEuiccCancelSessionSigned")...); unmErr != nil {
 		return fmt.Errorf("decoding compactEuiccCancelSessionSigned: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -27964,7 +31234,20 @@ func (v *CompactCancelSessionResponseOk) UnmarshalBER(data []byte, opts ...ber.D
 }
 
 // MarshalBER encodes CompactEuiccCancelSessionSigned to BER format.
-func (v *CompactEuiccCancelSessionSigned) MarshalBER() ([]byte, error) {
+func (v *CompactEuiccCancelSessionSigned) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactEuiccCancelSessionSigned receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CompactEuiccCancelSessionSigned) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.Reason != nil {
 		enc_reason, encodeErr_enc_reason := ber.EncodeBigInt((*v.Reason).BigInt())
@@ -27993,6 +31276,9 @@ func (v *CompactEuiccCancelSessionSigned) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CompactEuiccCancelSessionSigned to DER format.
 func (v *CompactEuiccCancelSessionSigned) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactEuiccCancelSessionSigned receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.Reason != nil {
 		enc_reason, encodeErr_enc_reason := ber.EncodeBigInt((*v.Reason).BigInt())
@@ -28023,11 +31309,27 @@ func (v *CompactEuiccCancelSessionSigned) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CompactEuiccCancelSessionSigned from BER/DER format.
-func (v *CompactEuiccCancelSessionSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CompactEuiccCancelSessionSigned) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CompactEuiccCancelSessionSigned destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CompactEuiccCancelSessionSigned{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CompactEuiccCancelSessionSigned SEQUENCE: %w", err)
@@ -28093,76 +31395,89 @@ func (v *CompactEuiccCancelSessionSigned) UnmarshalBER(data []byte, opts ...ber.
 }
 
 // MarshalBER encodes EsipaMessageFromIpaToEim to BER format.
-func (v *EsipaMessageFromIpaToEim) MarshalBER() ([]byte, error) {
+func (v *EsipaMessageFromIpaToEim) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EsipaMessageFromIpaToEim receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EsipaMessageFromIpaToEim) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case EsipaMessageFromIpaToEimChoiceInitiateAuthenticationRequestEsipa:
 		if v.InitiateAuthenticationRequestEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromIpaToEim: initiateAuthenticationRequestEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromIpaToEim: initiateAuthenticationRequestEsipa is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.InitiateAuthenticationRequestEsipa.MarshalBER()
+		enc_0, err := v.InitiateAuthenticationRequestEsipa.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding initiateAuthenticationRequestEsipa: %w", err)
 		}
 		return enc_0, nil
 	case EsipaMessageFromIpaToEimChoiceAuthenticateClientRequestEsipa:
 		if v.AuthenticateClientRequestEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromIpaToEim: authenticateClientRequestEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromIpaToEim: authenticateClientRequestEsipa is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.AuthenticateClientRequestEsipa.MarshalBER()
+		enc_1, err := v.AuthenticateClientRequestEsipa.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding authenticateClientRequestEsipa: %w", err)
 		}
 		return enc_1, nil
 	case EsipaMessageFromIpaToEimChoiceGetBoundProfilePackageRequestEsipa:
 		if v.GetBoundProfilePackageRequestEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromIpaToEim: getBoundProfilePackageRequestEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromIpaToEim: getBoundProfilePackageRequestEsipa is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.GetBoundProfilePackageRequestEsipa.MarshalBER()
+		enc_2, err := v.GetBoundProfilePackageRequestEsipa.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding getBoundProfilePackageRequestEsipa: %w", err)
 		}
 		return enc_2, nil
 	case EsipaMessageFromIpaToEimChoiceCancelSessionRequestEsipa:
 		if v.CancelSessionRequestEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromIpaToEim: cancelSessionRequestEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromIpaToEim: cancelSessionRequestEsipa is nil", ber.ErrInvalidValue)
 		}
-		enc_3, err := v.CancelSessionRequestEsipa.MarshalBER()
+		enc_3, err := v.CancelSessionRequestEsipa.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cancelSessionRequestEsipa: %w", err)
 		}
 		return enc_3, nil
 	case EsipaMessageFromIpaToEimChoiceHandleNotificationEsipa:
 		if v.HandleNotificationEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromIpaToEim: handleNotificationEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromIpaToEim: handleNotificationEsipa is nil", ber.ErrInvalidValue)
 		}
-		enc_4, err := v.HandleNotificationEsipa.MarshalBER()
+		enc_4, err := v.HandleNotificationEsipa.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding handleNotificationEsipa: %w", err)
 		}
 		return enc_4, nil
 	case EsipaMessageFromIpaToEimChoiceTransferEimPackageResponse:
 		if v.TransferEimPackageResponse == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromIpaToEim: transferEimPackageResponse is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromIpaToEim: transferEimPackageResponse is nil", ber.ErrInvalidValue)
 		}
-		enc_5, err := v.TransferEimPackageResponse.MarshalBER()
+		enc_5, err := v.TransferEimPackageResponse.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding transferEimPackageResponse: %w", err)
 		}
 		return enc_5, nil
 	case EsipaMessageFromIpaToEimChoiceGetEimPackageRequest:
 		if v.GetEimPackageRequest == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromIpaToEim: getEimPackageRequest is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromIpaToEim: getEimPackageRequest is nil", ber.ErrInvalidValue)
 		}
-		enc_6, err := v.GetEimPackageRequest.MarshalBER()
+		enc_6, err := v.GetEimPackageRequest.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding getEimPackageRequest: %w", err)
 		}
 		return enc_6, nil
 	case EsipaMessageFromIpaToEimChoiceProvideEimPackageResult:
 		if v.ProvideEimPackageResult == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromIpaToEim: provideEimPackageResult is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromIpaToEim: provideEimPackageResult is nil", ber.ErrInvalidValue)
 		}
-		enc_7, err := v.ProvideEimPackageResult.MarshalBER()
+		enc_7, err := v.ProvideEimPackageResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding provideEimPackageResult: %w", err)
 		}
@@ -28174,10 +31489,13 @@ func (v *EsipaMessageFromIpaToEim) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EsipaMessageFromIpaToEim to DER format.
 func (v *EsipaMessageFromIpaToEim) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EsipaMessageFromIpaToEim receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case EsipaMessageFromIpaToEimChoiceInitiateAuthenticationRequestEsipa:
 		if v.InitiateAuthenticationRequestEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromIpaToEim: initiateAuthenticationRequestEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromIpaToEim: initiateAuthenticationRequestEsipa is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.InitiateAuthenticationRequestEsipa.MarshalDER()
 		if err != nil {
@@ -28189,7 +31507,7 @@ func (v *EsipaMessageFromIpaToEim) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case EsipaMessageFromIpaToEimChoiceAuthenticateClientRequestEsipa:
 		if v.AuthenticateClientRequestEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromIpaToEim: authenticateClientRequestEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromIpaToEim: authenticateClientRequestEsipa is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.AuthenticateClientRequestEsipa.MarshalDER()
 		if err != nil {
@@ -28201,7 +31519,7 @@ func (v *EsipaMessageFromIpaToEim) MarshalDER() ([]byte, error) {
 		return enc_der_1, nil
 	case EsipaMessageFromIpaToEimChoiceGetBoundProfilePackageRequestEsipa:
 		if v.GetBoundProfilePackageRequestEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromIpaToEim: getBoundProfilePackageRequestEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromIpaToEim: getBoundProfilePackageRequestEsipa is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.GetBoundProfilePackageRequestEsipa.MarshalDER()
 		if err != nil {
@@ -28213,7 +31531,7 @@ func (v *EsipaMessageFromIpaToEim) MarshalDER() ([]byte, error) {
 		return enc_der_2, nil
 	case EsipaMessageFromIpaToEimChoiceCancelSessionRequestEsipa:
 		if v.CancelSessionRequestEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromIpaToEim: cancelSessionRequestEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromIpaToEim: cancelSessionRequestEsipa is nil", ber.ErrInvalidValue)
 		}
 		enc_der_3, err := v.CancelSessionRequestEsipa.MarshalDER()
 		if err != nil {
@@ -28225,7 +31543,7 @@ func (v *EsipaMessageFromIpaToEim) MarshalDER() ([]byte, error) {
 		return enc_der_3, nil
 	case EsipaMessageFromIpaToEimChoiceHandleNotificationEsipa:
 		if v.HandleNotificationEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromIpaToEim: handleNotificationEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromIpaToEim: handleNotificationEsipa is nil", ber.ErrInvalidValue)
 		}
 		enc_der_4, err := v.HandleNotificationEsipa.MarshalDER()
 		if err != nil {
@@ -28237,7 +31555,7 @@ func (v *EsipaMessageFromIpaToEim) MarshalDER() ([]byte, error) {
 		return enc_der_4, nil
 	case EsipaMessageFromIpaToEimChoiceTransferEimPackageResponse:
 		if v.TransferEimPackageResponse == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromIpaToEim: transferEimPackageResponse is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromIpaToEim: transferEimPackageResponse is nil", ber.ErrInvalidValue)
 		}
 		enc_der_5, err := v.TransferEimPackageResponse.MarshalDER()
 		if err != nil {
@@ -28249,7 +31567,7 @@ func (v *EsipaMessageFromIpaToEim) MarshalDER() ([]byte, error) {
 		return enc_der_5, nil
 	case EsipaMessageFromIpaToEimChoiceGetEimPackageRequest:
 		if v.GetEimPackageRequest == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromIpaToEim: getEimPackageRequest is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromIpaToEim: getEimPackageRequest is nil", ber.ErrInvalidValue)
 		}
 		enc_der_6, err := v.GetEimPackageRequest.MarshalDER()
 		if err != nil {
@@ -28261,7 +31579,7 @@ func (v *EsipaMessageFromIpaToEim) MarshalDER() ([]byte, error) {
 		return enc_der_6, nil
 	case EsipaMessageFromIpaToEimChoiceProvideEimPackageResult:
 		if v.ProvideEimPackageResult == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromIpaToEim: provideEimPackageResult is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromIpaToEim: provideEimPackageResult is nil", ber.ErrInvalidValue)
 		}
 		enc_der_7, err := v.ProvideEimPackageResult.MarshalDER()
 		if err != nil {
@@ -28283,7 +31601,23 @@ func (v *EsipaMessageFromIpaToEim) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EsipaMessageFromIpaToEim from BER/DER format.
-func (v *EsipaMessageFromIpaToEim) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EsipaMessageFromIpaToEim) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EsipaMessageFromIpaToEim destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -28368,67 +31702,80 @@ func (v *EsipaMessageFromIpaToEim) UnmarshalBER(data []byte, opts ...ber.DecodeO
 }
 
 // MarshalBER encodes EsipaMessageFromEimToIpa to BER format.
-func (v *EsipaMessageFromEimToIpa) MarshalBER() ([]byte, error) {
+func (v *EsipaMessageFromEimToIpa) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EsipaMessageFromEimToIpa receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EsipaMessageFromEimToIpa) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case EsipaMessageFromEimToIpaChoiceInitiateAuthenticationResponseEsipa:
 		if v.InitiateAuthenticationResponseEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromEimToIpa: initiateAuthenticationResponseEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromEimToIpa: initiateAuthenticationResponseEsipa is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.InitiateAuthenticationResponseEsipa.MarshalBER()
+		enc_0, err := v.InitiateAuthenticationResponseEsipa.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding initiateAuthenticationResponseEsipa: %w", err)
 		}
 		return enc_0, nil
 	case EsipaMessageFromEimToIpaChoiceAuthenticateClientResponseEsipa:
 		if v.AuthenticateClientResponseEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromEimToIpa: authenticateClientResponseEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromEimToIpa: authenticateClientResponseEsipa is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.AuthenticateClientResponseEsipa.MarshalBER()
+		enc_1, err := v.AuthenticateClientResponseEsipa.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding authenticateClientResponseEsipa: %w", err)
 		}
 		return enc_1, nil
 	case EsipaMessageFromEimToIpaChoiceGetBoundProfilePackageResponseEsipa:
 		if v.GetBoundProfilePackageResponseEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromEimToIpa: getBoundProfilePackageResponseEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromEimToIpa: getBoundProfilePackageResponseEsipa is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.GetBoundProfilePackageResponseEsipa.MarshalBER()
+		enc_2, err := v.GetBoundProfilePackageResponseEsipa.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding getBoundProfilePackageResponseEsipa: %w", err)
 		}
 		return enc_2, nil
 	case EsipaMessageFromEimToIpaChoiceCancelSessionResponseEsipa:
 		if v.CancelSessionResponseEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromEimToIpa: cancelSessionResponseEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromEimToIpa: cancelSessionResponseEsipa is nil", ber.ErrInvalidValue)
 		}
-		enc_3, err := v.CancelSessionResponseEsipa.MarshalBER()
+		enc_3, err := v.CancelSessionResponseEsipa.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cancelSessionResponseEsipa: %w", err)
 		}
 		return enc_3, nil
 	case EsipaMessageFromEimToIpaChoiceTransferEimPackageRequest:
 		if v.TransferEimPackageRequest == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromEimToIpa: transferEimPackageRequest is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromEimToIpa: transferEimPackageRequest is nil", ber.ErrInvalidValue)
 		}
-		enc_4, err := v.TransferEimPackageRequest.MarshalBER()
+		enc_4, err := v.TransferEimPackageRequest.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding transferEimPackageRequest: %w", err)
 		}
 		return enc_4, nil
 	case EsipaMessageFromEimToIpaChoiceGetEimPackageResponse:
 		if v.GetEimPackageResponse == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromEimToIpa: getEimPackageResponse is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromEimToIpa: getEimPackageResponse is nil", ber.ErrInvalidValue)
 		}
-		enc_5, err := v.GetEimPackageResponse.MarshalBER()
+		enc_5, err := v.GetEimPackageResponse.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding getEimPackageResponse: %w", err)
 		}
 		return enc_5, nil
 	case EsipaMessageFromEimToIpaChoiceProvideEimPackageResultResponse:
 		if v.ProvideEimPackageResultResponse == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromEimToIpa: provideEimPackageResultResponse is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromEimToIpa: provideEimPackageResultResponse is nil", ber.ErrInvalidValue)
 		}
-		enc_6, err := v.ProvideEimPackageResultResponse.MarshalBER()
+		enc_6, err := v.ProvideEimPackageResultResponse.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding provideEimPackageResultResponse: %w", err)
 		}
@@ -28440,10 +31787,13 @@ func (v *EsipaMessageFromEimToIpa) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EsipaMessageFromEimToIpa to DER format.
 func (v *EsipaMessageFromEimToIpa) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EsipaMessageFromEimToIpa receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case EsipaMessageFromEimToIpaChoiceInitiateAuthenticationResponseEsipa:
 		if v.InitiateAuthenticationResponseEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromEimToIpa: initiateAuthenticationResponseEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromEimToIpa: initiateAuthenticationResponseEsipa is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.InitiateAuthenticationResponseEsipa.MarshalDER()
 		if err != nil {
@@ -28455,7 +31805,7 @@ func (v *EsipaMessageFromEimToIpa) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case EsipaMessageFromEimToIpaChoiceAuthenticateClientResponseEsipa:
 		if v.AuthenticateClientResponseEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromEimToIpa: authenticateClientResponseEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromEimToIpa: authenticateClientResponseEsipa is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.AuthenticateClientResponseEsipa.MarshalDER()
 		if err != nil {
@@ -28467,7 +31817,7 @@ func (v *EsipaMessageFromEimToIpa) MarshalDER() ([]byte, error) {
 		return enc_der_1, nil
 	case EsipaMessageFromEimToIpaChoiceGetBoundProfilePackageResponseEsipa:
 		if v.GetBoundProfilePackageResponseEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromEimToIpa: getBoundProfilePackageResponseEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromEimToIpa: getBoundProfilePackageResponseEsipa is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.GetBoundProfilePackageResponseEsipa.MarshalDER()
 		if err != nil {
@@ -28479,7 +31829,7 @@ func (v *EsipaMessageFromEimToIpa) MarshalDER() ([]byte, error) {
 		return enc_der_2, nil
 	case EsipaMessageFromEimToIpaChoiceCancelSessionResponseEsipa:
 		if v.CancelSessionResponseEsipa == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromEimToIpa: cancelSessionResponseEsipa is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromEimToIpa: cancelSessionResponseEsipa is nil", ber.ErrInvalidValue)
 		}
 		enc_der_3, err := v.CancelSessionResponseEsipa.MarshalDER()
 		if err != nil {
@@ -28491,7 +31841,7 @@ func (v *EsipaMessageFromEimToIpa) MarshalDER() ([]byte, error) {
 		return enc_der_3, nil
 	case EsipaMessageFromEimToIpaChoiceTransferEimPackageRequest:
 		if v.TransferEimPackageRequest == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromEimToIpa: transferEimPackageRequest is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromEimToIpa: transferEimPackageRequest is nil", ber.ErrInvalidValue)
 		}
 		enc_der_4, err := v.TransferEimPackageRequest.MarshalDER()
 		if err != nil {
@@ -28503,7 +31853,7 @@ func (v *EsipaMessageFromEimToIpa) MarshalDER() ([]byte, error) {
 		return enc_der_4, nil
 	case EsipaMessageFromEimToIpaChoiceGetEimPackageResponse:
 		if v.GetEimPackageResponse == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromEimToIpa: getEimPackageResponse is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromEimToIpa: getEimPackageResponse is nil", ber.ErrInvalidValue)
 		}
 		enc_der_5, err := v.GetEimPackageResponse.MarshalDER()
 		if err != nil {
@@ -28515,7 +31865,7 @@ func (v *EsipaMessageFromEimToIpa) MarshalDER() ([]byte, error) {
 		return enc_der_5, nil
 	case EsipaMessageFromEimToIpaChoiceProvideEimPackageResultResponse:
 		if v.ProvideEimPackageResultResponse == nil {
-			return nil, fmt.Errorf("choice EsipaMessageFromEimToIpa: provideEimPackageResultResponse is nil")
+			return nil, fmt.Errorf("%w: choice EsipaMessageFromEimToIpa: provideEimPackageResultResponse is nil", ber.ErrInvalidValue)
 		}
 		enc_der_6, err := v.ProvideEimPackageResultResponse.MarshalDER()
 		if err != nil {
@@ -28537,7 +31887,23 @@ func (v *EsipaMessageFromEimToIpa) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EsipaMessageFromEimToIpa from BER/DER format.
-func (v *EsipaMessageFromEimToIpa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EsipaMessageFromEimToIpa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EsipaMessageFromEimToIpa destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -28615,10 +31981,25 @@ func (v *EsipaMessageFromEimToIpa) UnmarshalBER(data []byte, opts ...ber.DecodeO
 }
 
 // MarshalBER encodes InitiateAuthenticationRequestEsipa to BER format.
-func (v *InitiateAuthenticationRequestEsipa) MarshalBER() ([]byte, error) {
+func (v *InitiateAuthenticationRequestEsipa) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: InitiateAuthenticationRequestEsipa receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *InitiateAuthenticationRequestEsipa) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.EuiccChallenge) < 16 || len(v.EuiccChallenge) > 16 {
-		return nil, fmt.Errorf("euiccChallenge length %d violates SIZE (16)", len(v.EuiccChallenge))
+		if constraintErr := ber.CheckEncodedLength(opts, "euiccChallenge", "SIZE (16)", len(v.EuiccChallenge)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_euiccchallenge, encodeErr_enc_euiccchallenge := ber.EncodeOctetString([]byte(v.EuiccChallenge))
 	if encodeErr_enc_euiccchallenge != nil {
@@ -28643,7 +32024,7 @@ func (v *InitiateAuthenticationRequestEsipa) MarshalBER() ([]byte, error) {
 		children = append(children, enc_smdpaddress...)
 	}
 	if v.EuiccInfo1 != nil {
-		enc_euiccinfo1, err := v.EuiccInfo1.MarshalBER()
+		enc_euiccinfo1, err := v.EuiccInfo1.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccInfo1: %w", err)
 		}
@@ -28651,7 +32032,9 @@ func (v *InitiateAuthenticationRequestEsipa) MarshalBER() ([]byte, error) {
 	}
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -28679,9 +32062,14 @@ func (v *InitiateAuthenticationRequestEsipa) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes InitiateAuthenticationRequestEsipa to DER format.
 func (v *InitiateAuthenticationRequestEsipa) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: InitiateAuthenticationRequestEsipa receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.EuiccChallenge) < 16 || len(v.EuiccChallenge) > 16 {
-		return nil, fmt.Errorf("euiccChallenge length %d violates SIZE (16)", len(v.EuiccChallenge))
+		if constraintErr := ber.CheckEncodedLength(nil, "euiccChallenge", "SIZE (16)", len(v.EuiccChallenge)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_euiccchallenge, encodeErr_enc_euiccchallenge := ber.EncodeOctetString([]byte(v.EuiccChallenge))
 	if encodeErr_enc_euiccchallenge != nil {
@@ -28714,7 +32102,9 @@ func (v *InitiateAuthenticationRequestEsipa) MarshalDER() ([]byte, error) {
 	}
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(nil, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -28749,11 +32139,27 @@ func (v *InitiateAuthenticationRequestEsipa) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes InitiateAuthenticationRequestEsipa from BER/DER format.
-func (v *InitiateAuthenticationRequestEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *InitiateAuthenticationRequestEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: InitiateAuthenticationRequestEsipa destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = InitiateAuthenticationRequestEsipa{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding InitiateAuthenticationRequestEsipa: %w", err)
@@ -28789,7 +32195,9 @@ func (v *InitiateAuthenticationRequestEsipa) UnmarshalBER(data []byte, opts ...b
 
 	offset += n_euiccchallenge
 	if len(v.EuiccChallenge) < 16 || len(v.EuiccChallenge) > 16 {
-		return fmt.Errorf("euiccChallenge length %d violates SIZE (16)", len(v.EuiccChallenge))
+		if constraintErr := ber.CheckDecodedLength(opts, "euiccChallenge", "SIZE (16)", len(v.EuiccChallenge)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode smdpAddress
 	if offset < len(content) {
@@ -28833,7 +32241,7 @@ func (v *InitiateAuthenticationRequestEsipa) UnmarshalBER(data []byte, opts ...b
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_euiccinfo1.UnmarshalBER(content[offset:offset+n_euiccinfo1], opts...); unmErr != nil {
+				if unmErr := dec_euiccinfo1.UnmarshalBER(content[offset:offset+n_euiccinfo1], ber.ChildDecodeOptions(opts, "euiccinfo1")...); unmErr != nil {
 					return fmt.Errorf("decoding euiccInfo1: %w", unmErr)
 				}
 				v.EuiccInfo1 = &dec_euiccinfo1
@@ -28867,7 +32275,9 @@ func (v *InitiateAuthenticationRequestEsipa) UnmarshalBER(data []byte, opts ...b
 
 				offset += n_eimtransactionid
 				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+					if constraintErr := ber.CheckDecodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -28899,13 +32309,26 @@ func (v *InitiateAuthenticationRequestEsipa) UnmarshalBER(data []byte, opts ...b
 }
 
 // MarshalBER encodes InitiateAuthenticationResponseEsipa to BER format.
-func (v *InitiateAuthenticationResponseEsipa) MarshalBER() ([]byte, error) {
+func (v *InitiateAuthenticationResponseEsipa) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: InitiateAuthenticationResponseEsipa receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *InitiateAuthenticationResponseEsipa) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case InitiateAuthenticationResponseEsipaChoiceInitiateAuthenticationOkEsipa:
 		if v.InitiateAuthenticationOkEsipa == nil {
-			return nil, fmt.Errorf("choice InitiateAuthenticationResponseEsipa: initiateAuthenticationOkEsipa is nil")
+			return nil, fmt.Errorf("%w: choice InitiateAuthenticationResponseEsipa: initiateAuthenticationOkEsipa is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.InitiateAuthenticationOkEsipa.MarshalBER()
+		enc_0, err := v.InitiateAuthenticationOkEsipa.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding initiateAuthenticationOkEsipa: %w", err)
 		}
@@ -28924,7 +32347,7 @@ func (v *InitiateAuthenticationResponseEsipa) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case InitiateAuthenticationResponseEsipaChoiceInitiateAuthenticationErrorEsipa:
 		if v.InitiateAuthenticationErrorEsipa == nil {
-			return nil, fmt.Errorf("choice InitiateAuthenticationResponseEsipa: initiateAuthenticationErrorEsipa is nil")
+			return nil, fmt.Errorf("%w: choice InitiateAuthenticationResponseEsipa: initiateAuthenticationErrorEsipa is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeBigInt(v.InitiateAuthenticationErrorEsipa.BigInt())
 		if encodeErr_enc_1 != nil {
@@ -28950,10 +32373,13 @@ func (v *InitiateAuthenticationResponseEsipa) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes InitiateAuthenticationResponseEsipa to DER format.
 func (v *InitiateAuthenticationResponseEsipa) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: InitiateAuthenticationResponseEsipa receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case InitiateAuthenticationResponseEsipaChoiceInitiateAuthenticationOkEsipa:
 		if v.InitiateAuthenticationOkEsipa == nil {
-			return nil, fmt.Errorf("choice InitiateAuthenticationResponseEsipa: initiateAuthenticationOkEsipa is nil")
+			return nil, fmt.Errorf("%w: choice InitiateAuthenticationResponseEsipa: initiateAuthenticationOkEsipa is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.InitiateAuthenticationOkEsipa.MarshalDER()
 		if err != nil {
@@ -28987,7 +32413,23 @@ func (v *InitiateAuthenticationResponseEsipa) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes InitiateAuthenticationResponseEsipa from BER/DER format.
-func (v *InitiateAuthenticationResponseEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *InitiateAuthenticationResponseEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: InitiateAuthenticationResponseEsipa destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -29059,11 +32501,26 @@ func (v *InitiateAuthenticationResponseEsipa) UnmarshalBER(data []byte, opts ...
 }
 
 // MarshalBER encodes InitiateAuthenticationOkEsipa to BER format.
-func (v *InitiateAuthenticationOkEsipa) MarshalBER() ([]byte, error) {
+func (v *InitiateAuthenticationOkEsipa) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: InitiateAuthenticationOkEsipa receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *InitiateAuthenticationOkEsipa) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.TransactionId != nil {
 		if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
-			return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+			if constraintErr := ber.CheckEncodedLength(opts, "transactionId", "SIZE (1..16)", len(*v.TransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(*v.TransactionId))
 		if encodeErr_enc_transactionid != nil {
@@ -29076,7 +32533,7 @@ func (v *InitiateAuthenticationOkEsipa) MarshalBER() ([]byte, error) {
 		enc_transactionid = retagged_enc_transactionid
 		children = append(children, enc_transactionid...)
 	}
-	enc_serversigned1, err := v.ServerSigned1.MarshalBER()
+	enc_serversigned1, err := v.ServerSigned1.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding serverSigned1: %w", err)
 	}
@@ -29096,7 +32553,7 @@ func (v *InitiateAuthenticationOkEsipa) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding euiccCiPKIdentifierToBeUsed: %w", encodeErr_enc_euicccipkidentifiertobeused)
 	}
 	children = append(children, enc_euicccipkidentifiertobeused...)
-	enc_servercertificate, err := v.ServerCertificate.MarshalBER()
+	enc_servercertificate, err := v.ServerCertificate.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding serverCertificate: %w", err)
 	}
@@ -29109,7 +32566,7 @@ func (v *InitiateAuthenticationOkEsipa) MarshalBER() ([]byte, error) {
 		children = append(children, enc_matchingid...)
 	}
 	if v.CtxParams1 != nil {
-		enc_ctxparams1, err := v.CtxParams1.MarshalBER()
+		enc_ctxparams1, err := v.CtxParams1.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ctxParams1: %w", err)
 		}
@@ -29137,10 +32594,15 @@ func (v *InitiateAuthenticationOkEsipa) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes InitiateAuthenticationOkEsipa to DER format.
 func (v *InitiateAuthenticationOkEsipa) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: InitiateAuthenticationOkEsipa receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.TransactionId != nil {
 		if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
-			return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+			if constraintErr := ber.CheckEncodedLength(nil, "transactionId", "SIZE (1..16)", len(*v.TransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(*v.TransactionId))
 		if encodeErr_enc_transactionid != nil {
@@ -29216,11 +32678,27 @@ func (v *InitiateAuthenticationOkEsipa) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes InitiateAuthenticationOkEsipa from BER/DER format.
-func (v *InitiateAuthenticationOkEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *InitiateAuthenticationOkEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: InitiateAuthenticationOkEsipa destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = InitiateAuthenticationOkEsipa{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding InitiateAuthenticationOkEsipa SEQUENCE: %w", err)
@@ -29250,7 +32728,9 @@ func (v *InitiateAuthenticationOkEsipa) UnmarshalBER(data []byte, opts ...ber.De
 
 				offset += n_transactionid
 				if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
-					return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+					if constraintErr := ber.CheckDecodedLength(opts, "transactionId", "SIZE (1..16)", len(*v.TransactionId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -29269,7 +32749,7 @@ func (v *InitiateAuthenticationOkEsipa) UnmarshalBER(data []byte, opts ...ber.De
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.ServerSigned1.UnmarshalBER(content[offset:offset+n_serversigned1], opts...); unmErr != nil {
+	if unmErr := v.ServerSigned1.UnmarshalBER(content[offset:offset+n_serversigned1], ber.ChildDecodeOptions(opts, "serverSigned1")...); unmErr != nil {
 		return fmt.Errorf("decoding serverSigned1: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -29330,7 +32810,7 @@ func (v *InitiateAuthenticationOkEsipa) UnmarshalBER(data []byte, opts ...ber.De
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.ServerCertificate.UnmarshalBER(content[offset:offset+n_servercertificate], opts...); unmErr != nil {
+	if unmErr := v.ServerCertificate.UnmarshalBER(content[offset:offset+n_servercertificate], ber.ChildDecodeOptions(opts, "serverCertificate")...); unmErr != nil {
 		return fmt.Errorf("decoding serverCertificate: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -29372,7 +32852,7 @@ func (v *InitiateAuthenticationOkEsipa) UnmarshalBER(data []byte, opts ...ber.De
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_ctxparams1 CtxParams1
-				if unmErr := dec_ctxparams1.UnmarshalBER(innerData_ctxparams1, opts...); unmErr != nil {
+				if unmErr := dec_ctxparams1.UnmarshalBER(innerData_ctxparams1, ber.ChildDecodeOptions(opts, "ctxparams1")...); unmErr != nil {
 					return fmt.Errorf("decoding ctxParams1: %w", unmErr)
 				}
 				v.CtxParams1 = &dec_ctxparams1
@@ -29412,10 +32892,25 @@ func (v *InitiateAuthenticationOkEsipa) UnmarshalBER(data []byte, opts ...ber.De
 }
 
 // MarshalBER encodes AuthenticateClientRequestEsipa to BER format.
-func (v *AuthenticateClientRequestEsipa) MarshalBER() ([]byte, error) {
+func (v *AuthenticateClientRequestEsipa) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AuthenticateClientRequestEsipa receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *AuthenticateClientRequestEsipa) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckEncodedLength(opts, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
@@ -29427,7 +32922,7 @@ func (v *AuthenticateClientRequestEsipa) MarshalBER() ([]byte, error) {
 	}
 	enc_transactionid = retagged_enc_transactionid
 	children = append(children, enc_transactionid...)
-	enc_authenticateserverresponse, err := v.AuthenticateServerResponse.MarshalBER()
+	enc_authenticateserverresponse, err := v.AuthenticateServerResponse.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding authenticateServerResponse: %w", err)
 	}
@@ -29447,9 +32942,14 @@ func (v *AuthenticateClientRequestEsipa) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AuthenticateClientRequestEsipa to DER format.
 func (v *AuthenticateClientRequestEsipa) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AuthenticateClientRequestEsipa receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckEncodedLength(nil, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
@@ -29488,11 +32988,27 @@ func (v *AuthenticateClientRequestEsipa) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes AuthenticateClientRequestEsipa from BER/DER format.
-func (v *AuthenticateClientRequestEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *AuthenticateClientRequestEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: AuthenticateClientRequestEsipa destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = AuthenticateClientRequestEsipa{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding AuthenticateClientRequestEsipa: %w", err)
@@ -29528,7 +33044,9 @@ func (v *AuthenticateClientRequestEsipa) UnmarshalBER(data []byte, opts ...ber.D
 
 	offset += n_transactionid
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckDecodedLength(opts, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode authenticateServerResponse
 	if offset >= len(content) {
@@ -29550,7 +33068,7 @@ func (v *AuthenticateClientRequestEsipa) UnmarshalBER(data []byte, opts ...ber.D
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.AuthenticateServerResponse.UnmarshalBER(content[offset:offset+n_authenticateserverresponse], opts...); unmErr != nil {
+	if unmErr := v.AuthenticateServerResponse.UnmarshalBER(content[offset:offset+n_authenticateserverresponse], ber.ChildDecodeOptions(opts, "authenticateServerResponse")...); unmErr != nil {
 		return fmt.Errorf("decoding authenticateServerResponse: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -29587,13 +33105,26 @@ func (v *AuthenticateClientRequestEsipa) UnmarshalBER(data []byte, opts ...ber.D
 }
 
 // MarshalBER encodes AuthenticateClientResponseEsipa to BER format.
-func (v *AuthenticateClientResponseEsipa) MarshalBER() ([]byte, error) {
+func (v *AuthenticateClientResponseEsipa) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AuthenticateClientResponseEsipa receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *AuthenticateClientResponseEsipa) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case AuthenticateClientResponseEsipaChoiceAuthenticateClientOkDPEsipa:
 		if v.AuthenticateClientOkDPEsipa == nil {
-			return nil, fmt.Errorf("choice AuthenticateClientResponseEsipa: authenticateClientOkDPEsipa is nil")
+			return nil, fmt.Errorf("%w: choice AuthenticateClientResponseEsipa: authenticateClientOkDPEsipa is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.AuthenticateClientOkDPEsipa.MarshalBER()
+		enc_0, err := v.AuthenticateClientOkDPEsipa.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding authenticateClientOkDPEsipa: %w", err)
 		}
@@ -29612,9 +33143,9 @@ func (v *AuthenticateClientResponseEsipa) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case AuthenticateClientResponseEsipaChoiceAuthenticateClientOkDSEsipa:
 		if v.AuthenticateClientOkDSEsipa == nil {
-			return nil, fmt.Errorf("choice AuthenticateClientResponseEsipa: authenticateClientOkDSEsipa is nil")
+			return nil, fmt.Errorf("%w: choice AuthenticateClientResponseEsipa: authenticateClientOkDSEsipa is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.AuthenticateClientOkDSEsipa.MarshalBER()
+		enc_1, err := v.AuthenticateClientOkDSEsipa.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding authenticateClientOkDSEsipa: %w", err)
 		}
@@ -29633,7 +33164,7 @@ func (v *AuthenticateClientResponseEsipa) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case AuthenticateClientResponseEsipaChoiceAuthenticateClientErrorEsipa:
 		if v.AuthenticateClientErrorEsipa == nil {
-			return nil, fmt.Errorf("choice AuthenticateClientResponseEsipa: authenticateClientErrorEsipa is nil")
+			return nil, fmt.Errorf("%w: choice AuthenticateClientResponseEsipa: authenticateClientErrorEsipa is nil", ber.ErrInvalidValue)
 		}
 		enc_2, encodeErr_enc_2 := ber.EncodeBigInt(v.AuthenticateClientErrorEsipa.BigInt())
 		if encodeErr_enc_2 != nil {
@@ -29659,10 +33190,13 @@ func (v *AuthenticateClientResponseEsipa) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AuthenticateClientResponseEsipa to DER format.
 func (v *AuthenticateClientResponseEsipa) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AuthenticateClientResponseEsipa receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case AuthenticateClientResponseEsipaChoiceAuthenticateClientOkDPEsipa:
 		if v.AuthenticateClientOkDPEsipa == nil {
-			return nil, fmt.Errorf("choice AuthenticateClientResponseEsipa: authenticateClientOkDPEsipa is nil")
+			return nil, fmt.Errorf("%w: choice AuthenticateClientResponseEsipa: authenticateClientOkDPEsipa is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.AuthenticateClientOkDPEsipa.MarshalDER()
 		if err != nil {
@@ -29686,7 +33220,7 @@ func (v *AuthenticateClientResponseEsipa) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case AuthenticateClientResponseEsipaChoiceAuthenticateClientOkDSEsipa:
 		if v.AuthenticateClientOkDSEsipa == nil {
-			return nil, fmt.Errorf("choice AuthenticateClientResponseEsipa: authenticateClientOkDSEsipa is nil")
+			return nil, fmt.Errorf("%w: choice AuthenticateClientResponseEsipa: authenticateClientOkDSEsipa is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.AuthenticateClientOkDSEsipa.MarshalDER()
 		if err != nil {
@@ -29720,7 +33254,23 @@ func (v *AuthenticateClientResponseEsipa) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes AuthenticateClientResponseEsipa from BER/DER format.
-func (v *AuthenticateClientResponseEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *AuthenticateClientResponseEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: AuthenticateClientResponseEsipa destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -29807,11 +33357,26 @@ func (v *AuthenticateClientResponseEsipa) UnmarshalBER(data []byte, opts ...ber.
 }
 
 // MarshalBER encodes AuthenticateClientOkDPEsipa to BER format.
-func (v *AuthenticateClientOkDPEsipa) MarshalBER() ([]byte, error) {
+func (v *AuthenticateClientOkDPEsipa) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AuthenticateClientOkDPEsipa receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *AuthenticateClientOkDPEsipa) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.TransactionId != nil {
 		if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
-			return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+			if constraintErr := ber.CheckEncodedLength(opts, "transactionId", "SIZE (1..16)", len(*v.TransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(*v.TransactionId))
 		if encodeErr_enc_transactionid != nil {
@@ -29825,13 +33390,13 @@ func (v *AuthenticateClientOkDPEsipa) MarshalBER() ([]byte, error) {
 		children = append(children, enc_transactionid...)
 	}
 	if v.ProfileMetaData != nil {
-		enc_profilemetadata, err := v.ProfileMetaData.MarshalBER()
+		enc_profilemetadata, err := v.ProfileMetaData.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileMetaData: %w", err)
 		}
 		children = append(children, enc_profilemetadata...)
 	}
-	enc_smdpsigned2, err := v.SmdpSigned2.MarshalBER()
+	enc_smdpsigned2, err := v.SmdpSigned2.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding smdpSigned2: %w", err)
 	}
@@ -29846,14 +33411,16 @@ func (v *AuthenticateClientOkDPEsipa) MarshalBER() ([]byte, error) {
 	}
 	enc_smdpsignature2 = retagged_enc_smdpsignature2
 	children = append(children, enc_smdpsignature2...)
-	enc_smdpcertificate, err := v.SmdpCertificate.MarshalBER()
+	enc_smdpcertificate, err := v.SmdpCertificate.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding smdpCertificate: %w", err)
 	}
 	children = append(children, enc_smdpcertificate...)
 	if v.HashCc != nil {
 		if len(*v.HashCc) < 32 || len(*v.HashCc) > 32 {
-			return nil, fmt.Errorf("hashCc length %d violates SIZE (32)", len(*v.HashCc))
+			if constraintErr := ber.CheckEncodedLength(opts, "hashCc", "SIZE (32)", len(*v.HashCc)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_hashcc, encodeErr_enc_hashcc := ber.EncodeOctetString([]byte(*v.HashCc))
 		if encodeErr_enc_hashcc != nil {
@@ -29876,10 +33443,15 @@ func (v *AuthenticateClientOkDPEsipa) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AuthenticateClientOkDPEsipa to DER format.
 func (v *AuthenticateClientOkDPEsipa) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AuthenticateClientOkDPEsipa receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.TransactionId != nil {
 		if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
-			return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+			if constraintErr := ber.CheckEncodedLength(nil, "transactionId", "SIZE (1..16)", len(*v.TransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(*v.TransactionId))
 		if encodeErr_enc_transactionid != nil {
@@ -29921,7 +33493,9 @@ func (v *AuthenticateClientOkDPEsipa) MarshalDER() ([]byte, error) {
 	children = append(children, enc_smdpcertificate...)
 	if v.HashCc != nil {
 		if len(*v.HashCc) < 32 || len(*v.HashCc) > 32 {
-			return nil, fmt.Errorf("hashCc length %d violates SIZE (32)", len(*v.HashCc))
+			if constraintErr := ber.CheckEncodedLength(nil, "hashCc", "SIZE (32)", len(*v.HashCc)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_hashcc, encodeErr_enc_hashcc := ber.EncodeOctetString([]byte(*v.HashCc))
 		if encodeErr_enc_hashcc != nil {
@@ -29946,11 +33520,27 @@ func (v *AuthenticateClientOkDPEsipa) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes AuthenticateClientOkDPEsipa from BER/DER format.
-func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: AuthenticateClientOkDPEsipa destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = AuthenticateClientOkDPEsipa{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding AuthenticateClientOkDPEsipa SEQUENCE: %w", err)
@@ -29980,7 +33570,9 @@ func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte, opts ...ber.Deco
 
 				offset += n_transactionid
 				if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
-					return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+					if constraintErr := ber.CheckDecodedLength(opts, "transactionId", "SIZE (1..16)", len(*v.TransactionId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -30001,7 +33593,7 @@ func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte, opts ...ber.Deco
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_profilemetadata.UnmarshalBER(content[offset:offset+n_profilemetadata], opts...); unmErr != nil {
+				if unmErr := dec_profilemetadata.UnmarshalBER(content[offset:offset+n_profilemetadata], ber.ChildDecodeOptions(opts, "profilemetadata")...); unmErr != nil {
 					return fmt.Errorf("decoding profileMetaData: %w", unmErr)
 				}
 				v.ProfileMetaData = &dec_profilemetadata
@@ -30028,7 +33620,7 @@ func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte, opts ...ber.Deco
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.SmdpSigned2.UnmarshalBER(content[offset:offset+n_smdpsigned2], opts...); unmErr != nil {
+	if unmErr := v.SmdpSigned2.UnmarshalBER(content[offset:offset+n_smdpsigned2], ber.ChildDecodeOptions(opts, "smdpSigned2")...); unmErr != nil {
 		return fmt.Errorf("decoding smdpSigned2: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -30074,7 +33666,7 @@ func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte, opts ...ber.Deco
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.SmdpCertificate.UnmarshalBER(content[offset:offset+n_smdpcertificate], opts...); unmErr != nil {
+	if unmErr := v.SmdpCertificate.UnmarshalBER(content[offset:offset+n_smdpcertificate], ber.ChildDecodeOptions(opts, "smdpCertificate")...); unmErr != nil {
 		return fmt.Errorf("decoding smdpCertificate: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -30101,7 +33693,9 @@ func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte, opts ...ber.Deco
 
 				offset += n
 				if len(*v.HashCc) < 32 || len(*v.HashCc) > 32 {
-					return fmt.Errorf("hashCc length %d violates SIZE (32)", len(*v.HashCc))
+					if constraintErr := ber.CheckDecodedLength(opts, "hashCc", "SIZE (32)", len(*v.HashCc)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -30133,10 +33727,25 @@ func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte, opts ...ber.Deco
 }
 
 // MarshalBER encodes AuthenticateClientOkDSEsipa to BER format.
-func (v *AuthenticateClientOkDSEsipa) MarshalBER() ([]byte, error) {
+func (v *AuthenticateClientOkDSEsipa) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AuthenticateClientOkDSEsipa receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *AuthenticateClientOkDSEsipa) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckEncodedLength(opts, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
@@ -30149,7 +33758,7 @@ func (v *AuthenticateClientOkDSEsipa) MarshalBER() ([]byte, error) {
 	enc_transactionid = retagged_enc_transactionid
 	children = append(children, enc_transactionid...)
 	if v.ProfileDownloadTrigger != nil {
-		enc_profiledownloadtrigger, err := v.ProfileDownloadTrigger.MarshalBER()
+		enc_profiledownloadtrigger, err := v.ProfileDownloadTrigger.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileDownloadTrigger: %w", err)
 		}
@@ -30170,9 +33779,14 @@ func (v *AuthenticateClientOkDSEsipa) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AuthenticateClientOkDSEsipa to DER format.
 func (v *AuthenticateClientOkDSEsipa) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AuthenticateClientOkDSEsipa receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckEncodedLength(nil, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
@@ -30208,11 +33822,27 @@ func (v *AuthenticateClientOkDSEsipa) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes AuthenticateClientOkDSEsipa from BER/DER format.
-func (v *AuthenticateClientOkDSEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *AuthenticateClientOkDSEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: AuthenticateClientOkDSEsipa destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = AuthenticateClientOkDSEsipa{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding AuthenticateClientOkDSEsipa SEQUENCE: %w", err)
@@ -30245,7 +33875,9 @@ func (v *AuthenticateClientOkDSEsipa) UnmarshalBER(data []byte, opts ...ber.Deco
 
 	offset += n_transactionid
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckDecodedLength(opts, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode profileDownloadTrigger
 	if offset < len(content) {
@@ -30264,7 +33896,7 @@ func (v *AuthenticateClientOkDSEsipa) UnmarshalBER(data []byte, opts ...ber.Deco
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_profiledownloadtrigger.UnmarshalBER(content[offset:offset+n_profiledownloadtrigger], opts...); unmErr != nil {
+				if unmErr := dec_profiledownloadtrigger.UnmarshalBER(content[offset:offset+n_profiledownloadtrigger], ber.ChildDecodeOptions(opts, "profiledownloadtrigger")...); unmErr != nil {
 					return fmt.Errorf("decoding profileDownloadTrigger: %w", unmErr)
 				}
 				v.ProfileDownloadTrigger = &dec_profiledownloadtrigger
@@ -30305,10 +33937,25 @@ func (v *AuthenticateClientOkDSEsipa) UnmarshalBER(data []byte, opts ...ber.Deco
 }
 
 // MarshalBER encodes GetBoundProfilePackageRequestEsipa to BER format.
-func (v *GetBoundProfilePackageRequestEsipa) MarshalBER() ([]byte, error) {
+func (v *GetBoundProfilePackageRequestEsipa) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetBoundProfilePackageRequestEsipa receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *GetBoundProfilePackageRequestEsipa) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckEncodedLength(opts, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
@@ -30320,7 +33967,7 @@ func (v *GetBoundProfilePackageRequestEsipa) MarshalBER() ([]byte, error) {
 	}
 	enc_transactionid = retagged_enc_transactionid
 	children = append(children, enc_transactionid...)
-	enc_preparedownloadresponse, err := v.PrepareDownloadResponse.MarshalBER()
+	enc_preparedownloadresponse, err := v.PrepareDownloadResponse.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding prepareDownloadResponse: %w", err)
 	}
@@ -30340,9 +33987,14 @@ func (v *GetBoundProfilePackageRequestEsipa) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GetBoundProfilePackageRequestEsipa to DER format.
 func (v *GetBoundProfilePackageRequestEsipa) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetBoundProfilePackageRequestEsipa receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckEncodedLength(nil, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
@@ -30381,11 +34033,27 @@ func (v *GetBoundProfilePackageRequestEsipa) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes GetBoundProfilePackageRequestEsipa from BER/DER format.
-func (v *GetBoundProfilePackageRequestEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *GetBoundProfilePackageRequestEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: GetBoundProfilePackageRequestEsipa destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = GetBoundProfilePackageRequestEsipa{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding GetBoundProfilePackageRequestEsipa: %w", err)
@@ -30421,7 +34089,9 @@ func (v *GetBoundProfilePackageRequestEsipa) UnmarshalBER(data []byte, opts ...b
 
 	offset += n_transactionid
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckDecodedLength(opts, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode prepareDownloadResponse
 	if offset >= len(content) {
@@ -30443,7 +34113,7 @@ func (v *GetBoundProfilePackageRequestEsipa) UnmarshalBER(data []byte, opts ...b
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.PrepareDownloadResponse.UnmarshalBER(content[offset:offset+n_preparedownloadresponse], opts...); unmErr != nil {
+	if unmErr := v.PrepareDownloadResponse.UnmarshalBER(content[offset:offset+n_preparedownloadresponse], ber.ChildDecodeOptions(opts, "prepareDownloadResponse")...); unmErr != nil {
 		return fmt.Errorf("decoding prepareDownloadResponse: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -30480,13 +34150,26 @@ func (v *GetBoundProfilePackageRequestEsipa) UnmarshalBER(data []byte, opts ...b
 }
 
 // MarshalBER encodes GetBoundProfilePackageResponseEsipa to BER format.
-func (v *GetBoundProfilePackageResponseEsipa) MarshalBER() ([]byte, error) {
+func (v *GetBoundProfilePackageResponseEsipa) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetBoundProfilePackageResponseEsipa receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *GetBoundProfilePackageResponseEsipa) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case GetBoundProfilePackageResponseEsipaChoiceGetBoundProfilePackageOkEsipa:
 		if v.GetBoundProfilePackageOkEsipa == nil {
-			return nil, fmt.Errorf("choice GetBoundProfilePackageResponseEsipa: getBoundProfilePackageOkEsipa is nil")
+			return nil, fmt.Errorf("%w: choice GetBoundProfilePackageResponseEsipa: getBoundProfilePackageOkEsipa is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.GetBoundProfilePackageOkEsipa.MarshalBER()
+		enc_0, err := v.GetBoundProfilePackageOkEsipa.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding getBoundProfilePackageOkEsipa: %w", err)
 		}
@@ -30505,7 +34188,7 @@ func (v *GetBoundProfilePackageResponseEsipa) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case GetBoundProfilePackageResponseEsipaChoiceGetBoundProfilePackageErrorEsipa:
 		if v.GetBoundProfilePackageErrorEsipa == nil {
-			return nil, fmt.Errorf("choice GetBoundProfilePackageResponseEsipa: getBoundProfilePackageErrorEsipa is nil")
+			return nil, fmt.Errorf("%w: choice GetBoundProfilePackageResponseEsipa: getBoundProfilePackageErrorEsipa is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeBigInt(v.GetBoundProfilePackageErrorEsipa.BigInt())
 		if encodeErr_enc_1 != nil {
@@ -30531,10 +34214,13 @@ func (v *GetBoundProfilePackageResponseEsipa) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GetBoundProfilePackageResponseEsipa to DER format.
 func (v *GetBoundProfilePackageResponseEsipa) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetBoundProfilePackageResponseEsipa receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case GetBoundProfilePackageResponseEsipaChoiceGetBoundProfilePackageOkEsipa:
 		if v.GetBoundProfilePackageOkEsipa == nil {
-			return nil, fmt.Errorf("choice GetBoundProfilePackageResponseEsipa: getBoundProfilePackageOkEsipa is nil")
+			return nil, fmt.Errorf("%w: choice GetBoundProfilePackageResponseEsipa: getBoundProfilePackageOkEsipa is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.GetBoundProfilePackageOkEsipa.MarshalDER()
 		if err != nil {
@@ -30568,7 +34254,23 @@ func (v *GetBoundProfilePackageResponseEsipa) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes GetBoundProfilePackageResponseEsipa from BER/DER format.
-func (v *GetBoundProfilePackageResponseEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *GetBoundProfilePackageResponseEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: GetBoundProfilePackageResponseEsipa destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -30640,11 +34342,26 @@ func (v *GetBoundProfilePackageResponseEsipa) UnmarshalBER(data []byte, opts ...
 }
 
 // MarshalBER encodes GetBoundProfilePackageOkEsipa to BER format.
-func (v *GetBoundProfilePackageOkEsipa) MarshalBER() ([]byte, error) {
+func (v *GetBoundProfilePackageOkEsipa) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetBoundProfilePackageOkEsipa receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *GetBoundProfilePackageOkEsipa) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.TransactionId != nil {
 		if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
-			return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+			if constraintErr := ber.CheckEncodedLength(opts, "transactionId", "SIZE (1..16)", len(*v.TransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(*v.TransactionId))
 		if encodeErr_enc_transactionid != nil {
@@ -30657,7 +34374,7 @@ func (v *GetBoundProfilePackageOkEsipa) MarshalBER() ([]byte, error) {
 		enc_transactionid = retagged_enc_transactionid
 		children = append(children, enc_transactionid...)
 	}
-	enc_boundprofilepackage, err := v.BoundProfilePackage.MarshalBER()
+	enc_boundprofilepackage, err := v.BoundProfilePackage.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding boundProfilePackage: %w", err)
 	}
@@ -30677,10 +34394,15 @@ func (v *GetBoundProfilePackageOkEsipa) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GetBoundProfilePackageOkEsipa to DER format.
 func (v *GetBoundProfilePackageOkEsipa) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetBoundProfilePackageOkEsipa receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.TransactionId != nil {
 		if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
-			return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+			if constraintErr := ber.CheckEncodedLength(nil, "transactionId", "SIZE (1..16)", len(*v.TransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(*v.TransactionId))
 		if encodeErr_enc_transactionid != nil {
@@ -30715,11 +34437,27 @@ func (v *GetBoundProfilePackageOkEsipa) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes GetBoundProfilePackageOkEsipa from BER/DER format.
-func (v *GetBoundProfilePackageOkEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *GetBoundProfilePackageOkEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: GetBoundProfilePackageOkEsipa destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = GetBoundProfilePackageOkEsipa{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding GetBoundProfilePackageOkEsipa SEQUENCE: %w", err)
@@ -30749,7 +34487,9 @@ func (v *GetBoundProfilePackageOkEsipa) UnmarshalBER(data []byte, opts ...ber.De
 
 				offset += n_transactionid
 				if len(*v.TransactionId) < 1 || len(*v.TransactionId) > 16 {
-					return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(*v.TransactionId))
+					if constraintErr := ber.CheckDecodedLength(opts, "transactionId", "SIZE (1..16)", len(*v.TransactionId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -30773,7 +34513,7 @@ func (v *GetBoundProfilePackageOkEsipa) UnmarshalBER(data []byte, opts ...ber.De
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.BoundProfilePackage.UnmarshalBER(content[offset:offset+n_boundprofilepackage], opts...); unmErr != nil {
+	if unmErr := v.BoundProfilePackage.UnmarshalBER(content[offset:offset+n_boundprofilepackage], ber.ChildDecodeOptions(opts, "boundProfilePackage")...); unmErr != nil {
 		return fmt.Errorf("decoding boundProfilePackage: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -30809,13 +34549,26 @@ func (v *GetBoundProfilePackageOkEsipa) UnmarshalBER(data []byte, opts ...ber.De
 }
 
 // MarshalBER encodes HandleNotificationEsipa to BER format.
-func (v *HandleNotificationEsipa) MarshalBER() ([]byte, error) {
+func (v *HandleNotificationEsipa) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: HandleNotificationEsipa receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *HandleNotificationEsipa) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case HandleNotificationEsipaChoicePendingNotification:
 		if v.PendingNotification == nil {
-			return nil, fmt.Errorf("choice HandleNotificationEsipa: pendingNotification is nil")
+			return nil, fmt.Errorf("%w: choice HandleNotificationEsipa: pendingNotification is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.PendingNotification.MarshalBER()
+		enc_0, err := v.PendingNotification.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding pendingNotification: %w", err)
 		}
@@ -30836,9 +34589,9 @@ func (v *HandleNotificationEsipa) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case HandleNotificationEsipaChoiceProvideEimPackageResult:
 		if v.ProvideEimPackageResult == nil {
-			return nil, fmt.Errorf("choice HandleNotificationEsipa: provideEimPackageResult is nil")
+			return nil, fmt.Errorf("%w: choice HandleNotificationEsipa: provideEimPackageResult is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.ProvideEimPackageResult.MarshalBER()
+		enc_1, err := v.ProvideEimPackageResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding provideEimPackageResult: %w", err)
 		}
@@ -30857,10 +34610,13 @@ func (v *HandleNotificationEsipa) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes HandleNotificationEsipa to DER format.
 func (v *HandleNotificationEsipa) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: HandleNotificationEsipa receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case HandleNotificationEsipaChoicePendingNotification:
 		if v.PendingNotification == nil {
-			return nil, fmt.Errorf("choice HandleNotificationEsipa: pendingNotification is nil")
+			return nil, fmt.Errorf("%w: choice HandleNotificationEsipa: pendingNotification is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.PendingNotification.MarshalDER()
 		if err != nil {
@@ -30886,7 +34642,7 @@ func (v *HandleNotificationEsipa) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case HandleNotificationEsipaChoiceProvideEimPackageResult:
 		if v.ProvideEimPackageResult == nil {
-			return nil, fmt.Errorf("choice HandleNotificationEsipa: provideEimPackageResult is nil")
+			return nil, fmt.Errorf("%w: choice HandleNotificationEsipa: provideEimPackageResult is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.ProvideEimPackageResult.MarshalDER()
 		if err != nil {
@@ -30915,7 +34671,23 @@ func (v *HandleNotificationEsipa) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes HandleNotificationEsipa from BER/DER format.
-func (v *HandleNotificationEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *HandleNotificationEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: HandleNotificationEsipa destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -30975,10 +34747,25 @@ func (v *HandleNotificationEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes CancelSessionRequestEsipa to BER format.
-func (v *CancelSessionRequestEsipa) MarshalBER() ([]byte, error) {
+func (v *CancelSessionRequestEsipa) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CancelSessionRequestEsipa receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CancelSessionRequestEsipa) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckEncodedLength(opts, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
@@ -30990,7 +34777,7 @@ func (v *CancelSessionRequestEsipa) MarshalBER() ([]byte, error) {
 	}
 	enc_transactionid = retagged_enc_transactionid
 	children = append(children, enc_transactionid...)
-	enc_cancelsessionresponse, err := v.CancelSessionResponse.MarshalBER()
+	enc_cancelsessionresponse, err := v.CancelSessionResponse.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding cancelSessionResponse: %w", err)
 	}
@@ -31017,9 +34804,14 @@ func (v *CancelSessionRequestEsipa) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CancelSessionRequestEsipa to DER format.
 func (v *CancelSessionRequestEsipa) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CancelSessionRequestEsipa receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return nil, fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckEncodedLength(nil, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_transactionid, encodeErr_enc_transactionid := ber.EncodeOctetString([]byte(v.TransactionId))
 	if encodeErr_enc_transactionid != nil {
@@ -31065,11 +34857,27 @@ func (v *CancelSessionRequestEsipa) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CancelSessionRequestEsipa from BER/DER format.
-func (v *CancelSessionRequestEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CancelSessionRequestEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CancelSessionRequestEsipa destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CancelSessionRequestEsipa{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding CancelSessionRequestEsipa: %w", err)
@@ -31105,7 +34913,9 @@ func (v *CancelSessionRequestEsipa) UnmarshalBER(data []byte, opts ...ber.Decode
 
 	offset += n_transactionid
 	if len(v.TransactionId) < 1 || len(v.TransactionId) > 16 {
-		return fmt.Errorf("transactionId length %d violates SIZE (1..16)", len(v.TransactionId))
+		if constraintErr := ber.CheckDecodedLength(opts, "transactionId", "SIZE (1..16)", len(v.TransactionId)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode cancelSessionResponse
 	if offset >= len(content) {
@@ -31124,7 +34934,7 @@ func (v *CancelSessionRequestEsipa) UnmarshalBER(data []byte, opts ...ber.Decode
 		return fmt.Errorf("decoding cancelSessionResponse: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cancelsessionresponse)
 	}
 	// Decode inner value from explicit tag wrapper
-	if unmErr := v.CancelSessionResponse.UnmarshalBER(innerData_cancelsessionresponse, opts...); unmErr != nil {
+	if unmErr := v.CancelSessionResponse.UnmarshalBER(innerData_cancelsessionresponse, ber.ChildDecodeOptions(opts, "cancelSessionResponse")...); unmErr != nil {
 		return fmt.Errorf("decoding cancelSessionResponse: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -31161,13 +34971,26 @@ func (v *CancelSessionRequestEsipa) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes CancelSessionResponseEsipa to BER format.
-func (v *CancelSessionResponseEsipa) MarshalBER() ([]byte, error) {
+func (v *CancelSessionResponseEsipa) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CancelSessionResponseEsipa receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CancelSessionResponseEsipa) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case CancelSessionResponseEsipaChoiceCancelSessionOk:
 		if v.CancelSessionOk == nil {
-			return nil, fmt.Errorf("choice CancelSessionResponseEsipa: cancelSessionOk is nil")
+			return nil, fmt.Errorf("%w: choice CancelSessionResponseEsipa: cancelSessionOk is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.CancelSessionOk.MarshalBER()
+		enc_0, err := v.CancelSessionOk.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cancelSessionOk: %w", err)
 		}
@@ -31186,7 +35009,7 @@ func (v *CancelSessionResponseEsipa) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case CancelSessionResponseEsipaChoiceCancelSessionError:
 		if v.CancelSessionError == nil {
-			return nil, fmt.Errorf("choice CancelSessionResponseEsipa: cancelSessionError is nil")
+			return nil, fmt.Errorf("%w: choice CancelSessionResponseEsipa: cancelSessionError is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeBigInt(v.CancelSessionError.BigInt())
 		if encodeErr_enc_1 != nil {
@@ -31212,10 +35035,13 @@ func (v *CancelSessionResponseEsipa) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CancelSessionResponseEsipa to DER format.
 func (v *CancelSessionResponseEsipa) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CancelSessionResponseEsipa receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case CancelSessionResponseEsipaChoiceCancelSessionOk:
 		if v.CancelSessionOk == nil {
-			return nil, fmt.Errorf("choice CancelSessionResponseEsipa: cancelSessionOk is nil")
+			return nil, fmt.Errorf("%w: choice CancelSessionResponseEsipa: cancelSessionOk is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.CancelSessionOk.MarshalDER()
 		if err != nil {
@@ -31249,7 +35075,23 @@ func (v *CancelSessionResponseEsipa) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CancelSessionResponseEsipa from BER/DER format.
-func (v *CancelSessionResponseEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CancelSessionResponseEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CancelSessionResponseEsipa destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -31321,7 +35163,20 @@ func (v *CancelSessionResponseEsipa) UnmarshalBER(data []byte, opts ...ber.Decod
 }
 
 // MarshalBER encodes SGPCancelSessionOk to BER format.
-func (v *SGPCancelSessionOk) MarshalBER() ([]byte, error) {
+func (v *SGPCancelSessionOk) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPCancelSessionOk receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPCancelSessionOk) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -31338,6 +35193,9 @@ func (v *SGPCancelSessionOk) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPCancelSessionOk to DER format.
 func (v *SGPCancelSessionOk) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPCancelSessionOk receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
@@ -31356,11 +35214,27 @@ func (v *SGPCancelSessionOk) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPCancelSessionOk from BER/DER format.
-func (v *SGPCancelSessionOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPCancelSessionOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPCancelSessionOk destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPCancelSessionOk{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPCancelSessionOk SEQUENCE: %w", err)
@@ -31396,10 +35270,25 @@ func (v *SGPCancelSessionOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 }
 
 // MarshalBER encodes GetEimPackageRequest to BER format.
-func (v *GetEimPackageRequest) MarshalBER() ([]byte, error) {
+func (v *GetEimPackageRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetEimPackageRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *GetEimPackageRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.EidValue) < 16 || len(v.EidValue) > 16 {
-		return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(v.EidValue))
+		if constraintErr := ber.CheckEncodedLength(opts, "eidValue", "SIZE (16)", len(v.EidValue)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_eidvalue, encodeErr_enc_eidvalue := ber.EncodeOctetString([]byte(v.EidValue))
 	if encodeErr_enc_eidvalue != nil {
@@ -31434,7 +35323,9 @@ func (v *GetEimPackageRequest) MarshalBER() ([]byte, error) {
 	}
 	if v.RPLMN != nil {
 		if len(v.RPLMN) < 3 || len(v.RPLMN) > 3 {
-			return nil, fmt.Errorf("rPLMN length %d violates SIZE (3)", len(v.RPLMN))
+			if constraintErr := ber.CheckEncodedLength(opts, "rPLMN", "SIZE (3)", len(v.RPLMN)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_rplmn, encodeErr_enc_rplmn := ber.EncodeOctetString(v.RPLMN)
 		if encodeErr_enc_rplmn != nil {
@@ -31462,9 +35353,14 @@ func (v *GetEimPackageRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GetEimPackageRequest to DER format.
 func (v *GetEimPackageRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetEimPackageRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.EidValue) < 16 || len(v.EidValue) > 16 {
-		return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(v.EidValue))
+		if constraintErr := ber.CheckEncodedLength(nil, "eidValue", "SIZE (16)", len(v.EidValue)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_eidvalue, encodeErr_enc_eidvalue := ber.EncodeOctetString([]byte(v.EidValue))
 	if encodeErr_enc_eidvalue != nil {
@@ -31499,7 +35395,9 @@ func (v *GetEimPackageRequest) MarshalDER() ([]byte, error) {
 	}
 	if v.RPLMN != nil {
 		if len(v.RPLMN) < 3 || len(v.RPLMN) > 3 {
-			return nil, fmt.Errorf("rPLMN length %d violates SIZE (3)", len(v.RPLMN))
+			if constraintErr := ber.CheckEncodedLength(nil, "rPLMN", "SIZE (3)", len(v.RPLMN)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_rplmn, encodeErr_enc_rplmn := ber.EncodeOctetString(v.RPLMN)
 		if encodeErr_enc_rplmn != nil {
@@ -31534,11 +35432,27 @@ func (v *GetEimPackageRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes GetEimPackageRequest from BER/DER format.
-func (v *GetEimPackageRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *GetEimPackageRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: GetEimPackageRequest destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = GetEimPackageRequest{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding GetEimPackageRequest: %w", err)
@@ -31574,7 +35488,9 @@ func (v *GetEimPackageRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 	offset += n_eidvalue
 	if len(v.EidValue) < 16 || len(v.EidValue) > 16 {
-		return fmt.Errorf("eidValue length %d violates SIZE (16)", len(v.EidValue))
+		if constraintErr := ber.CheckDecodedLength(opts, "eidValue", "SIZE (16)", len(v.EidValue)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode notifyStateChange
 	if offset < len(content) {
@@ -31654,7 +35570,9 @@ func (v *GetEimPackageRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 
 				offset += n_rplmn
 				if len(v.RPLMN) < 3 || len(v.RPLMN) > 3 {
-					return fmt.Errorf("rPLMN length %d violates SIZE (3)", len(v.RPLMN))
+					if constraintErr := ber.CheckDecodedLength(opts, "rPLMN", "SIZE (3)", len(v.RPLMN)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -31686,13 +35604,26 @@ func (v *GetEimPackageRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes GetEimPackageResponse to BER format.
-func (v *GetEimPackageResponse) MarshalBER() ([]byte, error) {
+func (v *GetEimPackageResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetEimPackageResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *GetEimPackageResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case GetEimPackageResponseChoiceEuiccPackageRequest:
 		if v.EuiccPackageRequest == nil {
-			return nil, fmt.Errorf("choice GetEimPackageResponse: euiccPackageRequest is nil")
+			return nil, fmt.Errorf("%w: choice GetEimPackageResponse: euiccPackageRequest is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.EuiccPackageRequest.MarshalBER()
+		enc_0, err := v.EuiccPackageRequest.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccPackageRequest: %w", err)
 		}
@@ -31706,9 +35637,9 @@ func (v *GetEimPackageResponse) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case GetEimPackageResponseChoiceIpaEuiccDataRequest:
 		if v.IpaEuiccDataRequest == nil {
-			return nil, fmt.Errorf("choice GetEimPackageResponse: ipaEuiccDataRequest is nil")
+			return nil, fmt.Errorf("%w: choice GetEimPackageResponse: ipaEuiccDataRequest is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.IpaEuiccDataRequest.MarshalBER()
+		enc_1, err := v.IpaEuiccDataRequest.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ipaEuiccDataRequest: %w", err)
 		}
@@ -31722,9 +35653,9 @@ func (v *GetEimPackageResponse) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case GetEimPackageResponseChoiceProfileDownloadTriggerRequest:
 		if v.ProfileDownloadTriggerRequest == nil {
-			return nil, fmt.Errorf("choice GetEimPackageResponse: profileDownloadTriggerRequest is nil")
+			return nil, fmt.Errorf("%w: choice GetEimPackageResponse: profileDownloadTriggerRequest is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.ProfileDownloadTriggerRequest.MarshalBER()
+		enc_2, err := v.ProfileDownloadTriggerRequest.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileDownloadTriggerRequest: %w", err)
 		}
@@ -31738,7 +35669,7 @@ func (v *GetEimPackageResponse) MarshalBER() ([]byte, error) {
 		return enc_2, nil
 	case GetEimPackageResponseChoiceEimPackageError:
 		if v.EimPackageError == nil {
-			return nil, fmt.Errorf("choice GetEimPackageResponse: eimPackageError is nil")
+			return nil, fmt.Errorf("%w: choice GetEimPackageResponse: eimPackageError is nil", ber.ErrInvalidValue)
 		}
 		enc_3, encodeErr_enc_3 := ber.EncodeBigInt(v.EimPackageError.BigInt())
 		if encodeErr_enc_3 != nil {
@@ -31759,10 +35690,13 @@ func (v *GetEimPackageResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GetEimPackageResponse to DER format.
 func (v *GetEimPackageResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetEimPackageResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case GetEimPackageResponseChoiceEuiccPackageRequest:
 		if v.EuiccPackageRequest == nil {
-			return nil, fmt.Errorf("choice GetEimPackageResponse: euiccPackageRequest is nil")
+			return nil, fmt.Errorf("%w: choice GetEimPackageResponse: euiccPackageRequest is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.EuiccPackageRequest.MarshalDER()
 		if err != nil {
@@ -31781,7 +35715,7 @@ func (v *GetEimPackageResponse) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case GetEimPackageResponseChoiceIpaEuiccDataRequest:
 		if v.IpaEuiccDataRequest == nil {
-			return nil, fmt.Errorf("choice GetEimPackageResponse: ipaEuiccDataRequest is nil")
+			return nil, fmt.Errorf("%w: choice GetEimPackageResponse: ipaEuiccDataRequest is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.IpaEuiccDataRequest.MarshalDER()
 		if err != nil {
@@ -31800,7 +35734,7 @@ func (v *GetEimPackageResponse) MarshalDER() ([]byte, error) {
 		return enc_der_1, nil
 	case GetEimPackageResponseChoiceProfileDownloadTriggerRequest:
 		if v.ProfileDownloadTriggerRequest == nil {
-			return nil, fmt.Errorf("choice GetEimPackageResponse: profileDownloadTriggerRequest is nil")
+			return nil, fmt.Errorf("%w: choice GetEimPackageResponse: profileDownloadTriggerRequest is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.ProfileDownloadTriggerRequest.MarshalDER()
 		if err != nil {
@@ -31829,7 +35763,23 @@ func (v *GetEimPackageResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes GetEimPackageResponse from BER/DER format.
-func (v *GetEimPackageResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *GetEimPackageResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: GetEimPackageResponse destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -31903,11 +35853,26 @@ func (v *GetEimPackageResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes EimPackageResultResponseError to BER format.
-func (v *EimPackageResultResponseError) MarshalBER() ([]byte, error) {
+func (v *EimPackageResultResponseError) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimPackageResultResponseError receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EimPackageResultResponseError) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -31940,10 +35905,15 @@ func (v *EimPackageResultResponseError) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EimPackageResultResponseError to DER format.
 func (v *EimPackageResultResponseError) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimPackageResultResponseError receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.EimTransactionId != nil {
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(nil, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eimtransactionid, encodeErr_enc_eimtransactionid := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_eimtransactionid != nil {
@@ -31978,11 +35948,27 @@ func (v *EimPackageResultResponseError) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EimPackageResultResponseError from BER/DER format.
-func (v *EimPackageResultResponseError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EimPackageResultResponseError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EimPackageResultResponseError destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EimPackageResultResponseError{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EimPackageResultResponseError SEQUENCE: %w", err)
@@ -32012,7 +35998,9 @@ func (v *EimPackageResultResponseError) UnmarshalBER(data []byte, opts ...ber.De
 
 				offset += n_eimtransactionid
 				if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-					return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+					if constraintErr := ber.CheckDecodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -32063,49 +36051,62 @@ func (v *EimPackageResultResponseError) UnmarshalBER(data []byte, opts ...ber.De
 }
 
 // MarshalBER encodes EimPackageResult to BER format.
-func (v *EimPackageResult) MarshalBER() ([]byte, error) {
+func (v *EimPackageResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimPackageResult receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EimPackageResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case EimPackageResultChoiceEuiccPackageResult:
 		if v.EuiccPackageResult == nil {
-			return nil, fmt.Errorf("choice EimPackageResult: euiccPackageResult is nil")
+			return nil, fmt.Errorf("%w: choice EimPackageResult: euiccPackageResult is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.EuiccPackageResult.MarshalBER()
+		enc_0, err := v.EuiccPackageResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccPackageResult: %w", err)
 		}
 		return enc_0, nil
 	case EimPackageResultChoiceEPRAndNotifications:
 		if v.EPRAndNotifications == nil {
-			return nil, fmt.Errorf("choice EimPackageResult: ePRAndNotifications is nil")
+			return nil, fmt.Errorf("%w: choice EimPackageResult: ePRAndNotifications is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.EPRAndNotifications.MarshalBER()
+		enc_1, err := v.EPRAndNotifications.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ePRAndNotifications: %w", err)
 		}
 		return enc_1, nil
 	case EimPackageResultChoiceIpaEuiccDataResponse:
 		if v.IpaEuiccDataResponse == nil {
-			return nil, fmt.Errorf("choice EimPackageResult: ipaEuiccDataResponse is nil")
+			return nil, fmt.Errorf("%w: choice EimPackageResult: ipaEuiccDataResponse is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.IpaEuiccDataResponse.MarshalBER()
+		enc_2, err := v.IpaEuiccDataResponse.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ipaEuiccDataResponse: %w", err)
 		}
 		return enc_2, nil
 	case EimPackageResultChoiceProfileDownloadTriggerResult:
 		if v.ProfileDownloadTriggerResult == nil {
-			return nil, fmt.Errorf("choice EimPackageResult: profileDownloadTriggerResult is nil")
+			return nil, fmt.Errorf("%w: choice EimPackageResult: profileDownloadTriggerResult is nil", ber.ErrInvalidValue)
 		}
-		enc_3, err := v.ProfileDownloadTriggerResult.MarshalBER()
+		enc_3, err := v.ProfileDownloadTriggerResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileDownloadTriggerResult: %w", err)
 		}
 		return enc_3, nil
 	case EimPackageResultChoiceEimPackageResultResponseError:
 		if v.EimPackageResultResponseError == nil {
-			return nil, fmt.Errorf("choice EimPackageResult: eimPackageResultResponseError is nil")
+			return nil, fmt.Errorf("%w: choice EimPackageResult: eimPackageResultResponseError is nil", ber.ErrInvalidValue)
 		}
-		enc_4, err := v.EimPackageResultResponseError.MarshalBER()
+		enc_4, err := v.EimPackageResultResponseError.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eimPackageResultResponseError: %w", err)
 		}
@@ -32122,10 +36123,13 @@ func (v *EimPackageResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EimPackageResult to DER format.
 func (v *EimPackageResult) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimPackageResult receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case EimPackageResultChoiceEuiccPackageResult:
 		if v.EuiccPackageResult == nil {
-			return nil, fmt.Errorf("choice EimPackageResult: euiccPackageResult is nil")
+			return nil, fmt.Errorf("%w: choice EimPackageResult: euiccPackageResult is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.EuiccPackageResult.MarshalDER()
 		if err != nil {
@@ -32137,7 +36141,7 @@ func (v *EimPackageResult) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case EimPackageResultChoiceEPRAndNotifications:
 		if v.EPRAndNotifications == nil {
-			return nil, fmt.Errorf("choice EimPackageResult: ePRAndNotifications is nil")
+			return nil, fmt.Errorf("%w: choice EimPackageResult: ePRAndNotifications is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.EPRAndNotifications.MarshalDER()
 		if err != nil {
@@ -32149,7 +36153,7 @@ func (v *EimPackageResult) MarshalDER() ([]byte, error) {
 		return enc_der_1, nil
 	case EimPackageResultChoiceIpaEuiccDataResponse:
 		if v.IpaEuiccDataResponse == nil {
-			return nil, fmt.Errorf("choice EimPackageResult: ipaEuiccDataResponse is nil")
+			return nil, fmt.Errorf("%w: choice EimPackageResult: ipaEuiccDataResponse is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.IpaEuiccDataResponse.MarshalDER()
 		if err != nil {
@@ -32161,7 +36165,7 @@ func (v *EimPackageResult) MarshalDER() ([]byte, error) {
 		return enc_der_2, nil
 	case EimPackageResultChoiceProfileDownloadTriggerResult:
 		if v.ProfileDownloadTriggerResult == nil {
-			return nil, fmt.Errorf("choice EimPackageResult: profileDownloadTriggerResult is nil")
+			return nil, fmt.Errorf("%w: choice EimPackageResult: profileDownloadTriggerResult is nil", ber.ErrInvalidValue)
 		}
 		enc_der_3, err := v.ProfileDownloadTriggerResult.MarshalDER()
 		if err != nil {
@@ -32173,7 +36177,7 @@ func (v *EimPackageResult) MarshalDER() ([]byte, error) {
 		return enc_der_3, nil
 	case EimPackageResultChoiceEimPackageResultResponseError:
 		if v.EimPackageResultResponseError == nil {
-			return nil, fmt.Errorf("choice EimPackageResult: eimPackageResultResponseError is nil")
+			return nil, fmt.Errorf("%w: choice EimPackageResult: eimPackageResultResponseError is nil", ber.ErrInvalidValue)
 		}
 		enc_der_4, err := v.EimPackageResultResponseError.MarshalDER()
 		if err != nil {
@@ -32200,7 +36204,23 @@ func (v *EimPackageResult) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EimPackageResult from BER/DER format.
-func (v *EimPackageResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EimPackageResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EimPackageResult destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -32272,11 +36292,26 @@ func (v *EimPackageResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 }
 
 // MarshalBER encodes ProvideEimPackageResult to BER format.
-func (v *ProvideEimPackageResult) MarshalBER() ([]byte, error) {
+func (v *ProvideEimPackageResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProvideEimPackageResult receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ProvideEimPackageResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.EidValue != nil {
 		if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
-			return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+			if constraintErr := ber.CheckEncodedLength(opts, "eidValue", "SIZE (16)", len(*v.EidValue)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eidvalue, encodeErr_enc_eidvalue := ber.EncodeOctetString([]byte(*v.EidValue))
 		if encodeErr_enc_eidvalue != nil {
@@ -32289,7 +36324,7 @@ func (v *ProvideEimPackageResult) MarshalBER() ([]byte, error) {
 		enc_eidvalue = retagged_enc_eidvalue
 		children = append(children, enc_eidvalue...)
 	}
-	enc_eimpackageresult, err := v.EimPackageResult.MarshalBER()
+	enc_eimpackageresult, err := v.EimPackageResult.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding eimPackageResult: %w", err)
 	}
@@ -32309,10 +36344,15 @@ func (v *ProvideEimPackageResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ProvideEimPackageResult to DER format.
 func (v *ProvideEimPackageResult) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProvideEimPackageResult receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.EidValue != nil {
 		if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
-			return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+			if constraintErr := ber.CheckEncodedLength(nil, "eidValue", "SIZE (16)", len(*v.EidValue)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		enc_eidvalue, encodeErr_enc_eidvalue := ber.EncodeOctetString([]byte(*v.EidValue))
 		if encodeErr_enc_eidvalue != nil {
@@ -32352,11 +36392,27 @@ func (v *ProvideEimPackageResult) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ProvideEimPackageResult from BER/DER format.
-func (v *ProvideEimPackageResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ProvideEimPackageResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ProvideEimPackageResult destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ProvideEimPackageResult{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ProvideEimPackageResult: %w", err)
@@ -32389,7 +36445,9 @@ func (v *ProvideEimPackageResult) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 				offset += n_eidvalue
 				if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
-					return fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+					if constraintErr := ber.CheckDecodedLength(opts, "eidValue", "SIZE (16)", len(*v.EidValue)); constraintErr != nil {
+						return constraintErr
+					}
 				}
 			}
 		}
@@ -32408,7 +36466,7 @@ func (v *ProvideEimPackageResult) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.EimPackageResult.UnmarshalBER(content[offset:offset+n_eimpackageresult], opts...); unmErr != nil {
+	if unmErr := v.EimPackageResult.UnmarshalBER(content[offset:offset+n_eimpackageresult], ber.ChildDecodeOptions(opts, "eimPackageResult")...); unmErr != nil {
 		return fmt.Errorf("decoding eimPackageResult: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -32444,10 +36502,23 @@ func (v *ProvideEimPackageResult) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes ProvideEimPackageResultResponse to BER format.
-func (v *ProvideEimPackageResultResponse) MarshalBER() ([]byte, error) {
+func (v *ProvideEimPackageResultResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProvideEimPackageResultResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ProvideEimPackageResultResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case ProvideEimPackageResultResponseChoiceEimAcknowledgements:
-		enc_0, err := MarshalBEREimAcknowledgements(v.EimAcknowledgements)
+		enc_0, err := MarshalBEREimAcknowledgements(v.EimAcknowledgements, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eimAcknowledgements: %w", err)
 		}
@@ -32461,9 +36532,9 @@ func (v *ProvideEimPackageResultResponse) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case ProvideEimPackageResultResponseChoiceEmptyResponse:
 		if v.EmptyResponse == nil {
-			return nil, fmt.Errorf("choice ProvideEimPackageResultResponse: emptyResponse is nil")
+			return nil, fmt.Errorf("%w: choice ProvideEimPackageResultResponse: emptyResponse is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.EmptyResponse.MarshalBER()
+		enc_1, err := v.EmptyResponse.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding emptyResponse: %w", err)
 		}
@@ -32477,7 +36548,7 @@ func (v *ProvideEimPackageResultResponse) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case ProvideEimPackageResultResponseChoiceProvideEimPackageResultError:
 		if v.ProvideEimPackageResultError == nil {
-			return nil, fmt.Errorf("choice ProvideEimPackageResultResponse: provideEimPackageResultError is nil")
+			return nil, fmt.Errorf("%w: choice ProvideEimPackageResultResponse: provideEimPackageResultError is nil", ber.ErrInvalidValue)
 		}
 		enc_2, encodeErr_enc_2 := ber.EncodeBigInt(v.ProvideEimPackageResultError.BigInt())
 		if encodeErr_enc_2 != nil {
@@ -32498,6 +36569,9 @@ func (v *ProvideEimPackageResultResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ProvideEimPackageResultResponse to DER format.
 func (v *ProvideEimPackageResultResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProvideEimPackageResultResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case ProvideEimPackageResultResponseChoiceEimAcknowledgements:
 		enc_der_0, err := MarshalDEREimAcknowledgements(v.EimAcknowledgements)
@@ -32517,7 +36591,7 @@ func (v *ProvideEimPackageResultResponse) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case ProvideEimPackageResultResponseChoiceEmptyResponse:
 		if v.EmptyResponse == nil {
-			return nil, fmt.Errorf("choice ProvideEimPackageResultResponse: emptyResponse is nil")
+			return nil, fmt.Errorf("%w: choice ProvideEimPackageResultResponse: emptyResponse is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.EmptyResponse.MarshalDER()
 		if err != nil {
@@ -32546,7 +36620,23 @@ func (v *ProvideEimPackageResultResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ProvideEimPackageResultResponse from BER/DER format.
-func (v *ProvideEimPackageResultResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ProvideEimPackageResultResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ProvideEimPackageResultResponse destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -32583,7 +36673,7 @@ func (v *ProvideEimPackageResultResponse) UnmarshalBER(data []byte, opts ...ber.
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 83 && peekTag.Constructed == true {
 		v.Choice = ProvideEimPackageResultResponseChoiceEimAcknowledgements
-		dec, unmErr := UnmarshalBEREimAcknowledgements(choiceData, opts...)
+		dec, unmErr := UnmarshalBEREimAcknowledgements(choiceData, ber.ChildDecodeOptions(opts, "eimAcknowledgements")...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding eimAcknowledgements: %w", unmErr)
 		}
@@ -32613,13 +36703,26 @@ func (v *ProvideEimPackageResultResponse) UnmarshalBER(data []byte, opts ...ber.
 }
 
 // MarshalBER encodes TransferEimPackageRequest to BER format.
-func (v *TransferEimPackageRequest) MarshalBER() ([]byte, error) {
+func (v *TransferEimPackageRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TransferEimPackageRequest receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *TransferEimPackageRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case TransferEimPackageRequestChoiceEuiccPackageRequest:
 		if v.EuiccPackageRequest == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageRequest: euiccPackageRequest is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageRequest: euiccPackageRequest is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.EuiccPackageRequest.MarshalBER()
+		enc_0, err := v.EuiccPackageRequest.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccPackageRequest: %w", err)
 		}
@@ -32633,9 +36736,9 @@ func (v *TransferEimPackageRequest) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case TransferEimPackageRequestChoiceIpaEuiccDataRequest:
 		if v.IpaEuiccDataRequest == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageRequest: ipaEuiccDataRequest is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageRequest: ipaEuiccDataRequest is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.IpaEuiccDataRequest.MarshalBER()
+		enc_1, err := v.IpaEuiccDataRequest.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ipaEuiccDataRequest: %w", err)
 		}
@@ -32648,7 +36751,7 @@ func (v *TransferEimPackageRequest) MarshalBER() ([]byte, error) {
 		}
 		return enc_1, nil
 	case TransferEimPackageRequestChoiceEimAcknowledgements:
-		enc_2, err := MarshalBEREimAcknowledgements(v.EimAcknowledgements)
+		enc_2, err := MarshalBEREimAcknowledgements(v.EimAcknowledgements, opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eimAcknowledgements: %w", err)
 		}
@@ -32662,9 +36765,9 @@ func (v *TransferEimPackageRequest) MarshalBER() ([]byte, error) {
 		return enc_2, nil
 	case TransferEimPackageRequestChoiceProfileDownloadTriggerRequest:
 		if v.ProfileDownloadTriggerRequest == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageRequest: profileDownloadTriggerRequest is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageRequest: profileDownloadTriggerRequest is nil", ber.ErrInvalidValue)
 		}
-		enc_3, err := v.ProfileDownloadTriggerRequest.MarshalBER()
+		enc_3, err := v.ProfileDownloadTriggerRequest.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileDownloadTriggerRequest: %w", err)
 		}
@@ -32683,10 +36786,13 @@ func (v *TransferEimPackageRequest) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TransferEimPackageRequest to DER format.
 func (v *TransferEimPackageRequest) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TransferEimPackageRequest receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case TransferEimPackageRequestChoiceEuiccPackageRequest:
 		if v.EuiccPackageRequest == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageRequest: euiccPackageRequest is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageRequest: euiccPackageRequest is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.EuiccPackageRequest.MarshalDER()
 		if err != nil {
@@ -32705,7 +36811,7 @@ func (v *TransferEimPackageRequest) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case TransferEimPackageRequestChoiceIpaEuiccDataRequest:
 		if v.IpaEuiccDataRequest == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageRequest: ipaEuiccDataRequest is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageRequest: ipaEuiccDataRequest is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.IpaEuiccDataRequest.MarshalDER()
 		if err != nil {
@@ -32740,7 +36846,7 @@ func (v *TransferEimPackageRequest) MarshalDER() ([]byte, error) {
 		return enc_der_2, nil
 	case TransferEimPackageRequestChoiceProfileDownloadTriggerRequest:
 		if v.ProfileDownloadTriggerRequest == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageRequest: profileDownloadTriggerRequest is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageRequest: profileDownloadTriggerRequest is nil", ber.ErrInvalidValue)
 		}
 		enc_der_3, err := v.ProfileDownloadTriggerRequest.MarshalDER()
 		if err != nil {
@@ -32769,7 +36875,23 @@ func (v *TransferEimPackageRequest) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes TransferEimPackageRequest from BER/DER format.
-func (v *TransferEimPackageRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *TransferEimPackageRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: TransferEimPackageRequest destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -32820,7 +36942,7 @@ func (v *TransferEimPackageRequest) UnmarshalBER(data []byte, opts ...ber.Decode
 		v.IpaEuiccDataRequest = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 83 && peekTag.Constructed == true {
 		v.Choice = TransferEimPackageRequestChoiceEimAcknowledgements
-		dec, unmErr := UnmarshalBEREimAcknowledgements(choiceData, opts...)
+		dec, unmErr := UnmarshalBEREimAcknowledgements(choiceData, ber.ChildDecodeOptions(opts, "eimAcknowledgements")...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding eimAcknowledgements: %w", unmErr)
 		}
@@ -32839,13 +36961,26 @@ func (v *TransferEimPackageRequest) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes TransferEimPackageResponse to BER format.
-func (v *TransferEimPackageResponse) MarshalBER() ([]byte, error) {
+func (v *TransferEimPackageResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TransferEimPackageResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *TransferEimPackageResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case TransferEimPackageResponseChoiceEuiccPackageResult:
 		if v.EuiccPackageResult == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageResponse: euiccPackageResult is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageResponse: euiccPackageResult is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.EuiccPackageResult.MarshalBER()
+		enc_0, err := v.EuiccPackageResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccPackageResult: %w", err)
 		}
@@ -32859,9 +36994,9 @@ func (v *TransferEimPackageResponse) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case TransferEimPackageResponseChoiceEPRAndNotifications:
 		if v.EPRAndNotifications == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageResponse: ePRAndNotifications is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageResponse: ePRAndNotifications is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.EPRAndNotifications.MarshalBER()
+		enc_1, err := v.EPRAndNotifications.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ePRAndNotifications: %w", err)
 		}
@@ -32875,9 +37010,9 @@ func (v *TransferEimPackageResponse) MarshalBER() ([]byte, error) {
 		return enc_1, nil
 	case TransferEimPackageResponseChoiceIpaEuiccDataResponse:
 		if v.IpaEuiccDataResponse == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageResponse: ipaEuiccDataResponse is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageResponse: ipaEuiccDataResponse is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.IpaEuiccDataResponse.MarshalBER()
+		enc_2, err := v.IpaEuiccDataResponse.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ipaEuiccDataResponse: %w", err)
 		}
@@ -32901,9 +37036,9 @@ func (v *TransferEimPackageResponse) MarshalBER() ([]byte, error) {
 		return enc_3, nil
 	case TransferEimPackageResponseChoiceEimPackageReceivedWithCid:
 		if v.EimPackageReceivedWithCid == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageResponse: eimPackageReceivedWithCid is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageResponse: eimPackageReceivedWithCid is nil", ber.ErrInvalidValue)
 		}
-		enc_4, err := v.EimPackageReceivedWithCid.MarshalBER()
+		enc_4, err := v.EimPackageReceivedWithCid.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eimPackageReceivedWithCid: %w", err)
 		}
@@ -32922,7 +37057,7 @@ func (v *TransferEimPackageResponse) MarshalBER() ([]byte, error) {
 		return enc_4, nil
 	case TransferEimPackageResponseChoiceEimPackageError:
 		if v.EimPackageError == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageResponse: eimPackageError is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageResponse: eimPackageError is nil", ber.ErrInvalidValue)
 		}
 		enc_5, encodeErr_enc_5 := ber.EncodeBigInt(v.EimPackageError.BigInt())
 		if encodeErr_enc_5 != nil {
@@ -32938,9 +37073,9 @@ func (v *TransferEimPackageResponse) MarshalBER() ([]byte, error) {
 		return enc_5, nil
 	case TransferEimPackageResponseChoiceEimPackageErrorWithCid:
 		if v.EimPackageErrorWithCid == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageResponse: eimPackageErrorWithCid is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageResponse: eimPackageErrorWithCid is nil", ber.ErrInvalidValue)
 		}
-		enc_6, err := v.EimPackageErrorWithCid.MarshalBER()
+		enc_6, err := v.EimPackageErrorWithCid.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eimPackageErrorWithCid: %w", err)
 		}
@@ -32964,10 +37099,13 @@ func (v *TransferEimPackageResponse) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes TransferEimPackageResponse to DER format.
 func (v *TransferEimPackageResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TransferEimPackageResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case TransferEimPackageResponseChoiceEuiccPackageResult:
 		if v.EuiccPackageResult == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageResponse: euiccPackageResult is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageResponse: euiccPackageResult is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.EuiccPackageResult.MarshalDER()
 		if err != nil {
@@ -32986,7 +37124,7 @@ func (v *TransferEimPackageResponse) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case TransferEimPackageResponseChoiceEPRAndNotifications:
 		if v.EPRAndNotifications == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageResponse: ePRAndNotifications is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageResponse: ePRAndNotifications is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.EPRAndNotifications.MarshalDER()
 		if err != nil {
@@ -33005,7 +37143,7 @@ func (v *TransferEimPackageResponse) MarshalDER() ([]byte, error) {
 		return enc_der_1, nil
 	case TransferEimPackageResponseChoiceIpaEuiccDataResponse:
 		if v.IpaEuiccDataResponse == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageResponse: ipaEuiccDataResponse is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageResponse: ipaEuiccDataResponse is nil", ber.ErrInvalidValue)
 		}
 		enc_der_2, err := v.IpaEuiccDataResponse.MarshalDER()
 		if err != nil {
@@ -33024,7 +37162,7 @@ func (v *TransferEimPackageResponse) MarshalDER() ([]byte, error) {
 		return enc_der_2, nil
 	case TransferEimPackageResponseChoiceEimPackageReceivedWithCid:
 		if v.EimPackageReceivedWithCid == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageResponse: eimPackageReceivedWithCid is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageResponse: eimPackageReceivedWithCid is nil", ber.ErrInvalidValue)
 		}
 		enc_der_4, err := v.EimPackageReceivedWithCid.MarshalDER()
 		if err != nil {
@@ -33048,7 +37186,7 @@ func (v *TransferEimPackageResponse) MarshalDER() ([]byte, error) {
 		return enc_der_4, nil
 	case TransferEimPackageResponseChoiceEimPackageErrorWithCid:
 		if v.EimPackageErrorWithCid == nil {
-			return nil, fmt.Errorf("choice TransferEimPackageResponse: eimPackageErrorWithCid is nil")
+			return nil, fmt.Errorf("%w: choice TransferEimPackageResponse: eimPackageErrorWithCid is nil", ber.ErrInvalidValue)
 		}
 		enc_der_6, err := v.EimPackageErrorWithCid.MarshalDER()
 		if err != nil {
@@ -33082,7 +37220,23 @@ func (v *TransferEimPackageResponse) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes TransferEimPackageResponse from BER/DER format.
-func (v *TransferEimPackageResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *TransferEimPackageResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: TransferEimPackageResponse destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -33192,10 +37346,23 @@ func (v *TransferEimPackageResponse) UnmarshalBER(data []byte, opts ...ber.Decod
 }
 
 // MarshalBER encodes EimPackageReceivedWithCid to BER format.
-func (v *EimPackageReceivedWithCid) MarshalBER() ([]byte, error) {
+func (v *EimPackageReceivedWithCid) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimPackageReceivedWithCid receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EimPackageReceivedWithCid) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.CorrelationId != nil {
-		enc_correlationid, err := v.CorrelationId.MarshalBER()
+		enc_correlationid, err := v.CorrelationId.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding correlationId: %w", err)
 		}
@@ -33223,6 +37390,9 @@ func (v *EimPackageReceivedWithCid) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EimPackageReceivedWithCid to DER format.
 func (v *EimPackageReceivedWithCid) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimPackageReceivedWithCid receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.CorrelationId != nil {
 		enc_correlationid, err := v.CorrelationId.MarshalDER()
@@ -33255,11 +37425,27 @@ func (v *EimPackageReceivedWithCid) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EimPackageReceivedWithCid from BER/DER format.
-func (v *EimPackageReceivedWithCid) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EimPackageReceivedWithCid) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EimPackageReceivedWithCid destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EimPackageReceivedWithCid{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EimPackageReceivedWithCid SEQUENCE: %w", err)
@@ -33282,7 +37468,7 @@ func (v *EimPackageReceivedWithCid) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_correlationid EimPackageReceivedWithCidCorrelationId
-				if unmErr := dec_correlationid.UnmarshalBER(innerData_correlationid, opts...); unmErr != nil {
+				if unmErr := dec_correlationid.UnmarshalBER(innerData_correlationid, ber.ChildDecodeOptions(opts, "correlationid")...); unmErr != nil {
 					return fmt.Errorf("decoding correlationId: %w", unmErr)
 				}
 				v.CorrelationId = &dec_correlationid
@@ -33322,10 +37508,23 @@ func (v *EimPackageReceivedWithCid) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes EimPackageErrorWithCid to BER format.
-func (v *EimPackageErrorWithCid) MarshalBER() ([]byte, error) {
+func (v *EimPackageErrorWithCid) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimPackageErrorWithCid receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EimPackageErrorWithCid) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.CorrelationId != nil {
-		enc_correlationid, err := v.CorrelationId.MarshalBER()
+		enc_correlationid, err := v.CorrelationId.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding correlationId: %w", err)
 		}
@@ -33363,6 +37562,9 @@ func (v *EimPackageErrorWithCid) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EimPackageErrorWithCid to DER format.
 func (v *EimPackageErrorWithCid) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimPackageErrorWithCid receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.CorrelationId != nil {
 		enc_correlationid, err := v.CorrelationId.MarshalDER()
@@ -33405,11 +37607,27 @@ func (v *EimPackageErrorWithCid) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EimPackageErrorWithCid from BER/DER format.
-func (v *EimPackageErrorWithCid) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EimPackageErrorWithCid) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EimPackageErrorWithCid destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EimPackageErrorWithCid{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EimPackageErrorWithCid SEQUENCE: %w", err)
@@ -33432,7 +37650,7 @@ func (v *EimPackageErrorWithCid) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_correlationid EimPackageErrorWithCidCorrelationId
-				if unmErr := dec_correlationid.UnmarshalBER(innerData_correlationid, opts...); unmErr != nil {
+				if unmErr := dec_correlationid.UnmarshalBER(innerData_correlationid, ber.ChildDecodeOptions(opts, "correlationid")...); unmErr != nil {
 					return fmt.Errorf("decoding correlationId: %w", unmErr)
 				}
 				v.CorrelationId = &dec_correlationid
@@ -33503,10 +37721,24 @@ func (v *EimPackageErrorWithCid) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 }
 
 // MarshalBEREuiccPackagePsmoList encodes a EuiccPackagePsmoList list to BER.
-func MarshalBEREuiccPackagePsmoList(list EuiccPackagePsmoList) ([]byte, error) {
+func MarshalBEREuiccPackagePsmoList(collection *EuiccPackagePsmoList, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBEREuiccPackagePsmoList(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBEREuiccPackagePsmoList(collection *EuiccPackagePsmoList, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -33516,7 +37748,11 @@ func MarshalBEREuiccPackagePsmoList(list EuiccPackagePsmoList) ([]byte, error) {
 }
 
 // MarshalDEREuiccPackagePsmoList encodes a EuiccPackagePsmoList list to DER.
-func MarshalDEREuiccPackagePsmoList(list EuiccPackagePsmoList) ([]byte, error) {
+func MarshalDEREuiccPackagePsmoList(collection *EuiccPackagePsmoList) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -33536,7 +37772,7 @@ func MarshalDEREuiccPackagePsmoList(list EuiccPackagePsmoList) ([]byte, error) {
 }
 
 // UnmarshalBEREuiccPackagePsmoList decodes a EuiccPackagePsmoList list from BER.
-func UnmarshalBEREuiccPackagePsmoList(data []byte, opts ...ber.DecodeOption) (EuiccPackagePsmoList, error) {
+func UnmarshalBEREuiccPackagePsmoList(data []byte, opts ...ber.DecodeOption) (*EuiccPackagePsmoList, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -33547,7 +37783,7 @@ func UnmarshalBEREuiccPackagePsmoList(data []byte, opts ...ber.DecodeOption) (Eu
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "EuiccPackagePsmoList", Cause: ber.ErrExtraData}
 	}
-	var result EuiccPackagePsmoList
+	var result []Psmo
 	offset := 0
 	for offset < len(content) {
 		var elem Psmo
@@ -33560,7 +37796,7 @@ func UnmarshalBEREuiccPackagePsmoList(data []byte, opts ...ber.DecodeOption) (Eu
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -33571,14 +37807,38 @@ func UnmarshalBEREuiccPackagePsmoList(data []byte, opts ...ber.DecodeOption) (Eu
 
 		offset += n
 	}
-	return result, nil
+	decoded := &EuiccPackagePsmoList{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBEREuiccPackagePsmoList(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBEREuiccPackageEcoList encodes a EuiccPackageEcoList list to BER.
-func MarshalBEREuiccPackageEcoList(list EuiccPackageEcoList) ([]byte, error) {
+func MarshalBEREuiccPackageEcoList(collection *EuiccPackageEcoList, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBEREuiccPackageEcoList(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBEREuiccPackageEcoList(collection *EuiccPackageEcoList, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -33588,7 +37848,11 @@ func MarshalBEREuiccPackageEcoList(list EuiccPackageEcoList) ([]byte, error) {
 }
 
 // MarshalDEREuiccPackageEcoList encodes a EuiccPackageEcoList list to DER.
-func MarshalDEREuiccPackageEcoList(list EuiccPackageEcoList) ([]byte, error) {
+func MarshalDEREuiccPackageEcoList(collection *EuiccPackageEcoList) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -33608,7 +37872,7 @@ func MarshalDEREuiccPackageEcoList(list EuiccPackageEcoList) ([]byte, error) {
 }
 
 // UnmarshalBEREuiccPackageEcoList decodes a EuiccPackageEcoList list from BER.
-func UnmarshalBEREuiccPackageEcoList(data []byte, opts ...ber.DecodeOption) (EuiccPackageEcoList, error) {
+func UnmarshalBEREuiccPackageEcoList(data []byte, opts ...ber.DecodeOption) (*EuiccPackageEcoList, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -33619,7 +37883,7 @@ func UnmarshalBEREuiccPackageEcoList(data []byte, opts ...ber.DecodeOption) (Eui
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "EuiccPackageEcoList", Cause: ber.ErrExtraData}
 	}
-	var result EuiccPackageEcoList
+	var result []Eco
 	offset := 0
 	for offset < len(content) {
 		var elem Eco
@@ -33632,7 +37896,7 @@ func UnmarshalBEREuiccPackageEcoList(data []byte, opts ...ber.DecodeOption) (Eui
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -33643,17 +37907,40 @@ func UnmarshalBEREuiccPackageEcoList(data []byte, opts ...ber.DecodeOption) (Eui
 
 		offset += n
 	}
-	return result, nil
+	decoded := &EuiccPackageEcoList{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBEREuiccPackageEcoList(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes EimConfigurationDataEimPublicKeyData to BER format.
-func (v *EimConfigurationDataEimPublicKeyData) MarshalBER() ([]byte, error) {
+func (v *EimConfigurationDataEimPublicKeyData) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimConfigurationDataEimPublicKeyData receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EimConfigurationDataEimPublicKeyData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case EimConfigurationDataEimPublicKeyDataChoiceEimPublicKey:
 		if v.EimPublicKey == nil {
-			return nil, fmt.Errorf("choice EimConfigurationDataEimPublicKeyData: eimPublicKey is nil")
+			return nil, fmt.Errorf("%w: choice EimConfigurationDataEimPublicKeyData: eimPublicKey is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.EimPublicKey.MarshalBER()
+		enc_0, err := v.EimPublicKey.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eimPublicKey: %w", err)
 		}
@@ -33665,9 +37952,9 @@ func (v *EimConfigurationDataEimPublicKeyData) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case EimConfigurationDataEimPublicKeyDataChoiceEimCertificate:
 		if v.EimCertificate == nil {
-			return nil, fmt.Errorf("choice EimConfigurationDataEimPublicKeyData: eimCertificate is nil")
+			return nil, fmt.Errorf("%w: choice EimConfigurationDataEimPublicKeyData: eimCertificate is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.EimCertificate.MarshalBER()
+		enc_1, err := v.EimCertificate.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eimCertificate: %w", err)
 		}
@@ -33684,10 +37971,13 @@ func (v *EimConfigurationDataEimPublicKeyData) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EimConfigurationDataEimPublicKeyData to DER format.
 func (v *EimConfigurationDataEimPublicKeyData) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimConfigurationDataEimPublicKeyData receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case EimConfigurationDataEimPublicKeyDataChoiceEimPublicKey:
 		if v.EimPublicKey == nil {
-			return nil, fmt.Errorf("choice EimConfigurationDataEimPublicKeyData: eimPublicKey is nil")
+			return nil, fmt.Errorf("%w: choice EimConfigurationDataEimPublicKeyData: eimPublicKey is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.EimPublicKey.MarshalDER()
 		if err != nil {
@@ -33704,7 +37994,7 @@ func (v *EimConfigurationDataEimPublicKeyData) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case EimConfigurationDataEimPublicKeyDataChoiceEimCertificate:
 		if v.EimCertificate == nil {
-			return nil, fmt.Errorf("choice EimConfigurationDataEimPublicKeyData: eimCertificate is nil")
+			return nil, fmt.Errorf("%w: choice EimConfigurationDataEimPublicKeyData: eimCertificate is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.EimCertificate.MarshalDER()
 		if err != nil {
@@ -33731,7 +38021,23 @@ func (v *EimConfigurationDataEimPublicKeyData) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EimConfigurationDataEimPublicKeyData from BER/DER format.
-func (v *EimConfigurationDataEimPublicKeyData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EimConfigurationDataEimPublicKeyData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EimConfigurationDataEimPublicKeyData destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -33790,13 +38096,26 @@ func (v *EimConfigurationDataEimPublicKeyData) UnmarshalBER(data []byte, opts ..
 }
 
 // MarshalBER encodes EimConfigurationDataTrustedPublicKeyDataTls to BER format.
-func (v *EimConfigurationDataTrustedPublicKeyDataTls) MarshalBER() ([]byte, error) {
+func (v *EimConfigurationDataTrustedPublicKeyDataTls) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimConfigurationDataTrustedPublicKeyDataTls receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EimConfigurationDataTrustedPublicKeyDataTls) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case EimConfigurationDataTrustedPublicKeyDataTlsChoiceTrustedEimPkTls:
 		if v.TrustedEimPkTls == nil {
-			return nil, fmt.Errorf("choice EimConfigurationDataTrustedPublicKeyDataTls: trustedEimPkTls is nil")
+			return nil, fmt.Errorf("%w: choice EimConfigurationDataTrustedPublicKeyDataTls: trustedEimPkTls is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.TrustedEimPkTls.MarshalBER()
+		enc_0, err := v.TrustedEimPkTls.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding trustedEimPkTls: %w", err)
 		}
@@ -33808,9 +38127,9 @@ func (v *EimConfigurationDataTrustedPublicKeyDataTls) MarshalBER() ([]byte, erro
 		return enc_0, nil
 	case EimConfigurationDataTrustedPublicKeyDataTlsChoiceTrustedCertificateTls:
 		if v.TrustedCertificateTls == nil {
-			return nil, fmt.Errorf("choice EimConfigurationDataTrustedPublicKeyDataTls: trustedCertificateTls is nil")
+			return nil, fmt.Errorf("%w: choice EimConfigurationDataTrustedPublicKeyDataTls: trustedCertificateTls is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.TrustedCertificateTls.MarshalBER()
+		enc_1, err := v.TrustedCertificateTls.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding trustedCertificateTls: %w", err)
 		}
@@ -33827,10 +38146,13 @@ func (v *EimConfigurationDataTrustedPublicKeyDataTls) MarshalBER() ([]byte, erro
 
 // MarshalDER encodes EimConfigurationDataTrustedPublicKeyDataTls to DER format.
 func (v *EimConfigurationDataTrustedPublicKeyDataTls) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimConfigurationDataTrustedPublicKeyDataTls receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case EimConfigurationDataTrustedPublicKeyDataTlsChoiceTrustedEimPkTls:
 		if v.TrustedEimPkTls == nil {
-			return nil, fmt.Errorf("choice EimConfigurationDataTrustedPublicKeyDataTls: trustedEimPkTls is nil")
+			return nil, fmt.Errorf("%w: choice EimConfigurationDataTrustedPublicKeyDataTls: trustedEimPkTls is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.TrustedEimPkTls.MarshalDER()
 		if err != nil {
@@ -33847,7 +38169,7 @@ func (v *EimConfigurationDataTrustedPublicKeyDataTls) MarshalDER() ([]byte, erro
 		return enc_der_0, nil
 	case EimConfigurationDataTrustedPublicKeyDataTlsChoiceTrustedCertificateTls:
 		if v.TrustedCertificateTls == nil {
-			return nil, fmt.Errorf("choice EimConfigurationDataTrustedPublicKeyDataTls: trustedCertificateTls is nil")
+			return nil, fmt.Errorf("%w: choice EimConfigurationDataTrustedPublicKeyDataTls: trustedCertificateTls is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.TrustedCertificateTls.MarshalDER()
 		if err != nil {
@@ -33874,7 +38196,23 @@ func (v *EimConfigurationDataTrustedPublicKeyDataTls) MarshalDER() ([]byte, erro
 }
 
 // UnmarshalBER decodes EimConfigurationDataTrustedPublicKeyDataTls from BER/DER format.
-func (v *EimConfigurationDataTrustedPublicKeyDataTls) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EimConfigurationDataTrustedPublicKeyDataTls) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EimConfigurationDataTrustedPublicKeyDataTls destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -33933,7 +38271,20 @@ func (v *EimConfigurationDataTrustedPublicKeyDataTls) UnmarshalBER(data []byte, 
 }
 
 // MarshalBER encodes EcoDeleteEim to BER format.
-func (v *EcoDeleteEim) MarshalBER() ([]byte, error) {
+func (v *EcoDeleteEim) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EcoDeleteEim receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EcoDeleteEim) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
@@ -33960,6 +38311,9 @@ func (v *EcoDeleteEim) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EcoDeleteEim to DER format.
 func (v *EcoDeleteEim) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EcoDeleteEim receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_eimid, stringErr := ber.EncodeStringTagChecked(12, v.EimId)
 	if stringErr != nil {
@@ -33988,11 +38342,27 @@ func (v *EcoDeleteEim) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EcoDeleteEim from BER/DER format.
-func (v *EcoDeleteEim) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EcoDeleteEim) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EcoDeleteEim destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EcoDeleteEim{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EcoDeleteEim SEQUENCE: %w", err)
@@ -34055,7 +38425,20 @@ func (v *EcoDeleteEim) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 }
 
 // MarshalBER encodes EcoListEim to BER format.
-func (v *EcoListEim) MarshalBER() ([]byte, error) {
+func (v *EcoListEim) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EcoListEim receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EcoListEim) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -34072,6 +38455,9 @@ func (v *EcoListEim) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EcoListEim to DER format.
 func (v *EcoListEim) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EcoListEim receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
@@ -34090,11 +38476,27 @@ func (v *EcoListEim) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EcoListEim from BER/DER format.
-func (v *EcoListEim) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EcoListEim) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EcoListEim destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EcoListEim{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EcoListEim SEQUENCE: %w", err)
@@ -34130,10 +38532,25 @@ func (v *EcoListEim) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes PsmoEnable to BER format.
-func (v *PsmoEnable) MarshalBER() ([]byte, error) {
+func (v *PsmoEnable) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PsmoEnable receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *PsmoEnable) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
-		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+		if constraintErr := ber.CheckEncodedLength(opts, "iccid", "SIZE (10)", len(v.Iccid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
@@ -34164,9 +38581,14 @@ func (v *PsmoEnable) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PsmoEnable to DER format.
 func (v *PsmoEnable) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PsmoEnable receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
-		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+		if constraintErr := ber.CheckEncodedLength(nil, "iccid", "SIZE (10)", len(v.Iccid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
@@ -34199,11 +38621,27 @@ func (v *PsmoEnable) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes PsmoEnable from BER/DER format.
-func (v *PsmoEnable) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *PsmoEnable) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: PsmoEnable destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PsmoEnable{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding PsmoEnable SEQUENCE: %w", err)
@@ -34236,7 +38674,9 @@ func (v *PsmoEnable) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 	offset += n_iccid
 	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
-		return fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+		if constraintErr := ber.CheckDecodedLength(opts, "iccid", "SIZE (10)", len(v.Iccid)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	// Decode rollbackFlag
 	if offset < len(content) {
@@ -34284,10 +38724,25 @@ func (v *PsmoEnable) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes PsmoDisable to BER format.
-func (v *PsmoDisable) MarshalBER() ([]byte, error) {
+func (v *PsmoDisable) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PsmoDisable receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *PsmoDisable) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
-		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+		if constraintErr := ber.CheckEncodedLength(opts, "iccid", "SIZE (10)", len(v.Iccid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
@@ -34314,9 +38769,14 @@ func (v *PsmoDisable) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PsmoDisable to DER format.
 func (v *PsmoDisable) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PsmoDisable receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
-		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+		if constraintErr := ber.CheckEncodedLength(nil, "iccid", "SIZE (10)", len(v.Iccid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
@@ -34345,11 +38805,27 @@ func (v *PsmoDisable) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes PsmoDisable from BER/DER format.
-func (v *PsmoDisable) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *PsmoDisable) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: PsmoDisable destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PsmoDisable{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding PsmoDisable SEQUENCE: %w", err)
@@ -34382,7 +38858,9 @@ func (v *PsmoDisable) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 
 	offset += n_iccid
 	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
-		return fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+		if constraintErr := ber.CheckDecodedLength(opts, "iccid", "SIZE (10)", len(v.Iccid)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -34411,10 +38889,25 @@ func (v *PsmoDisable) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 }
 
 // MarshalBER encodes PsmoDelete to BER format.
-func (v *PsmoDelete) MarshalBER() ([]byte, error) {
+func (v *PsmoDelete) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PsmoDelete receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *PsmoDelete) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
-		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+		if constraintErr := ber.CheckEncodedLength(opts, "iccid", "SIZE (10)", len(v.Iccid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
@@ -34441,9 +38934,14 @@ func (v *PsmoDelete) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PsmoDelete to DER format.
 func (v *PsmoDelete) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PsmoDelete receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
-		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+		if constraintErr := ber.CheckEncodedLength(nil, "iccid", "SIZE (10)", len(v.Iccid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
@@ -34472,11 +38970,27 @@ func (v *PsmoDelete) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes PsmoDelete from BER/DER format.
-func (v *PsmoDelete) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *PsmoDelete) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: PsmoDelete destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PsmoDelete{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding PsmoDelete SEQUENCE: %w", err)
@@ -34509,7 +39023,9 @@ func (v *PsmoDelete) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 
 	offset += n_iccid
 	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
-		return fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+		if constraintErr := ber.CheckDecodedLength(opts, "iccid", "SIZE (10)", len(v.Iccid)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -34538,7 +39054,20 @@ func (v *PsmoDelete) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes PsmoGetRAT to BER format.
-func (v *PsmoGetRAT) MarshalBER() ([]byte, error) {
+func (v *PsmoGetRAT) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PsmoGetRAT receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *PsmoGetRAT) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -34555,6 +39084,9 @@ func (v *PsmoGetRAT) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PsmoGetRAT to DER format.
 func (v *PsmoGetRAT) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PsmoGetRAT receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
@@ -34573,11 +39105,27 @@ func (v *PsmoGetRAT) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes PsmoGetRAT from BER/DER format.
-func (v *PsmoGetRAT) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *PsmoGetRAT) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: PsmoGetRAT destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PsmoGetRAT{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding PsmoGetRAT SEQUENCE: %w", err)
@@ -34613,7 +39161,20 @@ func (v *PsmoGetRAT) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 }
 
 // MarshalBER encodes PsmoConfigureImmediateEnable to BER format.
-func (v *PsmoConfigureImmediateEnable) MarshalBER() ([]byte, error) {
+func (v *PsmoConfigureImmediateEnable) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PsmoConfigureImmediateEnable receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *PsmoConfigureImmediateEnable) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.ImmediateEnableFlag != nil {
 		enc_immediateenableflag := ber.EncodeNull()
@@ -34663,6 +39224,9 @@ func (v *PsmoConfigureImmediateEnable) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PsmoConfigureImmediateEnable to DER format.
 func (v *PsmoConfigureImmediateEnable) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PsmoConfigureImmediateEnable receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.ImmediateEnableFlag != nil {
 		enc_immediateenableflag := ber.EncodeNull()
@@ -34714,11 +39278,27 @@ func (v *PsmoConfigureImmediateEnable) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes PsmoConfigureImmediateEnable from BER/DER format.
-func (v *PsmoConfigureImmediateEnable) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *PsmoConfigureImmediateEnable) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: PsmoConfigureImmediateEnable destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PsmoConfigureImmediateEnable{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding PsmoConfigureImmediateEnable SEQUENCE: %w", err)
@@ -34833,10 +39413,25 @@ func (v *PsmoConfigureImmediateEnable) UnmarshalBER(data []byte, opts ...ber.Dec
 }
 
 // MarshalBER encodes PsmoSetFallbackAttribute to BER format.
-func (v *PsmoSetFallbackAttribute) MarshalBER() ([]byte, error) {
+func (v *PsmoSetFallbackAttribute) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PsmoSetFallbackAttribute receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *PsmoSetFallbackAttribute) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
-		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+		if constraintErr := ber.CheckEncodedLength(opts, "iccid", "SIZE (10)", len(v.Iccid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
@@ -34863,9 +39458,14 @@ func (v *PsmoSetFallbackAttribute) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PsmoSetFallbackAttribute to DER format.
 func (v *PsmoSetFallbackAttribute) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PsmoSetFallbackAttribute receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
-		return nil, fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+		if constraintErr := ber.CheckEncodedLength(nil, "iccid", "SIZE (10)", len(v.Iccid)); constraintErr != nil {
+			return nil, constraintErr
+		}
 	}
 	enc_iccid, encodeErr_enc_iccid := ber.EncodeOctetString([]byte(v.Iccid))
 	if encodeErr_enc_iccid != nil {
@@ -34894,11 +39494,27 @@ func (v *PsmoSetFallbackAttribute) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes PsmoSetFallbackAttribute from BER/DER format.
-func (v *PsmoSetFallbackAttribute) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *PsmoSetFallbackAttribute) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: PsmoSetFallbackAttribute destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PsmoSetFallbackAttribute{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding PsmoSetFallbackAttribute SEQUENCE: %w", err)
@@ -34931,7 +39547,9 @@ func (v *PsmoSetFallbackAttribute) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 	offset += n_iccid
 	if len(v.Iccid) < 10 || len(v.Iccid) > 10 {
-		return fmt.Errorf("iccid length %d violates SIZE (10)", len(v.Iccid))
+		if constraintErr := ber.CheckDecodedLength(opts, "iccid", "SIZE (10)", len(v.Iccid)); constraintErr != nil {
+			return constraintErr
+		}
 	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -34960,7 +39578,20 @@ func (v *PsmoSetFallbackAttribute) UnmarshalBER(data []byte, opts ...ber.DecodeO
 }
 
 // MarshalBER encodes PsmoUnsetFallbackAttribute to BER format.
-func (v *PsmoUnsetFallbackAttribute) MarshalBER() ([]byte, error) {
+func (v *PsmoUnsetFallbackAttribute) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PsmoUnsetFallbackAttribute receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *PsmoUnsetFallbackAttribute) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -34977,6 +39608,9 @@ func (v *PsmoUnsetFallbackAttribute) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PsmoUnsetFallbackAttribute to DER format.
 func (v *PsmoUnsetFallbackAttribute) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: PsmoUnsetFallbackAttribute receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
@@ -34995,11 +39629,27 @@ func (v *PsmoUnsetFallbackAttribute) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes PsmoUnsetFallbackAttribute from BER/DER format.
-func (v *PsmoUnsetFallbackAttribute) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *PsmoUnsetFallbackAttribute) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: PsmoUnsetFallbackAttribute destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PsmoUnsetFallbackAttribute{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding PsmoUnsetFallbackAttribute SEQUENCE: %w", err)
@@ -35035,11 +39685,24 @@ func (v *PsmoUnsetFallbackAttribute) UnmarshalBER(data []byte, opts ...ber.Decod
 }
 
 // MarshalBER encodes IpaEuiccDataRequestSearchCriteriaNotification to BER format.
-func (v *IpaEuiccDataRequestSearchCriteriaNotification) MarshalBER() ([]byte, error) {
+func (v *IpaEuiccDataRequestSearchCriteriaNotification) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaEuiccDataRequestSearchCriteriaNotification receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *IpaEuiccDataRequestSearchCriteriaNotification) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case IpaEuiccDataRequestSearchCriteriaNotificationChoiceSeqNumber:
 		if v.SeqNumber == nil {
-			return nil, fmt.Errorf("choice IpaEuiccDataRequestSearchCriteriaNotification: seqNumber is nil")
+			return nil, fmt.Errorf("%w: choice IpaEuiccDataRequestSearchCriteriaNotification: seqNumber is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.SeqNumber)
 		if encodeErr_enc_0 != nil {
@@ -35052,7 +39715,7 @@ func (v *IpaEuiccDataRequestSearchCriteriaNotification) MarshalBER() ([]byte, er
 		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case IpaEuiccDataRequestSearchCriteriaNotificationChoiceProfileManagementOperation:
-		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2250
+		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2298
 		if v.ProfileManagementOperation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -35073,6 +39736,9 @@ func (v *IpaEuiccDataRequestSearchCriteriaNotification) MarshalBER() ([]byte, er
 
 // MarshalDER encodes IpaEuiccDataRequestSearchCriteriaNotification to DER format.
 func (v *IpaEuiccDataRequestSearchCriteriaNotification) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaEuiccDataRequestSearchCriteriaNotification receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -35084,7 +39750,23 @@ func (v *IpaEuiccDataRequestSearchCriteriaNotification) MarshalDER() ([]byte, er
 }
 
 // UnmarshalBER decodes IpaEuiccDataRequestSearchCriteriaNotification from BER/DER format.
-func (v *IpaEuiccDataRequestSearchCriteriaNotification) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *IpaEuiccDataRequestSearchCriteriaNotification) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: IpaEuiccDataRequestSearchCriteriaNotification destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -35140,11 +39822,24 @@ func (v *IpaEuiccDataRequestSearchCriteriaNotification) UnmarshalBER(data []byte
 }
 
 // MarshalBER encodes IpaEuiccDataRequestSearchCriteriaEuiccPackageResult to BER format.
-func (v *IpaEuiccDataRequestSearchCriteriaEuiccPackageResult) MarshalBER() ([]byte, error) {
+func (v *IpaEuiccDataRequestSearchCriteriaEuiccPackageResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaEuiccDataRequestSearchCriteriaEuiccPackageResult receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *IpaEuiccDataRequestSearchCriteriaEuiccPackageResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case IpaEuiccDataRequestSearchCriteriaEuiccPackageResultChoiceSeqNumber:
 		if v.SeqNumber == nil {
-			return nil, fmt.Errorf("choice IpaEuiccDataRequestSearchCriteriaEuiccPackageResult: seqNumber is nil")
+			return nil, fmt.Errorf("%w: choice IpaEuiccDataRequestSearchCriteriaEuiccPackageResult: seqNumber is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.SeqNumber)
 		if encodeErr_enc_0 != nil {
@@ -35163,6 +39858,9 @@ func (v *IpaEuiccDataRequestSearchCriteriaEuiccPackageResult) MarshalBER() ([]by
 
 // MarshalDER encodes IpaEuiccDataRequestSearchCriteriaEuiccPackageResult to DER format.
 func (v *IpaEuiccDataRequestSearchCriteriaEuiccPackageResult) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: IpaEuiccDataRequestSearchCriteriaEuiccPackageResult receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -35174,7 +39872,23 @@ func (v *IpaEuiccDataRequestSearchCriteriaEuiccPackageResult) MarshalDER() ([]by
 }
 
 // UnmarshalBER decodes IpaEuiccDataRequestSearchCriteriaEuiccPackageResult from BER/DER format.
-func (v *IpaEuiccDataRequestSearchCriteriaEuiccPackageResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *IpaEuiccDataRequestSearchCriteriaEuiccPackageResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: IpaEuiccDataRequestSearchCriteriaEuiccPackageResult destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -35214,7 +39928,20 @@ func (v *IpaEuiccDataRequestSearchCriteriaEuiccPackageResult) UnmarshalBER(data 
 }
 
 // MarshalBER encodes ProfileDownloadDataContactSmds to BER format.
-func (v *ProfileDownloadDataContactSmds) MarshalBER() ([]byte, error) {
+func (v *ProfileDownloadDataContactSmds) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProfileDownloadDataContactSmds receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ProfileDownloadDataContactSmds) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	if v.SmdsAddress != nil {
 		enc_smdsaddress, stringErr := ber.EncodeStringTagChecked(12, *v.SmdsAddress)
@@ -35243,6 +39970,9 @@ func (v *ProfileDownloadDataContactSmds) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ProfileDownloadDataContactSmds to DER format.
 func (v *ProfileDownloadDataContactSmds) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProfileDownloadDataContactSmds receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	if v.SmdsAddress != nil {
 		enc_smdsaddress, stringErr := ber.EncodeStringTagChecked(12, *v.SmdsAddress)
@@ -35273,11 +40003,27 @@ func (v *ProfileDownloadDataContactSmds) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes ProfileDownloadDataContactSmds from BER/DER format.
-func (v *ProfileDownloadDataContactSmds) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ProfileDownloadDataContactSmds) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ProfileDownloadDataContactSmds destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ProfileDownloadDataContactSmds{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ProfileDownloadDataContactSmds SEQUENCE: %w", err)
@@ -35339,10 +40085,24 @@ func (v *ProfileDownloadDataContactSmds) UnmarshalBER(data []byte, opts ...ber.D
 }
 
 // MarshalBEREuiccPackageResultDataSignedEuiccResult encodes a EuiccPackageResultDataSignedEuiccResult list to BER.
-func MarshalBEREuiccPackageResultDataSignedEuiccResult(list EuiccPackageResultDataSignedEuiccResult) ([]byte, error) {
+func MarshalBEREuiccPackageResultDataSignedEuiccResult(collection *EuiccPackageResultDataSignedEuiccResult, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBEREuiccPackageResultDataSignedEuiccResult(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBEREuiccPackageResultDataSignedEuiccResult(collection *EuiccPackageResultDataSignedEuiccResult, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -35352,7 +40112,11 @@ func MarshalBEREuiccPackageResultDataSignedEuiccResult(list EuiccPackageResultDa
 }
 
 // MarshalDEREuiccPackageResultDataSignedEuiccResult encodes a EuiccPackageResultDataSignedEuiccResult list to DER.
-func MarshalDEREuiccPackageResultDataSignedEuiccResult(list EuiccPackageResultDataSignedEuiccResult) ([]byte, error) {
+func MarshalDEREuiccPackageResultDataSignedEuiccResult(collection *EuiccPackageResultDataSignedEuiccResult) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -35372,7 +40136,7 @@ func MarshalDEREuiccPackageResultDataSignedEuiccResult(list EuiccPackageResultDa
 }
 
 // UnmarshalBEREuiccPackageResultDataSignedEuiccResult decodes a EuiccPackageResultDataSignedEuiccResult list from BER.
-func UnmarshalBEREuiccPackageResultDataSignedEuiccResult(data []byte, opts ...ber.DecodeOption) (EuiccPackageResultDataSignedEuiccResult, error) {
+func UnmarshalBEREuiccPackageResultDataSignedEuiccResult(data []byte, opts ...ber.DecodeOption) (*EuiccPackageResultDataSignedEuiccResult, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -35383,7 +40147,7 @@ func UnmarshalBEREuiccPackageResultDataSignedEuiccResult(data []byte, opts ...be
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "EuiccPackageResultDataSignedEuiccResult", Cause: ber.ErrExtraData}
 	}
-	var result EuiccPackageResultDataSignedEuiccResult
+	var result []EuiccResultData
 	offset := 0
 	for offset < len(content) {
 		var elem EuiccResultData
@@ -35396,7 +40160,7 @@ func UnmarshalBEREuiccPackageResultDataSignedEuiccResult(data []byte, opts ...be
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -35407,14 +40171,38 @@ func UnmarshalBEREuiccPackageResultDataSignedEuiccResult(data []byte, opts ...be
 
 		offset += n
 	}
-	return result, nil
+	decoded := &EuiccPackageResultDataSignedEuiccResult{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBEREuiccPackageResultDataSignedEuiccResult(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBERSGPProfileInfoListResponseProfileInfoListOk encodes a SGPProfileInfoListResponseProfileInfoListOk list to BER.
-func MarshalBERSGPProfileInfoListResponseProfileInfoListOk(list SGPProfileInfoListResponseProfileInfoListOk) ([]byte, error) {
+func MarshalBERSGPProfileInfoListResponseProfileInfoListOk(collection *SGPProfileInfoListResponseProfileInfoListOk, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERSGPProfileInfoListResponseProfileInfoListOk(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERSGPProfileInfoListResponseProfileInfoListOk(collection *SGPProfileInfoListResponseProfileInfoListOk, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -35424,7 +40212,11 @@ func MarshalBERSGPProfileInfoListResponseProfileInfoListOk(list SGPProfileInfoLi
 }
 
 // MarshalDERSGPProfileInfoListResponseProfileInfoListOk encodes a SGPProfileInfoListResponseProfileInfoListOk list to DER.
-func MarshalDERSGPProfileInfoListResponseProfileInfoListOk(list SGPProfileInfoListResponseProfileInfoListOk) ([]byte, error) {
+func MarshalDERSGPProfileInfoListResponseProfileInfoListOk(collection *SGPProfileInfoListResponseProfileInfoListOk) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -35444,7 +40236,7 @@ func MarshalDERSGPProfileInfoListResponseProfileInfoListOk(list SGPProfileInfoLi
 }
 
 // UnmarshalBERSGPProfileInfoListResponseProfileInfoListOk decodes a SGPProfileInfoListResponseProfileInfoListOk list from BER.
-func UnmarshalBERSGPProfileInfoListResponseProfileInfoListOk(data []byte, opts ...ber.DecodeOption) (SGPProfileInfoListResponseProfileInfoListOk, error) {
+func UnmarshalBERSGPProfileInfoListResponseProfileInfoListOk(data []byte, opts ...ber.DecodeOption) (*SGPProfileInfoListResponseProfileInfoListOk, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -35455,7 +40247,7 @@ func UnmarshalBERSGPProfileInfoListResponseProfileInfoListOk(data []byte, opts .
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "SGPProfileInfoListResponseProfileInfoListOk", Cause: ber.ErrExtraData}
 	}
-	var result SGPProfileInfoListResponseProfileInfoListOk
+	var result []SGPProfileInfo
 	offset := 0
 	for offset < len(content) {
 		var elem SGPProfileInfo
@@ -35468,7 +40260,7 @@ func UnmarshalBERSGPProfileInfoListResponseProfileInfoListOk(data []byte, opts .
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -35479,14 +40271,38 @@ func UnmarshalBERSGPProfileInfoListResponseProfileInfoListOk(data []byte, opts .
 
 		offset += n
 	}
-	return result, nil
+	decoded := &SGPProfileInfoListResponseProfileInfoListOk{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERSGPProfileInfoListResponseProfileInfoListOk(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBERListEimResultEimIdList encodes a ListEimResultEimIdList list to BER.
-func MarshalBERListEimResultEimIdList(list ListEimResultEimIdList) ([]byte, error) {
+func MarshalBERListEimResultEimIdList(collection *ListEimResultEimIdList, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERListEimResultEimIdList(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERListEimResultEimIdList(collection *ListEimResultEimIdList, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -35496,7 +40312,11 @@ func MarshalBERListEimResultEimIdList(list ListEimResultEimIdList) ([]byte, erro
 }
 
 // MarshalDERListEimResultEimIdList encodes a ListEimResultEimIdList list to DER.
-func MarshalDERListEimResultEimIdList(list ListEimResultEimIdList) ([]byte, error) {
+func MarshalDERListEimResultEimIdList(collection *ListEimResultEimIdList) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -35516,7 +40336,7 @@ func MarshalDERListEimResultEimIdList(list ListEimResultEimIdList) ([]byte, erro
 }
 
 // UnmarshalBERListEimResultEimIdList decodes a ListEimResultEimIdList list from BER.
-func UnmarshalBERListEimResultEimIdList(data []byte, opts ...ber.DecodeOption) (ListEimResultEimIdList, error) {
+func UnmarshalBERListEimResultEimIdList(data []byte, opts ...ber.DecodeOption) (*ListEimResultEimIdList, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -35527,7 +40347,7 @@ func UnmarshalBERListEimResultEimIdList(data []byte, opts ...ber.DecodeOption) (
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "ListEimResultEimIdList", Cause: ber.ErrExtraData}
 	}
-	var result ListEimResultEimIdList
+	var result []EimIdInfo
 	offset := 0
 	for offset < len(content) {
 		var elem EimIdInfo
@@ -35540,7 +40360,7 @@ func UnmarshalBERListEimResultEimIdList(data []byte, opts ...ber.DecodeOption) (
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -35551,26 +40371,49 @@ func UnmarshalBERListEimResultEimIdList(data []byte, opts ...ber.DecodeOption) (
 
 		offset += n
 	}
-	return result, nil
+	decoded := &ListEimResultEimIdList{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERListEimResultEimIdList(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes ProfileDownloadTriggerResultProfileDownloadTriggerResultData to BER format.
-func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultData) MarshalBER() ([]byte, error) {
+func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultData) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProfileDownloadTriggerResultProfileDownloadTriggerResultData receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case ProfileDownloadTriggerResultProfileDownloadTriggerResultDataChoiceProfileInstallationResult:
 		if v.ProfileInstallationResult == nil {
-			return nil, fmt.Errorf("choice ProfileDownloadTriggerResultProfileDownloadTriggerResultData: profileInstallationResult is nil")
+			return nil, fmt.Errorf("%w: choice ProfileDownloadTriggerResultProfileDownloadTriggerResultData: profileInstallationResult is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.ProfileInstallationResult.MarshalBER()
+		enc_0, err := v.ProfileInstallationResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileInstallationResult: %w", err)
 		}
 		return enc_0, nil
 	case ProfileDownloadTriggerResultProfileDownloadTriggerResultDataChoiceProfileDownloadError:
 		if v.ProfileDownloadError == nil {
-			return nil, fmt.Errorf("choice ProfileDownloadTriggerResultProfileDownloadTriggerResultData: profileDownloadError is nil")
+			return nil, fmt.Errorf("%w: choice ProfileDownloadTriggerResultProfileDownloadTriggerResultData: profileDownloadError is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.ProfileDownloadError.MarshalBER()
+		enc_1, err := v.ProfileDownloadError.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileDownloadError: %w", err)
 		}
@@ -35582,10 +40425,13 @@ func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultData) MarshalBE
 
 // MarshalDER encodes ProfileDownloadTriggerResultProfileDownloadTriggerResultData to DER format.
 func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultData) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProfileDownloadTriggerResultProfileDownloadTriggerResultData receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case ProfileDownloadTriggerResultProfileDownloadTriggerResultDataChoiceProfileInstallationResult:
 		if v.ProfileInstallationResult == nil {
-			return nil, fmt.Errorf("choice ProfileDownloadTriggerResultProfileDownloadTriggerResultData: profileInstallationResult is nil")
+			return nil, fmt.Errorf("%w: choice ProfileDownloadTriggerResultProfileDownloadTriggerResultData: profileInstallationResult is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.ProfileInstallationResult.MarshalDER()
 		if err != nil {
@@ -35597,7 +40443,7 @@ func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultData) MarshalDE
 		return enc_der_0, nil
 	case ProfileDownloadTriggerResultProfileDownloadTriggerResultDataChoiceProfileDownloadError:
 		if v.ProfileDownloadError == nil {
-			return nil, fmt.Errorf("choice ProfileDownloadTriggerResultProfileDownloadTriggerResultData: profileDownloadError is nil")
+			return nil, fmt.Errorf("%w: choice ProfileDownloadTriggerResultProfileDownloadTriggerResultData: profileDownloadError is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.ProfileDownloadError.MarshalDER()
 		if err != nil {
@@ -35619,7 +40465,23 @@ func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultData) MarshalDE
 }
 
 // UnmarshalBER decodes ProfileDownloadTriggerResultProfileDownloadTriggerResultData from BER/DER format.
-func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ProfileDownloadTriggerResultProfileDownloadTriggerResultData destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -35662,7 +40524,20 @@ func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultData) Unmarshal
 }
 
 // MarshalBER encodes ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError to BER format.
-func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError) MarshalBER() ([]byte, error) {
+func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	enc_profiledownloaderrorreason, encodeErr_enc_profiledownloaderrorreason := ber.EncodeBigInt((v.ProfileDownloadErrorReason).BigInt())
 	if encodeErr_enc_profiledownloaderrorreason != nil {
@@ -35696,6 +40571,9 @@ func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDown
 
 // MarshalDER encodes ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError to DER format.
 func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_profiledownloaderrorreason, encodeErr_enc_profiledownloaderrorreason := ber.EncodeBigInt((v.ProfileDownloadErrorReason).BigInt())
 	if encodeErr_enc_profiledownloaderrorreason != nil {
@@ -35731,11 +40609,27 @@ func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDown
 }
 
 // UnmarshalBER decodes ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError from BER/DER format.
-func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError SEQUENCE: %w", err)
@@ -35822,10 +40716,24 @@ func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDown
 }
 
 // MarshalBERSGPProfileInfoNotificationConfigurationInfo encodes a SGPProfileInfoNotificationConfigurationInfo list to BER.
-func MarshalBERSGPProfileInfoNotificationConfigurationInfo(list SGPProfileInfoNotificationConfigurationInfo) ([]byte, error) {
+func MarshalBERSGPProfileInfoNotificationConfigurationInfo(collection *SGPProfileInfoNotificationConfigurationInfo, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERSGPProfileInfoNotificationConfigurationInfo(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERSGPProfileInfoNotificationConfigurationInfo(collection *SGPProfileInfoNotificationConfigurationInfo, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -35835,7 +40743,11 @@ func MarshalBERSGPProfileInfoNotificationConfigurationInfo(list SGPProfileInfoNo
 }
 
 // MarshalDERSGPProfileInfoNotificationConfigurationInfo encodes a SGPProfileInfoNotificationConfigurationInfo list to DER.
-func MarshalDERSGPProfileInfoNotificationConfigurationInfo(list SGPProfileInfoNotificationConfigurationInfo) ([]byte, error) {
+func MarshalDERSGPProfileInfoNotificationConfigurationInfo(collection *SGPProfileInfoNotificationConfigurationInfo) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -35855,7 +40767,7 @@ func MarshalDERSGPProfileInfoNotificationConfigurationInfo(list SGPProfileInfoNo
 }
 
 // UnmarshalBERSGPProfileInfoNotificationConfigurationInfo decodes a SGPProfileInfoNotificationConfigurationInfo list from BER.
-func UnmarshalBERSGPProfileInfoNotificationConfigurationInfo(data []byte, opts ...ber.DecodeOption) (SGPProfileInfoNotificationConfigurationInfo, error) {
+func UnmarshalBERSGPProfileInfoNotificationConfigurationInfo(data []byte, opts ...ber.DecodeOption) (*SGPProfileInfoNotificationConfigurationInfo, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -35866,7 +40778,7 @@ func UnmarshalBERSGPProfileInfoNotificationConfigurationInfo(data []byte, opts .
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "SGPProfileInfoNotificationConfigurationInfo", Cause: ber.ErrExtraData}
 	}
-	var result SGPProfileInfoNotificationConfigurationInfo
+	var result []NotificationConfigurationInformation
 	offset := 0
 	for offset < len(content) {
 		var elem NotificationConfigurationInformation
@@ -35879,7 +40791,7 @@ func UnmarshalBERSGPProfileInfoNotificationConfigurationInfo(data []byte, opts .
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -35890,11 +40802,34 @@ func UnmarshalBERSGPProfileInfoNotificationConfigurationInfo(data []byte, opts .
 
 		offset += n
 	}
-	return result, nil
+	decoded := &SGPProfileInfoNotificationConfigurationInfo{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERSGPProfileInfoNotificationConfigurationInfo(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes SGPProfileInfoIotSpecificProfileInfo to BER format.
-func (v *SGPProfileInfoIotSpecificProfileInfo) MarshalBER() ([]byte, error) {
+func (v *SGPProfileInfoIotSpecificProfileInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPProfileInfoIotSpecificProfileInfo receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPProfileInfoIotSpecificProfileInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -35911,6 +40846,9 @@ func (v *SGPProfileInfoIotSpecificProfileInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SGPProfileInfoIotSpecificProfileInfo to DER format.
 func (v *SGPProfileInfoIotSpecificProfileInfo) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPProfileInfoIotSpecificProfileInfo receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
@@ -35929,11 +40867,27 @@ func (v *SGPProfileInfoIotSpecificProfileInfo) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes SGPProfileInfoIotSpecificProfileInfo from BER/DER format.
-func (v *SGPProfileInfoIotSpecificProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPProfileInfoIotSpecificProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPProfileInfoIotSpecificProfileInfo destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPProfileInfoIotSpecificProfileInfo{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPProfileInfoIotSpecificProfileInfo SEQUENCE: %w", err)
@@ -35969,10 +40923,24 @@ func (v *SGPProfileInfoIotSpecificProfileInfo) UnmarshalBER(data []byte, opts ..
 }
 
 // MarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo encodes a SGPStoreMetadataRequestNotificationConfigurationInfo list to BER.
-func MarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(list SGPStoreMetadataRequestNotificationConfigurationInfo) ([]byte, error) {
+func MarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(collection *SGPStoreMetadataRequestNotificationConfigurationInfo, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(collection *SGPStoreMetadataRequestNotificationConfigurationInfo, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -35982,7 +40950,11 @@ func MarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(list SGPStor
 }
 
 // MarshalDERSGPStoreMetadataRequestNotificationConfigurationInfo encodes a SGPStoreMetadataRequestNotificationConfigurationInfo list to DER.
-func MarshalDERSGPStoreMetadataRequestNotificationConfigurationInfo(list SGPStoreMetadataRequestNotificationConfigurationInfo) ([]byte, error) {
+func MarshalDERSGPStoreMetadataRequestNotificationConfigurationInfo(collection *SGPStoreMetadataRequestNotificationConfigurationInfo) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -36002,7 +40974,7 @@ func MarshalDERSGPStoreMetadataRequestNotificationConfigurationInfo(list SGPStor
 }
 
 // UnmarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo decodes a SGPStoreMetadataRequestNotificationConfigurationInfo list from BER.
-func UnmarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(data []byte, opts ...ber.DecodeOption) (SGPStoreMetadataRequestNotificationConfigurationInfo, error) {
+func UnmarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(data []byte, opts ...ber.DecodeOption) (*SGPStoreMetadataRequestNotificationConfigurationInfo, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -36013,7 +40985,7 @@ func UnmarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(data []byt
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "SGPStoreMetadataRequestNotificationConfigurationInfo", Cause: ber.ErrExtraData}
 	}
-	var result SGPStoreMetadataRequestNotificationConfigurationInfo
+	var result []NotificationConfigurationInformation
 	offset := 0
 	for offset < len(content) {
 		var elem NotificationConfigurationInformation
@@ -36026,7 +40998,7 @@ func UnmarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(data []byt
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -36037,11 +41009,34 @@ func UnmarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(data []byt
 
 		offset += n
 	}
-	return result, nil
+	decoded := &SGPStoreMetadataRequestNotificationConfigurationInfo{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERSGPStoreMetadataRequestNotificationConfigurationInfo(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes SGPStoreMetadataRequestIotSpecificMetadata to BER format.
-func (v *SGPStoreMetadataRequestIotSpecificMetadata) MarshalBER() ([]byte, error) {
+func (v *SGPStoreMetadataRequestIotSpecificMetadata) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPStoreMetadataRequestIotSpecificMetadata receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPStoreMetadataRequestIotSpecificMetadata) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -36058,6 +41053,9 @@ func (v *SGPStoreMetadataRequestIotSpecificMetadata) MarshalBER() ([]byte, error
 
 // MarshalDER encodes SGPStoreMetadataRequestIotSpecificMetadata to DER format.
 func (v *SGPStoreMetadataRequestIotSpecificMetadata) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPStoreMetadataRequestIotSpecificMetadata receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
@@ -36076,11 +41074,27 @@ func (v *SGPStoreMetadataRequestIotSpecificMetadata) MarshalDER() ([]byte, error
 }
 
 // UnmarshalBER decodes SGPStoreMetadataRequestIotSpecificMetadata from BER/DER format.
-func (v *SGPStoreMetadataRequestIotSpecificMetadata) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPStoreMetadataRequestIotSpecificMetadata) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPStoreMetadataRequestIotSpecificMetadata destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SGPStoreMetadataRequestIotSpecificMetadata{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SGPStoreMetadataRequestIotSpecificMetadata SEQUENCE: %w", err)
@@ -36116,7 +41130,21 @@ func (v *SGPStoreMetadataRequestIotSpecificMetadata) UnmarshalBER(data []byte, o
 }
 
 // MarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification encodes a SGPEUICCInfo2EuiccCiPKIdListForVerification list to BER.
-func MarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(list SGPEUICCInfo2EuiccCiPKIdListForVerification) ([]byte, error) {
+func MarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(collection *SGPEUICCInfo2EuiccCiPKIdListForVerification, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(collection *SGPEUICCInfo2EuiccCiPKIdListForVerification, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
@@ -36129,7 +41157,11 @@ func MarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(list SGPEUICCInfo2Eui
 }
 
 // MarshalDERSGPEUICCInfo2EuiccCiPKIdListForVerification encodes a SGPEUICCInfo2EuiccCiPKIdListForVerification list to DER.
-func MarshalDERSGPEUICCInfo2EuiccCiPKIdListForVerification(list SGPEUICCInfo2EuiccCiPKIdListForVerification) ([]byte, error) {
+func MarshalDERSGPEUICCInfo2EuiccCiPKIdListForVerification(collection *SGPEUICCInfo2EuiccCiPKIdListForVerification) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
@@ -36149,7 +41181,7 @@ func MarshalDERSGPEUICCInfo2EuiccCiPKIdListForVerification(list SGPEUICCInfo2Eui
 }
 
 // UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification decodes a SGPEUICCInfo2EuiccCiPKIdListForVerification list from BER.
-func UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(data []byte, opts ...ber.DecodeOption) (SGPEUICCInfo2EuiccCiPKIdListForVerification, error) {
+func UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(data []byte, opts ...ber.DecodeOption) (*SGPEUICCInfo2EuiccCiPKIdListForVerification, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -36160,7 +41192,7 @@ func UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(data []byte, opts .
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "SGPEUICCInfo2EuiccCiPKIdListForVerification", Cause: ber.ErrExtraData}
 	}
-	var result SGPEUICCInfo2EuiccCiPKIdListForVerification
+	var result []SubjectKeyIdentifier
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
@@ -36175,11 +41207,35 @@ func UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(data []byte, opts .
 
 		offset += n
 	}
-	return result, nil
+	decoded := &SGPEUICCInfo2EuiccCiPKIdListForVerification{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERSGPEUICCInfo2EuiccCiPKIdListForVerification(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning encodes a SGPEUICCInfo2EuiccCiPKIdListForSigning list to BER.
-func MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(list SGPEUICCInfo2EuiccCiPKIdListForSigning) ([]byte, error) {
+func MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(collection *SGPEUICCInfo2EuiccCiPKIdListForSigning, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(collection *SGPEUICCInfo2EuiccCiPKIdListForSigning, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
@@ -36192,7 +41248,11 @@ func MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(list SGPEUICCInfo2EuiccCiP
 }
 
 // MarshalDERSGPEUICCInfo2EuiccCiPKIdListForSigning encodes a SGPEUICCInfo2EuiccCiPKIdListForSigning list to DER.
-func MarshalDERSGPEUICCInfo2EuiccCiPKIdListForSigning(list SGPEUICCInfo2EuiccCiPKIdListForSigning) ([]byte, error) {
+func MarshalDERSGPEUICCInfo2EuiccCiPKIdListForSigning(collection *SGPEUICCInfo2EuiccCiPKIdListForSigning) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
@@ -36212,7 +41272,7 @@ func MarshalDERSGPEUICCInfo2EuiccCiPKIdListForSigning(list SGPEUICCInfo2EuiccCiP
 }
 
 // UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning decodes a SGPEUICCInfo2EuiccCiPKIdListForSigning list from BER.
-func UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(data []byte, opts ...ber.DecodeOption) (SGPEUICCInfo2EuiccCiPKIdListForSigning, error) {
+func UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(data []byte, opts ...ber.DecodeOption) (*SGPEUICCInfo2EuiccCiPKIdListForSigning, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -36223,7 +41283,7 @@ func UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(data []byte, opts ...ber
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "SGPEUICCInfo2EuiccCiPKIdListForSigning", Cause: ber.ErrExtraData}
 	}
-	var result SGPEUICCInfo2EuiccCiPKIdListForSigning
+	var result []SubjectKeyIdentifier
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
@@ -36238,11 +41298,35 @@ func UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(data []byte, opts ...ber
 
 		offset += n
 	}
-	return result, nil
+	decoded := &SGPEUICCInfo2EuiccCiPKIdListForSigning{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigning(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions encodes a SGPEUICCInfo2AdditionalEuiccProfilePackageVersions list to BER.
-func MarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(list SGPEUICCInfo2AdditionalEuiccProfilePackageVersions) ([]byte, error) {
+func MarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(collection *SGPEUICCInfo2AdditionalEuiccProfilePackageVersions, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(collection *SGPEUICCInfo2AdditionalEuiccProfilePackageVersions, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
@@ -36255,7 +41339,11 @@ func MarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(list SGPEUICCI
 }
 
 // MarshalDERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions encodes a SGPEUICCInfo2AdditionalEuiccProfilePackageVersions list to DER.
-func MarshalDERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(list SGPEUICCInfo2AdditionalEuiccProfilePackageVersions) ([]byte, error) {
+func MarshalDERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(collection *SGPEUICCInfo2AdditionalEuiccProfilePackageVersions) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
@@ -36275,7 +41363,7 @@ func MarshalDERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(list SGPEUICCI
 }
 
 // UnmarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions decodes a SGPEUICCInfo2AdditionalEuiccProfilePackageVersions list from BER.
-func UnmarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(data []byte, opts ...ber.DecodeOption) (SGPEUICCInfo2AdditionalEuiccProfilePackageVersions, error) {
+func UnmarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(data []byte, opts ...ber.DecodeOption) (*SGPEUICCInfo2AdditionalEuiccProfilePackageVersions, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -36286,7 +41374,7 @@ func UnmarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(data []byte,
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "SGPEUICCInfo2AdditionalEuiccProfilePackageVersions", Cause: ber.ErrExtraData}
 	}
-	var result SGPEUICCInfo2AdditionalEuiccProfilePackageVersions
+	var result []VersionType
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
@@ -36301,11 +41389,35 @@ func UnmarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(data []byte,
 
 		offset += n
 	}
-	return result, nil
+	decoded := &SGPEUICCInfo2AdditionalEuiccProfilePackageVersions{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERSGPEUICCInfo2AdditionalEuiccProfilePackageVersions(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3 encodes a SGPEUICCInfo2EuiccCiPKIdListForSigningV3 list to BER.
-func MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(list SGPEUICCInfo2EuiccCiPKIdListForSigningV3) ([]byte, error) {
+func MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(collection *SGPEUICCInfo2EuiccCiPKIdListForSigningV3, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(collection *SGPEUICCInfo2EuiccCiPKIdListForSigningV3, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
@@ -36318,7 +41430,11 @@ func MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(list SGPEUICCInfo2EuiccC
 }
 
 // MarshalDERSGPEUICCInfo2EuiccCiPKIdListForSigningV3 encodes a SGPEUICCInfo2EuiccCiPKIdListForSigningV3 list to DER.
-func MarshalDERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(list SGPEUICCInfo2EuiccCiPKIdListForSigningV3) ([]byte, error) {
+func MarshalDERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(collection *SGPEUICCInfo2EuiccCiPKIdListForSigningV3) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
@@ -36338,7 +41454,7 @@ func MarshalDERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(list SGPEUICCInfo2EuiccC
 }
 
 // UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3 decodes a SGPEUICCInfo2EuiccCiPKIdListForSigningV3 list from BER.
-func UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(data []byte, opts ...ber.DecodeOption) (SGPEUICCInfo2EuiccCiPKIdListForSigningV3, error) {
+func UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(data []byte, opts ...ber.DecodeOption) (*SGPEUICCInfo2EuiccCiPKIdListForSigningV3, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -36349,7 +41465,7 @@ func UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(data []byte, opts ...b
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "SGPEUICCInfo2EuiccCiPKIdListForSigningV3", Cause: ber.ErrExtraData}
 	}
-	var result SGPEUICCInfo2EuiccCiPKIdListForSigningV3
+	var result []SubjectKeyIdentifier
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
@@ -36364,11 +41480,35 @@ func UnmarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(data []byte, opts ...b
 
 		offset += n
 	}
-	return result, nil
+	decoded := &SGPEUICCInfo2EuiccCiPKIdListForSigningV3{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERSGPEUICCInfo2EuiccCiPKIdListForSigningV3(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBERIoTSpecificInfoIotVersion encodes a IoTSpecificInfoIotVersion list to BER.
-func MarshalBERIoTSpecificInfoIotVersion(list IoTSpecificInfoIotVersion) ([]byte, error) {
+func MarshalBERIoTSpecificInfoIotVersion(collection *IoTSpecificInfoIotVersion, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERIoTSpecificInfoIotVersion(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERIoTSpecificInfoIotVersion(collection *IoTSpecificInfoIotVersion, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
@@ -36381,7 +41521,11 @@ func MarshalBERIoTSpecificInfoIotVersion(list IoTSpecificInfoIotVersion) ([]byte
 }
 
 // MarshalDERIoTSpecificInfoIotVersion encodes a IoTSpecificInfoIotVersion list to DER.
-func MarshalDERIoTSpecificInfoIotVersion(list IoTSpecificInfoIotVersion) ([]byte, error) {
+func MarshalDERIoTSpecificInfoIotVersion(collection *IoTSpecificInfoIotVersion) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
@@ -36401,7 +41545,7 @@ func MarshalDERIoTSpecificInfoIotVersion(list IoTSpecificInfoIotVersion) ([]byte
 }
 
 // UnmarshalBERIoTSpecificInfoIotVersion decodes a IoTSpecificInfoIotVersion list from BER.
-func UnmarshalBERIoTSpecificInfoIotVersion(data []byte, opts ...ber.DecodeOption) (IoTSpecificInfoIotVersion, error) {
+func UnmarshalBERIoTSpecificInfoIotVersion(data []byte, opts ...ber.DecodeOption) (*IoTSpecificInfoIotVersion, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -36412,7 +41556,7 @@ func UnmarshalBERIoTSpecificInfoIotVersion(data []byte, opts ...ber.DecodeOption
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "IoTSpecificInfoIotVersion", Cause: ber.ErrExtraData}
 	}
-	var result IoTSpecificInfoIotVersion
+	var result []VersionType
 	offset := 0
 	for offset < len(content) {
 		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
@@ -36427,14 +41571,38 @@ func UnmarshalBERIoTSpecificInfoIotVersion(data []byte, opts ...ber.DecodeOption
 
 		offset += n
 	}
-	return result, nil
+	decoded := &IoTSpecificInfoIotVersion{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERIoTSpecificInfoIotVersion(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBERAddInitialEimRequestEimConfigurationDataList encodes a AddInitialEimRequestEimConfigurationDataList list to BER.
-func MarshalBERAddInitialEimRequestEimConfigurationDataList(list AddInitialEimRequestEimConfigurationDataList) ([]byte, error) {
+func MarshalBERAddInitialEimRequestEimConfigurationDataList(collection *AddInitialEimRequestEimConfigurationDataList, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERAddInitialEimRequestEimConfigurationDataList(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERAddInitialEimRequestEimConfigurationDataList(collection *AddInitialEimRequestEimConfigurationDataList, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -36444,7 +41612,11 @@ func MarshalBERAddInitialEimRequestEimConfigurationDataList(list AddInitialEimRe
 }
 
 // MarshalDERAddInitialEimRequestEimConfigurationDataList encodes a AddInitialEimRequestEimConfigurationDataList list to DER.
-func MarshalDERAddInitialEimRequestEimConfigurationDataList(list AddInitialEimRequestEimConfigurationDataList) ([]byte, error) {
+func MarshalDERAddInitialEimRequestEimConfigurationDataList(collection *AddInitialEimRequestEimConfigurationDataList) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -36464,7 +41636,7 @@ func MarshalDERAddInitialEimRequestEimConfigurationDataList(list AddInitialEimRe
 }
 
 // UnmarshalBERAddInitialEimRequestEimConfigurationDataList decodes a AddInitialEimRequestEimConfigurationDataList list from BER.
-func UnmarshalBERAddInitialEimRequestEimConfigurationDataList(data []byte, opts ...ber.DecodeOption) (AddInitialEimRequestEimConfigurationDataList, error) {
+func UnmarshalBERAddInitialEimRequestEimConfigurationDataList(data []byte, opts ...ber.DecodeOption) (*AddInitialEimRequestEimConfigurationDataList, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -36475,7 +41647,7 @@ func UnmarshalBERAddInitialEimRequestEimConfigurationDataList(data []byte, opts 
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "AddInitialEimRequestEimConfigurationDataList", Cause: ber.ErrExtraData}
 	}
-	var result AddInitialEimRequestEimConfigurationDataList
+	var result []EimConfigurationData
 	offset := 0
 	for offset < len(content) {
 		var elem EimConfigurationData
@@ -36488,7 +41660,7 @@ func UnmarshalBERAddInitialEimRequestEimConfigurationDataList(data []byte, opts 
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -36499,15 +41671,38 @@ func UnmarshalBERAddInitialEimRequestEimConfigurationDataList(data []byte, opts 
 
 		offset += n
 	}
-	return result, nil
+	decoded := &AddInitialEimRequestEimConfigurationDataList{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERAddInitialEimRequestEimConfigurationDataList(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes AddInitialEimResponseAddInitialEimOkElem to BER format.
-func (v *AddInitialEimResponseAddInitialEimOkElem) MarshalBER() ([]byte, error) {
+func (v *AddInitialEimResponseAddInitialEimOkElem) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AddInitialEimResponseAddInitialEimOkElem receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *AddInitialEimResponseAddInitialEimOkElem) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case AddInitialEimResponseAddInitialEimOkElemChoiceAssociationToken:
 		if v.AssociationToken == nil {
-			return nil, fmt.Errorf("choice AddInitialEimResponseAddInitialEimOkElem: associationToken is nil")
+			return nil, fmt.Errorf("%w: choice AddInitialEimResponseAddInitialEimOkElem: associationToken is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.AssociationToken)
 		if encodeErr_enc_0 != nil {
@@ -36529,6 +41724,9 @@ func (v *AddInitialEimResponseAddInitialEimOkElem) MarshalBER() ([]byte, error) 
 
 // MarshalDER encodes AddInitialEimResponseAddInitialEimOkElem to DER format.
 func (v *AddInitialEimResponseAddInitialEimOkElem) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: AddInitialEimResponseAddInitialEimOkElem receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -36540,7 +41738,23 @@ func (v *AddInitialEimResponseAddInitialEimOkElem) MarshalDER() ([]byte, error) 
 }
 
 // UnmarshalBER decodes AddInitialEimResponseAddInitialEimOkElem from BER/DER format.
-func (v *AddInitialEimResponseAddInitialEimOkElem) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *AddInitialEimResponseAddInitialEimOkElem) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: AddInitialEimResponseAddInitialEimOkElem destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -36586,10 +41800,24 @@ func (v *AddInitialEimResponseAddInitialEimOkElem) UnmarshalBER(data []byte, opt
 }
 
 // MarshalBERAddInitialEimResponseAddInitialEimOk encodes a AddInitialEimResponseAddInitialEimOk list to BER.
-func MarshalBERAddInitialEimResponseAddInitialEimOk(list AddInitialEimResponseAddInitialEimOk) ([]byte, error) {
+func MarshalBERAddInitialEimResponseAddInitialEimOk(collection *AddInitialEimResponseAddInitialEimOk, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERAddInitialEimResponseAddInitialEimOk(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERAddInitialEimResponseAddInitialEimOk(collection *AddInitialEimResponseAddInitialEimOk, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -36599,7 +41827,11 @@ func MarshalBERAddInitialEimResponseAddInitialEimOk(list AddInitialEimResponseAd
 }
 
 // MarshalDERAddInitialEimResponseAddInitialEimOk encodes a AddInitialEimResponseAddInitialEimOk list to DER.
-func MarshalDERAddInitialEimResponseAddInitialEimOk(list AddInitialEimResponseAddInitialEimOk) ([]byte, error) {
+func MarshalDERAddInitialEimResponseAddInitialEimOk(collection *AddInitialEimResponseAddInitialEimOk) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -36619,7 +41851,7 @@ func MarshalDERAddInitialEimResponseAddInitialEimOk(list AddInitialEimResponseAd
 }
 
 // UnmarshalBERAddInitialEimResponseAddInitialEimOk decodes a AddInitialEimResponseAddInitialEimOk list from BER.
-func UnmarshalBERAddInitialEimResponseAddInitialEimOk(data []byte, opts ...ber.DecodeOption) (AddInitialEimResponseAddInitialEimOk, error) {
+func UnmarshalBERAddInitialEimResponseAddInitialEimOk(data []byte, opts ...ber.DecodeOption) (*AddInitialEimResponseAddInitialEimOk, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -36630,7 +41862,7 @@ func UnmarshalBERAddInitialEimResponseAddInitialEimOk(data []byte, opts ...ber.D
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "AddInitialEimResponseAddInitialEimOk", Cause: ber.ErrExtraData}
 	}
-	var result AddInitialEimResponseAddInitialEimOk
+	var result []AddInitialEimResponseAddInitialEimOkElem
 	offset := 0
 	for offset < len(content) {
 		var elem AddInitialEimResponseAddInitialEimOkElem
@@ -36643,7 +41875,7 @@ func UnmarshalBERAddInitialEimResponseAddInitialEimOk(data []byte, opts ...ber.D
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -36654,13 +41886,36 @@ func UnmarshalBERAddInitialEimResponseAddInitialEimOk(data []byte, opts ...ber.D
 
 		offset += n
 	}
-	return result, nil
+	decoded := &AddInitialEimResponseAddInitialEimOk{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERAddInitialEimResponseAddInitialEimOk(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes GetCertsResponseCerts to BER format.
-func (v *GetCertsResponseCerts) MarshalBER() ([]byte, error) {
+func (v *GetCertsResponseCerts) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetCertsResponseCerts receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *GetCertsResponseCerts) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_eumcertificate, err := v.EumCertificate.MarshalBER()
+	enc_eumcertificate, err := v.EumCertificate.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding eumCertificate: %w", err)
 	}
@@ -36670,7 +41925,7 @@ func (v *GetCertsResponseCerts) MarshalBER() ([]byte, error) {
 	}
 	enc_eumcertificate = retagged_enc_eumcertificate
 	children = append(children, enc_eumcertificate...)
-	enc_euicccertificate, err := v.EuiccCertificate.MarshalBER()
+	enc_euicccertificate, err := v.EuiccCertificate.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccCertificate: %w", err)
 	}
@@ -36695,6 +41950,9 @@ func (v *GetCertsResponseCerts) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes GetCertsResponseCerts to DER format.
 func (v *GetCertsResponseCerts) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetCertsResponseCerts receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_eumcertificate, err := v.EumCertificate.MarshalDER()
 	if err != nil {
@@ -36733,11 +41991,27 @@ func (v *GetCertsResponseCerts) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes GetCertsResponseCerts from BER/DER format.
-func (v *GetCertsResponseCerts) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *GetCertsResponseCerts) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: GetCertsResponseCerts destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = GetCertsResponseCerts{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding GetCertsResponseCerts SEQUENCE: %w", err)
@@ -36766,7 +42040,7 @@ func (v *GetCertsResponseCerts) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if reconstructionErr_eumcertificate != nil {
 		return fmt.Errorf("decoding eumCertificate: %w", reconstructionErr_eumcertificate)
 	}
-	if unmErr := v.EumCertificate.UnmarshalBER(reconstructed_eumcertificate, opts...); unmErr != nil {
+	if unmErr := v.EumCertificate.UnmarshalBER(reconstructed_eumcertificate, ber.ChildDecodeOptions(opts, "eumCertificate")...); unmErr != nil {
 		return fmt.Errorf("decoding eumCertificate: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -36795,7 +42069,7 @@ func (v *GetCertsResponseCerts) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if reconstructionErr_euicccertificate != nil {
 		return fmt.Errorf("decoding euiccCertificate: %w", reconstructionErr_euicccertificate)
 	}
-	if unmErr := v.EuiccCertificate.UnmarshalBER(reconstructed_euicccertificate, opts...); unmErr != nil {
+	if unmErr := v.EuiccCertificate.UnmarshalBER(reconstructed_euicccertificate, ber.ChildDecodeOptions(opts, "euiccCertificate")...); unmErr != nil {
 		return fmt.Errorf("decoding euiccCertificate: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -36832,11 +42106,24 @@ func (v *GetCertsResponseCerts) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes SGPRetrieveNotificationsListRequestSearchCriteria to BER format.
-func (v *SGPRetrieveNotificationsListRequestSearchCriteria) MarshalBER() ([]byte, error) {
+func (v *SGPRetrieveNotificationsListRequestSearchCriteria) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPRetrieveNotificationsListRequestSearchCriteria receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *SGPRetrieveNotificationsListRequestSearchCriteria) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case SGPRetrieveNotificationsListRequestSearchCriteriaChoiceSeqNumber:
 		if v.SeqNumber == nil {
-			return nil, fmt.Errorf("choice SGPRetrieveNotificationsListRequestSearchCriteria: seqNumber is nil")
+			return nil, fmt.Errorf("%w: choice SGPRetrieveNotificationsListRequestSearchCriteria: seqNumber is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.SeqNumber)
 		if encodeErr_enc_0 != nil {
@@ -36849,7 +42136,7 @@ func (v *SGPRetrieveNotificationsListRequestSearchCriteria) MarshalBER() ([]byte
 		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case SGPRetrieveNotificationsListRequestSearchCriteriaChoiceProfileManagementOperation:
-		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2250
+		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2298
 		if v.ProfileManagementOperation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -36878,6 +42165,9 @@ func (v *SGPRetrieveNotificationsListRequestSearchCriteria) MarshalBER() ([]byte
 
 // MarshalDER encodes SGPRetrieveNotificationsListRequestSearchCriteria to DER format.
 func (v *SGPRetrieveNotificationsListRequestSearchCriteria) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: SGPRetrieveNotificationsListRequestSearchCriteria receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -36889,7 +42179,23 @@ func (v *SGPRetrieveNotificationsListRequestSearchCriteria) MarshalDER() ([]byte
 }
 
 // UnmarshalBER decodes SGPRetrieveNotificationsListRequestSearchCriteria from BER/DER format.
-func (v *SGPRetrieveNotificationsListRequestSearchCriteria) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *SGPRetrieveNotificationsListRequestSearchCriteria) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: SGPRetrieveNotificationsListRequestSearchCriteria destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -36955,18 +42261,33 @@ func (v *SGPRetrieveNotificationsListRequestSearchCriteria) UnmarshalBER(data []
 }
 
 // MarshalBER encodes GetEimConfigurationDataRequestSearchCriteria to BER format.
-func (v *GetEimConfigurationDataRequestSearchCriteria) MarshalBER() ([]byte, error) {
+func (v *GetEimConfigurationDataRequestSearchCriteria) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetEimConfigurationDataRequestSearchCriteria receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *GetEimConfigurationDataRequestSearchCriteria) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case GetEimConfigurationDataRequestSearchCriteriaChoiceEimId:
 		if v.EimId == nil {
-			return nil, fmt.Errorf("choice GetEimConfigurationDataRequestSearchCriteria: eimId is nil")
+			return nil, fmt.Errorf("%w: choice GetEimConfigurationDataRequestSearchCriteria: eimId is nil", ber.ErrInvalidValue)
 		}
 		enc_0, stringErr := ber.EncodeStringTagChecked(12, *v.EimId)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding eimId: %w", stringErr)
 		}
 		if len([]rune(*v.EimId)) < 1 || len([]rune(*v.EimId)) > 128 {
-			return nil, fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(*v.EimId)))
+			if constraintErr := ber.CheckEncodedLength(opts, "eimId", "SIZE (1..128)", len([]rune(*v.EimId))); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
@@ -36981,6 +42302,9 @@ func (v *GetEimConfigurationDataRequestSearchCriteria) MarshalBER() ([]byte, err
 
 // MarshalDER encodes GetEimConfigurationDataRequestSearchCriteria to DER format.
 func (v *GetEimConfigurationDataRequestSearchCriteria) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: GetEimConfigurationDataRequestSearchCriteria receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -36992,7 +42316,23 @@ func (v *GetEimConfigurationDataRequestSearchCriteria) MarshalDER() ([]byte, err
 }
 
 // UnmarshalBER decodes GetEimConfigurationDataRequestSearchCriteria from BER/DER format.
-func (v *GetEimConfigurationDataRequestSearchCriteria) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *GetEimConfigurationDataRequestSearchCriteria) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: GetEimConfigurationDataRequestSearchCriteria destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -37026,7 +42366,9 @@ func (v *GetEimConfigurationDataRequestSearchCriteria) UnmarshalBER(data []byte,
 		}
 		v.EimId = &decVal
 		if len([]rune(*v.EimId)) < 1 || len([]rune(*v.EimId)) > 128 {
-			return fmt.Errorf("eimId length %d violates SIZE (1..128)", len([]rune(*v.EimId)))
+			if constraintErr := ber.CheckDecodedLength(opts, "eimId", "SIZE (1..128)", len([]rune(*v.EimId))); constraintErr != nil {
+				return constraintErr
+			}
 		}
 	} else {
 		return fmt.Errorf("unknown tag %s for GetEimConfigurationDataRequestSearchCriteria CHOICE", peekTag)
@@ -37035,10 +42377,24 @@ func (v *GetEimConfigurationDataRequestSearchCriteria) UnmarshalBER(data []byte,
 }
 
 // MarshalBERGetEimConfigurationDataResponseEimConfigurationDataList encodes a GetEimConfigurationDataResponseEimConfigurationDataList list to BER.
-func MarshalBERGetEimConfigurationDataResponseEimConfigurationDataList(list GetEimConfigurationDataResponseEimConfigurationDataList) ([]byte, error) {
+func MarshalBERGetEimConfigurationDataResponseEimConfigurationDataList(collection *GetEimConfigurationDataResponseEimConfigurationDataList, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERGetEimConfigurationDataResponseEimConfigurationDataList(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+}
+func marshalBERGetEimConfigurationDataResponseEimConfigurationDataList(collection *GetEimConfigurationDataResponseEimConfigurationDataList, opts ...ber.EncodeOption) ([]byte, error) {
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
-		enc, err := elem.MarshalBER()
+		enc, err := elem.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -37048,7 +42404,11 @@ func MarshalBERGetEimConfigurationDataResponseEimConfigurationDataList(list GetE
 }
 
 // MarshalDERGetEimConfigurationDataResponseEimConfigurationDataList encodes a GetEimConfigurationDataResponseEimConfigurationDataList list to DER.
-func MarshalDERGetEimConfigurationDataResponseEimConfigurationDataList(list GetEimConfigurationDataResponseEimConfigurationDataList) ([]byte, error) {
+func MarshalDERGetEimConfigurationDataResponseEimConfigurationDataList(collection *GetEimConfigurationDataResponseEimConfigurationDataList) ([]byte, error) {
+	if collection == nil {
+		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
+	}
+	list := collection.Values
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -37068,7 +42428,7 @@ func MarshalDERGetEimConfigurationDataResponseEimConfigurationDataList(list GetE
 }
 
 // UnmarshalBERGetEimConfigurationDataResponseEimConfigurationDataList decodes a GetEimConfigurationDataResponseEimConfigurationDataList list from BER.
-func UnmarshalBERGetEimConfigurationDataResponseEimConfigurationDataList(data []byte, opts ...ber.DecodeOption) (GetEimConfigurationDataResponseEimConfigurationDataList, error) {
+func UnmarshalBERGetEimConfigurationDataResponseEimConfigurationDataList(data []byte, opts ...ber.DecodeOption) (*GetEimConfigurationDataResponseEimConfigurationDataList, error) {
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -37079,7 +42439,7 @@ func UnmarshalBERGetEimConfigurationDataResponseEimConfigurationDataList(data []
 	if total != len(data) {
 		return nil, &ber.DecodeError{Offset: total, TypeName: "GetEimConfigurationDataResponseEimConfigurationDataList", Cause: ber.ErrExtraData}
 	}
-	var result GetEimConfigurationDataResponseEimConfigurationDataList
+	var result []EimConfigurationData
 	offset := 0
 	for offset < len(content) {
 		var elem EimConfigurationData
@@ -37092,7 +42452,7 @@ func UnmarshalBERGetEimConfigurationDataResponseEimConfigurationDataList(data []
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -37103,26 +42463,49 @@ func UnmarshalBERGetEimConfigurationDataResponseEimConfigurationDataList(data []
 
 		offset += n
 	}
-	return result, nil
+	decoded := &GetEimConfigurationDataResponseEimConfigurationDataList{Values: result}
+	if ber.ConstraintToleranceEnabled(opts) {
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := MarshalBERGetEimConfigurationDataResponseEimConfigurationDataList(decoded, ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			return nil, snapshotErr
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes CompactAuthenticateResponseOkSignedData to BER format.
-func (v *CompactAuthenticateResponseOkSignedData) MarshalBER() ([]byte, error) {
+func (v *CompactAuthenticateResponseOkSignedData) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactAuthenticateResponseOkSignedData receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CompactAuthenticateResponseOkSignedData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case CompactAuthenticateResponseOkSignedDataChoiceEuiccSigned1:
 		if v.EuiccSigned1 == nil {
-			return nil, fmt.Errorf("choice CompactAuthenticateResponseOkSignedData: euiccSigned1 is nil")
+			return nil, fmt.Errorf("%w: choice CompactAuthenticateResponseOkSignedData: euiccSigned1 is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.EuiccSigned1.MarshalBER()
+		enc_0, err := v.EuiccSigned1.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccSigned1: %w", err)
 		}
 		return enc_0, nil
 	case CompactAuthenticateResponseOkSignedDataChoiceCompactEuiccSigned1:
 		if v.CompactEuiccSigned1 == nil {
-			return nil, fmt.Errorf("choice CompactAuthenticateResponseOkSignedData: compactEuiccSigned1 is nil")
+			return nil, fmt.Errorf("%w: choice CompactAuthenticateResponseOkSignedData: compactEuiccSigned1 is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.CompactEuiccSigned1.MarshalBER()
+		enc_1, err := v.CompactEuiccSigned1.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding compactEuiccSigned1: %w", err)
 		}
@@ -37139,10 +42522,13 @@ func (v *CompactAuthenticateResponseOkSignedData) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CompactAuthenticateResponseOkSignedData to DER format.
 func (v *CompactAuthenticateResponseOkSignedData) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactAuthenticateResponseOkSignedData receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case CompactAuthenticateResponseOkSignedDataChoiceEuiccSigned1:
 		if v.EuiccSigned1 == nil {
-			return nil, fmt.Errorf("choice CompactAuthenticateResponseOkSignedData: euiccSigned1 is nil")
+			return nil, fmt.Errorf("%w: choice CompactAuthenticateResponseOkSignedData: euiccSigned1 is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.EuiccSigned1.MarshalDER()
 		if err != nil {
@@ -37154,7 +42540,7 @@ func (v *CompactAuthenticateResponseOkSignedData) MarshalDER() ([]byte, error) {
 		return enc_der_0, nil
 	case CompactAuthenticateResponseOkSignedDataChoiceCompactEuiccSigned1:
 		if v.CompactEuiccSigned1 == nil {
-			return nil, fmt.Errorf("choice CompactAuthenticateResponseOkSignedData: compactEuiccSigned1 is nil")
+			return nil, fmt.Errorf("%w: choice CompactAuthenticateResponseOkSignedData: compactEuiccSigned1 is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.CompactEuiccSigned1.MarshalDER()
 		if err != nil {
@@ -37181,7 +42567,23 @@ func (v *CompactAuthenticateResponseOkSignedData) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes CompactAuthenticateResponseOkSignedData from BER/DER format.
-func (v *CompactAuthenticateResponseOkSignedData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CompactAuthenticateResponseOkSignedData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CompactAuthenticateResponseOkSignedData destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -37232,13 +42634,26 @@ func (v *CompactAuthenticateResponseOkSignedData) UnmarshalBER(data []byte, opts
 }
 
 // MarshalBER encodes CompactProfileInstallationResultDataCompactFinalResult to BER format.
-func (v *CompactProfileInstallationResultDataCompactFinalResult) MarshalBER() ([]byte, error) {
+func (v *CompactProfileInstallationResultDataCompactFinalResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactProfileInstallationResultDataCompactFinalResult receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *CompactProfileInstallationResultDataCompactFinalResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case CompactProfileInstallationResultDataCompactFinalResultChoiceCompactSuccessResult:
 		if v.CompactSuccessResult == nil {
-			return nil, fmt.Errorf("choice CompactProfileInstallationResultDataCompactFinalResult: compactSuccessResult is nil")
+			return nil, fmt.Errorf("%w: choice CompactProfileInstallationResultDataCompactFinalResult: compactSuccessResult is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.CompactSuccessResult.MarshalBER()
+		enc_0, err := v.CompactSuccessResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding compactSuccessResult: %w", err)
 		}
@@ -37250,9 +42665,9 @@ func (v *CompactProfileInstallationResultDataCompactFinalResult) MarshalBER() ([
 		return enc_0, nil
 	case CompactProfileInstallationResultDataCompactFinalResultChoiceErrorResult:
 		if v.ErrorResult == nil {
-			return nil, fmt.Errorf("choice CompactProfileInstallationResultDataCompactFinalResult: errorResult is nil")
+			return nil, fmt.Errorf("%w: choice CompactProfileInstallationResultDataCompactFinalResult: errorResult is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.ErrorResult.MarshalBER()
+		enc_1, err := v.ErrorResult.MarshalBER(opts...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding errorResult: %w", err)
 		}
@@ -37269,10 +42684,13 @@ func (v *CompactProfileInstallationResultDataCompactFinalResult) MarshalBER() ([
 
 // MarshalDER encodes CompactProfileInstallationResultDataCompactFinalResult to DER format.
 func (v *CompactProfileInstallationResultDataCompactFinalResult) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: CompactProfileInstallationResultDataCompactFinalResult receiver is nil", ber.ErrInvalidValue)
+	}
 	switch v.Choice {
 	case CompactProfileInstallationResultDataCompactFinalResultChoiceCompactSuccessResult:
 		if v.CompactSuccessResult == nil {
-			return nil, fmt.Errorf("choice CompactProfileInstallationResultDataCompactFinalResult: compactSuccessResult is nil")
+			return nil, fmt.Errorf("%w: choice CompactProfileInstallationResultDataCompactFinalResult: compactSuccessResult is nil", ber.ErrInvalidValue)
 		}
 		enc_der_0, err := v.CompactSuccessResult.MarshalDER()
 		if err != nil {
@@ -37289,7 +42707,7 @@ func (v *CompactProfileInstallationResultDataCompactFinalResult) MarshalDER() ([
 		return enc_der_0, nil
 	case CompactProfileInstallationResultDataCompactFinalResultChoiceErrorResult:
 		if v.ErrorResult == nil {
-			return nil, fmt.Errorf("choice CompactProfileInstallationResultDataCompactFinalResult: errorResult is nil")
+			return nil, fmt.Errorf("%w: choice CompactProfileInstallationResultDataCompactFinalResult: errorResult is nil", ber.ErrInvalidValue)
 		}
 		enc_der_1, err := v.ErrorResult.MarshalDER()
 		if err != nil {
@@ -37316,7 +42734,23 @@ func (v *CompactProfileInstallationResultDataCompactFinalResult) MarshalDER() ([
 }
 
 // UnmarshalBER decodes CompactProfileInstallationResultDataCompactFinalResult from BER/DER format.
-func (v *CompactProfileInstallationResultDataCompactFinalResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *CompactProfileInstallationResultDataCompactFinalResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: CompactProfileInstallationResultDataCompactFinalResult destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -37375,14 +42809,30 @@ func (v *CompactProfileInstallationResultDataCompactFinalResult) UnmarshalBER(da
 }
 
 // MarshalBER encodes EimPackageResultEPRAndNotifications to BER format.
-func (v *EimPackageResultEPRAndNotifications) MarshalBER() ([]byte, error) {
+func (v *EimPackageResultEPRAndNotifications) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimPackageResultEPRAndNotifications receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EimPackageResultEPRAndNotifications) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_euiccpackageresult, err := v.EuiccPackageResult.MarshalBER()
+	enc_euiccpackageresult, err := v.EuiccPackageResult.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccPackageResult: %w", err)
 	}
 	children = append(children, enc_euiccpackageresult...)
-	enc_notificationlist, err := MarshalBERPendingNotificationList(v.NotificationList)
+	if v.NotificationList == nil {
+		return nil, fmt.Errorf("encoding notificationList: %w: required collection is nil", ber.ErrInvalidValue)
+	}
+	enc_notificationlist, err := MarshalBERPendingNotificationList(v.NotificationList, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding notificationList: %w", err)
 	}
@@ -37422,12 +42872,18 @@ func (v *EimPackageResultEPRAndNotifications) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EimPackageResultEPRAndNotifications to DER format.
 func (v *EimPackageResultEPRAndNotifications) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimPackageResultEPRAndNotifications receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_euiccpackageresult, err := v.EuiccPackageResult.MarshalDER()
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccPackageResult: %w", err)
 	}
 	children = append(children, enc_euiccpackageresult...)
+	if v.NotificationList == nil {
+		return nil, fmt.Errorf("encoding notificationList: %w: required collection is nil", ber.ErrInvalidValue)
+	}
 	enc_notificationlist, err := MarshalDERPendingNotificationList(v.NotificationList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding notificationList: %w", err)
@@ -37455,11 +42911,27 @@ func (v *EimPackageResultEPRAndNotifications) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EimPackageResultEPRAndNotifications from BER/DER format.
-func (v *EimPackageResultEPRAndNotifications) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EimPackageResultEPRAndNotifications) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EimPackageResultEPRAndNotifications destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EimPackageResultEPRAndNotifications{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding EimPackageResultEPRAndNotifications SEQUENCE: %w", err)
@@ -37487,7 +42959,7 @@ func (v *EimPackageResultEPRAndNotifications) UnmarshalBER(data []byte, opts ...
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.EuiccPackageResult.UnmarshalBER(content[offset:offset+n_euiccpackageresult], opts...); unmErr != nil {
+	if unmErr := v.EuiccPackageResult.UnmarshalBER(content[offset:offset+n_euiccpackageresult], ber.ChildDecodeOptions(opts, "euiccPackageResult")...); unmErr != nil {
 		return fmt.Errorf("decoding euiccPackageResult: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -37517,7 +42989,7 @@ func (v *EimPackageResultEPRAndNotifications) UnmarshalBER(data []byte, opts ...
 	if reconstructionErr_notificationlist != nil {
 		return fmt.Errorf("decoding notificationList: %w", reconstructionErr_notificationlist)
 	}
-	dec_notificationlist, unmErr := UnmarshalBERPendingNotificationList(reconstructed_notificationlist, opts...)
+	dec_notificationlist, unmErr := UnmarshalBERPendingNotificationList(reconstructed_notificationlist, ber.ChildDecodeOptions(opts, "notificationList")...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding notificationList: %w", unmErr)
 	}
@@ -37566,7 +43038,20 @@ func (v *EimPackageResultEPRAndNotifications) UnmarshalBER(data []byte, opts ...
 }
 
 // MarshalBER encodes ProvideEimPackageResultResponseEmptyResponse to BER format.
-func (v *ProvideEimPackageResultResponseEmptyResponse) MarshalBER() ([]byte, error) {
+func (v *ProvideEimPackageResultResponseEmptyResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProvideEimPackageResultResponseEmptyResponse receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *ProvideEimPackageResultResponseEmptyResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -37583,6 +43068,9 @@ func (v *ProvideEimPackageResultResponseEmptyResponse) MarshalBER() ([]byte, err
 
 // MarshalDER encodes ProvideEimPackageResultResponseEmptyResponse to DER format.
 func (v *ProvideEimPackageResultResponseEmptyResponse) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ProvideEimPackageResultResponseEmptyResponse receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
@@ -37601,11 +43089,27 @@ func (v *ProvideEimPackageResultResponseEmptyResponse) MarshalDER() ([]byte, err
 }
 
 // UnmarshalBER decodes ProvideEimPackageResultResponseEmptyResponse from BER/DER format.
-func (v *ProvideEimPackageResultResponseEmptyResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *ProvideEimPackageResultResponseEmptyResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: ProvideEimPackageResultResponseEmptyResponse destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ProvideEimPackageResultResponseEmptyResponse{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ProvideEimPackageResultResponseEmptyResponse SEQUENCE: %w", err)
@@ -37641,14 +43145,30 @@ func (v *ProvideEimPackageResultResponseEmptyResponse) UnmarshalBER(data []byte,
 }
 
 // MarshalBER encodes TransferEimPackageResponseEPRAndNotifications to BER format.
-func (v *TransferEimPackageResponseEPRAndNotifications) MarshalBER() ([]byte, error) {
+func (v *TransferEimPackageResponseEPRAndNotifications) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TransferEimPackageResponseEPRAndNotifications receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *TransferEimPackageResponseEPRAndNotifications) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	var children []byte
-	enc_euiccpackageresult, err := v.EuiccPackageResult.MarshalBER()
+	enc_euiccpackageresult, err := v.EuiccPackageResult.MarshalBER(opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccPackageResult: %w", err)
 	}
 	children = append(children, enc_euiccpackageresult...)
-	enc_notificationlist, err := MarshalBERPendingNotificationList(v.NotificationList)
+	if v.NotificationList == nil {
+		return nil, fmt.Errorf("encoding notificationList: %w: required collection is nil", ber.ErrInvalidValue)
+	}
+	enc_notificationlist, err := MarshalBERPendingNotificationList(v.NotificationList, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding notificationList: %w", err)
 	}
@@ -37688,12 +43208,18 @@ func (v *TransferEimPackageResponseEPRAndNotifications) MarshalBER() ([]byte, er
 
 // MarshalDER encodes TransferEimPackageResponseEPRAndNotifications to DER format.
 func (v *TransferEimPackageResponseEPRAndNotifications) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: TransferEimPackageResponseEPRAndNotifications receiver is nil", ber.ErrInvalidValue)
+	}
 	var children []byte
 	enc_euiccpackageresult, err := v.EuiccPackageResult.MarshalDER()
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccPackageResult: %w", err)
 	}
 	children = append(children, enc_euiccpackageresult...)
+	if v.NotificationList == nil {
+		return nil, fmt.Errorf("encoding notificationList: %w: required collection is nil", ber.ErrInvalidValue)
+	}
 	enc_notificationlist, err := MarshalDERPendingNotificationList(v.NotificationList)
 	if err != nil {
 		return nil, fmt.Errorf("encoding notificationList: %w", err)
@@ -37721,11 +43247,27 @@ func (v *TransferEimPackageResponseEPRAndNotifications) MarshalDER() ([]byte, er
 }
 
 // UnmarshalBER decodes TransferEimPackageResponseEPRAndNotifications from BER/DER format.
-func (v *TransferEimPackageResponseEPRAndNotifications) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *TransferEimPackageResponseEPRAndNotifications) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: TransferEimPackageResponseEPRAndNotifications destination is nil", ber.ErrInvalidValue)
+	}
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = TransferEimPackageResponseEPRAndNotifications{}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding TransferEimPackageResponseEPRAndNotifications SEQUENCE: %w", err)
@@ -37753,7 +43295,7 @@ func (v *TransferEimPackageResponseEPRAndNotifications) UnmarshalBER(data []byte
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.EuiccPackageResult.UnmarshalBER(content[offset:offset+n_euiccpackageresult], opts...); unmErr != nil {
+	if unmErr := v.EuiccPackageResult.UnmarshalBER(content[offset:offset+n_euiccpackageresult], ber.ChildDecodeOptions(opts, "euiccPackageResult")...); unmErr != nil {
 		return fmt.Errorf("decoding euiccPackageResult: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -37783,7 +43325,7 @@ func (v *TransferEimPackageResponseEPRAndNotifications) UnmarshalBER(data []byte
 	if reconstructionErr_notificationlist != nil {
 		return fmt.Errorf("decoding notificationList: %w", reconstructionErr_notificationlist)
 	}
-	dec_notificationlist, unmErr := UnmarshalBERPendingNotificationList(reconstructed_notificationlist, opts...)
+	dec_notificationlist, unmErr := UnmarshalBERPendingNotificationList(reconstructed_notificationlist, ber.ChildDecodeOptions(opts, "notificationList")...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding notificationList: %w", unmErr)
 	}
@@ -37832,18 +43374,33 @@ func (v *TransferEimPackageResponseEPRAndNotifications) UnmarshalBER(data []byte
 }
 
 // MarshalBER encodes EimPackageReceivedWithCidCorrelationId to BER format.
-func (v *EimPackageReceivedWithCidCorrelationId) MarshalBER() ([]byte, error) {
+func (v *EimPackageReceivedWithCidCorrelationId) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimPackageReceivedWithCidCorrelationId receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EimPackageReceivedWithCidCorrelationId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case EimPackageReceivedWithCidCorrelationIdChoiceEimTransactionId:
 		if v.EimTransactionId == nil {
-			return nil, fmt.Errorf("choice EimPackageReceivedWithCidCorrelationId: eimTransactionId is nil")
+			return nil, fmt.Errorf("%w: choice EimPackageReceivedWithCidCorrelationId: eimTransactionId is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_0)
 		}
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
@@ -37853,14 +43410,16 @@ func (v *EimPackageReceivedWithCidCorrelationId) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case EimPackageReceivedWithCidCorrelationIdChoiceEidValue:
 		if v.EidValue == nil {
-			return nil, fmt.Errorf("choice EimPackageReceivedWithCidCorrelationId: eidValue is nil")
+			return nil, fmt.Errorf("%w: choice EimPackageReceivedWithCidCorrelationId: eidValue is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeOctetString([]byte(*v.EidValue))
 		if encodeErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding eidValue: %w", encodeErr_enc_1)
 		}
 		if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
-			return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+			if constraintErr := ber.CheckEncodedLength(opts, "eidValue", "SIZE (16)", len(*v.EidValue)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 26, enc_1)
 		if tagErr_enc_1 != nil {
@@ -37875,6 +43434,9 @@ func (v *EimPackageReceivedWithCidCorrelationId) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EimPackageReceivedWithCidCorrelationId to DER format.
 func (v *EimPackageReceivedWithCidCorrelationId) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimPackageReceivedWithCidCorrelationId receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -37886,7 +43448,23 @@ func (v *EimPackageReceivedWithCidCorrelationId) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EimPackageReceivedWithCidCorrelationId from BER/DER format.
-func (v *EimPackageReceivedWithCidCorrelationId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EimPackageReceivedWithCidCorrelationId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EimPackageReceivedWithCidCorrelationId destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -37917,7 +43495,9 @@ func (v *EimPackageReceivedWithCidCorrelationId) UnmarshalBER(data []byte, opts 
 		tmp := TransactionId(rawVal)
 		v.EimTransactionId = &tmp
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckDecodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return constraintErr
+			}
 		}
 	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 26 {
 		v.Choice = EimPackageReceivedWithCidCorrelationIdChoiceEidValue
@@ -37928,7 +43508,9 @@ func (v *EimPackageReceivedWithCidCorrelationId) UnmarshalBER(data []byte, opts 
 		tmp := Octet16(rawVal)
 		v.EidValue = &tmp
 		if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
-			return fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+			if constraintErr := ber.CheckDecodedLength(opts, "eidValue", "SIZE (16)", len(*v.EidValue)); constraintErr != nil {
+				return constraintErr
+			}
 		}
 	} else {
 		return fmt.Errorf("unknown tag %s for EimPackageReceivedWithCidCorrelationId CHOICE", peekTag)
@@ -37937,18 +43519,33 @@ func (v *EimPackageReceivedWithCidCorrelationId) UnmarshalBER(data []byte, opts 
 }
 
 // MarshalBER encodes EimPackageErrorWithCidCorrelationId to BER format.
-func (v *EimPackageErrorWithCidCorrelationId) MarshalBER() ([]byte, error) {
+func (v *EimPackageErrorWithCidCorrelationId) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimPackageErrorWithCidCorrelationId receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *EimPackageErrorWithCidCorrelationId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
 	switch v.Choice {
 	case EimPackageErrorWithCidCorrelationIdChoiceEimTransactionId:
 		if v.EimTransactionId == nil {
-			return nil, fmt.Errorf("choice EimPackageErrorWithCidCorrelationId: eimTransactionId is nil")
+			return nil, fmt.Errorf("%w: choice EimPackageErrorWithCidCorrelationId: eimTransactionId is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeOctetString([]byte(*v.EimTransactionId))
 		if encodeErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding eimTransactionId: %w", encodeErr_enc_0)
 		}
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return nil, fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckEncodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
@@ -37958,14 +43555,16 @@ func (v *EimPackageErrorWithCidCorrelationId) MarshalBER() ([]byte, error) {
 		return enc_0, nil
 	case EimPackageErrorWithCidCorrelationIdChoiceEidValue:
 		if v.EidValue == nil {
-			return nil, fmt.Errorf("choice EimPackageErrorWithCidCorrelationId: eidValue is nil")
+			return nil, fmt.Errorf("%w: choice EimPackageErrorWithCidCorrelationId: eidValue is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeOctetString([]byte(*v.EidValue))
 		if encodeErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding eidValue: %w", encodeErr_enc_1)
 		}
 		if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
-			return nil, fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+			if constraintErr := ber.CheckEncodedLength(opts, "eidValue", "SIZE (16)", len(*v.EidValue)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 26, enc_1)
 		if tagErr_enc_1 != nil {
@@ -37980,6 +43579,9 @@ func (v *EimPackageErrorWithCidCorrelationId) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes EimPackageErrorWithCidCorrelationId to DER format.
 func (v *EimPackageErrorWithCidCorrelationId) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: EimPackageErrorWithCidCorrelationId receiver is nil", ber.ErrInvalidValue)
+	}
 	encoded, err := v.MarshalBER()
 	if err != nil {
 		return nil, err
@@ -37991,7 +43593,23 @@ func (v *EimPackageErrorWithCidCorrelationId) MarshalDER() ([]byte, error) {
 }
 
 // UnmarshalBER decodes EimPackageErrorWithCidCorrelationId from BER/DER format.
-func (v *EimPackageErrorWithCidCorrelationId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+func (v *EimPackageErrorWithCidCorrelationId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: EimPackageErrorWithCidCorrelationId destination is nil", ber.ErrInvalidValue)
+	}
+	defer func() {
+		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
@@ -38022,7 +43640,9 @@ func (v *EimPackageErrorWithCidCorrelationId) UnmarshalBER(data []byte, opts ...
 		tmp := TransactionId(rawVal)
 		v.EimTransactionId = &tmp
 		if len(*v.EimTransactionId) < 1 || len(*v.EimTransactionId) > 16 {
-			return fmt.Errorf("eimTransactionId length %d violates SIZE (1..16)", len(*v.EimTransactionId))
+			if constraintErr := ber.CheckDecodedLength(opts, "eimTransactionId", "SIZE (1..16)", len(*v.EimTransactionId)); constraintErr != nil {
+				return constraintErr
+			}
 		}
 	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 26 {
 		v.Choice = EimPackageErrorWithCidCorrelationIdChoiceEidValue
@@ -38033,7 +43653,9 @@ func (v *EimPackageErrorWithCidCorrelationId) UnmarshalBER(data []byte, opts ...
 		tmp := Octet16(rawVal)
 		v.EidValue = &tmp
 		if len(*v.EidValue) < 16 || len(*v.EidValue) > 16 {
-			return fmt.Errorf("eidValue length %d violates SIZE (16)", len(*v.EidValue))
+			if constraintErr := ber.CheckDecodedLength(opts, "eidValue", "SIZE (16)", len(*v.EidValue)); constraintErr != nil {
+				return constraintErr
+			}
 		}
 	} else {
 		return fmt.Errorf("unknown tag %s for EimPackageErrorWithCidCorrelationId CHOICE", peekTag)

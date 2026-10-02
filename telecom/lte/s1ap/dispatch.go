@@ -3729,55 +3729,6 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		}
-	case "RerouteNASRequest-IEs":
-		switch ieId {
-		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
-			}
-			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
-		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
-			}
-			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
-		case 225: // id-S1-Message -> S1Message (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE S1Message (%d): %w", ieId, err)
-			}
-			result := S1Message(v)
-			return per.CompleteOpenTypeValue(bb, result)
-		case 223: // id-MME-Group-ID -> MMEGroupID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE MMEGroupID (%d): %w", ieId, err)
-			}
-			result := MMEGroupID(v)
-			return per.CompleteOpenTypeValue(bb, result)
-		case 224: // id-Additional-GUTI -> AdditionalGUTI
-			var v AdditionalGUTI
-			if err := v.UnmarshalAPER(data); err != nil {
-				return nil, fmt.Errorf("decoding IE AdditionalGUTI (%d): %w", ieId, err)
-			}
-			return &v, nil
-		case 230: // id-UE-Usage-Type -> UEUsageType (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
-			if err != nil {
-				return nil, fmt.Errorf("decoding IE UEUsageType (%d): %w", ieId, err)
-			}
-			result := UEUsageType(v)
-			return per.CompleteOpenTypeValue(bb, result)
-		}
 	case "NASDeliveryIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
@@ -6708,7 +6659,6 @@ var protocolIEFieldObjectSets = map[string]string{
 	"PathSwitchRequestFailure.ProtocolIEs":                                               "PathSwitchRequestFailureIEs",
 	"RecommendedCellsForPaging.RecommendedCellList":                                      "RecommendedCellItemIEs",
 	"RecommendedENBsForPaging.RecommendedENBList":                                        "RecommendedENBItemIEs",
-	"RerouteNASRequest.ProtocolIEs":                                                      "RerouteNASRequest-IEs",
 	"Reset.ProtocolIEs":                                                                  "ResetIEs",
 	"ResetAcknowledge.ProtocolIEs":                                                       "ResetAcknowledgeIEs",
 	"RetrieveUEInformation.ProtocolIEs":                                                  "RetrieveUEInformationIEs",
