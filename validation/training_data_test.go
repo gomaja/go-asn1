@@ -92,8 +92,9 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 		option := len(rec.PaddedBITStringContaining) != 0 || len(rec.TrailingBitsAfterBasicProduction) != 0 ||
 			(strings.HasSuffix(rec.Issue, "/59") && strings.Contains(rec.Expected, "receiver tolerance"))
 		var err error
+		var tolerated per.ToleranceLog
 		if option {
-			err = value.UnmarshalUPERWithOptions(wire, per.DecodeOptions{AllowNonstandardTrailingBits: true})
+			err = value.UnmarshalUPERWithOptions(wire, per.DecodeOptions{TrailingBitsTolerance: &tolerated})
 		} else {
 			err = value.UnmarshalUPER(wire)
 		}
@@ -105,14 +106,18 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 			return false, false, fmt.Sprintf("round trip: %v", err)
 		}
 		if option {
+			reported := map[per.ToleranceKind]int{}
+			for _, record := range tolerated.Snapshot() {
+				reported[record.Kind] += record.Bits.BitLength
+			}
 			if len(rec.PaddedBITStringContaining) != 0 || strings.Contains(rec.Expected, "6 padding bits reported") {
-				p := value.V390NonCriticalExtensions.Present.V3a0NonCriticalExtensions.LaterNonCriticalExtensions.PERContainedPadding_["interRATHandoverInfo-r3-add-ext"]
+				p := value.V390NonCriticalExtensions.Present.V3a0NonCriticalExtensions.LaterNonCriticalExtensions.InterRATHandoverInfoR3AddExtPERPadding_
 				_, count := p.Bits()
-				if count == 0 {
+				if count == 0 || reported[per.ToleratedContainedPadding] != int(count) {
 					return false, false, "contained padding was not reported"
 				}
 			}
-			if len(rec.TrailingBitsAfterBasicProduction) != 0 && value.PERExtraBits_.BitLength == 0 {
+			if trailing := value.PERPadding_.Trailing().BitLength; len(rec.TrailingBitsAfterBasicProduction) != 0 && (trailing == 0 || reported[per.ToleratedTrailingBits] != trailing) {
 				return false, false, "top-level trailing bits were not reported"
 			}
 		}
