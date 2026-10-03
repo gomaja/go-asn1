@@ -94,6 +94,47 @@ raw bytes. Source value `EXCEPT` and collection-element unions that the
 frontend cannot resolve remain fail closed (ITU-T X.680 (02/2021) §§49.7,
 50–51).
 
+### UPER trace tolerance
+
+UPER decoding is strict by default. A receiver that must accept the
+non-conformant bit runs some RRC senders emit (TS 25.331 V19.0.1 §12.1.3)
+passes a `per.ToleranceLog`. Tolerance then accepts a suffix of more than
+seven bits after the top-level value and up to seven zero bits after a value
+inside a `BIT STRING (CONTAINING ...)`, both forbidden by ITU-T X.691
+(02/2021) §§11.1.3.1–11.1.3.2. Each accepted run is recorded with its field
+path, kind, offset and bits, so no walk of the decoded value is needed.
+
+```go
+package main
+
+import (
+    "log"
+
+    "github.com/gomaja/go-asn1/runtime/per"
+    umts "github.com/gomaja/go-asn1/telecom/umts/rrc"
+)
+
+func replayUPER(wire []byte) ([]byte, error) {
+    var tolerated per.ToleranceLog
+    var value umts.InterRATHandoverInfo
+    options := per.DecodeOptions{TrailingBitsTolerance: &tolerated}
+    if err := value.UnmarshalUPERWithOptions(wire, options); err != nil {
+        return nil, err
+    }
+    for _, record := range tolerated.Snapshot() {
+        log.Printf("%s: %s, %d bits at offset %d", record.Path, record.Kind,
+            record.Bits.BitLength, record.Offset)
+    }
+    return value.MarshalUPER()
+}
+```
+
+A log may be shared by concurrent decodes. A successful decode appends all of
+its records together; a failed decode appends none. The decoded value keeps
+the accepted bits, so `MarshalUPER` reproduces the input: a top-level suffix
+in `PERPadding_` (`per.FinalPadding`, see `Trailing`), and contained padding
+in the `<Field>PERPadding_` field of the SEQUENCE that holds the `BIT STRING`.
+
 ## Available Protocols
 
 Protocols marked with **[compiled]** have generated Go code. Others have placeholder directories ready for future compilation.
