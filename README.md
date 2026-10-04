@@ -214,7 +214,8 @@ Protocols marked with **[compiled]** have generated Go code. Others have placeho
 In LTE RRC `LocationInfo-r10`, the location coordinates, horizontal velocity,
 GNSS time of day, and vertical velocity fields carry LPP values as octets.
 Their generated field comments name the matching `lte/lpp` type or constrained
-integer decoder (3GPP TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2).
+integer decoder (3GPP TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.4.1 for the
+location and velocity types, §6.5.2.6 for `gnss-TOD-msec`).
 
 LTE RRC is generated from the formal ASN.1 in the official 3GPP TS 36.331
 V19.4.0 archive (`36331-j40.zip`).
@@ -279,8 +280,8 @@ On small CI runners, set `GOFLAGS=-p=2` or lower to limit concurrent builds.
 
 | Package | Spec | Interface | Status |
 |---------|------|-----------|--------|
-| `esim/sgp22` | SGP.22 | ES9+ (LPA ↔ SM-DP+) | planned |
-| `esim/sgp32` | SGP.32 | ES2+ (SM-DP+ ↔ SM-DS, IoT) | planned |
+| `esim/sgp22` | SGP.22 | ES9+ (LPA ↔ SM-DP+) | **[compiled]** |
+| `esim/sgp32` | SGP.32 | ES2+ (SM-DP+ ↔ SM-DS, IoT) | **[compiled]** |
 
 #### `telecom/li/` — Lawful Interception
 
