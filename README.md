@@ -134,14 +134,24 @@ with a fractional hour (X.680 (02/2021) §§46.3, 47.3); this is tracked in
 
 ### UPER trace tolerance
 
-UPER decoding is strict by default. A receiver that must accept the
-non-conformant bit runs some RRC senders emit (TS 25.331 V19.0.1 §12.1.3)
-passes a `per.ToleranceLog` in `per.DecodeOptions{TrailingBitsTolerance}`.
-Tolerance then accepts a suffix of more than seven bits after the top-level
-value (ITU-T X.691 (02/2021) §11.1.3.1) and up to seven zero bits after a
-value inside a `BIT STRING (CONTAINING ...)` (§11.1.3.2). Each accepted run is
-recorded with its field path, kind, offset and bits, so no walk of the decoded
-value is needed.
+By default, UPER decoding accepts after a complete encoding only the one to
+seven bits that pad it to an octet boundary (ITU-T X.691 (02/2021)
+§§11.1.3.1, 11.2.1). This applies to the top-level value, to a value inside
+an `OCTET STRING (CONTAINING ...)` and to each open type. The sender must set
+those bits to zero, but the decoder accepts them whatever their value and
+keeps them, so the input re-encodes unchanged. The default decode rejects a
+longer suffix after the top-level value or a contained value, and any bit
+after a value inside a `BIT STRING (CONTAINING ...)`, where §11.1.3.2 allows
+no padding.
+
+A receiver that must accept the non-conformant bit runs some RRC senders emit
+(TS 25.331 V19.0.1 §12.1.3) passes a `per.ToleranceLog` in
+`per.DecodeOptions{TrailingBitsTolerance}`. Tolerance then accepts a suffix of
+more than seven bits after the top-level value and up to seven zero bits after
+a value inside a `BIT STRING (CONTAINING ...)`. Each accepted run is recorded
+with its field path, kind, offset and bits, so no walk of the decoded value is
+needed. Bits within the padding the default decode accepts are kept but never
+recorded.
 
 ```go
 package main
@@ -170,8 +180,10 @@ func replayUPER(wire []byte) ([]byte, error) {
 ```
 
 Top-level SEQUENCE and CHOICE values, and SEQUENCE OF values through their
-`<List>Complete` wrapper, take the same options; records inside a list are
-rooted at the list type and indexed by element, as in `<List>.Value[1]...`.
+`<List>Complete` wrapper, take the same options. A record from inside a list
+element is rooted at the list type and carries the element's index, as in
+`<List>.Value[1].<Field>`; a list inside a SEQUENCE gives
+`<Type>.<ListField>[1].<Field>`.
 A log may be shared by concurrent decodes. A successful decode appends all of
 its records together; a failed decode appends none. The decoded value keeps the accepted
 bits, so `MarshalUPER` reproduces the input octets:
