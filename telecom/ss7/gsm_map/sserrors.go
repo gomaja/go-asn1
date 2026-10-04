@@ -111,12 +111,13 @@ func (v *PruAssociationRejParam) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	if v == nil {
 		return fmt.Errorf("%w: PruAssociationRejParam destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PruAssociationRejParam{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog

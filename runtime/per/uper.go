@@ -64,7 +64,7 @@ func DecodeConstrainedWholeNumber(bb *BitBuffer, lb, ub int64) (int64, error) {
 		return 0, err
 	}
 	if offset > rangeValue {
-		return 0, fmt.Errorf("%w: constrained offset %d exceeds range [%d..%d]", ErrInvalidValue, offset, lb, ub)
+		return 0, int64OffsetError(offset, lb, ub)
 	}
 	return addNonNegativeOffset(lb, offset)
 }
@@ -122,7 +122,7 @@ func EncodeNormallySmallLength(bb *BitBuffer, n int64) error {
 		return fmt.Errorf("%w: normally small length %d is not positive", ErrInvalidValue, n)
 	}
 	if n >= 16384 {
-		return fmt.Errorf("%w: length %d", ErrUnsupportedFragmentedNormallySmallLength, n)
+		return fmt.Errorf("%w: length %d is not below 16384", ErrUnsupportedFragmentedNormallySmallLength, n)
 	}
 	if n <= 64 {
 		if err := bb.WriteBit(0); err != nil {
@@ -263,7 +263,7 @@ func EncodeUnconstrainedLength(bb *BitBuffer, n int64) error {
 		return bb.WriteBits(0x8000|uint64(n), 16)
 	}
 	// Fragmentation: not commonly needed, return error for now.
-	return fmt.Errorf("per: length %d requires fragmentation (not yet supported)", n)
+	return fmt.Errorf("per: length %d is not below 16384 and requires fragmentation (not yet supported)", n)
 }
 
 // DecodeUnconstrainedLength decodes an unconstrained length determinant.
@@ -767,8 +767,11 @@ func addExtensionIndex(rootCount int, extensionIndex int64) (int64, error) {
 
 func encodeLengthDelimitedBits(bb *BitBuffer, data []byte, bitLength int, aligned bool) error {
 	required, err := octetsForBitLength(bitLength)
-	if err != nil || required > len(data) {
-		return fmt.Errorf("%w: BIT STRING length %d exceeds %d source octets", ErrInvalidValue, bitLength, len(data))
+	if err != nil {
+		return fmt.Errorf("BIT STRING length: %w", err)
+	}
+	if required > len(data) {
+		return fmt.Errorf("%w: BIT STRING length %d bits requires %d octets, source has %d octets", ErrInvalidValue, bitLength, required, len(data))
 	}
 	return EncodeLengthFragments(bb, int64(bitLength), aligned, func(offset, length int64) error {
 		if aligned {
@@ -779,10 +782,17 @@ func encodeLengthDelimitedBits(bb *BitBuffer, data []byte, bitLength int, aligne
 		if offset%8 != 0 {
 			return fmt.Errorf("%w: BIT STRING fragment offset %d is not octet-aligned", ErrInvalidValue, offset)
 		}
-		if offset < 0 || offset/8 > int64(len(data)) || length < 0 || length > int64(math.MaxInt) {
-			return fmt.Errorf("%w: BIT STRING fragment exceeds source or host bounds", ErrInvalidValue)
+		if offset < 0 || length < 0 {
+			return fmt.Errorf("%w: negative BIT STRING fragment offset %d bits or length %d bits", ErrInvalidValue, offset, length)
 		}
-		return bb.WriteBitsFromBytes(data[int(offset/8):], int(length))
+		start := offset / 8
+		if start > int64(len(data)) {
+			return fmt.Errorf("%w: BIT STRING fragment starts at octet %d beyond %d source octets", ErrInvalidValue, start, len(data))
+		}
+		if length > int64(math.MaxInt) {
+			return fmt.Errorf("%w: BIT STRING fragment length %d bits exceeds host int", ErrInvalidValue, length)
+		}
+		return bb.WriteBitsFromBytes(data[int(start):], int(length))
 	})
 }
 
@@ -843,11 +853,14 @@ func encodeLengthDelimitedKnownMultiplierString(bb *BitBuffer, value string, bit
 		} else {
 			limit = int64(len(runes))
 		}
-		if offset < 0 || fragmentLength < 0 || offset > limit {
-			return fmt.Errorf("%w: character fragment exceeds source bounds", ErrInvalidValue)
+		if offset < 0 || fragmentLength < 0 {
+			return fmt.Errorf("%w: negative character fragment offset %d or length %d", ErrInvalidValue, offset, fragmentLength)
+		}
+		if offset > limit {
+			return fmt.Errorf("%w: character fragment at %d with %d characters exceeds %d source characters", ErrInvalidValue, offset, fragmentLength, limit)
 		}
 		if fragmentLength > limit-offset {
-			return fmt.Errorf("%w: character fragment exceeds source bounds", ErrInvalidValue)
+			return fmt.Errorf("%w: character fragment at %d with %d characters exceeds %d source characters", ErrInvalidValue, offset, fragmentLength, limit)
 		}
 		end := offset + fragmentLength
 		if end < 0 || end > int64(math.MaxInt) {

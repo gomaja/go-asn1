@@ -18,38 +18,34 @@ var (
 
 // HandoverRequest represents the ASN.1 type HandoverRequest (SEQUENCE).
 type HandoverRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEContextInformation represents the ASN.1 type UE-ContextInformation (SEQUENCE).
 type UEContextInformation struct {
-	MMEUES1APID                  UES1APID                       `asn1:"tag:0,context,implicit"`
-	UESecurityCapabilities       UESecurityCapabilities         `asn1:"tag:1,context,implicit"`
-	ASSecurityInformation        ASSecurityInformation          `asn1:"tag:2,context,implicit"`
-	UEaggregateMaximumBitRate    UEAggregateMaximumBitRate      `asn1:"tag:3,context,implicit"`
-	SubscriberProfileIDforRFP    *SubscriberProfileIDforRFP     `asn1:"tag:4,context,implicit,optional" json:"SubscriberProfileIDforRFP,omitempty"`
-	ERABsToBeSetupList           ERABsToBeSetupList             `asn1:"tag:5,context,implicit"`
-	ERABsToBeSetupListIndef_     bool                           `asn1:"-" json:"-"`
-	RRCContext                   RRCContext                     `asn1:"tag:6,context,implicit"`
-	HandoverRestrictionList      *HandoverRestrictionList       `asn1:"tag:7,context,implicit,optional" json:"HandoverRestrictionList,omitempty"`
-	LocationReportingInformation *LocationReportingInformation  `asn1:"tag:8,context,implicit,optional" json:"LocationReportingInformation,omitempty"`
-	IEExtensions                 ProtocolExtensionContainer     `asn1:"tag:9,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_           bool                           `asn1:"-" json:"-"`
-	ExtCount_                    int64                          `asn1:"-" json:"-"`
-	ExtPresent_                  []bool                         `asn1:"-" json:"-"`
-	ExtData_                     [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                  per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_         map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_               []per.CompletePadding          `asn1:"-" json:"-"`
+	MMEUES1APID                  UES1APID                      `asn1:"tag:0,context,implicit"`
+	UESecurityCapabilities       UESecurityCapabilities        `asn1:"tag:1,context,implicit"`
+	ASSecurityInformation        ASSecurityInformation         `asn1:"tag:2,context,implicit"`
+	UEaggregateMaximumBitRate    UEAggregateMaximumBitRate     `asn1:"tag:3,context,implicit"`
+	SubscriberProfileIDforRFP    *SubscriberProfileIDforRFP    `asn1:"tag:4,context,implicit,optional" json:"SubscriberProfileIDforRFP,omitempty"`
+	ERABsToBeSetupList           ERABsToBeSetupList            `asn1:"tag:5,context,implicit"`
+	ERABsToBeSetupListIndef_     bool                          `asn1:"-" json:"-"`
+	RRCContext                   RRCContext                    `asn1:"tag:6,context,implicit"`
+	HandoverRestrictionList      *HandoverRestrictionList      `asn1:"tag:7,context,implicit,optional" json:"HandoverRestrictionList,omitempty"`
+	LocationReportingInformation *LocationReportingInformation `asn1:"tag:8,context,implicit,optional" json:"LocationReportingInformation,omitempty"`
+	IEExtensions                 ProtocolExtensionContainer    `asn1:"tag:9,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_           bool                          `asn1:"-" json:"-"`
+	ExtCount_                    int64                         `asn1:"-" json:"-"`
+	ExtPresent_                  []bool                        `asn1:"-" json:"-"`
+	ExtData_                     [][]byte                      `asn1:"-" json:"-"`
+	PERPadding_                  per.CompletePadding           `asn1:"-" json:"-"`
+	PERExtPadding_               []per.CompletePadding         `asn1:"-" json:"-"`
 }
 
 // ERABsToBeSetupList represents the ASN.1 type E-RABs-ToBeSetup-List (SEQUENCE_OF).
@@ -58,19 +54,17 @@ type ERABsToBeSetupList = []ProtocolIESingleContainer
 
 // ERABsToBeSetupItem represents the ASN.1 type E-RABs-ToBeSetup-Item (SEQUENCE).
 type ERABsToBeSetupItem struct {
-	ERABID                 ERABID                         `asn1:"tag:0,context,implicit"`
-	ERABLevelQoSParameters ERABLevelQoSParameters         `asn1:"tag:1,context,implicit"`
-	DLForwarding           *DLForwarding                  `asn1:"tag:2,context,implicit,optional" json:"DLForwarding,omitempty"`
-	ULGTPtunnelEndpoint    GTPtunnelEndpoint              `asn1:"tag:3,context,implicit"`
-	IEExtensions           ProtocolExtensionContainer     `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_     bool                           `asn1:"-" json:"-"`
-	ExtCount_              int64                          `asn1:"-" json:"-"`
-	ExtPresent_            []bool                         `asn1:"-" json:"-"`
-	ExtData_               [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_            per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_          per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_   map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_         []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
+	ERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
+	DLForwarding           *DLForwarding              `asn1:"tag:2,context,implicit,optional" json:"DLForwarding,omitempty"`
+	ULGTPtunnelEndpoint    GTPtunnelEndpoint          `asn1:"tag:3,context,implicit"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // MobilityInformation represents the ASN.1 type MobilityInformation (BIT_STRING).
@@ -81,61 +75,53 @@ type SourceDLForwardingIPAddress = runtime.BitString
 
 // UEContextReferenceAtSeNB represents the ASN.1 type UE-ContextReferenceAtSeNB (SEQUENCE).
 type UEContextReferenceAtSeNB struct {
-	SourceGlobalSeNBID    GlobalENBID                    `asn1:"tag:0,context,implicit"`
-	SeNBUEX2APID          UEX2APID                       `asn1:"tag:1,context,implicit"`
-	SeNBUEX2APIDExtension UEX2APIDExtension              `asn1:"tag:2,context,implicit"`
-	IEExtensions          ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_             int64                          `asn1:"-" json:"-"`
-	ExtPresent_           []bool                         `asn1:"-" json:"-"`
-	ExtData_              [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_           per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_         per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_  map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_        []per.CompletePadding          `asn1:"-" json:"-"`
+	SourceGlobalSeNBID    GlobalENBID                `asn1:"tag:0,context,implicit"`
+	SeNBUEX2APID          UEX2APID                   `asn1:"tag:1,context,implicit"`
+	SeNBUEX2APIDExtension UEX2APIDExtension          `asn1:"tag:2,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // UEContextReferenceAtWT represents the ASN.1 type UE-ContextReferenceAtWT (SEQUENCE).
 type UEContextReferenceAtWT struct {
-	WTID                 WTID                           `asn1:"tag:0,context,explicit"`
-	WTUEXwAPID           WTUEXwAPID                     `asn1:"tag:1,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	WTID               WTID                       `asn1:"tag:0,context,explicit"`
+	WTUEXwAPID         WTUEXwAPID                 `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // UEContextReferenceAtSgNB represents the ASN.1 type UE-ContextReferenceAtSgNB (SEQUENCE).
 type UEContextReferenceAtSgNB struct {
-	SourceGlobalSgNBID   GlobalGNBID                    `asn1:"tag:0,context,implicit"`
-	SgNBUEX2APID         SgNBUEX2APID                   `asn1:"tag:1,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	SourceGlobalSgNBID GlobalGNBID                `asn1:"tag:0,context,implicit"`
+	SgNBUEX2APID       SgNBUEX2APID               `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // HandoverRequestAcknowledge represents the ASN.1 type HandoverRequestAcknowledge (SEQUENCE).
 type HandoverRequestAcknowledge struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedList represents the ASN.1 type E-RABs-Admitted-List (SEQUENCE_OF).
@@ -144,57 +130,49 @@ type ERABsAdmittedList = []ProtocolIESingleContainer
 
 // ERABsAdmittedItem represents the ASN.1 type E-RABs-Admitted-Item (SEQUENCE).
 type ERABsAdmittedItem struct {
-	ERABID               ERABID                         `asn1:"tag:0,context,implicit"`
-	ULGTPTunnelEndpoint  *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"ULGTPTunnelEndpoint,omitempty"`
-	DLGTPTunnelEndpoint  *GTPtunnelEndpoint             `asn1:"tag:2,context,implicit,optional" json:"DLGTPTunnelEndpoint,omitempty"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID              ERABID                     `asn1:"tag:0,context,implicit"`
+	ULGTPTunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"ULGTPTunnelEndpoint,omitempty"`
+	DLGTPTunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:2,context,implicit,optional" json:"DLGTPTunnelEndpoint,omitempty"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationFailure represents the ASN.1 type HandoverPreparationFailure (SEQUENCE).
 type HandoverPreparationFailure struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // HandoverReport represents the ASN.1 type HandoverReport (SEQUENCE).
 type HandoverReport struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // EarlyStatusTransfer represents the ASN.1 type EarlyStatusTransfer (SEQUENCE).
 type EarlyStatusTransfer struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ProcedureStageChoice choice constants.
@@ -208,7 +186,6 @@ const (
 type ProcedureStageChoice struct {
 	Choice              int
 	PERPadding_         per.CompletePadding        `json:"-"`
-	PERExtraBits_       per.TrailingBits           `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding        `json:"-"`
 	FirstDlCount        *FirstDLCount              `json:"FirstDlCount,omitempty"`
 	DlDiscarding        *DLDiscarding              `json:"DlDiscarding,omitempty"`
@@ -249,8 +226,6 @@ type FirstDLCount struct {
 	ExtPresent_                             []bool                                `asn1:"-" json:"-"`
 	ExtData_                                [][]byte                              `asn1:"-" json:"-"`
 	PERPadding_                             per.CompletePadding                   `asn1:"-" json:"-"`
-	PERExtraBits_                           per.TrailingBits                      `asn1:"-" json:"-"`
-	PERContainedPadding_                    map[string]per.CompletePadding        `asn1:"-" json:"-"`
 	PERExtPadding_                          []per.CompletePadding                 `asn1:"-" json:"-"`
 }
 
@@ -264,22 +239,18 @@ type DLDiscarding struct {
 	ExtPresent_                          []bool                         `asn1:"-" json:"-"`
 	ExtData_                             [][]byte                       `asn1:"-" json:"-"`
 	PERPadding_                          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_                 map[string]per.CompletePadding `asn1:"-" json:"-"`
 	PERExtPadding_                       []per.CompletePadding          `asn1:"-" json:"-"`
 }
 
 // SNStatusTransfer represents the ASN.1 type SNStatusTransfer (SEQUENCE).
 type SNStatusTransfer struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsSubjectToStatusTransferList represents the ASN.1 type E-RABs-SubjectToStatusTransfer-List (SEQUENCE_OF).
@@ -288,162 +259,138 @@ type ERABsSubjectToStatusTransferList = []ProtocolIESingleContainer
 
 // ERABsSubjectToStatusTransferItem represents the ASN.1 type E-RABs-SubjectToStatusTransfer-Item (SEQUENCE).
 type ERABsSubjectToStatusTransferItem struct {
-	ERABID                    ERABID                         `asn1:"tag:0,context,implicit"`
-	ReceiveStatusofULPDCPSDUs *ReceiveStatusofULPDCPSDUs     `asn1:"tag:1,context,implicit,optional" json:"ReceiveStatusofULPDCPSDUs,omitempty"`
-	ULCOUNTvalue              COUNTvalue                     `asn1:"tag:2,context,implicit"`
-	DLCOUNTvalue              COUNTvalue                     `asn1:"tag:3,context,implicit"`
-	IEExtensions              ProtocolExtensionContainer     `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_        bool                           `asn1:"-" json:"-"`
-	ExtCount_                 int64                          `asn1:"-" json:"-"`
-	ExtPresent_               []bool                         `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_               per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_            []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                    ERABID                     `asn1:"tag:0,context,implicit"`
+	ReceiveStatusofULPDCPSDUs *ReceiveStatusofULPDCPSDUs `asn1:"tag:1,context,implicit,optional" json:"ReceiveStatusofULPDCPSDUs,omitempty"`
+	ULCOUNTvalue              COUNTvalue                 `asn1:"tag:2,context,implicit"`
+	DLCOUNTvalue              COUNTvalue                 `asn1:"tag:3,context,implicit"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_            []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // UEContextRelease represents the ASN.1 type UEContextRelease (SEQUENCE).
 type UEContextRelease struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // HandoverCancel represents the ASN.1 type HandoverCancel (SEQUENCE).
 type HandoverCancel struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // HandoverSuccess represents the ASN.1 type HandoverSuccess (SEQUENCE).
 type HandoverSuccess struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ConditionalHandoverCancel represents the ASN.1 type ConditionalHandoverCancel (SEQUENCE).
 type ConditionalHandoverCancel struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ErrorIndication represents the ASN.1 type ErrorIndication (SEQUENCE).
 type ErrorIndication struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ResetRequest represents the ASN.1 type ResetRequest (SEQUENCE).
 type ResetRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ResetResponse represents the ASN.1 type ResetResponse (SEQUENCE).
 type ResetResponse struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // X2SetupRequest represents the ASN.1 type X2SetupRequest (SEQUENCE).
 type X2SetupRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // X2SetupResponse represents the ASN.1 type X2SetupResponse (SEQUENCE).
 type X2SetupResponse struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // X2SetupFailure represents the ASN.1 type X2SetupFailure (SEQUENCE).
 type X2SetupFailure struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // LoadInformation represents the ASN.1 type LoadInformation (SEQUENCE).
 type LoadInformation struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellInformationList represents the ASN.1 type CellInformation-List (SEQUENCE_OF).
@@ -464,22 +411,18 @@ type CellInformationItem struct {
 	ExtPresent_                            []bool                           `asn1:"-" json:"-"`
 	ExtData_                               [][]byte                         `asn1:"-" json:"-"`
 	PERPadding_                            per.CompletePadding              `asn1:"-" json:"-"`
-	PERExtraBits_                          per.TrailingBits                 `asn1:"-" json:"-"`
-	PERContainedPadding_                   map[string]per.CompletePadding   `asn1:"-" json:"-"`
 	PERExtPadding_                         []per.CompletePadding            `asn1:"-" json:"-"`
 }
 
 // ENBConfigurationUpdate represents the ASN.1 type ENBConfigurationUpdate (SEQUENCE).
 type ENBConfigurationUpdate struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ServedCellsToModify represents the ASN.1 type ServedCellsToModify (SEQUENCE_OF).
@@ -488,19 +431,17 @@ type ServedCellsToModify = []ServedCellsToModifyItem
 
 // ServedCellsToModifyItem represents the ASN.1 type ServedCellsToModify-Item (SEQUENCE).
 type ServedCellsToModifyItem struct {
-	OldEcgi              ECGI                           `asn1:"tag:0,context,implicit"`
-	ServedCellInfo       ServedCellInformation          `asn1:"tag:1,context,implicit"`
-	NeighbourInfo        NeighbourInformation           `asn1:"tag:2,context,implicit,optional" json:"NeighbourInfo,omitempty"`
-	NeighbourInfoIndef_  bool                           `asn1:"-" json:"-"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	OldEcgi             ECGI                       `asn1:"tag:0,context,implicit"`
+	ServedCellInfo      ServedCellInformation      `asn1:"tag:1,context,implicit"`
+	NeighbourInfo       NeighbourInformation       `asn1:"tag:2,context,implicit,optional" json:"NeighbourInfo,omitempty"`
+	NeighbourInfoIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // OldECGIs represents the ASN.1 type Old-ECGIs (SEQUENCE_OF).
@@ -509,41 +450,35 @@ type OldECGIs = []ECGI
 
 // ENBConfigurationUpdateAcknowledge represents the ASN.1 type ENBConfigurationUpdateAcknowledge (SEQUENCE).
 type ENBConfigurationUpdateAcknowledge struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENBConfigurationUpdateFailure represents the ASN.1 type ENBConfigurationUpdateFailure (SEQUENCE).
 type ENBConfigurationUpdateFailure struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ResourceStatusRequest represents the ASN.1 type ResourceStatusRequest (SEQUENCE).
 type ResourceStatusRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellToReportList represents the ASN.1 type CellToReport-List (SEQUENCE_OF).
@@ -552,16 +487,14 @@ type CellToReportList = []ProtocolIESingleContainer
 
 // CellToReportItem represents the ASN.1 type CellToReport-Item (SEQUENCE).
 type CellToReportItem struct {
-	CellID               ECGI                           `asn1:"tag:0,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	CellID             ECGI                       `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ReportingPeriodicity represents the ASN.1 ENUMERATED type ReportingPeriodicity.
@@ -607,15 +540,13 @@ func (v PartialSuccessIndicator) String() string {
 
 // ResourceStatusResponse represents the ASN.1 type ResourceStatusResponse (SEQUENCE).
 type ResourceStatusResponse struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MeasurementInitiationResultList represents the ASN.1 type MeasurementInitiationResult-List (SEQUENCE_OF).
@@ -624,18 +555,16 @@ type MeasurementInitiationResultList = []ProtocolIESingleContainer
 
 // MeasurementInitiationResultItem represents the ASN.1 type MeasurementInitiationResult-Item (SEQUENCE).
 type MeasurementInitiationResultItem struct {
-	CellID                            ECGI                           `asn1:"tag:0,context,implicit"`
-	MeasurementFailureCauseList       MeasurementFailureCauseList    `asn1:"tag:1,context,implicit,optional" json:"MeasurementFailureCauseList,omitempty"`
-	MeasurementFailureCauseListIndef_ bool                           `asn1:"-" json:"-"`
-	IEExtensions                      ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_                bool                           `asn1:"-" json:"-"`
-	ExtCount_                         int64                          `asn1:"-" json:"-"`
-	ExtPresent_                       []bool                         `asn1:"-" json:"-"`
-	ExtData_                          [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                       per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                     per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_              map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                    []per.CompletePadding          `asn1:"-" json:"-"`
+	CellID                            ECGI                        `asn1:"tag:0,context,implicit"`
+	MeasurementFailureCauseList       MeasurementFailureCauseList `asn1:"tag:1,context,implicit,optional" json:"MeasurementFailureCauseList,omitempty"`
+	MeasurementFailureCauseListIndef_ bool                        `asn1:"-" json:"-"`
+	IEExtensions                      ProtocolExtensionContainer  `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                bool                        `asn1:"-" json:"-"`
+	ExtCount_                         int64                       `asn1:"-" json:"-"`
+	ExtPresent_                       []bool                      `asn1:"-" json:"-"`
+	ExtData_                          [][]byte                    `asn1:"-" json:"-"`
+	PERPadding_                       per.CompletePadding         `asn1:"-" json:"-"`
+	PERExtPadding_                    []per.CompletePadding       `asn1:"-" json:"-"`
 }
 
 // MeasurementFailureCauseList represents the ASN.1 type MeasurementFailureCause-List (SEQUENCE_OF).
@@ -644,30 +573,26 @@ type MeasurementFailureCauseList = []ProtocolIESingleContainer
 
 // MeasurementFailureCauseItem represents the ASN.1 type MeasurementFailureCause-Item (SEQUENCE).
 type MeasurementFailureCauseItem struct {
-	MeasurementFailedReportCharacteristics ReportCharacteristics          `asn1:"tag:0,context,implicit"`
-	Cause                                  Cause                          `asn1:"tag:1,context,explicit"`
-	IEExtensions                           ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_                     bool                           `asn1:"-" json:"-"`
-	ExtCount_                              int64                          `asn1:"-" json:"-"`
-	ExtPresent_                            []bool                         `asn1:"-" json:"-"`
-	ExtData_                               [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                            per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                          per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_                   map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                         []per.CompletePadding          `asn1:"-" json:"-"`
+	MeasurementFailedReportCharacteristics ReportCharacteristics      `asn1:"tag:0,context,implicit"`
+	Cause                                  Cause                      `asn1:"tag:1,context,explicit"`
+	IEExtensions                           ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                     bool                       `asn1:"-" json:"-"`
+	ExtCount_                              int64                      `asn1:"-" json:"-"`
+	ExtPresent_                            []bool                     `asn1:"-" json:"-"`
+	ExtData_                               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ResourceStatusFailure represents the ASN.1 type ResourceStatusFailure (SEQUENCE).
 type ResourceStatusFailure struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CompleteFailureCauseInformationList represents the ASN.1 type CompleteFailureCauseInformation-List (SEQUENCE_OF).
@@ -676,31 +601,27 @@ type CompleteFailureCauseInformationList = []ProtocolIESingleContainer
 
 // CompleteFailureCauseInformationItem represents the ASN.1 type CompleteFailureCauseInformation-Item (SEQUENCE).
 type CompleteFailureCauseInformationItem struct {
-	CellID                            ECGI                           `asn1:"tag:0,context,implicit"`
-	MeasurementFailureCauseList       MeasurementFailureCauseList    `asn1:"tag:1,context,implicit"`
-	MeasurementFailureCauseListIndef_ bool                           `asn1:"-" json:"-"`
-	IEExtensions                      ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_                bool                           `asn1:"-" json:"-"`
-	ExtCount_                         int64                          `asn1:"-" json:"-"`
-	ExtPresent_                       []bool                         `asn1:"-" json:"-"`
-	ExtData_                          [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                       per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                     per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_              map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                    []per.CompletePadding          `asn1:"-" json:"-"`
+	CellID                            ECGI                        `asn1:"tag:0,context,implicit"`
+	MeasurementFailureCauseList       MeasurementFailureCauseList `asn1:"tag:1,context,implicit"`
+	MeasurementFailureCauseListIndef_ bool                        `asn1:"-" json:"-"`
+	IEExtensions                      ProtocolExtensionContainer  `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                bool                        `asn1:"-" json:"-"`
+	ExtCount_                         int64                       `asn1:"-" json:"-"`
+	ExtPresent_                       []bool                      `asn1:"-" json:"-"`
+	ExtData_                          [][]byte                    `asn1:"-" json:"-"`
+	PERPadding_                       per.CompletePadding         `asn1:"-" json:"-"`
+	PERExtPadding_                    []per.CompletePadding       `asn1:"-" json:"-"`
 }
 
 // ResourceStatusUpdate represents the ASN.1 type ResourceStatusUpdate (SEQUENCE).
 type ResourceStatusUpdate struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellMeasurementResultList represents the ASN.1 type CellMeasurementResult-List (SEQUENCE_OF).
@@ -709,97 +630,83 @@ type CellMeasurementResultList = []ProtocolIESingleContainer
 
 // CellMeasurementResultItem represents the ASN.1 type CellMeasurementResult-Item (SEQUENCE).
 type CellMeasurementResultItem struct {
-	CellID               ECGI                           `asn1:"tag:0,context,implicit"`
-	HWLoadIndicator      *HWLoadIndicator               `asn1:"tag:1,context,implicit,optional" json:"HWLoadIndicator,omitempty"`
-	S1TNLLoadIndicator   *S1TNLLoadIndicator            `asn1:"tag:2,context,implicit,optional" json:"S1TNLLoadIndicator,omitempty"`
-	RadioResourceStatus  *RadioResourceStatus           `asn1:"tag:3,context,implicit,optional" json:"RadioResourceStatus,omitempty"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	CellID              ECGI                       `asn1:"tag:0,context,implicit"`
+	HWLoadIndicator     *HWLoadIndicator           `asn1:"tag:1,context,implicit,optional" json:"HWLoadIndicator,omitempty"`
+	S1TNLLoadIndicator  *S1TNLLoadIndicator        `asn1:"tag:2,context,implicit,optional" json:"S1TNLLoadIndicator,omitempty"`
+	RadioResourceStatus *RadioResourceStatus       `asn1:"tag:3,context,implicit,optional" json:"RadioResourceStatus,omitempty"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // PrivateMessage represents the ASN.1 type PrivateMessage (SEQUENCE).
 type PrivateMessage struct {
-	PrivateIEs           PrivateIEContainer             `asn1:"tag:0,context,implicit"`
-	PrivateIEsIndef_     bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	PrivateIEs       PrivateIEContainer    `asn1:"tag:0,context,implicit"`
+	PrivateIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_        int64                 `asn1:"-" json:"-"`
+	ExtPresent_      []bool                `asn1:"-" json:"-"`
+	ExtData_         [][]byte              `asn1:"-" json:"-"`
+	PERPadding_      per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_   []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MobilityChangeRequest represents the ASN.1 type MobilityChangeRequest (SEQUENCE).
 type MobilityChangeRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MobilityChangeAcknowledge represents the ASN.1 type MobilityChangeAcknowledge (SEQUENCE).
 type MobilityChangeAcknowledge struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MobilityChangeFailure represents the ASN.1 type MobilityChangeFailure (SEQUENCE).
 type MobilityChangeFailure struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // RLFIndication represents the ASN.1 type RLFIndication (SEQUENCE).
 type RLFIndication struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellActivationRequest represents the ASN.1 type CellActivationRequest (SEQUENCE).
 type CellActivationRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ServedCellsToActivate represents the ASN.1 type ServedCellsToActivate (SEQUENCE_OF).
@@ -808,29 +715,25 @@ type ServedCellsToActivate = []ServedCellsToActivateItem
 
 // ServedCellsToActivateItem represents the ASN.1 type ServedCellsToActivate-Item (SEQUENCE).
 type ServedCellsToActivateItem struct {
-	Ecgi                 ECGI                           `asn1:"tag:0,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	Ecgi               ECGI                       `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CellActivationResponse represents the ASN.1 type CellActivationResponse (SEQUENCE).
 type CellActivationResponse struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ActivatedCellList represents the ASN.1 type ActivatedCellList (SEQUENCE_OF).
@@ -839,70 +742,60 @@ type ActivatedCellList = []ActivatedCellListItem
 
 // ActivatedCellListItem represents the ASN.1 type ActivatedCellList-Item (SEQUENCE).
 type ActivatedCellListItem struct {
-	Ecgi                 ECGI                           `asn1:"tag:0,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	Ecgi               ECGI                       `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CellActivationFailure represents the ASN.1 type CellActivationFailure (SEQUENCE).
 type CellActivationFailure struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // X2Release represents the ASN.1 type X2Release (SEQUENCE).
 type X2Release struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // X2APMessageTransfer represents the ASN.1 type X2APMessageTransfer (SEQUENCE).
 type X2APMessageTransfer struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // RNLHeader represents the ASN.1 type RNL-Header (SEQUENCE).
 type RNLHeader struct {
-	SourceGlobalENBID    GlobalENBID                    `asn1:"tag:0,context,implicit"`
-	TargetGlobalENBID    *GlobalENBID                   `asn1:"tag:1,context,implicit,optional" json:"TargetGlobalENBID,omitempty"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	SourceGlobalENBID  GlobalENBID                `asn1:"tag:0,context,implicit"`
+	TargetGlobalENBID  *GlobalENBID               `asn1:"tag:1,context,implicit,optional" json:"TargetGlobalENBID,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // X2APMessage represents the ASN.1 type X2AP-Message (OCTET_STRING).
@@ -910,15 +803,13 @@ type X2APMessage = []byte
 
 // SeNBAdditionRequest represents the ASN.1 type SeNBAdditionRequest (SEQUENCE).
 type SeNBAdditionRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsToBeAddedList represents the ASN.1 type E-RABs-ToBeAdded-List (SEQUENCE_OF).
@@ -935,7 +826,6 @@ const (
 type ERABsToBeAddedItem struct {
 	Choice              int
 	PERPadding_         per.CompletePadding            `json:"-"`
-	PERExtraBits_       per.TrailingBits               `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding            `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension    `json:"UnknownExtension,omitempty"`
 	SCGBearer           *ERABsToBeAddedItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -960,48 +850,42 @@ func NewERABsToBeAddedItemSplitBearer(v ERABsToBeAddedItemSplitBearer) ERABsToBe
 
 // ERABsToBeAddedItemSCGBearer represents the ASN.1 type E-RABs-ToBeAdded-Item-SCG-Bearer (SEQUENCE).
 type ERABsToBeAddedItemSCGBearer struct {
-	ERABID                 ERABID                         `asn1:"tag:0,context,implicit"`
-	ERABLevelQoSParameters ERABLevelQoSParameters         `asn1:"tag:1,context,implicit"`
-	DLForwarding           *DLForwarding                  `asn1:"tag:2,context,implicit,optional" json:"DLForwarding,omitempty"`
-	S1ULGTPtunnelEndpoint  GTPtunnelEndpoint              `asn1:"tag:3,context,implicit"`
-	IEExtensions           ProtocolExtensionContainer     `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_     bool                           `asn1:"-" json:"-"`
-	ExtCount_              int64                          `asn1:"-" json:"-"`
-	ExtPresent_            []bool                         `asn1:"-" json:"-"`
-	ExtData_               [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_            per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_          per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_   map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_         []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
+	ERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
+	DLForwarding           *DLForwarding              `asn1:"tag:2,context,implicit,optional" json:"DLForwarding,omitempty"`
+	S1ULGTPtunnelEndpoint  GTPtunnelEndpoint          `asn1:"tag:3,context,implicit"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeAddedItemSplitBearer represents the ASN.1 type E-RABs-ToBeAdded-Item-Split-Bearer (SEQUENCE).
 type ERABsToBeAddedItemSplitBearer struct {
-	ERABID                 ERABID                         `asn1:"tag:0,context,implicit"`
-	ERABLevelQoSParameters ERABLevelQoSParameters         `asn1:"tag:1,context,implicit"`
-	MeNBGTPtunnelEndpoint  GTPtunnelEndpoint              `asn1:"tag:2,context,implicit"`
-	IEExtensions           ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_     bool                           `asn1:"-" json:"-"`
-	ExtCount_              int64                          `asn1:"-" json:"-"`
-	ExtPresent_            []bool                         `asn1:"-" json:"-"`
-	ExtData_               [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_            per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_          per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_   map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_         []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
+	ERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
+	MeNBGTPtunnelEndpoint  GTPtunnelEndpoint          `asn1:"tag:2,context,implicit"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SeNBAdditionRequestAcknowledge represents the ASN.1 type SeNBAdditionRequestAcknowledge (SEQUENCE).
 type SeNBAdditionRequestAcknowledge struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeAddedList represents the ASN.1 type E-RABs-Admitted-ToBeAdded-List (SEQUENCE_OF).
@@ -1018,7 +902,6 @@ const (
 type ERABsAdmittedToBeAddedItem struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                    `json:"-"`
-	PERExtraBits_       per.TrailingBits                       `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                    `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension            `json:"UnknownExtension,omitempty"`
 	SCGBearer           *ERABsAdmittedToBeAddedItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -1043,60 +926,52 @@ func NewERABsAdmittedToBeAddedItemSplitBearer(v ERABsAdmittedToBeAddedItemSplitB
 
 // ERABsAdmittedToBeAddedItemSCGBearer represents the ASN.1 type E-RABs-Admitted-ToBeAdded-Item-SCG-Bearer (SEQUENCE).
 type ERABsAdmittedToBeAddedItemSCGBearer struct {
-	ERABID                        ERABID                         `asn1:"tag:0,context,implicit"`
-	S1DLGTPtunnelEndpoint         GTPtunnelEndpoint              `asn1:"tag:1,context,implicit"`
-	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:2,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
-	ULForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:3,context,implicit,optional" json:"ULForwardingGTPtunnelEndpoint,omitempty"`
-	IEExtensions                  ProtocolExtensionContainer     `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_            bool                           `asn1:"-" json:"-"`
-	ExtCount_                     int64                          `asn1:"-" json:"-"`
-	ExtPresent_                   []bool                         `asn1:"-" json:"-"`
-	ExtData_                      [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                   per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                 per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_          map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                        ERABID                     `asn1:"tag:0,context,implicit"`
+	S1DLGTPtunnelEndpoint         GTPtunnelEndpoint          `asn1:"tag:1,context,implicit"`
+	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:2,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
+	ULForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:3,context,implicit,optional" json:"ULForwardingGTPtunnelEndpoint,omitempty"`
+	IEExtensions                  ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_            bool                       `asn1:"-" json:"-"`
+	ExtCount_                     int64                      `asn1:"-" json:"-"`
+	ExtPresent_                   []bool                     `asn1:"-" json:"-"`
+	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                   per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeAddedItemSplitBearer represents the ASN.1 type E-RABs-Admitted-ToBeAdded-Item-Split-Bearer (SEQUENCE).
 type ERABsAdmittedToBeAddedItemSplitBearer struct {
-	ERABID                ERABID                         `asn1:"tag:0,context,implicit"`
-	SeNBGTPtunnelEndpoint GTPtunnelEndpoint              `asn1:"tag:1,context,implicit"`
-	IEExtensions          ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_             int64                          `asn1:"-" json:"-"`
-	ExtPresent_           []bool                         `asn1:"-" json:"-"`
-	ExtData_              [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_           per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_         per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_  map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_        []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
+	SeNBGTPtunnelEndpoint GTPtunnelEndpoint          `asn1:"tag:1,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SeNBAdditionRequestReject represents the ASN.1 type SeNBAdditionRequestReject (SEQUENCE).
 type SeNBAdditionRequestReject struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SeNBReconfigurationComplete represents the ASN.1 type SeNBReconfigurationComplete (SEQUENCE).
 type SeNBReconfigurationComplete struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ResponseInformationSeNBReconfComp choice constants.
@@ -1109,7 +984,6 @@ const (
 type ResponseInformationSeNBReconfComp struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                                `json:"-"`
-	PERExtraBits_       per.TrailingBits                                   `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                                `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                        `json:"UnknownExtension,omitempty"`
 	Success             *ResponseInformationSeNBReconfCompSuccessItem      `json:"Success,omitempty"`
@@ -1134,66 +1008,58 @@ func NewResponseInformationSeNBReconfCompRejectByMeNB(v ResponseInformationSeNBR
 
 // ResponseInformationSeNBReconfCompSuccessItem represents the ASN.1 type ResponseInformationSeNBReconfComp-SuccessItem (SEQUENCE).
 type ResponseInformationSeNBReconfCompSuccessItem struct {
-	MeNBtoSeNBContainer  *MeNBtoSeNBContainer           `asn1:"tag:0,context,implicit,optional" json:"MeNBtoSeNBContainer,omitempty"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	MeNBtoSeNBContainer *MeNBtoSeNBContainer       `asn1:"tag:0,context,implicit,optional" json:"MeNBtoSeNBContainer,omitempty"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ResponseInformationSeNBReconfCompRejectByMeNBItem represents the ASN.1 type ResponseInformationSeNBReconfComp-RejectByMeNBItem (SEQUENCE).
 type ResponseInformationSeNBReconfCompRejectByMeNBItem struct {
-	Cause                Cause                          `asn1:"tag:0,context,explicit"`
-	MeNBtoSeNBContainer  *MeNBtoSeNBContainer           `asn1:"tag:1,context,implicit,optional" json:"MeNBtoSeNBContainer,omitempty"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	Cause               Cause                      `asn1:"tag:0,context,explicit"`
+	MeNBtoSeNBContainer *MeNBtoSeNBContainer       `asn1:"tag:1,context,implicit,optional" json:"MeNBtoSeNBContainer,omitempty"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SeNBModificationRequest represents the ASN.1 type SeNBModificationRequest (SEQUENCE).
 type SeNBModificationRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEContextInformationSeNBModReq represents the ASN.1 type UE-ContextInformationSeNBModReq (SEQUENCE).
 type UEContextInformationSeNBModReq struct {
-	UESecurityCapabilities        *UESecurityCapabilities        `asn1:"tag:0,context,implicit,optional" json:"UESecurityCapabilities,omitempty"`
-	SeNBSecurityKey               *SeNBSecurityKey               `asn1:"tag:1,context,implicit,optional" json:"SeNBSecurityKey,omitempty"`
-	SeNBUEAggregateMaximumBitRate *UEAggregateMaximumBitRate     `asn1:"tag:2,context,implicit,optional" json:"SeNBUEAggregateMaximumBitRate,omitempty"`
-	ERABsToBeAdded                ERABsToBeAddedListModReq       `asn1:"tag:3,context,implicit,optional" json:"ERABsToBeAdded,omitempty"`
-	ERABsToBeAddedIndef_          bool                           `asn1:"-" json:"-"`
-	ERABsToBeModified             ERABsToBeModifiedListModReq    `asn1:"tag:4,context,implicit,optional" json:"ERABsToBeModified,omitempty"`
-	ERABsToBeModifiedIndef_       bool                           `asn1:"-" json:"-"`
-	ERABsToBeReleased             ERABsToBeReleasedListModReq    `asn1:"tag:5,context,implicit,optional" json:"ERABsToBeReleased,omitempty"`
-	ERABsToBeReleasedIndef_       bool                           `asn1:"-" json:"-"`
-	IEExtensions                  ProtocolExtensionContainer     `asn1:"tag:6,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_            bool                           `asn1:"-" json:"-"`
-	ExtCount_                     int64                          `asn1:"-" json:"-"`
-	ExtPresent_                   []bool                         `asn1:"-" json:"-"`
-	ExtData_                      [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                   per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                 per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_          map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                []per.CompletePadding          `asn1:"-" json:"-"`
+	UESecurityCapabilities        *UESecurityCapabilities     `asn1:"tag:0,context,implicit,optional" json:"UESecurityCapabilities,omitempty"`
+	SeNBSecurityKey               *SeNBSecurityKey            `asn1:"tag:1,context,implicit,optional" json:"SeNBSecurityKey,omitempty"`
+	SeNBUEAggregateMaximumBitRate *UEAggregateMaximumBitRate  `asn1:"tag:2,context,implicit,optional" json:"SeNBUEAggregateMaximumBitRate,omitempty"`
+	ERABsToBeAdded                ERABsToBeAddedListModReq    `asn1:"tag:3,context,implicit,optional" json:"ERABsToBeAdded,omitempty"`
+	ERABsToBeAddedIndef_          bool                        `asn1:"-" json:"-"`
+	ERABsToBeModified             ERABsToBeModifiedListModReq `asn1:"tag:4,context,implicit,optional" json:"ERABsToBeModified,omitempty"`
+	ERABsToBeModifiedIndef_       bool                        `asn1:"-" json:"-"`
+	ERABsToBeReleased             ERABsToBeReleasedListModReq `asn1:"tag:5,context,implicit,optional" json:"ERABsToBeReleased,omitempty"`
+	ERABsToBeReleasedIndef_       bool                        `asn1:"-" json:"-"`
+	IEExtensions                  ProtocolExtensionContainer  `asn1:"tag:6,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_            bool                        `asn1:"-" json:"-"`
+	ExtCount_                     int64                       `asn1:"-" json:"-"`
+	ExtPresent_                   []bool                      `asn1:"-" json:"-"`
+	ExtData_                      [][]byte                    `asn1:"-" json:"-"`
+	PERPadding_                   per.CompletePadding         `asn1:"-" json:"-"`
+	PERExtPadding_                []per.CompletePadding       `asn1:"-" json:"-"`
 }
 
 // ERABsToBeAddedListModReq represents the ASN.1 type E-RABs-ToBeAdded-List-ModReq (SEQUENCE_OF).
@@ -1210,7 +1076,6 @@ const (
 type ERABsToBeAddedModReqItem struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                  `json:"-"`
-	PERExtraBits_       per.TrailingBits                     `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                  `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension          `json:"UnknownExtension,omitempty"`
 	SCGBearer           *ERABsToBeAddedModReqItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -1235,35 +1100,31 @@ func NewERABsToBeAddedModReqItemSplitBearer(v ERABsToBeAddedModReqItemSplitBeare
 
 // ERABsToBeAddedModReqItemSCGBearer represents the ASN.1 type E-RABs-ToBeAdded-ModReqItem-SCG-Bearer (SEQUENCE).
 type ERABsToBeAddedModReqItemSCGBearer struct {
-	ERABID                 ERABID                         `asn1:"tag:0,context,implicit"`
-	ERABLevelQoSParameters ERABLevelQoSParameters         `asn1:"tag:1,context,implicit"`
-	DLForwarding           *DLForwarding                  `asn1:"tag:2,context,implicit,optional" json:"DLForwarding,omitempty"`
-	S1ULGTPtunnelEndpoint  GTPtunnelEndpoint              `asn1:"tag:3,context,implicit"`
-	IEExtensions           ProtocolExtensionContainer     `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_     bool                           `asn1:"-" json:"-"`
-	ExtCount_              int64                          `asn1:"-" json:"-"`
-	ExtPresent_            []bool                         `asn1:"-" json:"-"`
-	ExtData_               [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_            per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_          per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_   map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_         []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
+	ERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
+	DLForwarding           *DLForwarding              `asn1:"tag:2,context,implicit,optional" json:"DLForwarding,omitempty"`
+	S1ULGTPtunnelEndpoint  GTPtunnelEndpoint          `asn1:"tag:3,context,implicit"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeAddedModReqItemSplitBearer represents the ASN.1 type E-RABs-ToBeAdded-ModReqItem-Split-Bearer (SEQUENCE).
 type ERABsToBeAddedModReqItemSplitBearer struct {
-	ERABID                 ERABID                         `asn1:"tag:0,context,implicit"`
-	ERABLevelQoSParameters ERABLevelQoSParameters         `asn1:"tag:1,context,implicit"`
-	MeNBGTPtunnelEndpoint  GTPtunnelEndpoint              `asn1:"tag:2,context,implicit"`
-	IEExtensions           ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_     bool                           `asn1:"-" json:"-"`
-	ExtCount_              int64                          `asn1:"-" json:"-"`
-	ExtPresent_            []bool                         `asn1:"-" json:"-"`
-	ExtData_               [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_            per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_          per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_   map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_         []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
+	ERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
+	MeNBGTPtunnelEndpoint  GTPtunnelEndpoint          `asn1:"tag:2,context,implicit"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeModifiedListModReq represents the ASN.1 type E-RABs-ToBeModified-List-ModReq (SEQUENCE_OF).
@@ -1280,7 +1141,6 @@ const (
 type ERABsToBeModifiedModReqItem struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                     `json:"-"`
-	PERExtraBits_       per.TrailingBits                        `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                     `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension             `json:"UnknownExtension,omitempty"`
 	SCGBearer           *ERABsToBeModifiedModReqItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -1305,34 +1165,30 @@ func NewERABsToBeModifiedModReqItemSplitBearer(v ERABsToBeModifiedModReqItemSpli
 
 // ERABsToBeModifiedModReqItemSCGBearer represents the ASN.1 type E-RABs-ToBeModified-ModReqItem-SCG-Bearer (SEQUENCE).
 type ERABsToBeModifiedModReqItemSCGBearer struct {
-	ERABID                 ERABID                         `asn1:"tag:0,context,implicit"`
-	ERABLevelQoSParameters *ERABLevelQoSParameters        `asn1:"tag:1,context,implicit,optional" json:"ERABLevelQoSParameters,omitempty"`
-	S1ULGTPtunnelEndpoint  *GTPtunnelEndpoint             `asn1:"tag:2,context,implicit,optional" json:"S1ULGTPtunnelEndpoint,omitempty"`
-	IEExtensions           ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_     bool                           `asn1:"-" json:"-"`
-	ExtCount_              int64                          `asn1:"-" json:"-"`
-	ExtPresent_            []bool                         `asn1:"-" json:"-"`
-	ExtData_               [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_            per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_          per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_   map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_         []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
+	ERABLevelQoSParameters *ERABLevelQoSParameters    `asn1:"tag:1,context,implicit,optional" json:"ERABLevelQoSParameters,omitempty"`
+	S1ULGTPtunnelEndpoint  *GTPtunnelEndpoint         `asn1:"tag:2,context,implicit,optional" json:"S1ULGTPtunnelEndpoint,omitempty"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeModifiedModReqItemSplitBearer represents the ASN.1 type E-RABs-ToBeModified-ModReqItem-Split-Bearer (SEQUENCE).
 type ERABsToBeModifiedModReqItemSplitBearer struct {
-	ERABID                 ERABID                         `asn1:"tag:0,context,implicit"`
-	ERABLevelQoSParameters *ERABLevelQoSParameters        `asn1:"tag:1,context,implicit,optional" json:"ERABLevelQoSParameters,omitempty"`
-	MeNBGTPtunnelEndpoint  *GTPtunnelEndpoint             `asn1:"tag:2,context,implicit,optional" json:"MeNBGTPtunnelEndpoint,omitempty"`
-	IEExtensions           ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_     bool                           `asn1:"-" json:"-"`
-	ExtCount_              int64                          `asn1:"-" json:"-"`
-	ExtPresent_            []bool                         `asn1:"-" json:"-"`
-	ExtData_               [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_            per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_          per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_   map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_         []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
+	ERABLevelQoSParameters *ERABLevelQoSParameters    `asn1:"tag:1,context,implicit,optional" json:"ERABLevelQoSParameters,omitempty"`
+	MeNBGTPtunnelEndpoint  *GTPtunnelEndpoint         `asn1:"tag:2,context,implicit,optional" json:"MeNBGTPtunnelEndpoint,omitempty"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedListModReq represents the ASN.1 type E-RABs-ToBeReleased-List-ModReq (SEQUENCE_OF).
@@ -1349,7 +1205,6 @@ const (
 type ERABsToBeReleasedModReqItem struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                     `json:"-"`
-	PERExtraBits_       per.TrailingBits                        `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                     `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension             `json:"UnknownExtension,omitempty"`
 	SCGBearer           *ERABsToBeReleasedModReqItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -1374,46 +1229,40 @@ func NewERABsToBeReleasedModReqItemSplitBearer(v ERABsToBeReleasedModReqItemSpli
 
 // ERABsToBeReleasedModReqItemSCGBearer represents the ASN.1 type E-RABs-ToBeReleased-ModReqItem-SCG-Bearer (SEQUENCE).
 type ERABsToBeReleasedModReqItemSCGBearer struct {
-	ERABID                        ERABID                         `asn1:"tag:0,context,implicit"`
-	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
-	ULForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:2,context,implicit,optional" json:"ULForwardingGTPtunnelEndpoint,omitempty"`
-	IEExtensions                  ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_            bool                           `asn1:"-" json:"-"`
-	ExtCount_                     int64                          `asn1:"-" json:"-"`
-	ExtPresent_                   []bool                         `asn1:"-" json:"-"`
-	ExtData_                      [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                   per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                 per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_          map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                        ERABID                     `asn1:"tag:0,context,implicit"`
+	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
+	ULForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:2,context,implicit,optional" json:"ULForwardingGTPtunnelEndpoint,omitempty"`
+	IEExtensions                  ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_            bool                       `asn1:"-" json:"-"`
+	ExtCount_                     int64                      `asn1:"-" json:"-"`
+	ExtPresent_                   []bool                     `asn1:"-" json:"-"`
+	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                   per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedModReqItemSplitBearer represents the ASN.1 type E-RABs-ToBeReleased-ModReqItem-Split-Bearer (SEQUENCE).
 type ERABsToBeReleasedModReqItemSplitBearer struct {
-	ERABID                        ERABID                         `asn1:"tag:0,context,implicit"`
-	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
-	IEExtensions                  ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_            bool                           `asn1:"-" json:"-"`
-	ExtCount_                     int64                          `asn1:"-" json:"-"`
-	ExtPresent_                   []bool                         `asn1:"-" json:"-"`
-	ExtData_                      [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                   per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                 per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_          map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                        ERABID                     `asn1:"tag:0,context,implicit"`
+	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
+	IEExtensions                  ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_            bool                       `asn1:"-" json:"-"`
+	ExtCount_                     int64                      `asn1:"-" json:"-"`
+	ExtPresent_                   []bool                     `asn1:"-" json:"-"`
+	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                   per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SeNBModificationRequestAcknowledge represents the ASN.1 type SeNBModificationRequestAcknowledge (SEQUENCE).
 type SeNBModificationRequestAcknowledge struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeAddedModAckList represents the ASN.1 type E-RABs-Admitted-ToBeAdded-ModAckList (SEQUENCE_OF).
@@ -1430,7 +1279,6 @@ const (
 type ERABsAdmittedToBeAddedModAckItem struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                          `json:"-"`
-	PERExtraBits_       per.TrailingBits                             `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                          `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                  `json:"UnknownExtension,omitempty"`
 	SCGBearer           *ERABsAdmittedToBeAddedModAckItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -1455,34 +1303,30 @@ func NewERABsAdmittedToBeAddedModAckItemSplitBearer(v ERABsAdmittedToBeAddedModA
 
 // ERABsAdmittedToBeAddedModAckItemSCGBearer represents the ASN.1 type E-RABs-Admitted-ToBeAdded-ModAckItem-SCG-Bearer (SEQUENCE).
 type ERABsAdmittedToBeAddedModAckItemSCGBearer struct {
-	ERABID                        ERABID                         `asn1:"tag:0,context,implicit"`
-	S1DLGTPtunnelEndpoint         GTPtunnelEndpoint              `asn1:"tag:1,context,implicit"`
-	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:2,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
-	ULForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:3,context,implicit,optional" json:"ULForwardingGTPtunnelEndpoint,omitempty"`
-	IEExtensions                  ProtocolExtensionContainer     `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_            bool                           `asn1:"-" json:"-"`
-	ExtCount_                     int64                          `asn1:"-" json:"-"`
-	ExtPresent_                   []bool                         `asn1:"-" json:"-"`
-	ExtData_                      [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                   per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                 per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_          map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                        ERABID                     `asn1:"tag:0,context,implicit"`
+	S1DLGTPtunnelEndpoint         GTPtunnelEndpoint          `asn1:"tag:1,context,implicit"`
+	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:2,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
+	ULForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:3,context,implicit,optional" json:"ULForwardingGTPtunnelEndpoint,omitempty"`
+	IEExtensions                  ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_            bool                       `asn1:"-" json:"-"`
+	ExtCount_                     int64                      `asn1:"-" json:"-"`
+	ExtPresent_                   []bool                     `asn1:"-" json:"-"`
+	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                   per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeAddedModAckItemSplitBearer represents the ASN.1 type E-RABs-Admitted-ToBeAdded-ModAckItem-Split-Bearer (SEQUENCE).
 type ERABsAdmittedToBeAddedModAckItemSplitBearer struct {
-	ERABID                ERABID                         `asn1:"tag:0,context,implicit"`
-	SeNBGTPtunnelEndpoint GTPtunnelEndpoint              `asn1:"tag:1,context,implicit"`
-	IEExtensions          ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_             int64                          `asn1:"-" json:"-"`
-	ExtPresent_           []bool                         `asn1:"-" json:"-"`
-	ExtData_              [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_           per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_         per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_  map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_        []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
+	SeNBGTPtunnelEndpoint GTPtunnelEndpoint          `asn1:"tag:1,context,implicit"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeModifiedModAckList represents the ASN.1 type E-RABs-Admitted-ToBeModified-ModAckList (SEQUENCE_OF).
@@ -1499,7 +1343,6 @@ const (
 type ERABsAdmittedToBeModifiedModAckItem struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                             `json:"-"`
-	PERExtraBits_       per.TrailingBits                                `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                             `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                     `json:"UnknownExtension,omitempty"`
 	SCGBearer           *ERABsAdmittedToBeModifiedModAckItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -1524,32 +1367,28 @@ func NewERABsAdmittedToBeModifiedModAckItemSplitBearer(v ERABsAdmittedToBeModifi
 
 // ERABsAdmittedToBeModifiedModAckItemSCGBearer represents the ASN.1 type E-RABs-Admitted-ToBeModified-ModAckItem-SCG-Bearer (SEQUENCE).
 type ERABsAdmittedToBeModifiedModAckItemSCGBearer struct {
-	ERABID                ERABID                         `asn1:"tag:0,context,implicit"`
-	S1DLGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"S1DLGTPtunnelEndpoint,omitempty"`
-	IEExtensions          ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_             int64                          `asn1:"-" json:"-"`
-	ExtPresent_           []bool                         `asn1:"-" json:"-"`
-	ExtData_              [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_           per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_         per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_  map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_        []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
+	S1DLGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"S1DLGTPtunnelEndpoint,omitempty"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeModifiedModAckItemSplitBearer represents the ASN.1 type E-RABs-Admitted-ToBeModified-ModAckItem-Split-Bearer (SEQUENCE).
 type ERABsAdmittedToBeModifiedModAckItemSplitBearer struct {
-	ERABID                ERABID                         `asn1:"tag:0,context,implicit"`
-	SeNBGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"SeNBGTPtunnelEndpoint,omitempty"`
-	IEExtensions          ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_             int64                          `asn1:"-" json:"-"`
-	ExtPresent_           []bool                         `asn1:"-" json:"-"`
-	ExtData_              [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_           per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_         per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_  map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_        []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                ERABID                     `asn1:"tag:0,context,implicit"`
+	SeNBGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"SeNBGTPtunnelEndpoint,omitempty"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeReleasedModAckList represents the ASN.1 type E-RABs-Admitted-ToBeReleased-ModAckList (SEQUENCE_OF).
@@ -1566,7 +1405,6 @@ const (
 type ERABsAdmittedToReleasedModAckItem struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                             `json:"-"`
-	PERExtraBits_       per.TrailingBits                                `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                             `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                     `json:"UnknownExtension,omitempty"`
 	SCGBearer           *ERABsAdmittedToBeReleasedModAckItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -1591,56 +1429,48 @@ func NewERABsAdmittedToReleasedModAckItemSplitBearer(v ERABsAdmittedToBeReleased
 
 // ERABsAdmittedToBeReleasedModAckItemSCGBearer represents the ASN.1 type E-RABs-Admitted-ToBeReleased-ModAckItem-SCG-Bearer (SEQUENCE).
 type ERABsAdmittedToBeReleasedModAckItemSCGBearer struct {
-	ERABID               ERABID                         `asn1:"tag:0,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeReleasedModAckItemSplitBearer represents the ASN.1 type E-RABs-Admitted-ToBeReleased-ModAckItem-Split-Bearer (SEQUENCE).
 type ERABsAdmittedToBeReleasedModAckItemSplitBearer struct {
-	ERABID               ERABID                         `asn1:"tag:0,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SeNBModificationRequestReject represents the ASN.1 type SeNBModificationRequestReject (SEQUENCE).
 type SeNBModificationRequestReject struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SeNBModificationRequired represents the ASN.1 type SeNBModificationRequired (SEQUENCE).
 type SeNBModificationRequired struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedModReqd represents the ASN.1 type E-RABs-ToBeReleased-ModReqd (SEQUENCE_OF).
@@ -1649,56 +1479,48 @@ type ERABsToBeReleasedModReqd = []ProtocolIESingleContainer
 
 // ERABsToBeReleasedModReqdItem represents the ASN.1 type E-RABs-ToBeReleased-ModReqdItem (SEQUENCE).
 type ERABsToBeReleasedModReqdItem struct {
-	ERABID               ERABID                         `asn1:"tag:0,context,implicit"`
-	Cause                Cause                          `asn1:"tag:1,context,explicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	Cause              Cause                      `asn1:"tag:1,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SeNBModificationConfirm represents the ASN.1 type SeNBModificationConfirm (SEQUENCE).
 type SeNBModificationConfirm struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SeNBModificationRefuse represents the ASN.1 type SeNBModificationRefuse (SEQUENCE).
 type SeNBModificationRefuse struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SeNBReleaseRequest represents the ASN.1 type SeNBReleaseRequest (SEQUENCE).
 type SeNBReleaseRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedListRelReq represents the ASN.1 type E-RABs-ToBeReleased-List-RelReq (SEQUENCE_OF).
@@ -1715,7 +1537,6 @@ const (
 type ERABsToBeReleasedRelReqItem struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                     `json:"-"`
-	PERExtraBits_       per.TrailingBits                        `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                     `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension             `json:"UnknownExtension,omitempty"`
 	SCGBearer           *ERABsToBeReleasedRelReqItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -1740,59 +1561,51 @@ func NewERABsToBeReleasedRelReqItemSplitBearer(v ERABsToBeReleasedRelReqItemSpli
 
 // ERABsToBeReleasedRelReqItemSCGBearer represents the ASN.1 type E-RABs-ToBeReleased-RelReqItem-SCG-Bearer (SEQUENCE).
 type ERABsToBeReleasedRelReqItemSCGBearer struct {
-	ERABID                        ERABID                         `asn1:"tag:0,context,implicit"`
-	ULForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"ULForwardingGTPtunnelEndpoint,omitempty"`
-	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:2,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
-	IEExtensions                  ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_            bool                           `asn1:"-" json:"-"`
-	ExtCount_                     int64                          `asn1:"-" json:"-"`
-	ExtPresent_                   []bool                         `asn1:"-" json:"-"`
-	ExtData_                      [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                   per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                 per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_          map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                        ERABID                     `asn1:"tag:0,context,implicit"`
+	ULForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"ULForwardingGTPtunnelEndpoint,omitempty"`
+	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:2,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
+	IEExtensions                  ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_            bool                       `asn1:"-" json:"-"`
+	ExtCount_                     int64                      `asn1:"-" json:"-"`
+	ExtPresent_                   []bool                     `asn1:"-" json:"-"`
+	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                   per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedRelReqItemSplitBearer represents the ASN.1 type E-RABs-ToBeReleased-RelReqItem-Split-Bearer (SEQUENCE).
 type ERABsToBeReleasedRelReqItemSplitBearer struct {
-	ERABID                        ERABID                         `asn1:"tag:0,context,implicit"`
-	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
-	IEExtensions                  ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_            bool                           `asn1:"-" json:"-"`
-	ExtCount_                     int64                          `asn1:"-" json:"-"`
-	ExtPresent_                   []bool                         `asn1:"-" json:"-"`
-	ExtData_                      [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                   per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                 per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_          map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                        ERABID                     `asn1:"tag:0,context,implicit"`
+	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
+	IEExtensions                  ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_            bool                       `asn1:"-" json:"-"`
+	ExtCount_                     int64                      `asn1:"-" json:"-"`
+	ExtPresent_                   []bool                     `asn1:"-" json:"-"`
+	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                   per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SeNBReleaseRequired represents the ASN.1 type SeNBReleaseRequired (SEQUENCE).
 type SeNBReleaseRequired struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SeNBReleaseConfirm represents the ASN.1 type SeNBReleaseConfirm (SEQUENCE).
 type SeNBReleaseConfirm struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedListRelConf represents the ASN.1 type E-RABs-ToBeReleased-List-RelConf (SEQUENCE_OF).
@@ -1809,7 +1622,6 @@ const (
 type ERABsToBeReleasedRelConfItem struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                      `json:"-"`
-	PERExtraBits_       per.TrailingBits                         `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                      `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension              `json:"UnknownExtension,omitempty"`
 	SCGBearer           *ERABsToBeReleasedRelConfItemSCGBearer   `json:"SCGBearer,omitempty"`
@@ -1834,46 +1646,40 @@ func NewERABsToBeReleasedRelConfItemSplitBearer(v ERABsToBeReleasedRelConfItemSp
 
 // ERABsToBeReleasedRelConfItemSCGBearer represents the ASN.1 type E-RABs-ToBeReleased-RelConfItem-SCG-Bearer (SEQUENCE).
 type ERABsToBeReleasedRelConfItemSCGBearer struct {
-	ERABID                        ERABID                         `asn1:"tag:0,context,implicit"`
-	ULForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"ULForwardingGTPtunnelEndpoint,omitempty"`
-	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:2,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
-	IEExtensions                  ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_            bool                           `asn1:"-" json:"-"`
-	ExtCount_                     int64                          `asn1:"-" json:"-"`
-	ExtPresent_                   []bool                         `asn1:"-" json:"-"`
-	ExtData_                      [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                   per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                 per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_          map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                        ERABID                     `asn1:"tag:0,context,implicit"`
+	ULForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"ULForwardingGTPtunnelEndpoint,omitempty"`
+	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:2,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
+	IEExtensions                  ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_            bool                       `asn1:"-" json:"-"`
+	ExtCount_                     int64                      `asn1:"-" json:"-"`
+	ExtPresent_                   []bool                     `asn1:"-" json:"-"`
+	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                   per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedRelConfItemSplitBearer represents the ASN.1 type E-RABs-ToBeReleased-RelConfItem-Split-Bearer (SEQUENCE).
 type ERABsToBeReleasedRelConfItemSplitBearer struct {
-	ERABID                        ERABID                         `asn1:"tag:0,context,implicit"`
-	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
-	IEExtensions                  ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_            bool                           `asn1:"-" json:"-"`
-	ExtCount_                     int64                          `asn1:"-" json:"-"`
-	ExtPresent_                   []bool                         `asn1:"-" json:"-"`
-	ExtData_                      [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                   per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                 per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_          map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                        ERABID                     `asn1:"tag:0,context,implicit"`
+	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
+	IEExtensions                  ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_            bool                       `asn1:"-" json:"-"`
+	ExtCount_                     int64                      `asn1:"-" json:"-"`
+	ExtPresent_                   []bool                     `asn1:"-" json:"-"`
+	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                   per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SeNBCounterCheckRequest represents the ASN.1 type SeNBCounterCheckRequest (SEQUENCE).
 type SeNBCounterCheckRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsSubjectToCounterCheckList represents the ASN.1 type E-RABs-SubjectToCounterCheck-List (SEQUENCE_OF).
@@ -1882,109 +1688,95 @@ type ERABsSubjectToCounterCheckList = []ProtocolIESingleContainer
 
 // ERABsSubjectToCounterCheckItem represents the ASN.1 type E-RABs-SubjectToCounterCheckItem (SEQUENCE).
 type ERABsSubjectToCounterCheckItem struct {
-	ERABID               ERABID                         `asn1:"tag:0,context,implicit"`
-	ULCount              int64                          `asn1:"tag:1,context,implicit"`
-	DLCount              int64                          `asn1:"tag:2,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	ULCount            int64                      `asn1:"tag:1,context,implicit"`
+	DLCount            int64                      `asn1:"tag:2,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // X2RemovalRequest represents the ASN.1 type X2RemovalRequest (SEQUENCE).
 type X2RemovalRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // X2RemovalResponse represents the ASN.1 type X2RemovalResponse (SEQUENCE).
 type X2RemovalResponse struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // X2RemovalFailure represents the ASN.1 type X2RemovalFailure (SEQUENCE).
 type X2RemovalFailure struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // RetrieveUEContextRequest represents the ASN.1 type RetrieveUEContextRequest (SEQUENCE).
 type RetrieveUEContextRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // RetrieveUEContextResponse represents the ASN.1 type RetrieveUEContextResponse (SEQUENCE).
 type RetrieveUEContextResponse struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEContextInformationRetrieve represents the ASN.1 type UE-ContextInformationRetrieve (SEQUENCE).
 type UEContextInformationRetrieve struct {
-	MMEUES1APID                      UES1APID                       `asn1:"tag:0,context,implicit"`
-	UESecurityCapabilities           UESecurityCapabilities         `asn1:"tag:1,context,implicit"`
-	ASSecurityInformation            ASSecurityInformation          `asn1:"tag:2,context,implicit"`
-	UEaggregateMaximumBitRate        UEAggregateMaximumBitRate      `asn1:"tag:3,context,implicit"`
-	SubscriberProfileIDforRFP        *SubscriberProfileIDforRFP     `asn1:"tag:4,context,implicit,optional" json:"SubscriberProfileIDforRFP,omitempty"`
-	ERABsToBeSetupListRetrieve       ERABsToBeSetupListRetrieve     `asn1:"tag:5,context,implicit"`
-	ERABsToBeSetupListRetrieveIndef_ bool                           `asn1:"-" json:"-"`
-	RRCContext                       RRCContext                     `asn1:"tag:6,context,implicit"`
-	HandoverRestrictionList          *HandoverRestrictionList       `asn1:"tag:7,context,implicit,optional" json:"HandoverRestrictionList,omitempty"`
-	LocationReportingInformation     *LocationReportingInformation  `asn1:"tag:8,context,implicit,optional" json:"LocationReportingInformation,omitempty"`
-	ManagBasedMDTallowed             *ManagementBasedMDTallowed     `asn1:"tag:9,context,implicit,optional" json:"ManagBasedMDTallowed,omitempty"`
-	ManagBasedMDTPLMNList            MDTPLMNList                    `asn1:"tag:10,context,implicit,optional" json:"ManagBasedMDTPLMNList,omitempty"`
-	ManagBasedMDTPLMNListIndef_      bool                           `asn1:"-" json:"-"`
-	IEExtensions                     ProtocolExtensionContainer     `asn1:"tag:11,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_               bool                           `asn1:"-" json:"-"`
-	ExtCount_                        int64                          `asn1:"-" json:"-"`
-	ExtPresent_                      []bool                         `asn1:"-" json:"-"`
-	ExtData_                         [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                      per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                    per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_             map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                   []per.CompletePadding          `asn1:"-" json:"-"`
+	MMEUES1APID                      UES1APID                      `asn1:"tag:0,context,implicit"`
+	UESecurityCapabilities           UESecurityCapabilities        `asn1:"tag:1,context,implicit"`
+	ASSecurityInformation            ASSecurityInformation         `asn1:"tag:2,context,implicit"`
+	UEaggregateMaximumBitRate        UEAggregateMaximumBitRate     `asn1:"tag:3,context,implicit"`
+	SubscriberProfileIDforRFP        *SubscriberProfileIDforRFP    `asn1:"tag:4,context,implicit,optional" json:"SubscriberProfileIDforRFP,omitempty"`
+	ERABsToBeSetupListRetrieve       ERABsToBeSetupListRetrieve    `asn1:"tag:5,context,implicit"`
+	ERABsToBeSetupListRetrieveIndef_ bool                          `asn1:"-" json:"-"`
+	RRCContext                       RRCContext                    `asn1:"tag:6,context,implicit"`
+	HandoverRestrictionList          *HandoverRestrictionList      `asn1:"tag:7,context,implicit,optional" json:"HandoverRestrictionList,omitempty"`
+	LocationReportingInformation     *LocationReportingInformation `asn1:"tag:8,context,implicit,optional" json:"LocationReportingInformation,omitempty"`
+	ManagBasedMDTallowed             *ManagementBasedMDTallowed    `asn1:"tag:9,context,implicit,optional" json:"ManagBasedMDTallowed,omitempty"`
+	ManagBasedMDTPLMNList            MDTPLMNList                   `asn1:"tag:10,context,implicit,optional" json:"ManagBasedMDTPLMNList,omitempty"`
+	ManagBasedMDTPLMNListIndef_      bool                          `asn1:"-" json:"-"`
+	IEExtensions                     ProtocolExtensionContainer    `asn1:"tag:11,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_               bool                          `asn1:"-" json:"-"`
+	ExtCount_                        int64                         `asn1:"-" json:"-"`
+	ExtPresent_                      []bool                        `asn1:"-" json:"-"`
+	ExtData_                         [][]byte                      `asn1:"-" json:"-"`
+	PERPadding_                      per.CompletePadding           `asn1:"-" json:"-"`
+	PERExtPadding_                   []per.CompletePadding         `asn1:"-" json:"-"`
 }
 
 // ERABsToBeSetupListRetrieve represents the ASN.1 type E-RABs-ToBeSetup-ListRetrieve (SEQUENCE_OF).
@@ -1993,44 +1785,38 @@ type ERABsToBeSetupListRetrieve = []ProtocolIESingleContainer
 
 // ERABsToBeSetupRetrieveItem represents the ASN.1 type E-RABs-ToBeSetupRetrieve-Item (SEQUENCE).
 type ERABsToBeSetupRetrieveItem struct {
-	ERABID                 ERABID                         `asn1:"tag:0,context,implicit"`
-	ERABLevelQoSParameters ERABLevelQoSParameters         `asn1:"tag:1,context,implicit"`
-	BearerType             *BearerType                    `asn1:"tag:2,context,implicit,optional" json:"BearerType,omitempty"`
-	IEExtensions           ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_     bool                           `asn1:"-" json:"-"`
-	ExtCount_              int64                          `asn1:"-" json:"-"`
-	ExtPresent_            []bool                         `asn1:"-" json:"-"`
-	ExtData_               [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_            per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_          per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_   map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_         []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID                 ERABID                     `asn1:"tag:0,context,implicit"`
+	ERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:1,context,implicit"`
+	BearerType             *BearerType                `asn1:"tag:2,context,implicit,optional" json:"BearerType,omitempty"`
+	IEExtensions           ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_     bool                       `asn1:"-" json:"-"`
+	ExtCount_              int64                      `asn1:"-" json:"-"`
+	ExtPresent_            []bool                     `asn1:"-" json:"-"`
+	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // RetrieveUEContextFailure represents the ASN.1 type RetrieveUEContextFailure (SEQUENCE).
 type RetrieveUEContextFailure struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SgNBAdditionRequest represents the ASN.1 type SgNBAdditionRequest (SEQUENCE).
 type SgNBAdditionRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsToBeAddedSgNBAddReqList represents the ASN.1 type E-RABs-ToBeAdded-SgNBAddReqList (SEQUENCE_OF).
@@ -2049,58 +1835,50 @@ type ERABsToBeAddedSgNBAddReqItem struct {
 	ExtPresent_               []bool                                            `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                                          `asn1:"-" json:"-"`
 	PERPadding_               per.CompletePadding                               `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits                                  `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding                    `asn1:"-" json:"-"`
 	PERExtPadding_            []per.CompletePadding                             `asn1:"-" json:"-"`
 }
 
 // ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent struct {
-	FullERABLevelQoSParameters        ERABLevelQoSParameters         `asn1:"tag:0,context,implicit"`
-	MaxMCGAdmitERABLevelQoSParameters *GBRQosInformation             `asn1:"tag:1,context,implicit,optional" json:"MaxMCGAdmitERABLevelQoSParameters,omitempty"`
-	DLForwarding                      *DLForwarding                  `asn1:"tag:2,context,implicit,optional" json:"DLForwarding,omitempty"`
-	MeNBDLGTPTEIDatMCG                *GTPtunnelEndpoint             `asn1:"tag:3,context,implicit,optional" json:"MeNBDLGTPTEIDatMCG,omitempty"`
-	S1ULGTPtunnelEndpoint             GTPtunnelEndpoint              `asn1:"tag:4,context,implicit"`
-	IEExtensions                      ProtocolExtensionContainer     `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_                bool                           `asn1:"-" json:"-"`
-	ExtCount_                         int64                          `asn1:"-" json:"-"`
-	ExtPresent_                       []bool                         `asn1:"-" json:"-"`
-	ExtData_                          [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                       per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                     per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_              map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                    []per.CompletePadding          `asn1:"-" json:"-"`
+	FullERABLevelQoSParameters        ERABLevelQoSParameters     `asn1:"tag:0,context,implicit"`
+	MaxMCGAdmitERABLevelQoSParameters *GBRQosInformation         `asn1:"tag:1,context,implicit,optional" json:"MaxMCGAdmitERABLevelQoSParameters,omitempty"`
+	DLForwarding                      *DLForwarding              `asn1:"tag:2,context,implicit,optional" json:"DLForwarding,omitempty"`
+	MeNBDLGTPTEIDatMCG                *GTPtunnelEndpoint         `asn1:"tag:3,context,implicit,optional" json:"MeNBDLGTPTEIDatMCG,omitempty"`
+	S1ULGTPtunnelEndpoint             GTPtunnelEndpoint          `asn1:"tag:4,context,implicit"`
+	IEExtensions                      ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                bool                       `asn1:"-" json:"-"`
+	ExtCount_                         int64                      `asn1:"-" json:"-"`
+	ExtPresent_                       []bool                     `asn1:"-" json:"-"`
+	ExtData_                          [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                       per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                    []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresent struct {
-	RequestedSCGERABLevelQoSParameters ERABLevelQoSParameters         `asn1:"tag:0,context,implicit"`
-	MeNBULGTPTEIDatPDCP                GTPtunnelEndpoint              `asn1:"tag:1,context,implicit"`
-	SecondaryMeNBULGTPTEIDatPDCP       *GTPtunnelEndpoint             `asn1:"tag:2,context,implicit,optional" json:"SecondaryMeNBULGTPTEIDatPDCP,omitempty"`
-	RlcMode                            RLCMode                        `asn1:"tag:3,context,implicit"`
-	ULConfiguration                    *ULConfiguration               `asn1:"tag:4,context,implicit,optional" json:"ULConfiguration,omitempty"`
-	IEExtensions                       ProtocolExtensionContainer     `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_                 bool                           `asn1:"-" json:"-"`
-	ExtCount_                          int64                          `asn1:"-" json:"-"`
-	ExtPresent_                        []bool                         `asn1:"-" json:"-"`
-	ExtData_                           [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                        per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                      per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_               map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                     []per.CompletePadding          `asn1:"-" json:"-"`
+	RequestedSCGERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:0,context,implicit"`
+	MeNBULGTPTEIDatPDCP                GTPtunnelEndpoint          `asn1:"tag:1,context,implicit"`
+	SecondaryMeNBULGTPTEIDatPDCP       *GTPtunnelEndpoint         `asn1:"tag:2,context,implicit,optional" json:"SecondaryMeNBULGTPTEIDatPDCP,omitempty"`
+	RlcMode                            RLCMode                    `asn1:"tag:3,context,implicit"`
+	ULConfiguration                    *ULConfiguration           `asn1:"tag:4,context,implicit,optional" json:"ULConfiguration,omitempty"`
+	IEExtensions                       ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                 bool                       `asn1:"-" json:"-"`
+	ExtCount_                          int64                      `asn1:"-" json:"-"`
+	ExtPresent_                        []bool                     `asn1:"-" json:"-"`
+	ExtData_                           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SgNBAdditionRequestAcknowledge represents the ASN.1 type SgNBAdditionRequestAcknowledge (SEQUENCE).
 type SgNBAdditionRequestAcknowledge struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeAddedSgNBAddReqAckList represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBAddReqAckList (SEQUENCE_OF).
@@ -2118,70 +1896,60 @@ type ERABsAdmittedToBeAddedSgNBAddReqAckItem struct {
 	ExtPresent_               []bool                                                       `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                                                     `asn1:"-" json:"-"`
 	PERPadding_               per.CompletePadding                                          `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits                                             `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding                               `asn1:"-" json:"-"`
 	PERExtPadding_            []per.CompletePadding                                        `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent struct {
-	S1DLGTPtunnelEndpoint         GTPtunnelEndpoint              `asn1:"tag:0,context,implicit"`
-	SgNBULGTPTEIDatPDCP           *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"SgNBULGTPTEIDatPDCP,omitempty"`
-	RlcMode                       *RLCMode                       `asn1:"tag:2,context,implicit,optional" json:"RlcMode,omitempty"`
-	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:3,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
-	ULForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:4,context,implicit,optional" json:"ULForwardingGTPtunnelEndpoint,omitempty"`
-	MCGERABLevelQoSParameters     *ERABLevelQoSParameters        `asn1:"tag:5,context,implicit,optional" json:"MCGERABLevelQoSParameters,omitempty"`
-	ULConfiguration               *ULConfiguration               `asn1:"tag:6,context,implicit,optional" json:"ULConfiguration,omitempty"`
-	IEExtensions                  ProtocolExtensionContainer     `asn1:"tag:7,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_            bool                           `asn1:"-" json:"-"`
-	ExtCount_                     int64                          `asn1:"-" json:"-"`
-	ExtPresent_                   []bool                         `asn1:"-" json:"-"`
-	ExtData_                      [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                   per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                 per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_          map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                []per.CompletePadding          `asn1:"-" json:"-"`
+	S1DLGTPtunnelEndpoint         GTPtunnelEndpoint          `asn1:"tag:0,context,implicit"`
+	SgNBULGTPTEIDatPDCP           *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"SgNBULGTPTEIDatPDCP,omitempty"`
+	RlcMode                       *RLCMode                   `asn1:"tag:2,context,implicit,optional" json:"RlcMode,omitempty"`
+	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:3,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
+	ULForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:4,context,implicit,optional" json:"ULForwardingGTPtunnelEndpoint,omitempty"`
+	MCGERABLevelQoSParameters     *ERABLevelQoSParameters    `asn1:"tag:5,context,implicit,optional" json:"MCGERABLevelQoSParameters,omitempty"`
+	ULConfiguration               *ULConfiguration           `asn1:"tag:6,context,implicit,optional" json:"ULConfiguration,omitempty"`
+	IEExtensions                  ProtocolExtensionContainer `asn1:"tag:7,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_            bool                       `asn1:"-" json:"-"`
+	ExtCount_                     int64                      `asn1:"-" json:"-"`
+	ExtPresent_                   []bool                     `asn1:"-" json:"-"`
+	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                   per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresent struct {
-	SgNBDLGTPTEIDatSCG          GTPtunnelEndpoint              `asn1:"tag:0,context,implicit"`
-	SecondarySgNBDLGTPTEIDatSCG *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"SecondarySgNBDLGTPTEIDatSCG,omitempty"`
-	IEExtensions                ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_          bool                           `asn1:"-" json:"-"`
-	ExtCount_                   int64                          `asn1:"-" json:"-"`
-	ExtPresent_                 []bool                         `asn1:"-" json:"-"`
-	ExtData_                    [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                 per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_               per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_        map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_              []per.CompletePadding          `asn1:"-" json:"-"`
+	SgNBDLGTPTEIDatSCG          GTPtunnelEndpoint          `asn1:"tag:0,context,implicit"`
+	SecondarySgNBDLGTPTEIDatSCG *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"SecondarySgNBDLGTPTEIDatSCG,omitempty"`
+	IEExtensions                ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_          bool                       `asn1:"-" json:"-"`
+	ExtCount_                   int64                      `asn1:"-" json:"-"`
+	ExtPresent_                 []bool                     `asn1:"-" json:"-"`
+	ExtData_                    [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                 per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_              []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SgNBAdditionRequestReject represents the ASN.1 type SgNBAdditionRequestReject (SEQUENCE).
 type SgNBAdditionRequestReject struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SgNBReconfigurationComplete represents the ASN.1 type SgNBReconfigurationComplete (SEQUENCE).
 type SgNBReconfigurationComplete struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ResponseInformationSgNBReconfComp choice constants.
@@ -2194,7 +1962,6 @@ const (
 type ResponseInformationSgNBReconfComp struct {
 	Choice                     int
 	PERPadding_                per.CompletePadding                                `json:"-"`
-	PERExtraBits_              per.TrailingBits                                   `json:"-"`
 	PEROpenTypePadding_        per.CompletePadding                                `json:"-"`
 	UnknownExtension           *runtime.PERChoiceExtension                        `json:"UnknownExtension,omitempty"`
 	SuccessSgNBReconfComp      *ResponseInformationSgNBReconfCompSuccessItem      `json:"SuccessSgNBReconfComp,omitempty"`
@@ -2219,43 +1986,37 @@ func NewResponseInformationSgNBReconfCompRejectByMeNBSgNBReconfComp(v ResponseIn
 
 // ResponseInformationSgNBReconfCompSuccessItem represents the ASN.1 type ResponseInformationSgNBReconfComp-SuccessItem (SEQUENCE).
 type ResponseInformationSgNBReconfCompSuccessItem struct {
-	MeNBtoSgNBContainer  *MeNBtoSgNBContainer           `asn1:"tag:0,context,implicit,optional" json:"MeNBtoSgNBContainer,omitempty"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	MeNBtoSgNBContainer *MeNBtoSgNBContainer       `asn1:"tag:0,context,implicit,optional" json:"MeNBtoSgNBContainer,omitempty"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ResponseInformationSgNBReconfCompRejectByMeNBItem represents the ASN.1 type ResponseInformationSgNBReconfComp-RejectByMeNBItem (SEQUENCE).
 type ResponseInformationSgNBReconfCompRejectByMeNBItem struct {
-	Cause                Cause                          `asn1:"tag:0,context,explicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	Cause              Cause                      `asn1:"tag:0,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SgNBModificationRequest represents the ASN.1 type SgNBModificationRequest (SEQUENCE).
 type SgNBModificationRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEContextInformationSgNBModReq represents the ASN.1 type UE-ContextInformation-SgNBModReq (SEQUENCE).
@@ -2275,8 +2036,6 @@ type UEContextInformationSgNBModReq struct {
 	ExtPresent_                   []bool                          `asn1:"-" json:"-"`
 	ExtData_                      [][]byte                        `asn1:"-" json:"-"`
 	PERPadding_                   per.CompletePadding             `asn1:"-" json:"-"`
-	PERExtraBits_                 per.TrailingBits                `asn1:"-" json:"-"`
-	PERContainedPadding_          map[string]per.CompletePadding  `asn1:"-" json:"-"`
 	PERExtPadding_                []per.CompletePadding           `asn1:"-" json:"-"`
 }
 
@@ -2296,45 +2055,39 @@ type ERABsToBeAddedSgNBModReqItem struct {
 	ExtPresent_               []bool                                            `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                                          `asn1:"-" json:"-"`
 	PERPadding_               per.CompletePadding                               `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits                                  `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding                    `asn1:"-" json:"-"`
 	PERExtPadding_            []per.CompletePadding                             `asn1:"-" json:"-"`
 }
 
 // ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent struct {
-	FullERABLevelQoSParameters       ERABLevelQoSParameters         `asn1:"tag:0,context,implicit"`
-	MaxMNAdmitERABLevelQoSParameters *GBRQosInformation             `asn1:"tag:1,context,implicit,optional" json:"MaxMNAdmitERABLevelQoSParameters,omitempty"`
-	DLForwarding                     *DLForwarding                  `asn1:"tag:2,context,implicit,optional" json:"DLForwarding,omitempty"`
-	MeNBDLGTPTEIDatMCG               *GTPtunnelEndpoint             `asn1:"tag:3,context,implicit,optional" json:"MeNBDLGTPTEIDatMCG,omitempty"`
-	S1ULGTPtunnelEndpoint            GTPtunnelEndpoint              `asn1:"tag:4,context,implicit"`
-	IEExtensions                     ProtocolExtensionContainer     `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_               bool                           `asn1:"-" json:"-"`
-	ExtCount_                        int64                          `asn1:"-" json:"-"`
-	ExtPresent_                      []bool                         `asn1:"-" json:"-"`
-	ExtData_                         [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                      per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                    per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_             map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                   []per.CompletePadding          `asn1:"-" json:"-"`
+	FullERABLevelQoSParameters       ERABLevelQoSParameters     `asn1:"tag:0,context,implicit"`
+	MaxMNAdmitERABLevelQoSParameters *GBRQosInformation         `asn1:"tag:1,context,implicit,optional" json:"MaxMNAdmitERABLevelQoSParameters,omitempty"`
+	DLForwarding                     *DLForwarding              `asn1:"tag:2,context,implicit,optional" json:"DLForwarding,omitempty"`
+	MeNBDLGTPTEIDatMCG               *GTPtunnelEndpoint         `asn1:"tag:3,context,implicit,optional" json:"MeNBDLGTPTEIDatMCG,omitempty"`
+	S1ULGTPtunnelEndpoint            GTPtunnelEndpoint          `asn1:"tag:4,context,implicit"`
+	IEExtensions                     ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_               bool                       `asn1:"-" json:"-"`
+	ExtCount_                        int64                      `asn1:"-" json:"-"`
+	ExtPresent_                      []bool                     `asn1:"-" json:"-"`
+	ExtData_                         [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                      per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                   []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent struct {
-	RequestedSCGERABLevelQoSParameters ERABLevelQoSParameters         `asn1:"tag:0,context,implicit"`
-	MeNBULGTPTEIDatPDCP                GTPtunnelEndpoint              `asn1:"tag:1,context,implicit"`
-	SecondaryMeNBULGTPTEIDatPDCP       *GTPtunnelEndpoint             `asn1:"tag:2,context,implicit,optional" json:"SecondaryMeNBULGTPTEIDatPDCP,omitempty"`
-	RlcMode                            RLCMode                        `asn1:"tag:3,context,implicit"`
-	ULConfiguration                    *ULConfiguration               `asn1:"tag:4,context,implicit,optional" json:"ULConfiguration,omitempty"`
-	IEExtensions                       ProtocolExtensionContainer     `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_                 bool                           `asn1:"-" json:"-"`
-	ExtCount_                          int64                          `asn1:"-" json:"-"`
-	ExtPresent_                        []bool                         `asn1:"-" json:"-"`
-	ExtData_                           [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                        per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                      per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_               map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                     []per.CompletePadding          `asn1:"-" json:"-"`
+	RequestedSCGERABLevelQoSParameters ERABLevelQoSParameters     `asn1:"tag:0,context,implicit"`
+	MeNBULGTPTEIDatPDCP                GTPtunnelEndpoint          `asn1:"tag:1,context,implicit"`
+	SecondaryMeNBULGTPTEIDatPDCP       *GTPtunnelEndpoint         `asn1:"tag:2,context,implicit,optional" json:"SecondaryMeNBULGTPTEIDatPDCP,omitempty"`
+	RlcMode                            RLCMode                    `asn1:"tag:3,context,implicit"`
+	ULConfiguration                    *ULConfiguration           `asn1:"tag:4,context,implicit,optional" json:"ULConfiguration,omitempty"`
+	IEExtensions                       ProtocolExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                 bool                       `asn1:"-" json:"-"`
+	ExtCount_                          int64                      `asn1:"-" json:"-"`
+	ExtPresent_                        []bool                     `asn1:"-" json:"-"`
+	ExtData_                           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeModifiedSgNBModReqList represents the ASN.1 type E-RABs-ToBeModified-SgNBModReq-List (SEQUENCE_OF).
@@ -2352,42 +2105,36 @@ type ERABsToBeModifiedSgNBModReqItem struct {
 	ExtPresent_               []bool                                               `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                                             `asn1:"-" json:"-"`
 	PERPadding_               per.CompletePadding                                  `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits                                     `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding                       `asn1:"-" json:"-"`
 	PERExtPadding_            []per.CompletePadding                                `asn1:"-" json:"-"`
 }
 
 // ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent struct {
-	FullERABLevelQoSParameters       *ERABLevelQoSParameters        `asn1:"tag:0,context,implicit,optional" json:"FullERABLevelQoSParameters,omitempty"`
-	MaxMNAdmitERABLevelQoSParameters *GBRQosInformation             `asn1:"tag:1,context,implicit,optional" json:"MaxMNAdmitERABLevelQoSParameters,omitempty"`
-	MeNBDLGTPTEIDatMCG               *GTPtunnelEndpoint             `asn1:"tag:2,context,implicit,optional" json:"MeNBDLGTPTEIDatMCG,omitempty"`
-	S1ULGTPtunnelEndpoint            *GTPtunnelEndpoint             `asn1:"tag:3,context,implicit,optional" json:"S1ULGTPtunnelEndpoint,omitempty"`
-	IEExtensions                     ProtocolExtensionContainer     `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_               bool                           `asn1:"-" json:"-"`
-	ExtCount_                        int64                          `asn1:"-" json:"-"`
-	ExtPresent_                      []bool                         `asn1:"-" json:"-"`
-	ExtData_                         [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                      per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                    per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_             map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                   []per.CompletePadding          `asn1:"-" json:"-"`
+	FullERABLevelQoSParameters       *ERABLevelQoSParameters    `asn1:"tag:0,context,implicit,optional" json:"FullERABLevelQoSParameters,omitempty"`
+	MaxMNAdmitERABLevelQoSParameters *GBRQosInformation         `asn1:"tag:1,context,implicit,optional" json:"MaxMNAdmitERABLevelQoSParameters,omitempty"`
+	MeNBDLGTPTEIDatMCG               *GTPtunnelEndpoint         `asn1:"tag:2,context,implicit,optional" json:"MeNBDLGTPTEIDatMCG,omitempty"`
+	S1ULGTPtunnelEndpoint            *GTPtunnelEndpoint         `asn1:"tag:3,context,implicit,optional" json:"S1ULGTPtunnelEndpoint,omitempty"`
+	IEExtensions                     ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_               bool                       `asn1:"-" json:"-"`
+	ExtCount_                        int64                      `asn1:"-" json:"-"`
+	ExtPresent_                      []bool                     `asn1:"-" json:"-"`
+	ExtData_                         [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                      per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                   []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent struct {
-	RequestedSCGERABLevelQoSParameters *ERABLevelQoSParameters        `asn1:"tag:0,context,implicit,optional" json:"RequestedSCGERABLevelQoSParameters,omitempty"`
-	MeNBULGTPTEIDatPDCP                *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"MeNBULGTPTEIDatPDCP,omitempty"`
-	ULConfiguration                    *ULConfiguration               `asn1:"tag:2,context,implicit,optional" json:"ULConfiguration,omitempty"`
-	IEExtensions                       ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_                 bool                           `asn1:"-" json:"-"`
-	ExtCount_                          int64                          `asn1:"-" json:"-"`
-	ExtPresent_                        []bool                         `asn1:"-" json:"-"`
-	ExtData_                           [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                        per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                      per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_               map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                     []per.CompletePadding          `asn1:"-" json:"-"`
+	RequestedSCGERABLevelQoSParameters *ERABLevelQoSParameters    `asn1:"tag:0,context,implicit,optional" json:"RequestedSCGERABLevelQoSParameters,omitempty"`
+	MeNBULGTPTEIDatPDCP                *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"MeNBULGTPTEIDatPDCP,omitempty"`
+	ULConfiguration                    *ULConfiguration           `asn1:"tag:2,context,implicit,optional" json:"ULConfiguration,omitempty"`
+	IEExtensions                       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                 bool                       `asn1:"-" json:"-"`
+	ExtCount_                          int64                      `asn1:"-" json:"-"`
+	ExtPresent_                        []bool                     `asn1:"-" json:"-"`
+	ExtData_                           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedSgNBModReqList represents the ASN.1 type E-RABs-ToBeReleased-SgNBModReq-List (SEQUENCE_OF).
@@ -2405,50 +2152,42 @@ type ERABsToBeReleasedSgNBModReqItem struct {
 	ExtPresent_               []bool                                               `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                                             `asn1:"-" json:"-"`
 	PERPadding_               per.CompletePadding                                  `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits                                     `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding                       `asn1:"-" json:"-"`
 	PERExtPadding_            []per.CompletePadding                                `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent struct {
-	DLGTPtunnelEndpoint  *GTPtunnelEndpoint             `asn1:"tag:0,context,implicit,optional" json:"DLGTPtunnelEndpoint,omitempty"`
-	ULGTPtunnelEndpoint  *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"ULGTPtunnelEndpoint,omitempty"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	DLGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:0,context,implicit,optional" json:"DLGTPtunnelEndpoint,omitempty"`
+	ULGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"ULGTPtunnelEndpoint,omitempty"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent struct {
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SgNBModificationRequestAcknowledge represents the ASN.1 type SgNBModificationRequestAcknowledge (SEQUENCE).
 type SgNBModificationRequestAcknowledge struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeAddedSgNBModAckList represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBModAckList (SEQUENCE_OF).
@@ -2466,44 +2205,38 @@ type ERABsAdmittedToBeAddedSgNBModAckItem struct {
 	ExtPresent_               []bool                                                    `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                                                  `asn1:"-" json:"-"`
 	PERPadding_               per.CompletePadding                                       `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits                                          `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding                            `asn1:"-" json:"-"`
 	PERExtPadding_            []per.CompletePadding                                     `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent struct {
-	S1DLGTPtunnelEndpoint         GTPtunnelEndpoint              `asn1:"tag:0,context,implicit"`
-	SgNBULGTPTEIDatPDCP           *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"SgNBULGTPTEIDatPDCP,omitempty"`
-	RlcMode                       *RLCMode                       `asn1:"tag:2,context,implicit,optional" json:"RlcMode,omitempty"`
-	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:3,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
-	ULForwardingGTPtunnelEndpoint *GTPtunnelEndpoint             `asn1:"tag:4,context,implicit,optional" json:"ULForwardingGTPtunnelEndpoint,omitempty"`
-	MCGERABLevelQoSParameters     *ERABLevelQoSParameters        `asn1:"tag:5,context,implicit,optional" json:"MCGERABLevelQoSParameters,omitempty"`
-	ULConfiguration               *ULConfiguration               `asn1:"tag:6,context,implicit,optional" json:"ULConfiguration,omitempty"`
-	IEExtensions                  ProtocolExtensionContainer     `asn1:"tag:7,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_            bool                           `asn1:"-" json:"-"`
-	ExtCount_                     int64                          `asn1:"-" json:"-"`
-	ExtPresent_                   []bool                         `asn1:"-" json:"-"`
-	ExtData_                      [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                   per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                 per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_          map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                []per.CompletePadding          `asn1:"-" json:"-"`
+	S1DLGTPtunnelEndpoint         GTPtunnelEndpoint          `asn1:"tag:0,context,implicit"`
+	SgNBULGTPTEIDatPDCP           *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"SgNBULGTPTEIDatPDCP,omitempty"`
+	RlcMode                       *RLCMode                   `asn1:"tag:2,context,implicit,optional" json:"RlcMode,omitempty"`
+	DLForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:3,context,implicit,optional" json:"DLForwardingGTPtunnelEndpoint,omitempty"`
+	ULForwardingGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:4,context,implicit,optional" json:"ULForwardingGTPtunnelEndpoint,omitempty"`
+	MCGERABLevelQoSParameters     *ERABLevelQoSParameters    `asn1:"tag:5,context,implicit,optional" json:"MCGERABLevelQoSParameters,omitempty"`
+	ULConfiguration               *ULConfiguration           `asn1:"tag:6,context,implicit,optional" json:"ULConfiguration,omitempty"`
+	IEExtensions                  ProtocolExtensionContainer `asn1:"tag:7,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_            bool                       `asn1:"-" json:"-"`
+	ExtCount_                     int64                      `asn1:"-" json:"-"`
+	ExtPresent_                   []bool                     `asn1:"-" json:"-"`
+	ExtData_                      [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                   per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent struct {
-	SgNBDLGTPTEIDatSCG          GTPtunnelEndpoint              `asn1:"tag:0,context,implicit"`
-	SecondarySgNBDLGTPTEIDatSCG *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"SecondarySgNBDLGTPTEIDatSCG,omitempty"`
-	IEExtensions                ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_          bool                           `asn1:"-" json:"-"`
-	ExtCount_                   int64                          `asn1:"-" json:"-"`
-	ExtPresent_                 []bool                         `asn1:"-" json:"-"`
-	ExtData_                    [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                 per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_               per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_        map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_              []per.CompletePadding          `asn1:"-" json:"-"`
+	SgNBDLGTPTEIDatSCG          GTPtunnelEndpoint          `asn1:"tag:0,context,implicit"`
+	SecondarySgNBDLGTPTEIDatSCG *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"SecondarySgNBDLGTPTEIDatSCG,omitempty"`
+	IEExtensions                ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_          bool                       `asn1:"-" json:"-"`
+	ExtCount_                   int64                      `asn1:"-" json:"-"`
+	ExtPresent_                 []bool                     `asn1:"-" json:"-"`
+	ExtData_                    [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                 per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_              []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeModifiedSgNBModAckList represents the ASN.1 type E-RABs-Admitted-ToBeModified-SgNBModAckList (SEQUENCE_OF).
@@ -2521,40 +2254,34 @@ type ERABsAdmittedToBeModifiedSgNBModAckItem struct {
 	ExtPresent_               []bool                                                       `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                                                     `asn1:"-" json:"-"`
 	PERPadding_               per.CompletePadding                                          `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits                                             `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding                               `asn1:"-" json:"-"`
 	PERExtPadding_            []per.CompletePadding                                        `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent represents the ASN.1 type E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent struct {
-	S1DLGTPtunnelEndpoint     *GTPtunnelEndpoint             `asn1:"tag:0,context,implicit,optional" json:"S1DLGTPtunnelEndpoint,omitempty"`
-	SgNBULGTPTEIDatPDCP       *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"SgNBULGTPTEIDatPDCP,omitempty"`
-	MCGERABLevelQoSParameters *ERABLevelQoSParameters        `asn1:"tag:2,context,implicit,optional" json:"MCGERABLevelQoSParameters,omitempty"`
-	ULConfiguration           *ULConfiguration               `asn1:"tag:3,context,implicit,optional" json:"ULConfiguration,omitempty"`
-	IEExtensions              ProtocolExtensionContainer     `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_        bool                           `asn1:"-" json:"-"`
-	ExtCount_                 int64                          `asn1:"-" json:"-"`
-	ExtPresent_               []bool                         `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_               per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_            []per.CompletePadding          `asn1:"-" json:"-"`
+	S1DLGTPtunnelEndpoint     *GTPtunnelEndpoint         `asn1:"tag:0,context,implicit,optional" json:"S1DLGTPtunnelEndpoint,omitempty"`
+	SgNBULGTPTEIDatPDCP       *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"SgNBULGTPTEIDatPDCP,omitempty"`
+	MCGERABLevelQoSParameters *ERABLevelQoSParameters    `asn1:"tag:2,context,implicit,optional" json:"MCGERABLevelQoSParameters,omitempty"`
+	ULConfiguration           *ULConfiguration           `asn1:"tag:3,context,implicit,optional" json:"ULConfiguration,omitempty"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_            []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent struct {
-	SgNBDLGTPTEIDatSCG   *GTPtunnelEndpoint             `asn1:"tag:0,context,implicit,optional" json:"SgNBDLGTPTEIDatSCG,omitempty"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	SgNBDLGTPTEIDatSCG *GTPtunnelEndpoint         `asn1:"tag:0,context,implicit,optional" json:"SgNBDLGTPTEIDatSCG,omitempty"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeReleasedSgNBModAckList represents the ASN.1 type E-RABs-Admitted-ToBeReleased-SgNBModAckList (SEQUENCE_OF).
@@ -2572,61 +2299,51 @@ type ERABsAdmittedToReleasedSgNBModAckItem struct {
 	ExtPresent_               []bool                                                     `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                                                   `asn1:"-" json:"-"`
 	PERPadding_               per.CompletePadding                                        `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits                                           `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding                             `asn1:"-" json:"-"`
 	PERExtPadding_            []per.CompletePadding                                      `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent represents the ASN.1 type E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent struct {
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent struct {
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SgNBModificationRequestReject represents the ASN.1 type SgNBModificationRequestReject (SEQUENCE).
 type SgNBModificationRequestReject struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SgNBModificationRequired represents the ASN.1 type SgNBModificationRequired (SEQUENCE).
 type SgNBModificationRequired struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedSgNBModReqdList represents the ASN.1 type E-RABs-ToBeReleased-SgNBModReqdList (SEQUENCE_OF).
@@ -2635,17 +2352,15 @@ type ERABsToBeReleasedSgNBModReqdList = []ProtocolIESingleContainer
 
 // ERABsToBeReleasedSgNBModReqdItem represents the ASN.1 type E-RABs-ToBeReleased-SgNBModReqd-Item (SEQUENCE).
 type ERABsToBeReleasedSgNBModReqdItem struct {
-	ERABID               ERABID                         `asn1:"tag:0,context,implicit"`
-	Cause                Cause                          `asn1:"tag:1,context,explicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	Cause              Cause                      `asn1:"tag:1,context,explicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeModifiedSgNBModReqdList represents the ASN.1 type E-RABs-ToBeModified-SgNBModReqdList (SEQUENCE_OF).
@@ -2663,54 +2378,46 @@ type ERABsToBeModifiedSgNBModReqdItem struct {
 	ExtPresent_               []bool                                                `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                                              `asn1:"-" json:"-"`
 	PERPadding_               per.CompletePadding                                   `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits                                      `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding                        `asn1:"-" json:"-"`
 	PERExtPadding_            []per.CompletePadding                                 `asn1:"-" json:"-"`
 }
 
 // ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent struct {
-	RequestedMCGERABLevelQoSParameters *ERABLevelQoSParameters        `asn1:"tag:0,context,implicit,optional" json:"RequestedMCGERABLevelQoSParameters,omitempty"`
-	ULConfiguration                    *ULConfiguration               `asn1:"tag:1,context,implicit,optional" json:"ULConfiguration,omitempty"`
-	SgNBULGTPTEIDatPDCP                *GTPtunnelEndpoint             `asn1:"tag:2,context,implicit,optional" json:"SgNBULGTPTEIDatPDCP,omitempty"`
-	S1DLGTPTEIDatSgNB                  *GTPtunnelEndpoint             `asn1:"tag:3,context,implicit,optional" json:"S1DLGTPTEIDatSgNB,omitempty"`
-	IEExtensions                       ProtocolExtensionContainer     `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_                 bool                           `asn1:"-" json:"-"`
-	ExtCount_                          int64                          `asn1:"-" json:"-"`
-	ExtPresent_                        []bool                         `asn1:"-" json:"-"`
-	ExtData_                           [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                        per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                      per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_               map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                     []per.CompletePadding          `asn1:"-" json:"-"`
+	RequestedMCGERABLevelQoSParameters *ERABLevelQoSParameters    `asn1:"tag:0,context,implicit,optional" json:"RequestedMCGERABLevelQoSParameters,omitempty"`
+	ULConfiguration                    *ULConfiguration           `asn1:"tag:1,context,implicit,optional" json:"ULConfiguration,omitempty"`
+	SgNBULGTPTEIDatPDCP                *GTPtunnelEndpoint         `asn1:"tag:2,context,implicit,optional" json:"SgNBULGTPTEIDatPDCP,omitempty"`
+	S1DLGTPTEIDatSgNB                  *GTPtunnelEndpoint         `asn1:"tag:3,context,implicit,optional" json:"S1DLGTPTEIDatSgNB,omitempty"`
+	IEExtensions                       ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_                 bool                       `asn1:"-" json:"-"`
+	ExtCount_                          int64                      `asn1:"-" json:"-"`
+	ExtPresent_                        []bool                     `asn1:"-" json:"-"`
+	ExtData_                           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent struct {
-	SgNBDLGTPTEIDatSCG          *GTPtunnelEndpoint             `asn1:"tag:0,context,implicit,optional" json:"SgNBDLGTPTEIDatSCG,omitempty"`
-	SecondarySgNBDLGTPTEIDatSCG *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"SecondarySgNBDLGTPTEIDatSCG,omitempty"`
-	IEExtensions                ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_          bool                           `asn1:"-" json:"-"`
-	ExtCount_                   int64                          `asn1:"-" json:"-"`
-	ExtPresent_                 []bool                         `asn1:"-" json:"-"`
-	ExtData_                    [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                 per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_               per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_        map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_              []per.CompletePadding          `asn1:"-" json:"-"`
+	SgNBDLGTPTEIDatSCG          *GTPtunnelEndpoint         `asn1:"tag:0,context,implicit,optional" json:"SgNBDLGTPTEIDatSCG,omitempty"`
+	SecondarySgNBDLGTPTEIDatSCG *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"SecondarySgNBDLGTPTEIDatSCG,omitempty"`
+	IEExtensions                ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_          bool                       `asn1:"-" json:"-"`
+	ExtCount_                   int64                      `asn1:"-" json:"-"`
+	ExtPresent_                 []bool                     `asn1:"-" json:"-"`
+	ExtData_                    [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                 per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_              []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SgNBModificationConfirm represents the ASN.1 type SgNBModificationConfirm (SEQUENCE).
 type SgNBModificationConfirm struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeModifiedSgNBModConfList represents the ASN.1 type E-RABs-AdmittedToBeModified-SgNBModConfList (SEQUENCE_OF).
@@ -2728,62 +2435,52 @@ type ERABsAdmittedToBeModifiedSgNBModConfItem struct {
 	ExtPresent_               []bool                                                        `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                                                      `asn1:"-" json:"-"`
 	PERPadding_               per.CompletePadding                                           `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits                                              `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding                                `asn1:"-" json:"-"`
 	PERExtPadding_            []per.CompletePadding                                         `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent represents the ASN.1 type E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent struct {
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresent struct {
-	SecondaryMeNBULGTPTEIDatPDCP *GTPtunnelEndpoint             `asn1:"tag:0,context,implicit,optional" json:"SecondaryMeNBULGTPTEIDatPDCP,omitempty"`
-	IEExtensions                 ProtocolExtensionContainer     `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_           bool                           `asn1:"-" json:"-"`
-	ExtCount_                    int64                          `asn1:"-" json:"-"`
-	ExtPresent_                  []bool                         `asn1:"-" json:"-"`
-	ExtData_                     [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                  per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_         map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_               []per.CompletePadding          `asn1:"-" json:"-"`
+	SecondaryMeNBULGTPTEIDatPDCP *GTPtunnelEndpoint         `asn1:"tag:0,context,implicit,optional" json:"SecondaryMeNBULGTPTEIDatPDCP,omitempty"`
+	IEExtensions                 ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_           bool                       `asn1:"-" json:"-"`
+	ExtCount_                    int64                      `asn1:"-" json:"-"`
+	ExtPresent_                  []bool                     `asn1:"-" json:"-"`
+	ExtData_                     [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                  per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_               []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SgNBModificationRefuse represents the ASN.1 type SgNBModificationRefuse (SEQUENCE).
 type SgNBModificationRefuse struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SgNBReleaseRequest represents the ASN.1 type SgNBReleaseRequest (SEQUENCE).
 type SgNBReleaseRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedSgNBRelReqList represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelReqList (SEQUENCE_OF).
@@ -2801,50 +2498,42 @@ type ERABsToBeReleasedSgNBRelReqItem struct {
 	ExtPresent_               []bool                                               `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                                             `asn1:"-" json:"-"`
 	PERPadding_               per.CompletePadding                                  `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits                                     `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding                       `asn1:"-" json:"-"`
 	PERExtPadding_            []per.CompletePadding                                `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent struct {
-	ULGTPtunnelEndpoint  *GTPtunnelEndpoint             `asn1:"tag:0,context,implicit,optional" json:"ULGTPtunnelEndpoint,omitempty"`
-	DLGTPtunnelEndpoint  *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"DLGTPtunnelEndpoint,omitempty"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ULGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:0,context,implicit,optional" json:"ULGTPtunnelEndpoint,omitempty"`
+	DLGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"DLGTPtunnelEndpoint,omitempty"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent struct {
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SgNBReleaseRequestAcknowledge represents the ASN.1 type SgNBReleaseRequestAcknowledge (SEQUENCE).
 type SgNBReleaseRequestAcknowledge struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsAdmittedToBeReleasedSgNBRelReqAckList represents the ASN.1 type E-RABs-Admitted-ToBeReleased-SgNBRelReqAckList (SEQUENCE_OF).
@@ -2853,43 +2542,37 @@ type ERABsAdmittedToBeReleasedSgNBRelReqAckList = []ProtocolIESingleContainer
 
 // ERABsAdmittedToBeReleasedSgNBRelReqAckItem represents the ASN.1 type E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-Item (SEQUENCE).
 type ERABsAdmittedToBeReleasedSgNBRelReqAckItem struct {
-	ERABID               ERABID                         `asn1:"tag:0,context,implicit"`
-	RlcModeTransferred   RLCMode                        `asn1:"tag:1,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	RlcModeTransferred RLCMode                    `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SgNBReleaseRequestReject represents the ASN.1 type SgNBReleaseRequestReject (SEQUENCE).
 type SgNBReleaseRequestReject struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SgNBReleaseRequired represents the ASN.1 type SgNBReleaseRequired (SEQUENCE).
 type SgNBReleaseRequired struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedSgNBRelReqdList represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelReqdList (SEQUENCE_OF).
@@ -2898,30 +2581,26 @@ type ERABsToBeReleasedSgNBRelReqdList = []ProtocolIESingleContainer
 
 // ERABsToBeReleasedSgNBRelReqdItem represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelReqd-Item (SEQUENCE).
 type ERABsToBeReleasedSgNBRelReqdItem struct {
-	ERABID               ERABID                         `asn1:"tag:0,context,implicit"`
-	RlcModeTransferred   RLCMode                        `asn1:"tag:1,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	RlcModeTransferred RLCMode                    `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SgNBReleaseConfirm represents the ASN.1 type SgNBReleaseConfirm (SEQUENCE).
 type SgNBReleaseConfirm struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedSgNBRelConfList represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelConfList (SEQUENCE_OF).
@@ -2939,50 +2618,42 @@ type ERABsToBeReleasedSgNBRelConfItem struct {
 	ExtPresent_               []bool                                                `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                                              `asn1:"-" json:"-"`
 	PERPadding_               per.CompletePadding                                   `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits                                      `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding                        `asn1:"-" json:"-"`
 	PERExtPadding_            []per.CompletePadding                                 `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent struct {
-	ULGTPtunnelEndpoint  *GTPtunnelEndpoint             `asn1:"tag:0,context,implicit,optional" json:"ULGTPtunnelEndpoint,omitempty"`
-	DLGTPtunnelEndpoint  *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"DLGTPtunnelEndpoint,omitempty"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ULGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:0,context,implicit,optional" json:"ULGTPtunnelEndpoint,omitempty"`
+	DLGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"DLGTPtunnelEndpoint,omitempty"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent struct {
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SgNBCounterCheckRequest represents the ASN.1 type SgNBCounterCheckRequest (SEQUENCE).
 type SgNBCounterCheckRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsSubjectToSgNBCounterCheckList represents the ASN.1 type E-RABs-SubjectToSgNBCounterCheck-List (SEQUENCE_OF).
@@ -2991,57 +2662,49 @@ type ERABsSubjectToSgNBCounterCheckList = []ProtocolIESingleContainer
 
 // ERABsSubjectToSgNBCounterCheckItem represents the ASN.1 type E-RABs-SubjectToSgNBCounterCheck-Item (SEQUENCE).
 type ERABsSubjectToSgNBCounterCheckItem struct {
-	ERABID               ERABID                         `asn1:"tag:0,context,implicit"`
-	ULCount              int64                          `asn1:"tag:1,context,implicit"`
-	DLCount              int64                          `asn1:"tag:2,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID             ERABID                     `asn1:"tag:0,context,implicit"`
+	ULCount            int64                      `asn1:"tag:1,context,implicit"`
+	DLCount            int64                      `asn1:"tag:2,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SgNBChangeRequired represents the ASN.1 type SgNBChangeRequired (SEQUENCE).
 type SgNBChangeRequired struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // AccessAndMobilityIndication represents the ASN.1 type AccessAndMobilityIndication (SEQUENCE).
 type AccessAndMobilityIndication struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SgNBChangeConfirm represents the ASN.1 type SgNBChangeConfirm (SEQUENCE).
 type SgNBChangeConfirm struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedSgNBChaConfList represents the ASN.1 type E-RABs-ToBeReleased-SgNBChaConfList (SEQUENCE_OF).
@@ -3059,76 +2722,64 @@ type ERABsToBeReleasedSgNBChaConfItem struct {
 	ExtPresent_               []bool                                                `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                                              `asn1:"-" json:"-"`
 	PERPadding_               per.CompletePadding                                   `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits                                      `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding                        `asn1:"-" json:"-"`
 	PERExtPadding_            []per.CompletePadding                                 `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent struct {
-	ULGTPtunnelEndpoint  *GTPtunnelEndpoint             `asn1:"tag:0,context,implicit,optional" json:"ULGTPtunnelEndpoint,omitempty"`
-	DLGTPtunnelEndpoint  *GTPtunnelEndpoint             `asn1:"tag:1,context,implicit,optional" json:"DLGTPtunnelEndpoint,omitempty"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ULGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:0,context,implicit,optional" json:"ULGTPtunnelEndpoint,omitempty"`
+	DLGTPtunnelEndpoint *GTPtunnelEndpoint         `asn1:"tag:1,context,implicit,optional" json:"DLGTPtunnelEndpoint,omitempty"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent represents the ASN.1 type E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPnotpresent (SEQUENCE).
 type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent struct {
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:0,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // RRCTransfer represents the ASN.1 type RRCTransfer (SEQUENCE).
 type RRCTransfer struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SgNBChangeRefuse represents the ASN.1 type SgNBChangeRefuse (SEQUENCE).
 type SgNBChangeRefuse struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENDCX2SetupRequest represents the ASN.1 type ENDCX2SetupRequest (SEQUENCE).
 type ENDCX2SetupRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // InitiatingNodeTypeEndcX2Setup choice constants.
@@ -3141,7 +2792,6 @@ const (
 type InitiatingNodeTypeEndcX2Setup struct {
 	Choice              int
 	PERPadding_         per.CompletePadding         `json:"-"`
-	PERExtraBits_       per.TrailingBits            `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	InitENB             ProtocolIEContainer         `json:"InitENB,omitempty"`
@@ -3188,56 +2838,48 @@ type ServedNRCellInformation struct {
 	ExtPresent_                    []bool                            `asn1:"-" json:"-"`
 	ExtData_                       [][]byte                          `asn1:"-" json:"-"`
 	PERPadding_                    per.CompletePadding               `asn1:"-" json:"-"`
-	PERExtraBits_                  per.TrailingBits                  `asn1:"-" json:"-"`
-	PERContainedPadding_           map[string]per.CompletePadding    `asn1:"-" json:"-"`
 	PERExtPadding_                 []per.CompletePadding             `asn1:"-" json:"-"`
 }
 
 // FDDInfoServedNRCellInformation represents the ASN.1 type FDD-InfoServedNRCell-Information (SEQUENCE).
 type FDDInfoServedNRCellInformation struct {
-	UlNRFreqInfo         NRFreqInfo                     `asn1:"tag:0,context,implicit"`
-	DlNRFreqInfo         NRFreqInfo                     `asn1:"tag:1,context,implicit"`
-	UlNRTxBW             NRTxBW                         `asn1:"tag:2,context,implicit"`
-	DlNRTxBW             NRTxBW                         `asn1:"tag:3,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	UlNRFreqInfo       NRFreqInfo                 `asn1:"tag:0,context,implicit"`
+	DlNRFreqInfo       NRFreqInfo                 `asn1:"tag:1,context,implicit"`
+	UlNRTxBW           NRTxBW                     `asn1:"tag:2,context,implicit"`
+	DlNRTxBW           NRTxBW                     `asn1:"tag:3,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // TDDInfoServedNRCellInformation represents the ASN.1 type TDD-InfoServedNRCell-Information (SEQUENCE).
 type TDDInfoServedNRCellInformation struct {
-	NRFreqInfo           NRFreqInfo                     `asn1:"tag:0,context,implicit"`
-	NRTxBW               NRTxBW                         `asn1:"tag:1,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	NRFreqInfo         NRFreqInfo                 `asn1:"tag:0,context,implicit"`
+	NRTxBW             NRTxBW                     `asn1:"tag:1,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CellandCapacityAssistInfo represents the ASN.1 type CellandCapacityAssistInfo (SEQUENCE).
 type CellandCapacityAssistInfo struct {
-	MaximumCellListSize       MaximumCellListSize            `asn1:"tag:0,context,implicit,optional" json:"MaximumCellListSize,omitempty"`
-	CellAssistanceInformation *CellAssistanceInformation     `asn1:"tag:1,context,explicit,optional" json:"CellAssistanceInformation,omitempty"`
-	IEExtensions              ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_        bool                           `asn1:"-" json:"-"`
-	ExtCount_                 int64                          `asn1:"-" json:"-"`
-	ExtPresent_               []bool                         `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_               per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_            []per.CompletePadding          `asn1:"-" json:"-"`
+	MaximumCellListSize       MaximumCellListSize        `asn1:"tag:0,context,implicit,optional" json:"MaximumCellListSize,omitempty"`
+	CellAssistanceInformation *CellAssistanceInformation `asn1:"tag:1,context,explicit,optional" json:"CellAssistanceInformation,omitempty"`
+	IEExtensions              ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_            []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CellAssistanceInformation choice constants.
@@ -3250,7 +2892,6 @@ const (
 type CellAssistanceInformation struct {
 	Choice              int
 	PERPadding_         per.CompletePadding         `json:"-"`
-	PERExtraBits_       per.TrailingBits            `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	LimitedList         LimitedList                 `json:"LimitedList,omitempty"`
@@ -3279,15 +2920,13 @@ type LimitedList = []LimitedListElem
 
 // ENDCX2SetupResponse represents the ASN.1 type ENDCX2SetupResponse (SEQUENCE).
 type ENDCX2SetupResponse struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // RespondingNodeTypeEndcX2Setup choice constants.
@@ -3300,7 +2939,6 @@ const (
 type RespondingNodeTypeEndcX2Setup struct {
 	Choice              int
 	PERPadding_         per.CompletePadding         `json:"-"`
-	PERExtraBits_       per.TrailingBits            `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	RespondENB          ProtocolIEContainer         `json:"RespondENB,omitempty"`
@@ -3325,28 +2963,24 @@ func NewRespondingNodeTypeEndcX2SetupRespondEnGNB(v ProtocolIEContainer) Respond
 
 // ENDCX2SetupFailure represents the ASN.1 type ENDCX2SetupFailure (SEQUENCE).
 type ENDCX2SetupFailure struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENDCConfigurationUpdate represents the ASN.1 type ENDCConfigurationUpdate (SEQUENCE).
 type ENDCConfigurationUpdate struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // InitiatingNodeTypeEndcConfigUpdate choice constants.
@@ -3359,7 +2993,6 @@ const (
 type InitiatingNodeTypeEndcConfigUpdate struct {
 	Choice              int
 	PERPadding_         per.CompletePadding         `json:"-"`
-	PERExtraBits_       per.TrailingBits            `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	InitENB             ProtocolIEContainer         `json:"InitENB,omitempty"`
@@ -3396,20 +3029,18 @@ type ServedNRcellsToModifyENDCConfUpdList = []ServedNRCellsToModifyItem
 
 // ServedNRCellsToModifyItem represents the ASN.1 type ServedNRCellsToModify-Item (SEQUENCE).
 type ServedNRCellsToModifyItem struct {
-	OldNrcgi                     NRCGI                          `asn1:"tag:0,context,implicit"`
-	ServedNRCellInformation      ServedNRCellInformation        `asn1:"tag:1,context,implicit"`
-	NrNeighbourInformation       NRNeighbourInformation         `asn1:"tag:2,context,implicit,optional" json:"NrNeighbourInformation,omitempty"`
-	NrNeighbourInformationIndef_ bool                           `asn1:"-" json:"-"`
-	NrDeactivationIndication     *DeactivationIndication        `asn1:"tag:3,context,implicit,optional" json:"NrDeactivationIndication,omitempty"`
-	IEExtensions                 ProtocolExtensionContainer     `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_           bool                           `asn1:"-" json:"-"`
-	ExtCount_                    int64                          `asn1:"-" json:"-"`
-	ExtPresent_                  []bool                         `asn1:"-" json:"-"`
-	ExtData_                     [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                  per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_         map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_               []per.CompletePadding          `asn1:"-" json:"-"`
+	OldNrcgi                     NRCGI                      `asn1:"tag:0,context,implicit"`
+	ServedNRCellInformation      ServedNRCellInformation    `asn1:"tag:1,context,implicit"`
+	NrNeighbourInformation       NRNeighbourInformation     `asn1:"tag:2,context,implicit,optional" json:"NrNeighbourInformation,omitempty"`
+	NrNeighbourInformationIndef_ bool                       `asn1:"-" json:"-"`
+	NrDeactivationIndication     *DeactivationIndication    `asn1:"tag:3,context,implicit,optional" json:"NrDeactivationIndication,omitempty"`
+	IEExtensions                 ProtocolExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_           bool                       `asn1:"-" json:"-"`
+	ExtCount_                    int64                      `asn1:"-" json:"-"`
+	ExtPresent_                  []bool                     `asn1:"-" json:"-"`
+	ExtData_                     [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                  per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_               []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ServedNRcellsToDeleteENDCConfUpdList represents the ASN.1 type ServedNRcellsToDeleteENDCConfUpdList (SEQUENCE_OF).
@@ -3418,15 +3049,13 @@ type ServedNRcellsToDeleteENDCConfUpdList = []NRCGI
 
 // ENDCConfigurationUpdateAcknowledge represents the ASN.1 type ENDCConfigurationUpdateAcknowledge (SEQUENCE).
 type ENDCConfigurationUpdateAcknowledge struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // RespondingNodeTypeEndcConfigUpdate choice constants.
@@ -3439,7 +3068,6 @@ const (
 type RespondingNodeTypeEndcConfigUpdate struct {
 	Choice              int
 	PERPadding_         per.CompletePadding         `json:"-"`
-	PERExtraBits_       per.TrailingBits            `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	RespondENB          ProtocolIEContainer         `json:"RespondENB,omitempty"`
@@ -3464,28 +3092,24 @@ func NewRespondingNodeTypeEndcConfigUpdateRespondEnGNB(v ProtocolIEContainer) Re
 
 // ENDCConfigurationUpdateFailure represents the ASN.1 type ENDCConfigurationUpdateFailure (SEQUENCE).
 type ENDCConfigurationUpdateFailure struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENDCCellActivationRequest represents the ASN.1 type ENDCCellActivationRequest (SEQUENCE).
 type ENDCCellActivationRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ServedNRCellsToActivate represents the ASN.1 type ServedNRCellsToActivate (SEQUENCE_OF).
@@ -3494,29 +3118,25 @@ type ServedNRCellsToActivate = []ServedNRCellsToActivateItem
 
 // ServedNRCellsToActivateItem represents the ASN.1 type ServedNRCellsToActivate-Item (SEQUENCE).
 type ServedNRCellsToActivateItem struct {
-	NrCellID             NRCGI                          `asn1:"tag:0,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	NrCellID           NRCGI                      `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ENDCCellActivationResponse represents the ASN.1 type ENDCCellActivationResponse (SEQUENCE).
 type ENDCCellActivationResponse struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ActivatedNRCellList represents the ASN.1 type ActivatedNRCellList (SEQUENCE_OF).
@@ -3525,42 +3145,36 @@ type ActivatedNRCellList = []ActivatedNRCellListItem
 
 // ActivatedNRCellListItem represents the ASN.1 type ActivatedNRCellList-Item (SEQUENCE).
 type ActivatedNRCellListItem struct {
-	NrCellID             NRCGI                          `asn1:"tag:0,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	NrCellID           NRCGI                      `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ENDCCellActivationFailure represents the ASN.1 type ENDCCellActivationFailure (SEQUENCE).
 type ENDCCellActivationFailure struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENDCResourceStatusRequest represents the ASN.1 type ENDCResourceStatusRequest (SEQUENCE).
 type ENDCResourceStatusRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ReportingPeriodicityENDC represents the ASN.1 ENUMERATED type ReportingPeriodicity-ENDC.
@@ -3597,18 +3211,16 @@ type CellToReportNRENDCList = []ProtocolIESingleContainer
 
 // CellToReportNRENDCItem represents the ASN.1 type CellToReport-NR-ENDC-Item (SEQUENCE).
 type CellToReportNRENDCItem struct {
-	NrCellID              NRCGI                          `asn1:"tag:0,context,implicit"`
-	SsbToReportList       SSBToReportList                `asn1:"tag:1,context,implicit,optional" json:"SsbToReportList,omitempty"`
-	SsbToReportListIndef_ bool                           `asn1:"-" json:"-"`
-	IEExtensions          ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_             int64                          `asn1:"-" json:"-"`
-	ExtPresent_           []bool                         `asn1:"-" json:"-"`
-	ExtData_              [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_           per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_         per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_  map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_        []per.CompletePadding          `asn1:"-" json:"-"`
+	NrCellID              NRCGI                      `asn1:"tag:0,context,implicit"`
+	SsbToReportList       SSBToReportList            `asn1:"tag:1,context,implicit,optional" json:"SsbToReportList,omitempty"`
+	SsbToReportListIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CellToReportEUTRAENDCList represents the ASN.1 type CellToReport-E-UTRA-ENDC-List (SEQUENCE_OF).
@@ -3617,16 +3229,14 @@ type CellToReportEUTRAENDCList = []ProtocolIESingleContainer
 
 // CellToReportEUTRAENDCItem represents the ASN.1 type CellToReport-E-UTRA-ENDC-Item (SEQUENCE).
 type CellToReportEUTRAENDCItem struct {
-	EUtraCellID          ECGI                           `asn1:"tag:0,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	EUtraCellID        ECGI                       `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SSBToReportList represents the ASN.1 type SSBToReport-List (SEQUENCE_OF).
@@ -3635,55 +3245,47 @@ type SSBToReportList = []SSBToReportItem
 
 // SSBToReportItem represents the ASN.1 type SSBToReport-Item (SEQUENCE).
 type SSBToReportItem struct {
-	SsbIndex             SSBIndex                       `asn1:"tag:0,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	SsbIndex           SSBIndex                   `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ENDCResourceStatusResponse represents the ASN.1 type ENDCResourceStatusResponse (SEQUENCE).
 type ENDCResourceStatusResponse struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENDCResourceStatusFailure represents the ASN.1 type ENDCResourceStatusFailure (SEQUENCE).
 type ENDCResourceStatusFailure struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENDCResourceStatusUpdate represents the ASN.1 type ENDCResourceStatusUpdate (SEQUENCE).
 type ENDCResourceStatusUpdate struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellMeasurementResultNRENDCList represents the ASN.1 type CellMeasurementResult-NR-ENDC-List (SEQUENCE_OF).
@@ -3703,8 +3305,6 @@ type CellMeasurementResultNRENDCItem struct {
 	ExtPresent_                       []bool                             `asn1:"-" json:"-"`
 	ExtData_                          [][]byte                           `asn1:"-" json:"-"`
 	PERPadding_                       per.CompletePadding                `asn1:"-" json:"-"`
-	PERExtraBits_                     per.TrailingBits                   `asn1:"-" json:"-"`
-	PERContainedPadding_              map[string]per.CompletePadding     `asn1:"-" json:"-"`
 	PERExtPadding_                    []per.CompletePadding              `asn1:"-" json:"-"`
 }
 
@@ -3725,74 +3325,62 @@ type CellMeasurementResultEUTRAENDCItem struct {
 	ExtPresent_                     []bool                           `asn1:"-" json:"-"`
 	ExtData_                        [][]byte                         `asn1:"-" json:"-"`
 	PERPadding_                     per.CompletePadding              `asn1:"-" json:"-"`
-	PERExtraBits_                   per.TrailingBits                 `asn1:"-" json:"-"`
-	PERContainedPadding_            map[string]per.CompletePadding   `asn1:"-" json:"-"`
 	PERExtPadding_                  []per.CompletePadding            `asn1:"-" json:"-"`
 }
 
 // SecondaryRATDataUsageReport represents the ASN.1 type SecondaryRATDataUsageReport (SEQUENCE).
 type SecondaryRATDataUsageReport struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SgNBActivityNotification represents the ASN.1 type SgNBActivityNotification (SEQUENCE).
 type SgNBActivityNotification struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENDCPartialResetRequired represents the ASN.1 type ENDCPartialResetRequired (SEQUENCE).
 type ENDCPartialResetRequired struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENDCPartialResetConfirm represents the ASN.1 type ENDCPartialResetConfirm (SEQUENCE).
 type ENDCPartialResetConfirm struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // EUTRANRCellResourceCoordinationRequest represents the ASN.1 type EUTRANRCellResourceCoordinationRequest (SEQUENCE).
 type EUTRANRCellResourceCoordinationRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // InitiatingNodeTypeEutranrCellResourceCoordination choice constants.
@@ -3805,7 +3393,6 @@ const (
 type InitiatingNodeTypeEutranrCellResourceCoordination struct {
 	Choice              int
 	PERPadding_         per.CompletePadding         `json:"-"`
-	PERExtraBits_       per.TrailingBits            `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	InitiateENB         ProtocolIEContainer         `json:"InitiateENB,omitempty"`
@@ -3842,15 +3429,13 @@ type ListofNRCellsinNRCoordinationReq = []NRCGI
 
 // EUTRANRCellResourceCoordinationResponse represents the ASN.1 type EUTRANRCellResourceCoordinationResponse (SEQUENCE).
 type EUTRANRCellResourceCoordinationResponse struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // RespondingNodeTypeEutranrCellResourceCoordination choice constants.
@@ -3863,7 +3448,6 @@ const (
 type RespondingNodeTypeEutranrCellResourceCoordination struct {
 	Choice              int
 	PERPadding_         per.CompletePadding         `json:"-"`
-	PERExtraBits_       per.TrailingBits            `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	RespondENB          ProtocolIEContainer         `json:"RespondENB,omitempty"`
@@ -3896,15 +3480,13 @@ type ListofNRCellsinNRCoordinationResp = []NRCGI
 
 // ENDCX2RemovalRequest represents the ASN.1 type ENDCX2RemovalRequest (SEQUENCE).
 type ENDCX2RemovalRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // InitiatingNodeTypeEndcX2Removal choice constants.
@@ -3917,7 +3499,6 @@ const (
 type InitiatingNodeTypeEndcX2Removal struct {
 	Choice              int
 	PERPadding_         per.CompletePadding         `json:"-"`
-	PERExtraBits_       per.TrailingBits            `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	InitENB             ProtocolIEContainer         `json:"InitENB,omitempty"`
@@ -3942,15 +3523,13 @@ func NewInitiatingNodeTypeEndcX2RemovalInitEnGNB(v ProtocolIEContainer) Initiati
 
 // ENDCX2RemovalResponse represents the ASN.1 type ENDCX2RemovalResponse (SEQUENCE).
 type ENDCX2RemovalResponse struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // RespondingNodeTypeEndcX2Removal choice constants.
@@ -3963,7 +3542,6 @@ const (
 type RespondingNodeTypeEndcX2Removal struct {
 	Choice              int
 	PERPadding_         per.CompletePadding         `json:"-"`
-	PERExtraBits_       per.TrailingBits            `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	RespondENB          ProtocolIEContainer         `json:"RespondENB,omitempty"`
@@ -3988,28 +3566,24 @@ func NewRespondingNodeTypeEndcX2RemovalRespondEnGNB(v ProtocolIEContainer) Respo
 
 // ENDCX2RemovalFailure represents the ASN.1 type ENDCX2RemovalFailure (SEQUENCE).
 type ENDCX2RemovalFailure struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // DataForwardingAddressIndication represents the ASN.1 type DataForwardingAddressIndication (SEQUENCE).
 type DataForwardingAddressIndication struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsDataForwardingAddressList represents the ASN.1 type E-RABs-DataForwardingAddress-List (SEQUENCE_OF).
@@ -4018,173 +3592,147 @@ type ERABsDataForwardingAddressList = []ProtocolIESingleContainer
 
 // ERABsDataForwardingAddressItem represents the ASN.1 type E-RABs-DataForwardingAddress-Item (SEQUENCE).
 type ERABsDataForwardingAddressItem struct {
-	ERABID               ERABID                         `asn1:"tag:0,context,implicit"`
-	DlGTPtunnelEndpoint  GTPtunnelEndpoint              `asn1:"tag:1,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ERABID              ERABID                     `asn1:"tag:0,context,implicit"`
+	DlGTPtunnelEndpoint GTPtunnelEndpoint          `asn1:"tag:1,context,implicit"`
+	IEExtensions        ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_  bool                       `asn1:"-" json:"-"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // GNBStatusIndication represents the ASN.1 type GNBStatusIndication (SEQUENCE).
 type GNBStatusIndication struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENDCConfigurationTransfer represents the ASN.1 type ENDCConfigurationTransfer (SEQUENCE).
 type ENDCConfigurationTransfer struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // TraceStart represents the ASN.1 type TraceStart (SEQUENCE).
 type TraceStart struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // DeactivateTrace represents the ASN.1 type DeactivateTrace (SEQUENCE).
 type DeactivateTrace struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellTrafficTrace represents the ASN.1 type CellTrafficTrace (SEQUENCE).
 type CellTrafficTrace struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // F1CTrafficTransfer represents the ASN.1 type F1CTrafficTransfer (SEQUENCE).
 type F1CTrafficTransfer struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UERadioCapabilityIDMappingRequest represents the ASN.1 type UERadioCapabilityIDMappingRequest (SEQUENCE).
 type UERadioCapabilityIDMappingRequest struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UERadioCapabilityIDMappingResponse represents the ASN.1 type UERadioCapabilityIDMappingResponse (SEQUENCE).
 type UERadioCapabilityIDMappingResponse struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CPCCancel represents the ASN.1 type CPC-cancel (SEQUENCE).
 type CPCCancel struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // RachIndication represents the ASN.1 type RachIndication (SEQUENCE).
 type RachIndication struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SCGFailureInformationReport represents the ASN.1 type SCGFailureInformationReport (SEQUENCE).
 type SCGFailureInformationReport struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SCGFailureTransfer represents the ASN.1 type SCGFailureTransfer (SEQUENCE).
 type SCGFailureTransfer struct {
-	ProtocolIEs          ProtocolIEContainer            `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABsToBeAddedSgNBAddReqItemResourceConfiguration choice constants.
@@ -4197,7 +3745,6 @@ const (
 type ERABsToBeAddedSgNBAddReqItemResourceConfiguration struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                             `json:"-"`
-	PERExtraBits_       per.TrailingBits                                `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                             `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                     `json:"UnknownExtension,omitempty"`
 	SgNBPDCPpresent     *ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -4230,7 +3777,6 @@ const (
 type ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfiguration struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                                        `json:"-"`
-	PERExtraBits_       per.TrailingBits                                           `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                                        `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                                `json:"UnknownExtension,omitempty"`
 	SgNBPDCPpresent     *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -4263,7 +3809,6 @@ const (
 type ERABsToBeAddedSgNBModReqItemResourceConfiguration struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                             `json:"-"`
-	PERExtraBits_       per.TrailingBits                                `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                             `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                     `json:"UnknownExtension,omitempty"`
 	SgNBPDCPpresent     *ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -4296,7 +3841,6 @@ const (
 type ERABsToBeModifiedSgNBModReqItemResourceConfiguration struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                                `json:"-"`
-	PERExtraBits_       per.TrailingBits                                   `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                                `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                        `json:"UnknownExtension,omitempty"`
 	SgNBPDCPpresent     *ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -4329,7 +3873,6 @@ const (
 type ERABsToBeReleasedSgNBModReqItemResourceConfiguration struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                                `json:"-"`
-	PERExtraBits_       per.TrailingBits                                   `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                                `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                        `json:"UnknownExtension,omitempty"`
 	SgNBPDCPpresent     *ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -4362,7 +3905,6 @@ const (
 type ERABsAdmittedToBeAddedSgNBModAckItemResourceConfiguration struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                                     `json:"-"`
-	PERExtraBits_       per.TrailingBits                                        `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                                     `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                             `json:"UnknownExtension,omitempty"`
 	SgNBPDCPpresent     *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -4395,7 +3937,6 @@ const (
 type ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfiguration struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                                        `json:"-"`
-	PERExtraBits_       per.TrailingBits                                           `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                                        `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                                `json:"UnknownExtension,omitempty"`
 	SgNBPDCPpresent     *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -4428,7 +3969,6 @@ const (
 type ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                                        `json:"-"`
-	PERExtraBits_       per.TrailingBits                                           `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                                        `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                                `json:"UnknownExtension,omitempty"`
 	SgNBPDCPpresent     *ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -4461,7 +4001,6 @@ const (
 type ERABsToBeModifiedSgNBModReqdItemResourceConfiguration struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                                 `json:"-"`
-	PERExtraBits_       per.TrailingBits                                    `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                                 `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                         `json:"UnknownExtension,omitempty"`
 	SgNBPDCPpresent     *ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -4494,7 +4033,6 @@ const (
 type ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfiguration struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                                         `json:"-"`
-	PERExtraBits_       per.TrailingBits                                            `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                                         `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                                 `json:"UnknownExtension,omitempty"`
 	SgNBPDCPpresent     *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -4527,7 +4065,6 @@ const (
 type ERABsToBeReleasedSgNBRelReqItemResourceConfiguration struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                                `json:"-"`
-	PERExtraBits_       per.TrailingBits                                   `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                                `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                        `json:"UnknownExtension,omitempty"`
 	SgNBPDCPpresent     *ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -4560,7 +4097,6 @@ const (
 type ERABsToBeReleasedSgNBRelConfItemResourceConfiguration struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                                 `json:"-"`
-	PERExtraBits_       per.TrailingBits                                    `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                                 `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                         `json:"UnknownExtension,omitempty"`
 	SgNBPDCPpresent     *ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -4593,7 +4129,6 @@ const (
 type ERABsToBeReleasedSgNBChaConfItemResourceConfiguration struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                                 `json:"-"`
-	PERExtraBits_       per.TrailingBits                                    `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                                 `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                         `json:"UnknownExtension,omitempty"`
 	SgNBPDCPpresent     *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent    `json:"SgNBPDCPpresent,omitempty"`
@@ -4618,34 +4153,30 @@ func NewERABsToBeReleasedSgNBChaConfItemResourceConfigurationSgNBPDCPnotpresent(
 
 // ServedEUTRAcellsENDCX2ManagementListElem represents the ASN.1 type ServedEUTRAcellsENDCX2ManagementList-Elem (SEQUENCE).
 type ServedEUTRAcellsENDCX2ManagementListElem struct {
-	ServedEUTRACellInfo   ServedCellInformation          `asn1:"tag:0,context,implicit"`
-	NrNeighbourInfo       NRNeighbourInformation         `asn1:"tag:1,context,implicit,optional" json:"NrNeighbourInfo,omitempty"`
-	NrNeighbourInfoIndef_ bool                           `asn1:"-" json:"-"`
-	IEExtensions          ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_             int64                          `asn1:"-" json:"-"`
-	ExtPresent_           []bool                         `asn1:"-" json:"-"`
-	ExtData_              [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_           per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_         per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_  map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_        []per.CompletePadding          `asn1:"-" json:"-"`
+	ServedEUTRACellInfo   ServedCellInformation      `asn1:"tag:0,context,implicit"`
+	NrNeighbourInfo       NRNeighbourInformation     `asn1:"tag:1,context,implicit,optional" json:"NrNeighbourInfo,omitempty"`
+	NrNeighbourInfoIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ServedNRcellsENDCX2ManagementListElem represents the ASN.1 type ServedNRcellsENDCX2ManagementList-Elem (SEQUENCE).
 type ServedNRcellsENDCX2ManagementListElem struct {
-	ServedNRCellInfo      ServedNRCellInformation        `asn1:"tag:0,context,implicit"`
-	NRNeighbourInfo       NRNeighbourInformation         `asn1:"tag:1,context,implicit,optional" json:"NRNeighbourInfo,omitempty"`
-	NRNeighbourInfoIndef_ bool                           `asn1:"-" json:"-"`
-	IEExtensions          ProtocolExtensionContainer     `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_             int64                          `asn1:"-" json:"-"`
-	ExtPresent_           []bool                         `asn1:"-" json:"-"`
-	ExtData_              [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_           per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_         per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_  map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_        []per.CompletePadding          `asn1:"-" json:"-"`
+	ServedNRCellInfo      ServedNRCellInformation    `asn1:"tag:0,context,implicit"`
+	NRNeighbourInfo       NRNeighbourInformation     `asn1:"tag:1,context,implicit,optional" json:"NRNeighbourInfo,omitempty"`
+	NRNeighbourInfoIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ServedNRCellInformationNrModeInfo choice constants.
@@ -4658,7 +4189,6 @@ const (
 type ServedNRCellInformationNrModeInfo struct {
 	Choice              int
 	PERPadding_         per.CompletePadding             `json:"-"`
-	PERExtraBits_       per.TrailingBits                `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding             `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension     `json:"UnknownExtension,omitempty"`
 	Fdd                 *FDDInfoServedNRCellInformation `json:"Fdd,omitempty"`
@@ -4683,33 +4213,29 @@ func NewServedNRCellInformationNrModeInfoTdd(v TDDInfoServedNRCellInformation) S
 
 // LimitedListElem represents the ASN.1 type Limited-list-Elem (SEQUENCE).
 type LimitedListElem struct {
-	NrCellID             NRCGI                          `asn1:"tag:0,context,implicit"`
-	IEExtensions         ProtocolExtensionContainer     `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	NrCellID           NRCGI                      `asn1:"tag:0,context,implicit"`
+	IEExtensions       ProtocolExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ServedEUTRAcellsToModifyListENDCConfUpdElem represents the ASN.1 type ServedEUTRAcellsToModifyListENDCConfUpd-Elem (SEQUENCE).
 type ServedEUTRAcellsToModifyListENDCConfUpdElem struct {
-	OldECGI               ECGI                           `asn1:"tag:0,context,implicit"`
-	ServedEUTRACellInfo   ServedCellInformation          `asn1:"tag:1,context,implicit"`
-	NrNeighbourInfo       NRNeighbourInformation         `asn1:"tag:2,context,implicit,optional" json:"NrNeighbourInfo,omitempty"`
-	NrNeighbourInfoIndef_ bool                           `asn1:"-" json:"-"`
-	IEExtensions          ProtocolExtensionContainer     `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
-	IEExtensionsIndef_    bool                           `asn1:"-" json:"-"`
-	ExtCount_             int64                          `asn1:"-" json:"-"`
-	ExtPresent_           []bool                         `asn1:"-" json:"-"`
-	ExtData_              [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_           per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_         per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_  map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_        []per.CompletePadding          `asn1:"-" json:"-"`
+	OldECGI               ECGI                       `asn1:"tag:0,context,implicit"`
+	ServedEUTRACellInfo   ServedCellInformation      `asn1:"tag:1,context,implicit"`
+	NrNeighbourInfo       NRNeighbourInformation     `asn1:"tag:2,context,implicit,optional" json:"NrNeighbourInfo,omitempty"`
+	NrNeighbourInfoIndef_ bool                       `asn1:"-" json:"-"`
+	IEExtensions          ProtocolExtensionContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitempty"`
+	IEExtensionsIndef_    bool                       `asn1:"-" json:"-"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // MarshalAPER encodes HandoverRequest to APER format.

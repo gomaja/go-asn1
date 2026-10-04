@@ -21,22 +21,18 @@ type ProtocolIEContainer = []ProtocolIEField
 
 // ProtocolIESingleContainer represents the ASN.1 type ProtocolIE-Single-Container (SEQUENCE).
 type ProtocolIESingleContainer struct {
-	Id                   ProtocolIEID                   `asn1:"tag:0,context,implicit"`
-	Criticality          Criticality                    `asn1:"tag:1,context,implicit"`
-	Value                runtime.RawValue               `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
+	Id          ProtocolIEID        `asn1:"tag:0,context,implicit"`
+	Criticality Criticality         `asn1:"tag:1,context,implicit"`
+	Value       runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ProtocolIEField represents the ASN.1 type ProtocolIE-Field (SEQUENCE).
 type ProtocolIEField struct {
-	Id                   ProtocolIEID                   `asn1:"tag:0,context,implicit"`
-	Criticality          Criticality                    `asn1:"tag:1,context,implicit"`
-	Value                runtime.RawValue               `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
+	Id          ProtocolIEID        `asn1:"tag:0,context,implicit"`
+	Criticality Criticality         `asn1:"tag:1,context,implicit"`
+	Value       runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ProtocolIEContainerPair represents the ASN.1 type ProtocolIE-ContainerPair (SEQUENCE_OF).
@@ -45,14 +41,12 @@ type ProtocolIEContainerPair = []ProtocolIEFieldPair
 
 // ProtocolIEFieldPair represents the ASN.1 type ProtocolIE-FieldPair (SEQUENCE).
 type ProtocolIEFieldPair struct {
-	Id                   ProtocolIEID                   `asn1:"tag:0,context,implicit"`
-	FirstCriticality     Criticality                    `asn1:"tag:1,context,implicit"`
-	FirstValue           runtime.RawValue               `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
-	SecondCriticality    Criticality                    `asn1:"tag:3,context,implicit"`
-	SecondValue          runtime.RawValue               `asn1:"tag:4,context,explicit" asn1c:"raw-preserve"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
+	Id                ProtocolIEID        `asn1:"tag:0,context,implicit"`
+	FirstCriticality  Criticality         `asn1:"tag:1,context,implicit"`
+	FirstValue        runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	SecondCriticality Criticality         `asn1:"tag:3,context,implicit"`
+	SecondValue       runtime.RawValue    `asn1:"tag:4,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_       per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ProtocolIEContainerList represents the ASN.1 type ProtocolIE-ContainerList (SEQUENCE_OF).
@@ -69,12 +63,10 @@ type ProtocolExtensionContainer = []ProtocolExtensionField
 
 // ProtocolExtensionField represents the ASN.1 type ProtocolExtensionField (SEQUENCE).
 type ProtocolExtensionField struct {
-	Id                   ProtocolIEID                   `asn1:"tag:0,context,implicit"`
-	Criticality          Criticality                    `asn1:"tag:1,context,implicit"`
-	ExtensionValue       runtime.RawValue               `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
+	Id             ProtocolIEID        `asn1:"tag:0,context,implicit"`
+	Criticality    Criticality         `asn1:"tag:1,context,implicit"`
+	ExtensionValue runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_    per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // PrivateIEContainer represents the ASN.1 type PrivateIE-Container (SEQUENCE_OF).
@@ -83,12 +75,10 @@ type PrivateIEContainer = []PrivateIEField
 
 // PrivateIEField represents the ASN.1 type PrivateIE-Field (SEQUENCE).
 type PrivateIEField struct {
-	Id                   PrivateIEID                    `asn1:"tag:0,context,explicit"`
-	Criticality          Criticality                    `asn1:"tag:1,context,implicit"`
-	Value                runtime.RawValue               `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
+	Id          PrivateIEID         `asn1:"tag:0,context,explicit"`
+	Criticality Criticality         `asn1:"tag:1,context,implicit"`
+	Value       runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 type asn1cAPERProtocolIEContainerListValue struct{ Value ProtocolIEContainer }

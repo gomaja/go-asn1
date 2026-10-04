@@ -4070,12 +4070,13 @@ func (v *MSUpdateLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: MSUpdateLocationArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSUpdateLocationArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -4131,7 +4132,11 @@ func (v *MSUpdateLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if decodedTag_mscnumber.Class != tag.ClassContextSpecific || decodedTag_mscnumber.Number != 1 {
 		return fmt.Errorf("decoding msc-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mscnumber)
 	}
-	v.MscNumber = CommonDataTypesISDNAddressString(rawVal_mscnumber)
+	decVal_mscnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_mscnumber.Constructed, rawVal_mscnumber, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding msc-Number: %w", octetErr)
+	}
+	v.MscNumber = CommonDataTypesISDNAddressString(decVal_mscnumber)
 	if offset < 0 || offset >
 		len(content) || n_mscnumber < 0 || n_mscnumber > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -4185,7 +4190,11 @@ func (v *MSUpdateLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if decodedTag_lmsi.Class != tag.ClassContextSpecific || decodedTag_lmsi.Number != 10 {
 					return fmt.Errorf("decoding lmsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lmsi)
 				}
-				tmp_lmsi := CommonDataTypesLMSI(rawVal_lmsi)
+				decVal_lmsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_lmsi.Constructed, rawVal_lmsi, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding lmsi: %w", octetErr)
+				}
+				tmp_lmsi := CommonDataTypesLMSI(decVal_lmsi)
 				v.Lmsi = &tmp_lmsi
 				if offset < 0 || offset >
 					len(content) || n_lmsi < 0 || n_lmsi > len(content[offset:]) {
@@ -4326,7 +4335,11 @@ func (v *MSUpdateLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if decodedTag_vgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_vgmlcaddress.Number != 2 {
 					return fmt.Errorf("decoding v-gmlc-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_vgmlcaddress)
 				}
-				tmp_vgmlcaddress := MSGSNAddress(rawVal_vgmlcaddress)
+				decVal_vgmlcaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_vgmlcaddress.Constructed, rawVal_vgmlcaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding v-gmlc-Address: %w", octetErr)
+				}
+				tmp_vgmlcaddress := MSGSNAddress(decVal_vgmlcaddress)
 				v.VGmlcAddress = &tmp_vgmlcaddress
 				if offset < 0 || offset >
 					len(content) || n_vgmlcaddress < 0 || n_vgmlcaddress > len(content[offset:]) {
@@ -4420,7 +4433,10 @@ func (v *MSVLRCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4489,7 +4505,10 @@ func (v *MSVLRCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedLCSCapabilitySets.Bytes, v.SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedLCS-CapabilitySets", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4510,7 +4529,10 @@ func (v *MSVLRCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4531,7 +4553,10 @@ func (v *MSVLRCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedRATTypesIndicator.Bytes, v.SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedRAT-TypesIndicator", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4580,7 +4605,13 @@ func (v *MSVLRCapability) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4649,7 +4680,13 @@ func (v *MSVLRCapability) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedLCSCapabilitySets.Bytes, v.SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedLCS-CapabilitySets", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.SupportedLCSCapabilitySets.Bytes, v.SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedLCS-CapabilitySets", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4670,7 +4707,13 @@ func (v *MSVLRCapability) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4691,7 +4734,13 @@ func (v *MSVLRCapability) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedRATTypesIndicator.Bytes, v.SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedRAT-TypesIndicator", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.SupportedRATTypesIndicator.Bytes, v.SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedRAT-TypesIndicator", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4736,12 +4785,13 @@ func (v *MSVLRCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 	if v == nil {
 		return fmt.Errorf("%w: MSVLRCapability destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSVLRCapability{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -5153,7 +5203,7 @@ func (v *MSSuperChargerInfo) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: MSSuperChargerInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -5168,8 +5218,9 @@ func (v *MSSuperChargerInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if v == nil {
 		return fmt.Errorf("%w: MSSuperChargerInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -5218,7 +5269,11 @@ func (v *MSSuperChargerInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding subscriberDataStored: %w", tlvErr)
 		}
-		tmp := MSAgeIndicator(rawVal)
+		decVal, octetErr := ber.DecodeImplicitOctetStringValue(peekTag.Constructed, rawVal, opts...)
+		if octetErr != nil {
+			return fmt.Errorf("decoding subscriberDataStored: %w", octetErr)
+		}
+		tmp := MSAgeIndicator(decVal)
 		v.SubscriberDataStored = &tmp
 		if len(*v.SubscriberDataStored) < 1 || len(*v.SubscriberDataStored) > 6 {
 			if constraintErr := ber.CheckDecodedLength(opts, "subscriberDataStored", "SIZE (1..6)", len(*v.SubscriberDataStored)); constraintErr != nil {
@@ -5339,12 +5394,13 @@ func (v *MSUpdateLocationRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: MSUpdateLocationRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSUpdateLocationRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -5569,12 +5625,13 @@ func (v *MSADDInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	if v == nil {
 		return fmt.Errorf("%w: MSADDInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSADDInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -5610,7 +5667,11 @@ func (v *MSADDInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	if decodedTag_imeisv.Class != tag.ClassContextSpecific || decodedTag_imeisv.Number != 0 {
 		return fmt.Errorf("decoding imeisv: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imeisv)
 	}
-	v.Imeisv = CommonDataTypesIMEI(rawVal_imeisv)
+	decVal_imeisv, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imeisv.Constructed, rawVal_imeisv, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding imeisv: %w", octetErr)
+	}
+	v.Imeisv = CommonDataTypesIMEI(decVal_imeisv)
 	if offset < 0 || offset >
 		len(content) || n_imeisv < 0 || n_imeisv > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -5767,12 +5828,13 @@ func (v *MSCancelLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: MSCancelLocationArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSCancelLocationArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -5958,7 +6020,7 @@ func (v *CancelLocationArgV2) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_1, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -5973,8 +6035,9 @@ func (v *CancelLocationArgV2) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: CancelLocationArgV2 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -6103,12 +6166,13 @@ func (v *MSCancelLocationRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: MSCancelLocationRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSCancelLocationRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -6368,12 +6432,13 @@ func (v *MSPurgeMSArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if v == nil {
 		return fmt.Errorf("%w: MSPurgeMSArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSPurgeMSArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -6428,7 +6493,11 @@ func (v *MSPurgeMSArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 				if decodedTag_vlrnumber.Class != tag.ClassContextSpecific || decodedTag_vlrnumber.Number != 0 {
 					return fmt.Errorf("decoding vlr-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_vlrnumber)
 				}
-				tmp_vlrnumber := CommonDataTypesISDNAddressString(rawVal_vlrnumber)
+				decVal_vlrnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_vlrnumber.Constructed, rawVal_vlrnumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding vlr-Number: %w", octetErr)
+				}
+				tmp_vlrnumber := CommonDataTypesISDNAddressString(decVal_vlrnumber)
 				v.VlrNumber = &tmp_vlrnumber
 				if offset < 0 || offset >
 					len(content) || n_vlrnumber < 0 || n_vlrnumber > len(
@@ -6462,7 +6531,11 @@ func (v *MSPurgeMSArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 				if decodedTag_sgsnnumber.Class != tag.ClassContextSpecific || decodedTag_sgsnnumber.Number != 1 {
 					return fmt.Errorf("decoding sgsn-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sgsnnumber)
 				}
-				tmp_sgsnnumber := CommonDataTypesISDNAddressString(rawVal_sgsnnumber)
+				decVal_sgsnnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_sgsnnumber.Constructed, rawVal_sgsnnumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding sgsn-Number: %w", octetErr)
+				}
+				tmp_sgsnnumber := CommonDataTypesISDNAddressString(decVal_sgsnnumber)
 				v.SgsnNumber = &tmp_sgsnnumber
 				if offset < 0 || offset >
 					len(content) || n_sgsnnumber < 0 || n_sgsnnumber > len(content[offset:]) {
@@ -6650,12 +6723,13 @@ func (v *PurgeMSArgV2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if v == nil {
 		return fmt.Errorf("%w: PurgeMSArgV2 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PurgeMSArgV2{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -6857,12 +6931,13 @@ func (v *MSPurgeMSRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if v == nil {
 		return fmt.Errorf("%w: MSPurgeMSRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSPurgeMSRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -7202,12 +7277,13 @@ func (v *MSSendIdentificationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: MSSendIdentificationArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSendIdentificationArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -7364,7 +7440,11 @@ func (v *MSSendIdentificationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				if decodedTag_previouslai.Class != tag.ClassContextSpecific || decodedTag_previouslai.Number != 0 {
 					return fmt.Errorf("decoding previous-LAI: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_previouslai)
 				}
-				tmp_previouslai := CommonDataTypesLAIFixedLength(rawVal_previouslai)
+				decVal_previouslai, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_previouslai.Constructed, rawVal_previouslai, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding previous-LAI: %w", octetErr)
+				}
+				tmp_previouslai := CommonDataTypesLAIFixedLength(decVal_previouslai)
 				v.PreviousLAI = &tmp_previouslai
 				if offset < 0 || offset >
 					len(content) || n_previouslai < 0 || n_previouslai > len(content[offset:]) {
@@ -7589,12 +7669,13 @@ func (v *MSSendIdentificationRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: MSSendIdentificationRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSendIdentificationRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -7862,12 +7943,13 @@ func (v *SendIdentificationResV2) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: SendIdentificationResV2 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SendIdentificationResV2{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -8078,7 +8160,7 @@ func (v *MSAuthenticationSetList) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_1, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -8093,8 +8175,9 @@ func (v *MSAuthenticationSetList) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: MSAuthenticationSetList destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -8236,6 +8319,7 @@ func MarshalDERMSTripletList(collection *MSTripletList) ([]byte, error) {
 
 // UnmarshalBERMSTripletList decodes a MSTripletList list from BER.
 func UnmarshalBERMSTripletList(data []byte, opts ...ber.DecodeOption) (*MSTripletList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -8276,7 +8360,7 @@ func UnmarshalBERMSTripletList(data []byte, opts ...ber.DecodeOption) (*MSTriple
 		}
 	}
 	decoded := &MSTripletList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSTripletList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -8351,6 +8435,7 @@ func MarshalDERMSQuintupletList(collection *MSQuintupletList) ([]byte, error) {
 
 // UnmarshalBERMSQuintupletList decodes a MSQuintupletList list from BER.
 func UnmarshalBERMSQuintupletList(data []byte, opts ...ber.DecodeOption) (*MSQuintupletList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -8391,7 +8476,7 @@ func UnmarshalBERMSQuintupletList(data []byte, opts ...ber.DecodeOption) (*MSQui
 		}
 	}
 	decoded := &MSQuintupletList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSQuintupletList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -8519,12 +8604,13 @@ func (v *MSAuthenticationTriplet) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: MSAuthenticationTriplet destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSAuthenticationTriplet{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -8786,12 +8872,13 @@ func (v *MSAuthenticationQuintuplet) UnmarshalBER(data []byte, opts ...ber.Decod
 	if v == nil {
 		return fmt.Errorf("%w: MSAuthenticationQuintuplet destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSAuthenticationQuintuplet{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -9027,7 +9114,7 @@ func (v *MSCurrentSecurityContext) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_1, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -9042,8 +9129,9 @@ func (v *MSCurrentSecurityContext) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: MSCurrentSecurityContext destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -9208,12 +9296,13 @@ func (v *MSGSMSecurityContextData) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: MSGSMSecurityContextData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSGSMSecurityContextData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -9415,12 +9504,13 @@ func (v *MSUMTSSecurityContextData) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: MSUMTSSecurityContextData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSUMTSSecurityContextData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -9552,6 +9642,11 @@ func (v *MSAuthenticationFailureReportArg) marshalBER(opts ...ber.EncodeOption) 
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
 	}
 	children = append(children, enc_imsi...)
+	if int64(v.FailureCause) != 0 && int64(v.FailureCause) != 1 {
+		if constraintErr := ber.CheckEncodedValue(opts, "failureCause", "ENUMERATED {0, 1}", fmt.Sprint(int64(v.FailureCause))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_failurecause := ber.EncodeEnumerated(int64(v.FailureCause))
 	children = append(children, enc_failurecause...)
 	if v.ExtensionContainer != nil {
@@ -9659,6 +9754,11 @@ func (v *MSAuthenticationFailureReportArg) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
 	}
 	children = append(children, enc_imsi...)
+	if int64(v.FailureCause) != 0 && int64(v.FailureCause) != 1 {
+		if constraintErr := ber.CheckEncodedValue(nil, "failureCause", "ENUMERATED {0, 1}", fmt.Sprint(int64(v.FailureCause))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_failurecause := ber.EncodeEnumerated(int64(v.FailureCause))
 	children = append(children, enc_failurecause...)
 	if v.ExtensionContainer != nil {
@@ -9753,12 +9853,13 @@ func (v *MSAuthenticationFailureReportArg) UnmarshalBER(data []byte, opts ...ber
 	if v == nil {
 		return fmt.Errorf("%w: MSAuthenticationFailureReportArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSAuthenticationFailureReportArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -9813,6 +9914,11 @@ func (v *MSAuthenticationFailureReportArg) UnmarshalBER(data []byte, opts ...ber
 	}
 
 	offset += n
+	if int64(v.FailureCause) != 0 && int64(v.FailureCause) != 1 {
+		if constraintErr := ber.CheckDecodedValue(opts, "failureCause", "ENUMERATED {0, 1}", fmt.Sprint(int64(v.FailureCause))); constraintErr != nil {
+			return constraintErr
+		}
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -9919,7 +10025,11 @@ func (v *MSAuthenticationFailureReportArg) UnmarshalBER(data []byte, opts ...ber
 				if decodedTag_vlrnumber.Class != tag.ClassContextSpecific || decodedTag_vlrnumber.Number != 0 {
 					return fmt.Errorf("decoding vlr-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_vlrnumber)
 				}
-				tmp_vlrnumber := CommonDataTypesISDNAddressString(rawVal_vlrnumber)
+				decVal_vlrnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_vlrnumber.Constructed, rawVal_vlrnumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding vlr-Number: %w", octetErr)
+				}
+				tmp_vlrnumber := CommonDataTypesISDNAddressString(decVal_vlrnumber)
 				v.VlrNumber = &tmp_vlrnumber
 				if offset < 0 || offset >
 					len(content) || n_vlrnumber < 0 || n_vlrnumber > len(content[offset:]) {
@@ -9952,7 +10062,11 @@ func (v *MSAuthenticationFailureReportArg) UnmarshalBER(data []byte, opts ...ber
 				if decodedTag_sgsnnumber.Class != tag.ClassContextSpecific || decodedTag_sgsnnumber.Number != 1 {
 					return fmt.Errorf("decoding sgsn-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sgsnnumber)
 				}
-				tmp_sgsnnumber := CommonDataTypesISDNAddressString(rawVal_sgsnnumber)
+				decVal_sgsnnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_sgsnnumber.Constructed, rawVal_sgsnnumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding sgsn-Number: %w", octetErr)
+				}
+				tmp_sgsnnumber := CommonDataTypesISDNAddressString(decVal_sgsnnumber)
 				v.SgsnNumber = &tmp_sgsnnumber
 				if offset < 0 || offset >
 					len(content) || n_sgsnnumber < 0 || n_sgsnnumber > len(content[offset:]) {
@@ -10069,12 +10183,13 @@ func (v *MSAuthenticationFailureReportRes) UnmarshalBER(data []byte, opts ...ber
 	if v == nil {
 		return fmt.Errorf("%w: MSAuthenticationFailureReportRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSAuthenticationFailureReportRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -10407,12 +10522,13 @@ func (v *MSUpdateGprsLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: MSUpdateGprsLocationArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSUpdateGprsLocationArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -10622,7 +10738,11 @@ func (v *MSUpdateGprsLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				if decodedTag_vgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_vgmlcaddress.Number != 3 {
 					return fmt.Errorf("decoding v-gmlc-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_vgmlcaddress)
 				}
-				tmp_vgmlcaddress := MSGSNAddress(rawVal_vgmlcaddress)
+				decVal_vgmlcaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_vgmlcaddress.Constructed, rawVal_vgmlcaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding v-gmlc-Address: %w", octetErr)
+				}
+				tmp_vgmlcaddress := MSGSNAddress(decVal_vgmlcaddress)
 				v.VGmlcAddress = &tmp_vgmlcaddress
 				if offset < 0 || offset >
 					len(content) || n_vgmlcaddress < 0 || n_vgmlcaddress > len(content[offset:]) {
@@ -10755,7 +10875,10 @@ func (v *MSSGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -10776,7 +10899,10 @@ func (v *MSSGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedLCSCapabilitySets.Bytes, v.SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedLCS-CapabilitySets", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -10797,7 +10923,10 @@ func (v *MSSGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -10827,7 +10956,10 @@ func (v *MSSGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedRATTypesIndicator.Bytes, v.SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedRAT-TypesIndicator", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -10906,7 +11038,13 @@ func (v *MSSGSNCapability) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -10927,7 +11065,13 @@ func (v *MSSGSNCapability) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedLCSCapabilitySets.Bytes, v.SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedLCS-CapabilitySets", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.SupportedLCSCapabilitySets.Bytes, v.SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedLCS-CapabilitySets", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -10948,7 +11092,13 @@ func (v *MSSGSNCapability) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -10978,7 +11128,13 @@ func (v *MSSGSNCapability) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedRATTypesIndicator.Bytes, v.SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedRAT-TypesIndicator", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.SupportedRATTypesIndicator.Bytes, v.SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedRAT-TypesIndicator", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -11014,12 +11170,13 @@ func (v *MSSGSNCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: MSSGSNCapability destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSGSNCapability{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -11451,12 +11608,13 @@ func (v *MSUpdateGprsLocationRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: MSUpdateGprsLocationRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSUpdateGprsLocationRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -12184,12 +12342,13 @@ func (v *MSForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Dec
 	if v == nil {
 		return fmt.Errorf("%w: MSForwardAccessSignallingArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSForwardAccessSignallingArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -12247,7 +12406,11 @@ func (v *MSForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if decodedTag_integrityprotectioninfo.Class != tag.ClassContextSpecific || decodedTag_integrityprotectioninfo.Number != 0 {
 					return fmt.Errorf("decoding integrityProtectionInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_integrityprotectioninfo)
 				}
-				tmp_integrityprotectioninfo := MSIntegrityProtectionInformation(rawVal_integrityprotectioninfo)
+				decVal_integrityprotectioninfo, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_integrityprotectioninfo.Constructed, rawVal_integrityprotectioninfo, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding integrityProtectionInfo: %w", octetErr)
+				}
+				tmp_integrityprotectioninfo := MSIntegrityProtectionInformation(decVal_integrityprotectioninfo)
 				v.IntegrityProtectionInfo = &tmp_integrityprotectioninfo
 				if offset < 0 || offset >
 					len(content) || n_integrityprotectioninfo < 0 || n_integrityprotectioninfo >
@@ -12276,7 +12439,11 @@ func (v *MSForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if decodedTag_encryptioninfo.Class != tag.ClassContextSpecific || decodedTag_encryptioninfo.Number != 1 {
 					return fmt.Errorf("decoding encryptionInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_encryptioninfo)
 				}
-				tmp_encryptioninfo := MSEncryptionInformation(rawVal_encryptioninfo)
+				decVal_encryptioninfo, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_encryptioninfo.Constructed, rawVal_encryptioninfo, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding encryptionInfo: %w", octetErr)
+				}
+				tmp_encryptioninfo := MSEncryptionInformation(decVal_encryptioninfo)
 				v.EncryptionInfo = &tmp_encryptioninfo
 				if offset < 0 || offset >
 					len(content) || n_encryptioninfo < 0 || n_encryptioninfo > len(content[offset:]) {
@@ -12331,7 +12498,11 @@ func (v *MSForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if decodedTag_allowedgsmalgorithms.Class != tag.ClassContextSpecific || decodedTag_allowedgsmalgorithms.Number != 4 {
 					return fmt.Errorf("decoding allowedGSM-Algorithms: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_allowedgsmalgorithms)
 				}
-				tmp_allowedgsmalgorithms := MSAllowedGSMAlgorithms(rawVal_allowedgsmalgorithms)
+				decVal_allowedgsmalgorithms, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_allowedgsmalgorithms.Constructed, rawVal_allowedgsmalgorithms, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding allowedGSM-Algorithms: %w", octetErr)
+				}
+				tmp_allowedgsmalgorithms := MSAllowedGSMAlgorithms(decVal_allowedgsmalgorithms)
 				v.AllowedGSMAlgorithms = &tmp_allowedgsmalgorithms
 				if offset < 0 || offset >
 					len(content) || n_allowedgsmalgorithms < 0 || n_allowedgsmalgorithms >
@@ -12391,7 +12562,11 @@ func (v *MSForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if decodedTag_radioresourceinformation.Class != tag.ClassContextSpecific || decodedTag_radioresourceinformation.Number != 6 {
 					return fmt.Errorf("decoding radioResourceInformation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_radioresourceinformation)
 				}
-				tmp_radioresourceinformation := MSRadioResourceInformation(rawVal_radioresourceinformation)
+				decVal_radioresourceinformation, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_radioresourceinformation.Constructed, rawVal_radioresourceinformation, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding radioResourceInformation: %w", octetErr)
+				}
+				tmp_radioresourceinformation := MSRadioResourceInformation(decVal_radioresourceinformation)
 				v.RadioResourceInformation = &tmp_radioresourceinformation
 				if offset < 0 || offset >
 					len(content) || n_radioresourceinformation < 0 || n_radioresourceinformation >
@@ -12498,7 +12673,11 @@ func (v *MSForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if decodedTag_bssmapservicehandover.Class != tag.ClassContextSpecific || decodedTag_bssmapservicehandover.Number != 9 {
 					return fmt.Errorf("decoding bssmap-ServiceHandover: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_bssmapservicehandover)
 				}
-				tmp_bssmapservicehandover := MSBSSMAPServiceHandover(rawVal_bssmapservicehandover)
+				decVal_bssmapservicehandover, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_bssmapservicehandover.Constructed, rawVal_bssmapservicehandover, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding bssmap-ServiceHandover: %w", octetErr)
+				}
+				tmp_bssmapservicehandover := MSBSSMAPServiceHandover(decVal_bssmapservicehandover)
 				v.BssmapServiceHandover = &tmp_bssmapservicehandover
 				if offset < 0 || offset >
 					len(content) || n_bssmapservicehandover < 0 || n_bssmapservicehandover >
@@ -12527,7 +12706,11 @@ func (v *MSForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if decodedTag_ranapservicehandover.Class != tag.ClassContextSpecific || decodedTag_ranapservicehandover.Number != 8 {
 					return fmt.Errorf("decoding ranap-ServiceHandover: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ranapservicehandover)
 				}
-				tmp_ranapservicehandover := MSRANAPServiceHandover(rawVal_ranapservicehandover)
+				decVal_ranapservicehandover, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ranapservicehandover.Constructed, rawVal_ranapservicehandover, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ranap-ServiceHandover: %w", octetErr)
+				}
+				tmp_ranapservicehandover := MSRANAPServiceHandover(decVal_ranapservicehandover)
 				v.RanapServiceHandover = &tmp_ranapservicehandover
 				if offset < 0 || offset >
 					len(content) || n_ranapservicehandover < 0 || n_ranapservicehandover >
@@ -12604,7 +12787,11 @@ func (v *MSForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if decodedTag_currentlyusedcodec.Class != tag.ClassContextSpecific || decodedTag_currentlyusedcodec.Number != 11 {
 					return fmt.Errorf("decoding currentlyUsedCodec: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_currentlyusedcodec)
 				}
-				tmp_currentlyusedcodec := MSCodec(rawVal_currentlyusedcodec)
+				decVal_currentlyusedcodec, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_currentlyusedcodec.Constructed, rawVal_currentlyusedcodec, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding currentlyUsedCodec: %w", octetErr)
+				}
+				tmp_currentlyusedcodec := MSCodec(decVal_currentlyusedcodec)
 				v.CurrentlyUsedCodec = &tmp_currentlyusedcodec
 				if offset < 0 || offset >
 					len(content) || n_currentlyusedcodec < 0 || n_currentlyusedcodec > len(content[offset:]) {
@@ -12689,7 +12876,11 @@ func (v *MSForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if decodedTag_iuselectedcodec.Class != tag.ClassContextSpecific || decodedTag_iuselectedcodec.Number != 14 {
 					return fmt.Errorf("decoding iuSelectedCodec: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_iuselectedcodec)
 				}
-				tmp_iuselectedcodec := MSCodec(rawVal_iuselectedcodec)
+				decVal_iuselectedcodec, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_iuselectedcodec.Constructed, rawVal_iuselectedcodec, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding iuSelectedCodec: %w", octetErr)
+				}
+				tmp_iuselectedcodec := MSCodec(decVal_iuselectedcodec)
 				v.IuSelectedCodec = &tmp_iuselectedcodec
 				if offset < 0 || offset >
 					len(content) || n_iuselectedcodec < 0 || n_iuselectedcodec > len(content[offset:]) {
@@ -12717,7 +12908,11 @@ func (v *MSForwardAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if decodedTag_alternativechanneltype.Class != tag.ClassContextSpecific || decodedTag_alternativechanneltype.Number != 15 {
 					return fmt.Errorf("decoding alternativeChannelType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_alternativechanneltype)
 				}
-				tmp_alternativechanneltype := MSRadioResourceInformation(rawVal_alternativechanneltype)
+				decVal_alternativechanneltype, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_alternativechanneltype.Constructed, rawVal_alternativechanneltype, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding alternativeChannelType: %w", octetErr)
+				}
+				tmp_alternativechanneltype := MSRadioResourceInformation(decVal_alternativechanneltype)
 				v.AlternativeChannelType = &tmp_alternativechanneltype
 				if offset < 0 || offset >
 					len(content) || n_alternativechanneltype < 0 || n_alternativechanneltype >
@@ -12939,12 +13134,13 @@ func (v *MSAllowedUMTSAlgorithms) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: MSAllowedUMTSAlgorithms destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSAllowedUMTSAlgorithms{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -12976,7 +13172,11 @@ func (v *MSAllowedUMTSAlgorithms) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				if decodedTag_integrityprotectionalgorithms.Class != tag.ClassContextSpecific || decodedTag_integrityprotectionalgorithms.Number != 0 {
 					return fmt.Errorf("decoding integrityProtectionAlgorithms: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_integrityprotectionalgorithms)
 				}
-				tmp_integrityprotectionalgorithms := MSPermittedIntegrityProtectionAlgorithms(rawVal_integrityprotectionalgorithms)
+				decVal_integrityprotectionalgorithms, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_integrityprotectionalgorithms.Constructed, rawVal_integrityprotectionalgorithms, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding integrityProtectionAlgorithms: %w", octetErr)
+				}
+				tmp_integrityprotectionalgorithms := MSPermittedIntegrityProtectionAlgorithms(decVal_integrityprotectionalgorithms)
 				v.IntegrityProtectionAlgorithms = &tmp_integrityprotectionalgorithms
 				if offset < 0 || offset >
 					len(content) || n_integrityprotectionalgorithms < 0 || n_integrityprotectionalgorithms >
@@ -13005,7 +13205,11 @@ func (v *MSAllowedUMTSAlgorithms) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				if decodedTag_encryptionalgorithms.Class != tag.ClassContextSpecific || decodedTag_encryptionalgorithms.Number != 1 {
 					return fmt.Errorf("decoding encryptionAlgorithms: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_encryptionalgorithms)
 				}
-				tmp_encryptionalgorithms := MSPermittedEncryptionAlgorithms(rawVal_encryptionalgorithms)
+				decVal_encryptionalgorithms, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_encryptionalgorithms.Constructed, rawVal_encryptionalgorithms, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding encryptionAlgorithms: %w", octetErr)
+				}
+				tmp_encryptionalgorithms := MSPermittedEncryptionAlgorithms(decVal_encryptionalgorithms)
 				v.EncryptionAlgorithms = &tmp_encryptionalgorithms
 				if offset < 0 || offset >
 					len(content) || n_encryptionalgorithms < 0 || n_encryptionalgorithms >
@@ -13930,12 +14134,13 @@ func (v *MSPrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	if v == nil {
 		return fmt.Errorf("%w: MSPrepareHOArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSPrepareHOArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -13970,7 +14175,11 @@ func (v *MSPrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_targetcellid.Class != tag.ClassContextSpecific || decodedTag_targetcellid.Number != 0 {
 					return fmt.Errorf("decoding targetCellId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_targetcellid)
 				}
-				tmp_targetcellid := CommonDataTypesGlobalCellId(rawVal_targetcellid)
+				decVal_targetcellid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_targetcellid.Constructed, rawVal_targetcellid, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding targetCellId: %w", octetErr)
+				}
+				tmp_targetcellid := CommonDataTypesGlobalCellId(decVal_targetcellid)
 				v.TargetCellId = &tmp_targetcellid
 				if offset < 0 || offset >
 					len(content) || n_targetcellid < 0 || n_targetcellid >
@@ -14018,7 +14227,11 @@ func (v *MSPrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_targetrncid.Class != tag.ClassContextSpecific || decodedTag_targetrncid.Number != 1 {
 					return fmt.Errorf("decoding targetRNCId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_targetrncid)
 				}
-				tmp_targetrncid := MSRNCId(rawVal_targetrncid)
+				decVal_targetrncid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_targetrncid.Constructed, rawVal_targetrncid, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding targetRNCId: %w", octetErr)
+				}
+				tmp_targetrncid := MSRNCId(decVal_targetrncid)
 				v.TargetRNCId = &tmp_targetrncid
 				if offset < 0 || offset >
 					len(content) || n_targetrncid < 0 || n_targetrncid > len(content[offset:]) {
@@ -14102,7 +14315,11 @@ func (v *MSPrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 4 {
 					return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 				}
-				tmp_imsi := CommonDataTypesIMSI(rawVal_imsi)
+				decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding imsi: %w", octetErr)
+				}
+				tmp_imsi := CommonDataTypesIMSI(decVal_imsi)
 				v.Imsi = &tmp_imsi
 				if offset < 0 || offset >
 					len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
@@ -14130,7 +14347,11 @@ func (v *MSPrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_integrityprotectioninfo.Class != tag.ClassContextSpecific || decodedTag_integrityprotectioninfo.Number != 5 {
 					return fmt.Errorf("decoding integrityProtectionInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_integrityprotectioninfo)
 				}
-				tmp_integrityprotectioninfo := MSIntegrityProtectionInformation(rawVal_integrityprotectioninfo)
+				decVal_integrityprotectioninfo, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_integrityprotectioninfo.Constructed, rawVal_integrityprotectioninfo, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding integrityProtectionInfo: %w", octetErr)
+				}
+				tmp_integrityprotectioninfo := MSIntegrityProtectionInformation(decVal_integrityprotectioninfo)
 				v.IntegrityProtectionInfo = &tmp_integrityprotectioninfo
 				if offset < 0 || offset >
 					len(content) || n_integrityprotectioninfo < 0 || n_integrityprotectioninfo >
@@ -14159,7 +14380,11 @@ func (v *MSPrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_encryptioninfo.Class != tag.ClassContextSpecific || decodedTag_encryptioninfo.Number != 6 {
 					return fmt.Errorf("decoding encryptionInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_encryptioninfo)
 				}
-				tmp_encryptioninfo := MSEncryptionInformation(rawVal_encryptioninfo)
+				decVal_encryptioninfo, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_encryptioninfo.Constructed, rawVal_encryptioninfo, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding encryptionInfo: %w", octetErr)
+				}
+				tmp_encryptioninfo := MSEncryptionInformation(decVal_encryptioninfo)
 				v.EncryptionInfo = &tmp_encryptioninfo
 				if offset < 0 || offset >
 					len(content) || n_encryptioninfo < 0 || n_encryptioninfo >
@@ -14188,7 +14413,11 @@ func (v *MSPrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_radioresourceinformation.Class != tag.ClassContextSpecific || decodedTag_radioresourceinformation.Number != 7 {
 					return fmt.Errorf("decoding radioResourceInformation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_radioresourceinformation)
 				}
-				tmp_radioresourceinformation := MSRadioResourceInformation(rawVal_radioresourceinformation)
+				decVal_radioresourceinformation, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_radioresourceinformation.Constructed, rawVal_radioresourceinformation, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding radioResourceInformation: %w", octetErr)
+				}
+				tmp_radioresourceinformation := MSRadioResourceInformation(decVal_radioresourceinformation)
 				v.RadioResourceInformation = &tmp_radioresourceinformation
 				if offset < 0 || offset >
 					len(content) || n_radioresourceinformation < 0 || n_radioresourceinformation >
@@ -14217,7 +14446,11 @@ func (v *MSPrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_allowedgsmalgorithms.Class != tag.ClassContextSpecific || decodedTag_allowedgsmalgorithms.Number != 9 {
 					return fmt.Errorf("decoding allowedGSM-Algorithms: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_allowedgsmalgorithms)
 				}
-				tmp_allowedgsmalgorithms := MSAllowedGSMAlgorithms(rawVal_allowedgsmalgorithms)
+				decVal_allowedgsmalgorithms, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_allowedgsmalgorithms.Constructed, rawVal_allowedgsmalgorithms, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding allowedGSM-Algorithms: %w", octetErr)
+				}
+				tmp_allowedgsmalgorithms := MSAllowedGSMAlgorithms(decVal_allowedgsmalgorithms)
 				v.AllowedGSMAlgorithms = &tmp_allowedgsmalgorithms
 				if offset < 0 || offset >
 					len(content) || n_allowedgsmalgorithms < 0 || n_allowedgsmalgorithms >
@@ -14388,7 +14621,11 @@ func (v *MSPrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_bssmapservicehandover.Class != tag.ClassContextSpecific || decodedTag_bssmapservicehandover.Number != 13 {
 					return fmt.Errorf("decoding bssmap-ServiceHandover: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_bssmapservicehandover)
 				}
-				tmp_bssmapservicehandover := MSBSSMAPServiceHandover(rawVal_bssmapservicehandover)
+				decVal_bssmapservicehandover, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_bssmapservicehandover.Constructed, rawVal_bssmapservicehandover, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding bssmap-ServiceHandover: %w", octetErr)
+				}
+				tmp_bssmapservicehandover := MSBSSMAPServiceHandover(decVal_bssmapservicehandover)
 				v.BssmapServiceHandover = &tmp_bssmapservicehandover
 				if offset < 0 || offset >
 					len(content) || n_bssmapservicehandover < 0 || n_bssmapservicehandover >
@@ -14417,7 +14654,11 @@ func (v *MSPrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_ranapservicehandover.Class != tag.ClassContextSpecific || decodedTag_ranapservicehandover.Number != 14 {
 					return fmt.Errorf("decoding ranap-ServiceHandover: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ranapservicehandover)
 				}
-				tmp_ranapservicehandover := MSRANAPServiceHandover(rawVal_ranapservicehandover)
+				decVal_ranapservicehandover, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ranapservicehandover.Constructed, rawVal_ranapservicehandover, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ranap-ServiceHandover: %w", octetErr)
+				}
+				tmp_ranapservicehandover := MSRANAPServiceHandover(decVal_ranapservicehandover)
 				v.RanapServiceHandover = &tmp_ranapservicehandover
 				if offset < 0 || offset >
 					len(content) || n_ranapservicehandover < 0 || n_ranapservicehandover >
@@ -14494,7 +14735,11 @@ func (v *MSPrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_ascicallreference.Class != tag.ClassContextSpecific || decodedTag_ascicallreference.Number != 20 {
 					return fmt.Errorf("decoding asciCallReference: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ascicallreference)
 				}
-				tmp_ascicallreference := CommonDataTypesASCICallReference(rawVal_ascicallreference)
+				decVal_ascicallreference, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ascicallreference.Constructed, rawVal_ascicallreference, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding asciCallReference: %w", octetErr)
+				}
+				tmp_ascicallreference := CommonDataTypesASCICallReference(decVal_ascicallreference)
 				v.AsciCallReference = &tmp_ascicallreference
 				if offset < 0 || offset >
 					len(content) || n_ascicallreference < 0 || n_ascicallreference >
@@ -14523,7 +14768,11 @@ func (v *MSPrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_geranclassmark.Class != tag.ClassContextSpecific || decodedTag_geranclassmark.Number != 16 {
 					return fmt.Errorf("decoding geran-classmark: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_geranclassmark)
 				}
-				tmp_geranclassmark := MSGERANClassmark(rawVal_geranclassmark)
+				decVal_geranclassmark, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_geranclassmark.Constructed, rawVal_geranclassmark, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding geran-classmark: %w", octetErr)
+				}
+				tmp_geranclassmark := MSGERANClassmark(decVal_geranclassmark)
 				v.GeranClassmark = &tmp_geranclassmark
 				if offset < 0 || offset >
 					len(content) || n_geranclassmark < 0 || n_geranclassmark >
@@ -14552,7 +14801,11 @@ func (v *MSPrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_iucurrentlyusedcodec.Class != tag.ClassContextSpecific || decodedTag_iucurrentlyusedcodec.Number != 17 {
 					return fmt.Errorf("decoding iuCurrentlyUsedCodec: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_iucurrentlyusedcodec)
 				}
-				tmp_iucurrentlyusedcodec := MSCodec(rawVal_iucurrentlyusedcodec)
+				decVal_iucurrentlyusedcodec, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_iucurrentlyusedcodec.Constructed, rawVal_iucurrentlyusedcodec, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding iuCurrentlyUsedCodec: %w", octetErr)
+				}
+				tmp_iucurrentlyusedcodec := MSCodec(decVal_iucurrentlyusedcodec)
 				v.IuCurrentlyUsedCodec = &tmp_iucurrentlyusedcodec
 				if offset < 0 || offset >
 					len(content) || n_iucurrentlyusedcodec < 0 || n_iucurrentlyusedcodec >
@@ -14668,7 +14921,11 @@ func (v *MSPrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_imeisv.Class != tag.ClassContextSpecific || decodedTag_imeisv.Number != 22 {
 					return fmt.Errorf("decoding imeisv: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imeisv)
 				}
-				tmp_imeisv := CommonDataTypesIMEI(rawVal_imeisv)
+				decVal_imeisv, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imeisv.Constructed, rawVal_imeisv, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding imeisv: %w", octetErr)
+				}
+				tmp_imeisv := CommonDataTypesIMEI(decVal_imeisv)
 				v.Imeisv = &tmp_imeisv
 				if offset < 0 || offset >
 					len(content) || n_imeisv < 0 || n_imeisv > len(content[offset:]) {
@@ -14696,7 +14953,11 @@ func (v *MSPrepareHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_alternativechanneltype.Class != tag.ClassContextSpecific || decodedTag_alternativechanneltype.Number != 23 {
 					return fmt.Errorf("decoding alternativeChannelType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_alternativechanneltype)
 				}
-				tmp_alternativechanneltype := MSRadioResourceInformation(rawVal_alternativechanneltype)
+				decVal_alternativechanneltype, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_alternativechanneltype.Constructed, rawVal_alternativechanneltype, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding alternativeChannelType: %w", octetErr)
+				}
+				tmp_alternativechanneltype := MSRadioResourceInformation(decVal_alternativechanneltype)
 				v.AlternativeChannelType = &tmp_alternativechanneltype
 				if offset < 0 || offset >
 					len(content) || n_alternativechanneltype < 0 || n_alternativechanneltype >
@@ -14833,6 +15094,7 @@ func MarshalDERMSBSSMAPServiceHandoverList(collection *MSBSSMAPServiceHandoverLi
 
 // UnmarshalBERMSBSSMAPServiceHandoverList decodes a MSBSSMAPServiceHandoverList list from BER.
 func UnmarshalBERMSBSSMAPServiceHandoverList(data []byte, opts ...ber.DecodeOption) (*MSBSSMAPServiceHandoverList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -14873,7 +15135,7 @@ func UnmarshalBERMSBSSMAPServiceHandoverList(data []byte, opts ...ber.DecodeOpti
 		}
 	}
 	decoded := &MSBSSMAPServiceHandoverList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSBSSMAPServiceHandoverList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -14975,12 +15237,13 @@ func (v *MSBSSMAPServiceHandoverInfo) UnmarshalBER(data []byte, opts ...ber.Deco
 	if v == nil {
 		return fmt.Errorf("%w: MSBSSMAPServiceHandoverInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSBSSMAPServiceHandoverInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -15129,6 +15392,7 @@ func MarshalDERMSRadioResourceList(collection *MSRadioResourceList) ([]byte, err
 
 // UnmarshalBERMSRadioResourceList decodes a MSRadioResourceList list from BER.
 func UnmarshalBERMSRadioResourceList(data []byte, opts ...ber.DecodeOption) (*MSRadioResourceList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -15169,7 +15433,7 @@ func UnmarshalBERMSRadioResourceList(data []byte, opts ...ber.DecodeOption) (*MS
 		}
 	}
 	decoded := &MSRadioResourceList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSRadioResourceList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -15271,12 +15535,13 @@ func (v *MSRadioResource) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 	if v == nil {
 		return fmt.Errorf("%w: MSRadioResource destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSRadioResource{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -15706,12 +15971,13 @@ func (v *MSPrepareHORes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	if v == nil {
 		return fmt.Errorf("%w: MSPrepareHORes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSPrepareHORes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -15746,7 +16012,11 @@ func (v *MSPrepareHORes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_handovernumber.Class != tag.ClassContextSpecific || decodedTag_handovernumber.Number != 0 {
 					return fmt.Errorf("decoding handoverNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_handovernumber)
 				}
-				tmp_handovernumber := CommonDataTypesISDNAddressString(rawVal_handovernumber)
+				decVal_handovernumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_handovernumber.Constructed, rawVal_handovernumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding handoverNumber: %w", octetErr)
+				}
+				tmp_handovernumber := CommonDataTypesISDNAddressString(decVal_handovernumber)
 				v.HandoverNumber = &tmp_handovernumber
 				if offset < 0 || offset >
 					len(content) || n_handovernumber < 0 || n_handovernumber >
@@ -16003,7 +16273,11 @@ func (v *MSPrepareHORes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_iuselectedcodec.Class != tag.ClassContextSpecific || decodedTag_iuselectedcodec.Number != 7 {
 					return fmt.Errorf("decoding iuSelectedCodec: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_iuselectedcodec)
 				}
-				tmp_iuselectedcodec := MSCodec(rawVal_iuselectedcodec)
+				decVal_iuselectedcodec, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_iuselectedcodec.Constructed, rawVal_iuselectedcodec, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding iuSelectedCodec: %w", octetErr)
+				}
+				tmp_iuselectedcodec := MSCodec(decVal_iuselectedcodec)
 				v.IuSelectedCodec = &tmp_iuselectedcodec
 				if offset < 0 || offset >
 					len(content) || n_iuselectedcodec < 0 || n_iuselectedcodec >
@@ -16225,12 +16499,13 @@ func (v *MSSelectedUMTSAlgorithms) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: MSSelectedUMTSAlgorithms destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSelectedUMTSAlgorithms{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -16262,7 +16537,11 @@ func (v *MSSelectedUMTSAlgorithms) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if decodedTag_integrityprotectionalgorithm.Class != tag.ClassContextSpecific || decodedTag_integrityprotectionalgorithm.Number != 0 {
 					return fmt.Errorf("decoding integrityProtectionAlgorithm: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_integrityprotectionalgorithm)
 				}
-				tmp_integrityprotectionalgorithm := MSChosenIntegrityProtectionAlgorithm(rawVal_integrityprotectionalgorithm)
+				decVal_integrityprotectionalgorithm, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_integrityprotectionalgorithm.Constructed, rawVal_integrityprotectionalgorithm, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding integrityProtectionAlgorithm: %w", octetErr)
+				}
+				tmp_integrityprotectionalgorithm := MSChosenIntegrityProtectionAlgorithm(decVal_integrityprotectionalgorithm)
 				v.IntegrityProtectionAlgorithm = &tmp_integrityprotectionalgorithm
 				if offset < 0 || offset >
 					len(content) || n_integrityprotectionalgorithm < 0 || n_integrityprotectionalgorithm >
@@ -16291,7 +16570,11 @@ func (v *MSSelectedUMTSAlgorithms) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if decodedTag_encryptionalgorithm.Class != tag.ClassContextSpecific || decodedTag_encryptionalgorithm.Number != 1 {
 					return fmt.Errorf("decoding encryptionAlgorithm: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_encryptionalgorithm)
 				}
-				tmp_encryptionalgorithm := MSChosenEncryptionAlgorithm(rawVal_encryptionalgorithm)
+				decVal_encryptionalgorithm, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_encryptionalgorithm.Constructed, rawVal_encryptionalgorithm, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding encryptionAlgorithm: %w", octetErr)
+				}
+				tmp_encryptionalgorithm := MSChosenEncryptionAlgorithm(decVal_encryptionalgorithm)
 				v.EncryptionAlgorithm = &tmp_encryptionalgorithm
 				if offset < 0 || offset >
 					len(content) || n_encryptionalgorithm < 0 || n_encryptionalgorithm >
@@ -16489,12 +16772,13 @@ func (v *MSChosenRadioResourceInformation) UnmarshalBER(data []byte, opts ...ber
 	if v == nil {
 		return fmt.Errorf("%w: MSChosenRadioResourceInformation destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSChosenRadioResourceInformation{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -16526,7 +16810,11 @@ func (v *MSChosenRadioResourceInformation) UnmarshalBER(data []byte, opts ...ber
 				if decodedTag_chosenchannelinfo.Class != tag.ClassContextSpecific || decodedTag_chosenchannelinfo.Number != 0 {
 					return fmt.Errorf("decoding chosenChannelInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_chosenchannelinfo)
 				}
-				tmp_chosenchannelinfo := MSChosenChannelInfo(rawVal_chosenchannelinfo)
+				decVal_chosenchannelinfo, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_chosenchannelinfo.Constructed, rawVal_chosenchannelinfo, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding chosenChannelInfo: %w", octetErr)
+				}
+				tmp_chosenchannelinfo := MSChosenChannelInfo(decVal_chosenchannelinfo)
 				v.ChosenChannelInfo = &tmp_chosenchannelinfo
 				if offset < 0 || offset >
 					len(content) || n_chosenchannelinfo < 0 || n_chosenchannelinfo > len(content[offset:]) {
@@ -16554,7 +16842,11 @@ func (v *MSChosenRadioResourceInformation) UnmarshalBER(data []byte, opts ...ber
 				if decodedTag_chosenspeechversion.Class != tag.ClassContextSpecific || decodedTag_chosenspeechversion.Number != 1 {
 					return fmt.Errorf("decoding chosenSpeechVersion: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_chosenspeechversion)
 				}
-				tmp_chosenspeechversion := MSChosenSpeechVersion(rawVal_chosenspeechversion)
+				decVal_chosenspeechversion, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_chosenspeechversion.Constructed, rawVal_chosenspeechversion, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding chosenSpeechVersion: %w", octetErr)
+				}
+				tmp_chosenspeechversion := MSChosenSpeechVersion(decVal_chosenspeechversion)
 				v.ChosenSpeechVersion = &tmp_chosenspeechversion
 				if offset < 0 || offset >
 					len(content) || n_chosenspeechversion < 0 || n_chosenspeechversion > len(
@@ -16894,12 +17186,13 @@ func (v *MSPrepareSubsequentHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: MSPrepareSubsequentHOArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSPrepareSubsequentHOArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -16934,7 +17227,11 @@ func (v *MSPrepareSubsequentHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if decodedTag_targetcellid.Class != tag.ClassContextSpecific || decodedTag_targetcellid.Number != 0 {
 					return fmt.Errorf("decoding targetCellId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_targetcellid)
 				}
-				tmp_targetcellid := CommonDataTypesGlobalCellId(rawVal_targetcellid)
+				decVal_targetcellid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_targetcellid.Constructed, rawVal_targetcellid, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding targetCellId: %w", octetErr)
+				}
+				tmp_targetcellid := CommonDataTypesGlobalCellId(decVal_targetcellid)
 				v.TargetCellId = &tmp_targetcellid
 				if offset < 0 || offset >
 					len(content) || n_targetcellid < 0 || n_targetcellid > len(content[offset:]) {
@@ -16966,7 +17263,11 @@ func (v *MSPrepareSubsequentHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if decodedTag_targetmscnumber.Class != tag.ClassContextSpecific || decodedTag_targetmscnumber.Number != 1 {
 		return fmt.Errorf("decoding targetMSC-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_targetmscnumber)
 	}
-	v.TargetMSCNumber = CommonDataTypesISDNAddressString(rawVal_targetmscnumber)
+	decVal_targetmscnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_targetmscnumber.Constructed, rawVal_targetmscnumber, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding targetMSC-Number: %w", octetErr)
+	}
+	v.TargetMSCNumber = CommonDataTypesISDNAddressString(decVal_targetmscnumber)
 	if offset < 0 || offset >
 		len(content) || n_targetmscnumber < 0 || n_targetmscnumber > len(
 		content[offset:]) {
@@ -16996,7 +17297,11 @@ func (v *MSPrepareSubsequentHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if decodedTag_targetrncid.Class != tag.ClassContextSpecific || decodedTag_targetrncid.Number != 2 {
 					return fmt.Errorf("decoding targetRNCId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_targetrncid)
 				}
-				tmp_targetrncid := MSRNCId(rawVal_targetrncid)
+				decVal_targetrncid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_targetrncid.Constructed, rawVal_targetrncid, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding targetRNCId: %w", octetErr)
+				}
+				tmp_targetrncid := MSRNCId(decVal_targetrncid)
 				v.TargetRNCId = &tmp_targetrncid
 				if offset < 0 || offset >
 					len(content) || n_targetrncid < 0 || n_targetrncid > len(content[offset:]) {
@@ -17117,7 +17422,11 @@ func (v *MSPrepareSubsequentHOArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if decodedTag_geranclassmark.Class != tag.ClassContextSpecific || decodedTag_geranclassmark.Number != 6 {
 					return fmt.Errorf("decoding geran-classmark: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_geranclassmark)
 				}
-				tmp_geranclassmark := MSGERANClassmark(rawVal_geranclassmark)
+				decVal_geranclassmark, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_geranclassmark.Constructed, rawVal_geranclassmark, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding geran-classmark: %w", octetErr)
+				}
+				tmp_geranclassmark := MSGERANClassmark(decVal_geranclassmark)
 				v.GeranClassmark = &tmp_geranclassmark
 				if offset < 0 || offset >
 					len(content) || n_geranclassmark < 0 || n_geranclassmark > len(content[offset:]) {
@@ -17280,12 +17589,13 @@ func (v *MSPrepareSubsequentHORes) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: MSPrepareSubsequentHORes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSPrepareSubsequentHORes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -17651,12 +17961,13 @@ func (v *MSProcessAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Dec
 	if v == nil {
 		return fmt.Errorf("%w: MSProcessAccessSignallingArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSProcessAccessSignallingArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -17745,7 +18056,11 @@ func (v *MSProcessAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if decodedTag_selectedgsmalgorithm.Class != tag.ClassContextSpecific || decodedTag_selectedgsmalgorithm.Number != 2 {
 					return fmt.Errorf("decoding selectedGSM-Algorithm: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_selectedgsmalgorithm)
 				}
-				tmp_selectedgsmalgorithm := MSSelectedGSMAlgorithm(rawVal_selectedgsmalgorithm)
+				decVal_selectedgsmalgorithm, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_selectedgsmalgorithm.Constructed, rawVal_selectedgsmalgorithm, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding selectedGSM-Algorithm: %w", octetErr)
+				}
+				tmp_selectedgsmalgorithm := MSSelectedGSMAlgorithm(decVal_selectedgsmalgorithm)
 				v.SelectedGSMAlgorithm = &tmp_selectedgsmalgorithm
 				if offset < 0 || offset >
 					len(content) || n_selectedgsmalgorithm < 0 || n_selectedgsmalgorithm >
@@ -17867,7 +18182,11 @@ func (v *MSProcessAccessSignallingArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if decodedTag_iuselectedcodec.Class != tag.ClassContextSpecific || decodedTag_iuselectedcodec.Number != 5 {
 					return fmt.Errorf("decoding iUSelectedCodec: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_iuselectedcodec)
 				}
-				tmp_iuselectedcodec := MSCodec(rawVal_iuselectedcodec)
+				decVal_iuselectedcodec, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_iuselectedcodec.Constructed, rawVal_iuselectedcodec, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding iUSelectedCodec: %w", octetErr)
+				}
+				tmp_iuselectedcodec := MSCodec(decVal_iuselectedcodec)
 				v.IUSelectedCodec = &tmp_iuselectedcodec
 				if offset < 0 || offset >
 					len(content) || n_iuselectedcodec < 0 || n_iuselectedcodec > len(content[offset:]) {
@@ -18068,12 +18387,13 @@ func (v *MSSupportedCodecsList) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if v == nil {
 		return fmt.Errorf("%w: MSSupportedCodecsList destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSupportedCodecsList{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -18558,12 +18878,13 @@ func (v *MSCodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if v == nil {
 		return fmt.Errorf("%w: MSCodecList destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSCodecList{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -18599,7 +18920,11 @@ func (v *MSCodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if decodedTag_codec1.Class != tag.ClassContextSpecific || decodedTag_codec1.Number != 1 {
 		return fmt.Errorf("decoding codec1: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_codec1)
 	}
-	v.Codec1 = MSCodec(rawVal_codec1)
+	decVal_codec1, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_codec1.Constructed, rawVal_codec1, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding codec1: %w", octetErr)
+	}
+	v.Codec1 = MSCodec(decVal_codec1)
 	if offset < 0 || offset >
 		len(content) || n_codec1 < 0 || n_codec1 > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -18623,7 +18948,11 @@ func (v *MSCodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 				if decodedTag_codec2.Class != tag.ClassContextSpecific || decodedTag_codec2.Number != 2 {
 					return fmt.Errorf("decoding codec2: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_codec2)
 				}
-				tmp_codec2 := MSCodec(rawVal_codec2)
+				decVal_codec2, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_codec2.Constructed, rawVal_codec2, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding codec2: %w", octetErr)
+				}
+				tmp_codec2 := MSCodec(decVal_codec2)
 				v.Codec2 = &tmp_codec2
 				if offset < 0 || offset >
 					len(content) || n_codec2 < 0 || n_codec2 > len(content[offset:]) {
@@ -18651,7 +18980,11 @@ func (v *MSCodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 				if decodedTag_codec3.Class != tag.ClassContextSpecific || decodedTag_codec3.Number != 3 {
 					return fmt.Errorf("decoding codec3: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_codec3)
 				}
-				tmp_codec3 := MSCodec(rawVal_codec3)
+				decVal_codec3, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_codec3.Constructed, rawVal_codec3, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding codec3: %w", octetErr)
+				}
+				tmp_codec3 := MSCodec(decVal_codec3)
 				v.Codec3 = &tmp_codec3
 				if offset < 0 || offset >
 					len(content) || n_codec3 < 0 || n_codec3 > len(content[offset:]) {
@@ -18679,7 +19012,11 @@ func (v *MSCodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 				if decodedTag_codec4.Class != tag.ClassContextSpecific || decodedTag_codec4.Number != 4 {
 					return fmt.Errorf("decoding codec4: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_codec4)
 				}
-				tmp_codec4 := MSCodec(rawVal_codec4)
+				decVal_codec4, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_codec4.Constructed, rawVal_codec4, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding codec4: %w", octetErr)
+				}
+				tmp_codec4 := MSCodec(decVal_codec4)
 				v.Codec4 = &tmp_codec4
 				if offset < 0 || offset >
 					len(content) || n_codec4 < 0 || n_codec4 > len(content[offset:]) {
@@ -18707,7 +19044,11 @@ func (v *MSCodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 				if decodedTag_codec5.Class != tag.ClassContextSpecific || decodedTag_codec5.Number != 5 {
 					return fmt.Errorf("decoding codec5: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_codec5)
 				}
-				tmp_codec5 := MSCodec(rawVal_codec5)
+				decVal_codec5, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_codec5.Constructed, rawVal_codec5, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding codec5: %w", octetErr)
+				}
+				tmp_codec5 := MSCodec(decVal_codec5)
 				v.Codec5 = &tmp_codec5
 				if offset < 0 || offset >
 					len(content) || n_codec5 < 0 || n_codec5 > len(content[offset:]) {
@@ -18735,7 +19076,11 @@ func (v *MSCodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 				if decodedTag_codec6.Class != tag.ClassContextSpecific || decodedTag_codec6.Number != 6 {
 					return fmt.Errorf("decoding codec6: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_codec6)
 				}
-				tmp_codec6 := MSCodec(rawVal_codec6)
+				decVal_codec6, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_codec6.Constructed, rawVal_codec6, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding codec6: %w", octetErr)
+				}
+				tmp_codec6 := MSCodec(decVal_codec6)
 				v.Codec6 = &tmp_codec6
 				if offset < 0 || offset >
 					len(content) || n_codec6 < 0 || n_codec6 > len(content[offset:]) {
@@ -18763,7 +19108,11 @@ func (v *MSCodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 				if decodedTag_codec7.Class != tag.ClassContextSpecific || decodedTag_codec7.Number != 7 {
 					return fmt.Errorf("decoding codec7: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_codec7)
 				}
-				tmp_codec7 := MSCodec(rawVal_codec7)
+				decVal_codec7, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_codec7.Constructed, rawVal_codec7, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding codec7: %w", octetErr)
+				}
+				tmp_codec7 := MSCodec(decVal_codec7)
 				v.Codec7 = &tmp_codec7
 				if offset < 0 || offset >
 					len(content) || n_codec7 < 0 || n_codec7 > len(content[offset:]) {
@@ -18791,7 +19140,11 @@ func (v *MSCodecList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 				if decodedTag_codec8.Class != tag.ClassContextSpecific || decodedTag_codec8.Number != 8 {
 					return fmt.Errorf("decoding codec8: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_codec8)
 				}
-				tmp_codec8 := MSCodec(rawVal_codec8)
+				decVal_codec8, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_codec8.Constructed, rawVal_codec8, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding codec8: %w", octetErr)
+				}
+				tmp_codec8 := MSCodec(decVal_codec8)
 				v.Codec8 = &tmp_codec8
 				if offset < 0 || offset >
 					len(content) || n_codec8 < 0 || n_codec8 > len(content[offset:]) {
@@ -18959,12 +19312,13 @@ func (v *MSSendEndSignalArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if v == nil {
 		return fmt.Errorf("%w: MSSendEndSignalArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSendEndSignalArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -19147,12 +19501,13 @@ func (v *MSSendEndSignalRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if v == nil {
 		return fmt.Errorf("%w: MSSendEndSignalRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSendEndSignalRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -19292,6 +19647,7 @@ func MarshalDERMSRelocationNumberList(collection *MSRelocationNumberList) ([]byt
 
 // UnmarshalBERMSRelocationNumberList decodes a MSRelocationNumberList list from BER.
 func UnmarshalBERMSRelocationNumberList(data []byte, opts ...ber.DecodeOption) (*MSRelocationNumberList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -19332,7 +19688,7 @@ func UnmarshalBERMSRelocationNumberList(data []byte, opts ...ber.DecodeOption) (
 		}
 	}
 	decoded := &MSRelocationNumberList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSRelocationNumberList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -19444,12 +19800,13 @@ func (v *MSRelocationNumber) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if v == nil {
 		return fmt.Errorf("%w: MSRelocationNumber destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSRelocationNumber{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -19756,12 +20113,13 @@ func (v *MSSendAuthenticationInfoArg) UnmarshalBER(data []byte, opts ...ber.Deco
 	if v == nil {
 		return fmt.Errorf("%w: MSSendAuthenticationInfoArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSendAuthenticationInfoArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -19797,7 +20155,11 @@ func (v *MSSendAuthenticationInfoArg) UnmarshalBER(data []byte, opts ...ber.Deco
 	if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
 		return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 	}
-	v.Imsi = CommonDataTypesIMSI(rawVal_imsi)
+	decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding imsi: %w", octetErr)
+	}
+	v.Imsi = CommonDataTypesIMSI(decVal_imsi)
 	if offset < 0 || offset >
 		len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -19974,7 +20336,11 @@ func (v *MSSendAuthenticationInfoArg) UnmarshalBER(data []byte, opts ...ber.Deco
 				if decodedTag_requestingplmnid.Class != tag.ClassContextSpecific || decodedTag_requestingplmnid.Number != 4 {
 					return fmt.Errorf("decoding requestingPLMN-Id: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_requestingplmnid)
 				}
-				tmp_requestingplmnid := CommonDataTypesPLMNId(rawVal_requestingplmnid)
+				decVal_requestingplmnid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_requestingplmnid.Constructed, rawVal_requestingplmnid, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding requestingPLMN-Id: %w", octetErr)
+				}
+				tmp_requestingplmnid := CommonDataTypesPLMNId(decVal_requestingplmnid)
 				v.RequestingPLMNId = &tmp_requestingplmnid
 				if offset < 0 || offset >
 					len(content) || n_requestingplmnid < 0 || n_requestingplmnid > len(content[offset:]) {
@@ -20112,12 +20478,13 @@ func (v *MSReSynchronisationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: MSReSynchronisationInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSReSynchronisationInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -20266,6 +20633,7 @@ func MarshalDERSendAuthenticationInfoResOld(collection *SendAuthenticationInfoRe
 
 // UnmarshalBERSendAuthenticationInfoResOld decodes a SendAuthenticationInfoResOld list from BER.
 func UnmarshalBERSendAuthenticationInfoResOld(data []byte, opts ...ber.DecodeOption) (*SendAuthenticationInfoResOld, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -20306,7 +20674,7 @@ func UnmarshalBERSendAuthenticationInfoResOld(data []byte, opts ...ber.DecodeOpt
 		}
 	}
 	decoded := &SendAuthenticationInfoResOld{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERSendAuthenticationInfoResOld(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -20407,12 +20775,13 @@ func (v *MSSendAuthenticationInfoRes) UnmarshalBER(data []byte, opts ...ber.Deco
 	if v == nil {
 		return fmt.Errorf("%w: MSSendAuthenticationInfoRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSendAuthenticationInfoRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -20552,7 +20921,10 @@ func (v *MSCheckIMEIArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, constraintErr
 		}
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+	if bitStringErr := ber.ValidateBitStringLength(v.RequestedEquipmentInfo.Bytes, v.RequestedEquipmentInfo.BitLength); bitStringErr != nil {
+		return nil, fmt.Errorf("encoding %s: %w", "requestedEquipmentInfo", bitStringErr)
+	}
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 	if v.RequestedEquipmentInfo.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -20602,7 +20974,13 @@ func (v *MSCheckIMEIArg) MarshalDER() ([]byte, error) {
 			return nil, constraintErr
 		}
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+	if bitStringErr := ber.ValidateBitStringLength(v.RequestedEquipmentInfo.Bytes, v.RequestedEquipmentInfo.BitLength); bitStringErr != nil {
+		return nil, fmt.Errorf("encoding %s: %w", "requestedEquipmentInfo", bitStringErr)
+	}
+	if bitStringErr := ber.ValidateDERBitString(v.RequestedEquipmentInfo.Bytes, v.RequestedEquipmentInfo.BitLength); bitStringErr != nil {
+		return nil, fmt.Errorf("encoding %s: %w", "requestedEquipmentInfo", bitStringErr)
+	}
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 	if v.RequestedEquipmentInfo.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -20639,12 +21017,13 @@ func (v *MSCheckIMEIArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	if v == nil {
 		return fmt.Errorf("%w: MSCheckIMEIArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSCheckIMEIArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -20782,6 +21161,11 @@ func (v *MSCheckIMEIRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if v.EquipmentStatus != nil {
+		if int64(*v.EquipmentStatus) != 0 && int64(*v.EquipmentStatus) != 1 && int64(*v.EquipmentStatus) != 2 {
+			if constraintErr := ber.CheckEncodedValue(opts, "equipmentStatus", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(*v.EquipmentStatus))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_equipmentstatus := ber.EncodeEnumerated(int64(*v.EquipmentStatus))
 		children = append(children, enc_equipmentstatus...)
 	}
@@ -20824,6 +21208,11 @@ func (v *MSCheckIMEIRes) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if v.EquipmentStatus != nil {
+		if int64(*v.EquipmentStatus) != 0 && int64(*v.EquipmentStatus) != 1 && int64(*v.EquipmentStatus) != 2 {
+			if constraintErr := ber.CheckEncodedValue(nil, "equipmentStatus", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(*v.EquipmentStatus))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_equipmentstatus := ber.EncodeEnumerated(int64(*v.EquipmentStatus))
 		children = append(children, enc_equipmentstatus...)
 	}
@@ -20867,12 +21256,13 @@ func (v *MSCheckIMEIRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	if v == nil {
 		return fmt.Errorf("%w: MSCheckIMEIRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSCheckIMEIRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -20909,6 +21299,11 @@ func (v *MSCheckIMEIRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				}
 
 				offset += n
+				if int64(*v.EquipmentStatus) != 0 && int64(*v.EquipmentStatus) != 1 && int64(*v.EquipmentStatus) != 2 {
+					if constraintErr := ber.CheckDecodedValue(opts, "equipmentStatus", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(*v.EquipmentStatus))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -21020,7 +21415,10 @@ func (v *MSUESBIIu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.UesbiIuA.Bytes, v.UesbiIuA.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "uesbi-IuA", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.UesbiIuA.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -21041,7 +21439,10 @@ func (v *MSUESBIIu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.UesbiIuB.Bytes, v.UesbiIuB.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "uesbi-IuB", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.UesbiIuB.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -21081,7 +21482,13 @@ func (v *MSUESBIIu) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.UesbiIuA.Bytes, v.UesbiIuA.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "uesbi-IuA", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.UesbiIuA.Bytes, v.UesbiIuA.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "uesbi-IuA", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.UesbiIuA.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -21102,7 +21509,13 @@ func (v *MSUESBIIu) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.UesbiIuB.Bytes, v.UesbiIuB.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "uesbi-IuB", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.UesbiIuB.Bytes, v.UesbiIuB.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "uesbi-IuB", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.UesbiIuB.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -21138,12 +21551,13 @@ func (v *MSUESBIIu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	if v == nil {
 		return fmt.Errorf("%w: MSUESBIIu destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSUESBIIu{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -21334,6 +21748,11 @@ func (v *MSInsertSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_category...)
 	}
 	if v.SubscriberStatus != nil {
+		if int64(*v.SubscriberStatus) != 0 && int64(*v.SubscriberStatus) != 1 {
+			if constraintErr := ber.CheckEncodedValue(opts, "subscriberStatus", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.SubscriberStatus))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_subscriberstatus := ber.EncodeEnumerated(int64(*v.SubscriberStatus))
 		retagged_enc_subscriberstatus, tagErr_enc_subscriberstatus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_subscriberstatus)
 		if tagErr_enc_subscriberstatus != nil {
@@ -21749,7 +22168,10 @@ func (v *MSInsertSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.AccessRestrictionData.Bytes, v.AccessRestrictionData.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "accessRestrictionData", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.AccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -21840,6 +22262,11 @@ func (v *MSInsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_category...)
 	}
 	if v.SubscriberStatus != nil {
+		if int64(*v.SubscriberStatus) != 0 && int64(*v.SubscriberStatus) != 1 {
+			if constraintErr := ber.CheckEncodedValue(nil, "subscriberStatus", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.SubscriberStatus))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_subscriberstatus := ber.EncodeEnumerated(int64(*v.SubscriberStatus))
 		retagged_enc_subscriberstatus, tagErr_enc_subscriberstatus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_subscriberstatus)
 		if tagErr_enc_subscriberstatus != nil {
@@ -22165,7 +22592,13 @@ func (v *MSInsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.AccessRestrictionData.Bytes, v.AccessRestrictionData.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "accessRestrictionData", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.AccessRestrictionData.Bytes, v.AccessRestrictionData.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "accessRestrictionData", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.AccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -22201,12 +22634,13 @@ func (v *MSInsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: MSInsertSubscriberDataArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSInsertSubscriberDataArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -22238,7 +22672,11 @@ func (v *MSInsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
 					return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 				}
-				tmp_imsi := CommonDataTypesIMSI(rawVal_imsi)
+				decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding imsi: %w", octetErr)
+				}
+				tmp_imsi := CommonDataTypesIMSI(decVal_imsi)
 				v.Imsi = &tmp_imsi
 				if offset < 0 || offset >
 					len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
@@ -22266,7 +22704,11 @@ func (v *MSInsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				if decodedTag_msisdn.Class != tag.ClassContextSpecific || decodedTag_msisdn.Number != 1 {
 					return fmt.Errorf("decoding msisdn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msisdn)
 				}
-				tmp_msisdn := CommonDataTypesISDNAddressString(rawVal_msisdn)
+				decVal_msisdn, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_msisdn.Constructed, rawVal_msisdn, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding msisdn: %w", octetErr)
+				}
+				tmp_msisdn := CommonDataTypesISDNAddressString(decVal_msisdn)
 				v.Msisdn = &tmp_msisdn
 				if offset < 0 || offset >
 					len(content) || n_msisdn < 0 || n_msisdn > len(content[offset:]) {
@@ -22299,7 +22741,11 @@ func (v *MSInsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				if decodedTag_category.Class != tag.ClassContextSpecific || decodedTag_category.Number != 2 {
 					return fmt.Errorf("decoding category: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_category)
 				}
-				tmp_category := MSCategory(rawVal_category)
+				decVal_category, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_category.Constructed, rawVal_category, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding category: %w", octetErr)
+				}
+				tmp_category := MSCategory(decVal_category)
 				v.Category = &tmp_category
 				if offset < 0 || offset >
 					len(content) || n_category < 0 || n_category > len(content[offset:]) {
@@ -22339,6 +22785,11 @@ func (v *MSInsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_subscriberstatus
+				if int64(*v.SubscriberStatus) != 0 && int64(*v.SubscriberStatus) != 1 {
+					if constraintErr := ber.CheckDecodedValue(opts, "subscriberStatus", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.SubscriberStatus))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -22988,7 +23439,11 @@ func (v *MSInsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				if decodedTag_superchargersupportedinhlr.Class != tag.ClassContextSpecific || decodedTag_superchargersupportedinhlr.Number != 27 {
 					return fmt.Errorf("decoding superChargerSupportedInHLR: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_superchargersupportedinhlr)
 				}
-				tmp_superchargersupportedinhlr := MSAgeIndicator(rawVal_superchargersupportedinhlr)
+				decVal_superchargersupportedinhlr, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_superchargersupportedinhlr.Constructed, rawVal_superchargersupportedinhlr, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding superChargerSupportedInHLR: %w", octetErr)
+				}
+				tmp_superchargersupportedinhlr := MSAgeIndicator(decVal_superchargersupportedinhlr)
 				v.SuperChargerSupportedInHLR = &tmp_superchargersupportedinhlr
 				if offset < 0 || offset >
 					len(content) || n_superchargersupportedinhlr < 0 || n_superchargersupportedinhlr >
@@ -23047,7 +23502,11 @@ func (v *MSInsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				if decodedTag_csallocationretentionpriority.Class != tag.ClassContextSpecific || decodedTag_csallocationretentionpriority.Number != 29 {
 					return fmt.Errorf("decoding cs-AllocationRetentionPriority: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_csallocationretentionpriority)
 				}
-				tmp_csallocationretentionpriority := MSCSAllocationRetentionPriority(rawVal_csallocationretentionpriority)
+				decVal_csallocationretentionpriority, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_csallocationretentionpriority.Constructed, rawVal_csallocationretentionpriority, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding cs-AllocationRetentionPriority: %w", octetErr)
+				}
+				tmp_csallocationretentionpriority := MSCSAllocationRetentionPriority(decVal_csallocationretentionpriority)
 				v.CsAllocationRetentionPriority = &tmp_csallocationretentionpriority
 				if offset < 0 || offset >
 					len(content) || n_csallocationretentionpriority < 0 || n_csallocationretentionpriority >
@@ -23107,7 +23566,11 @@ func (v *MSInsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				if decodedTag_chargingcharacteristics.Class != tag.ClassContextSpecific || decodedTag_chargingcharacteristics.Number != 18 {
 					return fmt.Errorf("decoding chargingCharacteristics: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_chargingcharacteristics)
 				}
-				tmp_chargingcharacteristics := MSChargingCharacteristics(rawVal_chargingcharacteristics)
+				decVal_chargingcharacteristics, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_chargingcharacteristics.Constructed, rawVal_chargingcharacteristics, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding chargingCharacteristics: %w", octetErr)
+				}
+				tmp_chargingcharacteristics := MSChargingCharacteristics(decVal_chargingcharacteristics)
 				v.ChargingCharacteristics = &tmp_chargingcharacteristics
 				if offset < 0 || offset >
 					len(content) || n_chargingcharacteristics < 0 || n_chargingcharacteristics >
@@ -23439,12 +23902,13 @@ func (v *MSLCSInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: MSLCSInformation destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSLCSInformation{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -23702,7 +24166,17 @@ func marshalBERMSGMLCList(collection *MSGMLCList, opts ...ber.EncodeOption) ([]b
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 9 {
+			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		if len(elem) < 1 || len(elem) > 20 {
+			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -23724,7 +24198,17 @@ func MarshalDERMSGMLCList(collection *MSGMLCList) ([]byte, error) {
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 9 {
+			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		if len(elem) < 1 || len(elem) > 20 {
+			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -23743,6 +24227,7 @@ func MarshalDERMSGMLCList(collection *MSGMLCList) ([]byte, error) {
 
 // UnmarshalBERMSGMLCList decodes a MSGMLCList list from BER.
 func UnmarshalBERMSGMLCList(data []byte, opts ...ber.DecodeOption) (*MSGMLCList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -23760,6 +24245,16 @@ func UnmarshalBERMSGMLCList(data []byte, opts ...ber.DecodeOption) (*MSGMLCList,
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
+		if len(val) < 1 || len(val) > 9 {
+			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (1..9)", len(val)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		if len(val) < 1 || len(val) > 20 {
+			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (1..20)", len(val)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		result = append(result, CommonDataTypesISDNAddressString(val))
 		if offset < 0 || offset >
 			len(content) || n < 0 || n > len(content[offset:]) {
@@ -23774,7 +24269,7 @@ func UnmarshalBERMSGMLCList(data []byte, opts ...ber.DecodeOption) (*MSGMLCList,
 		}
 	}
 	decoded := &MSGMLCList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSGMLCList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -23849,6 +24344,7 @@ func MarshalDERMSGPRSDataList(collection *MSGPRSDataList) ([]byte, error) {
 
 // UnmarshalBERMSGPRSDataList decodes a MSGPRSDataList list from BER.
 func UnmarshalBERMSGPRSDataList(data []byte, opts ...ber.DecodeOption) (*MSGPRSDataList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -23889,7 +24385,7 @@ func UnmarshalBERMSGPRSDataList(data []byte, opts ...ber.DecodeOption) (*MSGPRSD
 		}
 	}
 	decoded := &MSGPRSDataList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSGPRSDataList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -24239,12 +24735,13 @@ func (v *MSPDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if v == nil {
 		return fmt.Errorf("%w: MSPDPContext destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSPDPContext{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -24300,7 +24797,11 @@ func (v *MSPDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if decodedTag_pdptype.Class != tag.ClassContextSpecific || decodedTag_pdptype.Number != 16 {
 		return fmt.Errorf("decoding pdp-Type: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pdptype)
 	}
-	v.PdpType = MSPDPType(rawVal_pdptype)
+	decVal_pdptype, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_pdptype.Constructed, rawVal_pdptype, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding pdp-Type: %w", octetErr)
+	}
+	v.PdpType = MSPDPType(decVal_pdptype)
 	if offset < 0 || offset >
 		len(content) || n_pdptype < 0 || n_pdptype > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -24324,7 +24825,11 @@ func (v *MSPDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 				if decodedTag_pdpaddress.Class != tag.ClassContextSpecific || decodedTag_pdpaddress.Number != 17 {
 					return fmt.Errorf("decoding pdp-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pdpaddress)
 				}
-				tmp_pdpaddress := MSPDPAddress(rawVal_pdpaddress)
+				decVal_pdpaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_pdpaddress.Constructed, rawVal_pdpaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding pdp-Address: %w", octetErr)
+				}
+				tmp_pdpaddress := MSPDPAddress(decVal_pdpaddress)
 				v.PdpAddress = &tmp_pdpaddress
 				if offset < 0 || offset >
 					len(content) || n_pdpaddress < 0 || n_pdpaddress > len(content[offset:]) {
@@ -24356,7 +24861,11 @@ func (v *MSPDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if decodedTag_qossubscribed.Class != tag.ClassContextSpecific || decodedTag_qossubscribed.Number != 18 {
 		return fmt.Errorf("decoding qos-Subscribed: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_qossubscribed)
 	}
-	v.QosSubscribed = MSQoSSubscribed(rawVal_qossubscribed)
+	decVal_qossubscribed, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_qossubscribed.Constructed, rawVal_qossubscribed, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding qos-Subscribed: %w", octetErr)
+	}
+	v.QosSubscribed = MSQoSSubscribed(decVal_qossubscribed)
 	if offset < 0 || offset >
 		len(content) || n_qossubscribed < 0 || n_qossubscribed >
 		len(content[offset:]) {
@@ -24411,7 +24920,11 @@ func (v *MSPDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if decodedTag_apn.Class != tag.ClassContextSpecific || decodedTag_apn.Number != 20 {
 		return fmt.Errorf("decoding apn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_apn)
 	}
-	v.Apn = MSAPN(rawVal_apn)
+	decVal_apn, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_apn.Constructed, rawVal_apn, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding apn: %w", octetErr)
+	}
+	v.Apn = MSAPN(decVal_apn)
 	if offset < 0 || offset >
 		len(content) || n_apn < 0 || n_apn > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -24466,7 +24979,11 @@ func (v *MSPDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 				if decodedTag_extqossubscribed.Class != tag.ClassContextSpecific || decodedTag_extqossubscribed.Number != 0 {
 					return fmt.Errorf("decoding ext-QoS-Subscribed: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extqossubscribed)
 				}
-				tmp_extqossubscribed := MSExtQoSSubscribed(rawVal_extqossubscribed)
+				decVal_extqossubscribed, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_extqossubscribed.Constructed, rawVal_extqossubscribed, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ext-QoS-Subscribed: %w", octetErr)
+				}
+				tmp_extqossubscribed := MSExtQoSSubscribed(decVal_extqossubscribed)
 				v.ExtQoSSubscribed = &tmp_extqossubscribed
 				if offset < 0 || offset >
 					len(content) || n_extqossubscribed < 0 || n_extqossubscribed >
@@ -24495,7 +25012,11 @@ func (v *MSPDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 				if decodedTag_pdpchargingcharacteristics.Class != tag.ClassContextSpecific || decodedTag_pdpchargingcharacteristics.Number != 1 {
 					return fmt.Errorf("decoding pdp-ChargingCharacteristics: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pdpchargingcharacteristics)
 				}
-				tmp_pdpchargingcharacteristics := MSChargingCharacteristics(rawVal_pdpchargingcharacteristics)
+				decVal_pdpchargingcharacteristics, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_pdpchargingcharacteristics.Constructed, rawVal_pdpchargingcharacteristics, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding pdp-ChargingCharacteristics: %w", octetErr)
+				}
+				tmp_pdpchargingcharacteristics := MSChargingCharacteristics(decVal_pdpchargingcharacteristics)
 				v.PdpChargingCharacteristics = &tmp_pdpchargingcharacteristics
 				if offset < 0 || offset >
 					len(content) || n_pdpchargingcharacteristics < 0 || n_pdpchargingcharacteristics >
@@ -24524,7 +25045,11 @@ func (v *MSPDPContext) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 				if decodedTag_ext2qossubscribed.Class != tag.ClassContextSpecific || decodedTag_ext2qossubscribed.Number != 2 {
 					return fmt.Errorf("decoding ext2-QoS-Subscribed: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ext2qossubscribed)
 				}
-				tmp_ext2qossubscribed := MSExt2QoSSubscribed(rawVal_ext2qossubscribed)
+				decVal_ext2qossubscribed, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ext2qossubscribed.Constructed, rawVal_ext2qossubscribed, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ext2-QoS-Subscribed: %w", octetErr)
+				}
+				tmp_ext2qossubscribed := MSExt2QoSSubscribed(decVal_ext2qossubscribed)
 				v.Ext2QoSSubscribed = &tmp_ext2qossubscribed
 				if offset < 0 || offset >
 					len(content) || n_ext2qossubscribed < 0 || n_ext2qossubscribed >
@@ -24706,12 +25231,13 @@ func (v *MSGPRSSubscriptionData) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	if v == nil {
 		return fmt.Errorf("%w: MSGPRSSubscriptionData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSGPRSSubscriptionData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -25080,12 +25606,13 @@ func (v *MSSGSNCAMELSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.Deco
 	if v == nil {
 		return fmt.Errorf("%w: MSSGSNCAMELSubscriptionInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSGSNCAMELSubscriptionInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -25522,12 +26049,13 @@ func (v *MSGPRSCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	if v == nil {
 		return fmt.Errorf("%w: MSGPRSCSI destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSGPRSCSI{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -25799,6 +26327,7 @@ func MarshalDERMSGPRSCamelTDPDataList(collection *MSGPRSCamelTDPDataList) ([]byt
 
 // UnmarshalBERMSGPRSCamelTDPDataList decodes a MSGPRSCamelTDPDataList list from BER.
 func UnmarshalBERMSGPRSCamelTDPDataList(data []byte, opts ...ber.DecodeOption) (*MSGPRSCamelTDPDataList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -25839,7 +26368,7 @@ func UnmarshalBERMSGPRSCamelTDPDataList(data []byte, opts ...ber.DecodeOption) (
 		}
 	}
 	decoded := &MSGPRSCamelTDPDataList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSGPRSCamelTDPDataList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -26023,12 +26552,13 @@ func (v *MSGPRSCamelTDPData) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if v == nil {
 		return fmt.Errorf("%w: MSGPRSCamelTDPData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSGPRSCamelTDPData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -26124,7 +26654,11 @@ func (v *MSGPRSCamelTDPData) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if decodedTag_gsmscfaddress.Class != tag.ClassContextSpecific || decodedTag_gsmscfaddress.Number != 2 {
 		return fmt.Errorf("decoding gsmSCF-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gsmscfaddress)
 	}
-	v.GsmSCFAddress = CommonDataTypesISDNAddressString(rawVal_gsmscfaddress)
+	decVal_gsmscfaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_gsmscfaddress.Constructed, rawVal_gsmscfaddress, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding gsmSCF-Address: %w", octetErr)
+	}
+	v.GsmSCFAddress = CommonDataTypesISDNAddressString(decVal_gsmscfaddress)
 	if offset < 0 || offset >
 		len(content) || n_gsmscfaddress < 0 || n_gsmscfaddress > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -26289,6 +26823,7 @@ func MarshalDERMSLSADataList(collection *MSLSADataList) ([]byte, error) {
 
 // UnmarshalBERMSLSADataList decodes a MSLSADataList list from BER.
 func UnmarshalBERMSLSADataList(data []byte, opts ...ber.DecodeOption) (*MSLSADataList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -26329,7 +26864,7 @@ func UnmarshalBERMSLSADataList(data []byte, opts ...ber.DecodeOption) (*MSLSADat
 		}
 	}
 	decoded := &MSLSADataList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSLSADataList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -26499,12 +27034,13 @@ func (v *MSLSAData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	if v == nil {
 		return fmt.Errorf("%w: MSLSAData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSLSAData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -26540,7 +27076,11 @@ func (v *MSLSAData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	if decodedTag_lsaidentity.Class != tag.ClassContextSpecific || decodedTag_lsaidentity.Number != 0 {
 		return fmt.Errorf("decoding lsaIdentity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lsaidentity)
 	}
-	v.LsaIdentity = MSLSAIdentity(rawVal_lsaidentity)
+	decVal_lsaidentity, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_lsaidentity.Constructed, rawVal_lsaidentity, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding lsaIdentity: %w", octetErr)
+	}
+	v.LsaIdentity = MSLSAIdentity(decVal_lsaidentity)
 	if offset < 0 || offset >
 		len(content) || n_lsaidentity < 0 || n_lsaidentity >
 		len(content[offset:]) {
@@ -26569,7 +27109,11 @@ func (v *MSLSAData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	if decodedTag_lsaattributes.Class != tag.ClassContextSpecific || decodedTag_lsaattributes.Number != 1 {
 		return fmt.Errorf("decoding lsaAttributes: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lsaattributes)
 	}
-	v.LsaAttributes = MSLSAAttributes(rawVal_lsaattributes)
+	decVal_lsaattributes, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_lsaattributes.Constructed, rawVal_lsaattributes, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding lsaAttributes: %w", octetErr)
+	}
+	v.LsaAttributes = MSLSAAttributes(decVal_lsaattributes)
 	if offset < 0 || offset >
 		len(content) || n_lsaattributes < 0 || n_lsaattributes >
 		len(content[offset:]) {
@@ -26686,6 +27230,11 @@ func (v *MSLSAInformation) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_completedatalistincluded...)
 	}
 	if v.LsaOnlyAccessIndicator != nil {
+		if int64(*v.LsaOnlyAccessIndicator) != 0 && int64(*v.LsaOnlyAccessIndicator) != 1 {
+			if constraintErr := ber.CheckEncodedValue(opts, "lsaOnlyAccessIndicator", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.LsaOnlyAccessIndicator))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_lsaonlyaccessindicator := ber.EncodeEnumerated(int64(*v.LsaOnlyAccessIndicator))
 		retagged_enc_lsaonlyaccessindicator, tagErr_enc_lsaonlyaccessindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_lsaonlyaccessindicator)
 		if tagErr_enc_lsaonlyaccessindicator != nil {
@@ -26762,6 +27311,11 @@ func (v *MSLSAInformation) MarshalDER() ([]byte, error) {
 		children = append(children, enc_completedatalistincluded...)
 	}
 	if v.LsaOnlyAccessIndicator != nil {
+		if int64(*v.LsaOnlyAccessIndicator) != 0 && int64(*v.LsaOnlyAccessIndicator) != 1 {
+			if constraintErr := ber.CheckEncodedValue(nil, "lsaOnlyAccessIndicator", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.LsaOnlyAccessIndicator))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_lsaonlyaccessindicator := ber.EncodeEnumerated(int64(*v.LsaOnlyAccessIndicator))
 		retagged_enc_lsaonlyaccessindicator, tagErr_enc_lsaonlyaccessindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_lsaonlyaccessindicator)
 		if tagErr_enc_lsaonlyaccessindicator != nil {
@@ -26820,12 +27374,13 @@ func (v *MSLSAInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: MSLSAInformation destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSLSAInformation{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -26889,6 +27444,11 @@ func (v *MSLSAInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				}
 
 				offset += n_lsaonlyaccessindicator
+				if int64(*v.LsaOnlyAccessIndicator) != 0 && int64(*v.LsaOnlyAccessIndicator) != 1 {
+					if constraintErr := ber.CheckDecodedValue(opts, "lsaOnlyAccessIndicator", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.LsaOnlyAccessIndicator))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -27053,6 +27613,11 @@ func (v *MSSubscriberData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_category...)
 	}
 	if v.SubscriberStatus != nil {
+		if int64(*v.SubscriberStatus) != 0 && int64(*v.SubscriberStatus) != 1 {
+			if constraintErr := ber.CheckEncodedValue(opts, "subscriberStatus", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.SubscriberStatus))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_subscriberstatus := ber.EncodeEnumerated(int64(*v.SubscriberStatus))
 		retagged_enc_subscriberstatus, tagErr_enc_subscriberstatus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_subscriberstatus)
 		if tagErr_enc_subscriberstatus != nil {
@@ -27335,6 +27900,11 @@ func (v *MSSubscriberData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_category...)
 	}
 	if v.SubscriberStatus != nil {
+		if int64(*v.SubscriberStatus) != 0 && int64(*v.SubscriberStatus) != 1 {
+			if constraintErr := ber.CheckEncodedValue(nil, "subscriberStatus", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.SubscriberStatus))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_subscriberstatus := ber.EncodeEnumerated(int64(*v.SubscriberStatus))
 		retagged_enc_subscriberstatus, tagErr_enc_subscriberstatus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_subscriberstatus)
 		if tagErr_enc_subscriberstatus != nil {
@@ -27493,12 +28063,13 @@ func (v *MSSubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: MSSubscriberData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSubscriberData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -27530,7 +28101,11 @@ func (v *MSSubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_msisdn.Class != tag.ClassContextSpecific || decodedTag_msisdn.Number != 1 {
 					return fmt.Errorf("decoding msisdn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msisdn)
 				}
-				tmp_msisdn := CommonDataTypesISDNAddressString(rawVal_msisdn)
+				decVal_msisdn, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_msisdn.Constructed, rawVal_msisdn, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding msisdn: %w", octetErr)
+				}
+				tmp_msisdn := CommonDataTypesISDNAddressString(decVal_msisdn)
 				v.Msisdn = &tmp_msisdn
 				if offset < 0 || offset >
 					len(content) || n_msisdn < 0 || n_msisdn > len(content[offset:]) {
@@ -27563,7 +28138,11 @@ func (v *MSSubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_category.Class != tag.ClassContextSpecific || decodedTag_category.Number != 2 {
 					return fmt.Errorf("decoding category: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_category)
 				}
-				tmp_category := MSCategory(rawVal_category)
+				decVal_category, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_category.Constructed, rawVal_category, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding category: %w", octetErr)
+				}
+				tmp_category := MSCategory(decVal_category)
 				v.Category = &tmp_category
 				if offset < 0 || offset >
 					len(content) || n_category < 0 || n_category > len(content[offset:]) {
@@ -27604,6 +28183,11 @@ func (v *MSSubscriberData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				}
 
 				offset += n_subscriberstatus
+				if int64(*v.SubscriberStatus) != 0 && int64(*v.SubscriberStatus) != 1 {
+					if constraintErr := ber.CheckDecodedValue(opts, "subscriberStatus", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.SubscriberStatus))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -28010,7 +28594,12 @@ func marshalBERMSBearerServiceList(collection *MSBearerServiceList, opts ...ber.
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 5 {
+			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..5)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -28032,7 +28621,12 @@ func MarshalDERMSBearerServiceList(collection *MSBearerServiceList) ([]byte, err
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 5 {
+			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..5)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -28051,6 +28645,7 @@ func MarshalDERMSBearerServiceList(collection *MSBearerServiceList) ([]byte, err
 
 // UnmarshalBERMSBearerServiceList decodes a MSBearerServiceList list from BER.
 func UnmarshalBERMSBearerServiceList(data []byte, opts ...ber.DecodeOption) (*MSBearerServiceList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -28068,6 +28663,11 @@ func UnmarshalBERMSBearerServiceList(data []byte, opts ...ber.DecodeOption) (*MS
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
+		if len(val) < 1 || len(val) > 5 {
+			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (1..5)", len(val)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		result = append(result, BSExtBearerServiceCode(val))
 		if offset < 0 || offset >
 			len(content) || n < 0 || n > len(content[offset:]) {
@@ -28082,7 +28682,7 @@ func UnmarshalBERMSBearerServiceList(data []byte, opts ...ber.DecodeOption) (*MS
 		}
 	}
 	decoded := &MSBearerServiceList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSBearerServiceList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -28116,7 +28716,12 @@ func marshalBERMSTeleserviceList(collection *MSTeleserviceList, opts ...ber.Enco
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 5 {
+			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..5)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -28138,7 +28743,12 @@ func MarshalDERMSTeleserviceList(collection *MSTeleserviceList) ([]byte, error) 
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 5 {
+			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..5)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -28157,6 +28767,7 @@ func MarshalDERMSTeleserviceList(collection *MSTeleserviceList) ([]byte, error) 
 
 // UnmarshalBERMSTeleserviceList decodes a MSTeleserviceList list from BER.
 func UnmarshalBERMSTeleserviceList(data []byte, opts ...ber.DecodeOption) (*MSTeleserviceList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -28174,6 +28785,11 @@ func UnmarshalBERMSTeleserviceList(data []byte, opts ...ber.DecodeOption) (*MSTe
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
+		if len(val) < 1 || len(val) > 5 {
+			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (1..5)", len(val)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		result = append(result, TSExtTeleserviceCode(val))
 		if offset < 0 || offset >
 			len(content) || n < 0 || n > len(content[offset:]) {
@@ -28188,7 +28804,7 @@ func UnmarshalBERMSTeleserviceList(data []byte, opts ...ber.DecodeOption) (*MSTe
 		}
 	}
 	decoded := &MSTeleserviceList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSTeleserviceList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -28221,7 +28837,10 @@ func (v *MSODBData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, constraintErr
 		}
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+	if bitStringErr := ber.ValidateBitStringLength(v.OdbGeneralData.Bytes, v.OdbGeneralData.BitLength); bitStringErr != nil {
+		return nil, fmt.Errorf("encoding %s: %w", "odb-GeneralData", bitStringErr)
+	}
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 	if v.OdbGeneralData.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -28236,7 +28855,10 @@ func (v *MSODBData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OdbHPLMNData.Bytes, v.OdbHPLMNData.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "odb-HPLMN-Data", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OdbHPLMNData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -28277,7 +28899,13 @@ func (v *MSODBData) MarshalDER() ([]byte, error) {
 			return nil, constraintErr
 		}
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+	if bitStringErr := ber.ValidateBitStringLength(v.OdbGeneralData.Bytes, v.OdbGeneralData.BitLength); bitStringErr != nil {
+		return nil, fmt.Errorf("encoding %s: %w", "odb-GeneralData", bitStringErr)
+	}
+	if bitStringErr := ber.ValidateDERBitString(v.OdbGeneralData.Bytes, v.OdbGeneralData.BitLength); bitStringErr != nil {
+		return nil, fmt.Errorf("encoding %s: %w", "odb-GeneralData", bitStringErr)
+	}
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 	if v.OdbGeneralData.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -28292,7 +28920,13 @@ func (v *MSODBData) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OdbHPLMNData.Bytes, v.OdbHPLMNData.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "odb-HPLMN-Data", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.OdbHPLMNData.Bytes, v.OdbHPLMNData.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "odb-HPLMN-Data", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OdbHPLMNData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -28330,12 +28964,13 @@ func (v *MSODBData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	if v == nil {
 		return fmt.Errorf("%w: MSODBData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSODBData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -28528,6 +29163,7 @@ func MarshalDERMSExtSSInfoList(collection *MSExtSSInfoList) ([]byte, error) {
 
 // UnmarshalBERMSExtSSInfoList decodes a MSExtSSInfoList list from BER.
 func UnmarshalBERMSExtSSInfoList(data []byte, opts ...ber.DecodeOption) (*MSExtSSInfoList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -28568,7 +29204,7 @@ func UnmarshalBERMSExtSSInfoList(data []byte, opts ...ber.DecodeOption) (*MSExtS
 		}
 	}
 	decoded := &MSExtSSInfoList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSExtSSInfoList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -28763,7 +29399,7 @@ func (v *MSExtSSInfo) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_4, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -28778,8 +29414,9 @@ func (v *MSExtSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if v == nil {
 		return fmt.Errorf("%w: MSExtSSInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -29019,12 +29656,13 @@ func (v *MSExtForwInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	if v == nil {
 		return fmt.Errorf("%w: MSExtForwInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSExtForwInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -29224,6 +29862,7 @@ func MarshalDERMSExtForwFeatureList(collection *MSExtForwFeatureList) ([]byte, e
 
 // UnmarshalBERMSExtForwFeatureList decodes a MSExtForwFeatureList list from BER.
 func UnmarshalBERMSExtForwFeatureList(data []byte, opts ...ber.DecodeOption) (*MSExtForwFeatureList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -29264,7 +29903,7 @@ func UnmarshalBERMSExtForwFeatureList(data []byte, opts ...ber.DecodeOption) (*M
 		}
 	}
 	decoded := &MSExtForwFeatureList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSExtForwFeatureList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -29584,12 +30223,13 @@ func (v *MSExtForwFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: MSExtForwFeature destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSExtForwFeature{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -29654,7 +30294,11 @@ func (v *MSExtForwFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 4 {
 		return fmt.Errorf("decoding ss-Status: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus)
 	}
-	v.SsStatus = CommonDataTypesExtSSStatus(rawVal_ssstatus)
+	decVal_ssstatus, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ssstatus.Constructed, rawVal_ssstatus, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding ss-Status: %w", octetErr)
+	}
+	v.SsStatus = CommonDataTypesExtSSStatus(decVal_ssstatus)
 	if offset < 0 || offset >
 		len(content) || n_ssstatus < 0 || n_ssstatus > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -29678,7 +30322,11 @@ func (v *MSExtForwFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_forwardedtonumber.Class != tag.ClassContextSpecific || decodedTag_forwardedtonumber.Number != 5 {
 					return fmt.Errorf("decoding forwardedToNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardedtonumber)
 				}
-				tmp_forwardedtonumber := CommonDataTypesISDNAddressString(rawVal_forwardedtonumber)
+				decVal_forwardedtonumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_forwardedtonumber.Constructed, rawVal_forwardedtonumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding forwardedToNumber: %w", octetErr)
+				}
+				tmp_forwardedtonumber := CommonDataTypesISDNAddressString(decVal_forwardedtonumber)
 				v.ForwardedToNumber = &tmp_forwardedtonumber
 				if offset < 0 || offset >
 					len(content) || n_forwardedtonumber < 0 || n_forwardedtonumber >
@@ -29712,7 +30360,11 @@ func (v *MSExtForwFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_forwardedtosubaddress.Class != tag.ClassContextSpecific || decodedTag_forwardedtosubaddress.Number != 8 {
 					return fmt.Errorf("decoding forwardedToSubaddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardedtosubaddress)
 				}
-				tmp_forwardedtosubaddress := CommonDataTypesISDNSubaddressString(rawVal_forwardedtosubaddress)
+				decVal_forwardedtosubaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_forwardedtosubaddress.Constructed, rawVal_forwardedtosubaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding forwardedToSubaddress: %w", octetErr)
+				}
+				tmp_forwardedtosubaddress := CommonDataTypesISDNSubaddressString(decVal_forwardedtosubaddress)
 				v.ForwardedToSubaddress = &tmp_forwardedtosubaddress
 				if offset < 0 || offset >
 					len(content) || n_forwardedtosubaddress < 0 || n_forwardedtosubaddress >
@@ -29741,7 +30393,11 @@ func (v *MSExtForwFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_forwardingoptions.Class != tag.ClassContextSpecific || decodedTag_forwardingoptions.Number != 6 {
 					return fmt.Errorf("decoding forwardingOptions: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardingoptions)
 				}
-				tmp_forwardingoptions := MSExtForwOptions(rawVal_forwardingoptions)
+				decVal_forwardingoptions, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_forwardingoptions.Constructed, rawVal_forwardingoptions, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding forwardingOptions: %w", octetErr)
+				}
+				tmp_forwardingoptions := MSExtForwOptions(decVal_forwardingoptions)
 				v.ForwardingOptions = &tmp_forwardingoptions
 				if offset < 0 || offset >
 					len(content) || n_forwardingoptions < 0 || n_forwardingoptions >
@@ -29834,7 +30490,11 @@ func (v *MSExtForwFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_longforwardedtonumber.Class != tag.ClassContextSpecific || decodedTag_longforwardedtonumber.Number != 10 {
 					return fmt.Errorf("decoding longForwardedToNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_longforwardedtonumber)
 				}
-				tmp_longforwardedtonumber := CommonDataTypesFTNAddressString(rawVal_longforwardedtonumber)
+				decVal_longforwardedtonumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_longforwardedtonumber.Constructed, rawVal_longforwardedtonumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding longForwardedToNumber: %w", octetErr)
+				}
+				tmp_longforwardedtonumber := CommonDataTypesFTNAddressString(decVal_longforwardedtonumber)
 				v.LongForwardedToNumber = &tmp_longforwardedtonumber
 				if offset < 0 || offset >
 					len(content) || n_longforwardedtonumber < 0 || n_longforwardedtonumber >
@@ -29998,12 +30658,13 @@ func (v *MSExtCallBarInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: MSExtCallBarInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSExtCallBarInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -30203,6 +30864,7 @@ func MarshalDERMSExtCallBarFeatureList(collection *MSExtCallBarFeatureList) ([]b
 
 // UnmarshalBERMSExtCallBarFeatureList decodes a MSExtCallBarFeatureList list from BER.
 func UnmarshalBERMSExtCallBarFeatureList(data []byte, opts ...ber.DecodeOption) (*MSExtCallBarFeatureList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -30243,7 +30905,7 @@ func UnmarshalBERMSExtCallBarFeatureList(data []byte, opts ...ber.DecodeOption) 
 		}
 	}
 	decoded := &MSExtCallBarFeatureList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSExtCallBarFeatureList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -30369,12 +31031,13 @@ func (v *MSExtCallBarringFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: MSExtCallBarringFeature destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSExtCallBarringFeature{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -30439,7 +31102,11 @@ func (v *MSExtCallBarringFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 4 {
 		return fmt.Errorf("decoding ss-Status: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus)
 	}
-	v.SsStatus = CommonDataTypesExtSSStatus(rawVal_ssstatus)
+	decVal_ssstatus, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ssstatus.Constructed, rawVal_ssstatus, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding ss-Status: %w", octetErr)
+	}
+	v.SsStatus = CommonDataTypesExtSSStatus(decVal_ssstatus)
 	if offset < 0 || offset >
 		len(content) || n_ssstatus < 0 || n_ssstatus > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -30638,12 +31305,13 @@ func (v *MSCUGInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	if v == nil {
 		return fmt.Errorf("%w: MSCUGInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSCUGInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -30867,6 +31535,7 @@ func MarshalDERMSCUGSubscriptionList(collection *MSCUGSubscriptionList) ([]byte,
 
 // UnmarshalBERMSCUGSubscriptionList decodes a MSCUGSubscriptionList list from BER.
 func UnmarshalBERMSCUGSubscriptionList(data []byte, opts ...ber.DecodeOption) (*MSCUGSubscriptionList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -30907,7 +31576,7 @@ func UnmarshalBERMSCUGSubscriptionList(data []byte, opts ...ber.DecodeOption) (*
 		}
 	}
 	decoded := &MSCUGSubscriptionList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSCUGSubscriptionList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -30952,6 +31621,11 @@ func (v *MSCUGSubscription) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		return nil, fmt.Errorf("encoding cug-Interlock: %w", encodeErr_enc_cuginterlock)
 	}
 	children = append(children, enc_cuginterlock...)
+	if int64(v.IntraCUGOptions) != 0 && int64(v.IntraCUGOptions) != 1 && int64(v.IntraCUGOptions) != 2 {
+		if constraintErr := ber.CheckEncodedValue(opts, "intraCUG-Options", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(v.IntraCUGOptions))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_intracugoptions := ber.EncodeEnumerated(int64(v.IntraCUGOptions))
 	children = append(children, enc_intracugoptions...)
 	if v.BasicServiceGroupList != nil {
@@ -31014,6 +31688,11 @@ func (v *MSCUGSubscription) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding cug-Interlock: %w", encodeErr_enc_cuginterlock)
 	}
 	children = append(children, enc_cuginterlock...)
+	if int64(v.IntraCUGOptions) != 0 && int64(v.IntraCUGOptions) != 1 && int64(v.IntraCUGOptions) != 2 {
+		if constraintErr := ber.CheckEncodedValue(nil, "intraCUG-Options", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(v.IntraCUGOptions))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_intracugoptions := ber.EncodeEnumerated(int64(v.IntraCUGOptions))
 	children = append(children, enc_intracugoptions...)
 	if v.BasicServiceGroupList != nil {
@@ -31061,12 +31740,13 @@ func (v *MSCUGSubscription) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if v == nil {
 		return fmt.Errorf("%w: MSCUGSubscription destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSCUGSubscription{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -31141,6 +31821,11 @@ func (v *MSCUGSubscription) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	}
 
 	offset += n
+	if int64(v.IntraCUGOptions) != 0 && int64(v.IntraCUGOptions) != 1 && int64(v.IntraCUGOptions) != 2 {
+		if constraintErr := ber.CheckDecodedValue(opts, "intraCUG-Options", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(v.IntraCUGOptions))); constraintErr != nil {
+			return constraintErr
+		}
+	}
 	// Decode basicServiceGroupList
 	v.BasicServiceGroupListIndef_ = false
 	if offset < len(content) {
@@ -31305,6 +31990,7 @@ func MarshalDERMSCUGFeatureList(collection *MSCUGFeatureList) ([]byte, error) {
 
 // UnmarshalBERMSCUGFeatureList decodes a MSCUGFeatureList list from BER.
 func UnmarshalBERMSCUGFeatureList(data []byte, opts ...ber.DecodeOption) (*MSCUGFeatureList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -31345,7 +32031,7 @@ func UnmarshalBERMSCUGFeatureList(data []byte, opts ...ber.DecodeOption) (*MSCUG
 		}
 	}
 	decoded := &MSCUGFeatureList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSCUGFeatureList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -31420,6 +32106,7 @@ func MarshalDERMSExtBasicServiceGroupList(collection *MSExtBasicServiceGroupList
 
 // UnmarshalBERMSExtBasicServiceGroupList decodes a MSExtBasicServiceGroupList list from BER.
 func UnmarshalBERMSExtBasicServiceGroupList(data []byte, opts ...ber.DecodeOption) (*MSExtBasicServiceGroupList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -31460,7 +32147,7 @@ func UnmarshalBERMSExtBasicServiceGroupList(data []byte, opts ...ber.DecodeOptio
 		}
 	}
 	decoded := &MSExtBasicServiceGroupList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSExtBasicServiceGroupList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -31594,12 +32281,13 @@ func (v *MSCUGFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if v == nil {
 		return fmt.Errorf("%w: MSCUGFeature destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSCUGFeature{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -31920,12 +32608,13 @@ func (v *MSExtSSData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if v == nil {
 		return fmt.Errorf("%w: MSExtSSData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSExtSSData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -31981,7 +32670,11 @@ func (v *MSExtSSData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 4 {
 		return fmt.Errorf("decoding ss-Status: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus)
 	}
-	v.SsStatus = CommonDataTypesExtSSStatus(rawVal_ssstatus)
+	decVal_ssstatus, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ssstatus.Constructed, rawVal_ssstatus, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding ss-Status: %w", octetErr)
+	}
+	v.SsStatus = CommonDataTypesExtSSStatus(decVal_ssstatus)
 	if offset < 0 || offset >
 		len(content) || n_ssstatus < 0 || n_ssstatus > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -32188,6 +32881,7 @@ func MarshalDERMSLCSPrivacyExceptionList(collection *MSLCSPrivacyExceptionList) 
 
 // UnmarshalBERMSLCSPrivacyExceptionList decodes a MSLCSPrivacyExceptionList list from BER.
 func UnmarshalBERMSLCSPrivacyExceptionList(data []byte, opts ...ber.DecodeOption) (*MSLCSPrivacyExceptionList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -32228,7 +32922,7 @@ func UnmarshalBERMSLCSPrivacyExceptionList(data []byte, opts ...ber.DecodeOption
 		}
 	}
 	decoded := &MSLCSPrivacyExceptionList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSLCSPrivacyExceptionList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -32574,12 +33268,13 @@ func (v *MSLCSPrivacyClass) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if v == nil {
 		return fmt.Errorf("%w: MSLCSPrivacyClass destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSLCSPrivacyClass{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -32979,6 +33674,7 @@ func MarshalDERMSExternalClientList(collection *MSExternalClientList) ([]byte, e
 
 // UnmarshalBERMSExternalClientList decodes a MSExternalClientList list from BER.
 func UnmarshalBERMSExternalClientList(data []byte, opts ...ber.DecodeOption) (*MSExternalClientList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -33019,7 +33715,7 @@ func UnmarshalBERMSExternalClientList(data []byte, opts ...ber.DecodeOption) (*M
 		}
 	}
 	decoded := &MSExternalClientList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSExternalClientList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -33086,6 +33782,7 @@ func MarshalDERMSPLMNClientList(collection *MSPLMNClientList) ([]byte, error) {
 
 // UnmarshalBERMSPLMNClientList decodes a MSPLMNClientList list from BER.
 func UnmarshalBERMSPLMNClientList(data []byte, opts ...ber.DecodeOption) (*MSPLMNClientList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -33117,7 +33814,7 @@ func UnmarshalBERMSPLMNClientList(data []byte, opts ...ber.DecodeOption) (*MSPLM
 		}
 	}
 	decoded := &MSPLMNClientList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSPLMNClientList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -33192,6 +33889,7 @@ func MarshalDERMSExtExternalClientList(collection *MSExtExternalClientList) ([]b
 
 // UnmarshalBERMSExtExternalClientList decodes a MSExtExternalClientList list from BER.
 func UnmarshalBERMSExtExternalClientList(data []byte, opts ...ber.DecodeOption) (*MSExtExternalClientList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -33232,7 +33930,7 @@ func UnmarshalBERMSExtExternalClientList(data []byte, opts ...ber.DecodeOption) 
 		}
 	}
 	decoded := &MSExtExternalClientList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSExtExternalClientList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -33370,12 +34068,13 @@ func (v *MSExternalClient) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: MSExternalClient destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSExternalClient{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -33596,6 +34295,7 @@ func MarshalDERMSServiceTypeList(collection *MSServiceTypeList) ([]byte, error) 
 
 // UnmarshalBERMSServiceTypeList decodes a MSServiceTypeList list from BER.
 func UnmarshalBERMSServiceTypeList(data []byte, opts ...ber.DecodeOption) (*MSServiceTypeList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -33636,7 +34336,7 @@ func UnmarshalBERMSServiceTypeList(data []byte, opts ...ber.DecodeOption) (*MSSe
 		}
 	}
 	decoded := &MSServiceTypeList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSServiceTypeList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -33778,12 +34478,13 @@ func (v *MSServiceType) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	if v == nil {
 		return fmt.Errorf("%w: MSServiceType destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSServiceType{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -33999,6 +34700,7 @@ func MarshalDERMSMOLRList(collection *MSMOLRList) ([]byte, error) {
 
 // UnmarshalBERMSMOLRList decodes a MSMOLRList list from BER.
 func UnmarshalBERMSMOLRList(data []byte, opts ...ber.DecodeOption) (*MSMOLRList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -34039,7 +34741,7 @@ func UnmarshalBERMSMOLRList(data []byte, opts ...ber.DecodeOption) (*MSMOLRList,
 		}
 	}
 	decoded := &MSMOLRList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSMOLRList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -34171,12 +34873,13 @@ func (v *MSMOLRClass) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if v == nil {
 		return fmt.Errorf("%w: MSMOLRClass destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSMOLRClass{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -34315,7 +35018,12 @@ func marshalBERMSZoneCodeList(collection *MSZoneCodeList, opts ...ber.EncodeOpti
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 2 || len(elem) > 2 {
+			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (2)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -34337,7 +35045,12 @@ func MarshalDERMSZoneCodeList(collection *MSZoneCodeList) ([]byte, error) {
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 2 || len(elem) > 2 {
+			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (2)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -34356,6 +35069,7 @@ func MarshalDERMSZoneCodeList(collection *MSZoneCodeList) ([]byte, error) {
 
 // UnmarshalBERMSZoneCodeList decodes a MSZoneCodeList list from BER.
 func UnmarshalBERMSZoneCodeList(data []byte, opts ...ber.DecodeOption) (*MSZoneCodeList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -34373,6 +35087,11 @@ func UnmarshalBERMSZoneCodeList(data []byte, opts ...ber.DecodeOption) (*MSZoneC
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
+		if len(val) < 2 || len(val) > 2 {
+			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (2)", len(val)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		result = append(result, MSZoneCode(val))
 		if offset < 0 || offset >
 			len(content) || n < 0 || n > len(content[offset:]) {
@@ -34387,7 +35106,7 @@ func UnmarshalBERMSZoneCodeList(data []byte, opts ...ber.DecodeOption) (*MSZoneC
 		}
 	}
 	decoded := &MSZoneCodeList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSZoneCodeList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -34517,7 +35236,10 @@ func (v *MSInsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OdbGeneralData.Bytes, v.OdbGeneralData.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "odb-GeneralData", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OdbGeneralData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -34533,6 +35255,11 @@ func (v *MSInsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_odbgeneraldata...)
 	}
 	if v.RegionalSubscriptionResponse != nil {
+		if int64(*v.RegionalSubscriptionResponse) != 0 && int64(*v.RegionalSubscriptionResponse) != 1 && int64(*v.RegionalSubscriptionResponse) != 2 && int64(*v.RegionalSubscriptionResponse) != 3 {
+			if constraintErr := ber.CheckEncodedValue(opts, "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", fmt.Sprint(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_regionalsubscriptionresponse := ber.EncodeEnumerated(int64(*v.RegionalSubscriptionResponse))
 		retagged_enc_regionalsubscriptionresponse, tagErr_enc_regionalsubscriptionresponse := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_regionalsubscriptionresponse)
 		if tagErr_enc_regionalsubscriptionresponse != nil {
@@ -34547,7 +35274,10 @@ func (v *MSInsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -34580,7 +35310,10 @@ func (v *MSInsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -34671,7 +35404,13 @@ func (v *MSInsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OdbGeneralData.Bytes, v.OdbGeneralData.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "odb-GeneralData", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.OdbGeneralData.Bytes, v.OdbGeneralData.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "odb-GeneralData", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OdbGeneralData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -34687,6 +35426,11 @@ func (v *MSInsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_odbgeneraldata...)
 	}
 	if v.RegionalSubscriptionResponse != nil {
+		if int64(*v.RegionalSubscriptionResponse) != 0 && int64(*v.RegionalSubscriptionResponse) != 1 && int64(*v.RegionalSubscriptionResponse) != 2 && int64(*v.RegionalSubscriptionResponse) != 3 {
+			if constraintErr := ber.CheckEncodedValue(nil, "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", fmt.Sprint(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_regionalsubscriptionresponse := ber.EncodeEnumerated(int64(*v.RegionalSubscriptionResponse))
 		retagged_enc_regionalsubscriptionresponse, tagErr_enc_regionalsubscriptionresponse := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_regionalsubscriptionresponse)
 		if tagErr_enc_regionalsubscriptionresponse != nil {
@@ -34701,7 +35445,13 @@ func (v *MSInsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -34734,7 +35484,13 @@ func (v *MSInsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -34770,12 +35526,13 @@ func (v *MSInsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: MSInsertSubscriberDataRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSInsertSubscriberDataRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -34997,6 +35754,11 @@ func (v *MSInsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_regionalsubscriptionresponse
+				if int64(*v.RegionalSubscriptionResponse) != 0 && int64(*v.RegionalSubscriptionResponse) != 1 && int64(*v.RegionalSubscriptionResponse) != 2 && int64(*v.RegionalSubscriptionResponse) != 3 {
+					if constraintErr := ber.CheckDecodedValue(opts, "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", fmt.Sprint(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -35351,7 +36113,10 @@ func (v *MSDeleteSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SpecificCSIWithdraw.Bytes, v.SpecificCSIWithdraw.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "specificCSI-Withdraw", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SpecificCSIWithdraw.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -35569,7 +36334,13 @@ func (v *MSDeleteSubscriberDataArg) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SpecificCSIWithdraw.Bytes, v.SpecificCSIWithdraw.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "specificCSI-Withdraw", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.SpecificCSIWithdraw.Bytes, v.SpecificCSIWithdraw.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "specificCSI-Withdraw", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SpecificCSIWithdraw.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -35614,12 +36385,13 @@ func (v *MSDeleteSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: MSDeleteSubscriberDataArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSDeleteSubscriberDataArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -35655,7 +36427,11 @@ func (v *MSDeleteSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.Decode
 	if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
 		return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 	}
-	v.Imsi = CommonDataTypesIMSI(rawVal_imsi)
+	decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding imsi: %w", octetErr)
+	}
+	v.Imsi = CommonDataTypesIMSI(decVal_imsi)
 	if offset < 0 || offset >
 		len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -35799,7 +36575,11 @@ func (v *MSDeleteSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				if decodedTag_regionalsubscriptionidentifier.Class != tag.ClassContextSpecific || decodedTag_regionalsubscriptionidentifier.Number != 5 {
 					return fmt.Errorf("decoding regionalSubscriptionIdentifier: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_regionalsubscriptionidentifier)
 				}
-				tmp_regionalsubscriptionidentifier := MSZoneCode(rawVal_regionalsubscriptionidentifier)
+				decVal_regionalsubscriptionidentifier, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_regionalsubscriptionidentifier.Constructed, rawVal_regionalsubscriptionidentifier, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding regionalSubscriptionIdentifier: %w", octetErr)
+				}
+				tmp_regionalsubscriptionidentifier := MSZoneCode(decVal_regionalsubscriptionidentifier)
 				v.RegionalSubscriptionIdentifier = &tmp_regionalsubscriptionidentifier
 				if offset < 0 || offset >
 					len(content) || n_regionalsubscriptionidentifier < 0 || n_regionalsubscriptionidentifier >
@@ -36203,7 +36983,7 @@ func (v *MSGPRSSubscriptionDataWithdraw) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_1, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -36218,8 +36998,9 @@ func (v *MSGPRSSubscriptionDataWithdraw) UnmarshalBER(data []byte, opts ...ber.D
 	if v == nil {
 		return fmt.Errorf("%w: MSGPRSSubscriptionDataWithdraw destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -36341,6 +37122,7 @@ func MarshalDERMSContextIdList(collection *MSContextIdList) ([]byte, error) {
 
 // UnmarshalBERMSContextIdList decodes a MSContextIdList list from BER.
 func UnmarshalBERMSContextIdList(data []byte, opts ...ber.DecodeOption) (*MSContextIdList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -36377,7 +37159,7 @@ func UnmarshalBERMSContextIdList(data []byte, opts ...ber.DecodeOption) (*MSCont
 		}
 	}
 	decoded := &MSContextIdList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSContextIdList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -36445,7 +37227,7 @@ func (v *MSLSAInformationWithdraw) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_1, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -36460,8 +37242,9 @@ func (v *MSLSAInformationWithdraw) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: MSLSAInformationWithdraw destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -36540,7 +37323,12 @@ func marshalBERMSLSAIdentityList(collection *MSLSAIdentityList, opts ...ber.Enco
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 3 || len(elem) > 3 {
+			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (3)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -36562,7 +37350,12 @@ func MarshalDERMSLSAIdentityList(collection *MSLSAIdentityList) ([]byte, error) 
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 3 || len(elem) > 3 {
+			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (3)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -36581,6 +37374,7 @@ func MarshalDERMSLSAIdentityList(collection *MSLSAIdentityList) ([]byte, error) 
 
 // UnmarshalBERMSLSAIdentityList decodes a MSLSAIdentityList list from BER.
 func UnmarshalBERMSLSAIdentityList(data []byte, opts ...ber.DecodeOption) (*MSLSAIdentityList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -36598,6 +37392,11 @@ func UnmarshalBERMSLSAIdentityList(data []byte, opts ...ber.DecodeOption) (*MSLS
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
+		if len(val) < 3 || len(val) > 3 {
+			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (3)", len(val)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		result = append(result, MSLSAIdentity(val))
 		if offset < 0 || offset >
 			len(content) || n < 0 || n > len(content[offset:]) {
@@ -36612,7 +37411,7 @@ func UnmarshalBERMSLSAIdentityList(data []byte, opts ...ber.DecodeOption) (*MSLS
 		}
 	}
 	decoded := &MSLSAIdentityList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSLSAIdentityList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -36687,6 +37486,7 @@ func MarshalDERMSBasicServiceList(collection *MSBasicServiceList) ([]byte, error
 
 // UnmarshalBERMSBasicServiceList decodes a MSBasicServiceList list from BER.
 func UnmarshalBERMSBasicServiceList(data []byte, opts ...ber.DecodeOption) (*MSBasicServiceList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -36727,7 +37527,7 @@ func UnmarshalBERMSBasicServiceList(data []byte, opts ...ber.DecodeOption) (*MSB
 		}
 	}
 	decoded := &MSBasicServiceList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSBasicServiceList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -36756,6 +37556,11 @@ func (v *MSDeleteSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte
 	}
 	var children []byte
 	if v.RegionalSubscriptionResponse != nil {
+		if int64(*v.RegionalSubscriptionResponse) != 0 && int64(*v.RegionalSubscriptionResponse) != 1 && int64(*v.RegionalSubscriptionResponse) != 2 && int64(*v.RegionalSubscriptionResponse) != 3 {
+			if constraintErr := ber.CheckEncodedValue(opts, "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", fmt.Sprint(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_regionalsubscriptionresponse := ber.EncodeEnumerated(int64(*v.RegionalSubscriptionResponse))
 		retagged_enc_regionalsubscriptionresponse, tagErr_enc_regionalsubscriptionresponse := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_regionalsubscriptionresponse)
 		if tagErr_enc_regionalsubscriptionresponse != nil {
@@ -36791,6 +37596,11 @@ func (v *MSDeleteSubscriberDataRes) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if v.RegionalSubscriptionResponse != nil {
+		if int64(*v.RegionalSubscriptionResponse) != 0 && int64(*v.RegionalSubscriptionResponse) != 1 && int64(*v.RegionalSubscriptionResponse) != 2 && int64(*v.RegionalSubscriptionResponse) != 3 {
+			if constraintErr := ber.CheckEncodedValue(nil, "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", fmt.Sprint(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_regionalsubscriptionresponse := ber.EncodeEnumerated(int64(*v.RegionalSubscriptionResponse))
 		retagged_enc_regionalsubscriptionresponse, tagErr_enc_regionalsubscriptionresponse := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_regionalsubscriptionresponse)
 		if tagErr_enc_regionalsubscriptionresponse != nil {
@@ -36827,12 +37637,13 @@ func (v *MSDeleteSubscriberDataRes) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: MSDeleteSubscriberDataRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSDeleteSubscriberDataRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -36877,6 +37688,11 @@ func (v *MSDeleteSubscriberDataRes) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_regionalsubscriptionresponse
+				if int64(*v.RegionalSubscriptionResponse) != 0 && int64(*v.RegionalSubscriptionResponse) != 1 && int64(*v.RegionalSubscriptionResponse) != 2 && int64(*v.RegionalSubscriptionResponse) != 3 {
+					if constraintErr := ber.CheckDecodedValue(opts, "regionalSubscriptionResponse", "ENUMERATED {0, 1, 2, 3}", fmt.Sprint(int64(*v.RegionalSubscriptionResponse))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -37350,12 +38166,13 @@ func (v *MSVlrCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.Decod
 	if v == nil {
 		return fmt.Errorf("%w: MSVlrCamelSubscriptionInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSVlrCamelSubscriptionInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -37874,6 +38691,7 @@ func MarshalDERMSMTSmsCAMELTDPCriteriaList(collection *MSMTSmsCAMELTDPCriteriaLi
 
 // UnmarshalBERMSMTSmsCAMELTDPCriteriaList decodes a MSMTSmsCAMELTDPCriteriaList list from BER.
 func UnmarshalBERMSMTSmsCAMELTDPCriteriaList(data []byte, opts ...ber.DecodeOption) (*MSMTSmsCAMELTDPCriteriaList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -37914,7 +38732,7 @@ func UnmarshalBERMSMTSmsCAMELTDPCriteriaList(data []byte, opts ...ber.DecodeOpti
 		}
 	}
 	decoded := &MSMTSmsCAMELTDPCriteriaList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSMTSmsCAMELTDPCriteriaList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -38035,12 +38853,13 @@ func (v *MSMTSmsCAMELTDPCriteria) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: MSMTSmsCAMELTDPCriteria destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSMTSmsCAMELTDPCriteria{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -38204,6 +39023,7 @@ func MarshalDERMSTPDUTypeCriterion(collection *MSTPDUTypeCriterion) ([]byte, err
 
 // UnmarshalBERMSTPDUTypeCriterion decodes a MSTPDUTypeCriterion list from BER.
 func UnmarshalBERMSTPDUTypeCriterion(data []byte, opts ...ber.DecodeOption) (*MSTPDUTypeCriterion, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -38235,7 +39055,7 @@ func UnmarshalBERMSTPDUTypeCriterion(data []byte, opts ...ber.DecodeOption) (*MS
 		}
 	}
 	decoded := &MSTPDUTypeCriterion{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSTPDUTypeCriterion(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -38440,12 +39260,13 @@ func (v *MSDCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 	if v == nil {
 		return fmt.Errorf("%w: MSDCSI destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSDCSI{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -38718,6 +39539,7 @@ func MarshalDERMSDPAnalysedInfoCriteriaList(collection *MSDPAnalysedInfoCriteria
 
 // UnmarshalBERMSDPAnalysedInfoCriteriaList decodes a MSDPAnalysedInfoCriteriaList list from BER.
 func UnmarshalBERMSDPAnalysedInfoCriteriaList(data []byte, opts ...ber.DecodeOption) (*MSDPAnalysedInfoCriteriaList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -38758,7 +39580,7 @@ func UnmarshalBERMSDPAnalysedInfoCriteriaList(data []byte, opts ...ber.DecodeOpt
 		}
 	}
 	decoded := &MSDPAnalysedInfoCriteriaList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSDPAnalysedInfoCriteriaList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -38918,12 +39740,13 @@ func (v *MSDPAnalysedInfoCriterium) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: MSDPAnalysedInfoCriterium destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSDPAnalysedInfoCriterium{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -39201,12 +40024,13 @@ func (v *MSSSCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr
 	if v == nil {
 		return fmt.Errorf("%w: MSSSCSI destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSSCSI{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -39496,12 +40320,13 @@ func (v *MSSSCamelData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	if v == nil {
 		return fmt.Errorf("%w: MSSSCamelData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSSCamelData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -39663,7 +40488,12 @@ func marshalBERMSSSEventList(collection *MSSSEventList, opts ...ber.EncodeOption
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 1 {
+			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -39685,7 +40515,12 @@ func MarshalDERMSSSEventList(collection *MSSSEventList) ([]byte, error) {
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 1 {
+			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -39704,6 +40539,7 @@ func MarshalDERMSSSEventList(collection *MSSSEventList) ([]byte, error) {
 
 // UnmarshalBERMSSSEventList decodes a MSSSEventList list from BER.
 func UnmarshalBERMSSSEventList(data []byte, opts ...ber.DecodeOption) (*MSSSEventList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -39721,6 +40557,11 @@ func UnmarshalBERMSSSEventList(data []byte, opts ...ber.DecodeOption) (*MSSSEven
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
+		if len(val) < 1 || len(val) > 1 {
+			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (1)", len(val)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		result = append(result, SSSSCode(val))
 		if offset < 0 || offset >
 			len(content) || n < 0 || n > len(content[offset:]) {
@@ -39735,7 +40576,7 @@ func UnmarshalBERMSSSEventList(data []byte, opts ...ber.DecodeOption) (*MSSSEven
 		}
 	}
 	decoded := &MSSSEventList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSSSEventList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -39907,12 +40748,13 @@ func (v *MSOCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 	if v == nil {
 		return fmt.Errorf("%w: MSOCSI destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSOCSI{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -40177,6 +41019,7 @@ func MarshalDERMSOBcsmCamelTDPDataList(collection *MSOBcsmCamelTDPDataList) ([]b
 
 // UnmarshalBERMSOBcsmCamelTDPDataList decodes a MSOBcsmCamelTDPDataList list from BER.
 func UnmarshalBERMSOBcsmCamelTDPDataList(data []byte, opts ...ber.DecodeOption) (*MSOBcsmCamelTDPDataList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -40217,7 +41060,7 @@ func UnmarshalBERMSOBcsmCamelTDPDataList(data []byte, opts ...ber.DecodeOption) 
 		}
 	}
 	decoded := &MSOBcsmCamelTDPDataList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSOBcsmCamelTDPDataList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -40381,12 +41224,13 @@ func (v *MSOBcsmCamelTDPData) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: MSOBcsmCamelTDPData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSOBcsmCamelTDPData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -40457,7 +41301,11 @@ func (v *MSOBcsmCamelTDPData) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if decodedTag_gsmscfaddress.Class != tag.ClassContextSpecific || decodedTag_gsmscfaddress.Number != 0 {
 		return fmt.Errorf("decoding gsmSCF-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gsmscfaddress)
 	}
-	v.GsmSCFAddress = CommonDataTypesISDNAddressString(rawVal_gsmscfaddress)
+	decVal_gsmscfaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_gsmscfaddress.Constructed, rawVal_gsmscfaddress, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding gsmSCF-Address: %w", octetErr)
+	}
+	v.GsmSCFAddress = CommonDataTypesISDNAddressString(decVal_gsmscfaddress)
 	if offset < 0 || offset >
 		len(content) || n_gsmscfaddress < 0 || n_gsmscfaddress > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -40622,6 +41470,7 @@ func MarshalDERMSOBcsmCamelTDPCriteriaList(collection *MSOBcsmCamelTDPCriteriaLi
 
 // UnmarshalBERMSOBcsmCamelTDPCriteriaList decodes a MSOBcsmCamelTDPCriteriaList list from BER.
 func UnmarshalBERMSOBcsmCamelTDPCriteriaList(data []byte, opts ...ber.DecodeOption) (*MSOBcsmCamelTDPCriteriaList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -40662,7 +41511,7 @@ func UnmarshalBERMSOBcsmCamelTDPCriteriaList(data []byte, opts ...ber.DecodeOpti
 		}
 	}
 	decoded := &MSOBcsmCamelTDPCriteriaList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSOBcsmCamelTDPCriteriaList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -40737,6 +41586,7 @@ func MarshalDERMSTBCSMCAMELTDPCriteriaList(collection *MSTBCSMCAMELTDPCriteriaLi
 
 // UnmarshalBERMSTBCSMCAMELTDPCriteriaList decodes a MSTBCSMCAMELTDPCriteriaList list from BER.
 func UnmarshalBERMSTBCSMCAMELTDPCriteriaList(data []byte, opts ...ber.DecodeOption) (*MSTBCSMCAMELTDPCriteriaList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -40777,7 +41627,7 @@ func UnmarshalBERMSTBCSMCAMELTDPCriteriaList(data []byte, opts ...ber.DecodeOpti
 		}
 	}
 	decoded := &MSTBCSMCAMELTDPCriteriaList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSTBCSMCAMELTDPCriteriaList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -40852,6 +41702,11 @@ func (v *MSOBcsmCamelTDPCriteria) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		children = append(children, enc_basicservicecriteria...)
 	}
 	if v.CallTypeCriteria != nil {
+		if int64(*v.CallTypeCriteria) != 0 && int64(*v.CallTypeCriteria) != 1 {
+			if constraintErr := ber.CheckEncodedValue(opts, "callTypeCriteria", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.CallTypeCriteria))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_calltypecriteria := ber.EncodeEnumerated(int64(*v.CallTypeCriteria))
 		retagged_enc_calltypecriteria, tagErr_enc_calltypecriteria := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_calltypecriteria)
 		if tagErr_enc_calltypecriteria != nil {
@@ -40955,6 +41810,11 @@ func (v *MSOBcsmCamelTDPCriteria) MarshalDER() ([]byte, error) {
 		children = append(children, enc_basicservicecriteria...)
 	}
 	if v.CallTypeCriteria != nil {
+		if int64(*v.CallTypeCriteria) != 0 && int64(*v.CallTypeCriteria) != 1 {
+			if constraintErr := ber.CheckEncodedValue(nil, "callTypeCriteria", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.CallTypeCriteria))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_calltypecriteria := ber.EncodeEnumerated(int64(*v.CallTypeCriteria))
 		retagged_enc_calltypecriteria, tagErr_enc_calltypecriteria := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_calltypecriteria)
 		if tagErr_enc_calltypecriteria != nil {
@@ -41013,12 +41873,13 @@ func (v *MSOBcsmCamelTDPCriteria) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: MSOBcsmCamelTDPCriteria destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSOBcsmCamelTDPCriteria{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -41156,6 +42017,11 @@ func (v *MSOBcsmCamelTDPCriteria) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 
 				offset += n_calltypecriteria
+				if int64(*v.CallTypeCriteria) != 0 && int64(*v.CallTypeCriteria) != 1 {
+					if constraintErr := ber.CheckDecodedValue(opts, "callTypeCriteria", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.CallTypeCriteria))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -41422,12 +42288,13 @@ func (v *MSTBCSMCAMELTDPCriteria) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: MSTBCSMCAMELTDPCriteria destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSTBCSMCAMELTDPCriteria{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -41600,6 +42467,11 @@ func (v *MSDestinationNumberCriteria) marshalBER(opts ...ber.EncodeOption) ([]by
 		return nil, err
 	}
 	var children []byte
+	if int64(v.MatchType) != 0 && int64(v.MatchType) != 1 {
+		if constraintErr := ber.CheckEncodedValue(opts, "matchType", "ENUMERATED {0, 1}", fmt.Sprint(int64(v.MatchType))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_matchtype := ber.EncodeEnumerated(int64(v.MatchType))
 	retagged_enc_matchtype, tagErr_enc_matchtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_matchtype)
 	if tagErr_enc_matchtype != nil {
@@ -41690,6 +42562,11 @@ func (v *MSDestinationNumberCriteria) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("%w: MSDestinationNumberCriteria receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
+	if int64(v.MatchType) != 0 && int64(v.MatchType) != 1 {
+		if constraintErr := ber.CheckEncodedValue(nil, "matchType", "ENUMERATED {0, 1}", fmt.Sprint(int64(v.MatchType))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_matchtype := ber.EncodeEnumerated(int64(v.MatchType))
 	retagged_enc_matchtype, tagErr_enc_matchtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_matchtype)
 	if tagErr_enc_matchtype != nil {
@@ -41752,12 +42629,13 @@ func (v *MSDestinationNumberCriteria) UnmarshalBER(data []byte, opts ...ber.Deco
 	if v == nil {
 		return fmt.Errorf("%w: MSDestinationNumberCriteria destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSDestinationNumberCriteria{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -41804,6 +42682,11 @@ func (v *MSDestinationNumberCriteria) UnmarshalBER(data []byte, opts ...ber.Deco
 	}
 
 	offset += n_matchtype
+	if int64(v.MatchType) != 0 && int64(v.MatchType) != 1 {
+		if constraintErr := ber.CheckDecodedValue(opts, "matchType", "ENUMERATED {0, 1}", fmt.Sprint(int64(v.MatchType))); constraintErr != nil {
+			return constraintErr
+		}
+	}
 	// Decode destinationNumberList
 	v.DestinationNumberListIndef_ = false
 	if offset < len(content) {
@@ -41948,7 +42831,17 @@ func marshalBERMSDestinationNumberList(collection *MSDestinationNumberList, opts
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 9 {
+			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		if len(elem) < 1 || len(elem) > 20 {
+			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -41970,7 +42863,17 @@ func MarshalDERMSDestinationNumberList(collection *MSDestinationNumberList) ([]b
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 9 {
+			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		if len(elem) < 1 || len(elem) > 20 {
+			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -41989,6 +42892,7 @@ func MarshalDERMSDestinationNumberList(collection *MSDestinationNumberList) ([]b
 
 // UnmarshalBERMSDestinationNumberList decodes a MSDestinationNumberList list from BER.
 func UnmarshalBERMSDestinationNumberList(data []byte, opts ...ber.DecodeOption) (*MSDestinationNumberList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -42006,6 +42910,16 @@ func UnmarshalBERMSDestinationNumberList(data []byte, opts ...ber.DecodeOption) 
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
+		if len(val) < 1 || len(val) > 9 {
+			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (1..9)", len(val)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		if len(val) < 1 || len(val) > 20 {
+			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (1..20)", len(val)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		result = append(result, CommonDataTypesISDNAddressString(val))
 		if offset < 0 || offset >
 			len(content) || n < 0 || n > len(content[offset:]) {
@@ -42020,7 +42934,7 @@ func UnmarshalBERMSDestinationNumberList(data []byte, opts ...ber.DecodeOption) 
 		}
 	}
 	decoded := &MSDestinationNumberList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSDestinationNumberList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -42097,6 +43011,7 @@ func MarshalDERMSDestinationNumberLengthList(collection *MSDestinationNumberLeng
 
 // UnmarshalBERMSDestinationNumberLengthList decodes a MSDestinationNumberLengthList list from BER.
 func UnmarshalBERMSDestinationNumberLengthList(data []byte, opts ...ber.DecodeOption) (*MSDestinationNumberLengthList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -42133,7 +43048,7 @@ func UnmarshalBERMSDestinationNumberLengthList(data []byte, opts ...ber.DecodeOp
 		}
 	}
 	decoded := &MSDestinationNumberLengthList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSDestinationNumberLengthList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -42208,6 +43123,7 @@ func MarshalDERMSBasicServiceCriteria(collection *MSBasicServiceCriteria) ([]byt
 
 // UnmarshalBERMSBasicServiceCriteria decodes a MSBasicServiceCriteria list from BER.
 func UnmarshalBERMSBasicServiceCriteria(data []byte, opts ...ber.DecodeOption) (*MSBasicServiceCriteria, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -42248,7 +43164,7 @@ func UnmarshalBERMSBasicServiceCriteria(data []byte, opts ...ber.DecodeOption) (
 		}
 	}
 	decoded := &MSBasicServiceCriteria{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSBasicServiceCriteria(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -42282,7 +43198,12 @@ func marshalBERMSOCauseValueCriteria(collection *MSOCauseValueCriteria, opts ...
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 1 {
+			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -42304,7 +43225,12 @@ func MarshalDERMSOCauseValueCriteria(collection *MSOCauseValueCriteria) ([]byte,
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 1 {
+			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -42323,6 +43249,7 @@ func MarshalDERMSOCauseValueCriteria(collection *MSOCauseValueCriteria) ([]byte,
 
 // UnmarshalBERMSOCauseValueCriteria decodes a MSOCauseValueCriteria list from BER.
 func UnmarshalBERMSOCauseValueCriteria(data []byte, opts ...ber.DecodeOption) (*MSOCauseValueCriteria, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -42340,6 +43267,11 @@ func UnmarshalBERMSOCauseValueCriteria(data []byte, opts ...ber.DecodeOption) (*
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
+		if len(val) < 1 || len(val) > 1 {
+			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (1)", len(val)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		result = append(result, MSCauseValue(val))
 		if offset < 0 || offset >
 			len(content) || n < 0 || n > len(content[offset:]) {
@@ -42354,7 +43286,7 @@ func UnmarshalBERMSOCauseValueCriteria(data []byte, opts ...ber.DecodeOption) (*
 		}
 	}
 	decoded := &MSOCauseValueCriteria{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSOCauseValueCriteria(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -42388,7 +43320,12 @@ func marshalBERMSTCauseValueCriteria(collection *MSTCauseValueCriteria, opts ...
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 1 {
+			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -42410,7 +43347,12 @@ func MarshalDERMSTCauseValueCriteria(collection *MSTCauseValueCriteria) ([]byte,
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 1 {
+			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -42429,6 +43371,7 @@ func MarshalDERMSTCauseValueCriteria(collection *MSTCauseValueCriteria) ([]byte,
 
 // UnmarshalBERMSTCauseValueCriteria decodes a MSTCauseValueCriteria list from BER.
 func UnmarshalBERMSTCauseValueCriteria(data []byte, opts ...ber.DecodeOption) (*MSTCauseValueCriteria, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -42446,6 +43389,11 @@ func UnmarshalBERMSTCauseValueCriteria(data []byte, opts ...ber.DecodeOption) (*
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
+		if len(val) < 1 || len(val) > 1 {
+			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (1)", len(val)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		result = append(result, MSCauseValue(val))
 		if offset < 0 || offset >
 			len(content) || n < 0 || n > len(content[offset:]) {
@@ -42460,7 +43408,7 @@ func UnmarshalBERMSTCauseValueCriteria(data []byte, opts ...ber.DecodeOption) (*
 		}
 	}
 	decoded := &MSTCauseValueCriteria{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSTCauseValueCriteria(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -42665,12 +43613,13 @@ func (v *MSSMSCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	if v == nil {
 		return fmt.Errorf("%w: MSSMSCSI destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSMSCSI{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -42943,6 +43892,7 @@ func MarshalDERMSSMSCAMELTDPDataList(collection *MSSMSCAMELTDPDataList) ([]byte,
 
 // UnmarshalBERMSSMSCAMELTDPDataList decodes a MSSMSCAMELTDPDataList list from BER.
 func UnmarshalBERMSSMSCAMELTDPDataList(data []byte, opts ...ber.DecodeOption) (*MSSMSCAMELTDPDataList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -42983,7 +43933,7 @@ func UnmarshalBERMSSMSCAMELTDPDataList(data []byte, opts ...ber.DecodeOption) (*
 		}
 	}
 	decoded := &MSSMSCAMELTDPDataList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSSMSCAMELTDPDataList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -43167,12 +44117,13 @@ func (v *MSSMSCAMELTDPData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if v == nil {
 		return fmt.Errorf("%w: MSSMSCAMELTDPData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSMSCAMELTDPData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -43268,7 +44219,11 @@ func (v *MSSMSCAMELTDPData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if decodedTag_gsmscfaddress.Class != tag.ClassContextSpecific || decodedTag_gsmscfaddress.Number != 2 {
 		return fmt.Errorf("decoding gsmSCF-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gsmscfaddress)
 	}
-	v.GsmSCFAddress = CommonDataTypesISDNAddressString(rawVal_gsmscfaddress)
+	decVal_gsmscfaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_gsmscfaddress.Constructed, rawVal_gsmscfaddress, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding gsmSCF-Address: %w", octetErr)
+	}
+	v.GsmSCFAddress = CommonDataTypesISDNAddressString(decVal_gsmscfaddress)
 	if offset < 0 || offset >
 		len(content) || n_gsmscfaddress < 0 || n_gsmscfaddress > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -43566,12 +44521,13 @@ func (v *MSMCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 	if v == nil {
 		return fmt.Errorf("%w: MSMCSI destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSMCSI{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -43667,7 +44623,11 @@ func (v *MSMCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 	if decodedTag_gsmscfaddress.Class != tag.ClassContextSpecific || decodedTag_gsmscfaddress.Number != 0 {
 		return fmt.Errorf("decoding gsmSCF-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gsmscfaddress)
 	}
-	v.GsmSCFAddress = CommonDataTypesISDNAddressString(rawVal_gsmscfaddress)
+	decVal_gsmscfaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_gsmscfaddress.Constructed, rawVal_gsmscfaddress, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding gsmSCF-Address: %w", octetErr)
+	}
+	v.GsmSCFAddress = CommonDataTypesISDNAddressString(decVal_gsmscfaddress)
 	if offset < 0 || offset >
 		len(content) || n_gsmscfaddress < 0 || n_gsmscfaddress >
 		len(content[offset:]) {
@@ -43990,12 +44950,13 @@ func (v *MSMGCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr
 	if v == nil {
 		return fmt.Errorf("%w: MSMGCSI destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSMGCSI{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -44091,7 +45052,11 @@ func (v *MSMGCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr
 	if decodedTag_gsmscfaddress.Class != tag.ClassContextSpecific || decodedTag_gsmscfaddress.Number != 0 {
 		return fmt.Errorf("decoding gsmSCF-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gsmscfaddress)
 	}
-	v.GsmSCFAddress = CommonDataTypesISDNAddressString(rawVal_gsmscfaddress)
+	decVal_gsmscfaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_gsmscfaddress.Constructed, rawVal_gsmscfaddress, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding gsmSCF-Address: %w", octetErr)
+	}
+	v.GsmSCFAddress = CommonDataTypesISDNAddressString(decVal_gsmscfaddress)
 	if offset < 0 || offset >
 		len(content) || n_gsmscfaddress < 0 || n_gsmscfaddress >
 		len(content[offset:]) {
@@ -44240,7 +45205,12 @@ func marshalBERMSMobilityTriggers(collection *MSMobilityTriggers, opts ...ber.En
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 1 {
+			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -44262,7 +45232,12 @@ func MarshalDERMSMobilityTriggers(collection *MSMobilityTriggers) ([]byte, error
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 1 {
+			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -44281,6 +45256,7 @@ func MarshalDERMSMobilityTriggers(collection *MSMobilityTriggers) ([]byte, error
 
 // UnmarshalBERMSMobilityTriggers decodes a MSMobilityTriggers list from BER.
 func UnmarshalBERMSMobilityTriggers(data []byte, opts ...ber.DecodeOption) (*MSMobilityTriggers, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -44298,6 +45274,11 @@ func UnmarshalBERMSMobilityTriggers(data []byte, opts ...ber.DecodeOption) (*MSM
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
+		if len(val) < 1 || len(val) > 1 {
+			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (1)", len(val)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		result = append(result, MSMMCode(val))
 		if offset < 0 || offset >
 			len(content) || n < 0 || n > len(content[offset:]) {
@@ -44312,7 +45293,7 @@ func UnmarshalBERMSMobilityTriggers(data []byte, opts ...ber.DecodeOption) (*MSM
 		}
 	}
 	decoded := &MSMobilityTriggers{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSMobilityTriggers(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -44484,12 +45465,13 @@ func (v *MSTCSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 	if v == nil {
 		return fmt.Errorf("%w: MSTCSI destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSTCSI{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -44754,6 +45736,7 @@ func MarshalDERMSTBcsmCamelTDPDataList(collection *MSTBcsmCamelTDPDataList) ([]b
 
 // UnmarshalBERMSTBcsmCamelTDPDataList decodes a MSTBcsmCamelTDPDataList list from BER.
 func UnmarshalBERMSTBcsmCamelTDPDataList(data []byte, opts ...ber.DecodeOption) (*MSTBcsmCamelTDPDataList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -44794,7 +45777,7 @@ func UnmarshalBERMSTBcsmCamelTDPDataList(data []byte, opts ...ber.DecodeOption) 
 		}
 	}
 	decoded := &MSTBcsmCamelTDPDataList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSTBcsmCamelTDPDataList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -44958,12 +45941,13 @@ func (v *MSTBcsmCamelTDPData) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: MSTBcsmCamelTDPData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSTBcsmCamelTDPData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -45034,7 +46018,11 @@ func (v *MSTBcsmCamelTDPData) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if decodedTag_gsmscfaddress.Class != tag.ClassContextSpecific || decodedTag_gsmscfaddress.Number != 0 {
 		return fmt.Errorf("decoding gsmSCF-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gsmscfaddress)
 	}
-	v.GsmSCFAddress = CommonDataTypesISDNAddressString(rawVal_gsmscfaddress)
+	decVal_gsmscfaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_gsmscfaddress.Constructed, rawVal_gsmscfaddress, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding gsmSCF-Address: %w", octetErr)
+	}
+	v.GsmSCFAddress = CommonDataTypesISDNAddressString(decVal_gsmscfaddress)
 	if offset < 0 || offset >
 		len(content) || n_gsmscfaddress < 0 || n_gsmscfaddress > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -45320,12 +46308,13 @@ func (v *MSSendRoutingInfoForGprsArg) UnmarshalBER(data []byte, opts ...ber.Deco
 	if v == nil {
 		return fmt.Errorf("%w: MSSendRoutingInfoForGprsArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSendRoutingInfoForGprsArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -45361,7 +46350,11 @@ func (v *MSSendRoutingInfoForGprsArg) UnmarshalBER(data []byte, opts ...ber.Deco
 	if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
 		return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 	}
-	v.Imsi = CommonDataTypesIMSI(rawVal_imsi)
+	decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding imsi: %w", octetErr)
+	}
+	v.Imsi = CommonDataTypesIMSI(decVal_imsi)
 	if offset < 0 || offset >
 		len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -45385,7 +46378,11 @@ func (v *MSSendRoutingInfoForGprsArg) UnmarshalBER(data []byte, opts ...ber.Deco
 				if decodedTag_ggsnaddress.Class != tag.ClassContextSpecific || decodedTag_ggsnaddress.Number != 1 {
 					return fmt.Errorf("decoding ggsn-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ggsnaddress)
 				}
-				tmp_ggsnaddress := MSGSNAddress(rawVal_ggsnaddress)
+				decVal_ggsnaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ggsnaddress.Constructed, rawVal_ggsnaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ggsn-Address: %w", octetErr)
+				}
+				tmp_ggsnaddress := MSGSNAddress(decVal_ggsnaddress)
 				v.GgsnAddress = &tmp_ggsnaddress
 				if offset < 0 || offset >
 					len(content) || n_ggsnaddress < 0 || n_ggsnaddress > len(content[offset:]) {
@@ -45417,7 +46414,11 @@ func (v *MSSendRoutingInfoForGprsArg) UnmarshalBER(data []byte, opts ...ber.Deco
 	if decodedTag_ggsnnumber.Class != tag.ClassContextSpecific || decodedTag_ggsnnumber.Number != 2 {
 		return fmt.Errorf("decoding ggsn-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ggsnnumber)
 	}
-	v.GgsnNumber = CommonDataTypesISDNAddressString(rawVal_ggsnnumber)
+	decVal_ggsnnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ggsnnumber.Constructed, rawVal_ggsnnumber, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding ggsn-Number: %w", octetErr)
+	}
+	v.GgsnNumber = CommonDataTypesISDNAddressString(decVal_ggsnnumber)
 	if offset < 0 || offset >
 		len(content) || n_ggsnnumber < 0 || n_ggsnnumber > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -45662,12 +46663,13 @@ func (v *MSSendRoutingInfoForGprsRes) UnmarshalBER(data []byte, opts ...ber.Deco
 	if v == nil {
 		return fmt.Errorf("%w: MSSendRoutingInfoForGprsRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSendRoutingInfoForGprsRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -45703,7 +46705,11 @@ func (v *MSSendRoutingInfoForGprsRes) UnmarshalBER(data []byte, opts ...ber.Deco
 	if decodedTag_sgsnaddress.Class != tag.ClassContextSpecific || decodedTag_sgsnaddress.Number != 0 {
 		return fmt.Errorf("decoding sgsn-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sgsnaddress)
 	}
-	v.SgsnAddress = MSGSNAddress(rawVal_sgsnaddress)
+	decVal_sgsnaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_sgsnaddress.Constructed, rawVal_sgsnaddress, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding sgsn-Address: %w", octetErr)
+	}
+	v.SgsnAddress = MSGSNAddress(decVal_sgsnaddress)
 	if offset < 0 || offset >
 		len(content) || n_sgsnaddress < 0 || n_sgsnaddress > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -45727,7 +46733,11 @@ func (v *MSSendRoutingInfoForGprsRes) UnmarshalBER(data []byte, opts ...ber.Deco
 				if decodedTag_ggsnaddress.Class != tag.ClassContextSpecific || decodedTag_ggsnaddress.Number != 1 {
 					return fmt.Errorf("decoding ggsn-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ggsnaddress)
 				}
-				tmp_ggsnaddress := MSGSNAddress(rawVal_ggsnaddress)
+				decVal_ggsnaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ggsnaddress.Constructed, rawVal_ggsnaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ggsn-Address: %w", octetErr)
+				}
+				tmp_ggsnaddress := MSGSNAddress(decVal_ggsnaddress)
 				v.GgsnAddress = &tmp_ggsnaddress
 				if offset < 0 || offset >
 					len(content) || n_ggsnaddress < 0 || n_ggsnaddress > len(content[offset:]) {
@@ -46016,12 +47026,13 @@ func (v *MSFailureReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if v == nil {
 		return fmt.Errorf("%w: MSFailureReportArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSFailureReportArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -46057,7 +47068,11 @@ func (v *MSFailureReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
 		return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 	}
-	v.Imsi = CommonDataTypesIMSI(rawVal_imsi)
+	decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding imsi: %w", octetErr)
+	}
+	v.Imsi = CommonDataTypesIMSI(decVal_imsi)
 	if offset < 0 || offset >
 		len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -46085,7 +47100,11 @@ func (v *MSFailureReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if decodedTag_ggsnnumber.Class != tag.ClassContextSpecific || decodedTag_ggsnnumber.Number != 1 {
 		return fmt.Errorf("decoding ggsn-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ggsnnumber)
 	}
-	v.GgsnNumber = CommonDataTypesISDNAddressString(rawVal_ggsnnumber)
+	decVal_ggsnnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ggsnnumber.Constructed, rawVal_ggsnnumber, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding ggsn-Number: %w", octetErr)
+	}
+	v.GgsnNumber = CommonDataTypesISDNAddressString(decVal_ggsnnumber)
 	if offset < 0 || offset >
 		len(content) || n_ggsnnumber < 0 || n_ggsnnumber > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -46114,7 +47133,11 @@ func (v *MSFailureReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if decodedTag_ggsnaddress.Class != tag.ClassContextSpecific || decodedTag_ggsnaddress.Number != 2 {
 					return fmt.Errorf("decoding ggsn-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ggsnaddress)
 				}
-				tmp_ggsnaddress := MSGSNAddress(rawVal_ggsnaddress)
+				decVal_ggsnaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ggsnaddress.Constructed, rawVal_ggsnaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ggsn-Address: %w", octetErr)
+				}
+				tmp_ggsnaddress := MSGSNAddress(decVal_ggsnaddress)
 				v.GgsnAddress = &tmp_ggsnaddress
 				if offset < 0 || offset >
 					len(content) || n_ggsnaddress < 0 || n_ggsnaddress > len(content[offset:]) {
@@ -46301,12 +47324,13 @@ func (v *MSFailureReportRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if v == nil {
 		return fmt.Errorf("%w: MSFailureReportRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSFailureReportRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -46338,7 +47362,11 @@ func (v *MSFailureReportRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if decodedTag_ggsnaddress.Class != tag.ClassContextSpecific || decodedTag_ggsnaddress.Number != 0 {
 					return fmt.Errorf("decoding ggsn-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ggsnaddress)
 				}
-				tmp_ggsnaddress := MSGSNAddress(rawVal_ggsnaddress)
+				decVal_ggsnaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ggsnaddress.Constructed, rawVal_ggsnaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ggsn-Address: %w", octetErr)
+				}
+				tmp_ggsnaddress := MSGSNAddress(decVal_ggsnaddress)
 				v.GgsnAddress = &tmp_ggsnaddress
 				if offset < 0 || offset >
 					len(content) || n_ggsnaddress < 0 || n_ggsnaddress > len(content[offset:]) {
@@ -46585,12 +47613,13 @@ func (v *MSNoteMsPresentForGprsArg) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: MSNoteMsPresentForGprsArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSNoteMsPresentForGprsArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -46626,7 +47655,11 @@ func (v *MSNoteMsPresentForGprsArg) UnmarshalBER(data []byte, opts ...ber.Decode
 	if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
 		return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 	}
-	v.Imsi = CommonDataTypesIMSI(rawVal_imsi)
+	decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding imsi: %w", octetErr)
+	}
+	v.Imsi = CommonDataTypesIMSI(decVal_imsi)
 	if offset < 0 || offset >
 		len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -46654,7 +47687,11 @@ func (v *MSNoteMsPresentForGprsArg) UnmarshalBER(data []byte, opts ...ber.Decode
 	if decodedTag_sgsnaddress.Class != tag.ClassContextSpecific || decodedTag_sgsnaddress.Number != 1 {
 		return fmt.Errorf("decoding sgsn-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sgsnaddress)
 	}
-	v.SgsnAddress = MSGSNAddress(rawVal_sgsnaddress)
+	decVal_sgsnaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_sgsnaddress.Constructed, rawVal_sgsnaddress, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding sgsn-Address: %w", octetErr)
+	}
+	v.SgsnAddress = MSGSNAddress(decVal_sgsnaddress)
 	if offset < 0 || offset >
 		len(content) || n_sgsnaddress < 0 || n_sgsnaddress > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -46678,7 +47715,11 @@ func (v *MSNoteMsPresentForGprsArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				if decodedTag_ggsnaddress.Class != tag.ClassContextSpecific || decodedTag_ggsnaddress.Number != 2 {
 					return fmt.Errorf("decoding ggsn-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ggsnaddress)
 				}
-				tmp_ggsnaddress := MSGSNAddress(rawVal_ggsnaddress)
+				decVal_ggsnaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ggsnaddress.Constructed, rawVal_ggsnaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ggsn-Address: %w", octetErr)
+				}
+				tmp_ggsnaddress := MSGSNAddress(decVal_ggsnaddress)
 				v.GgsnAddress = &tmp_ggsnaddress
 				if offset < 0 || offset >
 					len(content) || n_ggsnaddress < 0 || n_ggsnaddress > len(content[offset:]) {
@@ -46831,12 +47872,13 @@ func (v *MSNoteMsPresentForGprsRes) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: MSNoteMsPresentForGprsRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSNoteMsPresentForGprsRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -47023,12 +48065,13 @@ func (v *MSResetArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 	if v == nil {
 		return fmt.Errorf("%w: MSResetArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSResetArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -47279,12 +48322,13 @@ func (v *MSRestoreDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: MSRestoreDataArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSRestoreDataArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -47545,12 +48589,13 @@ func (v *MSRestoreDataRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: MSRestoreDataRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSRestoreDataRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -47734,6 +48779,7 @@ func MarshalDERMSVBSDataList(collection *MSVBSDataList) ([]byte, error) {
 
 // UnmarshalBERMSVBSDataList decodes a MSVBSDataList list from BER.
 func UnmarshalBERMSVBSDataList(data []byte, opts ...ber.DecodeOption) (*MSVBSDataList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -47774,7 +48820,7 @@ func UnmarshalBERMSVBSDataList(data []byte, opts ...ber.DecodeOption) (*MSVBSDat
 		}
 	}
 	decoded := &MSVBSDataList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSVBSDataList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -47849,6 +48895,7 @@ func MarshalDERMSVGCSDataList(collection *MSVGCSDataList) ([]byte, error) {
 
 // UnmarshalBERMSVGCSDataList decodes a MSVGCSDataList list from BER.
 func UnmarshalBERMSVGCSDataList(data []byte, opts ...ber.DecodeOption) (*MSVGCSDataList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -47889,7 +48936,7 @@ func UnmarshalBERMSVGCSDataList(data []byte, opts ...ber.DecodeOption) (*MSVGCSD
 		}
 	}
 	decoded := &MSVGCSDataList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSVGCSDataList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -47940,7 +48987,10 @@ func (v *MSVoiceGroupCallData) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.AdditionalSubscriptions.Bytes, v.AdditionalSubscriptions.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "additionalSubscriptions", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.AdditionalSubscriptions.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -47956,7 +49006,10 @@ func (v *MSVoiceGroupCallData) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.AdditionalInfo.Bytes, v.AdditionalInfo.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "additionalInfo", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -48030,7 +49083,13 @@ func (v *MSVoiceGroupCallData) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.AdditionalSubscriptions.Bytes, v.AdditionalSubscriptions.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "additionalSubscriptions", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.AdditionalSubscriptions.Bytes, v.AdditionalSubscriptions.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "additionalSubscriptions", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.AdditionalSubscriptions.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -48046,7 +49105,13 @@ func (v *MSVoiceGroupCallData) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.AdditionalInfo.Bytes, v.AdditionalInfo.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "additionalInfo", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.AdditionalInfo.Bytes, v.AdditionalInfo.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "additionalInfo", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -48099,12 +49164,13 @@ func (v *MSVoiceGroupCallData) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if v == nil {
 		return fmt.Errorf("%w: MSVoiceGroupCallData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSVoiceGroupCallData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -48252,7 +49318,11 @@ func (v *MSVoiceGroupCallData) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if decodedTag_longgroupid.Class != tag.ClassContextSpecific || decodedTag_longgroupid.Number != 1 {
 					return fmt.Errorf("decoding longGroupId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_longgroupid)
 				}
-				tmp_longgroupid := MSLongGroupId(rawVal_longgroupid)
+				decVal_longgroupid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_longgroupid.Constructed, rawVal_longgroupid, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding longGroupId: %w", octetErr)
+				}
+				tmp_longgroupid := MSLongGroupId(decVal_longgroupid)
 				v.LongGroupId = &tmp_longgroupid
 				if offset < 0 || offset >
 					len(content) || n_longgroupid < 0 || n_longgroupid > len(content[offset:]) {
@@ -48392,12 +49462,13 @@ func (v *MSVoiceBroadcastData) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if v == nil {
 		return fmt.Errorf("%w: MSVoiceBroadcastData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSVoiceBroadcastData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -48677,12 +49748,13 @@ func (v *MSProvideSubscriberInfoArg) UnmarshalBER(data []byte, opts ...ber.Decod
 	if v == nil {
 		return fmt.Errorf("%w: MSProvideSubscriberInfoArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSProvideSubscriberInfoArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -48718,7 +49790,11 @@ func (v *MSProvideSubscriberInfoArg) UnmarshalBER(data []byte, opts ...ber.Decod
 	if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
 		return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 	}
-	v.Imsi = CommonDataTypesIMSI(rawVal_imsi)
+	decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding imsi: %w", octetErr)
+	}
+	v.Imsi = CommonDataTypesIMSI(decVal_imsi)
 	if offset < 0 || offset >
 		len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -48742,7 +49818,11 @@ func (v *MSProvideSubscriberInfoArg) UnmarshalBER(data []byte, opts ...ber.Decod
 				if decodedTag_lmsi.Class != tag.ClassContextSpecific || decodedTag_lmsi.Number != 1 {
 					return fmt.Errorf("decoding lmsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lmsi)
 				}
-				tmp_lmsi := CommonDataTypesLMSI(rawVal_lmsi)
+				decVal_lmsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_lmsi.Constructed, rawVal_lmsi, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding lmsi: %w", octetErr)
+				}
+				tmp_lmsi := CommonDataTypesLMSI(decVal_lmsi)
 				v.Lmsi = &tmp_lmsi
 				if offset < 0 || offset >
 					len(content) || n_lmsi < 0 || n_lmsi > len(content[offset:]) {
@@ -48924,12 +50004,13 @@ func (v *MSProvideSubscriberInfoRes) UnmarshalBER(data []byte, opts ...ber.Decod
 	if v == nil {
 		return fmt.Errorf("%w: MSProvideSubscriberInfoRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSProvideSubscriberInfoRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -49329,12 +50410,13 @@ func (v *MSSubscriberInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: MSSubscriberInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSSubscriberInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -49515,7 +50597,11 @@ func (v *MSSubscriberInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_imei.Class != tag.ClassContextSpecific || decodedTag_imei.Number != 5 {
 					return fmt.Errorf("decoding imei: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imei)
 				}
-				tmp_imei := CommonDataTypesIMEI(rawVal_imei)
+				decVal_imei, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imei.Constructed, rawVal_imei, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding imei: %w", octetErr)
+				}
+				tmp_imei := CommonDataTypesIMEI(decVal_imei)
 				v.Imei = &tmp_imei
 				if offset < 0 || offset >
 					len(content) || n_imei < 0 || n_imei > len(content[offset:]) {
@@ -49543,7 +50629,11 @@ func (v *MSSubscriberInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_msclassmark2.Class != tag.ClassContextSpecific || decodedTag_msclassmark2.Number != 6 {
 					return fmt.Errorf("decoding ms-Classmark2: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msclassmark2)
 				}
-				tmp_msclassmark2 := MSMSClassmark2(rawVal_msclassmark2)
+				decVal_msclassmark2, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_msclassmark2.Constructed, rawVal_msclassmark2, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ms-Classmark2: %w", octetErr)
+				}
+				tmp_msclassmark2 := MSMSClassmark2(decVal_msclassmark2)
 				v.MsClassmark2 = &tmp_msclassmark2
 				if offset < 0 || offset >
 					len(content) || n_msclassmark2 < 0 || n_msclassmark2 > len(content[offset:]) {
@@ -49856,12 +50946,13 @@ func (v *MSMNPInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if v == nil {
 		return fmt.Errorf("%w: MSMNPInfoRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSMNPInfoRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -49893,7 +50984,11 @@ func (v *MSMNPInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 				if decodedTag_routeingnumber.Class != tag.ClassContextSpecific || decodedTag_routeingnumber.Number != 0 {
 					return fmt.Errorf("decoding routeingNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_routeingnumber)
 				}
-				tmp_routeingnumber := MSRouteingNumber(rawVal_routeingnumber)
+				decVal_routeingnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_routeingnumber.Constructed, rawVal_routeingnumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding routeingNumber: %w", octetErr)
+				}
+				tmp_routeingnumber := MSRouteingNumber(decVal_routeingnumber)
 				v.RouteingNumber = &tmp_routeingnumber
 				if offset < 0 || offset >
 					len(content) || n_routeingnumber < 0 || n_routeingnumber >
@@ -49922,7 +51017,11 @@ func (v *MSMNPInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 				if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 1 {
 					return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 				}
-				tmp_imsi := CommonDataTypesIMSI(rawVal_imsi)
+				decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding imsi: %w", octetErr)
+				}
+				tmp_imsi := CommonDataTypesIMSI(decVal_imsi)
 				v.Imsi = &tmp_imsi
 				if offset < 0 || offset >
 					len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
@@ -49950,7 +51049,11 @@ func (v *MSMNPInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 				if decodedTag_msisdn.Class != tag.ClassContextSpecific || decodedTag_msisdn.Number != 2 {
 					return fmt.Errorf("decoding msisdn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msisdn)
 				}
-				tmp_msisdn := CommonDataTypesISDNAddressString(rawVal_msisdn)
+				decVal_msisdn, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_msisdn.Constructed, rawVal_msisdn, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding msisdn: %w", octetErr)
+				}
+				tmp_msisdn := CommonDataTypesISDNAddressString(decVal_msisdn)
 				v.Msisdn = &tmp_msisdn
 				if offset < 0 || offset >
 					len(content) || n_msisdn < 0 || n_msisdn > len(content[offset:]) {
@@ -50160,12 +51263,13 @@ func (v *MSGPRSMSClass) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	if v == nil {
 		return fmt.Errorf("%w: MSGPRSMSClass destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSGPRSMSClass{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -50201,7 +51305,11 @@ func (v *MSGPRSMSClass) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	if decodedTag_msnetworkcapability.Class != tag.ClassContextSpecific || decodedTag_msnetworkcapability.Number != 0 {
 		return fmt.Errorf("decoding mSNetworkCapability: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msnetworkcapability)
 	}
-	v.MSNetworkCapability = MSMSNetworkCapability(rawVal_msnetworkcapability)
+	decVal_msnetworkcapability, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_msnetworkcapability.Constructed, rawVal_msnetworkcapability, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding mSNetworkCapability: %w", octetErr)
+	}
+	v.MSNetworkCapability = MSMSNetworkCapability(decVal_msnetworkcapability)
 	if offset < 0 || offset >
 		len(content) || n_msnetworkcapability < 0 || n_msnetworkcapability >
 		len(content[offset:]) {
@@ -50226,7 +51334,11 @@ func (v *MSGPRSMSClass) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 				if decodedTag_msradioaccesscapability.Class != tag.ClassContextSpecific || decodedTag_msradioaccesscapability.Number != 1 {
 					return fmt.Errorf("decoding mSRadioAccessCapability: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msradioaccesscapability)
 				}
-				tmp_msradioaccesscapability := MSMSRadioAccessCapability(rawVal_msradioaccesscapability)
+				decVal_msradioaccesscapability, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_msradioaccesscapability.Constructed, rawVal_msradioaccesscapability, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding mSRadioAccessCapability: %w", octetErr)
+				}
+				tmp_msradioaccesscapability := MSMSRadioAccessCapability(decVal_msradioaccesscapability)
 				v.MSRadioAccessCapability = &tmp_msradioaccesscapability
 				if offset < 0 || offset >
 					len(content) || n_msradioaccesscapability < 0 || n_msradioaccesscapability >
@@ -50455,12 +51567,13 @@ func (v *MSRequestedInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 	if v == nil {
 		return fmt.Errorf("%w: MSRequestedInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSRequestedInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -51105,12 +52218,13 @@ func (v *MSLocationInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if v == nil {
 		return fmt.Errorf("%w: MSLocationInformation destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSLocationInformation{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -51167,7 +52281,11 @@ func (v *MSLocationInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if decodedTag_geographicalinformation.Class != tag.ClassContextSpecific || decodedTag_geographicalinformation.Number != 0 {
 					return fmt.Errorf("decoding geographicalInformation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_geographicalinformation)
 				}
-				tmp_geographicalinformation := MSGeographicalInformation(rawVal_geographicalinformation)
+				decVal_geographicalinformation, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_geographicalinformation.Constructed, rawVal_geographicalinformation, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding geographicalInformation: %w", octetErr)
+				}
+				tmp_geographicalinformation := MSGeographicalInformation(decVal_geographicalinformation)
 				v.GeographicalInformation = &tmp_geographicalinformation
 				if offset < 0 || offset >
 					len(content) || n_geographicalinformation < 0 || n_geographicalinformation >
@@ -51196,7 +52314,11 @@ func (v *MSLocationInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if decodedTag_vlrnumber.Class != tag.ClassContextSpecific || decodedTag_vlrnumber.Number != 1 {
 					return fmt.Errorf("decoding vlr-number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_vlrnumber)
 				}
-				tmp_vlrnumber := CommonDataTypesISDNAddressString(rawVal_vlrnumber)
+				decVal_vlrnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_vlrnumber.Constructed, rawVal_vlrnumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding vlr-number: %w", octetErr)
+				}
+				tmp_vlrnumber := CommonDataTypesISDNAddressString(decVal_vlrnumber)
 				v.VlrNumber = &tmp_vlrnumber
 				if offset < 0 || offset >
 					len(content) || n_vlrnumber < 0 || n_vlrnumber > len(content[offset:]) {
@@ -51229,7 +52351,11 @@ func (v *MSLocationInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if decodedTag_locationnumber.Class != tag.ClassContextSpecific || decodedTag_locationnumber.Number != 2 {
 					return fmt.Errorf("decoding locationNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationnumber)
 				}
-				tmp_locationnumber := MSLocationNumber(rawVal_locationnumber)
+				decVal_locationnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_locationnumber.Constructed, rawVal_locationnumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding locationNumber: %w", octetErr)
+				}
+				tmp_locationnumber := MSLocationNumber(decVal_locationnumber)
 				v.LocationNumber = &tmp_locationnumber
 				if offset < 0 || offset >
 					len(content) || n_locationnumber < 0 || n_locationnumber > len(content[offset:]) {
@@ -51316,7 +52442,11 @@ func (v *MSLocationInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if decodedTag_selectedlsaid.Class != tag.ClassContextSpecific || decodedTag_selectedlsaid.Number != 5 {
 					return fmt.Errorf("decoding selectedLSA-Id: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_selectedlsaid)
 				}
-				tmp_selectedlsaid := MSLSAIdentity(rawVal_selectedlsaid)
+				decVal_selectedlsaid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_selectedlsaid.Constructed, rawVal_selectedlsaid, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding selectedLSA-Id: %w", octetErr)
+				}
+				tmp_selectedlsaid := MSLSAIdentity(decVal_selectedlsaid)
 				v.SelectedLSAId = &tmp_selectedlsaid
 				if offset < 0 || offset >
 					len(content) || n_selectedlsaid < 0 || n_selectedlsaid > len(content[offset:]) {
@@ -51344,7 +52474,11 @@ func (v *MSLocationInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if decodedTag_mscnumber.Class != tag.ClassContextSpecific || decodedTag_mscnumber.Number != 6 {
 					return fmt.Errorf("decoding msc-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mscnumber)
 				}
-				tmp_mscnumber := CommonDataTypesISDNAddressString(rawVal_mscnumber)
+				decVal_mscnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_mscnumber.Constructed, rawVal_mscnumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding msc-Number: %w", octetErr)
+				}
+				tmp_mscnumber := CommonDataTypesISDNAddressString(decVal_mscnumber)
 				v.MscNumber = &tmp_mscnumber
 				if offset < 0 || offset >
 					len(content) || n_mscnumber < 0 || n_mscnumber > len(content[offset:]) {
@@ -51377,7 +52511,11 @@ func (v *MSLocationInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if decodedTag_geodeticinformation.Class != tag.ClassContextSpecific || decodedTag_geodeticinformation.Number != 7 {
 					return fmt.Errorf("decoding geodeticInformation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_geodeticinformation)
 				}
-				tmp_geodeticinformation := MSGeodeticInformation(rawVal_geodeticinformation)
+				decVal_geodeticinformation, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_geodeticinformation.Constructed, rawVal_geodeticinformation, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding geodeticInformation: %w", octetErr)
+				}
+				tmp_geodeticinformation := MSGeodeticInformation(decVal_geodeticinformation)
 				v.GeodeticInformation = &tmp_geodeticinformation
 				if offset < 0 || offset >
 					len(content) || n_geodeticinformation < 0 || n_geodeticinformation >
@@ -51823,12 +52961,13 @@ func (v *MSLocationInformationGPRS) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: MSLocationInformationGPRS destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSLocationInformationGPRS{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -51888,7 +53027,11 @@ func (v *MSLocationInformationGPRS) UnmarshalBER(data []byte, opts ...ber.Decode
 				if decodedTag_routeingareaidentity.Class != tag.ClassContextSpecific || decodedTag_routeingareaidentity.Number != 1 {
 					return fmt.Errorf("decoding routeingAreaIdentity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_routeingareaidentity)
 				}
-				tmp_routeingareaidentity := MSRAIdentity(rawVal_routeingareaidentity)
+				decVal_routeingareaidentity, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_routeingareaidentity.Constructed, rawVal_routeingareaidentity, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding routeingAreaIdentity: %w", octetErr)
+				}
+				tmp_routeingareaidentity := MSRAIdentity(decVal_routeingareaidentity)
 				v.RouteingAreaIdentity = &tmp_routeingareaidentity
 				if offset < 0 || offset >
 					len(content) || n_routeingareaidentity < 0 || n_routeingareaidentity >
@@ -51917,7 +53060,11 @@ func (v *MSLocationInformationGPRS) UnmarshalBER(data []byte, opts ...ber.Decode
 				if decodedTag_geographicalinformation.Class != tag.ClassContextSpecific || decodedTag_geographicalinformation.Number != 2 {
 					return fmt.Errorf("decoding geographicalInformation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_geographicalinformation)
 				}
-				tmp_geographicalinformation := MSGeographicalInformation(rawVal_geographicalinformation)
+				decVal_geographicalinformation, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_geographicalinformation.Constructed, rawVal_geographicalinformation, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding geographicalInformation: %w", octetErr)
+				}
+				tmp_geographicalinformation := MSGeographicalInformation(decVal_geographicalinformation)
 				v.GeographicalInformation = &tmp_geographicalinformation
 				if offset < 0 || offset >
 					len(content) || n_geographicalinformation < 0 || n_geographicalinformation >
@@ -51946,7 +53093,11 @@ func (v *MSLocationInformationGPRS) UnmarshalBER(data []byte, opts ...ber.Decode
 				if decodedTag_sgsnnumber.Class != tag.ClassContextSpecific || decodedTag_sgsnnumber.Number != 3 {
 					return fmt.Errorf("decoding sgsn-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sgsnnumber)
 				}
-				tmp_sgsnnumber := CommonDataTypesISDNAddressString(rawVal_sgsnnumber)
+				decVal_sgsnnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_sgsnnumber.Constructed, rawVal_sgsnnumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding sgsn-Number: %w", octetErr)
+				}
+				tmp_sgsnnumber := CommonDataTypesISDNAddressString(decVal_sgsnnumber)
 				v.SgsnNumber = &tmp_sgsnnumber
 				if offset < 0 || offset >
 					len(content) || n_sgsnnumber < 0 || n_sgsnnumber > len(content[offset:]) {
@@ -51979,7 +53130,11 @@ func (v *MSLocationInformationGPRS) UnmarshalBER(data []byte, opts ...ber.Decode
 				if decodedTag_selectedlsaidentity.Class != tag.ClassContextSpecific || decodedTag_selectedlsaidentity.Number != 4 {
 					return fmt.Errorf("decoding selectedLSAIdentity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_selectedlsaidentity)
 				}
-				tmp_selectedlsaidentity := MSLSAIdentity(rawVal_selectedlsaidentity)
+				decVal_selectedlsaidentity, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_selectedlsaidentity.Constructed, rawVal_selectedlsaidentity, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding selectedLSAIdentity: %w", octetErr)
+				}
+				tmp_selectedlsaidentity := MSLSAIdentity(decVal_selectedlsaidentity)
 				v.SelectedLSAIdentity = &tmp_selectedlsaidentity
 				if offset < 0 || offset >
 					len(content) || n_selectedlsaidentity < 0 || n_selectedlsaidentity >
@@ -52064,7 +53219,11 @@ func (v *MSLocationInformationGPRS) UnmarshalBER(data []byte, opts ...ber.Decode
 				if decodedTag_geodeticinformation.Class != tag.ClassContextSpecific || decodedTag_geodeticinformation.Number != 7 {
 					return fmt.Errorf("decoding geodeticInformation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_geodeticinformation)
 				}
-				tmp_geodeticinformation := MSGeodeticInformation(rawVal_geodeticinformation)
+				decVal_geodeticinformation, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_geodeticinformation.Constructed, rawVal_geodeticinformation, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding geodeticInformation: %w", octetErr)
+				}
+				tmp_geodeticinformation := MSGeodeticInformation(decVal_geodeticinformation)
 				v.GeodeticInformation = &tmp_geodeticinformation
 				if offset < 0 || offset >
 					len(content) || n_geodeticinformation < 0 || n_geodeticinformation >
@@ -52203,6 +53362,11 @@ func (v *MSSubscriberState) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 			return nil, fmt.Errorf("%w: choice MSSubscriberState: netDetNotReachable is nil", ber.ErrInvalidValue)
 		}
 		enc_2 := ber.EncodeEnumerated(int64(*v.NetDetNotReachable))
+		if int64(*v.NetDetNotReachable) != 0 && int64(*v.NetDetNotReachable) != 1 && int64(*v.NetDetNotReachable) != 2 && int64(*v.NetDetNotReachable) != 3 {
+			if constraintErr := ber.CheckEncodedValue(opts, "netDetNotReachable", "ENUMERATED {0, 1, 2, 3}", fmt.Sprint(int64(*v.NetDetNotReachable))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		return enc_2, nil
 	case MSSubscriberStateChoiceNotProvidedFromVLR:
 		enc_3 := ber.EncodeNull()
@@ -52222,7 +53386,7 @@ func (v *MSSubscriberState) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: MSSubscriberState receiver is nil", ber.ErrInvalidValue)
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -52237,8 +53401,9 @@ func (v *MSSubscriberState) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if v == nil {
 		return fmt.Errorf("%w: MSSubscriberState destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -52299,6 +53464,11 @@ func (v *MSSubscriberState) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 		}
 		tmp := MSNotReachableReason(decVal)
 		v.NetDetNotReachable = &tmp
+		if int64(*v.NetDetNotReachable) != 0 && int64(*v.NetDetNotReachable) != 1 && int64(*v.NetDetNotReachable) != 2 && int64(*v.NetDetNotReachable) != 3 {
+			if constraintErr := ber.CheckDecodedValue(opts, "netDetNotReachable", "ENUMERATED {0, 1, 2, 3}", fmt.Sprint(int64(*v.NetDetNotReachable))); constraintErr != nil {
+				return constraintErr
+			}
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == false {
 		v.Choice = MSSubscriberStateChoiceNotProvidedFromVLR
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -52400,6 +53570,11 @@ func (v *MSPSSubscriberState) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 			return nil, fmt.Errorf("%w: choice MSPSSubscriberState: netDetNotReachable is nil", ber.ErrInvalidValue)
 		}
 		enc_6 := ber.EncodeEnumerated(int64(*v.NetDetNotReachable))
+		if int64(*v.NetDetNotReachable) != 0 && int64(*v.NetDetNotReachable) != 1 && int64(*v.NetDetNotReachable) != 2 && int64(*v.NetDetNotReachable) != 3 {
+			if constraintErr := ber.CheckEncodedValue(opts, "netDetNotReachable", "ENUMERATED {0, 1, 2, 3}", fmt.Sprint(int64(*v.NetDetNotReachable))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		return enc_6, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for MSPSSubscriberState", v.Choice)
@@ -52451,7 +53626,7 @@ func (v *MSPSSubscriberState) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_5, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -52466,8 +53641,9 @@ func (v *MSPSSubscriberState) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: MSPSSubscriberState destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -52588,6 +53764,11 @@ func (v *MSPSSubscriberState) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		}
 		tmp := MSNotReachableReason(decVal)
 		v.NetDetNotReachable = &tmp
+		if int64(*v.NetDetNotReachable) != 0 && int64(*v.NetDetNotReachable) != 1 && int64(*v.NetDetNotReachable) != 2 && int64(*v.NetDetNotReachable) != 3 {
+			if constraintErr := ber.CheckDecodedValue(opts, "netDetNotReachable", "ENUMERATED {0, 1, 2, 3}", fmt.Sprint(int64(*v.NetDetNotReachable))); constraintErr != nil {
+				return constraintErr
+			}
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for MSPSSubscriberState CHOICE", peekTag)
 	}
@@ -52657,6 +53838,7 @@ func MarshalDERMSPDPContextInfoList(collection *MSPDPContextInfoList) ([]byte, e
 
 // UnmarshalBERMSPDPContextInfoList decodes a MSPDPContextInfoList list from BER.
 func UnmarshalBERMSPDPContextInfoList(data []byte, opts ...ber.DecodeOption) (*MSPDPContextInfoList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -52697,7 +53879,7 @@ func UnmarshalBERMSPDPContextInfoList(data []byte, opts ...ber.DecodeOption) (*M
 		}
 	}
 	decoded := &MSPDPContextInfoList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSPDPContextInfoList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -53433,12 +54615,13 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: MSPDPContextInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSPDPContextInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -53533,7 +54716,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if decodedTag_pdptype.Class != tag.ClassContextSpecific || decodedTag_pdptype.Number != 2 {
 		return fmt.Errorf("decoding pdp-Type: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pdptype)
 	}
-	v.PdpType = MSPDPType(rawVal_pdptype)
+	decVal_pdptype, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_pdptype.Constructed, rawVal_pdptype, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding pdp-Type: %w", octetErr)
+	}
+	v.PdpType = MSPDPType(decVal_pdptype)
 	if offset < 0 || offset >
 		len(content) || n_pdptype < 0 || n_pdptype > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -53557,7 +54744,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_pdpaddress.Class != tag.ClassContextSpecific || decodedTag_pdpaddress.Number != 3 {
 					return fmt.Errorf("decoding pdp-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pdpaddress)
 				}
-				tmp_pdpaddress := MSPDPAddress(rawVal_pdpaddress)
+				decVal_pdpaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_pdpaddress.Constructed, rawVal_pdpaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding pdp-Address: %w", octetErr)
+				}
+				tmp_pdpaddress := MSPDPAddress(decVal_pdpaddress)
 				v.PdpAddress = &tmp_pdpaddress
 				if offset < 0 || offset >
 					len(content) || n_pdpaddress < 0 || n_pdpaddress > len(content[offset:]) {
@@ -53585,7 +54776,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_apnsubscribed.Class != tag.ClassContextSpecific || decodedTag_apnsubscribed.Number != 4 {
 					return fmt.Errorf("decoding apn-Subscribed: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_apnsubscribed)
 				}
-				tmp_apnsubscribed := MSAPN(rawVal_apnsubscribed)
+				decVal_apnsubscribed, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_apnsubscribed.Constructed, rawVal_apnsubscribed, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding apn-Subscribed: %w", octetErr)
+				}
+				tmp_apnsubscribed := MSAPN(decVal_apnsubscribed)
 				v.ApnSubscribed = &tmp_apnsubscribed
 				if offset < 0 || offset >
 					len(content) || n_apnsubscribed < 0 || n_apnsubscribed >
@@ -53614,7 +54809,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_apninuse.Class != tag.ClassContextSpecific || decodedTag_apninuse.Number != 5 {
 					return fmt.Errorf("decoding apn-InUse: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_apninuse)
 				}
-				tmp_apninuse := MSAPN(rawVal_apninuse)
+				decVal_apninuse, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_apninuse.Constructed, rawVal_apninuse, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding apn-InUse: %w", octetErr)
+				}
+				tmp_apninuse := MSAPN(decVal_apninuse)
 				v.ApnInUse = &tmp_apninuse
 				if offset < 0 || offset >
 					len(content) || n_apninuse < 0 || n_apninuse > len(content[offset:]) {
@@ -53674,7 +54873,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_transactionid.Class != tag.ClassContextSpecific || decodedTag_transactionid.Number != 7 {
 					return fmt.Errorf("decoding transactionId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_transactionid)
 				}
-				tmp_transactionid := MSTransactionId(rawVal_transactionid)
+				decVal_transactionid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_transactionid.Constructed, rawVal_transactionid, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding transactionId: %w", octetErr)
+				}
+				tmp_transactionid := MSTransactionId(decVal_transactionid)
 				v.TransactionId = &tmp_transactionid
 				if offset < 0 || offset >
 					len(content) || n_transactionid < 0 || n_transactionid >
@@ -53703,7 +54906,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_teidforgnandgp.Class != tag.ClassContextSpecific || decodedTag_teidforgnandgp.Number != 8 {
 					return fmt.Errorf("decoding teid-ForGnAndGp: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_teidforgnandgp)
 				}
-				tmp_teidforgnandgp := MSTEID(rawVal_teidforgnandgp)
+				decVal_teidforgnandgp, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_teidforgnandgp.Constructed, rawVal_teidforgnandgp, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding teid-ForGnAndGp: %w", octetErr)
+				}
+				tmp_teidforgnandgp := MSTEID(decVal_teidforgnandgp)
 				v.TeidForGnAndGp = &tmp_teidforgnandgp
 				if offset < 0 || offset >
 					len(content) || n_teidforgnandgp < 0 || n_teidforgnandgp >
@@ -53732,7 +54939,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_teidforiu.Class != tag.ClassContextSpecific || decodedTag_teidforiu.Number != 9 {
 					return fmt.Errorf("decoding teid-ForIu: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_teidforiu)
 				}
-				tmp_teidforiu := MSTEID(rawVal_teidforiu)
+				decVal_teidforiu, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_teidforiu.Constructed, rawVal_teidforiu, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding teid-ForIu: %w", octetErr)
+				}
+				tmp_teidforiu := MSTEID(decVal_teidforiu)
 				v.TeidForIu = &tmp_teidforiu
 				if offset < 0 || offset >
 					len(content) || n_teidforiu < 0 || n_teidforiu > len(content[offset:]) {
@@ -53760,7 +54971,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_ggsnaddress.Class != tag.ClassContextSpecific || decodedTag_ggsnaddress.Number != 10 {
 					return fmt.Errorf("decoding ggsn-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ggsnaddress)
 				}
-				tmp_ggsnaddress := MSGSNAddress(rawVal_ggsnaddress)
+				decVal_ggsnaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ggsnaddress.Constructed, rawVal_ggsnaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ggsn-Address: %w", octetErr)
+				}
+				tmp_ggsnaddress := MSGSNAddress(decVal_ggsnaddress)
 				v.GgsnAddress = &tmp_ggsnaddress
 				if offset < 0 || offset >
 					len(content) || n_ggsnaddress < 0 || n_ggsnaddress > len(
@@ -53789,7 +55004,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_qossubscribed.Class != tag.ClassContextSpecific || decodedTag_qossubscribed.Number != 11 {
 					return fmt.Errorf("decoding qos-Subscribed: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_qossubscribed)
 				}
-				tmp_qossubscribed := MSExtQoSSubscribed(rawVal_qossubscribed)
+				decVal_qossubscribed, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_qossubscribed.Constructed, rawVal_qossubscribed, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding qos-Subscribed: %w", octetErr)
+				}
+				tmp_qossubscribed := MSExtQoSSubscribed(decVal_qossubscribed)
 				v.QosSubscribed = &tmp_qossubscribed
 				if offset < 0 || offset >
 					len(content) || n_qossubscribed < 0 || n_qossubscribed >
@@ -53818,7 +55037,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_qosrequested.Class != tag.ClassContextSpecific || decodedTag_qosrequested.Number != 12 {
 					return fmt.Errorf("decoding qos-Requested: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_qosrequested)
 				}
-				tmp_qosrequested := MSExtQoSSubscribed(rawVal_qosrequested)
+				decVal_qosrequested, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_qosrequested.Constructed, rawVal_qosrequested, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding qos-Requested: %w", octetErr)
+				}
+				tmp_qosrequested := MSExtQoSSubscribed(decVal_qosrequested)
 				v.QosRequested = &tmp_qosrequested
 				if offset < 0 || offset >
 					len(content) || n_qosrequested < 0 || n_qosrequested > len(content[offset:]) {
@@ -53846,7 +55069,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_qosnegotiated.Class != tag.ClassContextSpecific || decodedTag_qosnegotiated.Number != 13 {
 					return fmt.Errorf("decoding qos-Negotiated: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_qosnegotiated)
 				}
-				tmp_qosnegotiated := MSExtQoSSubscribed(rawVal_qosnegotiated)
+				decVal_qosnegotiated, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_qosnegotiated.Constructed, rawVal_qosnegotiated, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding qos-Negotiated: %w", octetErr)
+				}
+				tmp_qosnegotiated := MSExtQoSSubscribed(decVal_qosnegotiated)
 				v.QosNegotiated = &tmp_qosnegotiated
 				if offset < 0 || offset >
 					len(content) || n_qosnegotiated < 0 || n_qosnegotiated >
@@ -53875,7 +55102,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_chargingid.Class != tag.ClassContextSpecific || decodedTag_chargingid.Number != 14 {
 					return fmt.Errorf("decoding chargingId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_chargingid)
 				}
-				tmp_chargingid := MSGPRSChargingID(rawVal_chargingid)
+				decVal_chargingid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_chargingid.Constructed, rawVal_chargingid, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding chargingId: %w", octetErr)
+				}
+				tmp_chargingid := MSGPRSChargingID(decVal_chargingid)
 				v.ChargingId = &tmp_chargingid
 				if offset < 0 || offset >
 					len(content) || n_chargingid < 0 || n_chargingid > len(content[offset:]) {
@@ -53903,7 +55134,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_chargingcharacteristics.Class != tag.ClassContextSpecific || decodedTag_chargingcharacteristics.Number != 15 {
 					return fmt.Errorf("decoding chargingCharacteristics: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_chargingcharacteristics)
 				}
-				tmp_chargingcharacteristics := MSChargingCharacteristics(rawVal_chargingcharacteristics)
+				decVal_chargingcharacteristics, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_chargingcharacteristics.Constructed, rawVal_chargingcharacteristics, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding chargingCharacteristics: %w", octetErr)
+				}
+				tmp_chargingcharacteristics := MSChargingCharacteristics(decVal_chargingcharacteristics)
 				v.ChargingCharacteristics = &tmp_chargingcharacteristics
 				if offset < 0 || offset >
 					len(content) || n_chargingcharacteristics < 0 || n_chargingcharacteristics >
@@ -53932,7 +55167,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_rncaddress.Class != tag.ClassContextSpecific || decodedTag_rncaddress.Number != 16 {
 					return fmt.Errorf("decoding rnc-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rncaddress)
 				}
-				tmp_rncaddress := MSGSNAddress(rawVal_rncaddress)
+				decVal_rncaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_rncaddress.Constructed, rawVal_rncaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding rnc-Address: %w", octetErr)
+				}
+				tmp_rncaddress := MSGSNAddress(decVal_rncaddress)
 				v.RncAddress = &tmp_rncaddress
 				if offset < 0 || offset >
 					len(content) || n_rncaddress < 0 || n_rncaddress > len(content[offset:]) {
@@ -53991,7 +55230,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_qos2subscribed.Class != tag.ClassContextSpecific || decodedTag_qos2subscribed.Number != 18 {
 					return fmt.Errorf("decoding qos2-Subscribed: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_qos2subscribed)
 				}
-				tmp_qos2subscribed := MSExt2QoSSubscribed(rawVal_qos2subscribed)
+				decVal_qos2subscribed, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_qos2subscribed.Constructed, rawVal_qos2subscribed, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding qos2-Subscribed: %w", octetErr)
+				}
+				tmp_qos2subscribed := MSExt2QoSSubscribed(decVal_qos2subscribed)
 				v.Qos2Subscribed = &tmp_qos2subscribed
 				if offset < 0 || offset >
 					len(content) || n_qos2subscribed < 0 || n_qos2subscribed >
@@ -54020,7 +55263,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_qos2requested.Class != tag.ClassContextSpecific || decodedTag_qos2requested.Number != 19 {
 					return fmt.Errorf("decoding qos2-Requested: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_qos2requested)
 				}
-				tmp_qos2requested := MSExt2QoSSubscribed(rawVal_qos2requested)
+				decVal_qos2requested, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_qos2requested.Constructed, rawVal_qos2requested, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding qos2-Requested: %w", octetErr)
+				}
+				tmp_qos2requested := MSExt2QoSSubscribed(decVal_qos2requested)
 				v.Qos2Requested = &tmp_qos2requested
 				if offset < 0 || offset >
 					len(content) || n_qos2requested < 0 || n_qos2requested >
@@ -54049,7 +55296,11 @@ func (v *MSPDPContextInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_qos2negotiated.Class != tag.ClassContextSpecific || decodedTag_qos2negotiated.Number != 20 {
 					return fmt.Errorf("decoding qos2-Negotiated: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_qos2negotiated)
 				}
-				tmp_qos2negotiated := MSExt2QoSSubscribed(rawVal_qos2negotiated)
+				decVal_qos2negotiated, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_qos2negotiated.Constructed, rawVal_qos2negotiated, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding qos2-Negotiated: %w", octetErr)
+				}
+				tmp_qos2negotiated := MSExt2QoSSubscribed(decVal_qos2negotiated)
 				v.Qos2Negotiated = &tmp_qos2negotiated
 				if offset < 0 || offset >
 					len(content) || n_qos2negotiated < 0 || n_qos2negotiated >
@@ -54256,12 +55507,13 @@ func (v *MSAnyTimeInterrogationArg) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: MSAnyTimeInterrogationArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSAnyTimeInterrogationArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -54353,7 +55605,11 @@ func (v *MSAnyTimeInterrogationArg) UnmarshalBER(data []byte, opts ...ber.Decode
 	if decodedTag_gsmscfaddress.Class != tag.ClassContextSpecific || decodedTag_gsmscfaddress.Number != 3 {
 		return fmt.Errorf("decoding gsmSCF-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gsmscfaddress)
 	}
-	v.GsmSCFAddress = CommonDataTypesISDNAddressString(rawVal_gsmscfaddress)
+	decVal_gsmscfaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_gsmscfaddress.Constructed, rawVal_gsmscfaddress, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding gsmSCF-Address: %w", octetErr)
+	}
+	v.GsmSCFAddress = CommonDataTypesISDNAddressString(decVal_gsmscfaddress)
 	if offset < 0 || offset >
 		len(content) || n_gsmscfaddress < 0 || n_gsmscfaddress > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -54507,12 +55763,13 @@ func (v *MSAnyTimeInterrogationRes) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: MSAnyTimeInterrogationRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSAnyTimeInterrogationRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -54794,12 +56051,13 @@ func (v *MSAnyTimeSubscriptionInterrogationArg) UnmarshalBER(data []byte, opts .
 	if v == nil {
 		return fmt.Errorf("%w: MSAnyTimeSubscriptionInterrogationArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSAnyTimeSubscriptionInterrogationArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -54891,7 +56149,11 @@ func (v *MSAnyTimeSubscriptionInterrogationArg) UnmarshalBER(data []byte, opts .
 	if decodedTag_gsmscfaddress.Class != tag.ClassContextSpecific || decodedTag_gsmscfaddress.Number != 2 {
 		return fmt.Errorf("decoding gsmSCF-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gsmscfaddress)
 	}
-	v.GsmSCFAddress = CommonDataTypesISDNAddressString(rawVal_gsmscfaddress)
+	decVal_gsmscfaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_gsmscfaddress.Constructed, rawVal_gsmscfaddress, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding gsmSCF-Address: %w", octetErr)
+	}
+	v.GsmSCFAddress = CommonDataTypesISDNAddressString(decVal_gsmscfaddress)
 	if offset < 0 || offset >
 		len(content) || n_gsmscfaddress < 0 || n_gsmscfaddress > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -55059,7 +56321,10 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) marshalBER(opts ...ber.EncodeOpt
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedVLRCAMELPhases.Bytes, v.SupportedVLRCAMELPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedVLR-CAMEL-Phases", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedVLRCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -55080,7 +56345,10 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) marshalBER(opts ...ber.EncodeOpt
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedSGSNCAMELPhases.Bytes, v.SupportedSGSNCAMELPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedSGSN-CAMEL-Phases", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedSGSNCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -55113,7 +56381,10 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) marshalBER(opts ...ber.EncodeOpt
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIsInVLR.Bytes, v.OfferedCamel4CSIsInVLR.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIsInVLR", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OfferedCamel4CSIsInVLR.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -55134,7 +56405,10 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) marshalBER(opts ...ber.EncodeOpt
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIsInSGSN.Bytes, v.OfferedCamel4CSIsInSGSN.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIsInSGSN", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OfferedCamel4CSIsInSGSN.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -55254,7 +56528,13 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedVLRCAMELPhases.Bytes, v.SupportedVLRCAMELPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedVLR-CAMEL-Phases", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.SupportedVLRCAMELPhases.Bytes, v.SupportedVLRCAMELPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedVLR-CAMEL-Phases", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedVLRCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -55275,7 +56555,13 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedSGSNCAMELPhases.Bytes, v.SupportedSGSNCAMELPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedSGSN-CAMEL-Phases", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.SupportedSGSNCAMELPhases.Bytes, v.SupportedSGSNCAMELPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedSGSN-CAMEL-Phases", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedSGSNCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -55308,7 +56594,13 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIsInVLR.Bytes, v.OfferedCamel4CSIsInVLR.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIsInVLR", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4CSIsInVLR.Bytes, v.OfferedCamel4CSIsInVLR.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIsInVLR", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OfferedCamel4CSIsInVLR.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -55329,7 +56621,13 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIsInSGSN.Bytes, v.OfferedCamel4CSIsInSGSN.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIsInSGSN", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4CSIsInSGSN.Bytes, v.OfferedCamel4CSIsInSGSN.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIsInSGSN", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OfferedCamel4CSIsInSGSN.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -55382,12 +56680,13 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) UnmarshalBER(data []byte, opts .
 	if v == nil {
 		return fmt.Errorf("%w: MSAnyTimeSubscriptionInterrogationRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSAnyTimeSubscriptionInterrogationRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -55813,6 +57112,11 @@ func (v *MSRequestedSubscriptionInfo) marshalBER(opts ...ber.EncodeOption) ([]by
 		children = append(children, enc_odb...)
 	}
 	if v.RequestedCAMELSubscriptionInfo != nil {
+		if int64(*v.RequestedCAMELSubscriptionInfo) != 0 && int64(*v.RequestedCAMELSubscriptionInfo) != 1 && int64(*v.RequestedCAMELSubscriptionInfo) != 2 && int64(*v.RequestedCAMELSubscriptionInfo) != 3 && int64(*v.RequestedCAMELSubscriptionInfo) != 4 && int64(*v.RequestedCAMELSubscriptionInfo) != 5 && int64(*v.RequestedCAMELSubscriptionInfo) != 6 && int64(*v.RequestedCAMELSubscriptionInfo) != 7 && int64(*v.RequestedCAMELSubscriptionInfo) != 8 {
+			if constraintErr := ber.CheckEncodedValue(opts, "requestedCAMEL-SubscriptionInfo", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8}", fmt.Sprint(int64(*v.RequestedCAMELSubscriptionInfo))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_requestedcamelsubscriptioninfo := ber.EncodeEnumerated(int64(*v.RequestedCAMELSubscriptionInfo))
 		retagged_enc_requestedcamelsubscriptioninfo, tagErr_enc_requestedcamelsubscriptioninfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_requestedcamelsubscriptioninfo)
 		if tagErr_enc_requestedcamelsubscriptioninfo != nil {
@@ -55910,6 +57214,11 @@ func (v *MSRequestedSubscriptionInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_odb...)
 	}
 	if v.RequestedCAMELSubscriptionInfo != nil {
+		if int64(*v.RequestedCAMELSubscriptionInfo) != 0 && int64(*v.RequestedCAMELSubscriptionInfo) != 1 && int64(*v.RequestedCAMELSubscriptionInfo) != 2 && int64(*v.RequestedCAMELSubscriptionInfo) != 3 && int64(*v.RequestedCAMELSubscriptionInfo) != 4 && int64(*v.RequestedCAMELSubscriptionInfo) != 5 && int64(*v.RequestedCAMELSubscriptionInfo) != 6 && int64(*v.RequestedCAMELSubscriptionInfo) != 7 && int64(*v.RequestedCAMELSubscriptionInfo) != 8 {
+			if constraintErr := ber.CheckEncodedValue(nil, "requestedCAMEL-SubscriptionInfo", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8}", fmt.Sprint(int64(*v.RequestedCAMELSubscriptionInfo))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_requestedcamelsubscriptioninfo := ber.EncodeEnumerated(int64(*v.RequestedCAMELSubscriptionInfo))
 		retagged_enc_requestedcamelsubscriptioninfo, tagErr_enc_requestedcamelsubscriptioninfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_requestedcamelsubscriptioninfo)
 		if tagErr_enc_requestedcamelsubscriptioninfo != nil {
@@ -55987,12 +57296,13 @@ func (v *MSRequestedSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.Deco
 	if v == nil {
 		return fmt.Errorf("%w: MSRequestedSubscriptionInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSRequestedSubscriptionInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -56092,6 +57402,11 @@ func (v *MSRequestedSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.Deco
 				}
 
 				offset += n_requestedcamelsubscriptioninfo
+				if int64(*v.RequestedCAMELSubscriptionInfo) != 0 && int64(*v.RequestedCAMELSubscriptionInfo) != 1 && int64(*v.RequestedCAMELSubscriptionInfo) != 2 && int64(*v.RequestedCAMELSubscriptionInfo) != 3 && int64(*v.RequestedCAMELSubscriptionInfo) != 4 && int64(*v.RequestedCAMELSubscriptionInfo) != 5 && int64(*v.RequestedCAMELSubscriptionInfo) != 6 && int64(*v.RequestedCAMELSubscriptionInfo) != 7 && int64(*v.RequestedCAMELSubscriptionInfo) != 8 {
+					if constraintErr := ber.CheckDecodedValue(opts, "requestedCAMEL-SubscriptionInfo", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8}", fmt.Sprint(int64(*v.RequestedCAMELSubscriptionInfo))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -56319,6 +57634,7 @@ func MarshalDERMSMSISDNBSList(collection *MSMSISDNBSList) ([]byte, error) {
 
 // UnmarshalBERMSMSISDNBSList decodes a MSMSISDNBSList list from BER.
 func UnmarshalBERMSMSISDNBSList(data []byte, opts ...ber.DecodeOption) (*MSMSISDNBSList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -56359,7 +57675,7 @@ func UnmarshalBERMSMSISDNBSList(data []byte, opts ...ber.DecodeOption) (*MSMSISD
 		}
 	}
 	decoded := &MSMSISDNBSList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERMSMSISDNBSList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -56530,12 +57846,13 @@ func (v *MSMSISDNBS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 	if v == nil {
 		return fmt.Errorf("%w: MSMSISDNBS destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSMSISDNBS{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -56799,12 +58116,13 @@ func (v *MSCallForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if v == nil {
 		return fmt.Errorf("%w: MSCallForwardingData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSCallForwardingData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -57086,12 +58404,13 @@ func (v *MSCallBarringData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if v == nil {
 		return fmt.Errorf("%w: MSCallBarringData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSCallBarringData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -57364,12 +58683,13 @@ func (v *MSODBInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	if v == nil {
 		return fmt.Errorf("%w: MSODBInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSODBInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -57732,7 +59052,10 @@ func (v *MSCAMELSubscriptionInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SpecificCSIDeletedList.Bytes, v.SpecificCSIDeletedList.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "specificCSIDeletedList", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SpecificCSIDeletedList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -58105,7 +59428,13 @@ func (v *MSCAMELSubscriptionInfo) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SpecificCSIDeletedList.Bytes, v.SpecificCSIDeletedList.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "specificCSIDeletedList", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.SpecificCSIDeletedList.Bytes, v.SpecificCSIDeletedList.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "specificCSIDeletedList", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SpecificCSIDeletedList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -58252,12 +59581,13 @@ func (v *MSCAMELSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: MSCAMELSubscriptionInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSCAMELSubscriptionInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -59382,12 +60712,13 @@ func (v *MSAnyTimeModificationArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: MSAnyTimeModificationArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSAnyTimeModificationArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -59450,7 +60781,11 @@ func (v *MSAnyTimeModificationArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if decodedTag_gsmscfaddress.Class != tag.ClassContextSpecific || decodedTag_gsmscfaddress.Number != 1 {
 		return fmt.Errorf("decoding gsmSCF-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gsmscfaddress)
 	}
-	v.GsmSCFAddress = CommonDataTypesISDNAddressString(rawVal_gsmscfaddress)
+	decVal_gsmscfaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_gsmscfaddress.Constructed, rawVal_gsmscfaddress, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding gsmSCF-Address: %w", octetErr)
+	}
+	v.GsmSCFAddress = CommonDataTypesISDNAddressString(decVal_gsmscfaddress)
 	if offset < 0 || offset >
 		len(content) || n_gsmscfaddress < 0 || n_gsmscfaddress > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -59860,12 +61195,13 @@ func (v *MSAnyTimeModificationRes) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: MSAnyTimeModificationRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSAnyTimeModificationRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -60141,6 +61477,11 @@ func (v *MSModificationRequestForCFInfo) marshalBER(opts ...ber.EncodeOption) ([
 		children = append(children, enc_noreplyconditiontime...)
 	}
 	if v.ModifyNotificationToCSE != nil {
+		if int64(*v.ModifyNotificationToCSE) != 0 && int64(*v.ModifyNotificationToCSE) != 1 {
+			if constraintErr := ber.CheckEncodedValue(opts, "modifyNotificationToCSE", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyNotificationToCSE))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_modifynotificationtocse := ber.EncodeEnumerated(int64(*v.ModifyNotificationToCSE))
 		retagged_enc_modifynotificationtocse, tagErr_enc_modifynotificationtocse := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_modifynotificationtocse)
 		if tagErr_enc_modifynotificationtocse != nil {
@@ -60275,6 +61616,11 @@ func (v *MSModificationRequestForCFInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_noreplyconditiontime...)
 	}
 	if v.ModifyNotificationToCSE != nil {
+		if int64(*v.ModifyNotificationToCSE) != 0 && int64(*v.ModifyNotificationToCSE) != 1 {
+			if constraintErr := ber.CheckEncodedValue(nil, "modifyNotificationToCSE", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyNotificationToCSE))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_modifynotificationtocse := ber.EncodeEnumerated(int64(*v.ModifyNotificationToCSE))
 		retagged_enc_modifynotificationtocse, tagErr_enc_modifynotificationtocse := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_modifynotificationtocse)
 		if tagErr_enc_modifynotificationtocse != nil {
@@ -60316,12 +61662,13 @@ func (v *MSModificationRequestForCFInfo) UnmarshalBER(data []byte, opts ...ber.D
 	if v == nil {
 		return fmt.Errorf("%w: MSModificationRequestForCFInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSModificationRequestForCFInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -60357,7 +61704,11 @@ func (v *MSModificationRequestForCFInfo) UnmarshalBER(data []byte, opts ...ber.D
 	if decodedTag_sscode.Class != tag.ClassContextSpecific || decodedTag_sscode.Number != 0 {
 		return fmt.Errorf("decoding ss-Code: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sscode)
 	}
-	v.SsCode = SSSSCode(rawVal_sscode)
+	decVal_sscode, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_sscode.Constructed, rawVal_sscode, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding ss-Code: %w", octetErr)
+	}
+	v.SsCode = SSSSCode(decVal_sscode)
 	if offset < 0 || offset >
 		len(content) || n_sscode < 0 || n_sscode > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -60408,7 +61759,11 @@ func (v *MSModificationRequestForCFInfo) UnmarshalBER(data []byte, opts ...ber.D
 				if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 2 {
 					return fmt.Errorf("decoding ss-Status: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus)
 				}
-				tmp_ssstatus := CommonDataTypesExtSSStatus(rawVal_ssstatus)
+				decVal_ssstatus, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ssstatus.Constructed, rawVal_ssstatus, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ss-Status: %w", octetErr)
+				}
+				tmp_ssstatus := CommonDataTypesExtSSStatus(decVal_ssstatus)
 				v.SsStatus = &tmp_ssstatus
 				if offset < 0 || offset >
 					len(content) || n_ssstatus < 0 || n_ssstatus > len(content[offset:]) {
@@ -60436,7 +61791,11 @@ func (v *MSModificationRequestForCFInfo) UnmarshalBER(data []byte, opts ...ber.D
 				if decodedTag_forwardedtonumber.Class != tag.ClassContextSpecific || decodedTag_forwardedtonumber.Number != 3 {
 					return fmt.Errorf("decoding forwardedToNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardedtonumber)
 				}
-				tmp_forwardedtonumber := CommonDataTypesAddressString(rawVal_forwardedtonumber)
+				decVal_forwardedtonumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_forwardedtonumber.Constructed, rawVal_forwardedtonumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding forwardedToNumber: %w", octetErr)
+				}
+				tmp_forwardedtonumber := CommonDataTypesAddressString(decVal_forwardedtonumber)
 				v.ForwardedToNumber = &tmp_forwardedtonumber
 				if offset < 0 || offset >
 					len(content) || n_forwardedtonumber < 0 || n_forwardedtonumber > len(content[offset:]) {
@@ -60464,7 +61823,11 @@ func (v *MSModificationRequestForCFInfo) UnmarshalBER(data []byte, opts ...ber.D
 				if decodedTag_forwardedtosubaddress.Class != tag.ClassContextSpecific || decodedTag_forwardedtosubaddress.Number != 4 {
 					return fmt.Errorf("decoding forwardedToSubaddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardedtosubaddress)
 				}
-				tmp_forwardedtosubaddress := CommonDataTypesISDNSubaddressString(rawVal_forwardedtosubaddress)
+				decVal_forwardedtosubaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_forwardedtosubaddress.Constructed, rawVal_forwardedtosubaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding forwardedToSubaddress: %w", octetErr)
+				}
+				tmp_forwardedtosubaddress := CommonDataTypesISDNSubaddressString(decVal_forwardedtosubaddress)
 				v.ForwardedToSubaddress = &tmp_forwardedtosubaddress
 				if offset < 0 || offset >
 					len(content) || n_forwardedtosubaddress < 0 || n_forwardedtosubaddress >
@@ -60539,6 +61902,11 @@ func (v *MSModificationRequestForCFInfo) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_modifynotificationtocse
+				if int64(*v.ModifyNotificationToCSE) != 0 && int64(*v.ModifyNotificationToCSE) != 1 {
+					if constraintErr := ber.CheckDecodedValue(opts, "modifyNotificationToCSE", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyNotificationToCSE))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -60693,6 +62061,11 @@ func (v *MSModificationRequestForCBInfo) marshalBER(opts ...ber.EncodeOption) ([
 		children = append(children, enc_wrongpasswordattemptscounter...)
 	}
 	if v.ModifyNotificationToCSE != nil {
+		if int64(*v.ModifyNotificationToCSE) != 0 && int64(*v.ModifyNotificationToCSE) != 1 {
+			if constraintErr := ber.CheckEncodedValue(opts, "modifyNotificationToCSE", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyNotificationToCSE))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_modifynotificationtocse := ber.EncodeEnumerated(int64(*v.ModifyNotificationToCSE))
 		retagged_enc_modifynotificationtocse, tagErr_enc_modifynotificationtocse := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_modifynotificationtocse)
 		if tagErr_enc_modifynotificationtocse != nil {
@@ -60810,6 +62183,11 @@ func (v *MSModificationRequestForCBInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_wrongpasswordattemptscounter...)
 	}
 	if v.ModifyNotificationToCSE != nil {
+		if int64(*v.ModifyNotificationToCSE) != 0 && int64(*v.ModifyNotificationToCSE) != 1 {
+			if constraintErr := ber.CheckEncodedValue(nil, "modifyNotificationToCSE", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyNotificationToCSE))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_modifynotificationtocse := ber.EncodeEnumerated(int64(*v.ModifyNotificationToCSE))
 		retagged_enc_modifynotificationtocse, tagErr_enc_modifynotificationtocse := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_modifynotificationtocse)
 		if tagErr_enc_modifynotificationtocse != nil {
@@ -60851,12 +62229,13 @@ func (v *MSModificationRequestForCBInfo) UnmarshalBER(data []byte, opts ...ber.D
 	if v == nil {
 		return fmt.Errorf("%w: MSModificationRequestForCBInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSModificationRequestForCBInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -60892,7 +62271,11 @@ func (v *MSModificationRequestForCBInfo) UnmarshalBER(data []byte, opts ...ber.D
 	if decodedTag_sscode.Class != tag.ClassContextSpecific || decodedTag_sscode.Number != 0 {
 		return fmt.Errorf("decoding ss-Code: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sscode)
 	}
-	v.SsCode = SSSSCode(rawVal_sscode)
+	decVal_sscode, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_sscode.Constructed, rawVal_sscode, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding ss-Code: %w", octetErr)
+	}
+	v.SsCode = SSSSCode(decVal_sscode)
 	if offset < 0 || offset >
 		len(content) || n_sscode < 0 || n_sscode > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -60943,7 +62326,11 @@ func (v *MSModificationRequestForCBInfo) UnmarshalBER(data []byte, opts ...ber.D
 				if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 2 {
 					return fmt.Errorf("decoding ss-Status: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus)
 				}
-				tmp_ssstatus := CommonDataTypesExtSSStatus(rawVal_ssstatus)
+				decVal_ssstatus, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ssstatus.Constructed, rawVal_ssstatus, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ss-Status: %w", octetErr)
+				}
+				tmp_ssstatus := CommonDataTypesExtSSStatus(decVal_ssstatus)
 				v.SsStatus = &tmp_ssstatus
 				if offset < 0 || offset >
 					len(content) || n_ssstatus < 0 || n_ssstatus > len(content[offset:]) {
@@ -61048,6 +62435,11 @@ func (v *MSModificationRequestForCBInfo) UnmarshalBER(data []byte, opts ...ber.D
 				}
 
 				offset += n_modifynotificationtocse
+				if int64(*v.ModifyNotificationToCSE) != 0 && int64(*v.ModifyNotificationToCSE) != 1 {
+					if constraintErr := ber.CheckDecodedValue(opts, "modifyNotificationToCSE", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyNotificationToCSE))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -61137,6 +62529,11 @@ func (v *MSModificationRequestForODBData) marshalBER(opts ...ber.EncodeOption) (
 		children = append(children, enc_odbdata...)
 	}
 	if v.ModifyNotificationToCSE != nil {
+		if int64(*v.ModifyNotificationToCSE) != 0 && int64(*v.ModifyNotificationToCSE) != 1 {
+			if constraintErr := ber.CheckEncodedValue(opts, "modifyNotificationToCSE", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyNotificationToCSE))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_modifynotificationtocse := ber.EncodeEnumerated(int64(*v.ModifyNotificationToCSE))
 		retagged_enc_modifynotificationtocse, tagErr_enc_modifynotificationtocse := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_modifynotificationtocse)
 		if tagErr_enc_modifynotificationtocse != nil {
@@ -61189,6 +62586,11 @@ func (v *MSModificationRequestForODBData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_odbdata...)
 	}
 	if v.ModifyNotificationToCSE != nil {
+		if int64(*v.ModifyNotificationToCSE) != 0 && int64(*v.ModifyNotificationToCSE) != 1 {
+			if constraintErr := ber.CheckEncodedValue(nil, "modifyNotificationToCSE", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyNotificationToCSE))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_modifynotificationtocse := ber.EncodeEnumerated(int64(*v.ModifyNotificationToCSE))
 		retagged_enc_modifynotificationtocse, tagErr_enc_modifynotificationtocse := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_modifynotificationtocse)
 		if tagErr_enc_modifynotificationtocse != nil {
@@ -61230,12 +62632,13 @@ func (v *MSModificationRequestForODBData) UnmarshalBER(data []byte, opts ...ber.
 	if v == nil {
 		return fmt.Errorf("%w: MSModificationRequestForODBData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSModificationRequestForODBData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -61310,6 +62713,11 @@ func (v *MSModificationRequestForODBData) UnmarshalBER(data []byte, opts ...ber.
 				}
 
 				offset += n_modifynotificationtocse
+				if int64(*v.ModifyNotificationToCSE) != 0 && int64(*v.ModifyNotificationToCSE) != 1 {
+					if constraintErr := ber.CheckDecodedValue(opts, "modifyNotificationToCSE", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyNotificationToCSE))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -61385,6 +62793,11 @@ func (v *MSModificationRequestForCSI) marshalBER(opts ...ber.EncodeOption) ([]by
 		return nil, err
 	}
 	var children []byte
+	if int64(v.RequestedCamelSubscriptionInfo) != 0 && int64(v.RequestedCamelSubscriptionInfo) != 1 && int64(v.RequestedCamelSubscriptionInfo) != 2 && int64(v.RequestedCamelSubscriptionInfo) != 3 && int64(v.RequestedCamelSubscriptionInfo) != 4 && int64(v.RequestedCamelSubscriptionInfo) != 5 && int64(v.RequestedCamelSubscriptionInfo) != 6 && int64(v.RequestedCamelSubscriptionInfo) != 7 && int64(v.RequestedCamelSubscriptionInfo) != 8 {
+		if constraintErr := ber.CheckEncodedValue(opts, "requestedCamel-SubscriptionInfo", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8}", fmt.Sprint(int64(v.RequestedCamelSubscriptionInfo))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_requestedcamelsubscriptioninfo := ber.EncodeEnumerated(int64(v.RequestedCamelSubscriptionInfo))
 	retagged_enc_requestedcamelsubscriptioninfo, tagErr_enc_requestedcamelsubscriptioninfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_requestedcamelsubscriptioninfo)
 	if tagErr_enc_requestedcamelsubscriptioninfo != nil {
@@ -61393,6 +62806,11 @@ func (v *MSModificationRequestForCSI) marshalBER(opts ...ber.EncodeOption) ([]by
 	enc_requestedcamelsubscriptioninfo = retagged_enc_requestedcamelsubscriptioninfo
 	children = append(children, enc_requestedcamelsubscriptioninfo...)
 	if v.ModifyNotificationToCSE != nil {
+		if int64(*v.ModifyNotificationToCSE) != 0 && int64(*v.ModifyNotificationToCSE) != 1 {
+			if constraintErr := ber.CheckEncodedValue(opts, "modifyNotificationToCSE", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyNotificationToCSE))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_modifynotificationtocse := ber.EncodeEnumerated(int64(*v.ModifyNotificationToCSE))
 		retagged_enc_modifynotificationtocse, tagErr_enc_modifynotificationtocse := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_modifynotificationtocse)
 		if tagErr_enc_modifynotificationtocse != nil {
@@ -61402,6 +62820,11 @@ func (v *MSModificationRequestForCSI) marshalBER(opts ...ber.EncodeOption) ([]by
 		children = append(children, enc_modifynotificationtocse...)
 	}
 	if v.ModifyCSIState != nil {
+		if int64(*v.ModifyCSIState) != 0 && int64(*v.ModifyCSIState) != 1 {
+			if constraintErr := ber.CheckEncodedValue(opts, "modifyCSI-State", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyCSIState))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_modifycsistate := ber.EncodeEnumerated(int64(*v.ModifyCSIState))
 		retagged_enc_modifycsistate, tagErr_enc_modifycsistate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_modifycsistate)
 		if tagErr_enc_modifycsistate != nil {
@@ -61450,6 +62873,11 @@ func (v *MSModificationRequestForCSI) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("%w: MSModificationRequestForCSI receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
+	if int64(v.RequestedCamelSubscriptionInfo) != 0 && int64(v.RequestedCamelSubscriptionInfo) != 1 && int64(v.RequestedCamelSubscriptionInfo) != 2 && int64(v.RequestedCamelSubscriptionInfo) != 3 && int64(v.RequestedCamelSubscriptionInfo) != 4 && int64(v.RequestedCamelSubscriptionInfo) != 5 && int64(v.RequestedCamelSubscriptionInfo) != 6 && int64(v.RequestedCamelSubscriptionInfo) != 7 && int64(v.RequestedCamelSubscriptionInfo) != 8 {
+		if constraintErr := ber.CheckEncodedValue(nil, "requestedCamel-SubscriptionInfo", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8}", fmt.Sprint(int64(v.RequestedCamelSubscriptionInfo))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_requestedcamelsubscriptioninfo := ber.EncodeEnumerated(int64(v.RequestedCamelSubscriptionInfo))
 	retagged_enc_requestedcamelsubscriptioninfo, tagErr_enc_requestedcamelsubscriptioninfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_requestedcamelsubscriptioninfo)
 	if tagErr_enc_requestedcamelsubscriptioninfo != nil {
@@ -61458,6 +62886,11 @@ func (v *MSModificationRequestForCSI) MarshalDER() ([]byte, error) {
 	enc_requestedcamelsubscriptioninfo = retagged_enc_requestedcamelsubscriptioninfo
 	children = append(children, enc_requestedcamelsubscriptioninfo...)
 	if v.ModifyNotificationToCSE != nil {
+		if int64(*v.ModifyNotificationToCSE) != 0 && int64(*v.ModifyNotificationToCSE) != 1 {
+			if constraintErr := ber.CheckEncodedValue(nil, "modifyNotificationToCSE", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyNotificationToCSE))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_modifynotificationtocse := ber.EncodeEnumerated(int64(*v.ModifyNotificationToCSE))
 		retagged_enc_modifynotificationtocse, tagErr_enc_modifynotificationtocse := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_modifynotificationtocse)
 		if tagErr_enc_modifynotificationtocse != nil {
@@ -61467,6 +62900,11 @@ func (v *MSModificationRequestForCSI) MarshalDER() ([]byte, error) {
 		children = append(children, enc_modifynotificationtocse...)
 	}
 	if v.ModifyCSIState != nil {
+		if int64(*v.ModifyCSIState) != 0 && int64(*v.ModifyCSIState) != 1 {
+			if constraintErr := ber.CheckEncodedValue(nil, "modifyCSI-State", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyCSIState))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_modifycsistate := ber.EncodeEnumerated(int64(*v.ModifyCSIState))
 		retagged_enc_modifycsistate, tagErr_enc_modifycsistate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_modifycsistate)
 		if tagErr_enc_modifycsistate != nil {
@@ -61517,12 +62955,13 @@ func (v *MSModificationRequestForCSI) UnmarshalBER(data []byte, opts ...ber.Deco
 	if v == nil {
 		return fmt.Errorf("%w: MSModificationRequestForCSI destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSModificationRequestForCSI{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -61570,6 +63009,11 @@ func (v *MSModificationRequestForCSI) UnmarshalBER(data []byte, opts ...ber.Deco
 	}
 
 	offset += n_requestedcamelsubscriptioninfo
+	if int64(v.RequestedCamelSubscriptionInfo) != 0 && int64(v.RequestedCamelSubscriptionInfo) != 1 && int64(v.RequestedCamelSubscriptionInfo) != 2 && int64(v.RequestedCamelSubscriptionInfo) != 3 && int64(v.RequestedCamelSubscriptionInfo) != 4 && int64(v.RequestedCamelSubscriptionInfo) != 5 && int64(v.RequestedCamelSubscriptionInfo) != 6 && int64(v.RequestedCamelSubscriptionInfo) != 7 && int64(v.RequestedCamelSubscriptionInfo) != 8 {
+		if constraintErr := ber.CheckDecodedValue(opts, "requestedCamel-SubscriptionInfo", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8}", fmt.Sprint(int64(v.RequestedCamelSubscriptionInfo))); constraintErr != nil {
+			return constraintErr
+		}
+	}
 	// Decode modifyNotificationToCSE
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -61595,6 +63039,11 @@ func (v *MSModificationRequestForCSI) UnmarshalBER(data []byte, opts ...ber.Deco
 				}
 
 				offset += n_modifynotificationtocse
+				if int64(*v.ModifyNotificationToCSE) != 0 && int64(*v.ModifyNotificationToCSE) != 1 {
+					if constraintErr := ber.CheckDecodedValue(opts, "modifyNotificationToCSE", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyNotificationToCSE))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -61622,6 +63071,11 @@ func (v *MSModificationRequestForCSI) UnmarshalBER(data []byte, opts ...ber.Deco
 				}
 
 				offset += n_modifycsistate
+				if int64(*v.ModifyCSIState) != 0 && int64(*v.ModifyCSIState) != 1 {
+					if constraintErr := ber.CheckDecodedValue(opts, "modifyCSI-State", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyCSIState))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -61726,6 +63180,11 @@ func (v *MSModificationRequestForIPSMGWData) marshalBER(opts ...ber.EncodeOption
 	}
 	var children []byte
 	if v.ModifyRegistrationStatus != nil {
+		if int64(*v.ModifyRegistrationStatus) != 0 && int64(*v.ModifyRegistrationStatus) != 1 {
+			if constraintErr := ber.CheckEncodedValue(opts, "modifyRegistrationStatus", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyRegistrationStatus))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_modifyregistrationstatus := ber.EncodeEnumerated(int64(*v.ModifyRegistrationStatus))
 		retagged_enc_modifyregistrationstatus, tagErr_enc_modifyregistrationstatus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_modifyregistrationstatus)
 		if tagErr_enc_modifyregistrationstatus != nil {
@@ -61766,6 +63225,11 @@ func (v *MSModificationRequestForIPSMGWData) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if v.ModifyRegistrationStatus != nil {
+		if int64(*v.ModifyRegistrationStatus) != 0 && int64(*v.ModifyRegistrationStatus) != 1 {
+			if constraintErr := ber.CheckEncodedValue(nil, "modifyRegistrationStatus", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyRegistrationStatus))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_modifyregistrationstatus := ber.EncodeEnumerated(int64(*v.ModifyRegistrationStatus))
 		retagged_enc_modifyregistrationstatus, tagErr_enc_modifyregistrationstatus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_modifyregistrationstatus)
 		if tagErr_enc_modifyregistrationstatus != nil {
@@ -61807,12 +63271,13 @@ func (v *MSModificationRequestForIPSMGWData) UnmarshalBER(data []byte, opts ...b
 	if v == nil {
 		return fmt.Errorf("%w: MSModificationRequestForIPSMGWData destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSModificationRequestForIPSMGWData{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -61857,6 +63322,11 @@ func (v *MSModificationRequestForIPSMGWData) UnmarshalBER(data []byte, opts ...b
 				}
 
 				offset += n_modifyregistrationstatus
+				if int64(*v.ModifyRegistrationStatus) != 0 && int64(*v.ModifyRegistrationStatus) != 1 {
+					if constraintErr := ber.CheckDecodedValue(opts, "modifyRegistrationStatus", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ModifyRegistrationStatus))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -62150,12 +63620,13 @@ func (v *MSNoteSubscriberDataModifiedArg) UnmarshalBER(data []byte, opts ...ber.
 	if v == nil {
 		return fmt.Errorf("%w: MSNoteSubscriberDataModifiedArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSNoteSubscriberDataModifiedArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -62492,12 +63963,13 @@ func (v *MSNoteSubscriberDataModifiedRes) UnmarshalBER(data []byte, opts ...ber.
 	if v == nil {
 		return fmt.Errorf("%w: MSNoteSubscriberDataModifiedRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSNoteSubscriberDataModifiedRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -62663,7 +64135,10 @@ func (v *MSNoteMMEventArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedCAMELPhases.Bytes, v.SupportedCAMELPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedCAMELPhases", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -62708,7 +64183,10 @@ func (v *MSNoteMMEventArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4Functionalities.Bytes, v.OfferedCamel4Functionalities.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4Functionalities", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OfferedCamel4Functionalities.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -62817,7 +64295,13 @@ func (v *MSNoteMMEventArg) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.SupportedCAMELPhases.Bytes, v.SupportedCAMELPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedCAMELPhases", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.SupportedCAMELPhases.Bytes, v.SupportedCAMELPhases.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "supportedCAMELPhases", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.SupportedCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -62862,7 +64346,13 @@ func (v *MSNoteMMEventArg) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4Functionalities.Bytes, v.OfferedCamel4Functionalities.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4Functionalities", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4Functionalities.Bytes, v.OfferedCamel4Functionalities.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4Functionalities", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OfferedCamel4Functionalities.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -62898,12 +64388,13 @@ func (v *MSNoteMMEventArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: MSNoteMMEventArg destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSNoteMMEventArg{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -62959,7 +64450,11 @@ func (v *MSNoteMMEventArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if decodedTag_eventmet.Class != tag.ClassContextSpecific || decodedTag_eventmet.Number != 0 {
 		return fmt.Errorf("decoding eventMet: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_eventmet)
 	}
-	v.EventMet = MSMMCode(rawVal_eventmet)
+	decVal_eventmet, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_eventmet.Constructed, rawVal_eventmet, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding eventMet: %w", octetErr)
+	}
+	v.EventMet = MSMMCode(decVal_eventmet)
 	if offset < 0 || offset >
 		len(content) || n_eventmet < 0 || n_eventmet > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -62987,7 +64482,11 @@ func (v *MSNoteMMEventArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 1 {
 		return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 	}
-	v.Imsi = CommonDataTypesIMSI(rawVal_imsi)
+	decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding imsi: %w", octetErr)
+	}
+	v.Imsi = CommonDataTypesIMSI(decVal_imsi)
 	if offset < 0 || offset >
 		len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -63015,7 +64514,11 @@ func (v *MSNoteMMEventArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if decodedTag_msisdn.Class != tag.ClassContextSpecific || decodedTag_msisdn.Number != 2 {
 		return fmt.Errorf("decoding msisdn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msisdn)
 	}
-	v.Msisdn = CommonDataTypesISDNAddressString(rawVal_msisdn)
+	decVal_msisdn, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_msisdn.Constructed, rawVal_msisdn, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding msisdn: %w", octetErr)
+	}
+	v.Msisdn = CommonDataTypesISDNAddressString(decVal_msisdn)
 	if offset < 0 || offset >
 		len(content) || n_msisdn < 0 || n_msisdn > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -63295,12 +64798,13 @@ func (v *MSNoteMMEventRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: MSNoteMMEventRes destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSNoteMMEventRes{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -63467,7 +64971,7 @@ func (v *MSExtSSInfoForCSE) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_1, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -63482,8 +64986,9 @@ func (v *MSExtSSInfoForCSE) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if v == nil {
 		return fmt.Errorf("%w: MSExtSSInfoForCSE destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -63731,12 +65236,13 @@ func (v *MSExtForwardingInfoForCSE) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: MSExtForwardingInfoForCSE destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSExtForwardingInfoForCSE{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -63772,7 +65278,11 @@ func (v *MSExtForwardingInfoForCSE) UnmarshalBER(data []byte, opts ...ber.Decode
 	if decodedTag_sscode.Class != tag.ClassContextSpecific || decodedTag_sscode.Number != 0 {
 		return fmt.Errorf("decoding ss-Code: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sscode)
 	}
-	v.SsCode = SSSSCode(rawVal_sscode)
+	decVal_sscode, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_sscode.Constructed, rawVal_sscode, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding ss-Code: %w", octetErr)
+	}
+	v.SsCode = SSSSCode(decVal_sscode)
 	if offset < 0 || offset >
 		len(content) || n_sscode < 0 || n_sscode > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -64156,12 +65666,13 @@ func (v *MSExtCallBarringInfoForCSE) UnmarshalBER(data []byte, opts ...ber.Decod
 	if v == nil {
 		return fmt.Errorf("%w: MSExtCallBarringInfoForCSE destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MSExtCallBarringInfoForCSE{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -64197,7 +65708,11 @@ func (v *MSExtCallBarringInfoForCSE) UnmarshalBER(data []byte, opts ...ber.Decod
 	if decodedTag_sscode.Class != tag.ClassContextSpecific || decodedTag_sscode.Number != 0 {
 		return fmt.Errorf("decoding ss-Code: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sscode)
 	}
-	v.SsCode = SSSSCode(rawVal_sscode)
+	decVal_sscode, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_sscode.Constructed, rawVal_sscode, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding ss-Code: %w", octetErr)
+	}
+	v.SsCode = SSSSCode(decVal_sscode)
 	if offset < 0 || offset >
 		len(content) || n_sscode < 0 || n_sscode > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -64520,12 +66035,13 @@ func (v *SendAuthenticationInfoResOldElem) UnmarshalBER(data []byte, opts ...ber
 	if v == nil {
 		return fmt.Errorf("%w: SendAuthenticationInfoResOldElem destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SendAuthenticationInfoResOldElem{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog

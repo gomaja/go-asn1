@@ -120,7 +120,7 @@ func (v *UniDialoguePDU) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_0, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -135,8 +135,9 @@ func (v *UniDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	if v == nil {
 		return fmt.Errorf("%w: UniDialoguePDU destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -207,7 +208,10 @@ func (v *AUDTApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if v.ProtocolVersion != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -271,7 +275,13 @@ func (v *AUDTApdu) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if v.ProtocolVersion != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -330,12 +340,13 @@ func (v *AUDTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	if v == nil {
 		return fmt.Errorf("%w: AUDTApdu destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = AUDTApdu{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -521,6 +532,7 @@ func MarshalDERAUDTApduUserInformation(collection *AUDTApduUserInformation) ([]b
 
 // UnmarshalBERAUDTApduUserInformation decodes a AUDTApduUserInformation list from BER.
 func UnmarshalBERAUDTApduUserInformation(data []byte, opts ...ber.DecodeOption) (*AUDTApduUserInformation, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -547,7 +559,7 @@ func UnmarshalBERAUDTApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 		offset += n
 	}
 	decoded := &AUDTApduUserInformation{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERAUDTApduUserInformation(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {

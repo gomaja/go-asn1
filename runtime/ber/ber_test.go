@@ -727,6 +727,27 @@ func TestEncodeDecodeGeneralizedTime(t *testing.T) {
 	}
 }
 
+// X.690 (02/2021) §11.7.3 keeps nonzero fractional seconds and omits
+// trailing zeros in DER.
+func TestGeneralizedTimeDERKeepsFractionalSeconds(t *testing.T) {
+	value := time.Date(2024, 3, 15, 10, 30, 45, 520000000, time.UTC)
+	wire := EncodeGeneralizedTime(value)
+	_, _, contents, err := DecodeTLV(wire)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got, want := string(contents), "20240315103045.52Z"; got != want {
+		t.Fatalf("encoded contents %q, want %q", got, want)
+	}
+	if err := ValidateDEREncodedElement(wire); err != nil {
+		t.Fatalf("DER validation: %v", err)
+	}
+	decoded, _, err := DecodeGeneralizedTime(wire)
+	if err != nil || !decoded.Equal(value) {
+		t.Fatalf("decoded %v, error %v", decoded, err)
+	}
+}
+
 func TestEncodeDecodeUTCTimeValue(t *testing.T) {
 	now := time.Date(2024, 3, 15, 10, 30, 45, 0, time.UTC)
 	encoded := EncodeUTCTime(now)

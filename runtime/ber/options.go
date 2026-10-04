@@ -30,6 +30,7 @@ type decodeConfig struct {
 	tolerant   bool
 	violations *ViolationLog
 	path       string
+	form       *berFormState
 }
 
 // WithDecodeLimits overrides the nonzero limit fields. Supply the same option

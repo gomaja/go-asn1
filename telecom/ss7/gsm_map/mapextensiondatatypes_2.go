@@ -210,12 +210,13 @@ func (v *ExtensionDataTypesExtensionContainer) UnmarshalBER(data []byte, opts ..
 	if v == nil {
 		return fmt.Errorf("%w: ExtensionDataTypesExtensionContainer destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ExtensionDataTypesExtensionContainer{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -467,12 +468,13 @@ func (v *ExtensionDataTypesSLRArgExtensionContainer) UnmarshalBER(data []byte, o
 	if v == nil {
 		return fmt.Errorf("%w: ExtensionDataTypesSLRArgExtensionContainer destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ExtensionDataTypesSLRArgExtensionContainer{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -658,6 +660,7 @@ func MarshalDERExtensionDataTypesPrivateExtensionList(collection *ExtensionDataT
 
 // UnmarshalBERExtensionDataTypesPrivateExtensionList decodes a ExtensionDataTypesPrivateExtensionList list from BER.
 func UnmarshalBERExtensionDataTypesPrivateExtensionList(data []byte, opts ...ber.DecodeOption) (*ExtensionDataTypesPrivateExtensionList, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -698,7 +701,7 @@ func UnmarshalBERExtensionDataTypesPrivateExtensionList(data []byte, opts ...ber
 		}
 	}
 	decoded := &ExtensionDataTypesPrivateExtensionList{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERExtensionDataTypesPrivateExtensionList(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -768,12 +771,13 @@ func (v *ExtensionDataTypesPrivateExtension) UnmarshalBER(data []byte, opts ...b
 	if v == nil {
 		return fmt.Errorf("%w: ExtensionDataTypesPrivateExtension destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ExtensionDataTypesPrivateExtension{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -890,12 +894,13 @@ func (v *ExtensionDataTypesPCSExtensions) UnmarshalBER(data []byte, opts ...ber.
 	if v == nil {
 		return fmt.Errorf("%w: ExtensionDataTypesPCSExtensions destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ExtensionDataTypesPCSExtensions{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1015,12 +1020,13 @@ func (v *ExtensionDataTypesSLRArgPCSExtensions) UnmarshalBER(data []byte, opts .
 	if v == nil {
 		return fmt.Errorf("%w: ExtensionDataTypesSLRArgPCSExtensions destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ExtensionDataTypesSLRArgPCSExtensions{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog

@@ -81,10 +81,10 @@ func decodeLengthFragmentsBounded(bb *BitBuffer, aligned bool, maximum int64, de
 			return 0, fmt.Errorf("%w: fragmented length exceeds int64", ErrInvalidValue)
 		}
 		if offset > maximum {
-			return 0, fmt.Errorf("%w: fragmented length exceeds upper bound %d", ErrConstraintViolation, maximum)
+			return 0, fmt.Errorf("%w: fragmented length %d exceeds upper bound %d", ErrConstraintViolation, offset+length, maximum)
 		}
 		if length > maximum-offset {
-			return 0, fmt.Errorf("%w: fragmented length exceeds upper bound %d", ErrConstraintViolation, maximum)
+			return 0, fmt.Errorf("%w: fragmented length %d exceeds upper bound %d", ErrConstraintViolation, offset+length, maximum)
 		}
 		if err := decodeFragment(offset, length); err != nil {
 			return 0, err
@@ -191,7 +191,7 @@ func DecodeCollection(bb *BitBuffer, size SizeConstraint, aligned bool, decodeFr
 			return 0, err
 		}
 	} else if size.contains(total) {
-		return 0, fmt.Errorf("%w: extension collection length %d is inside the root", ErrInvalidValue, total)
+		return 0, fmt.Errorf("%w: extension collection length %d is inside the root %s", ErrInvalidValue, total, size)
 	}
 	return total, nil
 }
@@ -215,7 +215,7 @@ func (size SizeConstraint) contains(length int64) bool {
 
 func (size SizeConstraint) validateRoot(length int64) error {
 	if !size.contains(length) {
-		return fmt.Errorf("%w: collection length %d is outside its root SIZE constraint", ErrConstraintViolation, length)
+		return fmt.Errorf("%w: collection length %d is outside its root %s", ErrConstraintViolation, length, size)
 	}
 	return nil
 }
@@ -325,4 +325,21 @@ func decodeLengthDelimitedOctetsBounded(bb *BitBuffer, aligned bool, maximum int
 		return nil, err
 	}
 	return result, nil
+}
+
+// String renders the effective root as X.680 (02/2021) 51.5 SIZE notation.
+// An absent lower bound is 0 and an absent upper bound is MAX.
+func (size SizeConstraint) String() string {
+	lower, upper := int64(0), "MAX"
+	if size.HasLower {
+		lower = size.Lower
+	}
+	if size.HasUpper {
+		upper = fmt.Sprint(size.Upper)
+	}
+	extension := ""
+	if size.Extensible {
+		extension = ", ..."
+	}
+	return fmt.Sprintf("SIZE(%d..%s%s)", lower, upper, extension)
 }

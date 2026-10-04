@@ -710,8 +710,8 @@ func DecodeUint64(data []byte, options ...DecodeOption) (uint64, int, error) {
 }
 
 func decodeIntBytes(b []byte) (int64, error) {
-	if len(b) == 0 {
-		return 0, fmt.Errorf("%w: empty integer", ErrInvalidValue)
+	if err := validateMinimalIntegerContents(b); err != nil {
+		return 0, err
 	}
 	if len(b) > 8 {
 		return 0, fmt.Errorf("%w: integer too large for int64 (%d bytes)", ErrInvalidValue, len(b))
@@ -743,22 +743,9 @@ func DecodeBigInt(data []byte, options ...DecodeOption) (*big.Int, int, error) {
 	if t.Constructed {
 		return nil, 0, fmt.Errorf("%w: INTEGER must be primitive, got constructed", ErrInvalidTag)
 	}
-	if len(value) == 0 {
-		return nil, 0, fmt.Errorf("%w: INTEGER value must have at least 1 byte", ErrInvalidValue)
-	}
-
-	v := new(big.Int)
-	if value[0]&0x80 != 0 {
-		// Negative: convert two's complement.
-		notBytes := make([]byte, len(value))
-		for i, b := range value {
-			notBytes[i] = ^b
-		}
-		v.SetBytes(notBytes)
-		v.Add(v, big.NewInt(1))
-		v.Neg(v)
-	} else {
-		v.SetBytes(value)
+	v, err := DecodeBigIntValue(value)
+	if err != nil {
+		return nil, 0, err
 	}
 	return v, total, nil
 }
@@ -844,6 +831,9 @@ func DecodeNull(data []byte, options ...DecodeOption) (int, error) {
 	}
 	if t.Class != tag.ClassUniversal || t.Number != tag.TagNull {
 		return 0, fmt.Errorf("%w: expected NULL tag, got %s", ErrInvalidTag, t)
+	}
+	if t.Constructed {
+		return 0, fmt.Errorf("%w: X.690 (02/2021) §8.8.1 requires primitive NULL", ErrInvalidTag)
 	}
 	if len(value) != 0 {
 		return 0, fmt.Errorf("%w: NULL value must be empty, got %d bytes", ErrInvalidValue, len(value))
@@ -977,7 +967,7 @@ func DecodeReal(data []byte, options ...DecodeOption) (runtime.Real, int, error)
 	if t.Constructed {
 		return runtime.Real{}, 0, fmt.Errorf("%w: REAL must be primitive", ErrInvalidTag)
 	}
-	decoded, err := decodeRealContents(value)
+	decoded, err := DecodeRealValue(value)
 	if err != nil {
 		return runtime.Real{}, 0, err
 	}
@@ -1094,7 +1084,7 @@ func parseGeneralizedTime(s string) (time.Time, error) {
 	for _, layout := range []string{
 		"20060102150405Z",
 		"20060102150405",
-		"20060102150405.000Z",
+		"20060102150405.999999999Z",
 		"20060102150405-0700",
 		"20060102150405+0700",
 	} {
@@ -1165,7 +1155,32 @@ func DecodeBitStringValue(value []byte) ([]byte, int, error) {
 // contents after an implicit tag has been consumed. X.690 (02/2021) 8.6.1
 // permits both forms and 8.6.4.1 requires recursive, ordered segments.
 func DecodeImplicitBitStringValue(constructed bool, value []byte, options ...DecodeOption) ([]byte, int, error) {
+	if constructed {
+		MarkBERNonCanonical(options)
+	}
 	return decodeBitStringValue(constructed, value, options...)
+}
+
+// DecodeImplicitOctetStringValue decodes the contents of an implicitly tagged
+// OCTET STRING. Constructed segments retain their universal tag (ITU-T X.690
+// (02/2021) §§8.7.3.2, 8.14.4).
+func DecodeImplicitOctetStringValue(constructed bool, value []byte, options ...DecodeOption) ([]byte, error) {
+	if !constructed {
+		return value, nil
+	}
+	MarkBERNonCanonical(options)
+	reconstructed, err := EncodeConstructed(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagOctetString}, value)
+	if err != nil {
+		return nil, err
+	}
+	decoded, total, err := DecodeOctetString(reconstructed, options...)
+	if err != nil {
+		return nil, err
+	}
+	if total != len(reconstructed) {
+		return nil, ErrExtraData
+	}
+	return decoded, nil
 }
 
 func decodeBitStringValue(constructed bool, value []byte, options ...DecodeOption) ([]byte, int, error) {
@@ -1284,6 +1299,7 @@ func DecodeImplicitStringValue(tagNum int, constructed bool, value []byte, optio
 	if !constructed {
 		return DecodeStringValueTag(tagNum, value)
 	}
+	MarkBERNonCanonical(options)
 	reconstructed, err := EncodeConstructed(tag.Tag{Class: tag.ClassUniversal, Number: tagNum}, value)
 	if err != nil {
 		return "", err
@@ -1304,7 +1320,11 @@ func DecodeImplicitUTCTimeValue(constructed bool, value []byte, options ...Decod
 	if err != nil {
 		return time.Time{}, err
 	}
-	return parseUTCTime(decoded)
+	parsed, err := parseUTCTime(decoded)
+	if err == nil && decoded != parsed.UTC().Format("060102150405Z") {
+		MarkBERNonCanonical(options)
+	}
+	return parsed, err
 }
 
 // DecodeImplicitGeneralizedTimeValue decodes primitive or constructed implicitly tagged GeneralizedTime contents.
@@ -1313,12 +1333,32 @@ func DecodeImplicitGeneralizedTimeValue(constructed bool, value []byte, options 
 	if err != nil {
 		return time.Time{}, err
 	}
-	return parseGeneralizedTime(decoded)
+	parsed, err := parseGeneralizedTime(decoded)
+	if err == nil && decoded != parsed.UTC().Format("20060102150405.999999999Z") {
+		MarkBERNonCanonical(options)
+	}
+	return parsed, err
 }
 
 // DecodeRealValue decodes X.690 (02/2021), clause 8.5 REAL contents octets.
-func DecodeRealValue(value []byte) (runtime.Real, error) {
-	return decodeRealContents(value)
+func DecodeRealValue(value []byte, options ...DecodeOption) (runtime.Real, error) {
+	decoded, err := decodeRealContents(value)
+	if err != nil {
+		return runtime.Real{}, err
+	}
+	// X.690 (02/2021) §8.5.7 NOTE 1 permits non-normalised BER REALs.
+	// §11.3.1 requires a distinguished form in DER. An implicit tag hides
+	// the universal REAL tag from the generic BER-form scanner, so mark it
+	// here whenever its contents differ from the canonical encoding.
+	if canonical, encodeErr := EncodeRealValue(decoded); encodeErr != nil {
+		// A base-8/16 BER form can normalize to a base-2 exponent longer
+		// than §8.5.7.4's 255-octet wire limit. Keep its valid BER contents.
+		decoded = decoded.RememberBERContents(value)
+		MarkBERNonCanonical(options)
+	} else if !bytes.Equal(value, canonical) {
+		MarkBERNonCanonical(options)
+	}
+	return decoded, nil
 }
 
 func decodeRealContents(value []byte) (runtime.Real, error) {
@@ -1385,7 +1425,9 @@ func decodeRealContents(value []byte) (runtime.Real, error) {
 		(exponentBytes[0] == 0x00 && exponentBytes[1]&0x80 == 0 || exponentBytes[0] == 0xff && exponentBytes[1]&0x80 != 0) {
 		return runtime.Real{}, fmt.Errorf("%w: REAL long exponent violates the first-nine-bits rule", ErrInvalidValue)
 	}
-	exponent, err := DecodeBigIntValue(exponentBytes)
+	// X.690 (02/2021) §8.5.7.4 permits nonminimal short-form REAL
+	// exponents. Its first-nine-bits restriction applies to long form.
+	exponent, err := decodeSignedBigIntContents(exponentBytes)
 	if err != nil {
 		return runtime.Real{}, fmt.Errorf("decoding REAL exponent: %w", err)
 	}
@@ -1600,8 +1642,29 @@ func DecodeConstructedContent(data []byte, options ...DecodeOption) (tag.Tag, []
 // ones legitimately exceed 64 bits: RFC 5280 §4.1.2.2 requires certificate
 // users to handle a serialNumber of up to 20 octets.
 func DecodeBigIntValue(value []byte) (*big.Int, error) {
+	if err := validateMinimalIntegerContents(value); err != nil {
+		return nil, err
+	}
+	return decodeSignedBigIntContents(value)
+}
+
+// X.690 (02/2021) §8.3.2 applies to INTEGER and, by §8.4, ENUMERATED.
+// Redundant sign octets are invalid BER, including under implicit tagging.
+func validateMinimalIntegerContents(value []byte) error {
 	if len(value) == 0 {
-		return nil, fmt.Errorf("%w: empty integer", ErrInvalidValue)
+		return fmt.Errorf("%w: X.690 (02/2021) §8.3.1 requires INTEGER contents", ErrInvalidValue)
+	}
+	if len(value) > 1 && (value[0] == 0 && value[1]&0x80 == 0 ||
+		value[0] == 0xff && value[1]&0x80 != 0) {
+		return fmt.Errorf("%w: X.690 (02/2021) §8.3.2 forbids redundant INTEGER sign octets", ErrInvalidValue)
+	}
+	return nil
+}
+
+// REAL exponent octets have their own BER rules in X.690 §8.5.7.4.
+func decodeSignedBigIntContents(value []byte) (*big.Int, error) {
+	if len(value) == 0 {
+		return nil, fmt.Errorf("%w: empty signed integer", ErrInvalidValue)
 	}
 	v := new(big.Int)
 	if value[0]&0x80 != 0 {

@@ -823,12 +823,13 @@ func (v *RegisterSSArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	if v == nil {
 		return fmt.Errorf("%w: RegisterSSArg3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = RegisterSSArg3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -911,7 +912,11 @@ func (v *RegisterSSArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_forwardedtonumber.Class != tag.ClassContextSpecific || decodedTag_forwardedtonumber.Number != 4 {
 					return fmt.Errorf("decoding forwardedToNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardedtonumber)
 				}
-				tmp_forwardedtonumber := AddressString3(rawVal_forwardedtonumber)
+				decVal_forwardedtonumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_forwardedtonumber.Constructed, rawVal_forwardedtonumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding forwardedToNumber: %w", octetErr)
+				}
+				tmp_forwardedtonumber := AddressString3(decVal_forwardedtonumber)
 				v.ForwardedToNumber = &tmp_forwardedtonumber
 				if offset < 0 || offset >
 					len(content) || n_forwardedtonumber < 0 || n_forwardedtonumber >
@@ -940,7 +945,11 @@ func (v *RegisterSSArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_forwardedtosubaddress.Class != tag.ClassContextSpecific || decodedTag_forwardedtosubaddress.Number != 6 {
 					return fmt.Errorf("decoding forwardedToSubaddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardedtosubaddress)
 				}
-				tmp_forwardedtosubaddress := ISDNSubaddressString3(rawVal_forwardedtosubaddress)
+				decVal_forwardedtosubaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_forwardedtosubaddress.Constructed, rawVal_forwardedtosubaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding forwardedToSubaddress: %w", octetErr)
+				}
+				tmp_forwardedtosubaddress := ISDNSubaddressString3(decVal_forwardedtosubaddress)
 				v.ForwardedToSubaddress = &tmp_forwardedtosubaddress
 				if offset < 0 || offset >
 					len(content) || n_forwardedtosubaddress < 0 || n_forwardedtosubaddress >
@@ -1228,7 +1237,7 @@ func (v *SSInfo3) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_2, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -1243,8 +1252,9 @@ func (v *SSInfo3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr
 	if v == nil {
 		return fmt.Errorf("%w: SSInfo3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1434,12 +1444,13 @@ func (v *ForwardingInfo3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 	if v == nil {
 		return fmt.Errorf("%w: ForwardingInfo3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ForwardingInfo3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1613,6 +1624,7 @@ func MarshalDERForwardingFeatureList3(collection *ForwardingFeatureList3) ([]byt
 
 // UnmarshalBERForwardingFeatureList3 decodes a ForwardingFeatureList3 list from BER.
 func UnmarshalBERForwardingFeatureList3(data []byte, opts ...ber.DecodeOption) (*ForwardingFeatureList3, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -1653,7 +1665,7 @@ func UnmarshalBERForwardingFeatureList3(data []byte, opts ...ber.DecodeOption) (
 		}
 	}
 	decoded := &ForwardingFeatureList3{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERForwardingFeatureList3(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -1953,12 +1965,13 @@ func (v *ForwardingFeature3) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if v == nil {
 		return fmt.Errorf("%w: ForwardingFeature3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ForwardingFeature3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -2021,7 +2034,11 @@ func (v *ForwardingFeature3) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 4 {
 					return fmt.Errorf("decoding ss-Status: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus)
 				}
-				tmp_ssstatus := SSStatus3(rawVal_ssstatus)
+				decVal_ssstatus, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ssstatus.Constructed, rawVal_ssstatus, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ss-Status: %w", octetErr)
+				}
+				tmp_ssstatus := SSStatus3(decVal_ssstatus)
 				v.SsStatus = &tmp_ssstatus
 				if offset < 0 || offset >
 					len(content) || n_ssstatus < 0 || n_ssstatus > len(content[offset:]) {
@@ -2049,7 +2066,11 @@ func (v *ForwardingFeature3) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if decodedTag_forwardedtonumber.Class != tag.ClassContextSpecific || decodedTag_forwardedtonumber.Number != 5 {
 					return fmt.Errorf("decoding forwardedToNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardedtonumber)
 				}
-				tmp_forwardedtonumber := ISDNAddressString3(rawVal_forwardedtonumber)
+				decVal_forwardedtonumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_forwardedtonumber.Constructed, rawVal_forwardedtonumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding forwardedToNumber: %w", octetErr)
+				}
+				tmp_forwardedtonumber := ISDNAddressString3(decVal_forwardedtonumber)
 				v.ForwardedToNumber = &tmp_forwardedtonumber
 				if offset < 0 || offset >
 					len(content) || n_forwardedtonumber < 0 || n_forwardedtonumber >
@@ -2083,7 +2104,11 @@ func (v *ForwardingFeature3) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if decodedTag_forwardedtosubaddress.Class != tag.ClassContextSpecific || decodedTag_forwardedtosubaddress.Number != 8 {
 					return fmt.Errorf("decoding forwardedToSubaddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardedtosubaddress)
 				}
-				tmp_forwardedtosubaddress := ISDNSubaddressString3(rawVal_forwardedtosubaddress)
+				decVal_forwardedtosubaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_forwardedtosubaddress.Constructed, rawVal_forwardedtosubaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding forwardedToSubaddress: %w", octetErr)
+				}
+				tmp_forwardedtosubaddress := ISDNSubaddressString3(decVal_forwardedtosubaddress)
 				v.ForwardedToSubaddress = &tmp_forwardedtosubaddress
 				if offset < 0 || offset >
 					len(content) || n_forwardedtosubaddress < 0 || n_forwardedtosubaddress >
@@ -2112,7 +2137,11 @@ func (v *ForwardingFeature3) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if decodedTag_forwardingoptions.Class != tag.ClassContextSpecific || decodedTag_forwardingoptions.Number != 6 {
 					return fmt.Errorf("decoding forwardingOptions: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardingoptions)
 				}
-				tmp_forwardingoptions := ForwardingOptions3(rawVal_forwardingoptions)
+				decVal_forwardingoptions, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_forwardingoptions.Constructed, rawVal_forwardingoptions, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding forwardingOptions: %w", octetErr)
+				}
+				tmp_forwardingoptions := ForwardingOptions3(decVal_forwardingoptions)
 				v.ForwardingOptions = &tmp_forwardingoptions
 				if offset < 0 || offset >
 					len(content) || n_forwardingoptions < 0 || n_forwardingoptions >
@@ -2174,7 +2203,11 @@ func (v *ForwardingFeature3) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if decodedTag_longforwardedtonumber.Class != tag.ClassContextSpecific || decodedTag_longforwardedtonumber.Number != 9 {
 					return fmt.Errorf("decoding longForwardedToNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_longforwardedtonumber)
 				}
-				tmp_longforwardedtonumber := FTNAddressString3(rawVal_longforwardedtonumber)
+				decVal_longforwardedtonumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_longforwardedtonumber.Constructed, rawVal_longforwardedtonumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding longForwardedToNumber: %w", octetErr)
+				}
+				tmp_longforwardedtonumber := FTNAddressString3(decVal_longforwardedtonumber)
 				v.LongForwardedToNumber = &tmp_longforwardedtonumber
 				if offset < 0 || offset >
 					len(content) || n_longforwardedtonumber < 0 || n_longforwardedtonumber >
@@ -2328,12 +2361,13 @@ func (v *CallBarringInfo3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: CallBarringInfo3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CallBarringInfo3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -2507,6 +2541,7 @@ func MarshalDERCallBarringFeatureList3(collection *CallBarringFeatureList3) ([]b
 
 // UnmarshalBERCallBarringFeatureList3 decodes a CallBarringFeatureList3 list from BER.
 func UnmarshalBERCallBarringFeatureList3(data []byte, opts ...ber.DecodeOption) (*CallBarringFeatureList3, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2547,7 +2582,7 @@ func UnmarshalBERCallBarringFeatureList3(data []byte, opts ...ber.DecodeOption) 
 		}
 	}
 	decoded := &CallBarringFeatureList3{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERCallBarringFeatureList3(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -2663,12 +2698,13 @@ func (v *CallBarringFeature3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: CallBarringFeature3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CallBarringFeature3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -2729,7 +2765,11 @@ func (v *CallBarringFeature3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 4 {
 					return fmt.Errorf("decoding ss-Status: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus)
 				}
-				tmp_ssstatus := SSStatus3(rawVal_ssstatus)
+				decVal_ssstatus, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ssstatus.Constructed, rawVal_ssstatus, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ss-Status: %w", octetErr)
+				}
+				tmp_ssstatus := SSStatus3(decVal_ssstatus)
 				v.SsStatus = &tmp_ssstatus
 				if offset < 0 || offset >
 					len(content) || n_ssstatus < 0 || n_ssstatus > len(content[offset:]) {
@@ -2969,12 +3009,13 @@ func (v *SSData3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr
 	if v == nil {
 		return fmt.Errorf("%w: SSData3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SSData3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -3031,7 +3072,11 @@ func (v *SSData3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr
 				if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 4 {
 					return fmt.Errorf("decoding ss-Status: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus)
 				}
-				tmp_ssstatus := SSStatus3(rawVal_ssstatus)
+				decVal_ssstatus, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ssstatus.Constructed, rawVal_ssstatus, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ss-Status: %w", octetErr)
+				}
+				tmp_ssstatus := SSStatus3(decVal_ssstatus)
 				v.SsStatus = &tmp_ssstatus
 				if offset < 0 || offset >
 					len(content) || n_ssstatus < 0 || n_ssstatus > len(content[offset:]) {
@@ -3226,6 +3271,11 @@ func (v *SSSubscriptionOption3) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 			return nil, fmt.Errorf("%w: choice SSSubscriptionOption3: cliRestrictionOption is nil", ber.ErrInvalidValue)
 		}
 		enc_0 := ber.EncodeEnumerated(int64(*v.CliRestrictionOption))
+		if int64(*v.CliRestrictionOption) != 0 && int64(*v.CliRestrictionOption) != 1 && int64(*v.CliRestrictionOption) != 2 {
+			if constraintErr := ber.CheckEncodedValue(opts, "cliRestrictionOption", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(*v.CliRestrictionOption))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding cliRestrictionOption: %w", tagErr_enc_0)
@@ -3237,6 +3287,11 @@ func (v *SSSubscriptionOption3) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 			return nil, fmt.Errorf("%w: choice SSSubscriptionOption3: overrideCategory is nil", ber.ErrInvalidValue)
 		}
 		enc_1 := ber.EncodeEnumerated(int64(*v.OverrideCategory))
+		if int64(*v.OverrideCategory) != 0 && int64(*v.OverrideCategory) != 1 {
+			if constraintErr := ber.CheckEncodedValue(opts, "overrideCategory", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.OverrideCategory))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding overrideCategory: %w", tagErr_enc_1)
@@ -3253,7 +3308,7 @@ func (v *SSSubscriptionOption3) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: SSSubscriptionOption3 receiver is nil", ber.ErrInvalidValue)
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -3268,8 +3323,9 @@ func (v *SSSubscriptionOption3) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if v == nil {
 		return fmt.Errorf("%w: SSSubscriptionOption3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -3314,6 +3370,11 @@ func (v *SSSubscriptionOption3) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		}
 		tmp := CliRestrictionOption3(decVal)
 		v.CliRestrictionOption = &tmp
+		if int64(*v.CliRestrictionOption) != 0 && int64(*v.CliRestrictionOption) != 1 && int64(*v.CliRestrictionOption) != 2 {
+			if constraintErr := ber.CheckDecodedValue(opts, "cliRestrictionOption", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(*v.CliRestrictionOption))); constraintErr != nil {
+				return constraintErr
+			}
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = SSSubscriptionOption3ChoiceOverrideCategory
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -3326,6 +3387,11 @@ func (v *SSSubscriptionOption3) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		}
 		tmp := OverrideCategory3(decVal)
 		v.OverrideCategory = &tmp
+		if int64(*v.OverrideCategory) != 0 && int64(*v.OverrideCategory) != 1 {
+			if constraintErr := ber.CheckDecodedValue(opts, "overrideCategory", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.OverrideCategory))); constraintErr != nil {
+				return constraintErr
+			}
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for SSSubscriptionOption3 CHOICE", peekTag)
 	}
@@ -3440,12 +3506,13 @@ func (v *SSForBSCode3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if v == nil {
 		return fmt.Errorf("%w: SSForBSCode3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SSForBSCode3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -3595,6 +3662,11 @@ func (v *GenericServiceInfo3) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 	}
 	children = append(children, enc_ssstatus...)
 	if v.CliRestrictionOption != nil {
+		if int64(*v.CliRestrictionOption) != 0 && int64(*v.CliRestrictionOption) != 1 && int64(*v.CliRestrictionOption) != 2 {
+			if constraintErr := ber.CheckEncodedValue(opts, "cliRestrictionOption", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(*v.CliRestrictionOption))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_clirestrictionoption := ber.EncodeEnumerated(int64(*v.CliRestrictionOption))
 		children = append(children, enc_clirestrictionoption...)
 	}
@@ -3730,6 +3802,11 @@ func (v *GenericServiceInfo3) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_ssstatus...)
 	if v.CliRestrictionOption != nil {
+		if int64(*v.CliRestrictionOption) != 0 && int64(*v.CliRestrictionOption) != 1 && int64(*v.CliRestrictionOption) != 2 {
+			if constraintErr := ber.CheckEncodedValue(nil, "cliRestrictionOption", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(*v.CliRestrictionOption))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_clirestrictionoption := ber.EncodeEnumerated(int64(*v.CliRestrictionOption))
 		children = append(children, enc_clirestrictionoption...)
 	}
@@ -3841,12 +3918,13 @@ func (v *GenericServiceInfo3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: GenericServiceInfo3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = GenericServiceInfo3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -3903,6 +3981,11 @@ func (v *GenericServiceInfo3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 
 				offset += n
+				if int64(*v.CliRestrictionOption) != 0 && int64(*v.CliRestrictionOption) != 1 && int64(*v.CliRestrictionOption) != 2 {
+					if constraintErr := ber.CheckDecodedValue(opts, "cliRestrictionOption", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(*v.CliRestrictionOption))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -4205,6 +4288,7 @@ func MarshalDERCCBSFeatureList3(collection *CCBSFeatureList3) ([]byte, error) {
 
 // UnmarshalBERCCBSFeatureList3 decodes a CCBSFeatureList3 list from BER.
 func UnmarshalBERCCBSFeatureList3(data []byte, opts ...ber.DecodeOption) (*CCBSFeatureList3, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -4245,7 +4329,7 @@ func UnmarshalBERCCBSFeatureList3(data []byte, opts ...ber.DecodeOption) (*CCBSF
 		}
 	}
 	decoded := &CCBSFeatureList3{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERCCBSFeatureList3(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -4447,12 +4531,13 @@ func (v *CCBSFeature3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if v == nil {
 		return fmt.Errorf("%w: CCBSFeature3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CCBSFeature3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -4517,7 +4602,11 @@ func (v *CCBSFeature3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 				if decodedTag_bsubscribernumber.Class != tag.ClassContextSpecific || decodedTag_bsubscribernumber.Number != 1 {
 					return fmt.Errorf("decoding b-subscriberNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_bsubscribernumber)
 				}
-				tmp_bsubscribernumber := ISDNAddressString3(rawVal_bsubscribernumber)
+				decVal_bsubscribernumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_bsubscribernumber.Constructed, rawVal_bsubscribernumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding b-subscriberNumber: %w", octetErr)
+				}
+				tmp_bsubscribernumber := ISDNAddressString3(decVal_bsubscribernumber)
 				v.BSubscriberNumber = &tmp_bsubscribernumber
 				if offset < 0 || offset >
 					len(content) || n_bsubscribernumber < 0 || n_bsubscribernumber >
@@ -4551,7 +4640,11 @@ func (v *CCBSFeature3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 				if decodedTag_bsubscribersubaddress.Class != tag.ClassContextSpecific || decodedTag_bsubscribersubaddress.Number != 2 {
 					return fmt.Errorf("decoding b-subscriberSubaddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_bsubscribersubaddress)
 				}
-				tmp_bsubscribersubaddress := ISDNSubaddressString3(rawVal_bsubscribersubaddress)
+				decVal_bsubscribersubaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_bsubscribersubaddress.Constructed, rawVal_bsubscribersubaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding b-subscriberSubaddress: %w", octetErr)
+				}
+				tmp_bsubscribersubaddress := ISDNSubaddressString3(decVal_bsubscribersubaddress)
 				v.BSubscriberSubaddress = &tmp_bsubscribersubaddress
 				if offset < 0 || offset >
 					len(content) || n_bsubscribersubaddress < 0 || n_bsubscribersubaddress >
@@ -4770,7 +4863,7 @@ func (v *InterrogateSSRes3) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_3, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -4785,8 +4878,9 @@ func (v *InterrogateSSRes3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if v == nil {
 		return fmt.Errorf("%w: InterrogateSSRes3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -4825,7 +4919,11 @@ func (v *InterrogateSSRes3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 		if tlvErr != nil {
 			return fmt.Errorf("decoding ss-Status: %w", tlvErr)
 		}
-		tmp := SSStatus3(rawVal)
+		decVal, octetErr := ber.DecodeImplicitOctetStringValue(peekTag.Constructed, rawVal, opts...)
+		if octetErr != nil {
+			return fmt.Errorf("decoding ss-Status: %w", octetErr)
+		}
+		tmp := SSStatus3(decVal)
 		v.SsStatus = &tmp
 		if len(*v.SsStatus) < 1 || len(*v.SsStatus) > 1 {
 			if constraintErr := ber.CheckDecodedLength(opts, "ss-Status", "SIZE (1)", len(*v.SsStatus)); constraintErr != nil {
@@ -5057,12 +5155,13 @@ func (v *USSDArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	if v == nil {
 		return fmt.Errorf("%w: USSDArg3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = USSDArg3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -5159,7 +5258,11 @@ func (v *USSDArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 				if decodedTag_msisdn.Class != tag.ClassContextSpecific || decodedTag_msisdn.Number != 0 {
 					return fmt.Errorf("decoding msisdn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msisdn)
 				}
-				tmp_msisdn := ISDNAddressString3(rawVal_msisdn)
+				decVal_msisdn, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_msisdn.Constructed, rawVal_msisdn, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding msisdn: %w", octetErr)
+				}
+				tmp_msisdn := ISDNAddressString3(decVal_msisdn)
 				v.Msisdn = &tmp_msisdn
 				if offset < 0 || offset >
 					len(content) || n_msisdn < 0 || n_msisdn > len(content[offset:]) {
@@ -5302,12 +5405,13 @@ func (v *USSDRes3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	if v == nil {
 		return fmt.Errorf("%w: USSDRes3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = USSDRes3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -5415,7 +5519,12 @@ func marshalBERSSList3(collection *SSList3, opts ...ber.EncodeOption) ([]byte, e
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 1 {
+			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -5437,7 +5546,12 @@ func MarshalDERSSList3(collection *SSList3) ([]byte, error) {
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 1 {
+			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -5456,6 +5570,7 @@ func MarshalDERSSList3(collection *SSList3) ([]byte, error) {
 
 // UnmarshalBERSSList3 decodes a SSList3 list from BER.
 func UnmarshalBERSSList3(data []byte, opts ...ber.DecodeOption) (*SSList3, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -5473,6 +5588,11 @@ func UnmarshalBERSSList3(data []byte, opts ...ber.DecodeOption) (*SSList3, error
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
+		if len(val) < 1 || len(val) > 1 {
+			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (1)", len(val)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		result = append(result, SSCode3(val))
 		if offset < 0 || offset >
 			len(content) || n < 0 || n > len(content[offset:]) {
@@ -5487,7 +5607,7 @@ func UnmarshalBERSSList3(data []byte, opts ...ber.DecodeOption) (*SSList3, error
 		}
 	}
 	decoded := &SSList3{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERSSList3(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -5562,6 +5682,7 @@ func MarshalDERSSInfoList3(collection *SSInfoList3) ([]byte, error) {
 
 // UnmarshalBERSSInfoList3 decodes a SSInfoList3 list from BER.
 func UnmarshalBERSSInfoList3(data []byte, opts ...ber.DecodeOption) (*SSInfoList3, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -5602,7 +5723,7 @@ func UnmarshalBERSSInfoList3(data []byte, opts ...ber.DecodeOption) (*SSInfoList
 		}
 	}
 	decoded := &SSInfoList3{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERSSInfoList3(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -5677,6 +5798,7 @@ func MarshalDERBasicServiceGroupList3(collection *BasicServiceGroupList3) ([]byt
 
 // UnmarshalBERBasicServiceGroupList3 decodes a BasicServiceGroupList3 list from BER.
 func UnmarshalBERBasicServiceGroupList3(data []byte, opts ...ber.DecodeOption) (*BasicServiceGroupList3, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -5717,7 +5839,7 @@ func UnmarshalBERBasicServiceGroupList3(data []byte, opts ...ber.DecodeOption) (
 		}
 	}
 	decoded := &BasicServiceGroupList3{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERBasicServiceGroupList3(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -5862,6 +5984,11 @@ func (v *SSInvocationNotificationArg3) marshalBER(opts ...ber.EncodeOption) ([]b
 		children = append(children, enc_bsubscribernumber...)
 	}
 	if v.CcbsRequestState != nil {
+		if int64(*v.CcbsRequestState) != 0 && int64(*v.CcbsRequestState) != 1 && int64(*v.CcbsRequestState) != 2 && int64(*v.CcbsRequestState) != 3 && int64(*v.CcbsRequestState) != 4 && int64(*v.CcbsRequestState) != 5 && int64(*v.CcbsRequestState) != 6 {
+			if constraintErr := ber.CheckEncodedValue(opts, "ccbs-RequestState", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", fmt.Sprint(int64(*v.CcbsRequestState))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_ccbsrequeststate := ber.EncodeEnumerated(int64(*v.CcbsRequestState))
 		retagged_enc_ccbsrequeststate, tagErr_enc_ccbsrequeststate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_ccbsrequeststate)
 		if tagErr_enc_ccbsrequeststate != nil {
@@ -5991,6 +6118,11 @@ func (v *SSInvocationNotificationArg3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_bsubscribernumber...)
 	}
 	if v.CcbsRequestState != nil {
+		if int64(*v.CcbsRequestState) != 0 && int64(*v.CcbsRequestState) != 1 && int64(*v.CcbsRequestState) != 2 && int64(*v.CcbsRequestState) != 3 && int64(*v.CcbsRequestState) != 4 && int64(*v.CcbsRequestState) != 5 && int64(*v.CcbsRequestState) != 6 {
+			if constraintErr := ber.CheckEncodedValue(nil, "ccbs-RequestState", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", fmt.Sprint(int64(*v.CcbsRequestState))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		enc_ccbsrequeststate := ber.EncodeEnumerated(int64(*v.CcbsRequestState))
 		retagged_enc_ccbsrequeststate, tagErr_enc_ccbsrequeststate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_ccbsrequeststate)
 		if tagErr_enc_ccbsrequeststate != nil {
@@ -6020,12 +6152,13 @@ func (v *SSInvocationNotificationArg3) UnmarshalBER(data []byte, opts ...ber.Dec
 	if v == nil {
 		return fmt.Errorf("%w: SSInvocationNotificationArg3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SSInvocationNotificationArg3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -6061,7 +6194,11 @@ func (v *SSInvocationNotificationArg3) UnmarshalBER(data []byte, opts ...ber.Dec
 	if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
 		return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 	}
-	v.Imsi = IMSI3(rawVal_imsi)
+	decVal_imsi, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_imsi.Constructed, rawVal_imsi, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding imsi: %w", octetErr)
+	}
+	v.Imsi = IMSI3(decVal_imsi)
 	if offset < 0 || offset >
 		len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -6089,7 +6226,11 @@ func (v *SSInvocationNotificationArg3) UnmarshalBER(data []byte, opts ...ber.Dec
 	if decodedTag_msisdn.Class != tag.ClassContextSpecific || decodedTag_msisdn.Number != 1 {
 		return fmt.Errorf("decoding msisdn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msisdn)
 	}
-	v.Msisdn = ISDNAddressString3(rawVal_msisdn)
+	decVal_msisdn, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_msisdn.Constructed, rawVal_msisdn, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding msisdn: %w", octetErr)
+	}
+	v.Msisdn = ISDNAddressString3(decVal_msisdn)
 	if offset < 0 || offset >
 		len(content) || n_msisdn < 0 || n_msisdn > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -6122,7 +6263,11 @@ func (v *SSInvocationNotificationArg3) UnmarshalBER(data []byte, opts ...ber.Dec
 	if decodedTag_ssevent.Class != tag.ClassContextSpecific || decodedTag_ssevent.Number != 2 {
 		return fmt.Errorf("decoding ss-Event: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssevent)
 	}
-	v.SsEvent = SSCode3(rawVal_ssevent)
+	decVal_ssevent, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ssevent.Constructed, rawVal_ssevent, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding ss-Event: %w", octetErr)
+	}
+	v.SsEvent = SSCode3(decVal_ssevent)
 	if offset < 0 || offset >
 		len(content) || n_ssevent < 0 || n_ssevent > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -6224,7 +6369,11 @@ func (v *SSInvocationNotificationArg3) UnmarshalBER(data []byte, opts ...ber.Dec
 				if decodedTag_bsubscribernumber.Class != tag.ClassContextSpecific || decodedTag_bsubscribernumber.Number != 5 {
 					return fmt.Errorf("decoding b-subscriberNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_bsubscribernumber)
 				}
-				tmp_bsubscribernumber := ISDNAddressString3(rawVal_bsubscribernumber)
+				decVal_bsubscribernumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_bsubscribernumber.Constructed, rawVal_bsubscribernumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding b-subscriberNumber: %w", octetErr)
+				}
+				tmp_bsubscribernumber := ISDNAddressString3(decVal_bsubscribernumber)
 				v.BSubscriberNumber = &tmp_bsubscribernumber
 				if offset < 0 || offset >
 					len(content) || n_bsubscribernumber < 0 || n_bsubscribernumber > len(
@@ -6270,6 +6419,11 @@ func (v *SSInvocationNotificationArg3) UnmarshalBER(data []byte, opts ...ber.Dec
 				}
 
 				offset += n_ccbsrequeststate
+				if int64(*v.CcbsRequestState) != 0 && int64(*v.CcbsRequestState) != 1 && int64(*v.CcbsRequestState) != 2 && int64(*v.CcbsRequestState) != 3 && int64(*v.CcbsRequestState) != 4 && int64(*v.CcbsRequestState) != 5 && int64(*v.CcbsRequestState) != 6 {
+					if constraintErr := ber.CheckDecodedValue(opts, "ccbs-RequestState", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", fmt.Sprint(int64(*v.CcbsRequestState))); constraintErr != nil {
+						return constraintErr
+					}
+				}
 			}
 		}
 	}
@@ -6369,12 +6523,13 @@ func (v *SSInvocationNotificationRes3) UnmarshalBER(data []byte, opts ...ber.Dec
 	if v == nil {
 		return fmt.Errorf("%w: SSInvocationNotificationRes3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = SSInvocationNotificationRes3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -6471,7 +6626,12 @@ func marshalBERSSEventSpecification3(collection *SSEventSpecification3, opts ...
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 20 {
+			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -6493,7 +6653,12 @@ func MarshalDERSSEventSpecification3(collection *SSEventSpecification3) ([]byte,
 		}
 	}
 	var children []byte
-	for _, elem := range list {
+	for elemIndex, elem := range list {
+		if len(elem) < 1 || len(elem) > 20 {
+			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
@@ -6512,6 +6677,7 @@ func MarshalDERSSEventSpecification3(collection *SSEventSpecification3) ([]byte,
 
 // UnmarshalBERSSEventSpecification3 decodes a SSEventSpecification3 list from BER.
 func UnmarshalBERSSEventSpecification3(data []byte, opts ...ber.DecodeOption) (*SSEventSpecification3, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -6529,6 +6695,11 @@ func UnmarshalBERSSEventSpecification3(data []byte, opts ...ber.DecodeOption) (*
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
+		if len(val) < 1 || len(val) > 20 {
+			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (1..20)", len(val)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		result = append(result, AddressString3(val))
 		if offset < 0 || offset >
 			len(content) || n < 0 || n > len(content[offset:]) {
@@ -6543,7 +6714,7 @@ func UnmarshalBERSSEventSpecification3(data []byte, opts ...ber.DecodeOption) (*
 		}
 	}
 	decoded := &SSEventSpecification3{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERSSEventSpecification3(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -6665,12 +6836,13 @@ func (v *RegisterCCEntryArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: RegisterCCEntryArg3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = RegisterCCEntryArg3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -6706,7 +6878,11 @@ func (v *RegisterCCEntryArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if decodedTag_sscode.Class != tag.ClassContextSpecific || decodedTag_sscode.Number != 0 {
 		return fmt.Errorf("decoding ss-Code: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sscode)
 	}
-	v.SsCode = SSCode3(rawVal_sscode)
+	decVal_sscode, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_sscode.Constructed, rawVal_sscode, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding ss-Code: %w", octetErr)
+	}
+	v.SsCode = SSCode3(decVal_sscode)
 	if offset < 0 || offset >
 		len(content) || n_sscode < 0 || n_sscode > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -6826,7 +7002,10 @@ func (v *CCBSData3) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.ServiceIndicator.Bytes, v.ServiceIndicator.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "serviceIndicator", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.ServiceIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6916,7 +7095,13 @@ func (v *CCBSData3) MarshalDER() ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.ServiceIndicator.Bytes, v.ServiceIndicator.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "serviceIndicator", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.ServiceIndicator.Bytes, v.ServiceIndicator.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "serviceIndicator", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.ServiceIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6972,12 +7157,13 @@ func (v *CCBSData3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	if v == nil {
 		return fmt.Errorf("%w: CCBSData3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = CCBSData3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -7043,7 +7229,11 @@ func (v *CCBSData3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	if decodedTag_translatedbnumber.Class != tag.ClassContextSpecific || decodedTag_translatedbnumber.Number != 1 {
 		return fmt.Errorf("decoding translatedB-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_translatedbnumber)
 	}
-	v.TranslatedBNumber = ISDNAddressString3(rawVal_translatedbnumber)
+	decVal_translatedbnumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_translatedbnumber.Constructed, rawVal_translatedbnumber, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding translatedB-Number: %w", octetErr)
+	}
+	v.TranslatedBNumber = ISDNAddressString3(decVal_translatedbnumber)
 	if offset < 0 || offset >
 		len(content) || n_translatedbnumber < 0 || n_translatedbnumber >
 		len(content[offset:]) {
@@ -7263,12 +7453,13 @@ func (v *RegisterCCEntryRes3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: RegisterCCEntryRes3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = RegisterCCEntryRes3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -7458,12 +7649,13 @@ func (v *EraseCCEntryArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: EraseCCEntryArg3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EraseCCEntryArg3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -7499,7 +7691,11 @@ func (v *EraseCCEntryArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if decodedTag_sscode.Class != tag.ClassContextSpecific || decodedTag_sscode.Number != 0 {
 		return fmt.Errorf("decoding ss-Code: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sscode)
 	}
-	v.SsCode = SSCode3(rawVal_sscode)
+	decVal_sscode, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_sscode.Constructed, rawVal_sscode, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding ss-Code: %w", octetErr)
+	}
+	v.SsCode = SSCode3(decVal_sscode)
 	if offset < 0 || offset >
 		len(content) || n_sscode < 0 || n_sscode > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -7689,12 +7885,13 @@ func (v *EraseCCEntryRes3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: EraseCCEntryRes3 destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EraseCCEntryRes3{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -7730,7 +7927,11 @@ func (v *EraseCCEntryRes3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if decodedTag_sscode.Class != tag.ClassContextSpecific || decodedTag_sscode.Number != 0 {
 		return fmt.Errorf("decoding ss-Code: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sscode)
 	}
-	v.SsCode = SSCode3(rawVal_sscode)
+	decVal_sscode, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_sscode.Constructed, rawVal_sscode, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding ss-Code: %w", octetErr)
+	}
+	v.SsCode = SSCode3(decVal_sscode)
 	if offset < 0 || offset >
 		len(content) || n_sscode < 0 || n_sscode > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -7754,7 +7955,11 @@ func (v *EraseCCEntryRes3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 1 {
 					return fmt.Errorf("decoding ss-Status: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus)
 				}
-				tmp_ssstatus := SSStatus3(rawVal_ssstatus)
+				decVal_ssstatus, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_ssstatus.Constructed, rawVal_ssstatus, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding ss-Status: %w", octetErr)
+				}
+				tmp_ssstatus := SSStatus3(decVal_ssstatus)
 				v.SsStatus = &tmp_ssstatus
 				if offset < 0 || offset >
 					len(content) || n_ssstatus < 0 || n_ssstatus > len(content[offset:]) {

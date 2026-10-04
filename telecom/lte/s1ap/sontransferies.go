@@ -77,7 +77,6 @@ const (
 type SONtransferRequestContainer struct {
 	Choice                          int
 	PERPadding_                     per.CompletePadding                     `json:"-"`
-	PERExtraBits_                   per.TrailingBits                        `json:"-"`
 	PEROpenTypePadding_             per.CompletePadding                     `json:"-"`
 	UnknownExtension                *runtime.PERChoiceExtension             `json:"UnknownExtension,omitempty"`
 	CellLoadReporting               *struct{}                               `json:"CellLoadReporting,omitempty"`
@@ -160,7 +159,6 @@ const (
 type SONtransferResponseContainer struct {
 	Choice                          int
 	PERPadding_                     per.CompletePadding                      `json:"-"`
-	PERExtraBits_                   per.TrailingBits                         `json:"-"`
 	PEROpenTypePadding_             per.CompletePadding                      `json:"-"`
 	UnknownExtension                *runtime.PERChoiceExtension              `json:"UnknownExtension,omitempty"`
 	CellLoadReporting               *CellLoadReportingResponse               `json:"CellLoadReporting,omitempty"`
@@ -243,7 +241,6 @@ const (
 type SONtransferCause struct {
 	Choice                          int
 	PERPadding_                     per.CompletePadding         `json:"-"`
-	PERExtraBits_                   per.TrailingBits            `json:"-"`
 	PEROpenTypePadding_             per.CompletePadding         `json:"-"`
 	UnknownExtension                *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	CellLoadReporting               *CellLoadReportingCause     `json:"CellLoadReporting,omitempty"`
@@ -433,7 +430,6 @@ const (
 type CellLoadReportingResponse struct {
 	Choice              int
 	PERPadding_         per.CompletePadding               `json:"-"`
-	PERExtraBits_       per.TrailingBits                  `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding               `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension       `json:"UnknownExtension,omitempty"`
 	EUTRAN              *EUTRANcellLoadReportingResponse  `json:"EUTRAN,omitempty"`
@@ -484,8 +480,6 @@ type EUTRANcellLoadReportingResponse struct {
 	ExtPresent_                     []bool                          `asn1:"-" json:"-"`
 	ExtData_                        [][]byte                        `asn1:"-" json:"-"`
 	PERPadding_                     per.CompletePadding             `asn1:"-" json:"-"`
-	PERExtraBits_                   per.TrailingBits                `asn1:"-" json:"-"`
-	PERContainedPadding_            map[string]per.CompletePadding  `asn1:"-" json:"-"`
 	PERExtPadding_                  []per.CompletePadding           `asn1:"-" json:"-"`
 }
 
@@ -497,8 +491,6 @@ type EUTRANResponse struct {
 	ExtPresent_                     []bool                          `asn1:"-" json:"-"`
 	ExtData_                        [][]byte                        `asn1:"-" json:"-"`
 	PERPadding_                     per.CompletePadding             `asn1:"-" json:"-"`
-	PERExtraBits_                   per.TrailingBits                `asn1:"-" json:"-"`
-	PERContainedPadding_            map[string]per.CompletePadding  `asn1:"-" json:"-"`
 	PERExtPadding_                  []per.CompletePadding           `asn1:"-" json:"-"`
 }
 
@@ -517,7 +509,6 @@ const (
 type IRATCellID struct {
 	Choice              int
 	PERPadding_         per.CompletePadding         `json:"-"`
-	PERExtraBits_       per.TrailingBits            `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	EUTRAN              []byte                      `json:"EUTRAN,omitempty"`
@@ -564,27 +555,23 @@ type RequestedCellList = []IRATCellID
 
 // MultiCellLoadReportingRequest represents the ASN.1 type MultiCellLoadReportingRequest (SEQUENCE).
 type MultiCellLoadReportingRequest struct {
-	RequestedCellList       RequestedCellList              `asn1:"tag:0,context,implicit"`
-	RequestedCellListIndef_ bool                           `asn1:"-" json:"-"`
-	ExtCount_               int64                          `asn1:"-" json:"-"`
-	ExtPresent_             []bool                         `asn1:"-" json:"-"`
-	ExtData_                [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_             per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_           per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_    map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_          []per.CompletePadding          `asn1:"-" json:"-"`
+	RequestedCellList       RequestedCellList     `asn1:"tag:0,context,implicit"`
+	RequestedCellListIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_               int64                 `asn1:"-" json:"-"`
+	ExtPresent_             []bool                `asn1:"-" json:"-"`
+	ExtData_                [][]byte              `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_          []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ReportingCellListItem represents the ASN.1 type ReportingCellList-Item (SEQUENCE).
 type ReportingCellListItem struct {
-	CellID               IRATCellID                     `asn1:"tag:0,context,explicit"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	CellID         IRATCellID            `asn1:"tag:0,context,explicit"`
+	ExtCount_      int64                 `asn1:"-" json:"-"`
+	ExtPresent_    []bool                `asn1:"-" json:"-"`
+	ExtData_       [][]byte              `asn1:"-" json:"-"`
+	PERPadding_    per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_ []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ReportingCellList represents the ASN.1 type ReportingCellList (SEQUENCE_OF).
@@ -607,7 +594,6 @@ const (
 type MultiCellLoadReportingResponseItem struct {
 	Choice              int
 	PERPadding_         per.CompletePadding                        `json:"-"`
-	PERExtraBits_       per.TrailingBits                           `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                        `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension                `json:"UnknownExtension,omitempty"`
 	EUTRANResponse      *EUTRANResponse                            `json:"EUTRANResponse,omitempty"`
@@ -683,8 +669,6 @@ type EventTriggeredCellLoadReportingRequest struct {
 	ExtPresent_                        []bool                             `asn1:"-" json:"-"`
 	ExtData_                           [][]byte                           `asn1:"-" json:"-"`
 	PERPadding_                        per.CompletePadding                `asn1:"-" json:"-"`
-	PERExtraBits_                      per.TrailingBits                   `asn1:"-" json:"-"`
-	PERContainedPadding_               map[string]per.CompletePadding     `asn1:"-" json:"-"`
 	PERExtPadding_                     []per.CompletePadding              `asn1:"-" json:"-"`
 }
 
@@ -706,34 +690,30 @@ func (v OverloadFlag) String() string {
 
 // EventTriggeredCellLoadReportingResponse represents the ASN.1 type EventTriggeredCellLoadReportingResponse (SEQUENCE).
 type EventTriggeredCellLoadReportingResponse struct {
-	CellLoadReportingResponse CellLoadReportingResponse      `asn1:"tag:0,context,explicit"`
-	OverloadFlag              *OverloadFlag                  `asn1:"tag:1,context,implicit,optional" json:"OverloadFlag,omitempty"`
-	ExtCount_                 int64                          `asn1:"-" json:"-"`
-	ExtPresent_               []bool                         `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_               per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_            []per.CompletePadding          `asn1:"-" json:"-"`
+	CellLoadReportingResponse CellLoadReportingResponse `asn1:"tag:0,context,explicit"`
+	OverloadFlag              *OverloadFlag             `asn1:"tag:1,context,implicit,optional" json:"OverloadFlag,omitempty"`
+	ExtCount_                 int64                     `asn1:"-" json:"-"`
+	ExtPresent_               []bool                    `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                  `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding       `asn1:"-" json:"-"`
+	PERExtPadding_            []per.CompletePadding     `asn1:"-" json:"-"`
 }
 
 // HOReport represents the ASN.1 type HOReport (SEQUENCE).
 type HOReport struct {
-	HoType                  HoType                         `asn1:"tag:0,context,implicit"`
-	HoReportType            HoReportType                   `asn1:"tag:1,context,implicit"`
-	HosourceID              IRATCellID                     `asn1:"tag:2,context,explicit"`
-	HoTargetID              IRATCellID                     `asn1:"tag:3,context,explicit"`
-	CandidateCellList       CandidateCellList              `asn1:"tag:4,context,implicit"`
-	CandidateCellListIndef_ bool                           `asn1:"-" json:"-"`
-	CandidatePCIList        CandidatePCIList               `asn1:"tag:5,context,implicit,optional" json:"CandidatePCIList,omitempty"`
-	CandidatePCIListIndef_  bool                           `asn1:"-" json:"-"`
-	ExtCount_               int64                          `asn1:"-" json:"-"`
-	ExtPresent_             []bool                         `asn1:"-" json:"-"`
-	ExtData_                [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_             per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_           per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_    map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_          []per.CompletePadding          `asn1:"-" json:"-"`
+	HoType                  HoType                `asn1:"tag:0,context,implicit"`
+	HoReportType            HoReportType          `asn1:"tag:1,context,implicit"`
+	HosourceID              IRATCellID            `asn1:"tag:2,context,explicit"`
+	HoTargetID              IRATCellID            `asn1:"tag:3,context,explicit"`
+	CandidateCellList       CandidateCellList     `asn1:"tag:4,context,implicit"`
+	CandidateCellListIndef_ bool                  `asn1:"-" json:"-"`
+	CandidatePCIList        CandidatePCIList      `asn1:"tag:5,context,implicit,optional" json:"CandidatePCIList,omitempty"`
+	CandidatePCIListIndef_  bool                  `asn1:"-" json:"-"`
+	ExtCount_               int64                 `asn1:"-" json:"-"`
+	ExtPresent_             []bool                `asn1:"-" json:"-"`
+	ExtData_                [][]byte              `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_          []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // HoType represents the ASN.1 ENUMERATED type HoType.
@@ -784,29 +764,25 @@ type CandidatePCIList = []CandidatePCI
 
 // CandidatePCI represents the ASN.1 type CandidatePCI (SEQUENCE).
 type CandidatePCI struct {
-	PCI                  int64                          `asn1:"tag:0,context,implicit"`
-	EARFCN               []byte                         `asn1:"tag:1,context,implicit"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	PCI            int64                 `asn1:"tag:0,context,implicit"`
+	EARFCN         []byte                `asn1:"tag:1,context,implicit"`
+	ExtCount_      int64                 `asn1:"-" json:"-"`
+	ExtPresent_    []bool                `asn1:"-" json:"-"`
+	ExtData_       [][]byte              `asn1:"-" json:"-"`
+	PERPadding_    per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_ []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellActivationRequest represents the ASN.1 type CellActivationRequest (SEQUENCE).
 type CellActivationRequest struct {
-	CellsToActivateList       CellsToActivateList            `asn1:"tag:0,context,implicit"`
-	CellsToActivateListIndef_ bool                           `asn1:"-" json:"-"`
-	MinimumActivationTime     *int64                         `asn1:"tag:1,context,implicit,optional" json:"MinimumActivationTime,omitempty"`
-	ExtCount_                 int64                          `asn1:"-" json:"-"`
-	ExtPresent_               []bool                         `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_               per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_             per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_      map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_            []per.CompletePadding          `asn1:"-" json:"-"`
+	CellsToActivateList       CellsToActivateList   `asn1:"tag:0,context,implicit"`
+	CellsToActivateListIndef_ bool                  `asn1:"-" json:"-"`
+	MinimumActivationTime     *int64                `asn1:"tag:1,context,implicit,optional" json:"MinimumActivationTime,omitempty"`
+	ExtCount_                 int64                 `asn1:"-" json:"-"`
+	ExtPresent_               []bool                `asn1:"-" json:"-"`
+	ExtData_                  [][]byte              `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_            []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellsToActivateList represents the ASN.1 type CellsToActivateList (SEQUENCE_OF).
@@ -815,27 +791,23 @@ type CellsToActivateList = []CellsToActivateListItem
 
 // CellsToActivateListItem represents the ASN.1 type CellsToActivateList-Item (SEQUENCE).
 type CellsToActivateListItem struct {
-	CellID               []byte                         `asn1:"tag:0,context,implicit"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	CellID         []byte                `asn1:"tag:0,context,implicit"`
+	ExtCount_      int64                 `asn1:"-" json:"-"`
+	ExtPresent_    []bool                `asn1:"-" json:"-"`
+	ExtData_       [][]byte              `asn1:"-" json:"-"`
+	PERPadding_    per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_ []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellActivationResponse represents the ASN.1 type CellActivationResponse (SEQUENCE).
 type CellActivationResponse struct {
-	ActivatedCellsList       ActivatedCellsList             `asn1:"tag:0,context,implicit"`
-	ActivatedCellsListIndef_ bool                           `asn1:"-" json:"-"`
-	ExtCount_                int64                          `asn1:"-" json:"-"`
-	ExtPresent_              []bool                         `asn1:"-" json:"-"`
-	ExtData_                 [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_              per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_            per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_     map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_           []per.CompletePadding          `asn1:"-" json:"-"`
+	ActivatedCellsList       ActivatedCellsList    `asn1:"tag:0,context,implicit"`
+	ActivatedCellsListIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_                int64                 `asn1:"-" json:"-"`
+	ExtPresent_              []bool                `asn1:"-" json:"-"`
+	ExtData_                 [][]byte              `asn1:"-" json:"-"`
+	PERPadding_              per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_           []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ActivatedCellsList represents the ASN.1 type ActivatedCellsList (SEQUENCE_OF).
@@ -844,27 +816,23 @@ type ActivatedCellsList = []ActivatedCellsListItem
 
 // ActivatedCellsListItem represents the ASN.1 type ActivatedCellsList-Item (SEQUENCE).
 type ActivatedCellsListItem struct {
-	CellID               []byte                         `asn1:"tag:0,context,implicit"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	CellID         []byte                `asn1:"tag:0,context,implicit"`
+	ExtCount_      int64                 `asn1:"-" json:"-"`
+	ExtPresent_    []bool                `asn1:"-" json:"-"`
+	ExtData_       [][]byte              `asn1:"-" json:"-"`
+	PERPadding_    per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_ []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellStateIndication represents the ASN.1 type CellStateIndication (SEQUENCE).
 type CellStateIndication struct {
-	NotificationCellList       NotificationCellList           `asn1:"tag:0,context,implicit"`
-	NotificationCellListIndef_ bool                           `asn1:"-" json:"-"`
-	ExtCount_                  int64                          `asn1:"-" json:"-"`
-	ExtPresent_                []bool                         `asn1:"-" json:"-"`
-	ExtData_                   [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_              per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_       map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_             []per.CompletePadding          `asn1:"-" json:"-"`
+	NotificationCellList       NotificationCellList  `asn1:"tag:0,context,implicit"`
+	NotificationCellListIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_                  int64                 `asn1:"-" json:"-"`
+	ExtPresent_                []bool                `asn1:"-" json:"-"`
+	ExtData_                   [][]byte              `asn1:"-" json:"-"`
+	PERPadding_                per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_             []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // NotificationCellList represents the ASN.1 type NotificationCellList (SEQUENCE_OF).
@@ -873,15 +841,13 @@ type NotificationCellList = []NotificationCellListItem
 
 // NotificationCellListItem represents the ASN.1 type NotificationCellList-Item (SEQUENCE).
 type NotificationCellListItem struct {
-	CellID               []byte                         `asn1:"tag:0,context,implicit"`
-	NotifyFlag           NotifyFlag                     `asn1:"tag:1,context,implicit"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	CellID         []byte                `asn1:"tag:0,context,implicit"`
+	NotifyFlag     NotifyFlag            `asn1:"tag:1,context,implicit"`
+	ExtCount_      int64                 `asn1:"-" json:"-"`
+	ExtPresent_    []bool                `asn1:"-" json:"-"`
+	ExtData_       [][]byte              `asn1:"-" json:"-"`
+	PERPadding_    per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_ []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // NotifyFlag represents the ASN.1 ENUMERATED type NotifyFlag.
@@ -912,7 +878,6 @@ const (
 type FailureEventReport struct {
 	Choice                             int
 	PERPadding_                        per.CompletePadding                       `json:"-"`
-	PERExtraBits_                      per.TrailingBits                          `json:"-"`
 	PEROpenTypePadding_                per.CompletePadding                       `json:"-"`
 	UnknownExtension                   *runtime.PERChoiceExtension               `json:"UnknownExtension,omitempty"`
 	TooEarlyInterRATHOReportFromEUTRAN *TooEarlyInterRATHOReportReportFromEUTRAN `json:"TooEarlyInterRATHOReportFromEUTRAN,omitempty"`
@@ -928,15 +893,13 @@ func NewFailureEventReportTooEarlyInterRATHOReportFromEUTRAN(v TooEarlyInterRATH
 
 // TooEarlyInterRATHOReportReportFromEUTRAN represents the ASN.1 type TooEarlyInterRATHOReportReportFromEUTRAN (SEQUENCE).
 type TooEarlyInterRATHOReportReportFromEUTRAN struct {
-	UERLFReportContainer []byte                         `asn1:"tag:0,context,implicit"`
-	MobilityInformation  *MobilityInformation           `asn1:"tag:1,context,implicit,optional" json:"MobilityInformation,omitempty"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	UERLFReportContainer []byte                `asn1:"tag:0,context,implicit"`
+	MobilityInformation  *MobilityInformation  `asn1:"tag:1,context,implicit,optional" json:"MobilityInformation,omitempty"`
+	ExtCount_            int64                 `asn1:"-" json:"-"`
+	ExtPresent_          []bool                `asn1:"-" json:"-"`
+	ExtData_             [][]byte              `asn1:"-" json:"-"`
+	PERPadding_          per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_       []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // EHRPDCapacityValue represents the ASN.1 type EHRPDCapacityValue (INTEGER).
@@ -953,22 +916,18 @@ type EHRPDSectorLoadReportingResponse struct {
 	ExtPresent_                       []bool                          `asn1:"-" json:"-"`
 	ExtData_                          [][]byte                        `asn1:"-" json:"-"`
 	PERPadding_                       per.CompletePadding             `asn1:"-" json:"-"`
-	PERExtraBits_                     per.TrailingBits                `asn1:"-" json:"-"`
-	PERContainedPadding_              map[string]per.CompletePadding  `asn1:"-" json:"-"`
 	PERExtPadding_                    []per.CompletePadding           `asn1:"-" json:"-"`
 }
 
 // EHRPDCompositeAvailableCapacity represents the ASN.1 type EHRPDCompositeAvailableCapacity (SEQUENCE).
 type EHRPDCompositeAvailableCapacity struct {
-	EHRPDSectorCapacityClassValue EHRPDSectorCapacityClassValue  `asn1:"tag:0,context,implicit"`
-	EHRPDCapacityValue            EHRPDCapacityValue             `asn1:"tag:1,context,implicit"`
-	ExtCount_                     int64                          `asn1:"-" json:"-"`
-	ExtPresent_                   []bool                         `asn1:"-" json:"-"`
-	ExtData_                      [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                   per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                 per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_          map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                []per.CompletePadding          `asn1:"-" json:"-"`
+	EHRPDSectorCapacityClassValue EHRPDSectorCapacityClassValue `asn1:"tag:0,context,implicit"`
+	EHRPDCapacityValue            EHRPDCapacityValue            `asn1:"tag:1,context,implicit"`
+	ExtCount_                     int64                         `asn1:"-" json:"-"`
+	ExtPresent_                   []bool                        `asn1:"-" json:"-"`
+	ExtData_                      [][]byte                      `asn1:"-" json:"-"`
+	PERPadding_                   per.CompletePadding           `asn1:"-" json:"-"`
+	PERExtPadding_                []per.CompletePadding         `asn1:"-" json:"-"`
 }
 
 // EHRPDMultiSectorLoadReportingResponseItem represents the ASN.1 type EHRPDMultiSectorLoadReportingResponseItem (SEQUENCE).
@@ -979,8 +938,6 @@ type EHRPDMultiSectorLoadReportingResponseItem struct {
 	ExtPresent_                      []bool                           `asn1:"-" json:"-"`
 	ExtData_                         [][]byte                         `asn1:"-" json:"-"`
 	PERPadding_                      per.CompletePadding              `asn1:"-" json:"-"`
-	PERExtraBits_                    per.TrailingBits                 `asn1:"-" json:"-"`
-	PERContainedPadding_             map[string]per.CompletePadding   `asn1:"-" json:"-"`
 	PERExtPadding_                   []per.CompletePadding            `asn1:"-" json:"-"`
 }
 

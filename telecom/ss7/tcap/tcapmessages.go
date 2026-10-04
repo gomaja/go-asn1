@@ -494,7 +494,7 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_4, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -509,8 +509,9 @@ func (v *TCMessage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	if v == nil {
 		return fmt.Errorf("%w: TCMessage destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -717,12 +718,13 @@ func (v *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	if v == nil {
 		return fmt.Errorf("%w: Unidirectional destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = Unidirectional{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -944,12 +946,13 @@ func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr e
 	if v == nil {
 		return fmt.Errorf("%w: Begin destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = Begin{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -985,7 +988,11 @@ func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr e
 	if decodedTag_otid.Class != tag.ClassApplication || decodedTag_otid.Number != 8 {
 		return fmt.Errorf("decoding otid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_otid)
 	}
-	v.Otid = OrigTransactionID(rawVal_otid)
+	decVal_otid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_otid.Constructed, rawVal_otid, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding otid: %w", octetErr)
+	}
+	v.Otid = OrigTransactionID(decVal_otid)
 	if offset < 0 || offset >
 		len(content) || n_otid < 0 || n_otid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -1198,12 +1205,13 @@ func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr err
 	if v == nil {
 		return fmt.Errorf("%w: End destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = End{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1239,7 +1247,11 @@ func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr err
 	if decodedTag_dtid.Class != tag.ClassApplication || decodedTag_dtid.Number != 9 {
 		return fmt.Errorf("decoding dtid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dtid)
 	}
-	v.Dtid = DestTransactionID(rawVal_dtid)
+	decVal_dtid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_dtid.Constructed, rawVal_dtid, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding dtid: %w", octetErr)
+	}
+	v.Dtid = DestTransactionID(decVal_dtid)
 	if offset < 0 || offset >
 		len(content) || n_dtid < 0 || n_dtid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -1482,12 +1494,13 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	if v == nil {
 		return fmt.Errorf("%w: Continue destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = Continue{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1523,7 +1536,11 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	if decodedTag_otid.Class != tag.ClassApplication || decodedTag_otid.Number != 8 {
 		return fmt.Errorf("decoding otid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_otid)
 	}
-	v.Otid = OrigTransactionID(rawVal_otid)
+	decVal_otid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_otid.Constructed, rawVal_otid, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding otid: %w", octetErr)
+	}
+	v.Otid = OrigTransactionID(decVal_otid)
 	if offset < 0 || offset >
 		len(content) || n_otid < 0 || n_otid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -1551,7 +1568,11 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	if decodedTag_dtid.Class != tag.ClassApplication || decodedTag_dtid.Number != 9 {
 		return fmt.Errorf("decoding dtid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dtid)
 	}
-	v.Dtid = DestTransactionID(rawVal_dtid)
+	decVal_dtid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_dtid.Constructed, rawVal_dtid, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding dtid: %w", octetErr)
+	}
+	v.Dtid = DestTransactionID(decVal_dtid)
 	if offset < 0 || offset >
 		len(content) || n_dtid < 0 || n_dtid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -1727,12 +1748,13 @@ func (v *Abort) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr e
 	if v == nil {
 		return fmt.Errorf("%w: Abort destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = Abort{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1768,7 +1790,11 @@ func (v *Abort) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr e
 	if decodedTag_dtid.Class != tag.ClassApplication || decodedTag_dtid.Number != 9 {
 		return fmt.Errorf("decoding dtid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dtid)
 	}
-	v.Dtid = DestTransactionID(rawVal_dtid)
+	decVal_dtid, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_dtid.Constructed, rawVal_dtid, opts...)
+	if octetErr != nil {
+		return fmt.Errorf("decoding dtid: %w", octetErr)
+	}
+	v.Dtid = DestTransactionID(decVal_dtid)
 	if offset < 0 || offset >
 		len(content) || n_dtid < 0 || n_dtid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
@@ -1949,6 +1975,7 @@ func MarshalDERComponentPortion(collection *ComponentPortion) ([]byte, error) {
 
 // UnmarshalBERComponentPortion decodes a ComponentPortion list from BER.
 func UnmarshalBERComponentPortion(data []byte, opts ...ber.DecodeOption) (*ComponentPortion, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -1992,7 +2019,7 @@ func UnmarshalBERComponentPortion(data []byte, opts ...ber.DecodeOption) (*Compo
 		}
 	}
 	decoded := &ComponentPortion{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERComponentPortion(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -2084,7 +2111,7 @@ func (v *Component) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_1, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -2099,8 +2126,9 @@ func (v *Component) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	if v == nil {
 		return fmt.Errorf("%w: Component destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -2221,7 +2249,7 @@ func (v *TCInvokeIdSet) MarshalDER() ([]byte, error) {
 	if v.Choice == TCInvokeIdSetChoiceAbsent {
 		return nil, fmt.Errorf("encoding TCInvokeIdSet violates WITH COMPONENTS: Absent must be absent")
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -2236,8 +2264,9 @@ func (v *TCInvokeIdSet) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	if v == nil {
 		return fmt.Errorf("%w: TCInvokeIdSet destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -2356,7 +2385,21 @@ func (v *AbortReason) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: AbortReason receiver is nil", ber.ErrInvalidValue)
 	}
-	encoded, err := v.MarshalBER()
+	switch v.Choice {
+	case AbortReasonChoiceUAbortCause:
+		if v.UAbortCause == nil {
+			return nil, fmt.Errorf("%w: choice AbortReason: u-abortCause is nil", ber.ErrInvalidValue)
+		}
+		enc_der_1, err := v.UAbortCause.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding u-abortCause: %w", err)
+		}
+		if derErr := ber.ValidateDEREncodedElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding u-abortCause as DER: %w", derErr)
+		}
+		return enc_der_1, nil
+	}
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -2371,8 +2414,9 @@ func (v *AbortReason) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if v == nil {
 		return fmt.Errorf("%w: AbortReason destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -2483,7 +2527,7 @@ func (v *ComponentBasicROSInvokeLinkedId) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: ComponentBasicROSInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -2498,8 +2542,9 @@ func (v *ComponentBasicROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.
 	if v == nil {
 		return fmt.Errorf("%w: ComponentBasicROSInvokeLinkedId destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -2613,12 +2658,13 @@ func (v *ComponentBasicROSReturnResultResult) UnmarshalBER(data []byte, opts ...
 	if v == nil {
 		return fmt.Errorf("%w: ComponentBasicROSReturnResultResult destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ComponentBasicROSReturnResultResult{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -2741,12 +2787,13 @@ func (v *ComponentReturnResultNotLastResult) UnmarshalBER(data []byte, opts ...b
 	if v == nil {
 		return fmt.Errorf("%w: ComponentReturnResultNotLastResult destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ComponentReturnResultNotLastResult{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog

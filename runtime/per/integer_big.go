@@ -395,7 +395,7 @@ func decodeConstrainedBig(bb *BitBuffer, lower, upper *big.Int, aligned bool) (*
 			}
 			offset = new(big.Int).SetBytes(data)
 			if offset.Cmp(rangeValue) > 0 {
-				return nil, fmt.Errorf("%w: constrained INTEGER offset %s exceeds range %s", ErrInvalidValue, offset, rangeValue)
+				return nil, constrainedOffsetError(lower, offset, upper)
 			}
 			return new(big.Int).Add(new(big.Int).Set(lower), offset), nil
 		}
@@ -419,7 +419,7 @@ func decodeConstrainedBig(bb *BitBuffer, lower, upper *big.Int, aligned bool) (*
 		offset = new(big.Int).SetBytes(data)
 	}
 	if offset.Cmp(rangeValue) > 0 {
-		return nil, fmt.Errorf("%w: constrained INTEGER offset %s exceeds range %s", ErrInvalidValue, offset, rangeValue)
+		return nil, constrainedOffsetError(lower, offset, upper)
 	}
 	return new(big.Int).Add(new(big.Int).Set(lower), offset), nil
 }

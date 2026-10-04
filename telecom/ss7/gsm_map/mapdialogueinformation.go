@@ -518,7 +518,7 @@ func (v *MAPDialoguePDU) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_5, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -533,8 +533,9 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	if v == nil {
 		return fmt.Errorf("%w: MAPDialoguePDU destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -801,12 +802,13 @@ func (v *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if v == nil {
 		return fmt.Errorf("%w: MAPOpenInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MAPOpenInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -838,7 +840,11 @@ func (v *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 				if decodedTag_destinationreference.Class != tag.ClassContextSpecific || decodedTag_destinationreference.Number != 0 {
 					return fmt.Errorf("decoding destinationReference: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_destinationreference)
 				}
-				tmp_destinationreference := AddressString(rawVal_destinationreference)
+				decVal_destinationreference, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_destinationreference.Constructed, rawVal_destinationreference, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding destinationReference: %w", octetErr)
+				}
+				tmp_destinationreference := AddressString(decVal_destinationreference)
 				v.DestinationReference = &tmp_destinationreference
 				if offset < 0 || offset >
 					len(content) || n_destinationreference < 0 || n_destinationreference >
@@ -867,7 +873,11 @@ func (v *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 				if decodedTag_originationreference.Class != tag.ClassContextSpecific || decodedTag_originationreference.Number != 1 {
 					return fmt.Errorf("decoding originationReference: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_originationreference)
 				}
-				tmp_originationreference := AddressString(rawVal_originationreference)
+				decVal_originationreference, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_originationreference.Constructed, rawVal_originationreference, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding originationReference: %w", octetErr)
+				}
+				tmp_originationreference := AddressString(decVal_originationreference)
 				v.OriginationReference = &tmp_originationreference
 				if offset < 0 || offset >
 					len(content) || n_originationreference < 0 || n_originationreference >
@@ -1011,12 +1021,13 @@ func (v *MAPAcceptInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	if v == nil {
 		return fmt.Errorf("%w: MAPAcceptInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MAPAcceptInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1163,12 +1174,13 @@ func (v *MAPCloseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if v == nil {
 		return fmt.Errorf("%w: MAPCloseInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MAPCloseInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1261,6 +1273,11 @@ func (v *MAPRefuseInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		return nil, err
 	}
 	var children []byte
+	if int64(v.Reason) != 0 && int64(v.Reason) != 1 && int64(v.Reason) != 2 {
+		if constraintErr := ber.CheckEncodedValue(opts, "reason", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(v.Reason))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_reason := ber.EncodeEnumerated(int64(v.Reason))
 	children = append(children, enc_reason...)
 	if v.ExtensionContainer != nil {
@@ -1296,6 +1313,11 @@ func (v *MAPRefuseInfo) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("%w: MAPRefuseInfo receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
+	if int64(v.Reason) != 0 && int64(v.Reason) != 1 && int64(v.Reason) != 2 {
+		if constraintErr := ber.CheckEncodedValue(nil, "reason", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(v.Reason))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_reason := ber.EncodeEnumerated(int64(v.Reason))
 	children = append(children, enc_reason...)
 	if v.ExtensionContainer != nil {
@@ -1333,12 +1355,13 @@ func (v *MAPRefuseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	if v == nil {
 		return fmt.Errorf("%w: MAPRefuseInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MAPRefuseInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1373,6 +1396,11 @@ func (v *MAPRefuseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	}
 
 	offset += n
+	if int64(v.Reason) != 0 && int64(v.Reason) != 1 && int64(v.Reason) != 2 {
+		if constraintErr := ber.CheckDecodedValue(opts, "reason", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(v.Reason))); constraintErr != nil {
+			return constraintErr
+		}
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -1530,12 +1558,13 @@ func (v *MAPUserAbortInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: MAPUserAbortInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MAPUserAbortInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1674,6 +1703,11 @@ func (v *MAPUserAbortChoice) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 			return nil, fmt.Errorf("%w: choice MAPUserAbortChoice: resourceUnavailable is nil", ber.ErrInvalidValue)
 		}
 		enc_2 := ber.EncodeEnumerated(int64(*v.ResourceUnavailable))
+		if int64(*v.ResourceUnavailable) != 0 && int64(*v.ResourceUnavailable) != 1 {
+			if constraintErr := ber.CheckEncodedValue(opts, "resourceUnavailable", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ResourceUnavailable))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_2)
 		if tagErr_enc_2 != nil {
 			return nil, fmt.Errorf("encoding resourceUnavailable: %w", tagErr_enc_2)
@@ -1685,6 +1719,11 @@ func (v *MAPUserAbortChoice) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 			return nil, fmt.Errorf("%w: choice MAPUserAbortChoice: applicationProcedureCancellation is nil", ber.ErrInvalidValue)
 		}
 		enc_3 := ber.EncodeEnumerated(int64(*v.ApplicationProcedureCancellation))
+		if int64(*v.ApplicationProcedureCancellation) != 0 && int64(*v.ApplicationProcedureCancellation) != 1 && int64(*v.ApplicationProcedureCancellation) != 2 && int64(*v.ApplicationProcedureCancellation) != 3 && int64(*v.ApplicationProcedureCancellation) != 4 && int64(*v.ApplicationProcedureCancellation) != 5 && int64(*v.ApplicationProcedureCancellation) != 6 {
+			if constraintErr := ber.CheckEncodedValue(opts, "applicationProcedureCancellation", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", fmt.Sprint(int64(*v.ApplicationProcedureCancellation))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		retagged_enc_3, tagErr_enc_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_3)
 		if tagErr_enc_3 != nil {
 			return nil, fmt.Errorf("encoding applicationProcedureCancellation: %w", tagErr_enc_3)
@@ -1701,7 +1740,7 @@ func (v *MAPUserAbortChoice) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPUserAbortChoice receiver is nil", ber.ErrInvalidValue)
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -1716,8 +1755,9 @@ func (v *MAPUserAbortChoice) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if v == nil {
 		return fmt.Errorf("%w: MAPUserAbortChoice destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1782,6 +1822,11 @@ func (v *MAPUserAbortChoice) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		}
 		tmp := ResourceUnavailableReason(decVal)
 		v.ResourceUnavailable = &tmp
+		if int64(*v.ResourceUnavailable) != 0 && int64(*v.ResourceUnavailable) != 1 {
+			if constraintErr := ber.CheckDecodedValue(opts, "resourceUnavailable", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ResourceUnavailable))); constraintErr != nil {
+				return constraintErr
+			}
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 && peekTag.Constructed == false {
 		v.Choice = MAPUserAbortChoiceChoiceApplicationProcedureCancellation
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -1794,6 +1839,11 @@ func (v *MAPUserAbortChoice) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		}
 		tmp := ProcedureCancellationReason(decVal)
 		v.ApplicationProcedureCancellation = &tmp
+		if int64(*v.ApplicationProcedureCancellation) != 0 && int64(*v.ApplicationProcedureCancellation) != 1 && int64(*v.ApplicationProcedureCancellation) != 2 && int64(*v.ApplicationProcedureCancellation) != 3 && int64(*v.ApplicationProcedureCancellation) != 4 && int64(*v.ApplicationProcedureCancellation) != 5 && int64(*v.ApplicationProcedureCancellation) != 6 {
+			if constraintErr := ber.CheckDecodedValue(opts, "applicationProcedureCancellation", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", fmt.Sprint(int64(*v.ApplicationProcedureCancellation))); constraintErr != nil {
+				return constraintErr
+			}
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for MAPUserAbortChoice CHOICE", peekTag)
 	}
@@ -1816,6 +1866,11 @@ func (v *MAPProviderAbortInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		return nil, err
 	}
 	var children []byte
+	if int64(v.MapProviderAbortReason) != 0 && int64(v.MapProviderAbortReason) != 1 {
+		if constraintErr := ber.CheckEncodedValue(opts, "map-ProviderAbortReason", "ENUMERATED {0, 1}", fmt.Sprint(int64(v.MapProviderAbortReason))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_mapproviderabortreason := ber.EncodeEnumerated(int64(v.MapProviderAbortReason))
 	children = append(children, enc_mapproviderabortreason...)
 	if v.ExtensionContainer != nil {
@@ -1844,6 +1899,11 @@ func (v *MAPProviderAbortInfo) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("%w: MAPProviderAbortInfo receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
+	if int64(v.MapProviderAbortReason) != 0 && int64(v.MapProviderAbortReason) != 1 {
+		if constraintErr := ber.CheckEncodedValue(nil, "map-ProviderAbortReason", "ENUMERATED {0, 1}", fmt.Sprint(int64(v.MapProviderAbortReason))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_mapproviderabortreason := ber.EncodeEnumerated(int64(v.MapProviderAbortReason))
 	children = append(children, enc_mapproviderabortreason...)
 	if v.ExtensionContainer != nil {
@@ -1874,12 +1934,13 @@ func (v *MAPProviderAbortInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if v == nil {
 		return fmt.Errorf("%w: MAPProviderAbortInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MAPProviderAbortInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1914,6 +1975,11 @@ func (v *MAPProviderAbortInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	}
 
 	offset += n
+	if int64(v.MapProviderAbortReason) != 0 && int64(v.MapProviderAbortReason) != 1 {
+		if constraintErr := ber.CheckDecodedValue(opts, "map-ProviderAbortReason", "ENUMERATED {0, 1}", fmt.Sprint(int64(v.MapProviderAbortReason))); constraintErr != nil {
+			return constraintErr
+		}
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])

@@ -18,86 +18,74 @@ var (
 
 // AssistanceDataSIBelementR15 represents the ASN.1 type AssistanceDataSIBelement-r15 (SEQUENCE).
 type AssistanceDataSIBelementR15 struct {
-	ValueTagR15              *int64                         `asn1:"tag:0,context,implicit,optional" json:"ValueTagR15,omitempty"`
-	ExpirationTimeR15        *time.Time                     `asn1:"tag:1,context,implicit,optional" json:"ExpirationTimeR15,omitempty"`
-	CipheringKeyDataR15      *CipheringKeyDataR15           `asn1:"tag:2,context,implicit,optional" json:"CipheringKeyDataR15,omitempty"`
-	SegmentationInfoR15      *SegmentationInfoR15           `asn1:"tag:3,context,implicit,optional" json:"SegmentationInfoR15,omitempty"`
-	AssistanceDataElementR15 []byte                         `asn1:"tag:4,context,implicit"`
-	ExtCount_                int64                          `asn1:"-" json:"-"`
-	ExtPresent_              []bool                         `asn1:"-" json:"-"`
-	ExtData_                 [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_              per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_            per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_     map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_           []per.CompletePadding          `asn1:"-" json:"-"`
+	ValueTagR15              *int64                `asn1:"tag:0,context,implicit,optional" json:"ValueTagR15,omitempty"`
+	ExpirationTimeR15        *time.Time            `asn1:"tag:1,context,implicit,optional" json:"ExpirationTimeR15,omitempty"`
+	CipheringKeyDataR15      *CipheringKeyDataR15  `asn1:"tag:2,context,implicit,optional" json:"CipheringKeyDataR15,omitempty"`
+	SegmentationInfoR15      *SegmentationInfoR15  `asn1:"tag:3,context,implicit,optional" json:"SegmentationInfoR15,omitempty"`
+	AssistanceDataElementR15 []byte                `asn1:"tag:4,context,implicit"`
+	ExtCount_                int64                 `asn1:"-" json:"-"`
+	ExtPresent_              []bool                `asn1:"-" json:"-"`
+	ExtData_                 [][]byte              `asn1:"-" json:"-"`
+	PERPadding_              per.FinalPadding      `asn1:"-" json:"-"`
+	PERExtPadding_           []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CipheringKeyDataR15 represents the ASN.1 type CipheringKeyData-r15 (SEQUENCE).
 type CipheringKeyDataR15 struct {
-	CipherSetIDR15       int64                          `asn1:"tag:0,context,implicit"`
-	D0R15                runtime.BitString              `asn1:"tag:1,context,implicit"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	CipherSetIDR15 int64                 `asn1:"tag:0,context,implicit"`
+	D0R15          runtime.BitString     `asn1:"tag:1,context,implicit"`
+	ExtCount_      int64                 `asn1:"-" json:"-"`
+	ExtPresent_    []bool                `asn1:"-" json:"-"`
+	ExtData_       [][]byte              `asn1:"-" json:"-"`
+	PERPadding_    per.FinalPadding      `asn1:"-" json:"-"`
+	PERExtPadding_ []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SegmentationInfoR15 represents the ASN.1 type SegmentationInfo-r15 (SEQUENCE).
 type SegmentationInfoR15 struct {
-	SegmentationOptionR15          int64                          `asn1:"tag:0,context,implicit"`
-	AssistanceDataSegmentTypeR15   int64                          `asn1:"tag:1,context,implicit"`
-	AssistanceDataSegmentNumberR15 int64                          `asn1:"tag:2,context,implicit"`
-	ExtCount_                      int64                          `asn1:"-" json:"-"`
-	ExtPresent_                    []bool                         `asn1:"-" json:"-"`
-	ExtData_                       [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                    per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                  per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_           map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                 []per.CompletePadding          `asn1:"-" json:"-"`
+	SegmentationOptionR15          int64                 `asn1:"tag:0,context,implicit"`
+	AssistanceDataSegmentTypeR15   int64                 `asn1:"tag:1,context,implicit"`
+	AssistanceDataSegmentNumberR15 int64                 `asn1:"tag:2,context,implicit"`
+	ExtCount_                      int64                 `asn1:"-" json:"-"`
+	ExtPresent_                    []bool                `asn1:"-" json:"-"`
+	ExtData_                       [][]byte              `asn1:"-" json:"-"`
+	PERPadding_                    per.FinalPadding      `asn1:"-" json:"-"`
+	PERExtPadding_                 []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // OTDOAUEAssistedR15 represents the ASN.1 type OTDOA-UE-Assisted-r15 (SEQUENCE).
 type OTDOAUEAssistedR15 struct {
-	OtdoaReferenceCellInfoR15       OTDOAReferenceCellInfo         `asn1:"tag:0,context,implicit"`
-	OtdoaNeighbourCellInfoR15       OTDOANeighbourCellInfoList     `asn1:"tag:1,context,implicit"`
-	OtdoaNeighbourCellInfoR15Indef_ bool                           `asn1:"-" json:"-"`
-	ExtCount_                       int64                          `asn1:"-" json:"-"`
-	ExtPresent_                     []bool                         `asn1:"-" json:"-"`
-	ExtData_                        [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                     per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_                   per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_            map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_                  []per.CompletePadding          `asn1:"-" json:"-"`
+	OtdoaReferenceCellInfoR15       OTDOAReferenceCellInfo     `asn1:"tag:0,context,implicit"`
+	OtdoaNeighbourCellInfoR15       OTDOANeighbourCellInfoList `asn1:"tag:1,context,implicit"`
+	OtdoaNeighbourCellInfoR15Indef_ bool                       `asn1:"-" json:"-"`
+	ExtCount_                       int64                      `asn1:"-" json:"-"`
+	ExtPresent_                     []bool                     `asn1:"-" json:"-"`
+	ExtData_                        [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                     per.FinalPadding           `asn1:"-" json:"-"`
+	PERExtPadding_                  []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // NRUEBTRPLocationDataR16 represents the ASN.1 type NR-UEB-TRP-LocationData-r16 (SEQUENCE).
 type NRUEBTRPLocationDataR16 struct {
-	NrTrpLocationInfoR16       NRTRPLocationInfoR16           `asn1:"tag:0,context,implicit"`
-	NrTrpLocationInfoR16Indef_ bool                           `asn1:"-" json:"-"`
-	NrDlPrsBeamInfoR16         NRDLPRSBeamInfoR16             `asn1:"tag:1,context,implicit,optional" json:"NrDlPrsBeamInfoR16,omitempty"`
-	NrDlPrsBeamInfoR16Indef_   bool                           `asn1:"-" json:"-"`
-	ExtCount_                  int64                          `asn1:"-" json:"-"`
-	ExtPresent_                []bool                         `asn1:"-" json:"-"`
-	ExtData_                   [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_              per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_       map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_             []per.CompletePadding          `asn1:"-" json:"-"`
+	NrTrpLocationInfoR16       NRTRPLocationInfoR16  `asn1:"tag:0,context,implicit"`
+	NrTrpLocationInfoR16Indef_ bool                  `asn1:"-" json:"-"`
+	NrDlPrsBeamInfoR16         NRDLPRSBeamInfoR16    `asn1:"tag:1,context,implicit,optional" json:"NrDlPrsBeamInfoR16,omitempty"`
+	NrDlPrsBeamInfoR16Indef_   bool                  `asn1:"-" json:"-"`
+	ExtCount_                  int64                 `asn1:"-" json:"-"`
+	ExtPresent_                []bool                `asn1:"-" json:"-"`
+	ExtData_                   [][]byte              `asn1:"-" json:"-"`
+	PERPadding_                per.FinalPadding      `asn1:"-" json:"-"`
+	PERExtPadding_             []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // NRUEBTRPRTDInfoR16 represents the ASN.1 type NR-UEB-TRP-RTD-Info-r16 (SEQUENCE).
 type NRUEBTRPRTDInfoR16 struct {
-	NrRtdInfoR16         NRRTDInfoR16                   `asn1:"tag:0,context,implicit"`
-	ExtCount_            int64                          `asn1:"-" json:"-"`
-	ExtPresent_          []bool                         `asn1:"-" json:"-"`
-	ExtData_             [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
-	PERExtPadding_       []per.CompletePadding          `asn1:"-" json:"-"`
+	NrRtdInfoR16   NRRTDInfoR16          `asn1:"tag:0,context,implicit"`
+	ExtCount_      int64                 `asn1:"-" json:"-"`
+	ExtPresent_    []bool                `asn1:"-" json:"-"`
+	ExtData_       [][]byte              `asn1:"-" json:"-"`
+	PERPadding_    per.FinalPadding      `asn1:"-" json:"-"`
+	PERExtPadding_ []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // NRIntegrityParametersR18 represents the ASN.1 type NR-IntegrityParameters-r18 (SEQUENCE).
@@ -109,9 +97,7 @@ type NRIntegrityParametersR18 struct {
 	ExtCount_                                  int64                                       `asn1:"-" json:"-"`
 	ExtPresent_                                []bool                                      `asn1:"-" json:"-"`
 	ExtData_                                   [][]byte                                    `asn1:"-" json:"-"`
-	PERPadding_                                per.CompletePadding                         `asn1:"-" json:"-"`
-	PERExtraBits_                              per.TrailingBits                            `asn1:"-" json:"-"`
-	PERContainedPadding_                       map[string]per.CompletePadding              `asn1:"-" json:"-"`
+	PERPadding_                                per.FinalPadding                            `asn1:"-" json:"-"`
 	PERExtPadding_                             []per.CompletePadding                       `asn1:"-" json:"-"`
 }
 
@@ -121,7 +107,7 @@ func (v *AssistanceDataSIBelementR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *AssistanceDataSIBelementR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -175,7 +161,7 @@ func (v *AssistanceDataSIBelementR15) MarshalUPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:449
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -185,7 +171,7 @@ func (v *AssistanceDataSIBelementR15) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:456
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -216,11 +202,11 @@ func (v *AssistanceDataSIBelementR15) UnmarshalUPERWithOptions(data []byte, opti
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceDataSIBelementR15")
 	}
-	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
+	padding, err := per.CaptureFinalBits(bb, "AssistanceDataSIBelementR15")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceDataSIBelementR15")
 	}
-	v.PERPadding_, v.PERExtraBits_ = padding, extra
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -286,13 +272,13 @@ func (v *AssistanceDataSIBelementR15) UnmarshalUPERFrom(bb *per.BitBuffer) error
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:630
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:633
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -315,7 +301,7 @@ func (v *CipheringKeyDataR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *CipheringKeyDataR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -339,7 +325,7 @@ func (v *CipheringKeyDataR15) MarshalUPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:449
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -349,7 +335,7 @@ func (v *CipheringKeyDataR15) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:456
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -380,11 +366,11 @@ func (v *CipheringKeyDataR15) UnmarshalUPERWithOptions(data []byte, options per.
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CipheringKeyDataR15")
 	}
-	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
+	padding, err := per.CaptureFinalBits(bb, "CipheringKeyDataR15")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CipheringKeyDataR15")
 	}
-	v.PERPadding_, v.PERExtraBits_ = padding, extra
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -410,13 +396,13 @@ func (v *CipheringKeyDataR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:630
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:633
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -439,7 +425,7 @@ func (v *SegmentationInfoR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *SegmentationInfoR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -466,7 +452,7 @@ func (v *SegmentationInfoR15) MarshalUPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:449
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -476,7 +462,7 @@ func (v *SegmentationInfoR15) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:456
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -507,11 +493,11 @@ func (v *SegmentationInfoR15) UnmarshalUPERWithOptions(data []byte, options per.
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SegmentationInfoR15")
 	}
-	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
+	padding, err := per.CaptureFinalBits(bb, "SegmentationInfoR15")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SegmentationInfoR15")
 	}
-	v.PERPadding_, v.PERExtraBits_ = padding, extra
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -542,13 +528,13 @@ func (v *SegmentationInfoR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:630
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:633
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -571,7 +557,7 @@ func (v *OTDOAUEAssistedR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *OTDOAUEAssistedR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -606,7 +592,7 @@ func (v *OTDOAUEAssistedR15) MarshalUPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:449
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -616,7 +602,7 @@ func (v *OTDOAUEAssistedR15) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:456
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -647,11 +633,11 @@ func (v *OTDOAUEAssistedR15) UnmarshalUPERWithOptions(data []byte, options per.D
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAUEAssistedR15")
 	}
-	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
+	padding, err := per.CaptureFinalBits(bb, "OTDOAUEAssistedR15")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAUEAssistedR15")
 	}
-	v.PERPadding_, v.PERExtraBits_ = padding, extra
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -666,7 +652,7 @@ func (v *OTDOAUEAssistedR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.OtdoaNeighbourCellInfoR15 = make(OTDOANeighbourCellInfoList, 0)
 	_, errCollection_otdoaneighbourcellinfor15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_otdoaneighbourcellinfor15, fragmentLength_otdoaneighbourcellinfor15 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1226
+		// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1244
 		if fragmentOffset_otdoaneighbourcellinfor15 < 0 || fragmentLength_otdoaneighbourcellinfor15 < 0 || fragmentLength_otdoaneighbourcellinfor15 > int64(^uint(0)>>1) || fragmentOffset_otdoaneighbourcellinfor15 > int64(^uint(0)>>1)-fragmentLength_otdoaneighbourcellinfor15 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -688,13 +674,13 @@ func (v *OTDOAUEAssistedR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:630
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:633
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -717,7 +703,7 @@ func (v *NRUEBTRPLocationDataR16) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *NRUEBTRPLocationDataR16) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -769,7 +755,7 @@ func (v *NRUEBTRPLocationDataR16) MarshalUPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:449
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -779,7 +765,7 @@ func (v *NRUEBTRPLocationDataR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:456
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -810,11 +796,11 @@ func (v *NRUEBTRPLocationDataR16) UnmarshalUPERWithOptions(data []byte, options 
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NRUEBTRPLocationDataR16")
 	}
-	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
+	padding, err := per.CaptureFinalBits(bb, "NRUEBTRPLocationDataR16")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRUEBTRPLocationDataR16")
 	}
-	v.PERPadding_, v.PERExtraBits_ = padding, extra
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -831,7 +817,7 @@ func (v *NRUEBTRPLocationDataR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.NrTrpLocationInfoR16 = make(NRTRPLocationInfoR16, 0)
 	_, errCollection_nrtrplocationinfor16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_nrtrplocationinfor16, fragmentLength_nrtrplocationinfor16 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
 		if fragmentOffset_nrtrplocationinfor16 < 0 || fragmentLength_nrtrplocationinfor16 < 0 || fragmentLength_nrtrplocationinfor16 > int64(^uint(0)>>1) || fragmentOffset_nrtrplocationinfor16 > int64(^uint(0)>>1)-fragmentLength_nrtrplocationinfor16 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -850,7 +836,7 @@ func (v *NRUEBTRPLocationDataR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_nrdlprsbeaminfor16 {
 		tmp_nrdlprsbeaminfor16 := make(NRDLPRSBeamInfoR16, 0)
 		_, errCollection_nrdlprsbeaminfor16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_nrdlprsbeaminfor16, fragmentLength_nrdlprsbeaminfor16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1226
+			// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1244
 			if fragmentOffset_nrdlprsbeaminfor16 < 0 || fragmentLength_nrdlprsbeaminfor16 < 0 || fragmentLength_nrdlprsbeaminfor16 > int64(^uint(0)>>1) || fragmentOffset_nrdlprsbeaminfor16 > int64(^uint(0)>>1)-fragmentLength_nrdlprsbeaminfor16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -874,13 +860,13 @@ func (v *NRUEBTRPLocationDataR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:630
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:633
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -903,7 +889,7 @@ func (v *NRUEBTRPRTDInfoR16) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *NRUEBTRPRTDInfoR16) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -924,7 +910,7 @@ func (v *NRUEBTRPRTDInfoR16) MarshalUPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:449
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -934,7 +920,7 @@ func (v *NRUEBTRPRTDInfoR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:456
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -965,11 +951,11 @@ func (v *NRUEBTRPRTDInfoR16) UnmarshalUPERWithOptions(data []byte, options per.D
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NRUEBTRPRTDInfoR16")
 	}
-	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
+	padding, err := per.CaptureFinalBits(bb, "NRUEBTRPRTDInfoR16")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRUEBTRPRTDInfoR16")
 	}
-	v.PERPadding_, v.PERExtraBits_ = padding, extra
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -988,13 +974,13 @@ func (v *NRUEBTRPRTDInfoR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:630
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:633
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1017,7 +1003,7 @@ func (v *NRIntegrityParametersR18) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithTrailing(v.PERPadding_, v.PERExtraBits_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *NRIntegrityParametersR18) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1068,7 +1054,7 @@ func (v *NRIntegrityParametersR18) MarshalUPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:449
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1078,7 +1064,7 @@ func (v *NRIntegrityParametersR18) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:456
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1109,11 +1095,11 @@ func (v *NRIntegrityParametersR18) UnmarshalUPERWithOptions(data []byte, options
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NRIntegrityParametersR18")
 	}
-	padding, extra, err := per.CaptureFinalPaddingWithOptions(bb)
+	padding, err := per.CaptureFinalBits(bb, "NRIntegrityParametersR18")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRIntegrityParametersR18")
 	}
-	v.PERPadding_, v.PERExtraBits_ = padding, extra
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1174,13 +1160,13 @@ func (v *NRIntegrityParametersR18) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:630
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:633
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}

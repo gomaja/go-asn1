@@ -288,6 +288,20 @@ func EncodeReal(value runtime.Real) ([]byte, error) {
 	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, contents)
 }
 
+// EncodeBERReal replays a valid received REAL only when the unchanged value
+// cannot be encoded in DER (X.690 (02/2021) §§8.5.7.4, 11.3.1).
+func EncodeBERReal(value runtime.Real) ([]byte, error) {
+	encoded, err := EncodeReal(value)
+	if err == nil {
+		return encoded, nil
+	}
+	contents, ok := value.BERContents()
+	if !ok {
+		return nil, err
+	}
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, contents)
+}
+
 // EncodeRealValue returns the canonical contents octets of an ASN.1 REAL.
 func EncodeRealValue(value runtime.Real) ([]byte, error) {
 	canonical, err := value.Canonical()
@@ -460,7 +474,9 @@ func EncodeUTCTime(t time.Time) []byte {
 // EncodeGeneralizedTime encodes a GeneralizedTime per X.690 section 11.7.
 func EncodeGeneralizedTime(t time.Time) []byte {
 	utc := t.UTC()
-	s := utc.Format("20060102150405Z")
+	// X.690 (02/2021) §11.7.3 retains nonzero fractional seconds and
+	// removes their trailing zeros and the decimal point when the fraction is zero.
+	s := utc.Format("20060102150405.999999999Z")
 	return encodeFixedTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagGeneralizedTime}, []byte(s))
 }
 

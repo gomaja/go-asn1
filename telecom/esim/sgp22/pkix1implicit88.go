@@ -818,12 +818,13 @@ func (v *AuthorityKeyIdentifier) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	if v == nil {
 		return fmt.Errorf("%w: AuthorityKeyIdentifier destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = AuthorityKeyIdentifier{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -855,7 +856,11 @@ func (v *AuthorityKeyIdentifier) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if decodedTag_keyidentifier.Class != tag.ClassContextSpecific || decodedTag_keyidentifier.Number != 0 {
 					return fmt.Errorf("decoding keyIdentifier: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_keyidentifier)
 				}
-				tmp_keyidentifier := KeyIdentifier(rawVal_keyidentifier)
+				decVal_keyidentifier, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_keyidentifier.Constructed, rawVal_keyidentifier, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding keyIdentifier: %w", octetErr)
+				}
+				tmp_keyidentifier := KeyIdentifier(decVal_keyidentifier)
 				v.KeyIdentifier = &tmp_keyidentifier
 				if offset < 0 || offset >
 					len(content) || n_keyidentifier < 0 || n_keyidentifier > len(content[offset:]) {
@@ -1029,12 +1034,13 @@ func (v *PrivateKeyUsagePeriod) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if v == nil {
 		return fmt.Errorf("%w: PrivateKeyUsagePeriod destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PrivateKeyUsagePeriod{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1189,6 +1195,7 @@ func MarshalDERCertificatePolicies(collection *CertificatePolicies) ([]byte, err
 
 // UnmarshalBERCertificatePolicies decodes a CertificatePolicies list from BER.
 func UnmarshalBERCertificatePolicies(data []byte, opts ...ber.DecodeOption) (*CertificatePolicies, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -1229,7 +1236,7 @@ func UnmarshalBERCertificatePolicies(data []byte, opts ...ber.DecodeOption) (*Ce
 		}
 	}
 	decoded := &CertificatePolicies{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERCertificatePolicies(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -1315,12 +1322,13 @@ func (v *PolicyInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if v == nil {
 		return fmt.Errorf("%w: PolicyInformation destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PolicyInformation{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1459,12 +1467,13 @@ func (v *PolicyQualifierInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: PolicyQualifierInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PolicyQualifierInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1593,12 +1602,13 @@ func (v *UserNotice) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 	if v == nil {
 		return fmt.Errorf("%w: UserNotice destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = UserNotice{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1750,12 +1760,13 @@ func (v *NoticeReference) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 	if v == nil {
 		return fmt.Errorf("%w: NoticeReference destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = NoticeReference{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1921,7 +1932,7 @@ func (v *DisplayText) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: DisplayText receiver is nil", ber.ErrInvalidValue)
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -1936,8 +1947,9 @@ func (v *DisplayText) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if v == nil {
 		return fmt.Errorf("%w: DisplayText destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -2087,6 +2099,7 @@ func MarshalDERPolicyMappings(collection *PolicyMappings) ([]byte, error) {
 
 // UnmarshalBERPolicyMappings decodes a PolicyMappings list from BER.
 func UnmarshalBERPolicyMappings(data []byte, opts ...ber.DecodeOption) (*PolicyMappings, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2127,7 +2140,7 @@ func UnmarshalBERPolicyMappings(data []byte, opts ...ber.DecodeOption) (*PolicyM
 		}
 	}
 	decoded := &PolicyMappings{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERPolicyMappings(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -2202,6 +2215,7 @@ func MarshalDERGeneralNames(collection *GeneralNames) ([]byte, error) {
 
 // UnmarshalBERGeneralNames decodes a GeneralNames list from BER.
 func UnmarshalBERGeneralNames(data []byte, opts ...ber.DecodeOption) (*GeneralNames, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2242,7 +2256,7 @@ func UnmarshalBERGeneralNames(data []byte, opts ...ber.DecodeOption) (*GeneralNa
 		}
 	}
 	decoded := &GeneralNames{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERGeneralNames(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -2474,7 +2488,7 @@ func (v *GeneralName) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_5, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -2489,8 +2503,9 @@ func (v *GeneralName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if v == nil {
 		return fmt.Errorf("%w: GeneralName destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -2618,7 +2633,11 @@ func (v *GeneralName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		if tlvErr != nil {
 			return fmt.Errorf("decoding iPAddress: %w", tlvErr)
 		}
-		v.IPAddress = rawVal
+		decVal, octetErr := ber.DecodeImplicitOctetStringValue(peekTag.Constructed, rawVal, opts...)
+		if octetErr != nil {
+			return fmt.Errorf("decoding iPAddress: %w", octetErr)
+		}
+		v.IPAddress = decVal
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 && peekTag.Constructed == false {
 		v.Choice = GeneralNameChoiceRegisteredID
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -2704,12 +2723,13 @@ func (v *AnotherName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if v == nil {
 		return fmt.Errorf("%w: AnotherName destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = AnotherName{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -2866,12 +2886,13 @@ func (v *EDIPartyName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if v == nil {
 		return fmt.Errorf("%w: EDIPartyName destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = EDIPartyName{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -3015,6 +3036,7 @@ func MarshalDERSubjectDirectoryAttributes(collection *SubjectDirectoryAttributes
 
 // UnmarshalBERSubjectDirectoryAttributes decodes a SubjectDirectoryAttributes list from BER.
 func UnmarshalBERSubjectDirectoryAttributes(data []byte, opts ...ber.DecodeOption) (*SubjectDirectoryAttributes, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -3055,7 +3077,7 @@ func UnmarshalBERSubjectDirectoryAttributes(data []byte, opts ...ber.DecodeOptio
 		}
 	}
 	decoded := &SubjectDirectoryAttributes{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERSubjectDirectoryAttributes(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -3144,12 +3166,13 @@ func (v *BasicConstraints) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: BasicConstraints destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = BasicConstraints{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -3357,12 +3380,13 @@ func (v *NameConstraints) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 	if v == nil {
 		return fmt.Errorf("%w: NameConstraints destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = NameConstraints{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -3547,6 +3571,7 @@ func MarshalDERGeneralSubtrees(collection *GeneralSubtrees) ([]byte, error) {
 
 // UnmarshalBERGeneralSubtrees decodes a GeneralSubtrees list from BER.
 func UnmarshalBERGeneralSubtrees(data []byte, opts ...ber.DecodeOption) (*GeneralSubtrees, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -3587,7 +3612,7 @@ func UnmarshalBERGeneralSubtrees(data []byte, opts ...ber.DecodeOption) (*Genera
 		}
 	}
 	decoded := &GeneralSubtrees{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERGeneralSubtrees(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -3717,12 +3742,13 @@ func (v *GeneralSubtree) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	if v == nil {
 		return fmt.Errorf("%w: GeneralSubtree destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = GeneralSubtree{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -3941,12 +3967,13 @@ func (v *PolicyConstraints) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if v == nil {
 		return fmt.Errorf("%w: PolicyConstraints destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PolicyConstraints{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -4099,6 +4126,7 @@ func MarshalDERCRLDistributionPoints(collection *CRLDistributionPoints) ([]byte,
 
 // UnmarshalBERCRLDistributionPoints decodes a CRLDistributionPoints list from BER.
 func UnmarshalBERCRLDistributionPoints(data []byte, opts ...ber.DecodeOption) (*CRLDistributionPoints, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -4139,7 +4167,7 @@ func UnmarshalBERCRLDistributionPoints(data []byte, opts ...ber.DecodeOption) (*
 		}
 	}
 	decoded := &CRLDistributionPoints{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERCRLDistributionPoints(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -4182,7 +4210,10 @@ func (v *DistributionPoint) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		children = append(children, enc_distributionpoint...)
 	}
 	if v.Reasons != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.Reasons.Bytes, v.Reasons.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "reasons", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.Reasons.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4253,7 +4284,13 @@ func (v *DistributionPoint) MarshalDER() ([]byte, error) {
 		children = append(children, enc_distributionpoint...)
 	}
 	if v.Reasons != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.Reasons.Bytes, v.Reasons.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "reasons", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.Reasons.Bytes, v.Reasons.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "reasons", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.Reasons.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4300,12 +4337,13 @@ func (v *DistributionPoint) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if v == nil {
 		return fmt.Errorf("%w: DistributionPoint destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = DistributionPoint{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -4535,7 +4573,7 @@ func (v *DistributionPointName) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_1, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -4550,8 +4588,9 @@ func (v *DistributionPointName) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if v == nil {
 		return fmt.Errorf("%w: DistributionPointName destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -4693,6 +4732,7 @@ func MarshalDERExtKeyUsageSyntax(collection *ExtKeyUsageSyntax) ([]byte, error) 
 
 // UnmarshalBERExtKeyUsageSyntax decodes a ExtKeyUsageSyntax list from BER.
 func UnmarshalBERExtKeyUsageSyntax(data []byte, opts ...ber.DecodeOption) (*ExtKeyUsageSyntax, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -4724,7 +4764,7 @@ func UnmarshalBERExtKeyUsageSyntax(data []byte, opts ...ber.DecodeOption) (*ExtK
 		}
 	}
 	decoded := &ExtKeyUsageSyntax{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERExtKeyUsageSyntax(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -4799,6 +4839,7 @@ func MarshalDERAuthorityInfoAccessSyntax(collection *AuthorityInfoAccessSyntax) 
 
 // UnmarshalBERAuthorityInfoAccessSyntax decodes a AuthorityInfoAccessSyntax list from BER.
 func UnmarshalBERAuthorityInfoAccessSyntax(data []byte, opts ...ber.DecodeOption) (*AuthorityInfoAccessSyntax, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -4839,7 +4880,7 @@ func UnmarshalBERAuthorityInfoAccessSyntax(data []byte, opts ...ber.DecodeOption
 		}
 	}
 	decoded := &AuthorityInfoAccessSyntax{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERAuthorityInfoAccessSyntax(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -4911,12 +4952,13 @@ func (v *AccessDescription) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if v == nil {
 		return fmt.Errorf("%w: AccessDescription destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = AccessDescription{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -5045,6 +5087,7 @@ func MarshalDERSubjectInfoAccessSyntax(collection *SubjectInfoAccessSyntax) ([]b
 
 // UnmarshalBERSubjectInfoAccessSyntax decodes a SubjectInfoAccessSyntax list from BER.
 func UnmarshalBERSubjectInfoAccessSyntax(data []byte, opts ...ber.DecodeOption) (*SubjectInfoAccessSyntax, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -5085,7 +5128,7 @@ func UnmarshalBERSubjectInfoAccessSyntax(data []byte, opts ...ber.DecodeOption) 
 		}
 	}
 	decoded := &SubjectInfoAccessSyntax{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERSubjectInfoAccessSyntax(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -5156,7 +5199,10 @@ func (v *IssuingDistributionPoint) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_onlycontainscacerts...)
 	}
 	if v.OnlySomeReasons != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OnlySomeReasons.Bytes, v.OnlySomeReasons.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "onlySomeReasons", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OnlySomeReasons.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5241,7 +5287,13 @@ func (v *IssuingDistributionPoint) MarshalDER() ([]byte, error) {
 		children = append(children, enc_onlycontainscacerts...)
 	}
 	if v.OnlySomeReasons != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.OnlySomeReasons.Bytes, v.OnlySomeReasons.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "onlySomeReasons", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.OnlySomeReasons.Bytes, v.OnlySomeReasons.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "onlySomeReasons", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.OnlySomeReasons.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5289,12 +5341,13 @@ func (v *IssuingDistributionPoint) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: IssuingDistributionPoint destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = IssuingDistributionPoint{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -5358,6 +5411,9 @@ func (v *IssuingDistributionPoint) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if boolErr != nil {
 					return fmt.Errorf("decoding onlyContainsUserCerts: %w", boolErr)
 				}
+				if len(rawVal_onlycontainsusercerts) == 1 && rawVal_onlycontainsusercerts[0] != 0 && rawVal_onlycontainsusercerts[0] != 0xff {
+					ber.MarkBERNonCanonical(opts)
+				}
 				if len(rawVal_onlycontainsusercerts) == 1 {
 					v.OnlyContainsUserCertsRaw_ = rawVal_onlycontainsusercerts[0]
 				}
@@ -5387,6 +5443,9 @@ func (v *IssuingDistributionPoint) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				decVal_onlycontainscacerts, boolErr := ber.DecodeBooleanValue(rawVal_onlycontainscacerts)
 				if boolErr != nil {
 					return fmt.Errorf("decoding onlyContainsCACerts: %w", boolErr)
+				}
+				if len(rawVal_onlycontainscacerts) == 1 && rawVal_onlycontainscacerts[0] != 0 && rawVal_onlycontainscacerts[0] != 0xff {
+					ber.MarkBERNonCanonical(opts)
 				}
 				if len(rawVal_onlycontainscacerts) == 1 {
 					v.OnlyContainsCACertsRaw_ = rawVal_onlycontainscacerts[0]
@@ -5450,6 +5509,9 @@ func (v *IssuingDistributionPoint) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if boolErr != nil {
 					return fmt.Errorf("decoding indirectCRL: %w", boolErr)
 				}
+				if len(rawVal_indirectcrl) == 1 && rawVal_indirectcrl[0] != 0 && rawVal_indirectcrl[0] != 0xff {
+					ber.MarkBERNonCanonical(opts)
+				}
 				if len(rawVal_indirectcrl) == 1 {
 					v.IndirectCRLRaw_ = rawVal_indirectcrl[0]
 				}
@@ -5478,6 +5540,9 @@ func (v *IssuingDistributionPoint) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				decVal_onlycontainsattributecerts, boolErr := ber.DecodeBooleanValue(rawVal_onlycontainsattributecerts)
 				if boolErr != nil {
 					return fmt.Errorf("decoding onlyContainsAttributeCerts: %w", boolErr)
+				}
+				if len(rawVal_onlycontainsattributecerts) == 1 && rawVal_onlycontainsattributecerts[0] != 0 && rawVal_onlycontainsattributecerts[0] != 0xff {
+					ber.MarkBERNonCanonical(opts)
 				}
 				if len(rawVal_onlycontainsattributecerts) == 1 {
 					v.OnlyContainsAttributeCertsRaw_ = rawVal_onlycontainsattributecerts[0]
@@ -5562,6 +5627,7 @@ func MarshalDERPolicyInformationPolicyQualifiers(collection *PolicyInformationPo
 
 // UnmarshalBERPolicyInformationPolicyQualifiers decodes a PolicyInformationPolicyQualifiers list from BER.
 func UnmarshalBERPolicyInformationPolicyQualifiers(data []byte, opts ...ber.DecodeOption) (*PolicyInformationPolicyQualifiers, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -5602,7 +5668,7 @@ func UnmarshalBERPolicyInformationPolicyQualifiers(data []byte, opts ...ber.Deco
 		}
 	}
 	decoded := &PolicyInformationPolicyQualifiers{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERPolicyInformationPolicyQualifiers(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -5673,6 +5739,7 @@ func MarshalDERNoticeReferenceNoticeNumbers(collection *NoticeReferenceNoticeNum
 
 // UnmarshalBERNoticeReferenceNoticeNumbers decodes a NoticeReferenceNoticeNumbers list from BER.
 func UnmarshalBERNoticeReferenceNoticeNumbers(data []byte, opts ...ber.DecodeOption) (*NoticeReferenceNoticeNumbers, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -5699,7 +5766,7 @@ func UnmarshalBERNoticeReferenceNoticeNumbers(data []byte, opts ...ber.DecodeOpt
 		offset += n
 	}
 	decoded := &NoticeReferenceNoticeNumbers{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERNoticeReferenceNoticeNumbers(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -5771,12 +5838,13 @@ func (v *PolicyMappingsElem) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if v == nil {
 		return fmt.Errorf("%w: PolicyMappingsElem destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = PolicyMappingsElem{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog

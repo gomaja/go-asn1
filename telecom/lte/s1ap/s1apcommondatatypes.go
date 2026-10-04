@@ -69,7 +69,6 @@ const (
 type PrivateIEID struct {
 	Choice              int
 	PERPadding_         per.CompletePadding      `json:"-"`
-	PERExtraBits_       per.TrailingBits         `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding      `json:"-"`
 	Local               *int64                   `json:"Local,omitempty"`
 	Global              runtime.ObjectIdentifier `json:"Global,omitempty"`

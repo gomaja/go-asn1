@@ -951,7 +951,7 @@ func (v *DialoguePDU) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_2, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -966,8 +966,9 @@ func (v *DialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if v == nil {
 		return fmt.Errorf("%w: DialoguePDU destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1068,7 +1069,10 @@ func (v *AARQApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if v.ProtocolVersion != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1132,7 +1136,13 @@ func (v *AARQApdu) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if v.ProtocolVersion != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1191,12 +1201,13 @@ func (v *AARQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	if v == nil {
 		return fmt.Errorf("%w: AARQApdu destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = AARQApdu{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1346,7 +1357,10 @@ func (v *AAREApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if v.ProtocolVersion != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1434,7 +1448,13 @@ func (v *AAREApdu) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if v.ProtocolVersion != nil {
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:505
+		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
+		}
+		if bitStringErr := ber.ValidateDERBitString(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
+			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
+		}
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1517,12 +1537,13 @@ func (v *AAREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	if v == nil {
 		return fmt.Errorf("%w: AAREApdu destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = AAREApdu{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1822,12 +1843,13 @@ func (v *RLRQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	if v == nil {
 		return fmt.Errorf("%w: RLRQApdu destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = RLRQApdu{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -2037,12 +2059,13 @@ func (v *RLREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	if v == nil {
 		return fmt.Errorf("%w: RLREApdu destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = RLREApdu{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -2248,12 +2271,13 @@ func (v *ABRTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	if v == nil {
 		return fmt.Errorf("%w: ABRTApdu destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = ABRTApdu{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -2415,7 +2439,7 @@ func (v *AssociateSourceDiagnostic) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: AssociateSourceDiagnostic receiver is nil", ber.ErrInvalidValue)
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -2430,8 +2454,9 @@ func (v *AssociateSourceDiagnostic) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: AssociateSourceDiagnostic destination is nil", ber.ErrInvalidValue)
 	}
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -2553,6 +2578,7 @@ func MarshalDERAARQApduUserInformation(collection *AARQApduUserInformation) ([]b
 
 // UnmarshalBERAARQApduUserInformation decodes a AARQApduUserInformation list from BER.
 func UnmarshalBERAARQApduUserInformation(data []byte, opts ...ber.DecodeOption) (*AARQApduUserInformation, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2579,7 +2605,7 @@ func UnmarshalBERAARQApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 		offset += n
 	}
 	decoded := &AARQApduUserInformation{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERAARQApduUserInformation(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -2644,6 +2670,7 @@ func MarshalDERAAREApduUserInformation(collection *AAREApduUserInformation) ([]b
 
 // UnmarshalBERAAREApduUserInformation decodes a AAREApduUserInformation list from BER.
 func UnmarshalBERAAREApduUserInformation(data []byte, opts ...ber.DecodeOption) (*AAREApduUserInformation, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2670,7 +2697,7 @@ func UnmarshalBERAAREApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 		offset += n
 	}
 	decoded := &AAREApduUserInformation{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERAAREApduUserInformation(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -2735,6 +2762,7 @@ func MarshalDERRLRQApduUserInformation(collection *RLRQApduUserInformation) ([]b
 
 // UnmarshalBERRLRQApduUserInformation decodes a RLRQApduUserInformation list from BER.
 func UnmarshalBERRLRQApduUserInformation(data []byte, opts ...ber.DecodeOption) (*RLRQApduUserInformation, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2761,7 +2789,7 @@ func UnmarshalBERRLRQApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 		offset += n
 	}
 	decoded := &RLRQApduUserInformation{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERRLRQApduUserInformation(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -2826,6 +2854,7 @@ func MarshalDERRLREApduUserInformation(collection *RLREApduUserInformation) ([]b
 
 // UnmarshalBERRLREApduUserInformation decodes a RLREApduUserInformation list from BER.
 func UnmarshalBERRLREApduUserInformation(data []byte, opts ...ber.DecodeOption) (*RLREApduUserInformation, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2852,7 +2881,7 @@ func UnmarshalBERRLREApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 		offset += n
 	}
 	decoded := &RLREApduUserInformation{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERRLREApduUserInformation(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {
@@ -2917,6 +2946,7 @@ func MarshalDERABRTApduUserInformation(collection *ABRTApduUserInformation) ([]b
 
 // UnmarshalBERABRTApduUserInformation decodes a ABRTApduUserInformation list from BER.
 func UnmarshalBERABRTApduUserInformation(data []byte, opts ...ber.DecodeOption) (*ABRTApduUserInformation, error) {
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
 	}
@@ -2943,7 +2973,7 @@ func UnmarshalBERABRTApduUserInformation(data []byte, opts ...ber.DecodeOption) 
 		offset += n
 	}
 	decoded := &ABRTApduUserInformation{Values: result}
-	if ber.ConstraintToleranceEnabled(opts) {
+	if ber.BERNeedsPreservation(opts) {
 		var snapshotReports ber.ViolationLog
 		snapshot, snapshotErr := MarshalBERABRTApduUserInformation(decoded, ber.WithConstraintTolerance(&snapshotReports))
 		if snapshotErr != nil {

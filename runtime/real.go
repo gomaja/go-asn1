@@ -33,6 +33,44 @@ type Real struct {
 	Base     int      `json:"base,omitempty"`
 	Mantissa *big.Int `json:"mantissa,omitempty"`
 	Exponent *big.Int `json:"exponent,omitempty"`
+	berForm  *realBERForm
+}
+
+type realBERForm struct {
+	contents []byte
+	kind     RealKind
+	base     int
+	mantissa *big.Int
+	exponent *big.Int
+}
+
+// RememberBERContents retains a valid BER REAL form when the normalized value
+// has no encodable DER form (ITU-T X.690 (02/2021) §§8.5.7.4, 11.3.1).
+func (value Real) RememberBERContents(contents []byte) Real {
+	copyInt := func(n *big.Int) *big.Int {
+		if n == nil {
+			return nil
+		}
+		return new(big.Int).Set(n)
+	}
+	value.berForm = &realBERForm{
+		contents: append([]byte(nil), contents...), kind: value.Kind, base: value.Base,
+		mantissa: copyInt(value.Mantissa), exponent: copyInt(value.Exponent),
+	}
+	return value
+}
+
+// BERContents returns the retained form only while the REAL value is unchanged.
+func (value Real) BERContents() ([]byte, bool) {
+	form := value.berForm
+	if form == nil || value.Kind != form.kind || value.Base != form.base ||
+		(value.Mantissa == nil) != (form.mantissa == nil) ||
+		(value.Exponent == nil) != (form.exponent == nil) ||
+		value.Mantissa != nil && value.Mantissa.Cmp(form.mantissa) != 0 ||
+		value.Exponent != nil && value.Exponent.Cmp(form.exponent) != 0 {
+		return nil, false
+	}
+	return append([]byte(nil), form.contents...), true
 }
 
 // NewReal constructs and normalizes a finite ASN.1 REAL value.

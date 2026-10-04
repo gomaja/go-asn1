@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"strings"
 	"sync"
+
+	"github.com/gomaja/go-asn1/runtime/tag"
 )
 
 // ConstraintViolation describes a decoded abstract value outside its ASN.1
@@ -82,9 +84,11 @@ func (log *ViolationLog) Reset() {
 // WithConstraintTolerance admits out-of-constraint BER values. Decoding records
 // each violation in reports, which may be shared across concurrent decoders.
 // Encoding requires an explicit tolerance option; it may use a different log.
-// Original BER bytes are kept with the decoded value and used only while its
-// typed contents remain unchanged; modified values encode from their current
-// fields. The report destination must be non-nil. Tolerance covers only values
+// Received BER bytes are kept only when a valid noncanonical form or a
+// tolerated constraint violation would otherwise change on re-encoding, and
+// only while the typed contents remain unchanged. Modified values encode from
+// their current fields; DER always encodes from the typed value. The report
+// destination must be non-nil. Tolerance covers only values
 // representable in the generated int64 or uint64 field. An unrepresentable
 // INTEGER returns ErrInvalidValue and records no violation (ITU-T X.680
 // (02/2021) §§49.7, 50–51).
@@ -210,12 +214,95 @@ func ConstraintToleranceEnabled(options []DecodeOption) bool {
 	return err == nil && config.tolerant
 }
 
+type berFormState struct{ preserve bool }
+
+type berFormOption struct{ state *berFormState }
+
+func (option berFormOption) applyDecode(config *decodeConfig) error {
+	config.form = option.state
+	return nil
+}
+
+// TrackBERForm shares one form marker across a generated value and its children.
+// X.690 (02/2021) §§8.1.3, 8.7.3 and 10.2 allow BER forms that DER forbids.
+func TrackBERForm(options []DecodeOption) []DecodeOption {
+	for _, option := range options {
+		if _, ok := option.(berFormOption); ok {
+			return options
+		}
+	}
+	tracked := append([]DecodeOption(nil), options...)
+	return append(tracked, berFormOption{state: new(berFormState)})
+}
+
+// MarkBERNonCanonical records a valid BER form that a schema-aware decoder
+// knows the canonical encoder will change, such as an implicit constructed string.
+func MarkBERNonCanonical(options []DecodeOption) {
+	for _, option := range options {
+		if form, ok := option.(berFormOption); ok {
+			form.state.preserve = true
+			return
+		}
+	}
+}
+
+// BERNeedsPreservation reports whether decoding found a BER form that needs
+// the received bytes for an exact unchanged-value re-encode.
+func BERNeedsPreservation(options []DecodeOption) bool {
+	for _, option := range options {
+		if form, ok := option.(berFormOption); ok {
+			return form.state.preserve
+		}
+	}
+	return false
+}
+
+// MarkBERSetOrder marks a BER SET whose components are not in DER tag order.
+// BER leaves SET component order open; DER orders by identifier (X.690
+// (02/2021) §§8.11, 11.6). Only generated SET decoders call this helper.
+func MarkBERSetOrder(data []byte, options ...DecodeOption) error {
+	outer, total, contents, err := DecodeTLV(data, options...)
+	if err != nil {
+		return err
+	}
+	if total != len(data) || !outer.Constructed {
+		return ErrInvalidValue
+	}
+	if outer.Class != tag.ClassUniversal && len(contents) != 0 {
+		inner, used, value, innerErr := DecodeTLV(contents, options...)
+		if innerErr == nil && used == len(contents) && inner.Class == tag.ClassUniversal && inner.Number == tag.TagSet {
+			contents = value
+		}
+	}
+	var previous tag.Tag
+	seen := false
+	for offset := 0; offset < len(contents); {
+		current, used, _, childErr := DecodeTLV(contents[offset:], options...)
+		if childErr != nil {
+			return childErr
+		}
+		if used <= 0 || used > len(contents)-offset {
+			return ErrInvalidLength
+		}
+		if seen && (current.Class < previous.Class ||
+			current.Class == previous.Class && current.Number < previous.Number ||
+			current.Class == previous.Class && current.Number == previous.Number && !current.Constructed && previous.Constructed) {
+			MarkBERNonCanonical(options)
+			return nil
+		}
+		seen = true
+		previous = current
+		offset += used
+	}
+	return nil
+}
+
 // PreserveEncodedBER returns the original BER when the current typed value
-// still encodes to its decode-time snapshot. X.690 (02/2021) §8.1.3 permits
-// multiple length forms, so reconstructing a value can change valid BER bytes.
+// still encodes to its decode-time snapshot. X.690 (02/2021) §§8.1.3, 8.7.3
+// permit multiple length forms and constructed string segmentations.
 func PreserveEncodedBER(encoded, original, snapshot []byte, options []EncodeOption) []byte {
-	config, err := encodeOptions(options)
-	if err == nil && config.tolerant && original != nil && bytes.Equal(encoded, snapshot) {
+	_, err := encodeOptions(options)
+	if err == nil && original != nil && bytes.Equal(encoded, snapshot) {
 		return append([]byte(nil), original...)
 	}
 	return encoded
