@@ -356,7 +356,7 @@ On small CI runners, set `GOFLAGS=-p=2` or lower to limit concurrent builds.
 |---------|------|--------|
 | `cms/cms` | CMS (RFC 5652) | planned |
 | `cms/ess` | ESS (RFC 2634) | planned |
-| `cms/cmp` | CMP (RFC 4210) | planned |
+| `cms/cmp` | CMP (RFC 9810) | planned |
 | `cms/crmf` | CRMF (RFC 4211) | planned |
 
 #### `security/auth/` — Authentication
