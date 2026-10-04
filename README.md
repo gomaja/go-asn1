@@ -85,24 +85,63 @@ func replayBER(wire []byte) ([]byte, error) {
 ```
 
 `ber.ViolationLog` can be shared across concurrent decodes; `Snapshot`
-returns independent records. Unchanged tolerant values retain their original
-BER bytes, including noncanonical length forms. Changing a typed field makes
-the encoder use its current value. Tolerance cannot represent a negative BER
+returns independent records. Tolerance cannot represent a negative BER
 INTEGER in a generated `uint64` field or a value wider than a generated
 `int64` field: decoding returns `ber.ErrInvalidValue` without substituting
 raw bytes. Source value `EXCEPT` and collection-element unions that the
 frontend cannot resolve remain fail closed (ITU-T X.680 (02/2021) §§49.7,
 50–51).
 
+#### Preserved BER forms and DER
+
+Strict and tolerant decoders retain received BER bytes only when an unchanged
+value would otherwise lose a valid noncanonical form, such as a constructed
+string, an indefinite length, a nonminimal length, a non-normalised REAL, or
+the received component order of an extensible SET, and, in tolerant mode, when
+it carries a tolerated constraint violation. Canonical input takes no
+received-byte snapshot. Changing a typed field makes BER encoding use its
+current value. Out-of-constraint values still require the tolerance option
+when encoding.
+
+`MarshalDER` encodes typed values in DER form and never re-emits preserved BER
+bytes: REAL values take their distinguished form and SET components are
+sorted (ITU-T X.690 (02/2021) §8.5.7 NOTE 1, §§10.3, 11.3.1). Its open-type
+contents are emitted as carried, and it does not yet omit components equal to
+their `DEFAULT` ([go-asn1#85](https://github.com/gomaja/go-asn1/issues/85)).
+An unchanged valid BER REAL whose normalized exponent cannot fit the 255-octet
+encoding limit can still be re-encoded as BER; `MarshalDER` returns
+`ber.ErrInvalidValue` (X.690 §§8.5.7.4, 11.3.1).
+
+Constraint tolerance does not admit invalid encodings. Both modes reject:
+
+- INTEGER and ENUMERATED encodings with redundant sign octets, including
+  under implicit tags, with `ber.ErrInvalidValue` (X.690 §§8.3.2, 8.4);
+- a constructed NULL, including under an implicit tag (X.690 §8.8.1);
+- any component encoding inside a non-extensible SEQUENCE or SET that has no
+  components, with a `*ber.DecodeError` naming the type and wrapping
+  `ber.ErrExtraData` (X.690 §§8.9.2, 8.11.2). Extensible empty types keep
+  their extensions.
+
+GeneralizedTime encoding retains sub-second precision and omits trailing
+fractional zeros (ITU-T X.690 (02/2021) §11.7.3). This changes the output for
+values with fractional seconds: they previously encoded at whole-second
+precision. Certificate profiles governed by RFC 5280 §4.1.2.5.2 forbid
+fractional seconds, so callers building certificates must first use
+`t.Truncate(time.Second)` on those time values. The typed time decoders do not
+yet accept UTCTime with minute precision and a UTC offset, or GeneralizedTime
+with a fractional hour (X.680 (02/2021) §§46.3, 47.3); this is tracked in
+[go-asn1#86](https://github.com/gomaja/go-asn1/issues/86).
+
 ### UPER trace tolerance
 
 UPER decoding is strict by default. A receiver that must accept the
 non-conformant bit runs some RRC senders emit (TS 25.331 V19.0.1 §12.1.3)
-passes a `per.ToleranceLog`. Tolerance then accepts a suffix of more than
-seven bits after the top-level value and up to seven zero bits after a value
-inside a `BIT STRING (CONTAINING ...)`, both forbidden by ITU-T X.691
-(02/2021) §§11.1.3.1–11.1.3.2. Each accepted run is recorded with its field
-path, kind, offset and bits, so no walk of the decoded value is needed.
+passes a `per.ToleranceLog` in `per.DecodeOptions{TrailingBitsTolerance}`.
+Tolerance then accepts a suffix of more than seven bits after the top-level
+value (ITU-T X.691 (02/2021) §11.1.3.1) and up to seven zero bits after a
+value inside a `BIT STRING (CONTAINING ...)` (§11.1.3.2). Each accepted run is
+recorded with its field path, kind, offset and bits, so no walk of the decoded
+value is needed.
 
 ```go
 package main
@@ -125,15 +164,29 @@ func replayUPER(wire []byte) ([]byte, error) {
         log.Printf("%s: %s, %d bits at offset %d", record.Path, record.Kind,
             record.Bits.BitLength, record.Offset)
     }
+    tolerated.Reset()
     return value.MarshalUPER()
 }
 ```
 
+Top-level SEQUENCE and CHOICE values, and SEQUENCE OF values through their
+`<List>Complete` wrapper, take the same options; records inside a list are
+rooted at the list type and indexed by element, as in `<List>.Value[1]...`.
 A log may be shared by concurrent decodes. A successful decode appends all of
-its records together; a failed decode appends none. The decoded value keeps
-the accepted bits, so `MarshalUPER` reproduces the input: a top-level suffix
-in `PERPadding_` (`per.FinalPadding`, see `Trailing`), and contained padding
-in the `<Field>PERPadding_` field of the SEQUENCE that holds the `BIT STRING`.
+its records together; a failed decode appends none. The decoded value keeps the accepted
+bits, so `MarshalUPER` reproduces the input octets:
+
+- A top-level suffix is kept in the value's `PERPadding_`, a `per.FinalPadding`
+  (see `Trailing()`). That field is one pointer wide and does not allocate for
+  ordinary 0–7 padding bits.
+- Contained padding is kept in the `<Field>PERPadding_` field, a two-byte
+  `per.CompletePadding`, which only a SEQUENCE holding a
+  `BIT STRING (CONTAINING ...)` carries.
+
+The single zero octet of an empty top-level value, and the single zero bit of
+an empty contained value, are part of the complete encoding (X.691 (02/2021)
+§§11.1.3.1, 11.1.3.2, 11.1.4). They are never recorded as tolerances; a
+nonzero mandated octet or bit, or a missing one, is rejected in both modes.
 
 ## Available Protocols
 
