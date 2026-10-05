@@ -156,9 +156,18 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 		if err := value.UnmarshalAPER(wire); err != nil {
 			return false, false, err.Error()
 		}
+		// Nonzero padding is retained with its width. All-zero padding is what
+		// an encoder emits anyway, so it is not retained: IsZero reports it
+		// and the width reads 0.
 		bits, count := value.PERPadding_.Bits()
 		wantNonzero := strings.Contains(rec.ID, "nonzero")
-		return count > 0 && (bits != 0) == wantNonzero, true, "Cause padding accessor disagrees"
+		if encoded, err := value.MarshalAPER(); err != nil || !bytes.Equal(encoded, wire) {
+			return false, false, fmt.Sprintf("round trip: %v", err)
+		}
+		if !wantNonzero {
+			return value.PERPadding_.IsZero() && count == 0, true, "Cause padding accessor disagrees"
+		}
+		return count > 0 && bits != 0 && !value.PERPadding_.IsZero(), true, "Cause padding accessor disagrees"
 	}
 	if strings.HasPrefix(rec.ID, "s1ap-") {
 		var value s1ap.S1APPDU
