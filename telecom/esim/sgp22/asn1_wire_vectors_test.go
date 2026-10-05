@@ -166,7 +166,7 @@ func TestVectorExpirationDateUtcTime(t *testing.T) {
 		t.Fatal(err)
 	}
 	asn1VectorAssertPath(t, decoded, "Choice", "1")
-	asn1VectorAssertPath(t, decoded, "UtcTime", "\"2049-12-31T23:59:59Z\"")
+	asn1VectorAssertPath(t, decoded, "UtcTime", "\"491231235959Z\"")
 	wire, err := decoded.MarshalBER()
 	if err != nil {
 		t.Fatal(err)
@@ -357,6 +357,29 @@ func TestVectorGetBoundProfilePackageResponseOuterTag(t *testing.T) {
 	}
 }
 
+// TestVectorBoundProfilePackageTaggedSegments verifies GSMA SGP.22 V2.7 (2026-04-24), section 2.5.4; BoundProfilePackage carries tagged 87, 88, 87 and 86 segment lists.
+func TestVectorBoundProfilePackageTaggedSegments(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "bf3638bf231b8201018001aaa6098001888101108401bb5f4902ccdd5f3702eeffa00487020102a10488020304a203870105a30786020607860108")
+	var decoded BoundProfilePackage
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "FirstSequenceOf87.Values[0]", "\"AQI=\"")
+	asn1VectorAssertPath(t, decoded, "SequenceOf88.Values[0]", "\"AwQ=\"")
+	asn1VectorAssertPath(t, decoded, "SecondSequenceOf87.Values[0]", "\"BQ==\"")
+	asn1VectorAssertPath(t, decoded, "SequenceOf86.Values[0]", "\"Bgc=\"")
+	asn1VectorAssertPath(t, decoded, "SequenceOf86.Values[1]", "\"CA==\"")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
 // TestVectorGetBoundProfilePackageResponseMissingOuterTag verifies GSMA SGP.22 V2.7 (2026-04-24), section 5.7.6; an unwrapped CHOICE alternative is not a GetBoundProfilePackageResponse.
 // Regression: go-asn1-v0.4.2.sgp22.get-bound-profile-package-response-inner-rejected
 func TestVectorGetBoundProfilePackageResponseMissingOuterTag(t *testing.T) {
@@ -499,6 +522,14 @@ func FuzzBERGetBoundProfilePackageResponse(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("81017f"))
 	f.Fuzz(func(t *testing.T, input []byte) {
 		var decoded GetBoundProfilePackageResponse
+		_ = decoded.UnmarshalBER(input)
+	})
+}
+
+func FuzzBERBoundProfilePackage(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("bf3638bf231b8201018001aaa6098001888101108401bb5f4902ccdd5f3702eeffa00487020102a10488020304a203870105a30786020607860108"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded BoundProfilePackage
 		_ = decoded.UnmarshalBER(input)
 	})
 }

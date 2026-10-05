@@ -129,7 +129,7 @@ type MAPCloseInfo struct {
 type MAPRefuseInfo struct {
 	Reason                        Reason                   `asn1:""`
 	ExtensionContainer            *ExtensionContainer      `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	AlternativeApplicationContext runtime.ObjectIdentifier `asn1:",optional" json:"AlternativeApplicationContext,omitempty"`
+	AlternativeApplicationContext runtime.ObjectIdentifier `asn1:",optional" json:"AlternativeApplicationContext,omitzero"`
 	ExtCount_                     int64                    `asn1:"-" json:"-"`
 	ExtPresent_                   []bool                   `asn1:"-" json:"-"`
 	ExtData_                      [][]byte                 `asn1:"-" json:"-"`
@@ -305,7 +305,9 @@ func (v MAPProviderAbortReason) String() string {
 }
 
 // MarshalBER encodes MAPDialoguePDU to BER format.
-func (v *MAPDialoguePDU) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *MAPDialoguePDU) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPDialoguePDU receiver is nil", ber.ErrInvalidValue)
 	}
@@ -324,7 +326,7 @@ func (v *MAPDialoguePDU) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.MapOpen == nil {
 			return nil, fmt.Errorf("%w: choice MAPDialoguePDU: map-open is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.MapOpen.MarshalBER(opts...)
+		enc_0, err := v.MapOpen.MarshalBER(ber.ChildEncodeOptions(opts, "map-open")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding map-open: %w", err)
 		}
@@ -338,7 +340,7 @@ func (v *MAPDialoguePDU) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.MapAccept == nil {
 			return nil, fmt.Errorf("%w: choice MAPDialoguePDU: map-accept is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.MapAccept.MarshalBER(opts...)
+		enc_1, err := v.MapAccept.MarshalBER(ber.ChildEncodeOptions(opts, "map-accept")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding map-accept: %w", err)
 		}
@@ -352,7 +354,7 @@ func (v *MAPDialoguePDU) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.MapClose == nil {
 			return nil, fmt.Errorf("%w: choice MAPDialoguePDU: map-close is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.MapClose.MarshalBER(opts...)
+		enc_2, err := v.MapClose.MarshalBER(ber.ChildEncodeOptions(opts, "map-close")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding map-close: %w", err)
 		}
@@ -366,7 +368,7 @@ func (v *MAPDialoguePDU) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.MapRefuse == nil {
 			return nil, fmt.Errorf("%w: choice MAPDialoguePDU: map-refuse is nil", ber.ErrInvalidValue)
 		}
-		enc_3, err := v.MapRefuse.MarshalBER(opts...)
+		enc_3, err := v.MapRefuse.MarshalBER(ber.ChildEncodeOptions(opts, "map-refuse")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding map-refuse: %w", err)
 		}
@@ -380,7 +382,7 @@ func (v *MAPDialoguePDU) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.MapUserAbort == nil {
 			return nil, fmt.Errorf("%w: choice MAPDialoguePDU: map-userAbort is nil", ber.ErrInvalidValue)
 		}
-		enc_4, err := v.MapUserAbort.MarshalBER(opts...)
+		enc_4, err := v.MapUserAbort.MarshalBER(ber.ChildEncodeOptions(opts, "map-userAbort")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding map-userAbort: %w", err)
 		}
@@ -394,7 +396,7 @@ func (v *MAPDialoguePDU) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.MapProviderAbort == nil {
 			return nil, fmt.Errorf("%w: choice MAPDialoguePDU: map-providerAbort is nil", ber.ErrInvalidValue)
 		}
-		enc_5, err := v.MapProviderAbort.MarshalBER(opts...)
+		enc_5, err := v.MapProviderAbort.MarshalBER(ber.ChildEncodeOptions(opts, "map-providerAbort")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding map-providerAbort: %w", err)
 		}
@@ -518,7 +520,7 @@ func (v *MAPDialoguePDU) MarshalDER() ([]byte, error) {
 		}
 		return enc_der_5, nil
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -533,8 +535,11 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	if v == nil {
 		return fmt.Errorf("%w: MAPDialoguePDU destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -578,7 +583,7 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 			return reconstructionErr
 		}
 		var dec MAPOpenInfo
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "map-open")...); unmErr != nil {
 			return fmt.Errorf("decoding map-open: %w", unmErr)
 		}
 		v.MapOpen = &dec
@@ -593,7 +598,7 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 			return reconstructionErr
 		}
 		var dec MAPAcceptInfo
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "map-accept")...); unmErr != nil {
 			return fmt.Errorf("decoding map-accept: %w", unmErr)
 		}
 		v.MapAccept = &dec
@@ -608,7 +613,7 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 			return reconstructionErr
 		}
 		var dec MAPCloseInfo
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "map-close")...); unmErr != nil {
 			return fmt.Errorf("decoding map-close: %w", unmErr)
 		}
 		v.MapClose = &dec
@@ -623,7 +628,7 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 			return reconstructionErr
 		}
 		var dec MAPRefuseInfo
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "map-refuse")...); unmErr != nil {
 			return fmt.Errorf("decoding map-refuse: %w", unmErr)
 		}
 		v.MapRefuse = &dec
@@ -638,7 +643,7 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 			return reconstructionErr
 		}
 		var dec MAPUserAbortInfo
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "map-userAbort")...); unmErr != nil {
 			return fmt.Errorf("decoding map-userAbort: %w", unmErr)
 		}
 		v.MapUserAbort = &dec
@@ -653,7 +658,7 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 			return reconstructionErr
 		}
 		var dec MAPProviderAbortInfo
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "map-providerAbort")...); unmErr != nil {
 			return fmt.Errorf("decoding map-providerAbort: %w", unmErr)
 		}
 		v.MapProviderAbort = &dec
@@ -664,7 +669,9 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 }
 
 // MarshalBER encodes MAPOpenInfo to BER format.
-func (v *MAPOpenInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *MAPOpenInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPOpenInfo receiver is nil", ber.ErrInvalidValue)
 	}
@@ -714,14 +721,14 @@ func (v *MAPOpenInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_originationreference...)
 	}
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(ber.ChildEncodeOptions(opts, "extensionContainer")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -801,12 +808,15 @@ func (v *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if v == nil {
 		return fmt.Errorf("%w: MAPOpenInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MAPOpenInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -838,7 +848,11 @@ func (v *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 				if decodedTag_destinationreference.Class != tag.ClassContextSpecific || decodedTag_destinationreference.Number != 0 {
 					return fmt.Errorf("decoding destinationReference: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_destinationreference)
 				}
-				tmp_destinationreference := AddressString(rawVal_destinationreference)
+				decVal_destinationreference, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_destinationreference.Constructed, rawVal_destinationreference, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding destinationReference: %w", octetErr)
+				}
+				tmp_destinationreference := AddressString(decVal_destinationreference)
 				v.DestinationReference = &tmp_destinationreference
 				if offset < 0 || offset >
 					len(content) || n_destinationreference < 0 || n_destinationreference >
@@ -867,7 +881,11 @@ func (v *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 				if decodedTag_originationreference.Class != tag.ClassContextSpecific || decodedTag_originationreference.Number != 1 {
 					return fmt.Errorf("decoding originationReference: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_originationreference)
 				}
-				tmp_originationreference := AddressString(rawVal_originationreference)
+				decVal_originationreference, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_originationreference.Constructed, rawVal_originationreference, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding originationReference: %w", octetErr)
+				}
+				tmp_originationreference := AddressString(decVal_originationreference)
 				v.OriginationReference = &tmp_originationreference
 				if offset < 0 || offset >
 					len(content) || n_originationreference < 0 || n_originationreference >
@@ -901,7 +919,7 @@ func (v *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensionContainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -942,7 +960,9 @@ func (v *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 }
 
 // MarshalBER encodes MAPAcceptInfo to BER format.
-func (v *MAPAcceptInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *MAPAcceptInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPAcceptInfo receiver is nil", ber.ErrInvalidValue)
 	}
@@ -958,14 +978,14 @@ func (v *MAPAcceptInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(ber.ChildEncodeOptions(opts, "extensionContainer")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -1011,12 +1031,15 @@ func (v *MAPAcceptInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	if v == nil {
 		return fmt.Errorf("%w: MAPAcceptInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MAPAcceptInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1053,7 +1076,7 @@ func (v *MAPAcceptInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensionContainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -1094,7 +1117,9 @@ func (v *MAPAcceptInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 }
 
 // MarshalBER encodes MAPCloseInfo to BER format.
-func (v *MAPCloseInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *MAPCloseInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPCloseInfo receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1110,14 +1135,14 @@ func (v *MAPCloseInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(ber.ChildEncodeOptions(opts, "extensionContainer")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -1163,12 +1188,15 @@ func (v *MAPCloseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if v == nil {
 		return fmt.Errorf("%w: MAPCloseInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MAPCloseInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1205,7 +1233,7 @@ func (v *MAPCloseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensionContainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -1246,7 +1274,9 @@ func (v *MAPCloseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 }
 
 // MarshalBER encodes MAPRefuseInfo to BER format.
-func (v *MAPRefuseInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *MAPRefuseInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPRefuseInfo receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1261,10 +1291,15 @@ func (v *MAPRefuseInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		return nil, err
 	}
 	var children []byte
+	if int64(v.Reason) != 0 && int64(v.Reason) != 1 && int64(v.Reason) != 2 {
+		if constraintErr := ber.CheckEncodedValue(opts, "reason", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(v.Reason))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_reason := ber.EncodeEnumerated(int64(v.Reason))
 	children = append(children, enc_reason...)
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(ber.ChildEncodeOptions(opts, "extensionContainer")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
@@ -1278,7 +1313,7 @@ func (v *MAPRefuseInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_alternativeapplicationcontext...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -1296,6 +1331,11 @@ func (v *MAPRefuseInfo) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("%w: MAPRefuseInfo receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
+	if int64(v.Reason) != 0 && int64(v.Reason) != 1 && int64(v.Reason) != 2 {
+		if constraintErr := ber.CheckEncodedValue(nil, "reason", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(v.Reason))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_reason := ber.EncodeEnumerated(int64(v.Reason))
 	children = append(children, enc_reason...)
 	if v.ExtensionContainer != nil {
@@ -1333,12 +1373,15 @@ func (v *MAPRefuseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	if v == nil {
 		return fmt.Errorf("%w: MAPRefuseInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MAPRefuseInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1373,6 +1416,11 @@ func (v *MAPRefuseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	}
 
 	offset += n
+	if int64(v.Reason) != 0 && int64(v.Reason) != 1 && int64(v.Reason) != 2 {
+		if constraintErr := ber.CheckDecodedValue(opts, "reason", "ENUMERATED {0, 1, 2}", fmt.Sprint(int64(v.Reason))); constraintErr != nil {
+			return constraintErr
+		}
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -1390,7 +1438,7 @@ func (v *MAPRefuseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensionContainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -1451,7 +1499,9 @@ func (v *MAPRefuseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 }
 
 // MarshalBER encodes MAPUserAbortInfo to BER format.
-func (v *MAPUserAbortInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *MAPUserAbortInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPUserAbortInfo receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1466,20 +1516,20 @@ func (v *MAPUserAbortInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		return nil, err
 	}
 	var children []byte
-	enc_mapuserabortchoice, err := v.MapUserAbortChoice.MarshalBER(opts...)
+	enc_mapuserabortchoice, err := v.MapUserAbortChoice.MarshalBER(ber.ChildEncodeOptions(opts, "map-UserAbortChoice")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding map-UserAbortChoice: %w", err)
 	}
 	children = append(children, enc_mapuserabortchoice...)
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(ber.ChildEncodeOptions(opts, "extensionContainer")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -1530,12 +1580,15 @@ func (v *MAPUserAbortInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if v == nil {
 		return fmt.Errorf("%w: MAPUserAbortInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MAPUserAbortInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1570,7 +1623,7 @@ func (v *MAPUserAbortInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		return fmt.Errorf("invalid BER content window")
 	}
 
-	if unmErr := v.MapUserAbortChoice.UnmarshalBER(content[offset:offset+n_mapuserabortchoice], ber.ChildDecodeOptions(opts, "mapUserAbortChoice")...); unmErr != nil {
+	if unmErr := v.MapUserAbortChoice.UnmarshalBER(content[offset:offset+n_mapuserabortchoice], ber.ChildDecodeOptions(opts, "map-UserAbortChoice")...); unmErr != nil {
 		return fmt.Errorf("decoding map-UserAbortChoice: %w", unmErr)
 	}
 	if offset < 0 || offset >
@@ -1597,7 +1650,7 @@ func (v *MAPUserAbortInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensionContainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
@@ -1638,7 +1691,9 @@ func (v *MAPUserAbortInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 }
 
 // MarshalBER encodes MAPUserAbortChoice to BER format.
-func (v *MAPUserAbortChoice) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *MAPUserAbortChoice) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPUserAbortChoice receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1674,6 +1729,11 @@ func (v *MAPUserAbortChoice) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 			return nil, fmt.Errorf("%w: choice MAPUserAbortChoice: resourceUnavailable is nil", ber.ErrInvalidValue)
 		}
 		enc_2 := ber.EncodeEnumerated(int64(*v.ResourceUnavailable))
+		if int64(*v.ResourceUnavailable) != 0 && int64(*v.ResourceUnavailable) != 1 {
+			if constraintErr := ber.CheckEncodedValue(opts, "resourceUnavailable", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ResourceUnavailable))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_2)
 		if tagErr_enc_2 != nil {
 			return nil, fmt.Errorf("encoding resourceUnavailable: %w", tagErr_enc_2)
@@ -1685,6 +1745,11 @@ func (v *MAPUserAbortChoice) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 			return nil, fmt.Errorf("%w: choice MAPUserAbortChoice: applicationProcedureCancellation is nil", ber.ErrInvalidValue)
 		}
 		enc_3 := ber.EncodeEnumerated(int64(*v.ApplicationProcedureCancellation))
+		if int64(*v.ApplicationProcedureCancellation) != 0 && int64(*v.ApplicationProcedureCancellation) != 1 && int64(*v.ApplicationProcedureCancellation) != 2 && int64(*v.ApplicationProcedureCancellation) != 3 && int64(*v.ApplicationProcedureCancellation) != 4 && int64(*v.ApplicationProcedureCancellation) != 5 && int64(*v.ApplicationProcedureCancellation) != 6 {
+			if constraintErr := ber.CheckEncodedValue(opts, "applicationProcedureCancellation", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", fmt.Sprint(int64(*v.ApplicationProcedureCancellation))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		retagged_enc_3, tagErr_enc_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_3)
 		if tagErr_enc_3 != nil {
 			return nil, fmt.Errorf("encoding applicationProcedureCancellation: %w", tagErr_enc_3)
@@ -1701,7 +1766,7 @@ func (v *MAPUserAbortChoice) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPUserAbortChoice receiver is nil", ber.ErrInvalidValue)
 	}
-	encoded, err := v.MarshalBER()
+	encoded, err := v.marshalBER()
 	if err != nil {
 		return nil, err
 	}
@@ -1716,8 +1781,11 @@ func (v *MAPUserAbortChoice) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if v == nil {
 		return fmt.Errorf("%w: MAPUserAbortChoice destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	opts = ber.TrackBERForm(opts)
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1782,6 +1850,11 @@ func (v *MAPUserAbortChoice) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		}
 		tmp := ResourceUnavailableReason(decVal)
 		v.ResourceUnavailable = &tmp
+		if int64(*v.ResourceUnavailable) != 0 && int64(*v.ResourceUnavailable) != 1 {
+			if constraintErr := ber.CheckDecodedValue(opts, "resourceUnavailable", "ENUMERATED {0, 1}", fmt.Sprint(int64(*v.ResourceUnavailable))); constraintErr != nil {
+				return constraintErr
+			}
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 && peekTag.Constructed == false {
 		v.Choice = MAPUserAbortChoiceChoiceApplicationProcedureCancellation
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
@@ -1794,6 +1867,11 @@ func (v *MAPUserAbortChoice) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		}
 		tmp := ProcedureCancellationReason(decVal)
 		v.ApplicationProcedureCancellation = &tmp
+		if int64(*v.ApplicationProcedureCancellation) != 0 && int64(*v.ApplicationProcedureCancellation) != 1 && int64(*v.ApplicationProcedureCancellation) != 2 && int64(*v.ApplicationProcedureCancellation) != 3 && int64(*v.ApplicationProcedureCancellation) != 4 && int64(*v.ApplicationProcedureCancellation) != 5 && int64(*v.ApplicationProcedureCancellation) != 6 {
+			if constraintErr := ber.CheckDecodedValue(opts, "applicationProcedureCancellation", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", fmt.Sprint(int64(*v.ApplicationProcedureCancellation))); constraintErr != nil {
+				return constraintErr
+			}
+		}
 	} else {
 		return fmt.Errorf("unknown tag %s for MAPUserAbortChoice CHOICE", peekTag)
 	}
@@ -1801,7 +1879,9 @@ func (v *MAPUserAbortChoice) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 }
 
 // MarshalBER encodes MAPProviderAbortInfo to BER format.
-func (v *MAPProviderAbortInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *MAPProviderAbortInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPProviderAbortInfo receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1816,17 +1896,22 @@ func (v *MAPProviderAbortInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		return nil, err
 	}
 	var children []byte
+	if int64(v.MapProviderAbortReason) != 0 && int64(v.MapProviderAbortReason) != 1 {
+		if constraintErr := ber.CheckEncodedValue(opts, "map-ProviderAbortReason", "ENUMERATED {0, 1}", fmt.Sprint(int64(v.MapProviderAbortReason))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_mapproviderabortreason := ber.EncodeEnumerated(int64(v.MapProviderAbortReason))
 	children = append(children, enc_mapproviderabortreason...)
 	if v.ExtensionContainer != nil {
-		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(opts...)
+		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER(ber.ChildEncodeOptions(opts, "extensionContainer")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -1844,6 +1929,11 @@ func (v *MAPProviderAbortInfo) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("%w: MAPProviderAbortInfo receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
+	if int64(v.MapProviderAbortReason) != 0 && int64(v.MapProviderAbortReason) != 1 {
+		if constraintErr := ber.CheckEncodedValue(nil, "map-ProviderAbortReason", "ENUMERATED {0, 1}", fmt.Sprint(int64(v.MapProviderAbortReason))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
 	enc_mapproviderabortreason := ber.EncodeEnumerated(int64(v.MapProviderAbortReason))
 	children = append(children, enc_mapproviderabortreason...)
 	if v.ExtensionContainer != nil {
@@ -1874,12 +1964,15 @@ func (v *MAPProviderAbortInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if v == nil {
 		return fmt.Errorf("%w: MAPProviderAbortInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
 	*v = MAPProviderAbortInfo{}
 	defer func() {
-		if returnErr != nil || !ber.ConstraintToleranceEnabled(opts) {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
 		var snapshotReports ber.ViolationLog
@@ -1914,6 +2007,11 @@ func (v *MAPProviderAbortInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	}
 
 	offset += n
+	if int64(v.MapProviderAbortReason) != 0 && int64(v.MapProviderAbortReason) != 1 {
+		if constraintErr := ber.CheckDecodedValue(opts, "map-ProviderAbortReason", "ENUMERATED {0, 1}", fmt.Sprint(int64(v.MapProviderAbortReason))); constraintErr != nil {
+			return constraintErr
+		}
+	}
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
@@ -1931,7 +2029,7 @@ func (v *MAPProviderAbortInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensioncontainer")...); unmErr != nil {
+				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset:offset+n_extensioncontainer], ber.ChildDecodeOptions(opts, "extensionContainer")...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer

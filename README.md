@@ -85,14 +85,242 @@ func replayBER(wire []byte) ([]byte, error) {
 ```
 
 `ber.ViolationLog` can be shared across concurrent decodes; `Snapshot`
-returns independent records. Unchanged tolerant values retain their original
-BER bytes, including noncanonical length forms. Changing a typed field makes
-the encoder use its current value. Tolerance cannot represent a negative BER
+returns independent records. A report's `Path` is built from the ASN.1
+component identifiers of the source module, with a zero-based `element[i]`
+step inside a SEQUENCE OF or SET OF, for example
+`subscriberInfo.mnpInfoRes.routeingNumber` or `eplmn-List.element[1]`.
+Decoding and tolerant encoding report the same paths, and both record their
+violations. Reports are transactional: a call publishes them only when it
+succeeds, so a decode or encode that fails after tolerating a violation adds
+nothing to the log. Tolerance cannot represent a negative BER
 INTEGER in a generated `uint64` field or a value wider than a generated
 `int64` field: decoding returns `ber.ErrInvalidValue` without substituting
 raw bytes. Source value `EXCEPT` and collection-element unions that the
 frontend cannot resolve remain fail closed (ITU-T X.680 (02/2021) §§49.7,
 50–51).
+
+#### Preserved BER forms and DER
+
+Strict and tolerant decoders retain received BER bytes only when an unchanged
+value would otherwise lose a valid noncanonical form, such as a constructed
+string, an indefinite length, a nonminimal length, a non-normalised REAL, or
+the received component order of an extensible SET, and, in tolerant mode, when
+it carries a tolerated constraint violation. Canonical input takes no
+received-byte snapshot. Changing a typed field makes BER encoding use its
+current value. Out-of-constraint values still require the tolerance option
+when encoding.
+
+`MarshalDER` encodes typed values in DER form and never re-emits preserved BER
+bytes: REAL values take their distinguished form, SET components are sorted,
+a SEQUENCE or SET component equal to its `DEFAULT` is omitted, and a named
+BIT STRING loses its trailing zero bits (ITU-T X.690 (02/2021) §8.5.7 NOTE 1,
+§§10.3, 11.2.2, 11.3.1, 11.5). The named BIT STRING rule changes the DER of
+such values in GSM MAP, TCAP (`protocol-version`), SGP.22 and SGP.32 when they
+end in zero bits. When decoding, a named BIT STRING shorter than its `SIZE`
+lower bound is first extended with trailing zero bits, which X.680 (02/2021)
+§22.7 permits, before the constraint is checked. Open-type contents are
+emitted as carried.
+An unchanged valid BER REAL whose normalized exponent cannot fit the 255-octet
+encoding limit can still be re-encoded as BER; `MarshalDER` returns
+`ber.ErrInvalidValue` (X.690 §§8.5.7.4, 11.3.1).
+
+A SEQUENCE OF or SET OF whose element type carries its own tag, IMPLICIT or
+EXPLICIT, directly or through a tagged type reference, decodes and encodes
+each element with that effective tag (ITU-T X.680 (02/2021) §31; X.690
+(02/2021) §§8.10, 8.12, 8.14). This is what makes the tagged segment lists of
+the SGP.22 and SGP.32 `BoundProfilePackage` decode; earlier releases checked
+the element type's universal tag instead and could not decode a
+`BoundProfilePackage`.
+
+Constraint tolerance does not admit invalid encodings. Both modes reject:
+
+- INTEGER and ENUMERATED encodings with redundant sign octets, including
+  under implicit tags, with `ber.ErrInvalidValue` (X.690 §§8.3.2, 8.4);
+- a constructed NULL, including under an implicit tag (X.690 §8.8.1);
+- any component encoding inside a non-extensible SEQUENCE or SET that has no
+  components, with a `*ber.DecodeError` naming the type and wrapping
+  `ber.ErrExtraData` (X.690 §§8.9.2, 8.11.2). Extensible empty types keep
+  their extensions.
+
+#### Time values
+
+UTCTime and GeneralizedTime fields are `runtime.UTCTime` and
+`runtime.GeneralizedTime`, held by pointer when OPTIONAL. A value holds the
+validated lexical form it was decoded or parsed from, so every form of ITU-T
+X.680 (02/2021) §46.3 and §47.3 decodes: hour or minute accuracy, fractions
+of the last unit to any number of digits, comma or full stop, a local time
+with no differential, and `+hh` or `+hhmm` differentials. Build values with
+`runtime.ParseUTCTime`, `runtime.ParseGeneralizedTime`,
+`runtime.UTCTimeFromTime` or `runtime.GeneralizedTimeFromTime`; the last two
+produce the canonical form. The zero value means "not set", and every encoder
+rejects it with `runtime.ErrTimeNotSet`.
+
+- **BER** writes the lexical form verbatim, so an unchanged value re-encodes
+  byte for byte (X.690 (02/2021) §8.25). A constructed time encoding is kept
+  by the preserved BER bytes of the enclosing value until that value changes.
+- **DER and PER** compute the X.690 (02/2021) §11.7/§11.8 form exactly: UTC
+  with `Z`, seconds present, a full stop and no trailing fraction zeros, so
+  `"2026010112,5Z"` becomes `"20260101123000Z"` and `"8201020700-0500"`
+  becomes `"820102120000Z"`. X.691 (02/2021) §10.6.5 applies the same form
+  to PER. A local time of day, or a value whose UTC equivalent falls outside
+  the type's years, has no such form: `MarshalDER`, the PER encoders,
+  `ber.EncodeUTCTimeDER`, `ber.EncodeGeneralizedTimeDER` and `Canonical`
+  return `runtime.ErrNoCanonicalTime`, wrapped in `ber.ErrInvalidValue` or
+  `per.ErrInvalidValue`. PER decoding accepts only the canonical form.
+- **Instants.** `Time()` returns the instant, in UTC for `Z` and in a fixed
+  zone for a differential. A local time of day fixes no instant: `Time()`
+  returns `runtime.ErrLocalTime`, and `TimeIn(loc)` reads it as a wall-clock
+  time in `loc`. Digits finer than a nanosecond are truncated in `Time()` and
+  kept in the value.
+- **Century.** UTCTime reads `YY` with the RFC 5280 §4.1.2.5.1 window, 50–99
+  as 1950–1999 and 00–49 as 2000–2049, in every package, including LPP and
+  UMTS RRC; X.680 §47.3 defines no century. RFC 5280 §4.1.2.5 requires
+  GeneralizedTime for certificate validity dates in 2050 or later, and
+  `UTCTimeFromTime` returns `runtime.ErrTimeRange` outside the window.
+  RFC 5280 §4.1.2.5.2 also forbids fractional seconds in certificates.
+- **Comparison.** `==` compares the spelling. `Equal` compares the abstract
+  value: it ignores the decimal sign and the spelling of a whole-hour
+  differential (X.690 §11.9.1 a), b)) but not the accuracy or the zone kind
+  (X.680 §46.3 NOTE 3).
+- **JSON** and text carry the exact lexical string, for example
+  `"NotBefore":"19920722132100.30"`; an unset required field is `""`.
+  RFC 3339 input is rejected with `runtime.ErrTimeSyntax`.
+
+### UPER trace tolerance
+
+By default, UPER decoding accepts after a complete encoding only the one to
+seven bits that pad it to an octet boundary (ITU-T X.691 (02/2021)
+§§11.1.3.1, 11.2.1). This applies to the top-level value, to a value inside
+an `OCTET STRING (CONTAINING ...)` and to each open type. The sender must set
+those bits to zero, but the decoder accepts them whatever their value and
+keeps nonzero ones, so the input re-encodes unchanged. Zero padding is what an
+encoder writes anyway, so it is not kept. The default decode rejects a
+longer suffix after the top-level value or a contained value, and any bit
+after a value inside a `BIT STRING (CONTAINING ...)`, where §11.1.3.2 allows
+no padding.
+
+3GPP-conformant RRC decoding (TS 36.331 §8.1, TS 25.331 §12.1.3) requires
+enabling `TrailingBitsTolerance`. TS 36.331 V19.4.0 §8.1 requires RRC decoders
+never to report an error for extraneous zero or non-zero bits at the end of a
+PDU, or of a `BIT STRING` or `OCTET STRING` constrained with `CONTAINING`; TS
+25.331 V19.0.1 §12.1.3 requires UMTS receivers to accept any bit string in the
+extension and padding parts of a PDU. The default stays strict X.691, so a
+receiver passes a `per.ToleranceLog` in
+`per.DecodeOptions{TrailingBitsTolerance}`. Tolerance then accepts any suffix
+of more than seven bits after the top-level value or after a value inside an
+`OCTET STRING (CONTAINING ...)`, and any zero or non-zero bits after a value
+inside a `BIT STRING (CONTAINING ...)`. Each accepted run is recorded with its
+field path, kind, offset and bits, so no walk of the decoded value is needed.
+Nonzero bits within the padding the default decode accepts are kept but never
+recorded.
+
+```go
+package main
+
+import (
+    "log"
+
+    "github.com/gomaja/go-asn1/runtime/per"
+    umts "github.com/gomaja/go-asn1/telecom/umts/rrc"
+)
+
+func replayUPER(wire []byte) ([]byte, error) {
+    var tolerated per.ToleranceLog
+    var value umts.InterRATHandoverInfo
+    options := per.DecodeOptions{TrailingBitsTolerance: &tolerated}
+    if err := value.UnmarshalUPERWithOptions(wire, options); err != nil {
+        return nil, err
+    }
+    for _, record := range tolerated.Snapshot() {
+        log.Printf("%s: %s, %d bits at offset %d", record.Path, record.Kind,
+            record.Bits.BitLength, record.Offset)
+    }
+    tolerated.Reset()
+    return value.MarshalUPER()
+}
+```
+
+Top-level SEQUENCE and CHOICE values, and SEQUENCE OF values through their
+`<List>Complete` wrapper, take the same options. A record from inside a list
+element is rooted at the list type and carries the element's index, as in
+`<List>.Value[1].<Field>`; a list inside a SEQUENCE gives
+`<Type>.<ListField>[1].<Field>`.
+A log may be shared by concurrent decodes. A successful decode appends all of
+its records together; a failed decode appends none. The decoded value keeps the accepted
+bits, so `MarshalUPER` reproduces the input octets:
+
+- A suffix after the top-level value, or after a value inside an
+  `OCTET STRING (CONTAINING ...)`, is kept in that value's `PERPadding_`, a
+  `per.FinalPadding` (see `Trailing()`). That field is one pointer wide and
+  does not allocate for ordinary 0–7 padding bits.
+- Bits after a value inside a `BIT STRING (CONTAINING ...)` are kept in the
+  host SEQUENCE's `<Field>PERPadding_`, also a `per.FinalPadding`.
+
+The single zero octet of an empty top-level value, and the single zero bit of
+an empty contained value, are part of the complete encoding (X.691 (02/2021)
+§§11.1.3.1, 11.1.3.2, 11.1.4). They are never recorded as tolerances; a
+nonzero mandated octet or bit, or a missing one, is rejected in both modes.
+
+### Editing decoded PER values
+
+A decoded UPER or APER value can be edited and encoded again. Each complete
+encoding decides for itself what it keeps: the top-level value, a value
+inside an `OCTET STRING` or `BIT STRING (CONTAINING ...)`, and each open
+type. Its kept bits are reproduced only while they still belong to its new
+encoding:
+
+- A tolerated suffix, or bits after a value inside a
+  `BIT STRING (CONTAINING ...)`, is reproduced only after the value encoding
+  it followed, bit for bit. An edit of that value drops it: the value is
+  encoded as a new one would be, with zero padding after a complete encoding
+  (X.691 (02/2021) §§11.1.3.1, 11.1.4) and nothing after a value inside a
+  `BIT STRING` (§11.1.3.2).
+- Nonzero padding is kept while it still fills the final octet exactly;
+  otherwise the edited value gets zero padding. Nonzero padding comes only
+  from a non-conformant sender, since §§11.1.3.1 and 11.1.4 require zero
+  bits. Only its width is kept, so an edit that leaves the bit length
+  unchanged, or changes it by a multiple of eight, keeps it. Padding carries
+  no value, so it does not affect decoding.
+
+```go
+var value rrc.RRCConnectionSetupCompleteV8a0IEs
+if err := value.UnmarshalUPER([]byte{0x00}); err != nil {
+    return err
+}
+value.NonCriticalExtension = &rrc.RRCConnectionSetupCompleteV1020IEs{}
+wire, err := value.MarshalUPER() // 40, as for a newly built value
+```
+
+Editing an enclosing value does not touch the bits kept by an unchanged value
+inside it: that value still reproduces its received suffix. A tolerantly
+decoded message whose nested values kept tolerated bits therefore still needs
+tolerance to decode after an edit elsewhere, and differs from a fresh
+encoding. To get a fresh, strictly decodable encoding, build the value anew.
+
+### Present empty values
+
+An OPTIONAL component is absent when its Go value is nil. A present empty
+`OCTET STRING`, `BIT STRING` or `SEQUENCE OF` decodes to a non-nil empty value
+and is encoded again, in UPER, APER, BER and DER. JSON keeps the difference
+too: an OPTIONAL slice-typed field is tagged `omitzero`, so an absent one is
+omitted and a present empty one is written as `""` or `[]`. Pointer-typed
+fields keep `omitempty`, which already omits only nil.
+
+### Lone extension additions
+
+In UPER and APER, an extension addition written on its own after the
+extension marker, outside `[[ ]]`, is encoded as an open type holding the
+component's own encoding, with no presence bitmap (ITU-T X.691 (02/2021)
+§19.9). A bracketed group, even of one component, keeps its bitmap. Earlier
+releases read and wrote a group bitmap inside the open type of a lone
+addition, so its value was misread on decode: a present empty value came back
+absent and other values were decoded from the wrong bits. Received encodings
+still replayed byte-exactly, which hid the loss. These values now decode
+correctly in the `lateNonCriticalExtension` of LTE RRC
+`SystemInformationBlockType2` to `Type11` and
+`SystemInformationBlockType26-r15`, in seven LPP types, in LPPa
+`NPRSSubframePartB` and in S1AP `HOReport.candidatePCIList`. BER is not
+affected, because each BER extension addition carries its own tag.
 
 ## Available Protocols
 
@@ -120,7 +348,8 @@ Protocols marked with **[compiled]** have generated Go code. Others have placeho
 In LTE RRC `LocationInfo-r10`, the location coordinates, horizontal velocity,
 GNSS time of day, and vertical velocity fields carry LPP values as octets.
 Their generated field comments name the matching `lte/lpp` type or constrained
-integer decoder (3GPP TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.2).
+integer decoder (3GPP TS 36.331 V19.4.0 §6.3.5; TS 37.355 V19.3.0 §6.4.1 for the
+location and velocity types, §6.5.2.6 for `gnss-TOD-msec`).
 
 LTE RRC is generated from the formal ASN.1 in the official 3GPP TS 36.331
 V19.4.0 archive (`36331-j40.zip`).
@@ -185,8 +414,8 @@ On small CI runners, set `GOFLAGS=-p=2` or lower to limit concurrent builds.
 
 | Package | Spec | Interface | Status |
 |---------|------|-----------|--------|
-| `esim/sgp22` | SGP.22 | ES9+ (LPA ↔ SM-DP+) | planned |
-| `esim/sgp32` | SGP.32 | ES2+ (SM-DP+ ↔ SM-DS, IoT) | planned |
+| `esim/sgp22` | SGP.22 | ES9+ (LPA ↔ SM-DP+) | **[compiled]** |
+| `esim/sgp32` | SGP.32 | ES2+ (SM-DP+ ↔ SM-DS, IoT) | **[compiled]** |
 
 #### `telecom/li/` — Lawful Interception
 
@@ -249,7 +478,7 @@ On small CI runners, set `GOFLAGS=-p=2` or lower to limit concurrent builds.
 |---------|------|--------|
 | `cms/cms` | CMS (RFC 5652) | planned |
 | `cms/ess` | ESS (RFC 2634) | planned |
-| `cms/cmp` | CMP (RFC 4210) | planned |
+| `cms/cmp` | CMP (RFC 9810) | planned |
 | `cms/crmf` | CRMF (RFC 4211) | planned |
 
 #### `security/auth/` — Authentication

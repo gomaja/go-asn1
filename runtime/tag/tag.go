@@ -28,7 +28,7 @@ func (c Class) String() string {
 	}
 }
 
-// Universal tag numbers as defined in X.680.
+// Universal tag numbers as defined in X.680 (02/2021) Table 1 and §44.2.
 const (
 	TagBoolean         = 1
 	TagInteger         = 2
@@ -43,6 +43,7 @@ const (
 	TagEmbeddedPDV     = 11
 	TagUTF8String      = 12
 	TagRelativeOID     = 13
+	TagTime            = 14
 	TagSequence        = 16
 	TagSet             = 17
 	TagNumericString   = 18
@@ -56,7 +57,14 @@ const (
 	TagVisibleString   = 26
 	TagGeneralString   = 27
 	TagUniversalString = 28
+	TagCharacterString = 29
 	TagBMPString       = 30
+	TagDate            = 31
+	TagTimeOfDay       = 32
+	TagDateTime        = 33
+	TagDuration        = 34
+	TagOIDIRI          = 35
+	TagRelativeOIDIRI  = 36
 )
 
 // Tag represents a fully decoded ASN.1 tag.

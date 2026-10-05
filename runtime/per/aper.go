@@ -98,7 +98,7 @@ func DecodeConstrainedWholeNumberAligned(bb *BitBuffer, lb, ub int64) (int64, er
 			return 0, err
 		}
 		if offset > rangeValue {
-			return 0, fmt.Errorf("%w: constrained offset %d exceeds range [%d..%d]", ErrInvalidValue, offset, lb, ub)
+			return 0, int64OffsetError(offset, lb, ub)
 		}
 		return addNonNegativeOffset(lb, offset)
 	case rangeValue == 255:
@@ -120,7 +120,7 @@ func DecodeConstrainedWholeNumberAligned(bb *BitBuffer, lb, ub int64) (int64, er
 			return 0, err
 		}
 		if offset > rangeValue {
-			return 0, fmt.Errorf("%w: constrained offset %d exceeds range [%d..%d]", ErrInvalidValue, offset, lb, ub)
+			return 0, int64OffsetError(offset, lb, ub)
 		}
 		return addNonNegativeOffset(lb, offset)
 	default:
@@ -156,11 +156,11 @@ func DecodeConstrainedWholeNumberAligned(bb *BitBuffer, lb, ub int64) (int64, er
 				val = (val << 8) | uint64(b)
 			}
 			if val > rangeValue {
-				return 0, fmt.Errorf("%w: constrained offset %d exceeds range [%d..%d]", ErrInvalidValue, val, lb, ub)
+				return 0, int64OffsetError(val, lb, ub)
 			}
 			return addNonNegativeOffset(lb, val)
 		}
-		return 0, fmt.Errorf("%w: constrained INTEGER length %d", ErrInvalidValue, n)
+		return 0, fmt.Errorf("%w: constrained INTEGER length %d is outside [1..8]", ErrInvalidValue, n)
 	}
 }
 
@@ -312,7 +312,7 @@ func EncodeNormallySmallLengthAligned(bb *BitBuffer, n int64) error {
 		return fmt.Errorf("%w: normally small length %d is not positive", ErrInvalidValue, n)
 	}
 	if n >= 16384 {
-		return fmt.Errorf("%w: length %d", ErrUnsupportedFragmentedNormallySmallLength, n)
+		return fmt.Errorf("%w: length %d is not below 16384", ErrUnsupportedFragmentedNormallySmallLength, n)
 	}
 	if n <= 64 {
 		if err := bb.WriteBit(0); err != nil {

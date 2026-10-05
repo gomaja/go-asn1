@@ -113,6 +113,22 @@ func TestDecodeRealAcceptsBERValueWithoutDERRepresentation(t *testing.T) {
 	if _, err := EncodeReal(decoded); !errors.Is(err, ErrInvalidValue) {
 		t.Fatalf("EncodeReal error = %v, want ErrInvalidValue", err)
 	}
+	wire := mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, contents))
+	opts := TrackBERForm(nil)
+	if err := ValidateBERElement(wire, opts...); err != nil || !BERNeedsPreservation(opts) {
+		t.Fatalf("valid BER REAL not marked for preservation: %v", err)
+	}
+	fromWire, _, err := DecodeReal(wire)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if again, err := EncodeBERReal(fromWire); err != nil || !bytes.Equal(again, wire) {
+		t.Fatalf("unchanged BER REAL = %x, %v", again, err)
+	}
+	fromWire.Mantissa.Add(fromWire.Mantissa, big.NewInt(1))
+	if again, err := EncodeBERReal(fromWire); !errors.Is(err, ErrInvalidValue) || again != nil {
+		t.Fatalf("modified REAL = %x, %v; want typed error", again, err)
+	}
 }
 
 func TestDecodeRealBinaryBasesAndScaleFactor(t *testing.T) {

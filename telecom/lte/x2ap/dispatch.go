@@ -8894,7 +8894,7 @@ func indirectProtocolOpenTypeValue(value reflect.Value) reflect.Value {
 	if value.IsValid() && value.Kind() == reflect.Struct && value.Type().NumField() == 2 &&
 		len(value.Type().Name()) > len("Complete") && value.Type().Name()[len(value.Type().Name())-len("Complete"):] == "Complete" {
 		payload, padding := value.FieldByName("Value"), value.FieldByName("PERPadding_")
-		if payload.IsValid() && padding.IsValid() && padding.Type() == reflect.TypeOf(per.CompletePadding{}) {
+		if payload.IsValid() && padding.IsValid() && (padding.Type() == reflect.TypeOf(per.CompletePadding{}) || padding.Type() == reflect.TypeOf(per.FinalPadding{})) {
 			return payload
 		}
 	}

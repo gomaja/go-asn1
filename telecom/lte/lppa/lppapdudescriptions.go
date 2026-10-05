@@ -26,7 +26,6 @@ const (
 type LPPAPDU struct {
 	Choice              int
 	PERPadding_         per.CompletePadding         `json:"-"`
-	PERExtraBits_       per.TrailingBits            `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	InitiatingMessage   *InitiatingMessage          `json:"InitiatingMessage,omitempty"`
@@ -60,35 +59,29 @@ func NewLPPAPDUUnsuccessfulOutcome(v UnsuccessfulOutcome) LPPAPDU {
 
 // InitiatingMessage represents the ASN.1 type InitiatingMessage (SEQUENCE).
 type InitiatingMessage struct {
-	ProcedureCode        ProcedureCode                  `asn1:"tag:0,context,implicit"`
-	Criticality          Criticality                    `asn1:"tag:1,context,implicit"`
-	LppatransactionID    LPPATransactionID              `asn1:"tag:2,context,implicit"`
-	Value                runtime.RawValue               `asn1:"tag:3,context,explicit" asn1c:"raw-preserve"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
+	ProcedureCode     ProcedureCode       `asn1:"tag:0,context,implicit"`
+	Criticality       Criticality         `asn1:"tag:1,context,implicit"`
+	LppatransactionID LPPATransactionID   `asn1:"tag:2,context,implicit"`
+	Value             runtime.RawValue    `asn1:"tag:3,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_       per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SuccessfulOutcome represents the ASN.1 type SuccessfulOutcome (SEQUENCE).
 type SuccessfulOutcome struct {
-	ProcedureCode        ProcedureCode                  `asn1:"tag:0,context,implicit"`
-	Criticality          Criticality                    `asn1:"tag:1,context,implicit"`
-	LppatransactionID    LPPATransactionID              `asn1:"tag:2,context,implicit"`
-	Value                runtime.RawValue               `asn1:"tag:3,context,explicit" asn1c:"raw-preserve"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
+	ProcedureCode     ProcedureCode       `asn1:"tag:0,context,implicit"`
+	Criticality       Criticality         `asn1:"tag:1,context,implicit"`
+	LppatransactionID LPPATransactionID   `asn1:"tag:2,context,implicit"`
+	Value             runtime.RawValue    `asn1:"tag:3,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_       per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UnsuccessfulOutcome represents the ASN.1 type UnsuccessfulOutcome (SEQUENCE).
 type UnsuccessfulOutcome struct {
-	ProcedureCode        ProcedureCode                  `asn1:"tag:0,context,implicit"`
-	Criticality          Criticality                    `asn1:"tag:1,context,implicit"`
-	LppatransactionID    LPPATransactionID              `asn1:"tag:2,context,implicit"`
-	Value                runtime.RawValue               `asn1:"tag:3,context,explicit" asn1c:"raw-preserve"`
-	PERPadding_          per.CompletePadding            `asn1:"-" json:"-"`
-	PERExtraBits_        per.TrailingBits               `asn1:"-" json:"-"`
-	PERContainedPadding_ map[string]per.CompletePadding `asn1:"-" json:"-"`
+	ProcedureCode     ProcedureCode       `asn1:"tag:0,context,implicit"`
+	Criticality       Criticality         `asn1:"tag:1,context,implicit"`
+	LppatransactionID LPPATransactionID   `asn1:"tag:2,context,implicit"`
+	Value             runtime.RawValue    `asn1:"tag:3,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_       per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MarshalAPER encodes LPPAPDU to APER format.

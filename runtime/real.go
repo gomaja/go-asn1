@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"math"
 	"math/big"
-	"strings"
 )
 
 var (
@@ -33,6 +32,44 @@ type Real struct {
 	Base     int      `json:"base,omitempty"`
 	Mantissa *big.Int `json:"mantissa,omitempty"`
 	Exponent *big.Int `json:"exponent,omitempty"`
+	berForm  *realBERForm
+}
+
+type realBERForm struct {
+	contents []byte
+	kind     RealKind
+	base     int
+	mantissa *big.Int
+	exponent *big.Int
+}
+
+// RememberBERContents retains a valid BER REAL form when the normalized value
+// has no encodable DER form (ITU-T X.690 (02/2021) §§8.5.7.4, 11.3.1).
+func (value Real) RememberBERContents(contents []byte) Real {
+	copyInt := func(n *big.Int) *big.Int {
+		if n == nil {
+			return nil
+		}
+		return new(big.Int).Set(n)
+	}
+	value.berForm = &realBERForm{
+		contents: append([]byte(nil), contents...), kind: value.Kind, base: value.Base,
+		mantissa: copyInt(value.Mantissa), exponent: copyInt(value.Exponent),
+	}
+	return value
+}
+
+// BERContents returns the retained form only while the REAL value is unchanged.
+func (value Real) BERContents() ([]byte, bool) {
+	form := value.berForm
+	if form == nil || value.Kind != form.kind || value.Base != form.base ||
+		(value.Mantissa == nil) != (form.mantissa == nil) ||
+		(value.Exponent == nil) != (form.exponent == nil) ||
+		value.Mantissa != nil && value.Mantissa.Cmp(form.mantissa) != 0 ||
+		value.Exponent != nil && value.Exponent.Cmp(form.exponent) != 0 {
+		return nil, false
+	}
+	return append([]byte(nil), form.contents...), true
 }
 
 // NewReal constructs and normalizes a finite ASN.1 REAL value.
@@ -57,14 +94,45 @@ func NewReal(base int, mantissa, exponent *big.Int) (Real, error) {
 			e.Add(e, new(big.Int).SetUint64(uint64(shift)))
 		}
 	} else {
-		digits := new(big.Int).Abs(new(big.Int).Set(m)).String()
-		trimmed := strings.TrimRight(digits, "0")
-		if trimmed != digits {
-			m.SetString(trimmed, 10)
+		// A decoded decimal mantissa may be millions of digits long. Avoid
+		// converting it to text and parsing it again to strip powers of ten.
+		// Squared powers remove any trailing zeros in logarithmically many
+		// exact big.Int divisions (X.690 (02/2021) §8.5.8).
+		absolute := new(big.Int).Abs(m)
+		ten := big.NewInt(10)
+		if new(big.Int).Mod(absolute, ten).Sign() == 0 {
+			quotient := new(big.Int)
+			remainder := new(big.Int)
+			smallZeros := 0
+			for smallZeros < 16 {
+				quotient.QuoRem(absolute, ten, remainder)
+				if remainder.Sign() != 0 {
+					break
+				}
+				absolute.Set(quotient)
+				smallZeros++
+			}
+			zeros := big.NewInt(int64(smallZeros))
+			if smallZeros == 16 && new(big.Int).Mod(absolute, ten).Sign() == 0 {
+				var powers []*big.Int
+				for power := ten; power.Cmp(absolute) <= 0; power = new(big.Int).Mul(power, power) {
+					powers = append(powers, power)
+				}
+				for i := len(powers); i > 0; {
+					i--
+					quotient.QuoRem(absolute, powers[i], remainder)
+					if remainder.Sign() != 0 {
+						continue
+					}
+					absolute.Set(quotient)
+					zeros.Add(zeros, new(big.Int).Lsh(big.NewInt(1), uint(i)))
+				}
+			}
+			m.Set(absolute)
 			if mantissa.Sign() < 0 {
 				m.Neg(m)
 			}
-			e.Add(e, big.NewInt(int64(len(digits)-len(trimmed))))
+			e.Add(e, zeros)
 		}
 	}
 	return Real{Kind: RealFinite, Base: base, Mantissa: m, Exponent: e}, nil

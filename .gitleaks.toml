@@ -15,3 +15,15 @@ paths = [
 regexes = [
   '''^\s+v\.[A-Za-z0-9]+ = ''',
 ]
+
+[[allowlists]]
+description = "Generated alias of the TS 25.331 type E-RUCCH-AccessServiceClass, which matches the generic API key heuristic."
+targetRules = ["generic-api-key"]
+condition = "AND"
+regexTarget = "line"
+paths = [
+  '''^telecom/umts/rrc/informationelements\.go$''',
+]
+regexes = [
+  '''^\s*type ERUCCHAccessServiceClass = PRACHPartitioningLCRR4\s*$''',
+]

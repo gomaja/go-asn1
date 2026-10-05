@@ -2,7 +2,8 @@
 
 // Package lpp contains generated UPER codecs. Complete decoders accept and retain
 // observed terminal padding bits for byte-exact re-encoding; newly constructed
-// values emit zero terminal padding (ITU-T X.691 (02/2021) 11.1.3.1, 11.1.4).
+// values emit zero terminal padding (ITU-T X.691 (02/2021) 11.1.3.1, 11.1.4),
+// as do edited values whose retained bits no longer fit their encoding.
 //
 // A named SEQUENCE OF or SET OF has a corresponding XxxComplete value. Its Value
 // field is the list, and its private padding state survives complete decode and

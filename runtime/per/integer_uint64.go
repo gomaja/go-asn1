@@ -56,7 +56,7 @@ func DecodeIntegerUint64(bb *BitBuffer, lower, upper uint64, extensible bool) (u
 		return 0, err
 	}
 	if offset > rangeValue {
-		return 0, fmt.Errorf("%w: constrained uint64 offset %d exceeds range %d", ErrInvalidValue, offset, rangeValue)
+		return 0, uint64OffsetError(offset, lower, upper)
 	}
 	return lower + offset, nil
 }
@@ -188,7 +188,7 @@ func DecodeIntegerUint64Aligned(bb *BitBuffer, lower, upper uint64, extensible b
 		}
 		if err == nil {
 			if length < 1 || length > 8 {
-				return 0, fmt.Errorf("%w: uint64 length %d", ErrInvalidValue, length)
+				return 0, fmt.Errorf("%w: uint64 length %d is outside [1..8]", ErrInvalidValue, length)
 			}
 			var data []byte
 			data, err = bb.ReadBytes(int(length))
@@ -209,7 +209,7 @@ func DecodeIntegerUint64Aligned(bb *BitBuffer, lower, upper uint64, extensible b
 		return 0, err
 	}
 	if offset > rangeValue {
-		return 0, fmt.Errorf("%w: constrained uint64 offset %d exceeds range %d", ErrInvalidValue, offset, rangeValue)
+		return 0, uint64OffsetError(offset, lower, upper)
 	}
 	return lower + offset, nil
 }
@@ -242,7 +242,7 @@ func decodeUnconstrainedUint64(bb *BitBuffer, aligned bool) (uint64, error) {
 		return 0, err
 	}
 	if length < 1 || length > 9 {
-		return 0, fmt.Errorf("%w: uint64 INTEGER length %d", ErrInvalidValue, length)
+		return 0, fmt.Errorf("%w: uint64 INTEGER length %d is outside [1..9]", ErrInvalidValue, length)
 	}
 	var data []byte
 	data, err = bb.ReadBytes(int(length))

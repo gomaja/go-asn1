@@ -92,8 +92,9 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 		option := len(rec.PaddedBITStringContaining) != 0 || len(rec.TrailingBitsAfterBasicProduction) != 0 ||
 			(strings.HasSuffix(rec.Issue, "/59") && strings.Contains(rec.Expected, "receiver tolerance"))
 		var err error
+		var tolerated per.ToleranceLog
 		if option {
-			err = value.UnmarshalUPERWithOptions(wire, per.DecodeOptions{AllowNonstandardTrailingBits: true})
+			err = value.UnmarshalUPERWithOptions(wire, per.DecodeOptions{TrailingBitsTolerance: &tolerated})
 		} else {
 			err = value.UnmarshalUPER(wire)
 		}
@@ -105,14 +106,18 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 			return false, false, fmt.Sprintf("round trip: %v", err)
 		}
 		if option {
+			reported := map[per.ToleranceKind]int{}
+			for _, record := range tolerated.Snapshot() {
+				reported[record.Kind] += record.Bits.BitLength
+			}
 			if len(rec.PaddedBITStringContaining) != 0 || strings.Contains(rec.Expected, "6 padding bits reported") {
-				p := value.V390NonCriticalExtensions.Present.V3a0NonCriticalExtensions.LaterNonCriticalExtensions.PERContainedPadding_["interRATHandoverInfo-r3-add-ext"]
-				_, count := p.Bits()
-				if count == 0 {
-					return false, false, "contained padding was not reported"
+				p := value.V390NonCriticalExtensions.Present.V3a0NonCriticalExtensions.LaterNonCriticalExtensions.InterRATHandoverInfoR3AddExtPERPadding_
+				count := p.Trailing().BitLength
+				if count == 0 || reported[per.ToleratedContainedBits] != count {
+					return false, false, "contained bits were not reported"
 				}
 			}
-			if len(rec.TrailingBitsAfterBasicProduction) != 0 && value.PERExtraBits_.BitLength == 0 {
+			if trailing := value.PERPadding_.Trailing().BitLength; len(rec.TrailingBitsAfterBasicProduction) != 0 && (trailing == 0 || reported[per.ToleratedTrailingBits] != trailing) {
 				return false, false, "top-level trailing bits were not reported"
 			}
 		}
@@ -151,9 +156,18 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 		if err := value.UnmarshalAPER(wire); err != nil {
 			return false, false, err.Error()
 		}
+		// Nonzero padding is retained with its width. All-zero padding is what
+		// an encoder emits anyway, so it is not retained: IsZero reports it
+		// and the width reads 0.
 		bits, count := value.PERPadding_.Bits()
 		wantNonzero := strings.Contains(rec.ID, "nonzero")
-		return count > 0 && (bits != 0) == wantNonzero, true, "Cause padding accessor disagrees"
+		if encoded, err := value.MarshalAPER(); err != nil || !bytes.Equal(encoded, wire) {
+			return false, false, fmt.Sprintf("round trip: %v", err)
+		}
+		if !wantNonzero {
+			return value.PERPadding_.IsZero() && count == 0, true, "Cause padding accessor disagrees"
+		}
+		return count > 0 && bits != 0 && !value.PERPadding_.IsZero(), true, "Cause padding accessor disagrees"
 	}
 	if strings.HasPrefix(rec.ID, "s1ap-") {
 		var value s1ap.S1APPDU

@@ -38,8 +38,9 @@ func TestCompletePaddingPreservesObservedBits(t *testing.T) {
 			if err := out.WriteBit(1); err != nil {
 				t.Fatal(err)
 			}
-			if _, err := out.CompleteBytesWithPadding(pad); !errors.Is(err, ErrInvalidValue) {
-				t.Fatalf("changed length error = %v, want invalid value", err)
+			// An edited value whose padding width changed is padded as a new one.
+			if edited, err := out.CompleteBytesWithPadding(pad); err != nil || !bytes.Equal(edited, []byte{0xa8}) {
+				t.Fatalf("changed length = %x, %v; want a8", edited, err)
 			}
 		})
 	}
