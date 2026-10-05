@@ -122,15 +122,49 @@ Constraint tolerance does not admit invalid encodings. Both modes reject:
   `ber.ErrExtraData` (X.690 §§8.9.2, 8.11.2). Extensible empty types keep
   their extensions.
 
-GeneralizedTime encoding retains sub-second precision and omits trailing
-fractional zeros (ITU-T X.690 (02/2021) §11.7.3). This changes the output for
-values with fractional seconds: they previously encoded at whole-second
-precision. Certificate profiles governed by RFC 5280 §4.1.2.5.2 forbid
-fractional seconds, so callers building certificates must first use
-`t.Truncate(time.Second)` on those time values. The typed time decoders do not
-yet accept UTCTime with minute precision and a UTC offset, or GeneralizedTime
-with a fractional hour (X.680 (02/2021) §§46.3, 47.3); this is tracked in
-[go-asn1#86](https://github.com/gomaja/go-asn1/issues/86).
+#### Time values
+
+UTCTime and GeneralizedTime fields are `runtime.UTCTime` and
+`runtime.GeneralizedTime`, held by pointer when OPTIONAL. A value holds the
+validated lexical form it was decoded or parsed from, so every form of ITU-T
+X.680 (02/2021) §46.3 and §47.3 decodes: hour or minute accuracy, fractions
+of the last unit to any number of digits, comma or full stop, a local time
+with no differential, and `+hh` or `+hhmm` differentials. Build values with
+`runtime.ParseUTCTime`, `runtime.ParseGeneralizedTime`,
+`runtime.UTCTimeFromTime` or `runtime.GeneralizedTimeFromTime`; the last two
+produce the canonical form. The zero value means "not set", and every encoder
+rejects it with `runtime.ErrTimeNotSet`.
+
+- **BER** writes the lexical form verbatim, so an unchanged value re-encodes
+  byte for byte (X.690 (02/2021) §8.25). A constructed time encoding is kept
+  by the preserved BER bytes of the enclosing value until that value changes.
+- **DER and PER** compute the X.690 (02/2021) §11.7/§11.8 form exactly: UTC
+  with `Z`, seconds present, a full stop and no trailing fraction zeros, so
+  `"2026010112,5Z"` becomes `"20260101123000Z"` and `"8201020700-0500"`
+  becomes `"820102120000Z"`. X.691 (02/2021) §10.6.5 applies the same form
+  to PER. A local time of day, or a value whose UTC equivalent falls outside
+  the type's years, has no such form: `MarshalDER`, the PER encoders,
+  `ber.EncodeUTCTimeDER`, `ber.EncodeGeneralizedTimeDER` and `Canonical`
+  return `runtime.ErrNoCanonicalTime`, wrapped in `ber.ErrInvalidValue` or
+  `per.ErrInvalidValue`. PER decoding accepts only the canonical form.
+- **Instants.** `Time()` returns the instant, in UTC for `Z` and in a fixed
+  zone for a differential. A local time of day fixes no instant: `Time()`
+  returns `runtime.ErrLocalTime`, and `TimeIn(loc)` reads it as a wall-clock
+  time in `loc`. Digits finer than a nanosecond are truncated in `Time()` and
+  kept in the value.
+- **Century.** UTCTime reads `YY` with the RFC 5280 §4.1.2.5.1 window, 50–99
+  as 1950–1999 and 00–49 as 2000–2049, in every package, including LPP and
+  UMTS RRC; X.680 §47.3 defines no century. RFC 5280 §4.1.2.5 requires
+  GeneralizedTime for certificate validity dates in 2050 or later, and
+  `UTCTimeFromTime` returns `runtime.ErrTimeRange` outside the window.
+  RFC 5280 §4.1.2.5.2 also forbids fractional seconds in certificates.
+- **Comparison.** `==` compares the spelling. `Equal` compares the abstract
+  value: it ignores the decimal sign and the spelling of a whole-hour
+  differential (X.690 §11.9.1 a), b)) but not the accuracy or the zone kind
+  (X.680 §46.3 NOTE 3).
+- **JSON** and text carry the exact lexical string, for example
+  `"NotBefore":"19920722132100.30"`; an unset required field is `""`.
+  RFC 3339 input is rejected with `runtime.ErrTimeSyntax`.
 
 ### UPER trace tolerance
 
