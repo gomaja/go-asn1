@@ -85,7 +85,14 @@ func replayBER(wire []byte) ([]byte, error) {
 ```
 
 `ber.ViolationLog` can be shared across concurrent decodes; `Snapshot`
-returns independent records. Tolerance cannot represent a negative BER
+returns independent records. A report's `Path` is built from the ASN.1
+component identifiers of the source module, with a zero-based `element[i]`
+step inside a SEQUENCE OF or SET OF, for example
+`subscriberInfo.mnpInfoRes.routeingNumber` or `eplmn-List.element[1]`.
+Decoding and tolerant encoding report the same paths, and both record their
+violations. Reports are transactional: a call publishes them only when it
+succeeds, so a decode or encode that fails after tolerating a violation adds
+nothing to the log. Tolerance cannot represent a negative BER
 INTEGER in a generated `uint64` field or a value wider than a generated
 `int64` field: decoding returns `ber.ErrInvalidValue` without substituting
 raw bytes. Source value `EXCEPT` and collection-element unions that the
@@ -104,13 +111,26 @@ current value. Out-of-constraint values still require the tolerance option
 when encoding.
 
 `MarshalDER` encodes typed values in DER form and never re-emits preserved BER
-bytes: REAL values take their distinguished form and SET components are
-sorted (ITU-T X.690 (02/2021) §8.5.7 NOTE 1, §§10.3, 11.3.1). Its open-type
-contents are emitted as carried, and it does not yet omit components equal to
-their `DEFAULT` ([go-asn1#85](https://github.com/gomaja/go-asn1/issues/85)).
+bytes: REAL values take their distinguished form, SET components are sorted,
+a SEQUENCE or SET component equal to its `DEFAULT` is omitted, and a named
+BIT STRING loses its trailing zero bits (ITU-T X.690 (02/2021) §8.5.7 NOTE 1,
+§§10.3, 11.2.2, 11.3.1, 11.5). The named BIT STRING rule changes the DER of
+such values in GSM MAP, TCAP (`protocol-version`), SGP.22 and SGP.32 when they
+end in zero bits. When decoding, a named BIT STRING shorter than its `SIZE`
+lower bound is first extended with trailing zero bits, which X.680 (02/2021)
+§22.7 permits, before the constraint is checked. Open-type contents are
+emitted as carried.
 An unchanged valid BER REAL whose normalized exponent cannot fit the 255-octet
 encoding limit can still be re-encoded as BER; `MarshalDER` returns
 `ber.ErrInvalidValue` (X.690 §§8.5.7.4, 11.3.1).
+
+A SEQUENCE OF or SET OF whose element type carries its own tag, IMPLICIT or
+EXPLICIT, directly or through a tagged type reference, decodes and encodes
+each element with that effective tag (ITU-T X.680 (02/2021) §31; X.690
+(02/2021) §§8.10, 8.12, 8.14). This is what makes the tagged segment lists of
+the SGP.22 and SGP.32 `BoundProfilePackage` decode; earlier releases checked
+the element type's universal tag instead and could not decode a
+`BoundProfilePackage`.
 
 Constraint tolerance does not admit invalid encodings. Both modes reject:
 
@@ -275,10 +295,7 @@ Editing an enclosing value does not touch the bits kept by an unchanged value
 inside it: that value still reproduces its received suffix. A tolerantly
 decoded message whose nested values kept tolerated bits therefore still needs
 tolerance to decode after an edit elsewhere, and differs from a fresh
-encoding. To get a fresh, strictly decodable encoding, reset the padding
-fields (`PERPadding_`, `<Field>PERPadding_`, `PERExtPadding_`,
-`PEROpenTypePadding_`) of the value and of every value inside it, or build
-the value anew.
+encoding. To get a fresh, strictly decodable encoding, build the value anew.
 
 ### Present empty values
 
@@ -288,6 +305,22 @@ and is encoded again, in UPER, APER, BER and DER. JSON keeps the difference
 too: an OPTIONAL slice-typed field is tagged `omitzero`, so an absent one is
 omitted and a present empty one is written as `""` or `[]`. Pointer-typed
 fields keep `omitempty`, which already omits only nil.
+
+### Lone extension additions
+
+In UPER and APER, an extension addition written on its own after the
+extension marker, outside `[[ ]]`, is encoded as an open type holding the
+component's own encoding, with no presence bitmap (ITU-T X.691 (02/2021)
+§19.9). A bracketed group, even of one component, keeps its bitmap. Earlier
+releases read and wrote a group bitmap inside the open type of a lone
+addition, so its value was misread on decode: a present empty value came back
+absent and other values were decoded from the wrong bits. Received encodings
+still replayed byte-exactly, which hid the loss. These values now decode
+correctly in the `lateNonCriticalExtension` of LTE RRC
+`SystemInformationBlockType2` to `Type11` and
+`SystemInformationBlockType26-r15`, in seven LPP types, in LPPa
+`NPRSSubframePartB` and in S1AP `HOReport.candidatePCIList`. BER is not
+affected, because each BER extension addition carries its own tag.
 
 ## Available Protocols
 
