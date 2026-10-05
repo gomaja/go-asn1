@@ -801,7 +801,7 @@ func decodeLengthDelimitedBits(bb *BitBuffer, aligned bool) ([]byte, int, error)
 }
 
 func decodeLengthDelimitedBitsBounded(bb *BitBuffer, aligned bool, maximum int64) ([]byte, int, error) {
-	var result []byte
+	result := []byte{} // present empty is not absent (go-asn1#91); no allocation
 	total, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(_ int64, length int64) error {
 		if aligned {
 			if err := bb.AlignToOctetRead(); err != nil {

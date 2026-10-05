@@ -9,7 +9,7 @@ import (
 	"github.com/gomaja/go-asn1/runtime/tag"
 )
 
-// ConstraintViolation describes a decoded abstract value outside its ASN.1
+// ConstraintViolation describes an encoded or decoded abstract value outside its ASN.1
 // permitted set. ITU-T X.680 (02/2021) §§49.7, 50.1, 51.2.2, 51.4.2, 51.5.3.
 type ConstraintViolation struct {
 	Path           string
@@ -32,7 +32,11 @@ func (e *ConstraintError) Error() string {
 // EncodeOption configures a generated BER encoder.
 type EncodeOption interface{ applyEncode(*encodeConfig) error }
 
-type encodeConfig struct{ tolerant bool }
+type encodeConfig struct {
+	tolerant   bool
+	violations *ViolationLog
+	path       string
+}
 
 // ToleranceOption is the single opt-in policy shared by generated BER
 // decoders and encoders.
@@ -45,9 +49,9 @@ type toleranceOption struct {
 	violations *ViolationLog
 }
 
-// ViolationLog collects constraint violations from concurrent BER decodes.
+// ViolationLog collects constraint violations from concurrent BER codecs.
 // Snapshot returns an independent copy in append order. A zero value is ready
-// for use; callers may share one log across decode calls.
+// for use; callers may share one log across codec calls.
 type ViolationLog struct {
 	mu      sync.Mutex
 	records []ConstraintViolation
@@ -56,6 +60,12 @@ type ViolationLog struct {
 func (log *ViolationLog) append(record ConstraintViolation) {
 	log.mu.Lock()
 	log.records = append(log.records, record)
+	log.mu.Unlock()
+}
+
+func (log *ViolationLog) appendBatch(records []ConstraintViolation) {
+	log.mu.Lock()
+	log.records = append(log.records, records...)
 	log.mu.Unlock()
 }
 
@@ -81,9 +91,10 @@ func (log *ViolationLog) Reset() {
 	log.mu.Unlock()
 }
 
-// WithConstraintTolerance admits out-of-constraint BER values. Decoding records
-// each violation in reports, which may be shared across concurrent decoders.
-// Encoding requires an explicit tolerance option; it may use a different log.
+// WithConstraintTolerance admits out-of-constraint BER values. A generated
+// decode or encode call publishes its violations to reports only when that
+// call succeeds. Failed calls publish nothing. The log may be shared across
+// concurrent codecs.
 // Received BER bytes are kept only when a valid noncanonical form or a
 // tolerated constraint violation would otherwise change on re-encoding, and
 // only while the typed contents remain unchanged. Modified values encode from
@@ -94,6 +105,58 @@ func (log *ViolationLog) Reset() {
 // (02/2021) §§49.7, 50–51).
 func WithConstraintTolerance(reports *ViolationLog) ToleranceOption {
 	return &toleranceOption{violations: reports}
+}
+
+// StageDecodeReports gives a generated decoder a private report destination.
+// Its finish function publishes the staged reports only on success. Nested
+// generated calls commit into the parent's private destination.
+func StageDecodeReports(options []DecodeOption) ([]DecodeOption, func(bool)) {
+	staged := append([]DecodeOption(nil), options...)
+	var commits []func(bool)
+	for i, option := range staged {
+		tolerance, ok := option.(*toleranceOption)
+		if !ok || tolerance == nil || tolerance.violations == nil {
+			continue
+		}
+		destination := tolerance.violations
+		var pending ViolationLog
+		staged[i] = &toleranceOption{violations: &pending}
+		commits = append(commits, func(success bool) {
+			if success {
+				destination.appendBatch(pending.Snapshot())
+			}
+		})
+	}
+	return staged, func(success bool) {
+		for _, commit := range commits {
+			commit(success)
+		}
+	}
+}
+
+// StageEncodeReports is the encoder counterpart of StageDecodeReports.
+func StageEncodeReports(options []EncodeOption) ([]EncodeOption, func(bool)) {
+	staged := append([]EncodeOption(nil), options...)
+	var commits []func(bool)
+	for i, option := range staged {
+		tolerance, ok := option.(*toleranceOption)
+		if !ok || tolerance == nil || tolerance.violations == nil {
+			continue
+		}
+		destination := tolerance.violations
+		var pending ViolationLog
+		staged[i] = &toleranceOption{violations: &pending}
+		commits = append(commits, func(success bool) {
+			if success {
+				destination.appendBatch(pending.Snapshot())
+			}
+		})
+	}
+	return staged, func(success bool) {
+		for _, commit := range commits {
+			commit(success)
+		}
+	}
 }
 
 func (option *toleranceOption) applyDecode(config *decodeConfig) error {
@@ -116,6 +179,7 @@ func (option *toleranceOption) applyEncode(config *encodeConfig) error {
 		return fmt.Errorf("%w: duplicate BER constraint tolerance option", ErrInvalidValue)
 	}
 	config.tolerant = true
+	config.violations = option.violations
 	return nil
 }
 
@@ -164,13 +228,13 @@ func checkDecodedConstraint(options []DecodeOption, violation ConstraintViolatio
 	return nil
 }
 
-// CheckEncodedLength enforces a generated SIZE check unless encoding is tolerant.
+// CheckEncodedLength enforces a generated SIZE check or records its violation.
 func CheckEncodedLength(options []EncodeOption, path, constraint string, observed int) error {
 	length := observed
 	return checkEncodedConstraint(options, ConstraintViolation{Path: path, Constraint: constraint, ObservedLength: &length})
 }
 
-// CheckEncodedValue enforces a generated value-set check unless encoding is tolerant.
+// CheckEncodedValue enforces a generated value-set check or records its violation.
 func CheckEncodedValue(options []EncodeOption, path, constraint, observed string) error {
 	return checkEncodedConstraint(options, ConstraintViolation{Path: path, Constraint: constraint, ObservedValue: observed})
 }
@@ -180,7 +244,11 @@ func checkEncodedConstraint(options []EncodeOption, violation ConstraintViolatio
 	if err != nil {
 		return err
 	}
+	if config.path != "" {
+		violation.Path = strings.Join([]string{config.path, violation.Path}, ".")
+	}
 	if config.tolerant {
+		config.violations.append(violation)
 		return nil
 	}
 	return &ConstraintError{violation}
@@ -200,11 +268,29 @@ func (option constraintPathOption) applyDecode(config *decodeConfig) error {
 	return nil
 }
 
+func (option constraintPathOption) applyEncode(config *encodeConfig) error {
+	if strings.Contains(string(option), ".") || option == "" {
+		return fmt.Errorf("%w: invalid BER constraint path component", ErrInvalidValue)
+	}
+	if config.path == "" {
+		config.path = string(option)
+	} else {
+		config.path = strings.Join([]string{config.path, string(option)}, ".")
+	}
+	return nil
+}
+
 // ChildDecodeOptions qualifies violations reported by a nested BER decoder.
 func ChildDecodeOptions(options []DecodeOption, component string) []DecodeOption {
 	child := append([]DecodeOption(nil), options...)
 	child = append(child, constraintPathOption(component))
 	return child
+}
+
+// ChildEncodeOptions qualifies violations reported by a nested BER encoder.
+func ChildEncodeOptions(options []EncodeOption, component string) []EncodeOption {
+	child := append([]EncodeOption(nil), options...)
+	return append(child, constraintPathOption(component))
 }
 
 // ConstraintToleranceEnabled reports whether a validated decode option set

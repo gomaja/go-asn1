@@ -19,7 +19,7 @@ var (
 
 // PruAssociationRejParam represents the ASN.1 type PruAssociationRejParam (SEQUENCE).
 type PruAssociationRejParam struct {
-	NewLmfRoutingId []byte   `asn1:"tag:0,context,explicit,optional" json:"NewLmfRoutingId,omitempty"`
+	NewLmfRoutingId []byte   `asn1:"tag:0,context,explicit,optional" json:"NewLmfRoutingId,omitzero"`
 	ExtCount_       int64    `asn1:"-" json:"-"`
 	ExtPresent_     []bool   `asn1:"-" json:"-"`
 	ExtData_        [][]byte `asn1:"-" json:"-"`
@@ -28,7 +28,9 @@ type PruAssociationRejParam struct {
 }
 
 // MarshalBER encodes PruAssociationRejParam to BER format.
-func (v *PruAssociationRejParam) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *PruAssociationRejParam) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: PruAssociationRejParam receiver is nil", ber.ErrInvalidValue)
 	}
@@ -58,7 +60,7 @@ func (v *PruAssociationRejParam) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_newlmfroutingid...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -111,6 +113,8 @@ func (v *PruAssociationRejParam) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	if v == nil {
 		return fmt.Errorf("%w: PruAssociationRejParam destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err

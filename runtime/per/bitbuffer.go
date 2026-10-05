@@ -20,9 +20,13 @@ type BitBuffer struct {
 type DecodeOptions struct {
 	// TrailingBitsTolerance, when non-nil, accepts the bit runs listed by
 	// ToleranceKind and records each one in the log, with its field path,
-	// offset and bits. X.691 (02/2021) 11.1.3.1 and 11.1.3.2 forbid them;
-	// TS 25.331 V19.0.1 12.1.3 requires tolerant RRC receivers. Decoded values
-	// keep the accepted bits, so they re-encode to the original octets.
+	// offset and bits. X.691 (02/2021) 11.1.3.1 and 11.1.3.2 forbid them.
+	// RRC receivers must accept them: TS 25.331 V19.0.1 12.1.3 any bit string
+	// after a PDU's basic production, TS 36.331 V19.4.0 8.1 any extraneous
+	// bits after a PDU or a value in a BIT STRING or OCTET STRING
+	// (CONTAINING ...). 3GPP-conformant RRC decoding therefore requires this
+	// option; the default is strict X.691. Decoded values keep the accepted
+	// bits, so they re-encode to the original octets.
 	TrailingBitsTolerance *ToleranceLog
 }
 
@@ -223,7 +227,8 @@ func (bb *BitBuffer) CompleteBytes() []byte {
 // CompletePadding retains terminal bits observed when decoding a complete PER
 // encoding. X.691 (02/2021) 11.1.3.1 and 11.1.4 require encoders to emit zero
 // bits here; decoded input may carry other values that a lossless re-encode
-// must retain.
+// must retain. All-zero padding is what an encoder emits anyway, so it is not
+// retained: the zero value stands for it.
 type CompletePadding struct {
 	bits  uint8
 	count uint8
@@ -236,48 +241,17 @@ type TrailingBits struct {
 	BitLength int
 }
 
-// captureContainedZeroPadding accepts up to seven zero bits after a value in
-// a BIT STRING (CONTAINING ...).
-func captureContainedZeroPadding(bb *BitBuffer) (CompletePadding, error) {
-	remaining := bb.BitsRemaining()
-	if remaining < 0 || remaining > 7 {
-		return CompletePadding{}, fmt.Errorf("%w: contained value has %d trailing bits", ErrExtraData, remaining)
-	}
-	value, err := bb.ReadBits(remaining)
-	if err != nil {
-		return CompletePadding{}, err
-	}
-	if value != 0 {
-		return CompletePadding{}, fmt.Errorf("%w: contained value has nonzero padding", ErrInvalidValue)
-	}
-	return CompletePadding{count: uint8(remaining)}, nil
-}
-
-// AppendContainedZeroPadding completes a UPER encoding carried in a BIT
-// STRING (CONTAINING ...): it writes the single zero bit of an empty value,
-// then reproduces any observed non-conformant padding.
-func AppendContainedZeroPadding(bb *BitBuffer, padding CompletePadding) error {
-	if padding.count > 7 || padding.bits != 0 {
-		return fmt.Errorf("%w: invalid contained padding", ErrInvalidValue)
-	}
-	// X.691 (02/2021) 11.1.3.2: an empty contained encoding is one zero bit.
-	if bb.bitPos == 0 {
-		if err := bb.WriteBit(0); err != nil {
-			return err
-		}
-	}
-	for range padding.count {
-		if err := bb.WriteBit(0); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-// completeBytesWithTrailing reproduces a tolerated top-level suffix.
-func (bb *BitBuffer) completeBytesWithTrailing(trailing TrailingBits) ([]byte, error) {
+// completeBytesWithTrailing reproduces a tolerated top-level suffix. The
+// suffix belongs to the received encoding: unless bb holds the value encoding
+// it followed, bit for bit, the value is completed as a new one, with the
+// zero padding of X.691 (02/2021) 11.1.3.1 and 11.1.4.
+func (bb *BitBuffer) completeBytesWithTrailing(kept *finalBits) ([]byte, error) {
+	trailing := kept.trailing
 	if trailing.BitLength <= 0 {
 		return nil, fmt.Errorf("%w: invalid trailing bits", ErrInvalidValue)
+	}
+	if !kept.follows(bb) {
+		return bb.CompleteBytes(), nil
 	}
 	// A zero-bit value keeps its mandated zero octet before the suffix
 	// (X.691 (02/2021) 11.1.3.1 and 11.1.4), as CaptureFinalBits read it.
@@ -290,7 +264,7 @@ func (bb *BitBuffer) completeBytesWithTrailing(trailing TrailingBits) ([]byte, e
 		return nil, err
 	}
 	if bb.bitPos%8 != 0 {
-		return nil, fmt.Errorf("%w: stale trailing bits", ErrInvalidValue)
+		return nil, fmt.Errorf("%w: invalid trailing bits", ErrInvalidValue)
 	}
 	return bb.CompleteBytes(), nil
 }
@@ -314,6 +288,7 @@ func CompleteOpenTypeValue[T any](bb *BitBuffer, value T) (*CompleteValue[T], er
 
 // Bits returns the observed terminal bits right-aligned and their width.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require zero padding on encode.
+// Observed all-zero padding is not retained, so its width is reported as 0.
 func (p CompletePadding) Bits() (value, count uint8) {
 	return p.bits, p.count
 }
@@ -324,20 +299,32 @@ func (p CompletePadding) IsZero() bool {
 }
 
 // CompleteBytesWithPadding returns a complete encoding with observed terminal
-// bits. A newly constructed value has zero padding. If a decoded value changes
-// bit length, its old padding cannot be applied to the new encoding.
+// bits. A newly constructed value has zero padding (X.691 (02/2021) 11.1.3.1
+// and 11.1.4). Observed padding is kept while it still fills the final octet
+// exactly, so an unchanged decoded value re-encodes byte-exactly. Once an edit
+// changes the number of padding bits the encoding needs, the observed bits no
+// longer belong to it, and the value is padded with zero bits as a new one.
+//
+// Nonzero padding comes only from a non-conformant sender. Only its width is
+// kept, so an edit that keeps the bit length modulo eight keeps those bits;
+// padding carries no value (11.1.3.1, 11.1.4), so the result still decodes.
+//
+// Only applying retained nonzero padding copies the encoding, one allocation;
+// otherwise the result is bb's storage, as from CompleteBytes, with none.
 func (bb *BitBuffer) CompleteBytesWithPadding(padding CompletePadding) ([]byte, error) {
-	out := append([]byte(nil), bb.CompleteBytes()...)
-	if padding.count == 0 {
-		return out, nil
+	if padding.bits == 0 {
+		return bb.CompleteBytes(), nil
 	}
 	if bb.bitPos < 0 || padding.count > 7 {
 		return nil, fmt.Errorf("%w: invalid complete-encoding padding", ErrInvalidValue)
 	}
-	want := (8 - bb.bitPos%8) % 8
-	if bb.bitPos == 0 || int(padding.count) != want || padding.bits >= 1<<padding.count {
-		return nil, fmt.Errorf("%w: stale complete-encoding padding", ErrInvalidValue)
+	if padding.bits >= 1<<padding.count {
+		return nil, fmt.Errorf("%w: invalid complete-encoding padding", ErrInvalidValue)
 	}
+	if bb.bitPos == 0 || int(padding.count) != (8-bb.bitPos%8)%8 {
+		return bb.CompleteBytes(), nil
+	}
+	out := append([]byte(nil), bb.CompleteBytes()...)
 	out[len(out)-1] |= padding.bits
 	return out, nil
 }
@@ -410,7 +397,9 @@ func captureTrailingPadding(bb *BitBuffer, context string) (CompletePadding, err
 	if bb.BitPos() == 8 && remaining == 8 && padding != 0 {
 		return CompletePadding{}, fmt.Errorf("%w: %s zero-bit complete encoding is nonzero", ErrInvalidValue, context)
 	}
-	if remaining == 8 {
+	// Zero padding, and the zero octet of an empty value, are what a new
+	// encoding has, so nothing is retained.
+	if remaining == 8 || padding == 0 {
 		return CompletePadding{}, nil
 	}
 	if padding > math.MaxUint8 {

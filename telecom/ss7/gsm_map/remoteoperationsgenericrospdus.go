@@ -1109,7 +1109,9 @@ func NewOperationsRejectProblemReturnError(v ReturnErrorProblem) OperationsRejec
 }
 
 // MarshalBER encodes ROS to BER format.
-func (v *ROS) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ROS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROS receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1128,7 +1130,7 @@ func (v *ROS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.Invoke == nil {
 			return nil, fmt.Errorf("%w: choice ROS: invoke is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.Invoke.MarshalBER(opts...)
+		enc_0, err := v.Invoke.MarshalBER(ber.ChildEncodeOptions(opts, "invoke")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", err)
 		}
@@ -1145,7 +1147,7 @@ func (v *ROS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.ReturnResult == nil {
 			return nil, fmt.Errorf("%w: choice ROS: returnResult is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.ReturnResult.MarshalBER(opts...)
+		enc_1, err := v.ReturnResult.MarshalBER(ber.ChildEncodeOptions(opts, "returnResult")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnResult: %w", err)
 		}
@@ -1159,7 +1161,7 @@ func (v *ROS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.ReturnError == nil {
 			return nil, fmt.Errorf("%w: choice ROS: returnError is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.ReturnError.MarshalBER(opts...)
+		enc_2, err := v.ReturnError.MarshalBER(ber.ChildEncodeOptions(opts, "returnError")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnError: %w", err)
 		}
@@ -1173,7 +1175,7 @@ func (v *ROS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.Reject == nil {
 			return nil, fmt.Errorf("%w: choice ROS: reject is nil", ber.ErrInvalidValue)
 		}
-		enc_3, err := v.Reject.MarshalBER(opts...)
+		enc_3, err := v.Reject.MarshalBER(ber.ChildEncodeOptions(opts, "reject")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding reject: %w", err)
 		}
@@ -1281,6 +1283,8 @@ func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr err
 	if v == nil {
 		return fmt.Errorf("%w: ROS destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -1327,7 +1331,7 @@ func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr err
 			return reconstructionErr
 		}
 		var dec Invoke
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "invoke")...); unmErr != nil {
 			return fmt.Errorf("decoding invoke: %w", unmErr)
 		}
 		v.Invoke = &dec
@@ -1345,7 +1349,7 @@ func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr err
 			return reconstructionErr
 		}
 		var dec ReturnResult
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "returnResult")...); unmErr != nil {
 			return fmt.Errorf("decoding returnResult: %w", unmErr)
 		}
 		v.ReturnResult = &dec
@@ -1360,7 +1364,7 @@ func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr err
 			return reconstructionErr
 		}
 		var dec ReturnError
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "returnError")...); unmErr != nil {
 			return fmt.Errorf("decoding returnError: %w", unmErr)
 		}
 		v.ReturnError = &dec
@@ -1375,7 +1379,7 @@ func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr err
 			return reconstructionErr
 		}
 		var dec Reject
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "reject")...); unmErr != nil {
 			return fmt.Errorf("decoding reject: %w", unmErr)
 		}
 		v.Reject = &dec
@@ -1386,7 +1390,9 @@ func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr err
 }
 
 // MarshalBER encodes Invoke to BER format.
-func (v *Invoke) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *Invoke) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Invoke receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1404,19 +1410,19 @@ func (v *Invoke) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 	}
 	var children []byte
-	enc_invokeid, err := v.InvokeId.MarshalBER(opts...)
+	enc_invokeid, err := v.InvokeId.MarshalBER(ber.ChildEncodeOptions(opts, "invokeId")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding invokeId: %w", err)
 	}
 	children = append(children, enc_invokeid...)
 	if v.LinkedId != nil {
-		enc_linkedid, err := v.LinkedId.MarshalBER(opts...)
+		enc_linkedid, err := v.LinkedId.MarshalBER(ber.ChildEncodeOptions(opts, "linkedId")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding linkedId: %w", err)
 		}
 		children = append(children, enc_linkedid...)
 	}
-	enc_opcode, err := v.Opcode.MarshalBER(opts...)
+	enc_opcode, err := v.Opcode.MarshalBER(ber.ChildEncodeOptions(opts, "opcode")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding opcode: %w", err)
 	}
@@ -1473,6 +1479,8 @@ func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 	if v == nil {
 		return fmt.Errorf("%w: Invoke destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -1541,7 +1549,7 @@ func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if unmErr := dec_linkedid.UnmarshalBER(content[offset:offset+n_linkedid], ber.ChildDecodeOptions(opts, "linkedid")...); unmErr != nil {
+				if unmErr := dec_linkedid.UnmarshalBER(content[offset:offset+n_linkedid], ber.ChildDecodeOptions(opts, "linkedId")...); unmErr != nil {
 					return fmt.Errorf("decoding linkedId: %w", unmErr)
 				}
 				v.LinkedId = &dec_linkedid
@@ -1612,7 +1620,9 @@ func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 }
 
 // MarshalBER encodes ReturnResult to BER format.
-func (v *ReturnResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ReturnResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnResult receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1627,13 +1637,13 @@ func (v *ReturnResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		return nil, err
 	}
 	var children []byte
-	enc_invokeid, err := v.InvokeId.MarshalBER(opts...)
+	enc_invokeid, err := v.InvokeId.MarshalBER(ber.ChildEncodeOptions(opts, "invokeId")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding invokeId: %w", err)
 	}
 	children = append(children, enc_invokeid...)
 	if v.Result != nil {
-		enc_result, err := v.Result.MarshalBER(opts...)
+		enc_result, err := v.Result.MarshalBER(ber.ChildEncodeOptions(opts, "result")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding result: %w", err)
 		}
@@ -1675,6 +1685,8 @@ func (v *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if v == nil {
 		return fmt.Errorf("%w: ReturnResult destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -1760,7 +1772,9 @@ func (v *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 }
 
 // MarshalBER encodes ReturnError to BER format.
-func (v *ReturnError) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ReturnError) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnError receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1775,12 +1789,12 @@ func (v *ReturnError) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		return nil, err
 	}
 	var children []byte
-	enc_invokeid, err := v.InvokeId.MarshalBER(opts...)
+	enc_invokeid, err := v.InvokeId.MarshalBER(ber.ChildEncodeOptions(opts, "invokeId")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding invokeId: %w", err)
 	}
 	children = append(children, enc_invokeid...)
-	enc_errcode, err := v.Errcode.MarshalBER(opts...)
+	enc_errcode, err := v.Errcode.MarshalBER(ber.ChildEncodeOptions(opts, "errcode")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding errcode: %w", err)
 	}
@@ -1827,6 +1841,8 @@ func (v *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if v == nil {
 		return fmt.Errorf("%w: ReturnError destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -1926,7 +1942,9 @@ func (v *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 }
 
 // MarshalBER encodes Reject to BER format.
-func (v *Reject) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *Reject) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Reject receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1941,12 +1959,12 @@ func (v *Reject) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		return nil, err
 	}
 	var children []byte
-	enc_invokeid, err := v.InvokeId.MarshalBER(opts...)
+	enc_invokeid, err := v.InvokeId.MarshalBER(ber.ChildEncodeOptions(opts, "invokeId")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding invokeId: %w", err)
 	}
 	children = append(children, enc_invokeid...)
-	enc_problem, err := v.Problem.MarshalBER(opts...)
+	enc_problem, err := v.Problem.MarshalBER(ber.ChildEncodeOptions(opts, "problem")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding problem: %w", err)
 	}
@@ -1985,6 +2003,8 @@ func (v *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 	if v == nil {
 		return fmt.Errorf("%w: Reject destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -2066,7 +2086,9 @@ func (v *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 }
 
 // MarshalBER encodes InvokeId to BER format.
-func (v *InvokeId) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *InvokeId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: InvokeId receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2118,6 +2140,8 @@ func (v *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	if v == nil {
 		return fmt.Errorf("%w: InvokeId destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2173,7 +2197,9 @@ func (v *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 }
 
 // MarshalBER encodes Bind to BER format.
-func (v *Bind) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *Bind) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Bind receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2246,6 +2272,8 @@ func (v *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr er
 	if v == nil {
 		return fmt.Errorf("%w: Bind destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2300,7 +2328,9 @@ func (v *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr er
 }
 
 // MarshalBER encodes Unbind to BER format.
-func (v *Unbind) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *Unbind) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Unbind receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2373,6 +2403,8 @@ func (v *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 	if v == nil {
 		return fmt.Errorf("%w: Unbind destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2427,7 +2459,9 @@ func (v *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 }
 
 // MarshalBER encodes ROSInvokeLinkedId to BER format.
-func (v *ROSInvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ROSInvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2489,6 +2523,8 @@ func (v *ROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if v == nil {
 		return fmt.Errorf("%w: ROSInvokeLinkedId destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2552,7 +2588,9 @@ func (v *ROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 }
 
 // MarshalBER encodes ROSReturnResultResult to BER format.
-func (v *ROSReturnResultResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ROSReturnResultResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSReturnResultResult receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2567,7 +2605,7 @@ func (v *ROSReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		return nil, err
 	}
 	var children []byte
-	enc_opcode, err := v.Opcode.MarshalBER(opts...)
+	enc_opcode, err := v.Opcode.MarshalBER(ber.ChildEncodeOptions(opts, "opcode")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding opcode: %w", err)
 	}
@@ -2605,6 +2643,8 @@ func (v *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if v == nil {
 		return fmt.Errorf("%w: ROSReturnResultResult destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -2681,7 +2721,9 @@ func (v *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes InvokeLinkedId to BER format.
-func (v *InvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *InvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: InvokeLinkedId receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2743,6 +2785,8 @@ func (v *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	if v == nil {
 		return fmt.Errorf("%w: InvokeLinkedId destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2806,7 +2850,9 @@ func (v *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 }
 
 // MarshalBER encodes ReturnResultResult to BER format.
-func (v *ReturnResultResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ReturnResultResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnResultResult receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2821,7 +2867,7 @@ func (v *ReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		return nil, err
 	}
 	var children []byte
-	enc_opcode, err := v.Opcode.MarshalBER(opts...)
+	enc_opcode, err := v.Opcode.MarshalBER(ber.ChildEncodeOptions(opts, "opcode")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding opcode: %w", err)
 	}
@@ -2859,6 +2905,8 @@ func (v *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if v == nil {
 		return fmt.Errorf("%w: ReturnResultResult destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -2935,7 +2983,9 @@ func (v *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 }
 
 // MarshalBER encodes OperationsRejectProblem to BER format.
-func (v *OperationsRejectProblem) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *OperationsRejectProblem) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: OperationsRejectProblem receiver is nil", ber.ErrInvalidValue)
 	}
@@ -3031,6 +3081,8 @@ func (v *OperationsRejectProblem) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: OperationsRejectProblem destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {

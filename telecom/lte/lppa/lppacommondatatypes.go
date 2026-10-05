@@ -86,7 +86,7 @@ type PrivateIEID struct {
 	PERPadding_         per.CompletePadding      `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding      `json:"-"`
 	Local               *int64                   `json:"Local,omitempty"`
-	Global              runtime.ObjectIdentifier `json:"Global,omitempty"`
+	Global              runtime.ObjectIdentifier `json:"Global,omitzero"`
 }
 
 // NewPrivateIEIDLocal creates a PrivateIEID with the local alternative.

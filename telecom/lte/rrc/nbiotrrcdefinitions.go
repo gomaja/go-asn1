@@ -350,7 +350,7 @@ type DLInformationTransferNB struct {
 // DLInformationTransferNBR13IEs represents the ASN.1 type DLInformationTransfer-NB-r13-IEs (SEQUENCE).
 type DLInformationTransferNBR13IEs struct {
 	DedicatedInfoNASR13      DedicatedInfoNAS                                   `asn1:"tag:0,context,implicit"`
-	LateNonCriticalExtension []byte                                             `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                                             `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *DLInformationTransferNBR13IEsNonCriticalExtension `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding                                   `asn1:"-" json:"-"`
 }
@@ -473,7 +473,7 @@ type SIBGuardbandInbandDiffPCITDDNBR15 struct {
 
 // PagingNB represents the ASN.1 type Paging-NB (SEQUENCE).
 type PagingNB struct {
-	PagingRecordListR13           PagingRecordListNBR13 `asn1:"tag:0,context,implicit,optional" json:"PagingRecordListR13,omitempty"`
+	PagingRecordListR13           PagingRecordListNBR13 `asn1:"tag:0,context,implicit,optional" json:"PagingRecordListR13,omitzero"`
 	PagingRecordListR13Indef_     bool                  `asn1:"-" json:"-"`
 	SystemInfoModificationR13     *int64                `asn1:"tag:1,context,implicit,optional" json:"SystemInfoModificationR13,omitempty"`
 	SystemInfoModificationEDRXR13 *int64                `asn1:"tag:2,context,implicit,optional" json:"SystemInfoModificationEDRXR13,omitempty"`
@@ -483,7 +483,7 @@ type PagingNB struct {
 
 // PagingNBV1610IEs represents the ASN.1 type Paging-NB-v1610-IEs (SEQUENCE).
 type PagingNBV1610IEs struct {
-	PagingRecordListV1610       PagingRecordListNBV1610 `asn1:"tag:0,context,implicit,optional" json:"PagingRecordListV1610,omitempty"`
+	PagingRecordListV1610       PagingRecordListNBV1610 `asn1:"tag:0,context,implicit,optional" json:"PagingRecordListV1610,omitzero"`
 	PagingRecordListV1610Indef_ bool                    `asn1:"-" json:"-"`
 	NonCriticalExtension        *PagingNBV1900IEs       `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_                 per.FinalPadding        `asn1:"-" json:"-"`
@@ -530,7 +530,7 @@ type PURConfigurationRequestNBR16 struct {
 // PURConfigurationRequestNBR16IEs represents the ASN.1 type PURConfigurationRequest-NB-r16-IEs (SEQUENCE).
 type PURConfigurationRequestNBR16IEs struct {
 	PurConfigRequestR16      *PURConfigRequestNBR16                               `asn1:"tag:0,context,explicit,optional" json:"PurConfigRequestR16,omitempty"`
-	LateNonCriticalExtension []byte                                               `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                                               `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *PURConfigurationRequestNBR16IEsNonCriticalExtension `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding                                     `asn1:"-" json:"-"`
 }
@@ -575,11 +575,11 @@ type RRCConnectionReconfigurationNB struct {
 
 // RRCConnectionReconfigurationNBR13IEs represents the ASN.1 type RRCConnectionReconfiguration-NB-r13-IEs (SEQUENCE).
 type RRCConnectionReconfigurationNBR13IEs struct {
-	DedicatedInfoNASListR13         RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13 `asn1:"tag:0,context,implicit,optional" json:"DedicatedInfoNASListR13,omitempty"`
+	DedicatedInfoNASListR13         RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13 `asn1:"tag:0,context,implicit,optional" json:"DedicatedInfoNASListR13,omitzero"`
 	DedicatedInfoNASListR13Indef_   bool                                                        `asn1:"-" json:"-"`
 	RadioResourceConfigDedicatedR13 *RadioResourceConfigDedicatedNBR13                          `asn1:"tag:1,context,implicit,optional" json:"RadioResourceConfigDedicatedR13,omitempty"`
 	FullConfigR13                   *int64                                                      `asn1:"tag:2,context,implicit,optional" json:"FullConfigR13,omitempty"`
-	LateNonCriticalExtension        []byte                                                      `asn1:"tag:3,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension        []byte                                                      `asn1:"tag:3,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension            *RRCConnectionReconfigurationNBV16f0IEs                     `asn1:"tag:4,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_                     per.FinalPadding                                            `asn1:"-" json:"-"`
 }
@@ -600,7 +600,7 @@ type RRCConnectionReconfigurationCompleteNB struct {
 
 // RRCConnectionReconfigurationCompleteNBR13IEs represents the ASN.1 type RRCConnectionReconfigurationComplete-NB-r13-IEs (SEQUENCE).
 type RRCConnectionReconfigurationCompleteNBR13IEs struct {
-	LateNonCriticalExtension []byte                                                            `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                                                            `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *RRCConnectionReconfigurationCompleteNBR13IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding                                                  `asn1:"-" json:"-"`
 }
@@ -616,7 +616,7 @@ type RRCConnectionReestablishmentNB struct {
 type RRCConnectionReestablishmentNBR13IEs struct {
 	RadioResourceConfigDedicatedR13 RadioResourceConfigDedicatedNBR13       `asn1:"tag:0,context,implicit"`
 	NextHopChainingCountR13         NextHopChainingCount                    `asn1:"tag:1,context,implicit"`
-	LateNonCriticalExtension        []byte                                  `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension        []byte                                  `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension            *RRCConnectionReestablishmentNBV1430IEs `asn1:"tag:3,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_                     per.FinalPadding                        `asn1:"-" json:"-"`
 }
@@ -637,7 +637,7 @@ type RRCConnectionReestablishmentCompleteNB struct {
 
 // RRCConnectionReestablishmentCompleteNBR13IEs represents the ASN.1 type RRCConnectionReestablishmentComplete-NB-r13-IEs (SEQUENCE).
 type RRCConnectionReestablishmentCompleteNBR13IEs struct {
-	LateNonCriticalExtension []byte                                          `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                                          `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *RRCConnectionReestablishmentCompleteNBV1470IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding                                `asn1:"-" json:"-"`
 }
@@ -759,7 +759,7 @@ type RRCConnectionRejectNB struct {
 type RRCConnectionRejectNBR13IEs struct {
 	ExtendedWaitTimeR13      int64                                            `asn1:"tag:0,context,implicit"`
 	RrcSuspendIndicationR13  *int64                                           `asn1:"tag:1,context,implicit,optional" json:"RrcSuspendIndicationR13,omitempty"`
-	LateNonCriticalExtension []byte                                           `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                                           `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *RRCConnectionRejectNBR13IEsNonCriticalExtension `asn1:"tag:3,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding                                 `asn1:"-" json:"-"`
 }
@@ -777,7 +777,7 @@ type RRCConnectionReleaseNBR13IEs struct {
 	ResumeIdentityR13        *ResumeIdentityR13              `asn1:"tag:1,context,implicit,optional" json:"ResumeIdentityR13,omitempty"`
 	ExtendedWaitTimeR13      *int64                          `asn1:"tag:2,context,implicit,optional" json:"ExtendedWaitTimeR13,omitempty"`
 	RedirectedCarrierInfoR13 *RedirectedCarrierInfoNBR13     `asn1:"tag:3,context,implicit,optional" json:"RedirectedCarrierInfoR13,omitempty"`
-	LateNonCriticalExtension []byte                          `asn1:"tag:4,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                          `asn1:"tag:4,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *RRCConnectionReleaseNBV1430IEs `asn1:"tag:5,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding                `asn1:"-" json:"-"`
 }
@@ -952,7 +952,7 @@ type RRCConnectionResumeNBR13IEs struct {
 	RadioResourceConfigDedicatedR13 *RadioResourceConfigDedicatedNBR13 `asn1:"tag:0,context,implicit,optional" json:"RadioResourceConfigDedicatedR13,omitempty"`
 	NextHopChainingCountR13         NextHopChainingCount               `asn1:"tag:1,context,implicit"`
 	DrbContinueROHCR13              *int64                             `asn1:"tag:2,context,implicit,optional" json:"DrbContinueROHCR13,omitempty"`
-	LateNonCriticalExtension        []byte                             `asn1:"tag:3,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension        []byte                             `asn1:"tag:3,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension            *RRCConnectionResumeNBV1610IEs     `asn1:"tag:4,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_                     per.FinalPadding                   `asn1:"-" json:"-"`
 }
@@ -982,7 +982,7 @@ type RRCConnectionResumeCompleteNB struct {
 type RRCConnectionResumeCompleteNBR13IEs struct {
 	SelectedPLMNIdentityR13  *int64                                 `asn1:"tag:0,context,implicit,optional" json:"SelectedPLMNIdentityR13,omitempty"`
 	DedicatedInfoNASR13      *DedicatedInfoNAS                      `asn1:"tag:1,context,implicit,optional" json:"DedicatedInfoNASR13,omitempty"`
-	LateNonCriticalExtension []byte                                 `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                                 `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *RRCConnectionResumeCompleteNBV1470IEs `asn1:"tag:3,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding                       `asn1:"-" json:"-"`
 }
@@ -1056,7 +1056,7 @@ type RRCConnectionSetupNB struct {
 // RRCConnectionSetupNBR13IEs represents the ASN.1 type RRCConnectionSetup-NB-r13-IEs (SEQUENCE).
 type RRCConnectionSetupNBR13IEs struct {
 	RadioResourceConfigDedicatedR13 RadioResourceConfigDedicatedNBR13 `asn1:"tag:0,context,implicit"`
-	LateNonCriticalExtension        []byte                            `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension        []byte                            `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension            *RRCConnectionSetupNBV1610IEs     `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_                     per.FinalPadding                  `asn1:"-" json:"-"`
 }
@@ -1083,7 +1083,7 @@ type RRCConnectionSetupCompleteNBR13IEs struct {
 	DedicatedInfoNASR13             DedicatedInfoNAS                      `asn1:"tag:3,context,implicit"`
 	AttachWithoutPDNConnectivityR13 *int64                                `asn1:"tag:4,context,implicit,optional" json:"AttachWithoutPDNConnectivityR13,omitempty"`
 	UpCIoTEPSOptimisationR13        *int64                                `asn1:"tag:5,context,implicit,optional" json:"UpCIoTEPSOptimisationR13,omitempty"`
-	LateNonCriticalExtension        []byte                                `asn1:"tag:6,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension        []byte                                `asn1:"tag:6,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension            *RRCConnectionSetupCompleteNBV1430IEs `asn1:"tag:7,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_                     per.FinalPadding                      `asn1:"-" json:"-"`
 }
@@ -1109,7 +1109,7 @@ type RRCConnectionSetupCompleteNBV1610IEs struct {
 	RegisteredAMFR16         *RegisteredAMFR15                                 `asn1:"tag:1,context,implicit,optional" json:"RegisteredAMFR16,omitempty"`
 	GummeiTypeV1610          *int64                                            `asn1:"tag:2,context,implicit,optional" json:"GummeiTypeV1610,omitempty"`
 	GuamiTypeR16             *int64                                            `asn1:"tag:3,context,implicit,optional" json:"GuamiTypeR16,omitempty"`
-	SNSSAIListR16            RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16 `asn1:"tag:4,context,implicit,optional" json:"SNSSAIListR16,omitempty"`
+	SNSSAIListR16            RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16 `asn1:"tag:4,context,implicit,optional" json:"SNSSAIListR16,omitzero"`
 	SNSSAIListR16Indef_      bool                                              `asn1:"-" json:"-"`
 	NgUDataTransferR16       *int64                                            `asn1:"tag:5,context,implicit,optional" json:"NgUDataTransferR16,omitempty"`
 	UpCIoT5GSOptimisationR16 *int64                                            `asn1:"tag:6,context,implicit,optional" json:"UpCIoT5GSOptimisationR16,omitempty"`
@@ -1152,7 +1152,7 @@ type RRCEarlyDataCompleteNBR15IEs struct {
 
 // RRCEarlyDataCompleteNBV1590IEs represents the ASN.1 type RRCEarlyDataComplete-NB-v1590-IEs (SEQUENCE).
 type RRCEarlyDataCompleteNBV1590IEs struct {
-	LateNonCriticalExtension []byte                          `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                          `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *RRCEarlyDataCompleteNBV1700IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding                `asn1:"-" json:"-"`
 }
@@ -1182,7 +1182,7 @@ type RRCEarlyDataRequestNBR15IEs struct {
 
 // RRCEarlyDataRequestNBV1590IEs represents the ASN.1 type RRCEarlyDataRequest-NB-v1590-IEs (SEQUENCE).
 type RRCEarlyDataRequestNBV1590IEs struct {
-	LateNonCriticalExtension []byte                                             `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                                             `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *RRCEarlyDataRequestNBV1590IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding                                   `asn1:"-" json:"-"`
 }
@@ -1193,7 +1193,7 @@ type RRCEarlyDataRequest5GCNBR16IEs struct {
 	EstablishmentCauseR16    int64                                               `asn1:"tag:1,context,implicit"`
 	CqiNPDCCHR16             *CQINPDCCHNBR14                                     `asn1:"tag:2,context,implicit,optional" json:"CqiNPDCCHR16,omitempty"`
 	DedicatedInfoNASR16      DedicatedInfoNAS                                    `asn1:"tag:3,context,implicit"`
-	LateNonCriticalExtension []byte                                              `asn1:"tag:4,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                                              `asn1:"tag:4,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *RRCEarlyDataRequest5GCNBR16IEsNonCriticalExtension `asn1:"tag:5,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding                                    `asn1:"-" json:"-"`
 }
@@ -1202,9 +1202,9 @@ type RRCEarlyDataRequest5GCNBR16IEs struct {
 type SCPTMConfigurationNBR14 struct {
 	ScMtchInfoListR14               SCMTCHInfoListNBR14         `asn1:"tag:0,context,implicit"`
 	ScMtchInfoListR14Indef_         bool                        `asn1:"-" json:"-"`
-	ScptmNeighbourCellListR14       SCPTMNeighbourCellListNBR14 `asn1:"tag:1,context,implicit,optional" json:"ScptmNeighbourCellListR14,omitempty"`
+	ScptmNeighbourCellListR14       SCPTMNeighbourCellListNBR14 `asn1:"tag:1,context,implicit,optional" json:"ScptmNeighbourCellListR14,omitzero"`
 	ScptmNeighbourCellListR14Indef_ bool                        `asn1:"-" json:"-"`
-	LateNonCriticalExtension        []byte                      `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension        []byte                      `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension            *SCPTMConfigurationNBV1610  `asn1:"tag:3,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_                     per.FinalPadding            `asn1:"-" json:"-"`
 }
@@ -1228,7 +1228,7 @@ type SystemInformationNB struct {
 type SystemInformationNBR13IEs struct {
 	SibTypeAndInfoR13        SystemInformationNBR13IEsSibTypeAndInfoR13     `asn1:"tag:0,context,implicit"`
 	SibTypeAndInfoR13Indef_  bool                                           `asn1:"-" json:"-"`
-	LateNonCriticalExtension []byte                                         `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                                         `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *SystemInformationNBR13IEsNonCriticalExtension `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding                               `asn1:"-" json:"-"`
 }
@@ -1240,9 +1240,9 @@ type SystemInformationBlockType1NB struct {
 	CellSelectionInfoR13            SystemInformationBlockType1NBCellSelectionInfoR13     `asn1:"tag:2,context,implicit"`
 	PMaxR13                         *PMax                                                 `asn1:"tag:3,context,implicit,optional" json:"PMaxR13,omitempty"`
 	FreqBandIndicatorR13            FreqBandIndicatorNBR13                                `asn1:"tag:4,context,implicit"`
-	FreqBandInfoR13                 NSPmaxListNBR13                                       `asn1:"tag:5,context,implicit,optional" json:"FreqBandInfoR13,omitempty"`
+	FreqBandInfoR13                 NSPmaxListNBR13                                       `asn1:"tag:5,context,implicit,optional" json:"FreqBandInfoR13,omitzero"`
 	FreqBandInfoR13Indef_           bool                                                  `asn1:"-" json:"-"`
-	MultiBandInfoListR13            MultiBandInfoListNBR13                                `asn1:"tag:6,context,implicit,optional" json:"MultiBandInfoListR13,omitempty"`
+	MultiBandInfoListR13            MultiBandInfoListNBR13                                `asn1:"tag:6,context,implicit,optional" json:"MultiBandInfoListR13,omitzero"`
 	MultiBandInfoListR13Indef_      bool                                                  `asn1:"-" json:"-"`
 	DownlinkBitmapR13               *DLBitmapNBR13                                        `asn1:"tag:7,context,explicit,optional" json:"DownlinkBitmapR13,omitempty"`
 	EutraControlRegionSizeR13       *int64                                                `asn1:"tag:8,context,implicit,optional" json:"EutraControlRegionSizeR13,omitempty"`
@@ -1251,9 +1251,9 @@ type SystemInformationBlockType1NB struct {
 	SchedulingInfoListR13Indef_     bool                                                  `asn1:"-" json:"-"`
 	SiWindowLengthR13               int64                                                 `asn1:"tag:11,context,implicit"`
 	SiRadioFrameOffsetR13           *int64                                                `asn1:"tag:12,context,implicit,optional" json:"SiRadioFrameOffsetR13,omitempty"`
-	SystemInfoValueTagListR13       SystemInfoValueTagListNBR13                           `asn1:"tag:13,context,implicit,optional" json:"SystemInfoValueTagListR13,omitempty"`
+	SystemInfoValueTagListR13       SystemInfoValueTagListNBR13                           `asn1:"tag:13,context,implicit,optional" json:"SystemInfoValueTagListR13,omitzero"`
 	SystemInfoValueTagListR13Indef_ bool                                                  `asn1:"-" json:"-"`
-	LateNonCriticalExtension        []byte                                                `asn1:"tag:14,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension        []byte                                                `asn1:"tag:14,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension            *SystemInformationBlockType1NBV1350                   `asn1:"tag:15,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_                     per.FinalPadding                                      `asn1:"-" json:"-"`
 }
@@ -1282,7 +1282,7 @@ type SystemInformationBlockType1NBV1450 struct {
 // SystemInformationBlockType1NBV1530 represents the ASN.1 type SystemInformationBlockType1-NB-v1530 (SEQUENCE).
 type SystemInformationBlockType1NBV1530 struct {
 	TddParametersR15              *SystemInformationBlockType1NBV1530TddParametersR15 `asn1:"tag:0,context,implicit,optional" json:"TddParametersR15,omitempty"`
-	SchedulingInfoListV1530       SchedulingInfoListNBV1530                           `asn1:"tag:1,context,implicit,optional" json:"SchedulingInfoListV1530,omitempty"`
+	SchedulingInfoListV1530       SchedulingInfoListNBV1530                           `asn1:"tag:1,context,implicit,optional" json:"SchedulingInfoListV1530,omitzero"`
 	SchedulingInfoListV1530Indef_ bool                                                `asn1:"-" json:"-"`
 	NonCriticalExtension          *SystemInformationBlockType1NBV1610                 `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_                   per.FinalPadding                                    `asn1:"-" json:"-"`
@@ -1347,7 +1347,7 @@ type PLMNIdentityInfo5GCNBR16 struct {
 
 // PLMNIdentityInfoNBV1700 represents the ASN.1 type PLMN-IdentityInfo-NB-v1700 (SEQUENCE).
 type PLMNIdentityInfoNBV1700 struct {
-	TrackingAreaListR17       TrackingAreaListNBR17 `asn1:"tag:0,context,implicit,optional" json:"TrackingAreaListR17,omitempty"`
+	TrackingAreaListR17       TrackingAreaListNBR17 `asn1:"tag:0,context,implicit,optional" json:"TrackingAreaListR17,omitzero"`
 	TrackingAreaListR17Indef_ bool                  `asn1:"-" json:"-"`
 	PERPadding_               per.FinalPadding      `asn1:"-" json:"-"`
 }
@@ -1376,7 +1376,7 @@ type SchedulingInfoNBR13 struct {
 
 // SchedulingInfoNBV1530 represents the ASN.1 type SchedulingInfo-NB-v1530 (SEQUENCE).
 type SchedulingInfoNBV1530 struct {
-	SibMappingInfoV1530       SIBMappingInfoNBV1530 `asn1:"tag:0,context,implicit,optional" json:"SibMappingInfoV1530,omitempty"`
+	SibMappingInfoV1530       SIBMappingInfoNBV1530 `asn1:"tag:0,context,implicit,optional" json:"SibMappingInfoV1530,omitzero"`
 	SibMappingInfoV1530Indef_ bool                  `asn1:"-" json:"-"`
 	PERPadding_               per.FinalPadding      `asn1:"-" json:"-"`
 }
@@ -1489,7 +1489,7 @@ type UECapabilityEnquiryNB struct {
 
 // UECapabilityEnquiryNBR13IEs represents the ASN.1 type UECapabilityEnquiry-NB-r13-IEs (SEQUENCE).
 type UECapabilityEnquiryNBR13IEs struct {
-	LateNonCriticalExtension []byte                                           `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                                           `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *UECapabilityEnquiryNBR13IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding                                 `asn1:"-" json:"-"`
 }
@@ -1505,7 +1505,7 @@ type UECapabilityInformationNB struct {
 type UECapabilityInformationNBR13IEs struct {
 	UeCapabilityR13          UECapabilityNBR13                   `asn1:"tag:0,context,implicit"`
 	UeRadioPagingInfoR13     UERadioPagingInfoNBR13              `asn1:"tag:1,context,implicit"`
-	LateNonCriticalExtension []byte                              `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                              `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *UECapabilityInformationNBExtR14IEs `asn1:"tag:3,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding                    `asn1:"-" json:"-"`
 }
@@ -1532,7 +1532,7 @@ type UEInformationRequestNBR16IEs struct {
 	RlfReportReqR16Raw_      byte                                              `asn1:"-" json:"-"`
 	AnrReportReqR16          bool                                              `asn1:"tag:2,context,implicit"`
 	AnrReportReqR16Raw_      byte                                              `asn1:"-" json:"-"`
-	LateNonCriticalExtension []byte                                            `asn1:"tag:3,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                                            `asn1:"tag:3,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *UEInformationRequestNBR16IEsNonCriticalExtension `asn1:"tag:4,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding                                  `asn1:"-" json:"-"`
 }
@@ -1549,7 +1549,7 @@ type UEInformationResponseNBR16IEs struct {
 	RachReportR16            *RACHReportNBR16                                   `asn1:"tag:0,context,implicit,optional" json:"RachReportR16,omitempty"`
 	RlfReportR16             *RLFReportNBR16                                    `asn1:"tag:1,context,implicit,optional" json:"RlfReportR16,omitempty"`
 	AnrMeasReportR16         *ANRMeasReportNBR16                                `asn1:"tag:2,context,implicit,optional" json:"AnrMeasReportR16,omitempty"`
-	LateNonCriticalExtension []byte                                             `asn1:"tag:3,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                                             `asn1:"tag:3,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *UEInformationResponseNBR16IEsNonCriticalExtension `asn1:"tag:4,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding                                   `asn1:"-" json:"-"`
 }
@@ -1584,7 +1584,7 @@ type ULInformationTransferNB struct {
 // ULInformationTransferNBR13IEs represents the ASN.1 type ULInformationTransfer-NB-r13-IEs (SEQUENCE).
 type ULInformationTransferNBR13IEs struct {
 	DedicatedInfoNASR13      DedicatedInfoNAS                                   `asn1:"tag:0,context,implicit"`
-	LateNonCriticalExtension []byte                                             `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                                             `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *ULInformationTransferNBR13IEsNonCriticalExtension `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding                                   `asn1:"-" json:"-"`
 }
@@ -1595,9 +1595,9 @@ type SystemInformationBlockType2NBR13 struct {
 	UeTimersAndConstantsR13             UETimersAndConstantsNBR13                            `asn1:"tag:1,context,implicit"`
 	FreqInfoR13                         SystemInformationBlockType2NBR13FreqInfoR13          `asn1:"tag:2,context,implicit"`
 	TimeAlignmentTimerCommonR13         TimeAlignmentTimer                                   `asn1:"tag:3,context,implicit"`
-	MultiBandInfoListR13                SystemInformationBlockType2NBR13MultiBandInfoListR13 `asn1:"tag:4,context,implicit,optional" json:"MultiBandInfoListR13,omitempty"`
+	MultiBandInfoListR13                SystemInformationBlockType2NBR13MultiBandInfoListR13 `asn1:"tag:4,context,implicit,optional" json:"MultiBandInfoListR13,omitzero"`
 	MultiBandInfoListR13Indef_          bool                                                 `asn1:"-" json:"-"`
-	LateNonCriticalExtension            []byte                                               `asn1:"tag:5,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension            []byte                                               `asn1:"tag:5,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	CpReestablishmentR14                *int64                                               `asn1:"tag:6,context,implicit,optional" json:"CpReestablishmentR14,omitempty"`
 	ServingCellMeasInfoR14              *int64                                               `asn1:"tag:7,context,implicit,optional" json:"ServingCellMeasInfoR14,omitempty"`
 	CqiReportingR14                     *int64                                               `asn1:"tag:8,context,implicit,optional" json:"CqiReportingR14,omitempty"`
@@ -1628,11 +1628,11 @@ type SystemInformationBlockType3NBR13 struct {
 	CellReselectionInfoCommonR13      SystemInformationBlockType3NBR13CellReselectionInfoCommonR13      `asn1:"tag:0,context,implicit"`
 	CellReselectionServingFreqInfoR13 SystemInformationBlockType3NBR13CellReselectionServingFreqInfoR13 `asn1:"tag:1,context,implicit"`
 	IntraFreqCellReselectionInfoR13   SystemInformationBlockType3NBR13IntraFreqCellReselectionInfoR13   `asn1:"tag:2,context,implicit"`
-	FreqBandInfoR13                   NSPmaxListNBR13                                                   `asn1:"tag:3,context,implicit,optional" json:"FreqBandInfoR13,omitempty"`
+	FreqBandInfoR13                   NSPmaxListNBR13                                                   `asn1:"tag:3,context,implicit,optional" json:"FreqBandInfoR13,omitzero"`
 	FreqBandInfoR13Indef_             bool                                                              `asn1:"-" json:"-"`
-	MultiBandInfoListR13              SystemInformationBlockType3NBR13MultiBandInfoListR13              `asn1:"tag:4,context,implicit,optional" json:"MultiBandInfoListR13,omitempty"`
+	MultiBandInfoListR13              SystemInformationBlockType3NBR13MultiBandInfoListR13              `asn1:"tag:4,context,implicit,optional" json:"MultiBandInfoListR13,omitzero"`
 	MultiBandInfoListR13Indef_        bool                                                              `asn1:"-" json:"-"`
-	LateNonCriticalExtension          []byte                                                            `asn1:"tag:5,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension          []byte                                                            `asn1:"tag:5,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	IntraFreqCellReselectionInfoV1350 *IntraFreqCellReselectionInfoNBV1350                              `asn1:"tag:6,context,implicit,optional" json:"IntraFreqCellReselectionInfoV1350,omitempty"`
 	IntraFreqCellReselectionInfoV1360 *IntraFreqCellReselectionInfoNBV1360                              `asn1:"tag:7,context,implicit,optional" json:"IntraFreqCellReselectionInfoV1360,omitempty"`
 	IntraFreqCellReselectionInfoV1430 *IntraFreqCellReselectionInfoNBV1430                              `asn1:"tag:8,context,implicit,optional" json:"IntraFreqCellReselectionInfoV1430,omitempty"`
@@ -1641,7 +1641,7 @@ type SystemInformationBlockType3NBR13 struct {
 	NpbchRRMConfigR15                 *int64                                                            `asn1:"tag:11,context,implicit,optional" json:"NpbchRRMConfigR15,omitempty"`
 	ConnMeasConfigR17                 *ConnMeasConfigNBR17                                              `asn1:"tag:12,context,implicit,optional" json:"ConnMeasConfigR17,omitempty"`
 	TServiceR17                       *TimeOffsetUTCR17                                                 `asn1:"tag:13,context,implicit,optional" json:"TServiceR17,omitempty"`
-	SatelliteAssistanceInfoR18        SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18        `asn1:"tag:14,context,implicit,optional" json:"SatelliteAssistanceInfoR18,omitempty"`
+	SatelliteAssistanceInfoR18        SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18        `asn1:"tag:14,context,implicit,optional" json:"SatelliteAssistanceInfoR18,omitzero"`
 	SatelliteAssistanceInfoR18Indef_  bool                                                              `asn1:"-" json:"-"`
 	ExtCount_                         int64                                                             `asn1:"-" json:"-"`
 	ExtPresent_                       []bool                                                            `asn1:"-" json:"-"`
@@ -1685,15 +1685,15 @@ type ConnMeasConfigNBR17 struct {
 
 // SystemInformationBlockType4NBR13 represents the ASN.1 type SystemInformationBlockType4-NB-r13 (SEQUENCE).
 type SystemInformationBlockType4NBR13 struct {
-	IntraFreqNeighCellListR13          IntraFreqNeighCellList        `asn1:"tag:0,context,implicit,optional" json:"IntraFreqNeighCellListR13,omitempty"`
+	IntraFreqNeighCellListR13          IntraFreqNeighCellList        `asn1:"tag:0,context,implicit,optional" json:"IntraFreqNeighCellListR13,omitzero"`
 	IntraFreqNeighCellListR13Indef_    bool                          `asn1:"-" json:"-"`
-	IntraFreqExcludedCellListR13       IntraFreqExcludedCellList     `asn1:"tag:1,context,implicit,optional" json:"IntraFreqExcludedCellListR13,omitempty"`
+	IntraFreqExcludedCellListR13       IntraFreqExcludedCellList     `asn1:"tag:1,context,implicit,optional" json:"IntraFreqExcludedCellListR13,omitzero"`
 	IntraFreqExcludedCellListR13Indef_ bool                          `asn1:"-" json:"-"`
-	LateNonCriticalExtension           []byte                        `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension           []byte                        `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NsssRRMConfigR15                   *NSSSRRMConfigNBR15           `asn1:"tag:3,context,implicit,optional" json:"NsssRRMConfigR15,omitempty"`
-	IntraFreqNeighCellListV1530        IntraFreqNeighCellListNBV1530 `asn1:"tag:4,context,implicit,optional" json:"IntraFreqNeighCellListV1530,omitempty"`
+	IntraFreqNeighCellListV1530        IntraFreqNeighCellListNBV1530 `asn1:"tag:4,context,implicit,optional" json:"IntraFreqNeighCellListV1530,omitzero"`
 	IntraFreqNeighCellListV1530Indef_  bool                          `asn1:"-" json:"-"`
-	IntraFreqNeighCellListV1910        IntraFreqNeighCellListNBV1910 `asn1:"tag:5,context,implicit,optional" json:"IntraFreqNeighCellListV1910,omitempty"`
+	IntraFreqNeighCellListV1910        IntraFreqNeighCellListNBV1910 `asn1:"tag:5,context,implicit,optional" json:"IntraFreqNeighCellListV1910,omitzero"`
 	IntraFreqNeighCellListV1910Indef_  bool                          `asn1:"-" json:"-"`
 	ExtCount_                          int64                         `asn1:"-" json:"-"`
 	ExtPresent_                        []bool                        `asn1:"-" json:"-"`
@@ -1728,9 +1728,9 @@ type SystemInformationBlockType5NBR13 struct {
 	InterFreqCarrierFreqListR13         InterFreqCarrierFreqListNBR13   `asn1:"tag:0,context,implicit"`
 	InterFreqCarrierFreqListR13Indef_   bool                            `asn1:"-" json:"-"`
 	TReselectionR13                     TReselectionNBR13               `asn1:"tag:1,context,implicit"`
-	LateNonCriticalExtension            []byte                          `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension            []byte                          `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	ScptmFreqOffsetR14                  *int64                          `asn1:"tag:3,context,implicit,optional" json:"ScptmFreqOffsetR14,omitempty"`
-	InterFreqCarrierFreqListV1820       InterFreqCarrierFreqListNBV1820 `asn1:"tag:4,context,implicit,optional" json:"InterFreqCarrierFreqListV1820,omitempty"`
+	InterFreqCarrierFreqListV1820       InterFreqCarrierFreqListNBV1820 `asn1:"tag:4,context,implicit,optional" json:"InterFreqCarrierFreqListV1820,omitzero"`
 	InterFreqCarrierFreqListV1820Indef_ bool                            `asn1:"-" json:"-"`
 	ExtCount_                           int64                           `asn1:"-" json:"-"`
 	ExtPresent_                         []bool                          `asn1:"-" json:"-"`
@@ -1754,20 +1754,20 @@ type InterFreqCarrierFreqInfoNBR13 struct {
 	QQualMinR13                        *QQualMinR9                    `asn1:"tag:2,context,implicit,optional" json:"QQualMinR13,omitempty"`
 	PMaxR13                            *PMax                          `asn1:"tag:3,context,implicit,optional" json:"PMaxR13,omitempty"`
 	QOffsetFreqR13                     *QOffsetRange                  `asn1:"tag:4,context,implicit,optional" json:"QOffsetFreqR13,omitempty"`
-	InterFreqNeighCellListR13          InterFreqNeighCellListNBR13    `asn1:"tag:5,context,implicit,optional" json:"InterFreqNeighCellListR13,omitempty"`
+	InterFreqNeighCellListR13          InterFreqNeighCellListNBR13    `asn1:"tag:5,context,implicit,optional" json:"InterFreqNeighCellListR13,omitzero"`
 	InterFreqNeighCellListR13Indef_    bool                           `asn1:"-" json:"-"`
-	InterFreqExcludedCellListR13       InterFreqExcludedCellListNBR13 `asn1:"tag:6,context,implicit,optional" json:"InterFreqExcludedCellListR13,omitempty"`
+	InterFreqExcludedCellListR13       InterFreqExcludedCellListNBR13 `asn1:"tag:6,context,implicit,optional" json:"InterFreqExcludedCellListR13,omitzero"`
 	InterFreqExcludedCellListR13Indef_ bool                           `asn1:"-" json:"-"`
-	MultiBandInfoListR13               MultiBandInfoListNBR13         `asn1:"tag:7,context,implicit,optional" json:"MultiBandInfoListR13,omitempty"`
+	MultiBandInfoListR13               MultiBandInfoListNBR13         `asn1:"tag:7,context,implicit,optional" json:"MultiBandInfoListR13,omitzero"`
 	MultiBandInfoListR13Indef_         bool                           `asn1:"-" json:"-"`
 	DeltaRxLevMinV1350                 *int64                         `asn1:"tag:8,context,implicit,optional" json:"DeltaRxLevMinV1350,omitempty"`
 	PowerClass14dBmOffsetR14           *int64                         `asn1:"tag:9,context,implicit,optional" json:"PowerClass14dBmOffsetR14,omitempty"`
 	CeAuthorisationOffsetR14           *int64                         `asn1:"tag:10,context,implicit,optional" json:"CeAuthorisationOffsetR14,omitempty"`
 	NsssRRMConfigR15                   *NSSSRRMConfigNBR15            `asn1:"tag:11,context,implicit,optional" json:"NsssRRMConfigR15,omitempty"`
-	InterFreqNeighCellListV1530        InterFreqNeighCellListNBV1530  `asn1:"tag:12,context,implicit,optional" json:"InterFreqNeighCellListV1530,omitempty"`
+	InterFreqNeighCellListV1530        InterFreqNeighCellListNBV1530  `asn1:"tag:12,context,implicit,optional" json:"InterFreqNeighCellListV1530,omitzero"`
 	InterFreqNeighCellListV1530Indef_  bool                           `asn1:"-" json:"-"`
 	DlCarrierFreqV1550                 *CarrierFreqNBV1550            `asn1:"tag:13,context,implicit,optional" json:"DlCarrierFreqV1550,omitempty"`
-	InterFreqNeighCellListV1910        InterFreqNeighCellListNBV1910  `asn1:"tag:14,context,implicit,optional" json:"InterFreqNeighCellListV1910,omitempty"`
+	InterFreqNeighCellListV1910        InterFreqNeighCellListNBV1910  `asn1:"tag:14,context,implicit,optional" json:"InterFreqNeighCellListV1910,omitzero"`
 	InterFreqNeighCellListV1910Indef_  bool                           `asn1:"-" json:"-"`
 	ExtCount_                          int64                          `asn1:"-" json:"-"`
 	ExtPresent_                        []bool                         `asn1:"-" json:"-"`
@@ -1778,7 +1778,7 @@ type InterFreqCarrierFreqInfoNBR13 struct {
 
 // InterFreqCarrierFreqInfoNBV1820 represents the ASN.1 type InterFreqCarrierFreqInfo-NB-v1820 (SEQUENCE).
 type InterFreqCarrierFreqInfoNBV1820 struct {
-	SatelliteAssistanceInfoR18       InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18 `asn1:"tag:0,context,implicit,optional" json:"SatelliteAssistanceInfoR18,omitempty"`
+	SatelliteAssistanceInfoR18       InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18 `asn1:"tag:0,context,implicit,optional" json:"SatelliteAssistanceInfoR18,omitzero"`
 	SatelliteAssistanceInfoR18Indef_ bool                                                      `asn1:"-" json:"-"`
 	PERPadding_                      per.FinalPadding                                          `asn1:"-" json:"-"`
 }
@@ -1817,8 +1817,8 @@ type SystemInformationBlockType10NBR19 struct {
 	MessageIdentifierR19      runtime.BitString     `asn1:"tag:0,context,implicit"`
 	SerialNumberR19           runtime.BitString     `asn1:"tag:1,context,implicit"`
 	WarningTypeR19            []byte                `asn1:"tag:2,context,implicit"`
-	WarningAreaCoordinatesR19 []byte                `asn1:"tag:3,context,implicit,optional" json:"WarningAreaCoordinatesR19,omitempty"`
-	LateNonCriticalExtension  []byte                `asn1:"tag:4,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	WarningAreaCoordinatesR19 []byte                `asn1:"tag:3,context,implicit,optional" json:"WarningAreaCoordinatesR19,omitzero"`
+	LateNonCriticalExtension  []byte                `asn1:"tag:4,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	ExtCount_                 int64                 `asn1:"-" json:"-"`
 	ExtPresent_               []bool                `asn1:"-" json:"-"`
 	ExtData_                  [][]byte              `asn1:"-" json:"-"`
@@ -1833,9 +1833,9 @@ type SystemInformationBlockType11NBR19 struct {
 	WarningMessageSegmentTypeR19     int64                 `asn1:"tag:2,context,implicit"`
 	WarningMessageSegmentNumberR19   int64                 `asn1:"tag:3,context,implicit"`
 	WarningMessageSegmentR19         []byte                `asn1:"tag:4,context,implicit"`
-	DataCodingSchemeR19              []byte                `asn1:"tag:5,context,implicit,optional" json:"DataCodingSchemeR19,omitempty"`
-	WarningAreaCoordinatesSegmentR19 []byte                `asn1:"tag:6,context,implicit,optional" json:"WarningAreaCoordinatesSegmentR19,omitempty"`
-	LateNonCriticalExtension         []byte                `asn1:"tag:7,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	DataCodingSchemeR19              []byte                `asn1:"tag:5,context,implicit,optional" json:"DataCodingSchemeR19,omitzero"`
+	WarningAreaCoordinatesSegmentR19 []byte                `asn1:"tag:6,context,implicit,optional" json:"WarningAreaCoordinatesSegmentR19,omitzero"`
+	LateNonCriticalExtension         []byte                `asn1:"tag:7,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	ExtCount_                        int64                 `asn1:"-" json:"-"`
 	ExtPresent_                      []bool                `asn1:"-" json:"-"`
 	ExtData_                         [][]byte              `asn1:"-" json:"-"`
@@ -1850,9 +1850,9 @@ type SystemInformationBlockType12NBR19 struct {
 	WarningMessageSegmentTypeR19     int64                 `asn1:"tag:2,context,implicit"`
 	WarningMessageSegmentNumberR19   int64                 `asn1:"tag:3,context,implicit"`
 	WarningMessageSegmentR19         []byte                `asn1:"tag:4,context,implicit"`
-	DataCodingSchemeR19              []byte                `asn1:"tag:5,context,implicit,optional" json:"DataCodingSchemeR19,omitempty"`
-	WarningAreaCoordinatesSegmentR19 []byte                `asn1:"tag:6,context,implicit,optional" json:"WarningAreaCoordinatesSegmentR19,omitempty"`
-	LateNonCriticalExtension         []byte                `asn1:"tag:7,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	DataCodingSchemeR19              []byte                `asn1:"tag:5,context,implicit,optional" json:"DataCodingSchemeR19,omitzero"`
+	WarningAreaCoordinatesSegmentR19 []byte                `asn1:"tag:6,context,implicit,optional" json:"WarningAreaCoordinatesSegmentR19,omitzero"`
+	LateNonCriticalExtension         []byte                `asn1:"tag:7,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	ExtCount_                        int64                 `asn1:"-" json:"-"`
 	ExtPresent_                      []bool                `asn1:"-" json:"-"`
 	ExtData_                         [][]byte              `asn1:"-" json:"-"`
@@ -1863,7 +1863,7 @@ type SystemInformationBlockType12NBR19 struct {
 // SystemInformationBlockType14NBR13 represents the ASN.1 type SystemInformationBlockType14-NB-r13 (SEQUENCE).
 type SystemInformationBlockType14NBR13 struct {
 	AbParamR13               *SystemInformationBlockType14NBR13AbParamR13 `asn1:"tag:0,context,explicit,optional" json:"AbParamR13,omitempty"`
-	LateNonCriticalExtension []byte                                       `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                                       `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	AbPerNRSRPR15            *int64                                       `asn1:"tag:2,context,implicit,optional" json:"AbPerNRSRPR15,omitempty"`
 	UacParamR16              *UACParamNBR16                               `asn1:"tag:3,context,explicit,optional" json:"UacParamR16,omitempty"`
 	ExtCount_                int64                                        `asn1:"-" json:"-"`
@@ -1900,7 +1900,7 @@ type UACParamNBR16 struct {
 	PERPadding_           per.FinalPadding                   `json:"-"`
 	PEROpenTypePadding_   per.CompletePadding                `json:"-"`
 	UacBarringCommon      *UACBarringNBR16                   `json:"UacBarringCommon,omitempty"`
-	UacBarringPerPLMNList UACParamNBR16UacBarringPerPLMNList `json:"UacBarringPerPLMNList,omitempty"`
+	UacBarringPerPLMNList UACParamNBR16UacBarringPerPLMNList `json:"UacBarringPerPLMNList,omitzero"`
 }
 
 // NewUACParamNBR16UacBarringCommon creates a UACParamNBR16 with the uac-BarringCommon alternative.
@@ -1921,7 +1921,7 @@ func NewUACParamNBR16UacBarringPerPLMNList(v UACParamNBR16UacBarringPerPLMNList)
 
 // UACBarringNBR16 represents the ASN.1 type UAC-Barring-NB-r16 (SEQUENCE).
 type UACBarringNBR16 struct {
-	UacBarringPerCatListR16        UACBarringPerCatListNBR16  `asn1:"tag:0,context,implicit,optional" json:"UacBarringPerCatListR16,omitempty"`
+	UacBarringPerCatListR16        UACBarringPerCatListNBR16  `asn1:"tag:0,context,implicit,optional" json:"UacBarringPerCatListR16,omitzero"`
 	UacBarringPerCatListR16Indef_  bool                       `asn1:"-" json:"-"`
 	UacAC1SelectAssistInfoR16      *UACAC1SelectAssistInfoR15 `asn1:"tag:1,context,implicit,optional" json:"UacAC1SelectAssistInfoR16,omitempty"`
 	UacBarringForAccessIdentityR16 runtime.BitString          `asn1:"tag:2,context,implicit"`
@@ -1942,11 +1942,11 @@ type UACBarringPerCatNBR16 struct {
 
 // SystemInformationBlockType15NBR14 represents the ASN.1 type SystemInformationBlockType15-NB-r14 (SEQUENCE).
 type SystemInformationBlockType15NBR14 struct {
-	MbmsSAIIntraFreqR14           MBMSSAIListR11            `asn1:"tag:0,context,implicit,optional" json:"MbmsSAIIntraFreqR14,omitempty"`
+	MbmsSAIIntraFreqR14           MBMSSAIListR11            `asn1:"tag:0,context,implicit,optional" json:"MbmsSAIIntraFreqR14,omitzero"`
 	MbmsSAIIntraFreqR14Indef_     bool                      `asn1:"-" json:"-"`
-	MbmsSAIInterFreqListR14       MBMSSAIInterFreqListNBR14 `asn1:"tag:1,context,implicit,optional" json:"MbmsSAIInterFreqListR14,omitempty"`
+	MbmsSAIInterFreqListR14       MBMSSAIInterFreqListNBR14 `asn1:"tag:1,context,implicit,optional" json:"MbmsSAIInterFreqListR14,omitzero"`
 	MbmsSAIInterFreqListR14Indef_ bool                      `asn1:"-" json:"-"`
-	LateNonCriticalExtension      []byte                    `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension      []byte                    `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	ExtCount_                     int64                     `asn1:"-" json:"-"`
 	ExtPresent_                   []bool                    `asn1:"-" json:"-"`
 	ExtData_                      [][]byte                  `asn1:"-" json:"-"`
@@ -1963,7 +1963,7 @@ type MBMSSAIInterFreqNBR14 struct {
 	DlCarrierFreqR14           CarrierFreqNBR13            `asn1:"tag:0,context,implicit"`
 	MbmsSAIListR14             MBMSSAIListR11              `asn1:"tag:1,context,implicit"`
 	MbmsSAIListR14Indef_       bool                        `asn1:"-" json:"-"`
-	MultiBandInfoListR14       AdditionalBandInfoListNBR14 `asn1:"tag:2,context,implicit,optional" json:"MultiBandInfoListR14,omitempty"`
+	MultiBandInfoListR14       AdditionalBandInfoListNBR14 `asn1:"tag:2,context,implicit,optional" json:"MultiBandInfoListR14,omitzero"`
 	MultiBandInfoListR14Indef_ bool                        `asn1:"-" json:"-"`
 	PERPadding_                per.FinalPadding            `asn1:"-" json:"-"`
 }
@@ -1979,7 +1979,7 @@ type SystemInformationBlockType20NBR14 struct {
 	ScMcchOffsetR14             int64                                                   `asn1:"tag:3,context,implicit"`
 	ScMcchModificationPeriodR14 int64                                                   `asn1:"tag:4,context,implicit"`
 	ScMcchSchedulingInfoR14     *SCMCCHSchedulingInfoNBR14                              `asn1:"tag:5,context,implicit,optional" json:"ScMcchSchedulingInfoR14,omitempty"`
-	LateNonCriticalExtension    []byte                                                  `asn1:"tag:6,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension    []byte                                                  `asn1:"tag:6,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	ExtCount_                   int64                                                   `asn1:"-" json:"-"`
 	ExtPresent_                 []bool                                                  `asn1:"-" json:"-"`
 	ExtData_                    [][]byte                                                `asn1:"-" json:"-"`
@@ -2009,19 +2009,19 @@ type SCMCCHSchedulingInfoNBR14 struct {
 
 // SystemInformationBlockType22NBR14 represents the ASN.1 type SystemInformationBlockType22-NB-r14 (SEQUENCE).
 type SystemInformationBlockType22NBR14 struct {
-	DlConfigListR14                        DLConfigCommonListNBR14                                       `asn1:"tag:0,context,implicit,optional" json:"DlConfigListR14,omitempty"`
+	DlConfigListR14                        DLConfigCommonListNBR14                                       `asn1:"tag:0,context,implicit,optional" json:"DlConfigListR14,omitzero"`
 	DlConfigListR14Indef_                  bool                                                          `asn1:"-" json:"-"`
-	UlConfigListR14                        ULConfigCommonListNBR14                                       `asn1:"tag:1,context,implicit,optional" json:"UlConfigListR14,omitempty"`
+	UlConfigListR14                        ULConfigCommonListNBR14                                       `asn1:"tag:1,context,implicit,optional" json:"UlConfigListR14,omitzero"`
 	UlConfigListR14Indef_                  bool                                                          `asn1:"-" json:"-"`
 	PagingWeightAnchorR14                  *PagingWeightNBR14                                            `asn1:"tag:2,context,implicit,optional" json:"PagingWeightAnchorR14,omitempty"`
-	NprachProbabilityAnchorListR14         NPRACHProbabilityAnchorListNBR14                              `asn1:"tag:3,context,implicit,optional" json:"NprachProbabilityAnchorListR14,omitempty"`
+	NprachProbabilityAnchorListR14         NPRACHProbabilityAnchorListNBR14                              `asn1:"tag:3,context,implicit,optional" json:"NprachProbabilityAnchorListR14,omitzero"`
 	NprachProbabilityAnchorListR14Indef_   bool                                                          `asn1:"-" json:"-"`
-	LateNonCriticalExtension               []byte                                                        `asn1:"tag:4,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension               []byte                                                        `asn1:"tag:4,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	MixedOperationModeConfigR15            *SystemInformationBlockType22NBR14MixedOperationModeConfigR15 `asn1:"tag:5,context,implicit,optional" json:"MixedOperationModeConfigR15,omitempty"`
-	UlConfigListR15                        ULConfigCommonListTDDNBR15                                    `asn1:"tag:6,context,implicit,optional" json:"UlConfigListR15,omitempty"`
+	UlConfigListR15                        ULConfigCommonListTDDNBR15                                    `asn1:"tag:6,context,implicit,optional" json:"UlConfigListR15,omitzero"`
 	UlConfigListR15Indef_                  bool                                                          `asn1:"-" json:"-"`
 	CoverageBasedPagingConfigR17           *CoverageBasedPagingConfigNBR17                               `asn1:"tag:7,context,implicit,optional" json:"CoverageBasedPagingConfigR17,omitempty"`
-	CbMsg3ProbabilityAnchorListNBR19       CBMsg3ProbabilityAnchorListNBR19                              `asn1:"tag:8,context,implicit,optional" json:"CbMsg3ProbabilityAnchorListNBR19,omitempty"`
+	CbMsg3ProbabilityAnchorListNBR19       CBMsg3ProbabilityAnchorListNBR19                              `asn1:"tag:8,context,implicit,optional" json:"CbMsg3ProbabilityAnchorListNBR19,omitzero"`
 	CbMsg3ProbabilityAnchorListNBR19Indef_ bool                                                          `asn1:"-" json:"-"`
 	ExtCount_                              int64                                                         `asn1:"-" json:"-"`
 	ExtPresent_                            []bool                                                        `asn1:"-" json:"-"`
@@ -2159,11 +2159,11 @@ func (v PagingWeightNBR14) String() string {
 // ULConfigCommonNBR14 represents the ASN.1 type UL-ConfigCommon-NB-r14 (SEQUENCE).
 type ULConfigCommonNBR14 struct {
 	UlCarrierFreqR14                     CarrierFreqNBR13                  `asn1:"tag:0,context,implicit"`
-	NprachParametersListR14              NPRACHParametersListNBR14         `asn1:"tag:1,context,implicit,optional" json:"NprachParametersListR14,omitempty"`
+	NprachParametersListR14              NPRACHParametersListNBR14         `asn1:"tag:1,context,implicit,optional" json:"NprachParametersListR14,omitzero"`
 	NprachParametersListR14Indef_        bool                              `asn1:"-" json:"-"`
-	NprachParametersListEDTR15           NPRACHParametersListNBR14         `asn1:"tag:2,context,implicit,optional" json:"NprachParametersListEDTR15,omitempty"`
+	NprachParametersListEDTR15           NPRACHParametersListNBR14         `asn1:"tag:2,context,implicit,optional" json:"NprachParametersListEDTR15,omitzero"`
 	NprachParametersListEDTR15Indef_     bool                              `asn1:"-" json:"-"`
-	RsrpThresholdsPrachInfoListR16       RSRPThresholdsNPRACHInfoListNBR13 `asn1:"tag:3,context,implicit,optional" json:"RsrpThresholdsPrachInfoListR16,omitempty"`
+	RsrpThresholdsPrachInfoListR16       RSRPThresholdsNPRACHInfoListNBR13 `asn1:"tag:3,context,implicit,optional" json:"RsrpThresholdsPrachInfoListR16,omitzero"`
 	RsrpThresholdsPrachInfoListR16Indef_ bool                              `asn1:"-" json:"-"`
 	CbMsg3ConfigSIBNBR19                 *CBMsg3ConfigSIBNBR19             `asn1:"tag:4,context,implicit,optional" json:"CbMsg3ConfigSIBNBR19,omitempty"`
 	ExtCount_                            int64                             `asn1:"-" json:"-"`
@@ -2176,7 +2176,7 @@ type ULConfigCommonNBR14 struct {
 // ULConfigCommonTDDNBR15 represents the ASN.1 type UL-ConfigCommonTDD-NB-r15 (SEQUENCE).
 type ULConfigCommonTDDNBR15 struct {
 	TddULDLAlignmentOffsetR15        TDDULDLAlignmentOffsetNBR15  `asn1:"tag:0,context,implicit"`
-	NprachParametersListTDDR15       NPRACHParametersListTDDNBR15 `asn1:"tag:1,context,implicit,optional" json:"NprachParametersListTDDR15,omitempty"`
+	NprachParametersListTDDR15       NPRACHParametersListTDDNBR15 `asn1:"tag:1,context,implicit,optional" json:"NprachParametersListTDDR15,omitzero"`
 	NprachParametersListTDDR15Indef_ bool                         `asn1:"-" json:"-"`
 	ExtCount_                        int64                        `asn1:"-" json:"-"`
 	ExtPresent_                      []bool                       `asn1:"-" json:"-"`
@@ -2207,11 +2207,11 @@ type CBMsg3ProbabilityAnchorNBR19 struct {
 
 // SystemInformationBlockType23NBR15 represents the ASN.1 type SystemInformationBlockType23-NB-r15 (SEQUENCE).
 type SystemInformationBlockType23NBR15 struct {
-	UlConfigListV1530            ULConfigCommonListNBV1530 `asn1:"tag:0,context,implicit,optional" json:"UlConfigListV1530,omitempty"`
+	UlConfigListV1530            ULConfigCommonListNBV1530 `asn1:"tag:0,context,implicit,optional" json:"UlConfigListV1530,omitzero"`
 	UlConfigListV1530Indef_      bool                      `asn1:"-" json:"-"`
-	UlConfigListMixedV1530       ULConfigCommonListNBV1530 `asn1:"tag:1,context,implicit,optional" json:"UlConfigListMixedV1530,omitempty"`
+	UlConfigListMixedV1530       ULConfigCommonListNBV1530 `asn1:"tag:1,context,implicit,optional" json:"UlConfigListMixedV1530,omitzero"`
 	UlConfigListMixedV1530Indef_ bool                      `asn1:"-" json:"-"`
-	LateNonCriticalExtension     []byte                    `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension     []byte                    `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	ExtCount_                    int64                     `asn1:"-" json:"-"`
 	ExtPresent_                  []bool                    `asn1:"-" json:"-"`
 	ExtData_                     [][]byte                  `asn1:"-" json:"-"`
@@ -2225,9 +2225,9 @@ type ULConfigCommonListNBV1530 = []ULConfigCommonNBV1530
 
 // ULConfigCommonNBV1530 represents the ASN.1 type UL-ConfigCommon-NB-v1530 (SEQUENCE).
 type ULConfigCommonNBV1530 struct {
-	NprachParametersListFmt2R15          NPRACHParametersListFmt2NBR15 `asn1:"tag:0,context,implicit,optional" json:"NprachParametersListFmt2R15,omitempty"`
+	NprachParametersListFmt2R15          NPRACHParametersListFmt2NBR15 `asn1:"tag:0,context,implicit,optional" json:"NprachParametersListFmt2R15,omitzero"`
 	NprachParametersListFmt2R15Indef_    bool                          `asn1:"-" json:"-"`
-	NprachParametersListFmt2EDTR15       NPRACHParametersListFmt2NBR15 `asn1:"tag:1,context,implicit,optional" json:"NprachParametersListFmt2EDTR15,omitempty"`
+	NprachParametersListFmt2EDTR15       NPRACHParametersListFmt2NBR15 `asn1:"tag:1,context,implicit,optional" json:"NprachParametersListFmt2EDTR15,omitzero"`
 	NprachParametersListFmt2EDTR15Indef_ bool                          `asn1:"-" json:"-"`
 	ExtCount_                            int64                         `asn1:"-" json:"-"`
 	ExtPresent_                          []bool                        `asn1:"-" json:"-"`
@@ -2238,12 +2238,12 @@ type ULConfigCommonNBV1530 struct {
 
 // SystemInformationBlockType27NBR16 represents the ASN.1 type SystemInformationBlockType27-NB-r16 (SEQUENCE).
 type SystemInformationBlockType27NBR16 struct {
-	CarrierFreqListEUTRAR16        CarrierFreqListEUTRANBR16  `asn1:"tag:0,context,implicit,optional" json:"CarrierFreqListEUTRAR16,omitempty"`
+	CarrierFreqListEUTRAR16        CarrierFreqListEUTRANBR16  `asn1:"tag:0,context,implicit,optional" json:"CarrierFreqListEUTRAR16,omitzero"`
 	CarrierFreqListEUTRAR16Indef_  bool                       `asn1:"-" json:"-"`
-	CarrierFreqsListGERANR16       CarrierFreqsListGERANNBR16 `asn1:"tag:1,context,implicit,optional" json:"CarrierFreqsListGERANR16,omitempty"`
+	CarrierFreqsListGERANR16       CarrierFreqsListGERANNBR16 `asn1:"tag:1,context,implicit,optional" json:"CarrierFreqsListGERANR16,omitzero"`
 	CarrierFreqsListGERANR16Indef_ bool                       `asn1:"-" json:"-"`
-	LateNonCriticalExtension       []byte                     `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	CarrierFreqListNRR19           CarrierFreqListNRR19       `asn1:"tag:3,context,implicit,optional" json:"CarrierFreqListNRR19,omitempty"`
+	LateNonCriticalExtension       []byte                     `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
+	CarrierFreqListNRR19           CarrierFreqListNRR19       `asn1:"tag:3,context,implicit,optional" json:"CarrierFreqListNRR19,omitzero"`
 	CarrierFreqListNRR19Indef_     bool                       `asn1:"-" json:"-"`
 	ExtCount_                      int64                      `asn1:"-" json:"-"`
 	ExtPresent_                    []bool                     `asn1:"-" json:"-"`
@@ -2287,7 +2287,7 @@ type CarrierFreqsGERANNBR16 struct {
 // SystemInformationBlockType31NBR17 represents the ASN.1 type SystemInformationBlockType31-NB-r17 (SEQUENCE).
 type SystemInformationBlockType31NBR17 struct {
 	ServingSatelliteInfoR17   ServingSatelliteInfoR17      `asn1:"tag:0,context,implicit"`
-	LateNonCriticalExtension  []byte                       `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension  []byte                       `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	ServingSatelliteInfoV1820 *ServingSatelliteInfoV1820   `asn1:"tag:2,context,implicit,optional" json:"ServingSatelliteInfoV1820,omitempty"`
 	ServingSatelliteInfoV1900 *ServingSatelliteInfoNBV1900 `asn1:"tag:3,context,implicit,optional" json:"ServingSatelliteInfoV1900,omitempty"`
 	ExtCount_                 int64                        `asn1:"-" json:"-"`
@@ -2306,12 +2306,12 @@ type ServingSatelliteInfoNBV1900 struct {
 
 // SystemInformationBlockType32NBR17 represents the ASN.1 type SystemInformationBlockType32-NB-r17 (SEQUENCE).
 type SystemInformationBlockType32NBR17 struct {
-	SatelliteInfoListR17         SatelliteInfoListR17     `asn1:"tag:0,context,implicit,optional" json:"SatelliteInfoListR17,omitempty"`
+	SatelliteInfoListR17         SatelliteInfoListR17     `asn1:"tag:0,context,implicit,optional" json:"SatelliteInfoListR17,omitzero"`
 	SatelliteInfoListR17Indef_   bool                     `asn1:"-" json:"-"`
-	LateNonCriticalExtension     []byte                   `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	SatelliteInfoListV1800       SatelliteInfoListV1800   `asn1:"tag:2,context,implicit,optional" json:"SatelliteInfoListV1800,omitempty"`
+	LateNonCriticalExtension     []byte                   `asn1:"tag:1,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
+	SatelliteInfoListV1800       SatelliteInfoListV1800   `asn1:"tag:2,context,implicit,optional" json:"SatelliteInfoListV1800,omitzero"`
 	SatelliteInfoListV1800Indef_ bool                     `asn1:"-" json:"-"`
-	SatelliteInfoListV1830       SatelliteInfoListNBV1830 `asn1:"tag:3,context,implicit,optional" json:"SatelliteInfoListV1830,omitempty"`
+	SatelliteInfoListV1830       SatelliteInfoListNBV1830 `asn1:"tag:3,context,implicit,optional" json:"SatelliteInfoListV1830,omitzero"`
 	SatelliteInfoListV1830Indef_ bool                     `asn1:"-" json:"-"`
 	ExtCount_                    int64                    `asn1:"-" json:"-"`
 	ExtPresent_                  []bool                   `asn1:"-" json:"-"`
@@ -2333,15 +2333,15 @@ type CarrierFreqListNBR18 struct {
 
 // SystemInformationBlockType33NBR18 represents the ASN.1 type SystemInformationBlockType33-NB-r18 (SEQUENCE).
 type SystemInformationBlockType33NBR18 struct {
-	NeighSatelliteInfoListR18               NeighSatelliteInfoListR18         `asn1:"tag:0,context,implicit,optional" json:"NeighSatelliteInfoListR18,omitempty"`
+	NeighSatelliteInfoListR18               NeighSatelliteInfoListR18         `asn1:"tag:0,context,implicit,optional" json:"NeighSatelliteInfoListR18,omitzero"`
 	NeighSatelliteInfoListR18Indef_         bool                              `asn1:"-" json:"-"`
 	NeighValidityDurationR18                *int64                            `asn1:"tag:1,context,implicit,optional" json:"NeighValidityDurationR18,omitempty"`
-	LateNonCriticalExtension                []byte                            `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
-	NeighSatelliteInfoListIoTTDDV1900       NeighSatelliteInfoListIoTTDDV1900 `asn1:"tag:3,context,implicit,optional" json:"NeighSatelliteInfoListIoTTDDV1900,omitempty"`
+	LateNonCriticalExtension                []byte                            `asn1:"tag:2,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
+	NeighSatelliteInfoListIoTTDDV1900       NeighSatelliteInfoListIoTTDDV1900 `asn1:"tag:3,context,implicit,optional" json:"NeighSatelliteInfoListIoTTDDV1900,omitzero"`
 	NeighSatelliteInfoListIoTTDDV1900Indef_ bool                              `asn1:"-" json:"-"`
-	NeighSatelliteInfoListV1910             NeighSatelliteInfoListV1900       `asn1:"tag:4,context,implicit,optional" json:"NeighSatelliteInfoListV1910,omitempty"`
+	NeighSatelliteInfoListV1910             NeighSatelliteInfoListV1900       `asn1:"tag:4,context,implicit,optional" json:"NeighSatelliteInfoListV1910,omitzero"`
 	NeighSatelliteInfoListV1910Indef_       bool                              `asn1:"-" json:"-"`
-	NeighSatelliteInfoListNRR19             NeighSatelliteInfoListNRR19       `asn1:"tag:5,context,implicit,optional" json:"NeighSatelliteInfoListNRR19,omitempty"`
+	NeighSatelliteInfoListNRR19             NeighSatelliteInfoListNRR19       `asn1:"tag:5,context,implicit,optional" json:"NeighSatelliteInfoListNRR19,omitzero"`
 	NeighSatelliteInfoListNRR19Indef_       bool                              `asn1:"-" json:"-"`
 	ExtCount_                               int64                             `asn1:"-" json:"-"`
 	ExtPresent_                             []bool                            `asn1:"-" json:"-"`
@@ -2410,7 +2410,7 @@ type CarrierFreqNBV1550 struct {
 // CBMsg3ConfigSIBNBR19 represents the ASN.1 type CB-Msg3-ConfigSIB-NB-r19 (SEQUENCE).
 type CBMsg3ConfigSIBNBR19 struct {
 	CbMsg3MinRSRPThresholdNBR19   *NRSRPRangeNBR14            `asn1:"tag:0,context,implicit,optional" json:"CbMsg3MinRSRPThresholdNBR19,omitempty"`
-	CbMsg3RSRPCELevelsNBR19       CBMsg3RSRPCELevelsNBR19     `asn1:"tag:1,context,implicit,optional" json:"CbMsg3RSRPCELevelsNBR19,omitempty"`
+	CbMsg3RSRPCELevelsNBR19       CBMsg3RSRPCELevelsNBR19     `asn1:"tag:1,context,implicit,optional" json:"CbMsg3RSRPCELevelsNBR19,omitzero"`
 	CbMsg3RSRPCELevelsNBR19Indef_ bool                        `asn1:"-" json:"-"`
 	CbMsg3ConfigListNBR19         CBMsg3ConfigListNBR19       `asn1:"tag:2,context,implicit"`
 	CbMsg3ConfigListNBR19Indef_   bool                        `asn1:"-" json:"-"`
@@ -2573,7 +2573,7 @@ type GWUSConfigNBR16 struct {
 	ResourceConfigDRXR16       GWUSResourceConfigNBR16  `asn1:"tag:3,context,implicit"`
 	ResourceConfigEDRXShortR16 *GWUSResourceConfigNBR16 `asn1:"tag:4,context,implicit,optional" json:"ResourceConfigEDRXShortR16,omitempty"`
 	ResourceConfigEDRXLongR16  *GWUSResourceConfigNBR16 `asn1:"tag:5,context,implicit,optional" json:"ResourceConfigEDRXLongR16,omitempty"`
-	ProbThreshListR16          GWUSProbThreshListNBR16  `asn1:"tag:6,context,implicit,optional" json:"ProbThreshListR16,omitempty"`
+	ProbThreshListR16          GWUSProbThreshListNBR16  `asn1:"tag:6,context,implicit,optional" json:"ProbThreshListR16,omitzero"`
 	ProbThreshListR16Indef_    bool                     `asn1:"-" json:"-"`
 	ExtCount_                  int64                    `asn1:"-" json:"-"`
 	ExtPresent_                []bool                   `asn1:"-" json:"-"`
@@ -2585,9 +2585,9 @@ type GWUSConfigNBR16 struct {
 // GWUSResourceConfigNBR16 represents the ASN.1 type GWUS-ResourceConfig-NB-r16 (SEQUENCE).
 type GWUSResourceConfigNBR16 struct {
 	ResourcePositionR16           int64                         `asn1:"tag:0,context,implicit"`
-	NumGroupsListR16              GWUSNumGroupsListNBR16        `asn1:"tag:1,context,implicit,optional" json:"NumGroupsListR16,omitempty"`
+	NumGroupsListR16              GWUSNumGroupsListNBR16        `asn1:"tag:1,context,implicit,optional" json:"NumGroupsListR16,omitzero"`
 	NumGroupsListR16Indef_        bool                          `asn1:"-" json:"-"`
-	GroupsForServiceListR16       GWUSGroupsForServiceListNBR16 `asn1:"tag:2,context,implicit,optional" json:"GroupsForServiceListR16,omitempty"`
+	GroupsForServiceListR16       GWUSGroupsForServiceListNBR16 `asn1:"tag:2,context,implicit,optional" json:"GroupsForServiceListR16,omitzero"`
 	GroupsForServiceListR16Indef_ bool                          `asn1:"-" json:"-"`
 	PERPadding_                   per.FinalPadding              `asn1:"-" json:"-"`
 }
@@ -2921,7 +2921,7 @@ type DownlinkHARQFeedbackDisabledBitmapNBR18 = runtime.BitString
 // NPRACHConfigSIBNBR13 represents the ASN.1 type NPRACH-ConfigSIB-NB-r13 (SEQUENCE).
 type NPRACHConfigSIBNBR13 struct {
 	NprachCPLengthR13                    int64                             `asn1:"tag:0,context,implicit"`
-	RsrpThresholdsPrachInfoListR13       RSRPThresholdsNPRACHInfoListNBR13 `asn1:"tag:1,context,implicit,optional" json:"RsrpThresholdsPrachInfoListR13,omitempty"`
+	RsrpThresholdsPrachInfoListR13       RSRPThresholdsNPRACHInfoListNBR13 `asn1:"tag:1,context,implicit,optional" json:"RsrpThresholdsPrachInfoListR13,omitzero"`
 	RsrpThresholdsPrachInfoListR13Indef_ bool                              `asn1:"-" json:"-"`
 	NprachParametersListR13              NPRACHParametersListNBR13         `asn1:"tag:2,context,implicit"`
 	NprachParametersListR13Indef_        bool                              `asn1:"-" json:"-"`
@@ -3418,7 +3418,7 @@ type RACHConfigCommonNBR13 struct {
 	RachInfoListR13Indef_       bool                           `asn1:"-" json:"-"`
 	ConnEstFailOffsetR13        *int64                         `asn1:"tag:3,context,implicit,optional" json:"ConnEstFailOffsetR13,omitempty"`
 	PowerRampingParametersV1450 *PowerRampingParametersNBV1450 `asn1:"tag:4,context,implicit,optional" json:"PowerRampingParametersV1450,omitempty"`
-	RachInfoListV1530           RACHInfoListNBV1530            `asn1:"tag:5,context,implicit,optional" json:"RachInfoListV1530,omitempty"`
+	RachInfoListV1530           RACHInfoListNBV1530            `asn1:"tag:5,context,implicit,optional" json:"RachInfoListV1530,omitzero"`
 	RachInfoListV1530Indef_     bool                           `asn1:"-" json:"-"`
 	ExtCount_                   int64                          `asn1:"-" json:"-"`
 	ExtPresent_                 []bool                         `asn1:"-" json:"-"`
@@ -3499,11 +3499,11 @@ type PCCHConfigNBR13 struct {
 
 // RadioResourceConfigDedicatedNBR13 represents the ASN.1 type RadioResourceConfigDedicated-NB-r13 (SEQUENCE).
 type RadioResourceConfigDedicatedNBR13 struct {
-	SrbToAddModListR13                SRBToAddModListNBR13                               `asn1:"tag:0,context,implicit,optional" json:"SrbToAddModListR13,omitempty"`
+	SrbToAddModListR13                SRBToAddModListNBR13                               `asn1:"tag:0,context,implicit,optional" json:"SrbToAddModListR13,omitzero"`
 	SrbToAddModListR13Indef_          bool                                               `asn1:"-" json:"-"`
-	DrbToAddModListR13                DRBToAddModListNBR13                               `asn1:"tag:1,context,implicit,optional" json:"DrbToAddModListR13,omitempty"`
+	DrbToAddModListR13                DRBToAddModListNBR13                               `asn1:"tag:1,context,implicit,optional" json:"DrbToAddModListR13,omitzero"`
 	DrbToAddModListR13Indef_          bool                                               `asn1:"-" json:"-"`
-	DrbToReleaseListR13               DRBToReleaseListNBR13                              `asn1:"tag:2,context,implicit,optional" json:"DrbToReleaseListR13,omitempty"`
+	DrbToReleaseListR13               DRBToReleaseListNBR13                              `asn1:"tag:2,context,implicit,optional" json:"DrbToReleaseListR13,omitzero"`
 	DrbToReleaseListR13Indef_         bool                                               `asn1:"-" json:"-"`
 	MacMainConfigR13                  *RadioResourceConfigDedicatedNBR13MacMainConfigR13 `asn1:"tag:3,context,explicit,optional" json:"MacMainConfigR13,omitempty"`
 	PhysicalConfigDedicatedR13        *PhysicalConfigDedicatedNBR13                      `asn1:"tag:4,context,implicit,optional" json:"PhysicalConfigDedicatedR13,omitempty"`
@@ -3999,7 +3999,7 @@ type MultiBandInfoListNBR13 = []MultiBandInfoNBR13
 // MultiBandInfoNBR13 represents the ASN.1 type MultiBandInfo-NB-r13 (SEQUENCE).
 type MultiBandInfoNBR13 struct {
 	FreqBandIndicatorR13  *FreqBandIndicatorNBR13 `asn1:"tag:0,context,implicit,optional" json:"FreqBandIndicatorR13,omitempty"`
-	FreqBandInfoR13       NSPmaxListNBR13         `asn1:"tag:1,context,implicit,optional" json:"FreqBandInfoR13,omitempty"`
+	FreqBandInfoR13       NSPmaxListNBR13         `asn1:"tag:1,context,implicit,optional" json:"FreqBandInfoR13,omitzero"`
 	FreqBandInfoR13Indef_ bool                    `asn1:"-" json:"-"`
 	PERPadding_           per.FinalPadding        `asn1:"-" json:"-"`
 }
@@ -4074,7 +4074,7 @@ type ANRCarrierListNBR16 = []ANRCarrierNBR16
 // ANRCarrierNBR16 represents the ASN.1 type ANR-Carrier-NB-r16 (SEQUENCE).
 type ANRCarrierNBR16 struct {
 	CarrierFreqIndexR16       int64                    `asn1:"tag:0,context,implicit"`
-	ExcludedCellListR16       ANRExcludedCellListNBR16 `asn1:"tag:1,context,implicit,optional" json:"ExcludedCellListR16,omitempty"`
+	ExcludedCellListR16       ANRExcludedCellListNBR16 `asn1:"tag:1,context,implicit,optional" json:"ExcludedCellListR16,omitzero"`
 	ExcludedCellListR16Indef_ bool                     `asn1:"-" json:"-"`
 	ExtCount_                 int64                    `asn1:"-" json:"-"`
 	ExtPresent_               []bool                   `asn1:"-" json:"-"`
@@ -4276,7 +4276,7 @@ type UECapabilityNBV1440IEs struct {
 
 // UECapabilityNBV14x0IEs represents the ASN.1 type UE-Capability-NB-v14x0-IEs (SEQUENCE).
 type UECapabilityNBV14x0IEs struct {
-	LateNonCriticalExtension []byte                  `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                  `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *UECapabilityNBV1530IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding        `asn1:"-" json:"-"`
 }
@@ -4294,7 +4294,7 @@ type UECapabilityNBV1530IEs struct {
 
 // UECapabilityNBV15x0IEs represents the ASN.1 type UE-Capability-NB-v15x0-IEs (SEQUENCE).
 type UECapabilityNBV15x0IEs struct {
-	LateNonCriticalExtension []byte                  `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
+	LateNonCriticalExtension []byte                  `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitzero"`
 	NonCriticalExtension     *UECapabilityNBV1610IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 	PERPadding_              per.FinalPadding        `asn1:"-" json:"-"`
 }
@@ -4627,21 +4627,21 @@ type RFParametersNBV1430 struct {
 
 // RFParametersNBV1710 represents the ASN.1 type RF-Parameters-NB-v1710 (SEQUENCE).
 type RFParametersNBV1710 struct {
-	SupportedBandListV1710       SupportedBandListNBV1710 `asn1:"tag:0,context,implicit,optional" json:"SupportedBandListV1710,omitempty"`
+	SupportedBandListV1710       SupportedBandListNBV1710 `asn1:"tag:0,context,implicit,optional" json:"SupportedBandListV1710,omitzero"`
 	SupportedBandListV1710Indef_ bool                     `asn1:"-" json:"-"`
 	PERPadding_                  per.FinalPadding         `asn1:"-" json:"-"`
 }
 
 // RFParametersNBV1920 represents the ASN.1 type RF-Parameters-NB-v1920 (SEQUENCE).
 type RFParametersNBV1920 struct {
-	SupportedBandListV1920       SupportedBandListNBV1920 `asn1:"tag:0,context,implicit,optional" json:"SupportedBandListV1920,omitempty"`
+	SupportedBandListV1920       SupportedBandListNBV1920 `asn1:"tag:0,context,implicit,optional" json:"SupportedBandListV1920,omitzero"`
 	SupportedBandListV1920Indef_ bool                     `asn1:"-" json:"-"`
 	PERPadding_                  per.FinalPadding         `asn1:"-" json:"-"`
 }
 
 // RFParametersNBV1930 represents the ASN.1 type RF-Parameters-NB-v1930 (SEQUENCE).
 type RFParametersNBV1930 struct {
-	SupportedBandListV1930       SupportedBandListNBV1930 `asn1:"tag:0,context,implicit,optional" json:"SupportedBandListV1930,omitempty"`
+	SupportedBandListV1930       SupportedBandListNBV1930 `asn1:"tag:0,context,implicit,optional" json:"SupportedBandListV1930,omitzero"`
 	SupportedBandListV1930Indef_ bool                     `asn1:"-" json:"-"`
 	PERPadding_                  per.FinalPadding         `asn1:"-" json:"-"`
 }
@@ -6866,7 +6866,7 @@ type SystemInformationBlockType1NBV1610CellAccessRelatedInfo5GCR16 struct {
 // SystemInformationBlockType1NBV1700CellAccessRelatedInfoNTNR17 represents the ASN.1 type SystemInformationBlockType1-NB-v1700-cellAccessRelatedInfo-NTN-r17 (SEQUENCE).
 type SystemInformationBlockType1NBV1700CellAccessRelatedInfoNTNR17 struct {
 	CellBarredNTNR17            int64                   `asn1:"tag:0,context,implicit"`
-	PlmnIdentityListV1700       PLMNIdentityListNBV1700 `asn1:"tag:1,context,implicit,optional" json:"PlmnIdentityListV1700,omitempty"`
+	PlmnIdentityListV1700       PLMNIdentityListNBV1700 `asn1:"tag:1,context,implicit,optional" json:"PlmnIdentityListV1700,omitzero"`
 	PlmnIdentityListV1700Indef_ bool                    `asn1:"-" json:"-"`
 	PERPadding_                 per.FinalPadding        `asn1:"-" json:"-"`
 }
@@ -7220,7 +7220,7 @@ type SystemInformationBlockType14NBR13AbParamR13 struct {
 	PERPadding_         per.FinalPadding                                            `json:"-"`
 	PEROpenTypePadding_ per.CompletePadding                                         `json:"-"`
 	AbCommonR13         *ABConfigNBR13                                              `json:"AbCommonR13,omitempty"`
-	AbPerPLMNListR13    SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13 `json:"AbPerPLMNListR13,omitempty"`
+	AbPerPLMNListR13    SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13 `json:"AbPerPLMNListR13,omitzero"`
 }
 
 // NewSystemInformationBlockType14NBR13AbParamR13AbCommonR13 creates a SystemInformationBlockType14NBR13AbParamR13 with the ab-Common-r13 alternative.
@@ -7451,9 +7451,9 @@ func NewSCMCCHSchedulingInfoNBR14SchedulingPeriodStartOffsetSCPTMR14Sf8192(v int
 
 // SystemInformationBlockType22NBR14MixedOperationModeConfigR15 represents the ASN.1 type SystemInformationBlockType22-NB-r14-mixedOperationModeConfig-r15 (SEQUENCE).
 type SystemInformationBlockType22NBR14MixedOperationModeConfigR15 struct {
-	DlConfigListMixedR15       DLConfigCommonListNBR14 `asn1:"tag:0,context,implicit,optional" json:"DlConfigListMixedR15,omitempty"`
+	DlConfigListMixedR15       DLConfigCommonListNBR14 `asn1:"tag:0,context,implicit,optional" json:"DlConfigListMixedR15,omitzero"`
 	DlConfigListMixedR15Indef_ bool                    `asn1:"-" json:"-"`
-	UlConfigListMixedR15       ULConfigCommonListNBR14 `asn1:"tag:1,context,implicit,optional" json:"UlConfigListMixedR15,omitempty"`
+	UlConfigListMixedR15       ULConfigCommonListNBR14 `asn1:"tag:1,context,implicit,optional" json:"UlConfigListMixedR15,omitzero"`
 	UlConfigListMixedR15Indef_ bool                    `asn1:"-" json:"-"`
 	PagingDistributionR15      *int64                  `asn1:"tag:2,context,implicit,optional" json:"PagingDistributionR15,omitempty"`
 	NprachDistributionR15      *int64                  `asn1:"tag:3,context,implicit,optional" json:"NprachDistributionR15,omitempty"`
@@ -7685,8 +7685,8 @@ type CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19 struct {
 	Choice                           int
 	PERPadding_                      per.FinalPadding                                                                                   `json:"-"`
 	PEROpenTypePadding_              per.CompletePadding                                                                                `json:"-"`
-	NpuschSubCarrierSetListKhz15     CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15     `json:"NpuschSubCarrierSetListKhz15,omitempty"`
-	NpuschSubCarrierSetListKhz3dot75 CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75 `json:"NpuschSubCarrierSetListKhz3dot75,omitempty"`
+	NpuschSubCarrierSetListKhz15     CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15     `json:"NpuschSubCarrierSetListKhz15,omitzero"`
+	NpuschSubCarrierSetListKhz3dot75 CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75 `json:"NpuschSubCarrierSetListKhz3dot75,omitzero"`
 }
 
 // NewCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15 creates a CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19 with the npusch-SubCarrierSetList-khz15 alternative.
@@ -8079,9 +8079,9 @@ type NPRACHConfigSIBNBV1530TddParametersR15 struct {
 
 // NPRACHConfigSIBNBV1530Fmt2ParametersR15 represents the ASN.1 type NPRACH-ConfigSIB-NB-v1530-fmt2-Parameters-r15 (SEQUENCE).
 type NPRACHConfigSIBNBV1530Fmt2ParametersR15 struct {
-	NprachParametersListFmt2R15          NPRACHParametersListFmt2NBR15 `asn1:"tag:0,context,implicit,optional" json:"NprachParametersListFmt2R15,omitempty"`
+	NprachParametersListFmt2R15          NPRACHParametersListFmt2NBR15 `asn1:"tag:0,context,implicit,optional" json:"NprachParametersListFmt2R15,omitzero"`
 	NprachParametersListFmt2R15Indef_    bool                          `asn1:"-" json:"-"`
-	NprachParametersListFmt2EDTR15       NPRACHParametersListFmt2NBR15 `asn1:"tag:1,context,implicit,optional" json:"NprachParametersListFmt2EDTR15,omitempty"`
+	NprachParametersListFmt2EDTR15       NPRACHParametersListFmt2NBR15 `asn1:"tag:1,context,implicit,optional" json:"NprachParametersListFmt2EDTR15,omitzero"`
 	NprachParametersListFmt2EDTR15Indef_ bool                          `asn1:"-" json:"-"`
 	PERPadding_                          per.FinalPadding              `asn1:"-" json:"-"`
 }
@@ -8091,7 +8091,7 @@ type NPRACHConfigSIBNBV1530EdtParametersR15 struct {
 	EdtSmallTBSSubsetR15             *int64                    `asn1:"tag:0,context,implicit,optional" json:"EdtSmallTBSSubsetR15,omitempty"`
 	EdtTBSInfoListR15                EDTTBSInfoListNBR15       `asn1:"tag:1,context,implicit"`
 	EdtTBSInfoListR15Indef_          bool                      `asn1:"-" json:"-"`
-	NprachParametersListEDTR15       NPRACHParametersListNBR14 `asn1:"tag:2,context,implicit,optional" json:"NprachParametersListEDTR15,omitempty"`
+	NprachParametersListEDTR15       NPRACHParametersListNBR14 `asn1:"tag:2,context,implicit,optional" json:"NprachParametersListEDTR15,omitzero"`
 	NprachParametersListEDTR15Indef_ bool                      `asn1:"-" json:"-"`
 	PERPadding_                      per.FinalPadding          `asn1:"-" json:"-"`
 }
@@ -8949,7 +8949,7 @@ type ANRMeasReportNBR16MeasResultListR16 = []ANRMeasResultNBR16
 type ANRMeasResultNBR16CgiInfoR16 struct {
 	CellGlobalIdR16           CellGlobalIdEUTRA `asn1:"tag:0,context,implicit"`
 	TrackingAreaCodeR16       TrackingAreaCode  `asn1:"tag:1,context,implicit"`
-	PlmnIdentityListR16       PLMNIdentityList2 `asn1:"tag:2,context,implicit,optional" json:"PlmnIdentityListR16,omitempty"`
+	PlmnIdentityListR16       PLMNIdentityList2 `asn1:"tag:2,context,implicit,optional" json:"PlmnIdentityListR16,omitzero"`
 	PlmnIdentityListR16Indef_ bool              `asn1:"-" json:"-"`
 	PERPadding_               per.FinalPadding  `asn1:"-" json:"-"`
 }
@@ -10114,9 +10114,11 @@ func (v *ULDCCHMessageNB) UnmarshalUPERWithOptions(data []byte, options per.Deco
 
 func (v *ULDCCHMessageNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = ULDCCHMessageNB{}
+	toleranceMark_message := bb.EnterComponent("Message")
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
 	}
+	bb.LeaveComponent(toleranceMark_message)
 	return nil
 }
 
@@ -10194,11 +10196,13 @@ func (v *ULDCCHMessageTypeNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case ULDCCHMessageTypeNBChoiceC1:
+		toleranceMark_c1 := bb.EnterComponent("C1")
 		var dec_c1 ULDCCHMessageTypeNBC1
 		if err := dec_c1.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "C1")
 		}
 		v.C1 = &dec_c1
+		bb.LeaveComponent(toleranceMark_c1)
 	case ULDCCHMessageTypeNBChoiceMessageClassExtension:
 		var dec_messageclassextension ULDCCHMessageTypeNBMessageClassExtension
 		if err := dec_messageclassextension.UnmarshalUPERFrom(bb); err != nil {
@@ -11299,7 +11303,7 @@ func (v *PagingNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_pagingrecordlistr13 {
 		tmp_pagingrecordlistr13 := make(PagingRecordListNBR13, 0)
 		_, errCollection_pagingrecordlistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_pagingrecordlistr13, fragmentLength_pagingrecordlistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_pagingrecordlistr13 < 0 || fragmentLength_pagingrecordlistr13 < 0 || fragmentLength_pagingrecordlistr13 > int64(^uint(0)>>1) || fragmentOffset_pagingrecordlistr13 > int64(^uint(0)>>1)-fragmentLength_pagingrecordlistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -11416,7 +11420,7 @@ func (v *PagingNBV1610IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_pagingrecordlistv1610 {
 		tmp_pagingrecordlistv1610 := make(PagingRecordListNBV1610, 0)
 		_, errCollection_pagingrecordlistv1610 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_pagingrecordlistv1610, fragmentLength_pagingrecordlistv1610 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_pagingrecordlistv1610 < 0 || fragmentLength_pagingrecordlistv1610 < 0 || fragmentLength_pagingrecordlistv1610 > int64(^uint(0)>>1) || fragmentOffset_pagingrecordlistv1610 > int64(^uint(0)>>1)-fragmentLength_pagingrecordlistv1610 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -11625,7 +11629,7 @@ func UnmarshalUPERPagingRecordListNBR13From(bb *per.BitBuffer) (PagingRecordList
 func unmarshalUPERPagingRecordListNBR13Into(v *asn1cUPERPagingRecordListNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(PagingRecordListNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -11728,7 +11732,7 @@ func UnmarshalUPERPagingRecordListNBV1610From(bb *per.BitBuffer) (PagingRecordLi
 func unmarshalUPERPagingRecordListNBV1610Into(v *asn1cUPERPagingRecordListNBV1610ListValue, bb *per.BitBuffer) error {
 	v.Value = make(PagingRecordListNBV1610, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -11767,14 +11771,14 @@ func (v *PagingRecordNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -11784,7 +11788,7 @@ func (v *PagingRecordNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -11838,13 +11842,13 @@ func (v *PagingRecordNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -12304,7 +12308,7 @@ func (v *RRCConnectionReconfigurationNBR13IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_dedicatedinfonaslistr13 {
 		tmp_dedicatedinfonaslistr13 := make(RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13, 0)
 		_, errCollection_dedicatedinfonaslistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_dedicatedinfonaslistr13, fragmentLength_dedicatedinfonaslistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1268
+			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1252
 			if fragmentOffset_dedicatedinfonaslistr13 < 0 || fragmentLength_dedicatedinfonaslistr13 < 0 || fragmentLength_dedicatedinfonaslistr13 > int64(^uint(0)>>1) || fragmentOffset_dedicatedinfonaslistr13 > int64(^uint(0)>>1)-fragmentLength_dedicatedinfonaslistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -14719,7 +14723,7 @@ func (v *RedirectedCarrierInfoNBV1900) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	}
 	v.SatAssistanceInfoListR19 = make(RedirectedCarrierInfoNBV1900SatAssistanceInfoListR19, 0)
 	_, errCollection_satassistanceinfolistr19 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_satassistanceinfolistr19, fragmentLength_satassistanceinfolistr19 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_satassistanceinfolistr19 < 0 || fragmentLength_satassistanceinfolistr19 < 0 || fragmentLength_satassistanceinfolistr19 > int64(^uint(0)>>1) || fragmentOffset_satassistanceinfolistr19 > int64(^uint(0)>>1)-fragmentLength_satassistanceinfolistr19 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -16935,7 +16939,7 @@ func (v *RRCConnectionSetupCompleteNBV1610IEs) UnmarshalUPERFrom(bb *per.BitBuff
 	if opt_snssailistr16 {
 		tmp_snssailistr16 := make(RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16, 0)
 		_, errCollection_snssailistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_snssailistr16, fragmentLength_snssailistr16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_snssailistr16 < 0 || fragmentLength_snssailistr16 < 0 || fragmentLength_snssailistr16 > int64(^uint(0)>>1) || fragmentOffset_snssailistr16 > int64(^uint(0)>>1)-fragmentLength_snssailistr16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -17941,7 +17945,7 @@ func (v *SCPTMConfigurationNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ScMtchInfoListR14 = make(SCMTCHInfoListNBR14, 0)
 	_, errCollection_scmtchinfolistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_scmtchinfolistr14, fragmentLength_scmtchinfolistr14 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_scmtchinfolistr14 < 0 || fragmentLength_scmtchinfolistr14 < 0 || fragmentLength_scmtchinfolistr14 > int64(^uint(0)>>1) || fragmentOffset_scmtchinfolistr14 > int64(^uint(0)>>1)-fragmentLength_scmtchinfolistr14 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -17960,7 +17964,7 @@ func (v *SCPTMConfigurationNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_scptmneighbourcelllistr14 {
 		tmp_scptmneighbourcelllistr14 := make(SCPTMNeighbourCellListNBR14, 0)
 		_, errCollection_scptmneighbourcelllistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_scptmneighbourcelllistr14, fragmentLength_scptmneighbourcelllistr14 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_scptmneighbourcelllistr14 < 0 || fragmentLength_scptmneighbourcelllistr14 < 0 || fragmentLength_scptmneighbourcelllistr14 > int64(^uint(0)>>1) || fragmentOffset_scptmneighbourcelllistr14 > int64(^uint(0)>>1)-fragmentLength_scptmneighbourcelllistr14 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18073,7 +18077,7 @@ func (v *SCPTMConfigurationNBV1610) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ScMtchInfoListMultiTBR16 = make(SCMTCHInfoListNBR14, 0)
 	_, errCollection_scmtchinfolistmultitbr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_scmtchinfolistmultitbr16, fragmentLength_scmtchinfolistmultitbr16 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_scmtchinfolistmultitbr16 < 0 || fragmentLength_scmtchinfolistmultitbr16 < 0 || fragmentLength_scmtchinfolistmultitbr16 > int64(^uint(0)>>1) || fragmentOffset_scmtchinfolistmultitbr16 > int64(^uint(0)>>1)-fragmentLength_scmtchinfolistmultitbr16 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -18227,7 +18231,7 @@ func (v *SystemInformationNBR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SibTypeAndInfoR13 = make(SystemInformationNBR13IEsSibTypeAndInfoR13, 0)
 	_, errCollection_sibtypeandinfor13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_sibtypeandinfor13, fragmentLength_sibtypeandinfor13 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_sibtypeandinfor13 < 0 || fragmentLength_sibtypeandinfor13 < 0 || fragmentLength_sibtypeandinfor13 > int64(^uint(0)>>1) || fragmentOffset_sibtypeandinfor13 > int64(^uint(0)>>1)-fragmentLength_sibtypeandinfor13 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -18507,7 +18511,7 @@ func (v *SystemInformationBlockType1NB) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if opt_freqbandinfor13 {
 		tmp_freqbandinfor13 := make(NSPmaxListNBR13, 0)
 		_, errCollection_freqbandinfor13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_freqbandinfor13, fragmentLength_freqbandinfor13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_freqbandinfor13 < 0 || fragmentLength_freqbandinfor13 < 0 || fragmentLength_freqbandinfor13 > int64(^uint(0)>>1) || fragmentOffset_freqbandinfor13 > int64(^uint(0)>>1)-fragmentLength_freqbandinfor13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18528,7 +18532,7 @@ func (v *SystemInformationBlockType1NB) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if opt_multibandinfolistr13 {
 		tmp_multibandinfolistr13 := make(MultiBandInfoListNBR13, 0)
 		_, errCollection_multibandinfolistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_multibandinfolistr13, fragmentLength_multibandinfolistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_multibandinfolistr13 < 0 || fragmentLength_multibandinfolistr13 < 0 || fragmentLength_multibandinfolistr13 > int64(^uint(0)>>1) || fragmentOffset_multibandinfolistr13 > int64(^uint(0)>>1)-fragmentLength_multibandinfolistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18569,7 +18573,7 @@ func (v *SystemInformationBlockType1NB) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	}
 	v.SchedulingInfoListR13 = make(SchedulingInfoListNBR13, 0)
 	_, errCollection_schedulinginfolistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_schedulinginfolistr13, fragmentLength_schedulinginfolistr13 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_schedulinginfolistr13 < 0 || fragmentLength_schedulinginfolistr13 < 0 || fragmentLength_schedulinginfolistr13 > int64(^uint(0)>>1) || fragmentOffset_schedulinginfolistr13 > int64(^uint(0)>>1)-fragmentLength_schedulinginfolistr13 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -18600,7 +18604,7 @@ func (v *SystemInformationBlockType1NB) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if opt_systeminfovaluetaglistr13 {
 		tmp_systeminfovaluetaglistr13 := make(SystemInfoValueTagListNBR13, 0)
 		_, errCollection_systeminfovaluetaglistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_systeminfovaluetaglistr13, fragmentLength_systeminfovaluetaglistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_systeminfovaluetaglistr13 < 0 || fragmentLength_systeminfovaluetaglistr13 < 0 || fragmentLength_systeminfovaluetaglistr13 > int64(^uint(0)>>1) || fragmentOffset_systeminfovaluetaglistr13 > int64(^uint(0)>>1)-fragmentLength_systeminfovaluetaglistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18964,7 +18968,7 @@ func (v *SystemInformationBlockType1NBV1530) UnmarshalUPERFrom(bb *per.BitBuffer
 	if opt_schedulinginfolistv1530 {
 		tmp_schedulinginfolistv1530 := make(SchedulingInfoListNBV1530, 0)
 		_, errCollection_schedulinginfolistv1530 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_schedulinginfolistv1530, fragmentLength_schedulinginfolistv1530 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_schedulinginfolistv1530 < 0 || fragmentLength_schedulinginfolistv1530 < 0 || fragmentLength_schedulinginfolistv1530 > int64(^uint(0)>>1) || fragmentOffset_schedulinginfolistv1530 > int64(^uint(0)>>1)-fragmentLength_schedulinginfolistv1530 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -19388,7 +19392,7 @@ func UnmarshalUPERPLMNIdentityListNBR13From(bb *per.BitBuffer) (PLMNIdentityList
 func unmarshalUPERPLMNIdentityListNBR13Into(v *asn1cUPERPLMNIdentityListNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(PLMNIdentityListNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -19491,7 +19495,7 @@ func UnmarshalUPERPLMNIdentityList5GCNBR16From(bb *per.BitBuffer) (PLMNIdentityL
 func unmarshalUPERPLMNIdentityList5GCNBR16Into(v *asn1cUPERPLMNIdentityList5GCNBR16ListValue, bb *per.BitBuffer) error {
 	v.Value = make(PLMNIdentityList5GCNBR16, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -19594,7 +19598,7 @@ func UnmarshalUPERPLMNIdentityListNBV1700From(bb *per.BitBuffer) (PLMNIdentityLi
 func unmarshalUPERPLMNIdentityListNBV1700Into(v *asn1cUPERPLMNIdentityListNBV1700ListValue, bb *per.BitBuffer) error {
 	v.Value = make(PLMNIdentityListNBV1700, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -19841,7 +19845,7 @@ func (v *PLMNIdentityInfoNBV1700) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_trackingarealistr17 {
 		tmp_trackingarealistr17 := make(TrackingAreaListNBR17, 0)
 		_, errCollection_trackingarealistr17 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 12, HasUpper: true}, false, func(fragmentOffset_trackingarealistr17, fragmentLength_trackingarealistr17 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1279
+			// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1263
 			if fragmentOffset_trackingarealistr17 < 0 || fragmentLength_trackingarealistr17 < 0 || fragmentLength_trackingarealistr17 > int64(^uint(0)>>1) || fragmentOffset_trackingarealistr17 > int64(^uint(0)>>1)-fragmentLength_trackingarealistr17 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -19946,7 +19950,7 @@ func UnmarshalUPERTrackingAreaListNBR17From(bb *per.BitBuffer) (TrackingAreaList
 func unmarshalUPERTrackingAreaListNBR17Into(v *asn1cUPERTrackingAreaListNBR17ListValue, bb *per.BitBuffer) error {
 	v.Value = make(TrackingAreaListNBR17, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 12, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1279
+		// arithmetic pattern UPER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1263
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -20049,7 +20053,7 @@ func UnmarshalUPERSchedulingInfoListNBR13From(bb *per.BitBuffer) (SchedulingInfo
 func unmarshalUPERSchedulingInfoListNBR13Into(v *asn1cUPERSchedulingInfoListNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SchedulingInfoListNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -20152,7 +20156,7 @@ func UnmarshalUPERSchedulingInfoListNBV1530From(bb *per.BitBuffer) (SchedulingIn
 func unmarshalUPERSchedulingInfoListNBV1530Into(v *asn1cUPERSchedulingInfoListNBV1530ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SchedulingInfoListNBV1530, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -20241,7 +20245,7 @@ func (v *SchedulingInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.SiRepetitionPatternR13 = val_sirepetitionpatternr13
 	v.SibMappingInfoR13 = make(SIBMappingInfoNBR13, 0)
 	_, errCollection_sibmappinginfor13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 31, HasUpper: true}, false, func(fragmentOffset_sibmappinginfor13, fragmentLength_sibmappinginfor13 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_sibmappinginfor13 < 0 || fragmentLength_sibmappinginfor13 < 0 || fragmentLength_sibmappinginfor13 > int64(^uint(0)>>1) || fragmentOffset_sibmappinginfor13 > int64(^uint(0)>>1)-fragmentLength_sibmappinginfor13 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -20328,7 +20332,7 @@ func (v *SchedulingInfoNBV1530) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_sibmappinginfov1530 {
 		tmp_sibmappinginfov1530 := make(SIBMappingInfoNBV1530, 0)
 		_, errCollection_sibmappinginfov1530 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_sibmappinginfov1530, fragmentLength_sibmappinginfov1530 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_sibmappinginfov1530 < 0 || fragmentLength_sibmappinginfov1530 < 0 || fragmentLength_sibmappinginfov1530 > int64(^uint(0)>>1) || fragmentOffset_sibmappinginfov1530 > int64(^uint(0)>>1)-fragmentLength_sibmappinginfov1530 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -20433,7 +20437,7 @@ func UnmarshalUPERSystemInfoValueTagListNBR13From(bb *per.BitBuffer) (SystemInfo
 func unmarshalUPERSystemInfoValueTagListNBR13Into(v *asn1cUPERSystemInfoValueTagListNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SystemInfoValueTagListNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -20536,7 +20540,7 @@ func UnmarshalUPERSIBMappingInfoNBR13From(bb *per.BitBuffer) (SIBMappingInfoNBR1
 func unmarshalUPERSIBMappingInfoNBR13Into(v *asn1cUPERSIBMappingInfoNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SIBMappingInfoNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 31, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -20639,7 +20643,7 @@ func UnmarshalUPERSIBMappingInfoNBV1530From(bb *per.BitBuffer) (SIBMappingInfoNB
 func unmarshalUPERSIBMappingInfoNBV1530Into(v *asn1cUPERSIBMappingInfoNBV1530ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SIBMappingInfoNBV1530, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -20959,9 +20963,11 @@ func (v *UECapabilityInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "RrcTransactionIdentifier")
 	}
 	v.RrcTransactionIdentifier = RRCTransactionIdentifier(val_rrctransactionidentifier)
+	toleranceMark_criticalextensions := bb.EnterComponent("CriticalExtensions")
 	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CriticalExtensions")
 	}
+	bb.LeaveComponent(toleranceMark_criticalextensions)
 	return nil
 }
 
@@ -21047,11 +21053,13 @@ func (v *UECapabilityInformationNBR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if opt_noncriticalextension {
+		toleranceMark_noncriticalextension := bb.EnterComponent("NonCriticalExtension")
 		var dec_noncriticalextension UECapabilityInformationNBExtR14IEs
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NonCriticalExtension")
 		}
 		v.NonCriticalExtension = &dec_noncriticalextension
+		bb.LeaveComponent(toleranceMark_noncriticalextension)
 	}
 	return nil
 }
@@ -21112,15 +21120,24 @@ func (v *UECapabilityInformationNBExtR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer
 	if err != nil {
 		return err
 	}
+	toleranceMark_uecapabilitycontainerextr14 := bb.EnterComponent("UeCapabilityContainerExtR14")
 	containedBytes_uecapabilitycontainerextr14, err := per.DecodeOctetStringExt(bb, 0, 0, false, false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "UeCapabilityContainerExtR14")
 	}
+	containedBB_uecapabilitycontainerextr14 := per.NewBitBufferFromBytes(containedBytes_uecapabilitycontainerextr14)
+	containedBB_uecapabilitycontainerextr14.InheritDecodeOptions(bb)
 	var contained_uecapabilitycontainerextr14 UECapabilityNBExtR14IEs
-	if err := contained_uecapabilitycontainerextr14.UnmarshalUPER(containedBytes_uecapabilitycontainerextr14); err != nil {
+	if err := contained_uecapabilitycontainerextr14.UnmarshalUPERFrom(containedBB_uecapabilitycontainerextr14); err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("decoding contained ue-Capability-ContainerExt-r14: %w", err), "UeCapabilityContainerExtR14")
 	}
+	containedPadding_uecapabilitycontainerextr14, err := per.CaptureContainedFinalBits(containedBB_uecapabilitycontainerextr14)
+	if err != nil {
+		return runtime.WrapDecodePath(fmt.Errorf("decoding contained ue-Capability-ContainerExt-r14: %w", err), "UeCapabilityContainerExtR14")
+	}
+	contained_uecapabilitycontainerextr14.PERPadding_ = containedPadding_uecapabilitycontainerextr14
 	v.UeCapabilityContainerExtR14 = contained_uecapabilitycontainerextr14
+	bb.LeaveComponent(toleranceMark_uecapabilitycontainerextr14)
 	if opt_noncriticalextension {
 		var dec_noncriticalextension UECapabilityInformationNBExtR14IEsNonCriticalExtension
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
@@ -21873,7 +21890,7 @@ func (v *SystemInformationBlockType2NBR13) MarshalUPERTo(bb *per.BitBuffer) erro
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -21917,7 +21934,7 @@ func (v *SystemInformationBlockType2NBR13) MarshalUPERTo(bb *per.BitBuffer) erro
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -22155,7 +22172,7 @@ func (v *SystemInformationBlockType2NBR13) MarshalUPERTo(bb *per.BitBuffer) erro
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -22226,7 +22243,7 @@ func (v *SystemInformationBlockType2NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_multibandinfolistr13 {
 		tmp_multibandinfolistr13 := make(SystemInformationBlockType2NBR13MultiBandInfoListR13, 0)
 		_, errCollection_multibandinfolistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_multibandinfolistr13, fragmentLength_multibandinfolistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_multibandinfolistr13 < 0 || fragmentLength_multibandinfolistr13 < 0 || fragmentLength_multibandinfolistr13 > int64(^uint(0)>>1) || fragmentOffset_multibandinfolistr13 > int64(^uint(0)>>1)-fragmentLength_multibandinfolistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -22259,12 +22276,12 @@ func (v *SystemInformationBlockType2NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -22551,7 +22568,7 @@ func (v *SystemInformationBlockType2NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 			}
 			v.PERExtPadding_[5] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -22675,7 +22692,7 @@ func (v *SystemInformationBlockType3NBR13) MarshalUPERTo(bb *per.BitBuffer) erro
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -22725,7 +22742,7 @@ func (v *SystemInformationBlockType3NBR13) MarshalUPERTo(bb *per.BitBuffer) erro
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -22916,7 +22933,7 @@ func (v *SystemInformationBlockType3NBR13) MarshalUPERTo(bb *per.BitBuffer) erro
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -22986,7 +23003,7 @@ func (v *SystemInformationBlockType3NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_freqbandinfor13 {
 		tmp_freqbandinfor13 := make(NSPmaxListNBR13, 0)
 		_, errCollection_freqbandinfor13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_freqbandinfor13, fragmentLength_freqbandinfor13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_freqbandinfor13 < 0 || fragmentLength_freqbandinfor13 < 0 || fragmentLength_freqbandinfor13 > int64(^uint(0)>>1) || fragmentOffset_freqbandinfor13 > int64(^uint(0)>>1)-fragmentLength_freqbandinfor13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -23007,7 +23024,7 @@ func (v *SystemInformationBlockType3NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_multibandinfolistr13 {
 		tmp_multibandinfolistr13 := make(SystemInformationBlockType3NBR13MultiBandInfoListR13, 0)
 		_, errCollection_multibandinfolistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_multibandinfolistr13, fragmentLength_multibandinfolistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1244
+			// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1228
 			if fragmentOffset_multibandinfolistr13 < 0 || fragmentLength_multibandinfolistr13 < 0 || fragmentLength_multibandinfolistr13 > int64(^uint(0)>>1) || fragmentOffset_multibandinfolistr13 > int64(^uint(0)>>1)-fragmentLength_multibandinfolistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -23040,12 +23057,12 @@ func (v *SystemInformationBlockType3NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -23238,7 +23255,7 @@ func (v *SystemInformationBlockType3NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 			if ext_opt_satelliteassistanceinfor18 {
 				tmp_satelliteassistanceinfor18 := make(SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18, 0)
 				_, errCollection_satelliteassistanceinfor18 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_satelliteassistanceinfor18, fragmentLength_satelliteassistanceinfor18 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+					// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 					if fragmentOffset_satelliteassistanceinfor18 < 0 || fragmentLength_satelliteassistanceinfor18 < 0 || fragmentLength_satelliteassistanceinfor18 > int64(^uint(0)>>1) || fragmentOffset_satelliteassistanceinfor18 > int64(^uint(0)>>1)-fragmentLength_satelliteassistanceinfor18 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -23262,7 +23279,7 @@ func (v *SystemInformationBlockType3NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 			}
 			v.PERExtPadding_[6] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -23665,7 +23682,7 @@ func (v *SystemInformationBlockType4NBR13) MarshalUPERTo(bb *per.BitBuffer) erro
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -23685,7 +23702,7 @@ func (v *SystemInformationBlockType4NBR13) MarshalUPERTo(bb *per.BitBuffer) erro
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -23769,7 +23786,7 @@ func (v *SystemInformationBlockType4NBR13) MarshalUPERTo(bb *per.BitBuffer) erro
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -23830,7 +23847,7 @@ func (v *SystemInformationBlockType4NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_intrafreqneighcelllistr13 {
 		tmp_intrafreqneighcelllistr13 := make(IntraFreqNeighCellList, 0)
 		_, errCollection_intrafreqneighcelllistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_intrafreqneighcelllistr13, fragmentLength_intrafreqneighcelllistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_intrafreqneighcelllistr13 < 0 || fragmentLength_intrafreqneighcelllistr13 < 0 || fragmentLength_intrafreqneighcelllistr13 > int64(^uint(0)>>1) || fragmentOffset_intrafreqneighcelllistr13 > int64(^uint(0)>>1)-fragmentLength_intrafreqneighcelllistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -23851,7 +23868,7 @@ func (v *SystemInformationBlockType4NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_intrafreqexcludedcelllistr13 {
 		tmp_intrafreqexcludedcelllistr13 := make(IntraFreqExcludedCellList, 0)
 		_, errCollection_intrafreqexcludedcelllistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_intrafreqexcludedcelllistr13, fragmentLength_intrafreqexcludedcelllistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_intrafreqexcludedcelllistr13 < 0 || fragmentLength_intrafreqexcludedcelllistr13 < 0 || fragmentLength_intrafreqexcludedcelllistr13 > int64(^uint(0)>>1) || fragmentOffset_intrafreqexcludedcelllistr13 > int64(^uint(0)>>1)-fragmentLength_intrafreqexcludedcelllistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -23884,12 +23901,12 @@ func (v *SystemInformationBlockType4NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -23920,7 +23937,7 @@ func (v *SystemInformationBlockType4NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 			if ext_opt_intrafreqneighcelllistv1530 {
 				tmp_intrafreqneighcelllistv1530 := make(IntraFreqNeighCellListNBV1530, 0)
 				_, errCollection_intrafreqneighcelllistv1530 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_intrafreqneighcelllistv1530, fragmentLength_intrafreqneighcelllistv1530 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_intrafreqneighcelllistv1530 < 0 || fragmentLength_intrafreqneighcelllistv1530 < 0 || fragmentLength_intrafreqneighcelllistv1530 > int64(^uint(0)>>1) || fragmentOffset_intrafreqneighcelllistv1530 > int64(^uint(0)>>1)-fragmentLength_intrafreqneighcelllistv1530 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -23959,7 +23976,7 @@ func (v *SystemInformationBlockType4NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 			if ext_opt_intrafreqneighcelllistv1910 {
 				tmp_intrafreqneighcelllistv1910 := make(IntraFreqNeighCellListNBV1910, 0)
 				_, errCollection_intrafreqneighcelllistv1910 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_intrafreqneighcelllistv1910, fragmentLength_intrafreqneighcelllistv1910 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_intrafreqneighcelllistv1910 < 0 || fragmentLength_intrafreqneighcelllistv1910 < 0 || fragmentLength_intrafreqneighcelllistv1910 > int64(^uint(0)>>1) || fragmentOffset_intrafreqneighcelllistv1910 > int64(^uint(0)>>1)-fragmentLength_intrafreqneighcelllistv1910 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -23983,7 +24000,7 @@ func (v *SystemInformationBlockType4NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 			}
 			v.PERExtPadding_[1] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -24084,7 +24101,7 @@ func UnmarshalUPERIntraFreqNeighCellListNBV1530From(bb *per.BitBuffer) (IntraFre
 func unmarshalUPERIntraFreqNeighCellListNBV1530Into(v *asn1cUPERIntraFreqNeighCellListNBV1530ListValue, bb *per.BitBuffer) error {
 	v.Value = make(IntraFreqNeighCellListNBV1530, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -24187,7 +24204,7 @@ func UnmarshalUPERIntraFreqNeighCellListNBV1910From(bb *per.BitBuffer) (IntraFre
 func unmarshalUPERIntraFreqNeighCellListNBV1910Into(v *asn1cUPERIntraFreqNeighCellListNBV1910ListValue, bb *per.BitBuffer) error {
 	v.Value = make(IntraFreqNeighCellListNBV1910, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -24406,7 +24423,7 @@ func (v *SystemInformationBlockType5NBR13) MarshalUPERTo(bb *per.BitBuffer) erro
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -24426,7 +24443,7 @@ func (v *SystemInformationBlockType5NBR13) MarshalUPERTo(bb *per.BitBuffer) erro
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -24491,7 +24508,7 @@ func (v *SystemInformationBlockType5NBR13) MarshalUPERTo(bb *per.BitBuffer) erro
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -24543,7 +24560,7 @@ func (v *SystemInformationBlockType5NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	}
 	v.InterFreqCarrierFreqListR13 = make(InterFreqCarrierFreqListNBR13, 0)
 	_, errCollection_interfreqcarrierfreqlistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_interfreqcarrierfreqlistr13, fragmentLength_interfreqcarrierfreqlistr13 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_interfreqcarrierfreqlistr13 < 0 || fragmentLength_interfreqcarrierfreqlistr13 < 0 || fragmentLength_interfreqcarrierfreqlistr13 > int64(^uint(0)>>1) || fragmentOffset_interfreqcarrierfreqlistr13 > int64(^uint(0)>>1)-fragmentLength_interfreqcarrierfreqlistr13 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -24579,12 +24596,12 @@ func (v *SystemInformationBlockType5NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -24629,7 +24646,7 @@ func (v *SystemInformationBlockType5NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 			if ext_opt_interfreqcarrierfreqlistv1820 {
 				tmp_interfreqcarrierfreqlistv1820 := make(InterFreqCarrierFreqListNBV1820, 0)
 				_, errCollection_interfreqcarrierfreqlistv1820 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_interfreqcarrierfreqlistv1820, fragmentLength_interfreqcarrierfreqlistv1820 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_interfreqcarrierfreqlistv1820 < 0 || fragmentLength_interfreqcarrierfreqlistv1820 < 0 || fragmentLength_interfreqcarrierfreqlistv1820 > int64(^uint(0)>>1) || fragmentOffset_interfreqcarrierfreqlistv1820 > int64(^uint(0)>>1)-fragmentLength_interfreqcarrierfreqlistv1820 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -24653,7 +24670,7 @@ func (v *SystemInformationBlockType5NBR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 			}
 			v.PERExtPadding_[1] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -24754,7 +24771,7 @@ func UnmarshalUPERInterFreqCarrierFreqListNBR13From(bb *per.BitBuffer) (InterFre
 func unmarshalUPERInterFreqCarrierFreqListNBR13Into(v *asn1cUPERInterFreqCarrierFreqListNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(InterFreqCarrierFreqListNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -24859,7 +24876,7 @@ func UnmarshalUPERInterFreqCarrierFreqListNBV1820From(bb *per.BitBuffer) (InterF
 func unmarshalUPERInterFreqCarrierFreqListNBV1820Into(v *asn1cUPERInterFreqCarrierFreqListNBV1820ListValue, bb *per.BitBuffer) error {
 	v.Value = make(InterFreqCarrierFreqListNBV1820, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -25011,7 +25028,7 @@ func (v *InterFreqCarrierFreqInfoNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -25049,7 +25066,7 @@ func (v *InterFreqCarrierFreqInfoNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -25207,7 +25224,7 @@ func (v *InterFreqCarrierFreqInfoNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -25312,7 +25329,7 @@ func (v *InterFreqCarrierFreqInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if opt_interfreqneighcelllistr13 {
 		tmp_interfreqneighcelllistr13 := make(InterFreqNeighCellListNBR13, 0)
 		_, errCollection_interfreqneighcelllistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_interfreqneighcelllistr13, fragmentLength_interfreqneighcelllistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_interfreqneighcelllistr13 < 0 || fragmentLength_interfreqneighcelllistr13 < 0 || fragmentLength_interfreqneighcelllistr13 > int64(^uint(0)>>1) || fragmentOffset_interfreqneighcelllistr13 > int64(^uint(0)>>1)-fragmentLength_interfreqneighcelllistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -25333,7 +25350,7 @@ func (v *InterFreqCarrierFreqInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if opt_interfreqexcludedcelllistr13 {
 		tmp_interfreqexcludedcelllistr13 := make(InterFreqExcludedCellListNBR13, 0)
 		_, errCollection_interfreqexcludedcelllistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_interfreqexcludedcelllistr13, fragmentLength_interfreqexcludedcelllistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_interfreqexcludedcelllistr13 < 0 || fragmentLength_interfreqexcludedcelllistr13 < 0 || fragmentLength_interfreqexcludedcelllistr13 > int64(^uint(0)>>1) || fragmentOffset_interfreqexcludedcelllistr13 > int64(^uint(0)>>1)-fragmentLength_interfreqexcludedcelllistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -25354,7 +25371,7 @@ func (v *InterFreqCarrierFreqInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if opt_multibandinfolistr13 {
 		tmp_multibandinfolistr13 := make(MultiBandInfoListNBR13, 0)
 		_, errCollection_multibandinfolistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_multibandinfolistr13, fragmentLength_multibandinfolistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_multibandinfolistr13 < 0 || fragmentLength_multibandinfolistr13 < 0 || fragmentLength_multibandinfolistr13 > int64(^uint(0)>>1) || fragmentOffset_multibandinfolistr13 > int64(^uint(0)>>1)-fragmentLength_multibandinfolistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -25379,12 +25396,12 @@ func (v *InterFreqCarrierFreqInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -25476,7 +25493,7 @@ func (v *InterFreqCarrierFreqInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 			if ext_opt_interfreqneighcelllistv1530 {
 				tmp_interfreqneighcelllistv1530 := make(InterFreqNeighCellListNBV1530, 0)
 				_, errCollection_interfreqneighcelllistv1530 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_interfreqneighcelllistv1530, fragmentLength_interfreqneighcelllistv1530 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_interfreqneighcelllistv1530 < 0 || fragmentLength_interfreqneighcelllistv1530 < 0 || fragmentLength_interfreqneighcelllistv1530 > int64(^uint(0)>>1) || fragmentOffset_interfreqneighcelllistv1530 > int64(^uint(0)>>1)-fragmentLength_interfreqneighcelllistv1530 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -25540,7 +25557,7 @@ func (v *InterFreqCarrierFreqInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 			if ext_opt_interfreqneighcelllistv1910 {
 				tmp_interfreqneighcelllistv1910 := make(InterFreqNeighCellListNBV1910, 0)
 				_, errCollection_interfreqneighcelllistv1910 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_interfreqneighcelllistv1910, fragmentLength_interfreqneighcelllistv1910 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_interfreqneighcelllistv1910 < 0 || fragmentLength_interfreqneighcelllistv1910 < 0 || fragmentLength_interfreqneighcelllistv1910 > int64(^uint(0)>>1) || fragmentOffset_interfreqneighcelllistv1910 > int64(^uint(0)>>1)-fragmentLength_interfreqneighcelllistv1910 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -25564,7 +25581,7 @@ func (v *InterFreqCarrierFreqInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 			}
 			v.PERExtPadding_[4] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -25644,7 +25661,7 @@ func (v *InterFreqCarrierFreqInfoNBV1820) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_satelliteassistanceinfor18 {
 		tmp_satelliteassistanceinfor18 := make(InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18, 0)
 		_, errCollection_satelliteassistanceinfor18 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_satelliteassistanceinfor18, fragmentLength_satelliteassistanceinfor18 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_satelliteassistanceinfor18 < 0 || fragmentLength_satelliteassistanceinfor18 < 0 || fragmentLength_satelliteassistanceinfor18 > int64(^uint(0)>>1) || fragmentOffset_satelliteassistanceinfor18 > int64(^uint(0)>>1)-fragmentLength_satelliteassistanceinfor18 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -25749,7 +25766,7 @@ func UnmarshalUPERInterFreqNeighCellListNBR13From(bb *per.BitBuffer) (InterFreqN
 func unmarshalUPERInterFreqNeighCellListNBR13Into(v *asn1cUPERInterFreqNeighCellListNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(InterFreqNeighCellListNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -25852,7 +25869,7 @@ func UnmarshalUPERInterFreqNeighCellListNBV1530From(bb *per.BitBuffer) (InterFre
 func unmarshalUPERInterFreqNeighCellListNBV1530Into(v *asn1cUPERInterFreqNeighCellListNBV1530ListValue, bb *per.BitBuffer) error {
 	v.Value = make(InterFreqNeighCellListNBV1530, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -26014,7 +26031,7 @@ func UnmarshalUPERInterFreqNeighCellListNBV1910From(bb *per.BitBuffer) (InterFre
 func unmarshalUPERInterFreqNeighCellListNBV1910Into(v *asn1cUPERInterFreqNeighCellListNBV1910ListValue, bb *per.BitBuffer) error {
 	v.Value = make(InterFreqNeighCellListNBV1910, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -26198,7 +26215,7 @@ func UnmarshalUPERInterFreqExcludedCellListNBR13From(bb *per.BitBuffer) (InterFr
 func unmarshalUPERInterFreqExcludedCellListNBR13Into(v *asn1cUPERInterFreqExcludedCellListNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(InterFreqExcludedCellListNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -26260,14 +26277,14 @@ func (v *SystemInformationBlockType10NBR19) MarshalUPERTo(bb *per.BitBuffer) err
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -26277,7 +26294,7 @@ func (v *SystemInformationBlockType10NBR19) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -26368,13 +26385,13 @@ func (v *SystemInformationBlockType10NBR19) UnmarshalUPERFrom(bb *per.BitBuffer)
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -26448,14 +26465,14 @@ func (v *SystemInformationBlockType11NBR19) MarshalUPERTo(bb *per.BitBuffer) err
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -26465,7 +26482,7 @@ func (v *SystemInformationBlockType11NBR19) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -26578,13 +26595,13 @@ func (v *SystemInformationBlockType11NBR19) UnmarshalUPERFrom(bb *per.BitBuffer)
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -26658,14 +26675,14 @@ func (v *SystemInformationBlockType12NBR19) MarshalUPERTo(bb *per.BitBuffer) err
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -26675,7 +26692,7 @@ func (v *SystemInformationBlockType12NBR19) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -26788,13 +26805,13 @@ func (v *SystemInformationBlockType12NBR19) UnmarshalUPERFrom(bb *per.BitBuffer)
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -26864,7 +26881,7 @@ func (v *SystemInformationBlockType14NBR13) MarshalUPERTo(bb *per.BitBuffer) err
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -26884,7 +26901,7 @@ func (v *SystemInformationBlockType14NBR13) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -26938,7 +26955,7 @@ func (v *SystemInformationBlockType14NBR13) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -27014,12 +27031,12 @@ func (v *SystemInformationBlockType14NBR13) UnmarshalUPERFrom(bb *per.BitBuffer)
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -27074,7 +27091,7 @@ func (v *SystemInformationBlockType14NBR13) UnmarshalUPERFrom(bb *per.BitBuffer)
 			}
 			v.PERExtPadding_[1] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -27323,7 +27340,7 @@ func (v *UACParamNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	case UACParamNBR16ChoiceUacBarringPerPLMNList:
 		tmp_uacbarringperplmnlist := make(UACParamNBR16UacBarringPerPLMNList, 0)
 		_, errCollection_uacbarringperplmnlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_uacbarringperplmnlist, fragmentLength_uacbarringperplmnlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_uacbarringperplmnlist < 0 || fragmentLength_uacbarringperplmnlist < 0 || fragmentLength_uacbarringperplmnlist > int64(^uint(0)>>1) || fragmentOffset_uacbarringperplmnlist > int64(^uint(0)>>1)-fragmentLength_uacbarringperplmnlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -27422,7 +27439,7 @@ func (v *UACBarringNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_uacbarringpercatlistr16 {
 		tmp_uacbarringpercatlistr16 := make(UACBarringPerCatListNBR16, 0)
 		_, errCollection_uacbarringpercatlistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, false, func(fragmentOffset_uacbarringpercatlistr16, fragmentLength_uacbarringpercatlistr16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_uacbarringpercatlistr16 < 0 || fragmentLength_uacbarringpercatlistr16 < 0 || fragmentLength_uacbarringpercatlistr16 > int64(^uint(0)>>1) || fragmentOffset_uacbarringpercatlistr16 > int64(^uint(0)>>1)-fragmentLength_uacbarringpercatlistr16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -27540,7 +27557,7 @@ func UnmarshalUPERUACBarringPerCatListNBR16From(bb *per.BitBuffer) (UACBarringPe
 func unmarshalUPERUACBarringPerCatListNBR16Into(v *asn1cUPERUACBarringPerCatListNBR16ListValue, bb *per.BitBuffer) error {
 	v.Value = make(UACBarringPerCatListNBR16, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -27685,14 +27702,14 @@ func (v *SystemInformationBlockType15NBR14) MarshalUPERTo(bb *per.BitBuffer) err
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -27702,7 +27719,7 @@ func (v *SystemInformationBlockType15NBR14) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -27763,7 +27780,7 @@ func (v *SystemInformationBlockType15NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if opt_mbmssaiintrafreqr14 {
 		tmp_mbmssaiintrafreqr14 := make(MBMSSAIListR11, 0)
 		_, errCollection_mbmssaiintrafreqr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_mbmssaiintrafreqr14, fragmentLength_mbmssaiintrafreqr14 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_mbmssaiintrafreqr14 < 0 || fragmentLength_mbmssaiintrafreqr14 < 0 || fragmentLength_mbmssaiintrafreqr14 > int64(^uint(0)>>1) || fragmentOffset_mbmssaiintrafreqr14 > int64(^uint(0)>>1)-fragmentLength_mbmssaiintrafreqr14 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -27784,7 +27801,7 @@ func (v *SystemInformationBlockType15NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if opt_mbmssaiinterfreqlistr14 {
 		tmp_mbmssaiinterfreqlistr14 := make(MBMSSAIInterFreqListNBR14, 0)
 		_, errCollection_mbmssaiinterfreqlistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_mbmssaiinterfreqlistr14, fragmentLength_mbmssaiinterfreqlistr14 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_mbmssaiinterfreqlistr14 < 0 || fragmentLength_mbmssaiinterfreqlistr14 < 0 || fragmentLength_mbmssaiinterfreqlistr14 > int64(^uint(0)>>1) || fragmentOffset_mbmssaiinterfreqlistr14 > int64(^uint(0)>>1)-fragmentLength_mbmssaiinterfreqlistr14 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -27816,13 +27833,13 @@ func (v *SystemInformationBlockType15NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -27923,7 +27940,7 @@ func UnmarshalUPERMBMSSAIInterFreqListNBR14From(bb *per.BitBuffer) (MBMSSAIInter
 func unmarshalUPERMBMSSAIInterFreqListNBR14Into(v *asn1cUPERMBMSSAIInterFreqListNBR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(MBMSSAIInterFreqListNBR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -28024,7 +28041,7 @@ func (v *MBMSSAIInterFreqNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.MbmsSAIListR14 = make(MBMSSAIListR11, 0)
 	_, errCollection_mbmssailistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_mbmssailistr14, fragmentLength_mbmssailistr14 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_mbmssailistr14 < 0 || fragmentLength_mbmssailistr14 < 0 || fragmentLength_mbmssailistr14 > int64(^uint(0)>>1) || fragmentOffset_mbmssailistr14 > int64(^uint(0)>>1)-fragmentLength_mbmssailistr14 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -28043,7 +28060,7 @@ func (v *MBMSSAIInterFreqNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_multibandinfolistr14 {
 		tmp_multibandinfolistr14 := make(AdditionalBandInfoListNBR14, 0)
 		_, errCollection_multibandinfolistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_multibandinfolistr14, fragmentLength_multibandinfolistr14 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_multibandinfolistr14 < 0 || fragmentLength_multibandinfolistr14 < 0 || fragmentLength_multibandinfolistr14 > int64(^uint(0)>>1) || fragmentOffset_multibandinfolistr14 > int64(^uint(0)>>1)-fragmentLength_multibandinfolistr14 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -28113,14 +28130,14 @@ func (v *SystemInformationBlockType20NBR14) MarshalUPERTo(bb *per.BitBuffer) err
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -28130,7 +28147,7 @@ func (v *SystemInformationBlockType20NBR14) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -28226,13 +28243,13 @@ func (v *SystemInformationBlockType20NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -28337,14 +28354,14 @@ func (v *SCMCCHSchedulingInfoNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -28354,7 +28371,7 @@ func (v *SCMCCHSchedulingInfoNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -28418,13 +28435,13 @@ func (v *SCMCCHSchedulingInfoNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -28554,7 +28571,7 @@ func (v *SystemInformationBlockType22NBR14) MarshalUPERTo(bb *per.BitBuffer) err
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -28580,7 +28597,7 @@ func (v *SystemInformationBlockType22NBR14) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -28686,7 +28703,7 @@ func (v *SystemInformationBlockType22NBR14) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -28755,7 +28772,7 @@ func (v *SystemInformationBlockType22NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if opt_dlconfiglistr14 {
 		tmp_dlconfiglistr14 := make(DLConfigCommonListNBR14, 0)
 		_, errCollection_dlconfiglistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_dlconfiglistr14, fragmentLength_dlconfiglistr14 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_dlconfiglistr14 < 0 || fragmentLength_dlconfiglistr14 < 0 || fragmentLength_dlconfiglistr14 > int64(^uint(0)>>1) || fragmentOffset_dlconfiglistr14 > int64(^uint(0)>>1)-fragmentLength_dlconfiglistr14 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -28776,7 +28793,7 @@ func (v *SystemInformationBlockType22NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if opt_ulconfiglistr14 {
 		tmp_ulconfiglistr14 := make(ULConfigCommonListNBR14, 0)
 		_, errCollection_ulconfiglistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_ulconfiglistr14, fragmentLength_ulconfiglistr14 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_ulconfiglistr14 < 0 || fragmentLength_ulconfiglistr14 < 0 || fragmentLength_ulconfiglistr14 > int64(^uint(0)>>1) || fragmentOffset_ulconfiglistr14 > int64(^uint(0)>>1)-fragmentLength_ulconfiglistr14 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -28805,7 +28822,7 @@ func (v *SystemInformationBlockType22NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if opt_nprachprobabilityanchorlistr14 {
 		tmp_nprachprobabilityanchorlistr14 := make(NPRACHProbabilityAnchorListNBR14, 0)
 		_, errCollection_nprachprobabilityanchorlistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nprachprobabilityanchorlistr14, fragmentLength_nprachprobabilityanchorlistr14 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_nprachprobabilityanchorlistr14 < 0 || fragmentLength_nprachprobabilityanchorlistr14 < 0 || fragmentLength_nprachprobabilityanchorlistr14 > int64(^uint(0)>>1) || fragmentOffset_nprachprobabilityanchorlistr14 > int64(^uint(0)>>1)-fragmentLength_nprachprobabilityanchorlistr14 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -28838,12 +28855,12 @@ func (v *SystemInformationBlockType22NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -28874,7 +28891,7 @@ func (v *SystemInformationBlockType22NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 			if ext_opt_ulconfiglistr15 {
 				tmp_ulconfiglistr15 := make(ULConfigCommonListTDDNBR15, 0)
 				_, errCollection_ulconfiglistr15 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_ulconfiglistr15, fragmentLength_ulconfiglistr15 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_ulconfiglistr15 < 0 || fragmentLength_ulconfiglistr15 < 0 || fragmentLength_ulconfiglistr15 > int64(^uint(0)>>1) || fragmentOffset_ulconfiglistr15 > int64(^uint(0)>>1)-fragmentLength_ulconfiglistr15 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -28938,7 +28955,7 @@ func (v *SystemInformationBlockType22NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 			if ext_opt_cbmsg3probabilityanchorlistnbr19 {
 				tmp_cbmsg3probabilityanchorlistnbr19 := make(CBMsg3ProbabilityAnchorListNBR19, 0)
 				_, errCollection_cbmsg3probabilityanchorlistnbr19 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_cbmsg3probabilityanchorlistnbr19, fragmentLength_cbmsg3probabilityanchorlistnbr19 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_cbmsg3probabilityanchorlistnbr19 < 0 || fragmentLength_cbmsg3probabilityanchorlistnbr19 < 0 || fragmentLength_cbmsg3probabilityanchorlistnbr19 > int64(^uint(0)>>1) || fragmentOffset_cbmsg3probabilityanchorlistnbr19 > int64(^uint(0)>>1)-fragmentLength_cbmsg3probabilityanchorlistnbr19 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -28962,7 +28979,7 @@ func (v *SystemInformationBlockType22NBR14) UnmarshalUPERFrom(bb *per.BitBuffer)
 			}
 			v.PERExtPadding_[2] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -29063,7 +29080,7 @@ func UnmarshalUPERDLConfigCommonListNBR14From(bb *per.BitBuffer) (DLConfigCommon
 func unmarshalUPERDLConfigCommonListNBR14Into(v *asn1cUPERDLConfigCommonListNBR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(DLConfigCommonListNBR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -29166,7 +29183,7 @@ func UnmarshalUPERULConfigCommonListNBR14From(bb *per.BitBuffer) (ULConfigCommon
 func unmarshalUPERULConfigCommonListNBR14Into(v *asn1cUPERULConfigCommonListNBR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(ULConfigCommonListNBR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -29269,7 +29286,7 @@ func UnmarshalUPERULConfigCommonListTDDNBR15From(bb *per.BitBuffer) (ULConfigCom
 func unmarshalUPERULConfigCommonListTDDNBR15Into(v *asn1cUPERULConfigCommonListTDDNBR15ListValue, bb *per.BitBuffer) error {
 	v.Value = make(ULConfigCommonListTDDNBR15, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -29347,7 +29364,7 @@ func (v *CoverageBasedPagingConfigNBR17) UnmarshalUPERFrom(bb *per.BitBuffer) er
 	v.CbpHystTimerR17 = val_cbphysttimerr17
 	v.CbpConfigListR17 = make(CoverageBasedPagingConfigNBR17CbpConfigListR17, 0)
 	_, errCollection_cbpconfiglistr17 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_cbpconfiglistr17, fragmentLength_cbpconfiglistr17 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_cbpconfiglistr17 < 0 || fragmentLength_cbpconfiglistr17 < 0 || fragmentLength_cbpconfiglistr17 > int64(^uint(0)>>1) || fragmentOffset_cbpconfiglistr17 > int64(^uint(0)>>1)-fragmentLength_cbpconfiglistr17 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -29503,7 +29520,7 @@ func (v *DLConfigCommonNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -29529,7 +29546,7 @@ func (v *DLConfigCommonNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -29605,7 +29622,7 @@ func (v *DLConfigCommonNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -29672,12 +29689,12 @@ func (v *DLConfigCommonNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -29757,7 +29774,7 @@ func (v *DLConfigCommonNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[2] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -29808,14 +29825,14 @@ func (v *PCCHConfigNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -29825,7 +29842,7 @@ func (v *PCCHConfigNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -29900,13 +29917,13 @@ func (v *PCCHConfigNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -29955,14 +29972,14 @@ func (v *PCCHConfigNBR17) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -29972,7 +29989,7 @@ func (v *PCCHConfigNBR17) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -30046,13 +30063,13 @@ func (v *PCCHConfigNBR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -30131,7 +30148,7 @@ func (v *ULConfigCommonNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -30157,7 +30174,7 @@ func (v *ULConfigCommonNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -30255,7 +30272,7 @@ func (v *ULConfigCommonNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -30311,7 +30328,7 @@ func (v *ULConfigCommonNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_nprachparameterslistr14 {
 		tmp_nprachparameterslistr14 := make(NPRACHParametersListNBR14, 0)
 		_, errCollection_nprachparameterslistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nprachparameterslistr14, fragmentLength_nprachparameterslistr14 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_nprachparameterslistr14 < 0 || fragmentLength_nprachparameterslistr14 < 0 || fragmentLength_nprachparameterslistr14 > int64(^uint(0)>>1) || fragmentOffset_nprachparameterslistr14 > int64(^uint(0)>>1)-fragmentLength_nprachparameterslistr14 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -30336,12 +30353,12 @@ func (v *ULConfigCommonNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -30361,7 +30378,7 @@ func (v *ULConfigCommonNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_nprachparameterslistedtr15 {
 				tmp_nprachparameterslistedtr15 := make(NPRACHParametersListNBR14, 0)
 				_, errCollection_nprachparameterslistedtr15 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nprachparameterslistedtr15, fragmentLength_nprachparameterslistedtr15 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_nprachparameterslistedtr15 < 0 || fragmentLength_nprachparameterslistedtr15 < 0 || fragmentLength_nprachparameterslistedtr15 > int64(^uint(0)>>1) || fragmentOffset_nprachparameterslistedtr15 > int64(^uint(0)>>1)-fragmentLength_nprachparameterslistedtr15 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -30400,7 +30417,7 @@ func (v *ULConfigCommonNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_rsrpthresholdsprachinfolistr16 {
 				tmp_rsrpthresholdsprachinfolistr16 := make(RSRPThresholdsNPRACHInfoListNBR13, 0)
 				_, errCollection_rsrpthresholdsprachinfolistr16 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_rsrpthresholdsprachinfolistr16, fragmentLength_rsrpthresholdsprachinfolistr16 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+					// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 					if fragmentOffset_rsrpthresholdsprachinfolistr16 < 0 || fragmentLength_rsrpthresholdsprachinfolistr16 < 0 || fragmentLength_rsrpthresholdsprachinfolistr16 > int64(^uint(0)>>1) || fragmentOffset_rsrpthresholdsprachinfolistr16 > int64(^uint(0)>>1)-fragmentLength_rsrpthresholdsprachinfolistr16 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -30449,7 +30466,7 @@ func (v *ULConfigCommonNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[2] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -30506,14 +30523,14 @@ func (v *ULConfigCommonTDDNBR15) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -30523,7 +30540,7 @@ func (v *ULConfigCommonTDDNBR15) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -30581,7 +30598,7 @@ func (v *ULConfigCommonTDDNBR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_nprachparameterslisttddr15 {
 		tmp_nprachparameterslisttddr15 := make(NPRACHParametersListTDDNBR15, 0)
 		_, errCollection_nprachparameterslisttddr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nprachparameterslisttddr15, fragmentLength_nprachparameterslisttddr15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_nprachparameterslisttddr15 < 0 || fragmentLength_nprachparameterslisttddr15 < 0 || fragmentLength_nprachparameterslisttddr15 > int64(^uint(0)>>1) || fragmentOffset_nprachparameterslisttddr15 > int64(^uint(0)>>1)-fragmentLength_nprachparameterslisttddr15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -30605,13 +30622,13 @@ func (v *ULConfigCommonTDDNBR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -30714,7 +30731,7 @@ func UnmarshalUPERNPRACHProbabilityAnchorListNBR14From(bb *per.BitBuffer) (NPRAC
 func unmarshalUPERNPRACHProbabilityAnchorListNBR14Into(v *asn1cUPERNPRACHProbabilityAnchorListNBR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(NPRACHProbabilityAnchorListNBR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -30878,7 +30895,7 @@ func UnmarshalUPERCBMsg3ProbabilityAnchorListNBR19From(bb *per.BitBuffer) (CBMsg
 func unmarshalUPERCBMsg3ProbabilityAnchorListNBR19Into(v *asn1cUPERCBMsg3ProbabilityAnchorListNBR19ListValue, bb *per.BitBuffer) error {
 	v.Value = make(CBMsg3ProbabilityAnchorListNBR19, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -31020,14 +31037,14 @@ func (v *SystemInformationBlockType23NBR15) MarshalUPERTo(bb *per.BitBuffer) err
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -31037,7 +31054,7 @@ func (v *SystemInformationBlockType23NBR15) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -31098,7 +31115,7 @@ func (v *SystemInformationBlockType23NBR15) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if opt_ulconfiglistv1530 {
 		tmp_ulconfiglistv1530 := make(ULConfigCommonListNBV1530, 0)
 		_, errCollection_ulconfiglistv1530 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_ulconfiglistv1530, fragmentLength_ulconfiglistv1530 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_ulconfiglistv1530 < 0 || fragmentLength_ulconfiglistv1530 < 0 || fragmentLength_ulconfiglistv1530 > int64(^uint(0)>>1) || fragmentOffset_ulconfiglistv1530 > int64(^uint(0)>>1)-fragmentLength_ulconfiglistv1530 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -31119,7 +31136,7 @@ func (v *SystemInformationBlockType23NBR15) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if opt_ulconfiglistmixedv1530 {
 		tmp_ulconfiglistmixedv1530 := make(ULConfigCommonListNBV1530, 0)
 		_, errCollection_ulconfiglistmixedv1530 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_ulconfiglistmixedv1530, fragmentLength_ulconfiglistmixedv1530 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_ulconfiglistmixedv1530 < 0 || fragmentLength_ulconfiglistmixedv1530 < 0 || fragmentLength_ulconfiglistmixedv1530 > int64(^uint(0)>>1) || fragmentOffset_ulconfiglistmixedv1530 > int64(^uint(0)>>1)-fragmentLength_ulconfiglistmixedv1530 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -31151,13 +31168,13 @@ func (v *SystemInformationBlockType23NBR15) UnmarshalUPERFrom(bb *per.BitBuffer)
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -31258,7 +31275,7 @@ func UnmarshalUPERULConfigCommonListNBV1530From(bb *per.BitBuffer) (ULConfigComm
 func unmarshalUPERULConfigCommonListNBV1530Into(v *asn1cUPERULConfigCommonListNBV1530ListValue, bb *per.BitBuffer) error {
 	v.Value = make(ULConfigCommonListNBV1530, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -31333,14 +31350,14 @@ func (v *ULConfigCommonNBV1530) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -31350,7 +31367,7 @@ func (v *ULConfigCommonNBV1530) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -31407,7 +31424,7 @@ func (v *ULConfigCommonNBV1530) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_nprachparameterslistfmt2r15 {
 		tmp_nprachparameterslistfmt2r15 := make(NPRACHParametersListFmt2NBR15, 0)
 		_, errCollection_nprachparameterslistfmt2r15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nprachparameterslistfmt2r15, fragmentLength_nprachparameterslistfmt2r15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_nprachparameterslistfmt2r15 < 0 || fragmentLength_nprachparameterslistfmt2r15 < 0 || fragmentLength_nprachparameterslistfmt2r15 > int64(^uint(0)>>1) || fragmentOffset_nprachparameterslistfmt2r15 > int64(^uint(0)>>1)-fragmentLength_nprachparameterslistfmt2r15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -31428,7 +31445,7 @@ func (v *ULConfigCommonNBV1530) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_nprachparameterslistfmt2edtr15 {
 		tmp_nprachparameterslistfmt2edtr15 := make(NPRACHParametersListFmt2NBR15, 0)
 		_, errCollection_nprachparameterslistfmt2edtr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nprachparameterslistfmt2edtr15, fragmentLength_nprachparameterslistfmt2edtr15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_nprachparameterslistfmt2edtr15 < 0 || fragmentLength_nprachparameterslistfmt2edtr15 < 0 || fragmentLength_nprachparameterslistfmt2edtr15 > int64(^uint(0)>>1) || fragmentOffset_nprachparameterslistfmt2edtr15 > int64(^uint(0)>>1)-fragmentLength_nprachparameterslistfmt2edtr15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -31452,13 +31469,13 @@ func (v *ULConfigCommonNBV1530) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -31555,7 +31572,7 @@ func (v *SystemInformationBlockType27NBR16) MarshalUPERTo(bb *per.BitBuffer) err
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -31569,7 +31586,7 @@ func (v *SystemInformationBlockType27NBR16) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -31612,7 +31629,7 @@ func (v *SystemInformationBlockType27NBR16) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -31673,7 +31690,7 @@ func (v *SystemInformationBlockType27NBR16) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if opt_carrierfreqlisteutrar16 {
 		tmp_carrierfreqlisteutrar16 := make(CarrierFreqListEUTRANBR16, 0)
 		_, errCollection_carrierfreqlisteutrar16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_carrierfreqlisteutrar16, fragmentLength_carrierfreqlisteutrar16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_carrierfreqlisteutrar16 < 0 || fragmentLength_carrierfreqlisteutrar16 < 0 || fragmentLength_carrierfreqlisteutrar16 > int64(^uint(0)>>1) || fragmentOffset_carrierfreqlisteutrar16 > int64(^uint(0)>>1)-fragmentLength_carrierfreqlisteutrar16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -31694,7 +31711,7 @@ func (v *SystemInformationBlockType27NBR16) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if opt_carrierfreqslistgeranr16 {
 		tmp_carrierfreqslistgeranr16 := make(CarrierFreqsListGERANNBR16, 0)
 		_, errCollection_carrierfreqslistgeranr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_carrierfreqslistgeranr16, fragmentLength_carrierfreqslistgeranr16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_carrierfreqslistgeranr16 < 0 || fragmentLength_carrierfreqslistgeranr16 < 0 || fragmentLength_carrierfreqslistgeranr16 > int64(^uint(0)>>1) || fragmentOffset_carrierfreqslistgeranr16 > int64(^uint(0)>>1)-fragmentLength_carrierfreqslistgeranr16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -31727,12 +31744,12 @@ func (v *SystemInformationBlockType27NBR16) UnmarshalUPERFrom(bb *per.BitBuffer)
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -31752,7 +31769,7 @@ func (v *SystemInformationBlockType27NBR16) UnmarshalUPERFrom(bb *per.BitBuffer)
 			if ext_opt_carrierfreqlistnrr19 {
 				tmp_carrierfreqlistnrr19 := make(CarrierFreqListNRR19, 0)
 				_, errCollection_carrierfreqlistnrr19 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_carrierfreqlistnrr19, fragmentLength_carrierfreqlistnrr19 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_carrierfreqlistnrr19 < 0 || fragmentLength_carrierfreqlistnrr19 < 0 || fragmentLength_carrierfreqlistnrr19 > int64(^uint(0)>>1) || fragmentOffset_carrierfreqlistnrr19 > int64(^uint(0)>>1)-fragmentLength_carrierfreqlistnrr19 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -31776,7 +31793,7 @@ func (v *SystemInformationBlockType27NBR16) UnmarshalUPERFrom(bb *per.BitBuffer)
 			}
 			v.PERExtPadding_[0] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -31877,7 +31894,7 @@ func UnmarshalUPERCarrierFreqListEUTRANBR16From(bb *per.BitBuffer) (CarrierFreqL
 func unmarshalUPERCarrierFreqListEUTRANBR16Into(v *asn1cUPERCarrierFreqListEUTRANBR16ListValue, bb *per.BitBuffer) error {
 	v.Value = make(CarrierFreqListEUTRANBR16, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -31980,7 +31997,7 @@ func UnmarshalUPERCarrierFreqsListGERANNBR16From(bb *per.BitBuffer) (CarrierFreq
 func unmarshalUPERCarrierFreqsListGERANNBR16Into(v *asn1cUPERCarrierFreqsListGERANNBR16ListValue, bb *per.BitBuffer) error {
 	v.Value = make(CarrierFreqsListGERANNBR16, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -32036,14 +32053,14 @@ func (v *CarrierFreqEUTRANBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -32053,7 +32070,7 @@ func (v *CarrierFreqEUTRANBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -32132,13 +32149,13 @@ func (v *CarrierFreqEUTRANBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -32192,14 +32209,14 @@ func (v *CarrierFreqsGERANNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -32209,7 +32226,7 @@ func (v *CarrierFreqsGERANNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -32286,13 +32303,13 @@ func (v *CarrierFreqsGERANNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -32357,7 +32374,7 @@ func (v *SystemInformationBlockType31NBR17) MarshalUPERTo(bb *per.BitBuffer) err
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -32377,7 +32394,7 @@ func (v *SystemInformationBlockType31NBR17) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -32431,7 +32448,7 @@ func (v *SystemInformationBlockType31NBR17) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -32499,12 +32516,12 @@ func (v *SystemInformationBlockType31NBR17) UnmarshalUPERFrom(bb *per.BitBuffer)
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -32559,7 +32576,7 @@ func (v *SystemInformationBlockType31NBR17) UnmarshalUPERFrom(bb *per.BitBuffer)
 			}
 			v.PERExtPadding_[1] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -32719,7 +32736,7 @@ func (v *SystemInformationBlockType32NBR17) MarshalUPERTo(bb *per.BitBuffer) err
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -32739,7 +32756,7 @@ func (v *SystemInformationBlockType32NBR17) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -32815,7 +32832,7 @@ func (v *SystemInformationBlockType32NBR17) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -32872,7 +32889,7 @@ func (v *SystemInformationBlockType32NBR17) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if opt_satelliteinfolistr17 {
 		tmp_satelliteinfolistr17 := make(SatelliteInfoListR17, 0)
 		_, errCollection_satelliteinfolistr17 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_satelliteinfolistr17, fragmentLength_satelliteinfolistr17 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_satelliteinfolistr17 < 0 || fragmentLength_satelliteinfolistr17 < 0 || fragmentLength_satelliteinfolistr17 > int64(^uint(0)>>1) || fragmentOffset_satelliteinfolistr17 > int64(^uint(0)>>1)-fragmentLength_satelliteinfolistr17 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -32905,12 +32922,12 @@ func (v *SystemInformationBlockType32NBR17) UnmarshalUPERFrom(bb *per.BitBuffer)
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -32930,7 +32947,7 @@ func (v *SystemInformationBlockType32NBR17) UnmarshalUPERFrom(bb *per.BitBuffer)
 			if ext_opt_satelliteinfolistv1800 {
 				tmp_satelliteinfolistv1800 := make(SatelliteInfoListV1800, 0)
 				_, errCollection_satelliteinfolistv1800 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_satelliteinfolistv1800, fragmentLength_satelliteinfolistv1800 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1244
+					// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1228
 					if fragmentOffset_satelliteinfolistv1800 < 0 || fragmentLength_satelliteinfolistv1800 < 0 || fragmentLength_satelliteinfolistv1800 > int64(^uint(0)>>1) || fragmentOffset_satelliteinfolistv1800 > int64(^uint(0)>>1)-fragmentLength_satelliteinfolistv1800 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -32969,7 +32986,7 @@ func (v *SystemInformationBlockType32NBR17) UnmarshalUPERFrom(bb *per.BitBuffer)
 			if ext_opt_satelliteinfolistv1830 {
 				tmp_satelliteinfolistv1830 := make(SatelliteInfoListNBV1830, 0)
 				_, errCollection_satelliteinfolistv1830 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_satelliteinfolistv1830, fragmentLength_satelliteinfolistv1830 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_satelliteinfolistv1830 < 0 || fragmentLength_satelliteinfolistv1830 < 0 || fragmentLength_satelliteinfolistv1830 > int64(^uint(0)>>1) || fragmentOffset_satelliteinfolistv1830 > int64(^uint(0)>>1)-fragmentLength_satelliteinfolistv1830 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -32993,7 +33010,7 @@ func (v *SystemInformationBlockType32NBR17) UnmarshalUPERFrom(bb *per.BitBuffer)
 			}
 			v.PERExtPadding_[1] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -33094,7 +33111,7 @@ func UnmarshalUPERSatelliteInfoListNBV1830From(bb *per.BitBuffer) (SatelliteInfo
 func unmarshalUPERSatelliteInfoListNBV1830Into(v *asn1cUPERSatelliteInfoListNBV1830ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SatelliteInfoListNBV1830, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -33164,7 +33181,7 @@ func (v *CarrierFreqListNBR18) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = CarrierFreqListNBR18{}
 	v.CarrierFreqListR18 = make(CarrierFreqListNBR18CarrierFreqListR18, 0)
 	_, errCollection_carrierfreqlistr18 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_carrierfreqlistr18, fragmentLength_carrierfreqlistr18 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_carrierfreqlistr18 < 0 || fragmentLength_carrierfreqlistr18 < 0 || fragmentLength_carrierfreqlistr18 > int64(^uint(0)>>1) || fragmentOffset_carrierfreqlistr18 > int64(^uint(0)>>1)-fragmentLength_carrierfreqlistr18 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -33252,7 +33269,7 @@ func (v *SystemInformationBlockType33NBR18) MarshalUPERTo(bb *per.BitBuffer) err
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -33266,7 +33283,7 @@ func (v *SystemInformationBlockType33NBR18) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -33347,7 +33364,7 @@ func (v *SystemInformationBlockType33NBR18) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -33408,7 +33425,7 @@ func (v *SystemInformationBlockType33NBR18) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if opt_neighsatelliteinfolistr18 {
 		tmp_neighsatelliteinfolistr18 := make(NeighSatelliteInfoListR18, 0)
 		_, errCollection_neighsatelliteinfolistr18 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_neighsatelliteinfolistr18, fragmentLength_neighsatelliteinfolistr18 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_neighsatelliteinfolistr18 < 0 || fragmentLength_neighsatelliteinfolistr18 < 0 || fragmentLength_neighsatelliteinfolistr18 > int64(^uint(0)>>1) || fragmentOffset_neighsatelliteinfolistr18 > int64(^uint(0)>>1)-fragmentLength_neighsatelliteinfolistr18 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -33448,12 +33465,12 @@ func (v *SystemInformationBlockType33NBR18) UnmarshalUPERFrom(bb *per.BitBuffer)
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -33481,7 +33498,7 @@ func (v *SystemInformationBlockType33NBR18) UnmarshalUPERFrom(bb *per.BitBuffer)
 			if ext_opt_neighsatelliteinfolistiottddv1900 {
 				tmp_neighsatelliteinfolistiottddv1900 := make(NeighSatelliteInfoListIoTTDDV1900, 0)
 				_, errCollection_neighsatelliteinfolistiottddv1900 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_neighsatelliteinfolistiottddv1900, fragmentLength_neighsatelliteinfolistiottddv1900 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_neighsatelliteinfolistiottddv1900 < 0 || fragmentLength_neighsatelliteinfolistiottddv1900 < 0 || fragmentLength_neighsatelliteinfolistiottddv1900 > int64(^uint(0)>>1) || fragmentOffset_neighsatelliteinfolistiottddv1900 > int64(^uint(0)>>1)-fragmentLength_neighsatelliteinfolistiottddv1900 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -33502,7 +33519,7 @@ func (v *SystemInformationBlockType33NBR18) UnmarshalUPERFrom(bb *per.BitBuffer)
 			if ext_opt_neighsatelliteinfolistv1910 {
 				tmp_neighsatelliteinfolistv1910 := make(NeighSatelliteInfoListV1900, 0)
 				_, errCollection_neighsatelliteinfolistv1910 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_neighsatelliteinfolistv1910, fragmentLength_neighsatelliteinfolistv1910 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_neighsatelliteinfolistv1910 < 0 || fragmentLength_neighsatelliteinfolistv1910 < 0 || fragmentLength_neighsatelliteinfolistv1910 > int64(^uint(0)>>1) || fragmentOffset_neighsatelliteinfolistv1910 > int64(^uint(0)>>1)-fragmentLength_neighsatelliteinfolistv1910 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -33523,7 +33540,7 @@ func (v *SystemInformationBlockType33NBR18) UnmarshalUPERFrom(bb *per.BitBuffer)
 			if ext_opt_neighsatelliteinfolistnrr19 {
 				tmp_neighsatelliteinfolistnrr19 := make(NeighSatelliteInfoListNRR19, 0)
 				_, errCollection_neighsatelliteinfolistnrr19 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_neighsatelliteinfolistnrr19, fragmentLength_neighsatelliteinfolistnrr19 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_neighsatelliteinfolistnrr19 < 0 || fragmentLength_neighsatelliteinfolistnrr19 < 0 || fragmentLength_neighsatelliteinfolistnrr19 > int64(^uint(0)>>1) || fragmentOffset_neighsatelliteinfolistnrr19 > int64(^uint(0)>>1)-fragmentLength_neighsatelliteinfolistnrr19 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -33547,7 +33564,7 @@ func (v *SystemInformationBlockType33NBR18) UnmarshalUPERFrom(bb *per.BitBuffer)
 			}
 			v.PERExtPadding_[0] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -33650,7 +33667,7 @@ func UnmarshalUPERNeighSatelliteInfoListIoTTDDV1900From(bb *per.BitBuffer) (Neig
 func unmarshalUPERNeighSatelliteInfoListIoTTDDV1900Into(v *asn1cUPERNeighSatelliteInfoListIoTTDDV1900ListValue, bb *per.BitBuffer) error {
 	v.Value = make(NeighSatelliteInfoListIoTTDDV1900, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -33845,7 +33862,7 @@ func (v *DLCarrierConfigDedicatedNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -33871,7 +33888,7 @@ func (v *DLCarrierConfigDedicatedNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -33947,7 +33964,7 @@ func (v *DLCarrierConfigDedicatedNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -34036,12 +34053,12 @@ func (v *DLCarrierConfigDedicatedNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -34121,7 +34138,7 @@ func (v *DLCarrierConfigDedicatedNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 			}
 			v.PERExtPadding_[2] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -34180,7 +34197,7 @@ func (v *ULCarrierConfigDedicatedNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -34194,7 +34211,7 @@ func (v *ULCarrierConfigDedicatedNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -34226,7 +34243,7 @@ func (v *ULCarrierConfigDedicatedNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -34290,12 +34307,12 @@ func (v *ULCarrierConfigDedicatedNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -34326,7 +34343,7 @@ func (v *ULCarrierConfigDedicatedNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 			}
 			v.PERExtPadding_[0] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -34518,14 +34535,14 @@ func (v *CBMsg3ConfigSIBNBR19) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -34535,7 +34552,7 @@ func (v *CBMsg3ConfigSIBNBR19) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -34600,7 +34617,7 @@ func (v *CBMsg3ConfigSIBNBR19) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cbmsg3rsrpcelevelsnbr19 {
 		tmp_cbmsg3rsrpcelevelsnbr19 := make(CBMsg3RSRPCELevelsNBR19, 0)
 		_, errCollection_cbmsg3rsrpcelevelsnbr19 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_cbmsg3rsrpcelevelsnbr19, fragmentLength_cbmsg3rsrpcelevelsnbr19 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_cbmsg3rsrpcelevelsnbr19 < 0 || fragmentLength_cbmsg3rsrpcelevelsnbr19 < 0 || fragmentLength_cbmsg3rsrpcelevelsnbr19 > int64(^uint(0)>>1) || fragmentOffset_cbmsg3rsrpcelevelsnbr19 > int64(^uint(0)>>1)-fragmentLength_cbmsg3rsrpcelevelsnbr19 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -34620,7 +34637,7 @@ func (v *CBMsg3ConfigSIBNBR19) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.CbMsg3ConfigListNBR19 = make(CBMsg3ConfigListNBR19, 0)
 	_, errCollection_cbmsg3configlistnbr19 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_cbmsg3configlistnbr19, fragmentLength_cbmsg3configlistnbr19 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_cbmsg3configlistnbr19 < 0 || fragmentLength_cbmsg3configlistnbr19 < 0 || fragmentLength_cbmsg3configlistnbr19 > int64(^uint(0)>>1) || fragmentOffset_cbmsg3configlistnbr19 > int64(^uint(0)>>1)-fragmentLength_cbmsg3configlistnbr19 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -34645,13 +34662,13 @@ func (v *CBMsg3ConfigSIBNBR19) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -34752,7 +34769,7 @@ func UnmarshalUPERCBMsg3ConfigListNBR19From(bb *per.BitBuffer) (CBMsg3ConfigList
 func unmarshalUPERCBMsg3ConfigListNBR19Into(v *asn1cUPERCBMsg3ConfigListNBR19ListValue, bb *per.BitBuffer) error {
 	v.Value = make(CBMsg3ConfigListNBR19, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -34996,7 +35013,7 @@ func UnmarshalUPERCBMsg3RSRPCELevelsNBR19From(bb *per.BitBuffer) (CBMsg3RSRPCELe
 func unmarshalUPERCBMsg3RSRPCELevelsNBR19Into(v *asn1cUPERCBMsg3RSRPCELevelsNBR19ListValue, bb *per.BitBuffer) error {
 	v.Value = make(CBMsg3RSRPCELevelsNBR19, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -35311,7 +35328,7 @@ func (v *DLCarrierConfigCommonNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -35331,7 +35348,7 @@ func (v *DLCarrierConfigCommonNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -35385,7 +35402,7 @@ func (v *DLCarrierConfigCommonNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -35469,12 +35486,12 @@ func (v *DLCarrierConfigCommonNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -35529,7 +35546,7 @@ func (v *DLCarrierConfigCommonNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 			}
 			v.PERExtPadding_[1] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -35734,14 +35751,14 @@ func (v *GWUSConfigNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -35751,7 +35768,7 @@ func (v *GWUSConfigNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -35862,7 +35879,7 @@ func (v *GWUSConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_probthreshlistr16 {
 		tmp_probthreshlistr16 := make(GWUSProbThreshListNBR16, 0)
 		_, errCollection_probthreshlistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_probthreshlistr16, fragmentLength_probthreshlistr16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_probthreshlistr16 < 0 || fragmentLength_probthreshlistr16 < 0 || fragmentLength_probthreshlistr16 > int64(^uint(0)>>1) || fragmentOffset_probthreshlistr16 > int64(^uint(0)>>1)-fragmentLength_probthreshlistr16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -35886,13 +35903,13 @@ func (v *GWUSConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -36003,7 +36020,7 @@ func (v *GWUSResourceConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_numgroupslistr16 {
 		tmp_numgroupslistr16 := make(GWUSNumGroupsListNBR16, 0)
 		_, errCollection_numgroupslistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_numgroupslistr16, fragmentLength_numgroupslistr16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_numgroupslistr16 < 0 || fragmentLength_numgroupslistr16 < 0 || fragmentLength_numgroupslistr16 > int64(^uint(0)>>1) || fragmentOffset_numgroupslistr16 > int64(^uint(0)>>1)-fragmentLength_numgroupslistr16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -36024,7 +36041,7 @@ func (v *GWUSResourceConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_groupsforservicelistr16 {
 		tmp_groupsforservicelistr16 := make(GWUSGroupsForServiceListNBR16, 0)
 		_, errCollection_groupsforservicelistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_groupsforservicelistr16, fragmentLength_groupsforservicelistr16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_groupsforservicelistr16 < 0 || fragmentLength_groupsforservicelistr16 < 0 || fragmentLength_groupsforservicelistr16 > int64(^uint(0)>>1) || fragmentOffset_groupsforservicelistr16 > int64(^uint(0)>>1)-fragmentLength_groupsforservicelistr16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -36129,7 +36146,7 @@ func UnmarshalUPERGWUSProbThreshListNBR16From(bb *per.BitBuffer) (GWUSProbThresh
 func unmarshalUPERGWUSProbThreshListNBR16Into(v *asn1cUPERGWUSProbThreshListNBR16ListValue, bb *per.BitBuffer) error {
 	v.Value = make(GWUSProbThreshListNBR16, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -36232,7 +36249,7 @@ func UnmarshalUPERGWUSNumGroupsListNBR16From(bb *per.BitBuffer) (GWUSNumGroupsLi
 func unmarshalUPERGWUSNumGroupsListNBR16Into(v *asn1cUPERGWUSNumGroupsListNBR16ListValue, bb *per.BitBuffer) error {
 	v.Value = make(GWUSNumGroupsListNBR16, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -36335,7 +36352,7 @@ func UnmarshalUPERGWUSGroupsForServiceListNBR16From(bb *per.BitBuffer) (GWUSGrou
 func unmarshalUPERGWUSGroupsForServiceListNBR16Into(v *asn1cUPERGWUSGroupsForServiceListNBR16ListValue, bb *per.BitBuffer) error {
 	v.Value = make(GWUSGroupsForServiceListNBR16, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -36388,14 +36405,14 @@ func (v *LogicalChannelConfigNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -36405,7 +36422,7 @@ func (v *LogicalChannelConfigNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -36479,13 +36496,13 @@ func (v *LogicalChannelConfigNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -36572,7 +36589,7 @@ func (v *MACMainConfigNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -36604,7 +36621,7 @@ func (v *MACMainConfigNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -36710,7 +36727,7 @@ func (v *MACMainConfigNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -36801,12 +36818,12 @@ func (v *MACMainConfigNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -36922,7 +36939,7 @@ func (v *MACMainConfigNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[3] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -37583,7 +37600,7 @@ func (v *NPRACHConfigSIBNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rsrpthresholdsprachinfolistr13 {
 		tmp_rsrpthresholdsprachinfolistr13 := make(RSRPThresholdsNPRACHInfoListNBR13, 0)
 		_, errCollection_rsrpthresholdsprachinfolistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_rsrpthresholdsprachinfolistr13, fragmentLength_rsrpthresholdsprachinfolistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_rsrpthresholdsprachinfolistr13 < 0 || fragmentLength_rsrpthresholdsprachinfolistr13 < 0 || fragmentLength_rsrpthresholdsprachinfolistr13 > int64(^uint(0)>>1) || fragmentOffset_rsrpthresholdsprachinfolistr13 > int64(^uint(0)>>1)-fragmentLength_rsrpthresholdsprachinfolistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -37603,7 +37620,7 @@ func (v *NPRACHConfigSIBNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.NprachParametersListR13 = make(NPRACHParametersListNBR13, 0)
 	_, errCollection_nprachparameterslistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nprachparameterslistr13, fragmentLength_nprachparameterslistr13 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_nprachparameterslistr13 < 0 || fragmentLength_nprachparameterslistr13 < 0 || fragmentLength_nprachparameterslistr13 > int64(^uint(0)>>1) || fragmentOffset_nprachparameterslistr13 > int64(^uint(0)>>1)-fragmentLength_nprachparameterslistr13 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -37673,7 +37690,7 @@ func (v *NPRACHConfigSIBNBV1330) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = NPRACHConfigSIBNBV1330{}
 	v.NprachParametersListV1330 = make(NPRACHParametersListNBV1330, 0)
 	_, errCollection_nprachparameterslistv1330 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nprachparameterslistv1330, fragmentLength_nprachparameterslistv1330 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_nprachparameterslistv1330 < 0 || fragmentLength_nprachparameterslistv1330 < 0 || fragmentLength_nprachparameterslistv1330 > int64(^uint(0)>>1) || fragmentOffset_nprachparameterslistv1330 > int64(^uint(0)>>1)-fragmentLength_nprachparameterslistv1330 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -37963,7 +37980,7 @@ func UnmarshalUPERNPRACHParametersListNBR13From(bb *per.BitBuffer) (NPRACHParame
 func unmarshalUPERNPRACHParametersListNBR13Into(v *asn1cUPERNPRACHParametersListNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(NPRACHParametersListNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -38066,7 +38083,7 @@ func UnmarshalUPERNPRACHParametersListNBV1330From(bb *per.BitBuffer) (NPRACHPara
 func unmarshalUPERNPRACHParametersListNBV1330Into(v *asn1cUPERNPRACHParametersListNBV1330ListValue, bb *per.BitBuffer) error {
 	v.Value = make(NPRACHParametersListNBV1330, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -38333,7 +38350,7 @@ func UnmarshalUPERNPRACHParametersListNBR14From(bb *per.BitBuffer) (NPRACHParame
 func unmarshalUPERNPRACHParametersListNBR14Into(v *asn1cUPERNPRACHParametersListNBR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(NPRACHParametersListNBR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -38495,7 +38512,7 @@ func UnmarshalUPERNPRACHParametersListTDDNBR15From(bb *per.BitBuffer) (NPRACHPar
 func unmarshalUPERNPRACHParametersListTDDNBR15Into(v *asn1cUPERNPRACHParametersListTDDNBR15ListValue, bb *per.BitBuffer) error {
 	v.Value = make(NPRACHParametersListTDDNBR15, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -38659,7 +38676,7 @@ func UnmarshalUPERNPRACHParametersListTDDNBV1550From(bb *per.BitBuffer) (NPRACHP
 func unmarshalUPERNPRACHParametersListTDDNBV1550Into(v *asn1cUPERNPRACHParametersListTDDNBV1550ListValue, bb *per.BitBuffer) error {
 	v.Value = make(NPRACHParametersListTDDNBV1550, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -38816,7 +38833,7 @@ func UnmarshalUPERNPRACHParametersListFmt2NBR15From(bb *per.BitBuffer) (NPRACHPa
 func unmarshalUPERNPRACHParametersListFmt2NBR15Into(v *asn1cUPERNPRACHParametersListFmt2NBR15ListValue, bb *per.BitBuffer) error {
 	v.Value = make(NPRACHParametersListFmt2NBR15, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -39072,7 +39089,7 @@ func UnmarshalUPERRSRPThresholdsNPRACHInfoListNBR13From(bb *per.BitBuffer) (RSRP
 func unmarshalUPERRSRPThresholdsNPRACHInfoListNBR13Into(v *asn1cUPERRSRPThresholdsNPRACHInfoListNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(RSRPThresholdsNPRACHInfoListNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -39175,7 +39192,7 @@ func UnmarshalUPEREDTTBSInfoListNBR15From(bb *per.BitBuffer) (EDTTBSInfoListNBR1
 func unmarshalUPEREDTTBSInfoListNBR15Into(v *asn1cUPEREDTTBSInfoListNBR15ListValue, bb *per.BitBuffer) error {
 	v.Value = make(EDTTBSInfoListNBR15, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -39328,7 +39345,7 @@ func (v *NPUSCHConfigCommonNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.AckNACKNumRepetitionsMsg4R13 = make(NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13, 0)
 	_, errCollection_acknacknumrepetitionsmsg4r13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_acknacknumrepetitionsmsg4r13, fragmentLength_acknacknumrepetitionsmsg4r13 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_acknacknumrepetitionsmsg4r13 < 0 || fragmentLength_acknacknumrepetitionsmsg4r13 < 0 || fragmentLength_acknacknumrepetitionsmsg4r13 > int64(^uint(0)>>1) || fragmentOffset_acknacknumrepetitionsmsg4r13 > int64(^uint(0)>>1)-fragmentLength_acknacknumrepetitionsmsg4r13 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -39815,7 +39832,7 @@ func (v *PDCPConfigNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -39829,7 +39846,7 @@ func (v *PDCPConfigNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -39861,7 +39878,7 @@ func (v *PDCPConfigNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -39928,12 +39945,12 @@ func (v *PDCPConfigNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -39963,7 +39980,7 @@ func (v *PDCPConfigNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[0] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -40076,7 +40093,7 @@ func (v *PhysicalConfigDedicatedNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -40150,7 +40167,7 @@ func (v *PhysicalConfigDedicatedNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -40450,7 +40467,7 @@ func (v *PhysicalConfigDedicatedNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -40547,12 +40564,12 @@ func (v *PhysicalConfigDedicatedNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -40898,7 +40915,7 @@ func (v *PhysicalConfigDedicatedNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 			}
 			v.PERExtPadding_[10] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -41019,7 +41036,7 @@ func (v *PURConfigNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -41039,7 +41056,7 @@ func (v *PURConfigNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -41093,7 +41110,7 @@ func (v *PURConfigNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -41241,12 +41258,12 @@ func (v *PURConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -41301,7 +41318,7 @@ func (v *PURConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[1] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -41701,7 +41718,7 @@ func (v *RACHConfigCommonNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -41721,7 +41738,7 @@ func (v *RACHConfigCommonNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -41786,7 +41803,7 @@ func (v *RACHConfigCommonNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -41846,7 +41863,7 @@ func (v *RACHConfigCommonNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RachInfoListR13 = make(RACHInfoListNBR13, 0)
 	_, errCollection_rachinfolistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_rachinfolistr13, fragmentLength_rachinfolistr13 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_rachinfolistr13 < 0 || fragmentLength_rachinfolistr13 < 0 || fragmentLength_rachinfolistr13 > int64(^uint(0)>>1) || fragmentOffset_rachinfolistr13 > int64(^uint(0)>>1)-fragmentLength_rachinfolistr13 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -41876,12 +41893,12 @@ func (v *RACHConfigCommonNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -41926,7 +41943,7 @@ func (v *RACHConfigCommonNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_rachinfolistv1530 {
 				tmp_rachinfolistv1530 := make(RACHInfoListNBV1530, 0)
 				_, errCollection_rachinfolistv1530 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_rachinfolistv1530, fragmentLength_rachinfolistv1530 int64) error {
-					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 					if fragmentOffset_rachinfolistv1530 < 0 || fragmentLength_rachinfolistv1530 < 0 || fragmentLength_rachinfolistv1530 > int64(^uint(0)>>1) || fragmentOffset_rachinfolistv1530 > int64(^uint(0)>>1)-fragmentLength_rachinfolistv1530 {
 						return fmt.Errorf("collection fragment count out of range")
 					}
@@ -41950,7 +41967,7 @@ func (v *RACHConfigCommonNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[1] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -42051,7 +42068,7 @@ func UnmarshalUPERRACHInfoListNBR13From(bb *per.BitBuffer) (RACHInfoListNBR13, e
 func unmarshalUPERRACHInfoListNBR13Into(v *asn1cUPERRACHInfoListNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(RACHInfoListNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -42154,7 +42171,7 @@ func UnmarshalUPERRACHInfoListNBV1530From(bb *per.BitBuffer) (RACHInfoListNBV153
 func unmarshalUPERRACHInfoListNBV1530Into(v *asn1cUPERRACHInfoListNBV1530ListValue, bb *per.BitBuffer) error {
 	v.Value = make(RACHInfoListNBV1530, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -42432,7 +42449,7 @@ func (v *RadioResourceConfigCommonSIBNBR13) MarshalUPERTo(bb *per.BitBuffer) err
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -42482,7 +42499,7 @@ func (v *RadioResourceConfigCommonSIBNBR13) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -42678,7 +42695,7 @@ func (v *RadioResourceConfigCommonSIBNBR13) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -42763,12 +42780,12 @@ func (v *RadioResourceConfigCommonSIBNBR13) UnmarshalUPERFrom(bb *per.BitBuffer)
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -42992,7 +43009,7 @@ func (v *RadioResourceConfigCommonSIBNBR13) UnmarshalUPERFrom(bb *per.BitBuffer)
 			}
 			v.PERExtPadding_[6] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -43238,7 +43255,7 @@ func (v *RadioResourceConfigDedicatedNBR13) MarshalUPERTo(bb *per.BitBuffer) err
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -43264,7 +43281,7 @@ func (v *RadioResourceConfigDedicatedNBR13) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -43356,7 +43373,7 @@ func (v *RadioResourceConfigDedicatedNBR13) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -43429,7 +43446,7 @@ func (v *RadioResourceConfigDedicatedNBR13) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if opt_srbtoaddmodlistr13 {
 		tmp_srbtoaddmodlistr13 := make(SRBToAddModListNBR13, 0)
 		_, errCollection_srbtoaddmodlistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 1, HasUpper: true}, false, func(fragmentOffset_srbtoaddmodlistr13, fragmentLength_srbtoaddmodlistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_srbtoaddmodlistr13 < 0 || fragmentLength_srbtoaddmodlistr13 < 0 || fragmentLength_srbtoaddmodlistr13 > int64(^uint(0)>>1) || fragmentOffset_srbtoaddmodlistr13 > int64(^uint(0)>>1)-fragmentLength_srbtoaddmodlistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -43450,7 +43467,7 @@ func (v *RadioResourceConfigDedicatedNBR13) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if opt_drbtoaddmodlistr13 {
 		tmp_drbtoaddmodlistr13 := make(DRBToAddModListNBR13, 0)
 		_, errCollection_drbtoaddmodlistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_drbtoaddmodlistr13, fragmentLength_drbtoaddmodlistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_drbtoaddmodlistr13 < 0 || fragmentLength_drbtoaddmodlistr13 < 0 || fragmentLength_drbtoaddmodlistr13 > int64(^uint(0)>>1) || fragmentOffset_drbtoaddmodlistr13 > int64(^uint(0)>>1)-fragmentLength_drbtoaddmodlistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -43471,7 +43488,7 @@ func (v *RadioResourceConfigDedicatedNBR13) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if opt_drbtoreleaselistr13 {
 		tmp_drbtoreleaselistr13 := make(DRBToReleaseListNBR13, 0)
 		_, errCollection_drbtoreleaselistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_drbtoreleaselistr13, fragmentLength_drbtoreleaselistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_drbtoreleaselistr13 < 0 || fragmentLength_drbtoreleaselistr13 < 0 || fragmentLength_drbtoreleaselistr13 > int64(^uint(0)>>1) || fragmentOffset_drbtoreleaselistr13 > int64(^uint(0)>>1)-fragmentLength_drbtoreleaselistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -43517,12 +43534,12 @@ func (v *RadioResourceConfigDedicatedNBR13) UnmarshalUPERFrom(bb *per.BitBuffer)
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -43625,7 +43642,7 @@ func (v *RadioResourceConfigDedicatedNBR13) UnmarshalUPERFrom(bb *per.BitBuffer)
 			}
 			v.PERExtPadding_[2] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -43726,7 +43743,7 @@ func UnmarshalUPERSRBToAddModListNBR13From(bb *per.BitBuffer) (SRBToAddModListNB
 func unmarshalUPERSRBToAddModListNBR13Into(v *asn1cUPERSRBToAddModListNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SRBToAddModListNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 1, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -43798,7 +43815,7 @@ func (v *SRBToAddModNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -43818,7 +43835,7 @@ func (v *SRBToAddModNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -43872,7 +43889,7 @@ func (v *SRBToAddModNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -43947,12 +43964,12 @@ func (v *SRBToAddModNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -44007,7 +44024,7 @@ func (v *SRBToAddModNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[1] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -44108,7 +44125,7 @@ func UnmarshalUPERDRBToAddModListNBR13From(bb *per.BitBuffer) (DRBToAddModListNB
 func unmarshalUPERDRBToAddModListNBR13Into(v *asn1cUPERDRBToAddModListNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(DRBToAddModListNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -44210,7 +44227,7 @@ func (v *DRBToAddModNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -44236,7 +44253,7 @@ func (v *DRBToAddModNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -44312,7 +44329,7 @@ func (v *DRBToAddModNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -44425,12 +44442,12 @@ func (v *DRBToAddModNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -44511,7 +44528,7 @@ func (v *DRBToAddModNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[2] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -44612,7 +44629,7 @@ func UnmarshalUPERDRBToReleaseListNBR13From(bb *per.BitBuffer) (DRBToReleaseList
 func unmarshalUPERDRBToReleaseListNBR13Into(v *asn1cUPERDRBToReleaseListNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(DRBToReleaseListNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -44657,14 +44674,14 @@ func (v *ResourceReservationConfigNBR16) MarshalUPERTo(bb *per.BitBuffer) error 
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -44674,7 +44691,7 @@ func (v *ResourceReservationConfigNBR16) MarshalUPERTo(bb *per.BitBuffer) error 
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -44738,13 +44755,13 @@ func (v *ResourceReservationConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) er
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -45266,7 +45283,7 @@ func (v *SchedulingRequestConfigNBR15) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -45280,7 +45297,7 @@ func (v *SchedulingRequestConfigNBR15) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -45312,7 +45329,7 @@ func (v *SchedulingRequestConfigNBR15) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -45398,12 +45415,12 @@ func (v *SchedulingRequestConfigNBR15) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -45433,7 +45450,7 @@ func (v *SchedulingRequestConfigNBR15) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 			}
 			v.PERExtPadding_[0] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -46043,14 +46060,14 @@ func (v *WUSConfigNBR15) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -46060,7 +46077,7 @@ func (v *WUSConfigNBR15) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -46154,13 +46171,13 @@ func (v *WUSConfigNBR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -46307,7 +46324,7 @@ func UnmarshalUPERAdditionalBandInfoListNBR14From(bb *per.BitBuffer) (Additional
 func unmarshalUPERAdditionalBandInfoListNBR14Into(v *asn1cUPERAdditionalBandInfoListNBR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(AdditionalBandInfoListNBR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -46410,7 +46427,7 @@ func UnmarshalUPERMultiBandInfoListNBR13From(bb *per.BitBuffer) (MultiBandInfoLi
 func unmarshalUPERMultiBandInfoListNBR13Into(v *asn1cUPERMultiBandInfoListNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(MultiBandInfoListNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -46512,7 +46529,7 @@ func (v *MultiBandInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_freqbandinfor13 {
 		tmp_freqbandinfor13 := make(NSPmaxListNBR13, 0)
 		_, errCollection_freqbandinfor13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_freqbandinfor13, fragmentLength_freqbandinfor13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_freqbandinfor13 < 0 || fragmentLength_freqbandinfor13 < 0 || fragmentLength_freqbandinfor13 > int64(^uint(0)>>1) || fragmentOffset_freqbandinfor13 > int64(^uint(0)>>1)-fragmentLength_freqbandinfor13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -46617,7 +46634,7 @@ func UnmarshalUPERNSPmaxListNBR13From(bb *per.BitBuffer) (NSPmaxListNBR13, error
 func unmarshalUPERNSPmaxListNBR13Into(v *asn1cUPERNSPmaxListNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(NSPmaxListNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -46738,14 +46755,14 @@ func (v *ANRMeasConfigNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -46755,7 +46772,7 @@ func (v *ANRMeasConfigNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -46807,7 +46824,7 @@ func (v *ANRMeasConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.AnrQualityThresholdR16 = NRSRPRangeNBR14(val_anrqualitythresholdr16)
 	v.AnrCarrierListR16 = make(ANRCarrierListNBR16, 0)
 	_, errCollection_anrcarrierlistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_anrcarrierlistr16, fragmentLength_anrcarrierlistr16 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_anrcarrierlistr16 < 0 || fragmentLength_anrcarrierlistr16 < 0 || fragmentLength_anrcarrierlistr16 > int64(^uint(0)>>1) || fragmentOffset_anrcarrierlistr16 > int64(^uint(0)>>1)-fragmentLength_anrcarrierlistr16 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -46829,13 +46846,13 @@ func (v *ANRMeasConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -46936,7 +46953,7 @@ func UnmarshalUPERANRCarrierListNBR16From(bb *per.BitBuffer) (ANRCarrierListNBR1
 func unmarshalUPERANRCarrierListNBR16Into(v *asn1cUPERANRCarrierListNBR16ListValue, bb *per.BitBuffer) error {
 	v.Value = make(ANRCarrierListNBR16, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -46995,14 +47012,14 @@ func (v *ANRCarrierNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -47012,7 +47029,7 @@ func (v *ANRCarrierNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -47070,7 +47087,7 @@ func (v *ANRCarrierNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_excludedcelllistr16 {
 		tmp_excludedcelllistr16 := make(ANRExcludedCellListNBR16, 0)
 		_, errCollection_excludedcelllistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_excludedcelllistr16, fragmentLength_excludedcelllistr16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_excludedcelllistr16 < 0 || fragmentLength_excludedcelllistr16 < 0 || fragmentLength_excludedcelllistr16 > int64(^uint(0)>>1) || fragmentOffset_excludedcelllistr16 > int64(^uint(0)>>1)-fragmentLength_excludedcelllistr16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -47094,13 +47111,13 @@ func (v *ANRCarrierNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -47201,7 +47218,7 @@ func UnmarshalUPERANRExcludedCellListNBR16From(bb *per.BitBuffer) (ANRExcludedCe
 func unmarshalUPERANRExcludedCellListNBR16Into(v *asn1cUPERANRExcludedCellListNBR16ListValue, bb *per.BitBuffer) error {
 	v.Value = make(ANRExcludedCellListNBR16, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -47266,14 +47283,14 @@ func (v *ANRMeasReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -47283,7 +47300,7 @@ func (v *ANRMeasReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -47350,7 +47367,7 @@ func (v *ANRMeasReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.RelativeTimeStampR16 = val_relativetimestampr16
 	v.MeasResultListR16 = make(ANRMeasReportNBR16MeasResultListR16, 0)
 	_, errCollection_measresultlistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_measresultlistr16, fragmentLength_measresultlistr16 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_measresultlistr16 < 0 || fragmentLength_measresultlistr16 < 0 || fragmentLength_measresultlistr16 > int64(^uint(0)>>1) || fragmentOffset_measresultlistr16 > int64(^uint(0)>>1)-fragmentLength_measresultlistr16 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -47372,13 +47389,13 @@ func (v *ANRMeasReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -47876,11 +47893,13 @@ func (v *UECapabilityNBExtR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "RfParametersV1430")
 	}
 	if opt_noncriticalextension {
+		toleranceMark_noncriticalextension := bb.EnterComponent("NonCriticalExtension")
 		var dec_noncriticalextension UECapabilityNBV1440IEs
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NonCriticalExtension")
 		}
 		v.NonCriticalExtension = &dec_noncriticalextension
+		bb.LeaveComponent(toleranceMark_noncriticalextension)
 	}
 	return nil
 }
@@ -47954,11 +47973,13 @@ func (v *UECapabilityNBV1440IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.PhyLayerParametersV1440 = &dec_phylayerparametersv1440
 	}
 	if opt_noncriticalextension {
+		toleranceMark_noncriticalextension := bb.EnterComponent("NonCriticalExtension")
 		var dec_noncriticalextension UECapabilityNBV14x0IEs
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NonCriticalExtension")
 		}
 		v.NonCriticalExtension = &dec_noncriticalextension
+		bb.LeaveComponent(toleranceMark_noncriticalextension)
 	}
 	return nil
 }
@@ -48033,11 +48054,13 @@ func (v *UECapabilityNBV14x0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if opt_noncriticalextension {
+		toleranceMark_noncriticalextension := bb.EnterComponent("NonCriticalExtension")
 		var dec_noncriticalextension UECapabilityNBV1530IEs
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NonCriticalExtension")
 		}
 		v.NonCriticalExtension = &dec_noncriticalextension
+		bb.LeaveComponent(toleranceMark_noncriticalextension)
 	}
 	return nil
 }
@@ -48161,11 +48184,13 @@ func (v *UECapabilityNBV1530IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.TddUECapabilityR15 = &dec_tdduecapabilityr15
 	}
 	if opt_noncriticalextension {
+		toleranceMark_noncriticalextension := bb.EnterComponent("NonCriticalExtension")
 		var dec_noncriticalextension UECapabilityNBV15x0IEs
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NonCriticalExtension")
 		}
 		v.NonCriticalExtension = &dec_noncriticalextension
+		bb.LeaveComponent(toleranceMark_noncriticalextension)
 	}
 	return nil
 }
@@ -48240,11 +48265,13 @@ func (v *UECapabilityNBV15x0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
 	}
 	if opt_noncriticalextension {
+		toleranceMark_noncriticalextension := bb.EnterComponent("NonCriticalExtension")
 		var dec_noncriticalextension UECapabilityNBV1610IEs
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NonCriticalExtension")
 		}
 		v.NonCriticalExtension = &dec_noncriticalextension
+		bb.LeaveComponent(toleranceMark_noncriticalextension)
 	}
 	return nil
 }
@@ -48425,11 +48452,13 @@ func (v *UECapabilityNBV1610IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.TddUECapabilityV1610 = &dec_tdduecapabilityv1610
 	}
 	if opt_noncriticalextension {
+		toleranceMark_noncriticalextension := bb.EnterComponent("NonCriticalExtension")
 		var dec_noncriticalextension UECapabilityNBV16x0IEs
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NonCriticalExtension")
 		}
 		v.NonCriticalExtension = &dec_noncriticalextension
+		bb.LeaveComponent(toleranceMark_noncriticalextension)
 	}
 	return nil
 }
@@ -48500,15 +48529,24 @@ func (v *UECapabilityNBV16x0IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_latenoncriticalextension {
+		toleranceMark_latenoncriticalextension := bb.EnterComponent("LateNonCriticalExtension")
 		containedBytes_latenoncriticalextension, err := per.DecodeOctetStringExt(bb, 0, 0, false, false)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "LateNonCriticalExtension")
 		}
+		containedBB_latenoncriticalextension := per.NewBitBufferFromBytes(containedBytes_latenoncriticalextension)
+		containedBB_latenoncriticalextension.InheritDecodeOptions(bb)
 		var contained_latenoncriticalextension UEEUTRACapabilityV16f0IEs
-		if err := contained_latenoncriticalextension.UnmarshalUPER(containedBytes_latenoncriticalextension); err != nil {
+		if err := contained_latenoncriticalextension.UnmarshalUPERFrom(containedBB_latenoncriticalextension); err != nil {
 			return runtime.WrapDecodePath(fmt.Errorf("decoding contained lateNonCriticalExtension: %w", err), "LateNonCriticalExtension")
 		}
+		containedPadding_latenoncriticalextension, err := per.CaptureContainedFinalBits(containedBB_latenoncriticalextension)
+		if err != nil {
+			return runtime.WrapDecodePath(fmt.Errorf("decoding contained lateNonCriticalExtension: %w", err), "LateNonCriticalExtension")
+		}
+		contained_latenoncriticalextension.PERPadding_ = containedPadding_latenoncriticalextension
 		v.LateNonCriticalExtension = &contained_latenoncriticalextension
+		bb.LeaveComponent(toleranceMark_latenoncriticalextension)
 	}
 	if opt_noncriticalextension {
 		var dec_noncriticalextension UECapabilityNBV1700IEs
@@ -49204,14 +49242,14 @@ func (v *TDDUECapabilityNBR15) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -49221,7 +49259,7 @@ func (v *TDDUECapabilityNBR15) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -49317,13 +49355,13 @@ func (v *TDDUECapabilityNBR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -49544,14 +49582,14 @@ func (v *PDCPParametersNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -49561,7 +49599,7 @@ func (v *PDCPParametersNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -49627,13 +49665,13 @@ func (v *PDCPParametersNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -51632,7 +51670,7 @@ func (v *RFParametersNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SupportedBandListR13 = make(SupportedBandListNBR13, 0)
 	_, errCollection_supportedbandlistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_supportedbandlistr13, fragmentLength_supportedbandlistr13 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_supportedbandlistr13 < 0 || fragmentLength_supportedbandlistr13 < 0 || fragmentLength_supportedbandlistr13 > int64(^uint(0)>>1) || fragmentOffset_supportedbandlistr13 > int64(^uint(0)>>1)-fragmentLength_supportedbandlistr13 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -51780,7 +51818,7 @@ func (v *RFParametersNBV1710) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_supportedbandlistv1710 {
 		tmp_supportedbandlistv1710 := make(SupportedBandListNBV1710, 0)
 		_, errCollection_supportedbandlistv1710 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_supportedbandlistv1710, fragmentLength_supportedbandlistv1710 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_supportedbandlistv1710 < 0 || fragmentLength_supportedbandlistv1710 < 0 || fragmentLength_supportedbandlistv1710 > int64(^uint(0)>>1) || fragmentOffset_supportedbandlistv1710 > int64(^uint(0)>>1)-fragmentLength_supportedbandlistv1710 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -51864,7 +51902,7 @@ func (v *RFParametersNBV1920) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_supportedbandlistv1920 {
 		tmp_supportedbandlistv1920 := make(SupportedBandListNBV1920, 0)
 		_, errCollection_supportedbandlistv1920 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_supportedbandlistv1920, fragmentLength_supportedbandlistv1920 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_supportedbandlistv1920 < 0 || fragmentLength_supportedbandlistv1920 < 0 || fragmentLength_supportedbandlistv1920 > int64(^uint(0)>>1) || fragmentOffset_supportedbandlistv1920 > int64(^uint(0)>>1)-fragmentLength_supportedbandlistv1920 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -51948,7 +51986,7 @@ func (v *RFParametersNBV1930) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_supportedbandlistv1930 {
 		tmp_supportedbandlistv1930 := make(SupportedBandListNBV1930, 0)
 		_, errCollection_supportedbandlistv1930 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_supportedbandlistv1930, fragmentLength_supportedbandlistv1930 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_supportedbandlistv1930 < 0 || fragmentLength_supportedbandlistv1930 < 0 || fragmentLength_supportedbandlistv1930 > int64(^uint(0)>>1) || fragmentOffset_supportedbandlistv1930 > int64(^uint(0)>>1)-fragmentLength_supportedbandlistv1930 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -52053,7 +52091,7 @@ func UnmarshalUPERSupportedBandListNBR13From(bb *per.BitBuffer) (SupportedBandLi
 func unmarshalUPERSupportedBandListNBR13Into(v *asn1cUPERSupportedBandListNBR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SupportedBandListNBR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52156,7 +52194,7 @@ func UnmarshalUPERSupportedBandListNBV1710From(bb *per.BitBuffer) (SupportedBand
 func unmarshalUPERSupportedBandListNBV1710Into(v *asn1cUPERSupportedBandListNBV1710ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SupportedBandListNBV1710, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52259,7 +52297,7 @@ func UnmarshalUPERSupportedBandListNBV1920From(bb *per.BitBuffer) (SupportedBand
 func unmarshalUPERSupportedBandListNBV1920Into(v *asn1cUPERSupportedBandListNBV1920ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SupportedBandListNBV1920, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52362,7 +52400,7 @@ func UnmarshalUPERSupportedBandListNBV1930From(bb *per.BitBuffer) (SupportedBand
 func unmarshalUPERSupportedBandListNBV1930Into(v *asn1cUPERSupportedBandListNBV1930ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SupportedBandListNBV1930, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -52810,7 +52848,7 @@ func (v *UERadioPagingInfoNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -52836,7 +52874,7 @@ func (v *UERadioPagingInfoNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -52952,7 +52990,7 @@ func (v *UERadioPagingInfoNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -53016,12 +53054,12 @@ func (v *UERadioPagingInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -53156,7 +53194,7 @@ func (v *UERadioPagingInfoNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[2] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -53227,7 +53265,7 @@ func (v *UETimersAndConstantsNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -53247,7 +53285,7 @@ func (v *UETimersAndConstantsNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -53325,7 +53363,7 @@ func (v *UETimersAndConstantsNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -53407,12 +53445,12 @@ func (v *UETimersAndConstantsNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -53500,7 +53538,7 @@ func (v *UETimersAndConstantsNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[1] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -53601,7 +53639,7 @@ func UnmarshalUPERSCMTCHInfoListNBR14From(bb *per.BitBuffer) (SCMTCHInfoListNBR1
 func unmarshalUPERSCMTCHInfoListNBR14Into(v *asn1cUPERSCMTCHInfoListNBR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SCMTCHInfoListNBR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -53675,14 +53713,14 @@ func (v *SCMTCHInfoNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -53692,7 +53730,7 @@ func (v *SCMTCHInfoNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -53798,13 +53836,13 @@ func (v *SCMTCHInfoNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -53847,14 +53885,14 @@ func (v *SCMTCHSchedulingInfoNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -53864,7 +53902,7 @@ func (v *SCMTCHSchedulingInfoNBR14) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -53928,13 +53966,13 @@ func (v *SCMTCHSchedulingInfoNBR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -54035,7 +54073,7 @@ func UnmarshalUPERSCPTMNeighbourCellListNBR14From(bb *per.BitBuffer) (SCPTMNeigh
 func unmarshalUPERSCPTMNeighbourCellListNBR14Into(v *asn1cUPERSCPTMNeighbourCellListNBR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SCPTMNeighbourCellListNBR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -55135,11 +55173,13 @@ func (v *ULDCCHMessageTypeNBC1) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.SecurityModeFailureR13 = &dec_securitymodefailurer13
 	case ULDCCHMessageTypeNBC1ChoiceUeCapabilityInformationR13:
+		toleranceMark_uecapabilityinformationr13 := bb.EnterComponent("UeCapabilityInformationR13")
 		var dec_uecapabilityinformationr13 UECapabilityInformationNB
 		if err := dec_uecapabilityinformationr13.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "UeCapabilityInformationR13")
 		}
 		v.UeCapabilityInformationR13 = &dec_uecapabilityinformationr13
+		bb.LeaveComponent(toleranceMark_uecapabilityinformationr13)
 	case ULDCCHMessageTypeNBC1ChoiceUlInformationTransferR13:
 		var dec_ulinformationtransferr13 ULInformationTransferNB
 		if err := dec_ulinformationtransferr13.UnmarshalUPERFrom(bb); err != nil {
@@ -56474,7 +56514,7 @@ func UnmarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13Fro
 func unmarshalUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13Into(v *asn1cUPERRRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(RRCConnectionReconfigurationNBR13IEsDedicatedInfoNASListR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1268
+		// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1252
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -58063,7 +58103,7 @@ func UnmarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19From(bb *p
 func unmarshalUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19Into(v *asn1cUPERRedirectedCarrierInfoNBV1900SatAssistanceInfoListR19ListValue, bb *per.BitBuffer) error {
 	v.Value = make(RedirectedCarrierInfoNBV1900SatAssistanceInfoListR19, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -59380,7 +59420,7 @@ func UnmarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16From(bb *per.
 func unmarshalUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16Into(v *asn1cUPERRRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16ListValue, bb *per.BitBuffer) error {
 	v.Value = make(RRCConnectionSetupCompleteNBV1610IEsSNSSAIListR16, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -60518,7 +60558,7 @@ func UnmarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13From(bb *per.BitBuff
 func unmarshalUPERSystemInformationNBR13IEsSibTypeAndInfoR13Into(v *asn1cUPERSystemInformationNBR13IEsSibTypeAndInfoR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SystemInformationNBR13IEsSibTypeAndInfoR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -60638,7 +60678,7 @@ func (v *SystemInformationBlockType1NBCellAccessRelatedInfoR13) UnmarshalUPERFro
 	*v = SystemInformationBlockType1NBCellAccessRelatedInfoR13{}
 	v.PlmnIdentityListR13 = make(PLMNIdentityListNBR13, 0)
 	_, errCollection_plmnidentitylistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr13, fragmentLength_plmnidentitylistr13 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_plmnidentitylistr13 < 0 || fragmentLength_plmnidentitylistr13 < 0 || fragmentLength_plmnidentitylistr13 > int64(^uint(0)>>1) || fragmentOffset_plmnidentitylistr13 > int64(^uint(0)>>1)-fragmentLength_plmnidentitylistr13 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -60875,7 +60915,7 @@ func (v *SystemInformationBlockType1NBV1610CellAccessRelatedInfo5GCR16) Unmarsha
 	}
 	v.PlmnIdentityListR16 = make(PLMNIdentityList5GCNBR16, 0)
 	_, errCollection_plmnidentitylistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr16, fragmentLength_plmnidentitylistr16 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_plmnidentitylistr16 < 0 || fragmentLength_plmnidentitylistr16 < 0 || fragmentLength_plmnidentitylistr16 > int64(^uint(0)>>1) || fragmentOffset_plmnidentitylistr16 > int64(^uint(0)>>1)-fragmentLength_plmnidentitylistr16 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -60983,7 +61023,7 @@ func (v *SystemInformationBlockType1NBV1700CellAccessRelatedInfoNTNR17) Unmarsha
 	if opt_plmnidentitylistv1700 {
 		tmp_plmnidentitylistv1700 := make(PLMNIdentityListNBV1700, 0)
 		_, errCollection_plmnidentitylistv1700 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistv1700, fragmentLength_plmnidentitylistv1700 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_plmnidentitylistv1700 < 0 || fragmentLength_plmnidentitylistv1700 < 0 || fragmentLength_plmnidentitylistv1700 > int64(^uint(0)>>1) || fragmentOffset_plmnidentitylistv1700 > int64(^uint(0)>>1)-fragmentLength_plmnidentitylistv1700 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -61449,11 +61489,13 @@ func (v *UECapabilityInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *per.
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case UECapabilityInformationNBCriticalExtensionsChoiceUeCapabilityInformationR13:
+		toleranceMark_uecapabilityinformationr13 := bb.EnterComponent("UeCapabilityInformationR13")
 		var dec_uecapabilityinformationr13 UECapabilityInformationNBR13IEs
 		if err := dec_uecapabilityinformationr13.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "UeCapabilityInformationR13")
 		}
 		v.UeCapabilityInformationR13 = &dec_uecapabilityinformationr13
+		bb.LeaveComponent(toleranceMark_uecapabilityinformationr13)
 	case UECapabilityInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture:
 		var dec_criticalextensionsfuture UECapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture
 		if err := dec_criticalextensionsfuture.UnmarshalUPERFrom(bb); err != nil {
@@ -62256,7 +62298,7 @@ func UnmarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13From(bb *p
 func unmarshalUPERSystemInformationBlockType2NBR13MultiBandInfoListR13Into(v *asn1cUPERSystemInformationBlockType2NBR13MultiBandInfoListR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SystemInformationBlockType2NBR13MultiBandInfoListR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -62603,7 +62645,7 @@ func UnmarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13From(bb *p
 func unmarshalUPERSystemInformationBlockType3NBR13MultiBandInfoListR13Into(v *asn1cUPERSystemInformationBlockType3NBR13MultiBandInfoListR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SystemInformationBlockType3NBR13MultiBandInfoListR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1244
+		// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1228
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -62708,7 +62750,7 @@ func UnmarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18From
 func unmarshalUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18Into(v *asn1cUPERSystemInformationBlockType3NBR13SatelliteAssistanceInfoR18ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SystemInformationBlockType3NBR13SatelliteAssistanceInfoR18, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -62867,7 +62909,7 @@ func UnmarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18From(
 func unmarshalUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18Into(v *asn1cUPERInterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18ListValue, bb *per.BitBuffer) error {
 	v.Value = make(InterFreqCarrierFreqInfoNBV1820SatelliteAssistanceInfoR18, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -62976,7 +63018,7 @@ func (v *SystemInformationBlockType14NBR13AbParamR13) UnmarshalUPERFrom(bb *per.
 	case SystemInformationBlockType14NBR13AbParamR13ChoiceAbPerPLMNListR13:
 		tmp_abperplmnlistr13 := make(SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13, 0)
 		_, errCollection_abperplmnlistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_abperplmnlistr13, fragmentLength_abperplmnlistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_abperplmnlistr13 < 0 || fragmentLength_abperplmnlistr13 < 0 || fragmentLength_abperplmnlistr13 > int64(^uint(0)>>1) || fragmentOffset_abperplmnlistr13 > int64(^uint(0)>>1)-fragmentLength_abperplmnlistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -63083,7 +63125,7 @@ func UnmarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13Fro
 func unmarshalUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13Into(v *asn1cUPERSystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SystemInformationBlockType14NBR13AbParamR13AbPerPLMNListR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -63188,7 +63230,7 @@ func UnmarshalUPERUACParamNBR16UacBarringPerPLMNListFrom(bb *per.BitBuffer) (UAC
 func unmarshalUPERUACParamNBR16UacBarringPerPLMNListInto(v *asn1cUPERUACParamNBR16UacBarringPerPLMNListListValue, bb *per.BitBuffer) error {
 	v.Value = make(UACParamNBR16UacBarringPerPLMNList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -63677,7 +63719,7 @@ func (v *SystemInformationBlockType22NBR14MixedOperationModeConfigR15) Unmarshal
 	if opt_dlconfiglistmixedr15 {
 		tmp_dlconfiglistmixedr15 := make(DLConfigCommonListNBR14, 0)
 		_, errCollection_dlconfiglistmixedr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_dlconfiglistmixedr15, fragmentLength_dlconfiglistmixedr15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_dlconfiglistmixedr15 < 0 || fragmentLength_dlconfiglistmixedr15 < 0 || fragmentLength_dlconfiglistmixedr15 > int64(^uint(0)>>1) || fragmentOffset_dlconfiglistmixedr15 > int64(^uint(0)>>1)-fragmentLength_dlconfiglistmixedr15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -63698,7 +63740,7 @@ func (v *SystemInformationBlockType22NBR14MixedOperationModeConfigR15) Unmarshal
 	if opt_ulconfiglistmixedr15 {
 		tmp_ulconfiglistmixedr15 := make(ULConfigCommonListNBR14, 0)
 		_, errCollection_ulconfiglistmixedr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_ulconfiglistmixedr15, fragmentLength_ulconfiglistmixedr15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_ulconfiglistmixedr15 < 0 || fragmentLength_ulconfiglistmixedr15 < 0 || fragmentLength_ulconfiglistmixedr15 > int64(^uint(0)>>1) || fragmentOffset_ulconfiglistmixedr15 > int64(^uint(0)>>1)-fragmentLength_ulconfiglistmixedr15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -63819,7 +63861,7 @@ func UnmarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17From(bb *per.Bit
 func unmarshalUPERCoverageBasedPagingConfigNBR17CbpConfigListR17Into(v *asn1cUPERCoverageBasedPagingConfigNBR17CbpConfigListR17ListValue, bb *per.BitBuffer) error {
 	v.Value = make(CoverageBasedPagingConfigNBR17CbpConfigListR17, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -63924,7 +63966,7 @@ func UnmarshalUPERCarrierFreqListNBR18CarrierFreqListR18From(bb *per.BitBuffer) 
 func unmarshalUPERCarrierFreqListNBR18CarrierFreqListR18Into(v *asn1cUPERCarrierFreqListNBR18CarrierFreqListR18ListValue, bb *per.BitBuffer) error {
 	v.Value = make(CarrierFreqListNBR18CarrierFreqListR18, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -64833,7 +64875,7 @@ func (v *CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19) Unm
 	case CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19ChoiceNpuschSubCarrierSetListKhz15:
 		tmp_npuschsubcarriersetlistkhz15 := make(CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15, 0)
 		_, errCollection_npuschsubcarriersetlistkhz15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 12, HasUpper: true}, false, func(fragmentOffset_npuschsubcarriersetlistkhz15, fragmentLength_npuschsubcarriersetlistkhz15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_npuschsubcarriersetlistkhz15 < 0 || fragmentLength_npuschsubcarriersetlistkhz15 < 0 || fragmentLength_npuschsubcarriersetlistkhz15 > int64(^uint(0)>>1) || fragmentOffset_npuschsubcarriersetlistkhz15 > int64(^uint(0)>>1)-fragmentLength_npuschsubcarriersetlistkhz15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -64853,7 +64895,7 @@ func (v *CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19) Unm
 	case CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19ChoiceNpuschSubCarrierSetListKhz3dot75:
 		tmp_npuschsubcarriersetlistkhz3dot75 := make(CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75, 0)
 		_, errCollection_npuschsubcarriersetlistkhz3dot75 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 48, HasUpper: true}, false, func(fragmentOffset_npuschsubcarriersetlistkhz3dot75, fragmentLength_npuschsubcarriersetlistkhz3dot75 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 			if fragmentOffset_npuschsubcarriersetlistkhz3dot75 < 0 || fragmentLength_npuschsubcarriersetlistkhz3dot75 < 0 || fragmentLength_npuschsubcarriersetlistkhz3dot75 > int64(^uint(0)>>1) || fragmentOffset_npuschsubcarriersetlistkhz3dot75 > int64(^uint(0)>>1)-fragmentLength_npuschsubcarriersetlistkhz3dot75 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -64960,7 +65002,7 @@ func UnmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetLis
 func unmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15Into(v *asn1cUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15ListValue, bb *per.BitBuffer) error {
 	v.Value = make(CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz15, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 12, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -65065,7 +65107,7 @@ func UnmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetLis
 func unmarshalUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75Into(v *asn1cUPERCBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75ListValue, bb *per.BitBuffer) error {
 	v.Value = make(CBMsg3ConfigNBR19CbMsg3PhysicalConfigR19NpuschSubCarrierSetListR19NpuschSubCarrierSetListKhz3dot75, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 48, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -66349,7 +66391,7 @@ func (v *NPRACHConfigSIBNBV1530TddParametersR15) UnmarshalUPERFrom(bb *per.BitBu
 	v.Dummy = val_dummy
 	v.NprachParametersListTDDR15 = make(NPRACHParametersListTDDNBR15, 0)
 	_, errCollection_nprachparameterslisttddr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nprachparameterslisttddr15, fragmentLength_nprachparameterslisttddr15 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_nprachparameterslisttddr15 < 0 || fragmentLength_nprachparameterslisttddr15 < 0 || fragmentLength_nprachparameterslisttddr15 > int64(^uint(0)>>1) || fragmentOffset_nprachparameterslisttddr15 > int64(^uint(0)>>1)-fragmentLength_nprachparameterslisttddr15 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -66454,7 +66496,7 @@ func (v *NPRACHConfigSIBNBV1530Fmt2ParametersR15) UnmarshalUPERFrom(bb *per.BitB
 	if opt_nprachparameterslistfmt2r15 {
 		tmp_nprachparameterslistfmt2r15 := make(NPRACHParametersListFmt2NBR15, 0)
 		_, errCollection_nprachparameterslistfmt2r15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nprachparameterslistfmt2r15, fragmentLength_nprachparameterslistfmt2r15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_nprachparameterslistfmt2r15 < 0 || fragmentLength_nprachparameterslistfmt2r15 < 0 || fragmentLength_nprachparameterslistfmt2r15 > int64(^uint(0)>>1) || fragmentOffset_nprachparameterslistfmt2r15 > int64(^uint(0)>>1)-fragmentLength_nprachparameterslistfmt2r15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -66475,7 +66517,7 @@ func (v *NPRACHConfigSIBNBV1530Fmt2ParametersR15) UnmarshalUPERFrom(bb *per.BitB
 	if opt_nprachparameterslistfmt2edtr15 {
 		tmp_nprachparameterslistfmt2edtr15 := make(NPRACHParametersListFmt2NBR15, 0)
 		_, errCollection_nprachparameterslistfmt2edtr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nprachparameterslistfmt2edtr15, fragmentLength_nprachparameterslistfmt2edtr15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_nprachparameterslistfmt2edtr15 < 0 || fragmentLength_nprachparameterslistfmt2edtr15 < 0 || fragmentLength_nprachparameterslistfmt2edtr15 > int64(^uint(0)>>1) || fragmentOffset_nprachparameterslistfmt2edtr15 > int64(^uint(0)>>1)-fragmentLength_nprachparameterslistfmt2edtr15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -66591,7 +66633,7 @@ func (v *NPRACHConfigSIBNBV1530EdtParametersR15) UnmarshalUPERFrom(bb *per.BitBu
 	}
 	v.EdtTBSInfoListR15 = make(EDTTBSInfoListNBR15, 0)
 	_, errCollection_edttbsinfolistr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_edttbsinfolistr15, fragmentLength_edttbsinfolistr15 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_edttbsinfolistr15 < 0 || fragmentLength_edttbsinfolistr15 < 0 || fragmentLength_edttbsinfolistr15 > int64(^uint(0)>>1) || fragmentOffset_edttbsinfolistr15 > int64(^uint(0)>>1)-fragmentLength_edttbsinfolistr15 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -66610,7 +66652,7 @@ func (v *NPRACHConfigSIBNBV1530EdtParametersR15) UnmarshalUPERFrom(bb *per.BitBu
 	if opt_nprachparameterslistedtr15 {
 		tmp_nprachparameterslistedtr15 := make(NPRACHParametersListNBR14, 0)
 		_, errCollection_nprachparameterslistedtr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nprachparameterslistedtr15, fragmentLength_nprachparameterslistedtr15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_nprachparameterslistedtr15 < 0 || fragmentLength_nprachparameterslistedtr15 < 0 || fragmentLength_nprachparameterslistedtr15 > int64(^uint(0)>>1) || fragmentOffset_nprachparameterslistedtr15 > int64(^uint(0)>>1)-fragmentLength_nprachparameterslistedtr15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -66682,7 +66724,7 @@ func (v *NPRACHConfigSIBNBV1550TddParametersV1550) UnmarshalUPERFrom(bb *per.Bit
 	*v = NPRACHConfigSIBNBV1550TddParametersV1550{}
 	v.NprachParametersListTDDV1550 = make(NPRACHParametersListTDDNBV1550, 0)
 	_, errCollection_nprachparameterslisttddv1550 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_nprachparameterslisttddv1550, fragmentLength_nprachparameterslisttddv1550 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_nprachparameterslisttddv1550 < 0 || fragmentLength_nprachparameterslisttddv1550 < 0 || fragmentLength_nprachparameterslisttddv1550 > int64(^uint(0)>>1) || fragmentOffset_nprachparameterslisttddv1550 > int64(^uint(0)>>1)-fragmentLength_nprachparameterslisttddv1550 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -66799,14 +66841,14 @@ func (v *NPRACHParametersNBR14NprachParametersR14) MarshalUPERTo(bb *per.BitBuff
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -66816,7 +66858,7 @@ func (v *NPRACHParametersNBR14NprachParametersR14) MarshalUPERTo(bb *per.BitBuff
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -66978,13 +67020,13 @@ func (v *NPRACHParametersNBR14NprachParametersR14) UnmarshalUPERFrom(bb *per.Bit
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -67091,14 +67133,14 @@ func (v *NPRACHParametersTDDNBR15NprachParametersR15) MarshalUPERTo(bb *per.BitB
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -67108,7 +67150,7 @@ func (v *NPRACHParametersTDDNBR15NprachParametersR15) MarshalUPERTo(bb *per.BitB
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -67259,13 +67301,13 @@ func (v *NPRACHParametersTDDNBR15NprachParametersR15) UnmarshalUPERFrom(bb *per.
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -67380,14 +67422,14 @@ func (v *NPRACHParametersFmt2NBR15NprachParametersR15) MarshalUPERTo(bb *per.Bit
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -67397,7 +67439,7 @@ func (v *NPRACHParametersFmt2NBR15NprachParametersR15) MarshalUPERTo(bb *per.Bit
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -67559,13 +67601,13 @@ func (v *NPRACHParametersFmt2NBR15NprachParametersR15) UnmarshalUPERFrom(bb *per
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -67668,7 +67710,7 @@ func UnmarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13From(bb *pe
 func unmarshalUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13Into(v *asn1cUPERNPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(NPUSCHConfigCommonNBR13AckNACKNumRepetitionsMsg4R13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1225
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1209
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -67988,14 +68030,14 @@ func (v *PDCPConfigNBR13HeaderCompressionR13Rohc) MarshalUPERTo(bb *per.BitBuffe
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:445
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:462
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -68005,7 +68047,7 @@ func (v *PDCPConfigNBR13HeaderCompressionR13Rohc) MarshalUPERTo(bb *per.BitBuffe
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:469
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -68071,13 +68113,13 @@ func (v *PDCPConfigNBR13HeaderCompressionR13Rohc) UnmarshalUPERFrom(bb *per.BitB
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:643
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:646
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -70344,7 +70386,7 @@ func (v *RLFTimersAndConstantsNBR13Setup) MarshalUPERTo(bb *per.BitBuffer) error
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:349
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -70364,7 +70406,7 @@ func (v *RLFTimersAndConstantsNBR13Setup) MarshalUPERTo(bb *per.BitBuffer) error
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:386
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -70426,7 +70468,7 @@ func (v *RLFTimersAndConstantsNBR13Setup) MarshalUPERTo(bb *per.BitBuffer) error
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:442
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -70503,12 +70545,12 @@ func (v *RLFTimersAndConstantsNBR13Setup) UnmarshalUPERFrom(bb *per.BitBuffer) e
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:571
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:573
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -70574,7 +70616,7 @@ func (v *RLFTimersAndConstantsNBR13Setup) UnmarshalUPERFrom(bb *per.BitBuffer) e
 			}
 			v.PERExtPadding_[1] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:624
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -70978,7 +71020,7 @@ func UnmarshalUPERANRMeasReportNBR16MeasResultListR16From(bb *per.BitBuffer) (AN
 func unmarshalUPERANRMeasReportNBR16MeasResultListR16Into(v *asn1cUPERANRMeasReportNBR16MeasResultListR16ListValue, bb *per.BitBuffer) error {
 	v.Value = make(ANRMeasReportNBR16MeasResultListR16, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -71074,7 +71116,7 @@ func (v *ANRMeasResultNBR16CgiInfoR16) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_plmnidentitylistr16 {
 		tmp_plmnidentitylistr16 := make(PLMNIdentityList2, 0)
 		_, errCollection_plmnidentitylistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 5, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr16, fragmentLength_plmnidentitylistr16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
 			if fragmentOffset_plmnidentitylistr16 < 0 || fragmentLength_plmnidentitylistr16 < 0 || fragmentLength_plmnidentitylistr16 > int64(^uint(0)>>1) || fragmentOffset_plmnidentitylistr16 > int64(^uint(0)>>1)-fragmentLength_plmnidentitylistr16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}

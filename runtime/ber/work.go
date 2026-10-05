@@ -62,65 +62,24 @@ func ValidateBERElement(data []byte, options ...DecodeOption) error {
 		if lenLen < 0 || lenLen > parent.end-pos-tagLen {
 			return ErrInvalidLength
 		}
-		// X.690 (02/2021) §§8.1.3, 10.1: BER permits indefinite and
-		// nonminimal definite lengths; DER uses the shortest definite form.
-		if config.form != nil && (indefinite || lenLen > 1 &&
-			(length < 128 || data[pos+tagLen+1] == 0)) {
-			config.form.preserve = true
-		}
 		if t.Class == tag.ClassUniversal && t.Number == 0 {
 			return fmt.Errorf("%w: standalone BER end-of-contents", ErrInvalidTag)
+		}
+		// Checked before either length branch, so an indefinite length
+		// cannot carry a constructed primitive-only type past it.
+		if err := checkUniversalForm(t); err != nil {
+			return err
 		}
 		if elements >= limits.MaxElements {
 			return fmt.Errorf("%w: BER element limit exceeded", ErrInvalidValue)
 		}
 		elements++
 		start := pos + tagLen + lenLen
-		if config.form != nil && t.Class == tag.ClassUniversal {
-			value := data[start:parent.end]
-			// X.690 (02/2021) §§8.2.1, 8.6.2, 8.7.3,
-			// 10.2, 11.1–11.2: these BER values have a different DER form.
-			switch t.Number {
-			case tag.TagBitString, tag.TagOctetString, tag.TagObjectDesc,
-				tag.TagUTF8String, tag.TagNumericString, tag.TagPrintableString,
-				tag.TagT61String, tag.TagVideotexString, tag.TagIA5String,
-				tag.TagGraphicString, tag.TagVisibleString, tag.TagGeneralString,
-				tag.TagUniversalString, tag.TagBMPString:
-				if t.Constructed {
-					config.form.preserve = true
-				}
-			case tag.TagBoolean:
-				if !t.Constructed && !indefinite && length == 1 &&
-					len(value) != 0 && value[0] != 0 && value[0] != 0xff {
-					config.form.preserve = true
-				}
-			case tag.TagUTCTime, tag.TagGeneralizedTime:
-				if t.Constructed {
-					config.form.preserve = true
-				} else if !indefinite && length <= len(value) {
-					// X.690 (02/2021) §§11.7–11.8: only unusual forms
-					// need the comparatively costly time parser.
-					raw := string(value[:length])
-					if t.Number == tag.TagUTCTime && (length != 13 || value[12] != 'Z') {
-						if decoded, parseErr := parseUTCTime(raw); parseErr == nil && raw != decoded.UTC().Format("060102150405Z") {
-							config.form.preserve = true
-						}
-					} else if t.Number == tag.TagGeneralizedTime && (length != 15 || value[14] != 'Z') {
-						if decoded, parseErr := parseGeneralizedTime(raw); parseErr == nil && raw != decoded.UTC().Format("20060102150405.999999999Z") {
-							config.form.preserve = true
-						}
-					}
-				}
-			case tag.TagReal:
-				if !t.Constructed && !indefinite && length <= len(value) {
-					if decoded, decodeErr := decodeRealContents(value[:length]); decodeErr == nil {
-						if canonical, encodeErr := EncodeRealValue(decoded); encodeErr != nil || !bytes.Equal(value[:length], canonical) {
-							config.form.preserve = true
-						}
-					}
-				}
-			}
+		var contents []byte
+		if !indefinite && length <= parent.end-start {
+			contents = data[start : start+length]
 		}
+		markBERForm(config.form, t, data[pos+tagLen:start], indefinite, contents)
 		if indefinite {
 			if !t.Constructed {
 				return ErrIndefiniteLength
@@ -140,9 +99,6 @@ func ValidateBERElement(data []byte, options ...DecodeOption) error {
 		}
 		end := start + length
 		if t.Class == tag.ClassUniversal && (t.Number == tag.TagInteger || t.Number == tag.TagEnumerated) {
-			if t.Constructed {
-				return fmt.Errorf("%w: X.690 (02/2021) §§8.3.1, 8.4 require primitive INTEGER and ENUMERATED", ErrInvalidTag)
-			}
 			if err := validateMinimalIntegerContents(data[start:end]); err != nil {
 				return err
 			}
@@ -161,4 +117,95 @@ func ValidateBERElement(data []byte, options ...DecodeOption) error {
 		return ErrExtraData
 	}
 	return nil
+}
+
+// checkUniversalForm rejects a universal type in the form X.690 (02/2021)
+// forbids for it. BOOLEAN (§8.2.1), INTEGER (§8.3.1), ENUMERATED (§8.4),
+// REAL (§8.5.1), NULL (§8.8.1), OBJECT IDENTIFIER (§8.19.1), RELATIVE-OID
+// (§8.20.1), the OID and relative OID IRI types (§§8.21.1, 8.22.1) and TIME,
+// DATE, TIME-OF-DAY, DATE-TIME and DURATION (§§8.26.1.1–8.26.5.1) are
+// primitive. SEQUENCE and SEQUENCE OF (§§8.9.1, 8.10.1), SET and SET OF
+// (§§8.11.1, 8.12.1), EMBEDDED PDV (§8.17.1), EXTERNAL (§8.18.1) and
+// CHARACTER STRING (§8.24.1) are encoded as sequences, so constructed.
+// validateDERUniversalValue applies the same forms.
+func checkUniversalForm(t tag.Tag) error {
+	if t.Class != tag.ClassUniversal {
+		return nil
+	}
+	switch t.Number {
+	case tag.TagBoolean, tag.TagInteger, tag.TagEnumerated, tag.TagReal,
+		tag.TagNull, tag.TagObjectID, tag.TagRelativeOID, tag.TagOIDIRI,
+		tag.TagRelativeOIDIRI, tag.TagTime, tag.TagDate, tag.TagTimeOfDay,
+		tag.TagDateTime, tag.TagDuration:
+		if t.Constructed {
+			return fmt.Errorf("%w: X.690 (02/2021) requires primitive universal tag %d", ErrInvalidTag, t.Number)
+		}
+	case tag.TagSequence, tag.TagSet, tag.TagExternal, tag.TagEmbeddedPDV,
+		tag.TagCharacterString:
+		if !t.Constructed {
+			return fmt.Errorf("%w: X.690 (02/2021) requires constructed universal tag %d", ErrInvalidTag, t.Number)
+		}
+	}
+	return nil
+}
+
+// markBERForm records, on a decode that tracks BER forms, one element whose
+// valid BER form the DER encoder would change. lengthOctets are the element's
+// length octets; contents are its contents octets when the length is definite
+// and within the input, else nil. The checks read only this element, so the
+// whole-element scanner and every typed decoder share them.
+func markBERForm(form *berFormState, t tag.Tag, lengthOctets []byte, indefinite bool, contents []byte) {
+	if form == nil || form.preserve {
+		return
+	}
+	// X.690 (02/2021) §§8.1.3, 10.1: BER permits indefinite and
+	// nonminimal definite lengths; DER uses the shortest definite form.
+	if indefinite || len(lengthOctets) > 1 &&
+		(lengthOctets[1] == 0 || len(lengthOctets) == 2 && lengthOctets[1] < 0x80) {
+		form.preserve = true
+		return
+	}
+	if t.Class != tag.ClassUniversal {
+		return
+	}
+	// X.690 (02/2021) §§8.2.1, 8.6.2, 8.7.3,
+	// 10.2, 11.1–11.2: these BER values have a different DER form.
+	switch t.Number {
+	case tag.TagBitString, tag.TagOctetString, tag.TagObjectDesc,
+		tag.TagUTF8String, tag.TagNumericString, tag.TagPrintableString,
+		tag.TagT61String, tag.TagVideotexString, tag.TagIA5String,
+		tag.TagGraphicString, tag.TagVisibleString, tag.TagGeneralString,
+		tag.TagUniversalString, tag.TagBMPString:
+		if t.Constructed {
+			form.preserve = true
+		}
+	case tag.TagBoolean:
+		if !t.Constructed && len(contents) == 1 && contents[0] != 0 && contents[0] != 0xff {
+			form.preserve = true
+		}
+	case tag.TagUTCTime, tag.TagGeneralizedTime:
+		// The decoded value keeps any X.680 (02/2021) §46.3/§47.3 lexical
+		// form, so only the constructed form (X.690 (02/2021) §8.23.6) needs
+		// the original element.
+		if t.Constructed {
+			form.preserve = true
+		}
+	case tag.TagReal:
+		if !t.Constructed && contents != nil {
+			if len(contents) != 0 && contents[0]&0xc0 == 0 {
+				// X.690 (02/2021) §11.3.2: the decimal DER form is
+				// identifiable from its spelling, before bigint conversion.
+				// The typed decoder validates the numeric value separately.
+				if !canonicalDecimalRealContents(contents) {
+					form.preserve = true
+				}
+				break
+			}
+			if decoded, decodeErr := decodeRealContents(contents); decodeErr == nil {
+				if canonical, encodeErr := EncodeRealValue(decoded); encodeErr != nil || !bytes.Equal(contents, canonical) {
+					form.preserve = true
+				}
+			}
+		}
+	}
 }

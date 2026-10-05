@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"math"
 	"math/big"
-	"time"
 	"unicode/utf8"
 
 	"github.com/gomaja/go-asn1/runtime"
@@ -16,6 +15,19 @@ import (
 type berWorkBudget struct {
 	elements, bytes int
 	limits          DecodeLimits
+	// form is the caller's BER form marker, recorded for every segment.
+	form *berFormState
+}
+
+// newBERWorkBudget starts the shared budget of one recursive string decode.
+// It keeps the caller's form marker, so each segment's BER form is recorded.
+// The budget is returned by value so a caller can keep it on its stack.
+func newBERWorkBudget(options []DecodeOption) (berWorkBudget, error) {
+	config, err := decodeOptions(options)
+	if err != nil {
+		return berWorkBudget{}, err
+	}
+	return berWorkBudget{limits: config.limits, form: config.form}, nil
 }
 
 func (budget *berWorkBudget) charge(size int) error {
@@ -119,11 +131,21 @@ func DecodeLength(data []byte) (length int, indefinite bool, consumed int, err e
 
 // DecodeTLV reads one complete TLV element from data.
 // Returns the tag, bytes consumed, and the value bytes.
+//
+// With TrackBERForm in options, it records a length or universal-type form
+// that DER would change, so every typed decoder built on it reports the same
+// forms as ValidateBERElement.
 func DecodeTLV(data []byte, options ...DecodeOption) (tag.Tag, int, []byte, error) {
-	limits, limitErr := decodeLimits(options)
-	if limitErr != nil {
-		return tag.Tag{}, 0, nil, limitErr
+	config, configErr := decodeOptions(options)
+	if configErr != nil {
+		return tag.Tag{}, 0, nil, configErr
 	}
+	return decodeTLV(data, config.limits, config.form)
+}
+
+// decodeTLV is DecodeTLV with its options already resolved, so recursive
+// decoders read each segment without building an option list.
+func decodeTLV(data []byte, limits DecodeLimits, form *berFormState) (tag.Tag, int, []byte, error) {
 	t, tagLen, err := DecodeTag(data)
 	if err != nil {
 		return tag.Tag{}, 0, nil, err
@@ -163,6 +185,7 @@ func DecodeTLV(data []byte, options ...DecodeOption) (tag.Tag, int, []byte, erro
 			if data[pos] == 0x00 && data[pos+1] == 0x00 {
 				if depth == 0 {
 					value := data[headerLen:pos]
+					markBERForm(form, t, data[tagLen:headerLen], true, nil)
 					return t, pos + 2, value, nil
 				}
 				depth--
@@ -217,7 +240,7 @@ func DecodeTLV(data []byte, options ...DecodeOption) (tag.Tag, int, []byte, erro
 	if end > limits.MaxWork {
 		return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER total-work limit exceeded", ErrInvalidValue)
 	}
-
+	markBERForm(form, t, data[tagLen:headerLen], false, data[headerLen:end])
 	return t, end, data[headerLen:end], nil
 }
 
@@ -334,8 +357,9 @@ func validateDERTLV(data []byte, depth, maxDepth int) (int, error) {
 }
 
 // validateDERUniversalValue applies rules that do not require a schema.
-// X.690 (02/2021) §§8.1.5, 8.2–8.4, 8.6, 8.8–8.12, 10.2,
-// 11.1–11.2 and 11.7–11.8, including §8.19–8.20 subidentifier forms;
+// X.690 (02/2021) §§8.1.5, 8.2–8.4, 8.6, 8.8–8.12, 8.17.1, 8.18.1,
+// 8.21.1–8.22.1, 8.24.1, 8.26, 10.2, 11.1–11.2 and 11.7–11.8, including
+// §8.19–8.20 subidentifier forms;
 // Erratum 1 (09/2021) changes only Figure 4.
 func validateDERUniversalValue(t tag.Tag, value []byte) error {
 	invalid := func(reason string) error {
@@ -347,14 +371,16 @@ func validateDERUniversalValue(t tag.Tag, value []byte) error {
 	primitive := false
 	switch t.Number {
 	case tag.TagBoolean, tag.TagInteger, tag.TagEnumerated, tag.TagNull, tag.TagObjectID,
-		tag.TagRelativeOID, tag.TagReal, tag.TagUTCTime, tag.TagGeneralizedTime:
+		tag.TagRelativeOID, tag.TagReal, tag.TagUTCTime, tag.TagGeneralizedTime,
+		tag.TagOIDIRI, tag.TagRelativeOIDIRI, tag.TagTime, tag.TagDate,
+		tag.TagTimeOfDay, tag.TagDateTime, tag.TagDuration:
 		primitive = true
 	case tag.TagBitString, tag.TagOctetString, tag.TagObjectDesc, tag.TagUTF8String,
 		tag.TagNumericString, tag.TagPrintableString, tag.TagT61String, tag.TagVideotexString,
 		tag.TagIA5String, tag.TagGraphicString, tag.TagVisibleString, tag.TagGeneralString,
 		tag.TagUniversalString, tag.TagBMPString:
 		primitive = true
-	case tag.TagSequence, tag.TagSet, tag.TagExternal, tag.TagEmbeddedPDV:
+	case tag.TagSequence, tag.TagSet, tag.TagExternal, tag.TagEmbeddedPDV, tag.TagCharacterString:
 		if !t.Constructed {
 			return invalid("constructed form required")
 		}
@@ -412,15 +438,22 @@ func validateDERUniversalValue(t tag.Tag, value []byte) error {
 			return invalid(err.Error())
 		}
 	case tag.TagUTCTime:
-		if len(value) != 13 || value[12] != 'Z' {
+		// X.690 (02/2021) §11.8: YYMMDDhhmmssZ.
+		parsed, err := runtime.ParseUTCTime(string(value))
+		if err != nil {
+			return invalid(err.Error())
+		}
+		if !parsed.IsCanonical() {
 			return invalid("UTCTime requires YYMMDDhhmmssZ")
 		}
-		if _, err := parseUTCTime(string(value)); err != nil {
-			return invalid("invalid UTCTime")
-		}
 	case tag.TagGeneralizedTime:
-		if err := validateDERGeneralizedTime(value); err != nil {
+		// X.690 (02/2021) §11.7: YYYYMMDDhhmmss[.f]Z without trailing zeros.
+		parsed, err := runtime.ParseGeneralizedTime(string(value))
+		if err != nil {
 			return invalid(err.Error())
+		}
+		if !parsed.IsCanonical() {
+			return invalid("GeneralizedTime requires YYYYMMDDhhmmss[.f]Z without trailing fraction zeros")
 		}
 	}
 	return nil
@@ -583,27 +616,6 @@ func validateDERExternal(value []byte) error {
 	return nil
 }
 
-func validateDERGeneralizedTime(value []byte) error {
-	if len(value) < 15 || value[len(value)-1] != 'Z' {
-		return fmt.Errorf("GeneralizedTime requires YYYYMMDDhhmmssZ")
-	}
-	if _, err := time.Parse("20060102150405Z", string(value[:14])+"Z"); err != nil {
-		return fmt.Errorf("invalid GeneralizedTime date")
-	}
-	if len(value) == 15 {
-		return nil
-	}
-	if value[14] != '.' || len(value) < 17 || value[len(value)-2] == '0' {
-		return fmt.Errorf("noncanonical GeneralizedTime fraction")
-	}
-	for _, digit := range value[15 : len(value)-1] {
-		if digit < '0' || digit > '9' {
-			return fmt.Errorf("invalid GeneralizedTime fraction")
-		}
-	}
-	return nil
-}
-
 func compareDEROctetStrings(left, right []byte) int {
 	length := max(len(left), len(right))
 	for index := 0; index < length; {
@@ -753,18 +765,18 @@ func DecodeBigInt(data []byte, options ...DecodeOption) (*big.Int, int, error) {
 // DecodeBitString decodes a bit string from raw TLV bytes.
 // Returns the bytes, unused bits count, and total bytes consumed.
 func DecodeBitString(data []byte, options ...DecodeOption) ([]byte, int, int, error) {
-	limits, err := decodeLimits(options)
+	budget, err := newBERWorkBudget(options)
 	if err != nil {
 		return nil, 0, 0, err
 	}
-	return decodeBitStringBounded(data, 0, &berWorkBudget{limits: limits})
+	return decodeBitStringBounded(data, 0, &budget)
 }
 
 func decodeBitStringBounded(data []byte, depth int, budget *berWorkBudget) ([]byte, int, int, error) {
 	if depth > budget.limits.MaxDepth {
 		return nil, 0, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrInvalidValue)
 	}
-	t, total, value, err := DecodeTLV(data, WithDecodeLimits(budget.limits))
+	t, total, value, err := decodeTLV(data, budget.limits, budget.form)
 	if err != nil {
 		return nil, 0, 0, err
 	}
@@ -780,18 +792,18 @@ func decodeBitStringBounded(data []byte, depth int, budget *berWorkBudget) ([]by
 
 // DecodeOctetString decodes an octet string from raw TLV bytes.
 func DecodeOctetString(data []byte, options ...DecodeOption) ([]byte, int, error) {
-	limits, err := decodeLimits(options)
+	budget, err := newBERWorkBudget(options)
 	if err != nil {
 		return nil, 0, err
 	}
-	return decodeOctetStringBounded(data, 0, &berWorkBudget{limits: limits})
+	return decodeOctetStringBounded(data, 0, &budget)
 }
 
 func decodeOctetStringBounded(data []byte, depth int, budget *berWorkBudget) ([]byte, int, error) {
 	if depth > budget.limits.MaxDepth {
 		return nil, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrInvalidValue)
 	}
-	t, total, value, err := DecodeTLV(data, WithDecodeLimits(budget.limits))
+	t, total, value, err := decodeTLV(data, budget.limits, budget.form)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -803,7 +815,7 @@ func decodeOctetStringBounded(data []byte, depth int, budget *berWorkBudget) ([]
 	}
 	// Handle constructed form (BER allows it).
 	if t.Constructed {
-		var result []byte
+		result := []byte{} // zero segments: present empty, X.690 (02/2021) 8.7.3 (go-asn1#91)
 		for offset := 0; offset < len(value); {
 			if depth >= budget.limits.MaxDepth {
 				return nil, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrInvalidValue)
@@ -967,7 +979,7 @@ func DecodeReal(data []byte, options ...DecodeOption) (runtime.Real, int, error)
 	if t.Constructed {
 		return runtime.Real{}, 0, fmt.Errorf("%w: REAL must be primitive", ErrInvalidTag)
 	}
-	decoded, err := DecodeRealValue(value)
+	decoded, err := DecodeRealValue(value, options...)
 	if err != nil {
 		return runtime.Real{}, 0, err
 	}
@@ -1016,84 +1028,65 @@ func DecodeString(data []byte, expectedTag int, options ...DecodeOption) (string
 	return decoded, total, nil
 }
 
-// DecodeUTCTime decodes a UTCTime value from raw TLV bytes.
-func DecodeUTCTime(data []byte, options ...DecodeOption) (time.Time, int, error) {
+// DecodeUTCTime decodes a UTCTime value from raw TLV bytes. Any
+// X.680 (02/2021) §47.3 form is accepted and kept verbatim, primitive or
+// constructed (X.690 (02/2021) §8.25, §8.23.6).
+func DecodeUTCTime(data []byte, options ...DecodeOption) (runtime.UTCTime, int, error) {
 	s, total, err := DecodeString(data, tag.TagUTCTime, options...)
 	if err != nil {
-		return time.Time{}, 0, err
+		return runtime.UTCTime{}, 0, err
 	}
-	t, err := parseUTCTime(s)
+	value, err := parseUTCTime(s)
 	if err != nil {
-		return time.Time{}, 0, err
+		return runtime.UTCTime{}, 0, err
 	}
-	return t, total, nil
+	return value, total, nil
 }
 
 // DecodeGeneralizedTime decodes a GeneralizedTime value from raw TLV bytes.
-func DecodeGeneralizedTime(data []byte, options ...DecodeOption) (time.Time, int, error) {
+// Any X.680 (02/2021) §46.3 form is accepted and kept verbatim, primitive or
+// constructed (X.690 (02/2021) §8.25, §8.23.6).
+func DecodeGeneralizedTime(data []byte, options ...DecodeOption) (runtime.GeneralizedTime, int, error) {
 	s, total, err := DecodeString(data, tag.TagGeneralizedTime, options...)
 	if err != nil {
-		return time.Time{}, 0, err
+		return runtime.GeneralizedTime{}, 0, err
 	}
-	t, err := parseGeneralizedTime(s)
+	value, err := parseGeneralizedTime(s)
 	if err != nil {
-		return time.Time{}, 0, err
+		return runtime.GeneralizedTime{}, 0, err
 	}
-	return t, total, nil
+	return value, total, nil
 }
 
-// DecodeUTCTimeValue decodes a UTCTime from raw value bytes (tag/length
+// DecodeUTCTimeValue decodes UTCTime contents octets (tag/length
 // already consumed by the caller — e.g. an implicitly tagged field, where
 // the wrapping tag replaced the UNIVERSAL UTCTime tag, or a CHOICE
 // alternative whose tag has already been matched).
-func DecodeUTCTimeValue(value []byte) (time.Time, error) {
+func DecodeUTCTimeValue(value []byte) (runtime.UTCTime, error) {
 	return parseUTCTime(string(value))
 }
 
-// DecodeGeneralizedTimeValue decodes a GeneralizedTime from raw value bytes
+// DecodeGeneralizedTimeValue decodes GeneralizedTime contents octets
 // (tag/length already consumed by the caller — see DecodeUTCTimeValue).
-func DecodeGeneralizedTimeValue(value []byte) (time.Time, error) {
+func DecodeGeneralizedTimeValue(value []byte) (runtime.GeneralizedTime, error) {
 	return parseGeneralizedTime(string(value))
 }
 
-// parseUTCTime parses the character content of an ASN.1 UTCTime.
-func parseUTCTime(s string) (time.Time, error) {
-	// Try common formats.
-	for _, layout := range []string{
-		"060102150405Z",
-		"0601021504Z",
-		"060102150405-0700",
-		"060102150405+0700",
-	} {
-		t, err := time.Parse(layout, s)
-		if err == nil {
-			// ASN.1 UTCTime: YY >= 50 → 19YY, YY < 50 → 20YY.
-			// Go's time.Parse uses cutoff 69, so years 50-68 are wrong.
-			year := t.Year()
-			if year >= 2050 && year <= 2068 {
-				t = t.AddDate(-100, 0, 0)
-			}
-			return t, nil
-		}
+// The runtime errors wrap ErrInvalidValue, so errors.Is reports both.
+func parseUTCTime(s string) (runtime.UTCTime, error) {
+	value, err := runtime.ParseUTCTime(s)
+	if err != nil {
+		return runtime.UTCTime{}, fmt.Errorf("%w: %w", ErrInvalidValue, err)
 	}
-	return time.Time{}, fmt.Errorf("%w: cannot parse UTCTime %q", ErrInvalidValue, s)
+	return value, nil
 }
 
-// parseGeneralizedTime parses the character content of an ASN.1 GeneralizedTime.
-func parseGeneralizedTime(s string) (time.Time, error) {
-	for _, layout := range []string{
-		"20060102150405Z",
-		"20060102150405",
-		"20060102150405.999999999Z",
-		"20060102150405-0700",
-		"20060102150405+0700",
-	} {
-		t, err := time.Parse(layout, s)
-		if err == nil {
-			return t, nil
-		}
+func parseGeneralizedTime(s string) (runtime.GeneralizedTime, error) {
+	value, err := runtime.ParseGeneralizedTime(s)
+	if err != nil {
+		return runtime.GeneralizedTime{}, fmt.Errorf("%w: %w", ErrInvalidValue, err)
 	}
-	return time.Time{}, fmt.Errorf("%w: cannot parse GeneralizedTime %q", ErrInvalidValue, s)
+	return value, nil
 }
 
 // DecodeRawValue reads one complete TLV without interpreting the value.
@@ -1184,22 +1177,21 @@ func DecodeImplicitOctetStringValue(constructed bool, value []byte, options ...D
 }
 
 func decodeBitStringValue(constructed bool, value []byte, options ...DecodeOption) ([]byte, int, error) {
-	limits, err := decodeLimits(options)
+	budget, err := newBERWorkBudget(options)
 	if err != nil {
 		return nil, 0, err
 	}
-	budget := &berWorkBudget{limits: limits}
 	if err := budget.charge(len(value)); err != nil {
 		return nil, 0, err
 	}
-	return decodeBitStringValueBounded(constructed, value, 0, budget)
+	return decodeBitStringValueBounded(constructed, value, 0, &budget)
 }
 
 func decodeBitStringValueBounded(constructed bool, value []byte, depth int, budget *berWorkBudget) ([]byte, int, error) {
 	if !constructed {
 		return decodePrimitiveBitStringValue(value)
 	}
-	var result []byte
+	result := []byte{} // zero segments: present empty, X.690 (02/2021) 8.6.3 (go-asn1#91)
 	unusedBits := 0
 	for index, offset := 0, 0; offset < len(value); {
 		if depth >= budget.limits.MaxDepth {
@@ -1314,30 +1306,27 @@ func DecodeImplicitStringValue(tagNum int, constructed bool, value []byte, optio
 	return decoded, nil
 }
 
-// DecodeImplicitUTCTimeValue decodes primitive or constructed implicitly tagged UTCTime contents.
-func DecodeImplicitUTCTimeValue(constructed bool, value []byte, options ...DecodeOption) (time.Time, error) {
+// DecodeImplicitUTCTimeValue decodes primitive or constructed implicitly
+// tagged UTCTime contents. The lexical form is kept verbatim, so only the
+// constructed form marks the value for whole-element BER preservation.
+func DecodeImplicitUTCTimeValue(constructed bool, value []byte, options ...DecodeOption) (runtime.UTCTime, error) {
 	decoded, err := DecodeImplicitStringValue(tag.TagUTCTime, constructed, value, options...)
 	if err != nil {
-		return time.Time{}, err
+		return runtime.UTCTime{}, err
 	}
-	parsed, err := parseUTCTime(decoded)
-	if err == nil && decoded != parsed.UTC().Format("060102150405Z") {
-		MarkBERNonCanonical(options)
-	}
-	return parsed, err
+	return parseUTCTime(decoded)
 }
 
-// DecodeImplicitGeneralizedTimeValue decodes primitive or constructed implicitly tagged GeneralizedTime contents.
-func DecodeImplicitGeneralizedTimeValue(constructed bool, value []byte, options ...DecodeOption) (time.Time, error) {
+// DecodeImplicitGeneralizedTimeValue decodes primitive or constructed
+// implicitly tagged GeneralizedTime contents. The lexical form is kept
+// verbatim, so only the constructed form marks the value for whole-element
+// BER preservation.
+func DecodeImplicitGeneralizedTimeValue(constructed bool, value []byte, options ...DecodeOption) (runtime.GeneralizedTime, error) {
 	decoded, err := DecodeImplicitStringValue(tag.TagGeneralizedTime, constructed, value, options...)
 	if err != nil {
-		return time.Time{}, err
+		return runtime.GeneralizedTime{}, err
 	}
-	parsed, err := parseGeneralizedTime(decoded)
-	if err == nil && decoded != parsed.UTC().Format("20060102150405.999999999Z") {
-		MarkBERNonCanonical(options)
-	}
-	return parsed, err
+	return parseGeneralizedTime(decoded)
 }
 
 // DecodeRealValue decodes X.690 (02/2021), clause 8.5 REAL contents octets.
@@ -1345,6 +1334,15 @@ func DecodeRealValue(value []byte, options ...DecodeOption) (runtime.Real, error
 	decoded, err := decodeRealContents(value)
 	if err != nil {
 		return runtime.Real{}, err
+	}
+	if len(value) != 0 && value[0]&0xc0 == 0 {
+		// X.690 (02/2021) §11.3.2 defines DER's decimal lexical form.
+		// Comparing the received form directly avoids formatting a decoded
+		// multi-megabyte mantissa back to decimal solely to set this marker.
+		if !canonicalDecimalRealContents(value) {
+			MarkBERNonCanonical(options)
+		}
+		return decoded, nil
 	}
 	// X.690 (02/2021) §8.5.7 NOTE 1 permits non-normalised BER REALs.
 	// §11.3.1 requires a distinguished form in DER. An implicit tag hides
@@ -1359,6 +1357,46 @@ func DecodeRealValue(value []byte, options ...DecodeOption) (runtime.Real, error
 		MarkBERNonCanonical(options)
 	}
 	return decoded, nil
+}
+
+// canonicalDecimalRealContents recognizes precisely the NR3 lexical form
+// emitted by EncodeRealValue under X.690 (02/2021) §11.3.2. Callers decode
+// the REAL value separately, so this only classifies the received spelling.
+func canonicalDecimalRealContents(value []byte) bool {
+	if len(value) < 5 || value[0] != 3 {
+		return false
+	}
+	i := 1
+	if value[i] == '-' {
+		i++
+	}
+	if i >= len(value) || value[i] < '1' || value[i] > '9' {
+		return false
+	}
+	lastDigit := byte(0)
+	for i < len(value) && value[i] >= '0' && value[i] <= '9' {
+		lastDigit = value[i]
+		i++
+	}
+	if lastDigit == '0' || len(value)-i < 3 || value[i] != '.' || value[i+1] != 'E' {
+		return false
+	}
+	i += 2
+	if value[i] == '+' {
+		return len(value)-i == 2 && value[i+1] == '0'
+	}
+	if value[i] == '-' {
+		i++
+	}
+	if i >= len(value) || value[i] < '1' || value[i] > '9' {
+		return false
+	}
+	for i++; i < len(value); i++ {
+		if value[i] < '0' || value[i] > '9' {
+			return false
+		}
+	}
+	return true
 }
 
 func decodeRealContents(value []byte) (runtime.Real, error) {

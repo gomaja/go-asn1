@@ -306,7 +306,7 @@ func decodeLengthDelimitedOctets(bb *BitBuffer, aligned bool) ([]byte, error) {
 }
 
 func decodeLengthDelimitedOctetsBounded(bb *BitBuffer, aligned bool, maximum int64) ([]byte, error) {
-	var result []byte
+	result := []byte{} // present empty is not absent (go-asn1#91); no allocation
 	_, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(_ int64, length int64) error {
 		if length < 0 || length > int64(math.MaxInt) {
 			return fmt.Errorf("%w: fragment length %d exceeds host int", ErrInvalidValue, length)

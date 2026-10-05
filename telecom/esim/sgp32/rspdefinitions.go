@@ -218,8 +218,8 @@ type PprIds = runtime.BitString
 // OperatorId represents the ASN.1 type OperatorId (SEQUENCE).
 type OperatorId struct {
 	MccMnc       []byte   `asn1:"tag:0,context,implicit"`
-	Gid1         []byte   `asn1:"tag:1,context,implicit,optional" json:"Gid1,omitempty"`
-	Gid2         []byte   `asn1:"tag:2,context,implicit,optional" json:"Gid2,omitempty"`
+	Gid1         []byte   `asn1:"tag:1,context,implicit,optional" json:"Gid1,omitzero"`
+	Gid2         []byte   `asn1:"tag:2,context,implicit,optional" json:"Gid2,omitzero"`
 	ExtCount_    int64    `asn1:"-" json:"-"`
 	ExtPresent_  []bool   `asn1:"-" json:"-"`
 	ExtData_     [][]byte `asn1:"-" json:"-"`
@@ -287,7 +287,7 @@ type SuccessResult struct {
 type ErrorResult struct {
 	BppCommandId BppCommandId `asn1:"tag:0,context,implicit"`
 	ErrorReason  ErrorReason  `asn1:"tag:1,context,implicit"`
-	SimaResponse []byte       `asn1:"tag:2,context,implicit,optional" json:"SimaResponse,omitempty"`
+	SimaResponse []byte       `asn1:"tag:2,context,implicit,optional" json:"SimaResponse,omitzero"`
 	ExtCount_    int64        `asn1:"-" json:"-"`
 	ExtPresent_  []bool       `asn1:"-" json:"-"`
 	ExtData_     [][]byte     `asn1:"-" json:"-"`
@@ -706,7 +706,7 @@ type DeviceCapabilities struct {
 	Eutran5gcSupportedRelease      *VersionType                    `asn1:"tag:10,context,implicit,optional" json:"Eutran5gcSupportedRelease,omitempty"`
 	LpaSvn                         *VersionType                    `asn1:"tag:11,context,implicit,optional" json:"LpaSvn,omitempty"`
 	CatSupportedClasses            *CatSupportedClasses            `asn1:"tag:12,context,implicit,optional" json:"CatSupportedClasses,omitempty"`
-	EuiccFormFactorType            EuiccFormFactorType             `asn1:"tag:13,context,implicit,optional" json:"EuiccFormFactorType,omitempty"`
+	EuiccFormFactorType            EuiccFormFactorType             `asn1:"tag:13,context,implicit,optional" json:"EuiccFormFactorType,omitzero"`
 	DeviceAdditionalFeatureSupport *DeviceAdditionalFeatureSupport `asn1:"tag:14,context,implicit,optional" json:"DeviceAdditionalFeatureSupport,omitempty"`
 	ExtCount_                      int64                           `asn1:"-" json:"-"`
 	ExtPresent_                    []bool                          `asn1:"-" json:"-"`
@@ -718,7 +718,7 @@ type DeviceCapabilities struct {
 // DeviceAdditionalFeatureSupport represents the ASN.1 type DeviceAdditionalFeatureSupport (SEQUENCE).
 type DeviceAdditionalFeatureSupport struct {
 	NaiSupport                   *VersionType             `asn1:"tag:0,context,implicit,optional" json:"NaiSupport,omitempty"`
-	GroupOfDeviceManufacturerOid runtime.ObjectIdentifier `asn1:"tag:1,context,implicit,optional" json:"GroupOfDeviceManufacturerOid,omitempty"`
+	GroupOfDeviceManufacturerOid runtime.ObjectIdentifier `asn1:"tag:1,context,implicit,optional" json:"GroupOfDeviceManufacturerOid,omitzero"`
 	ExtCount_                    int64                    `asn1:"-" json:"-"`
 	ExtPresent_                  []bool                   `asn1:"-" json:"-"`
 	ExtData_                     [][]byte                 `asn1:"-" json:"-"`
@@ -794,7 +794,7 @@ type UpdateMetadataRequest struct {
 	ServiceProviderName                    *string                  `asn1:"tag:17,context,implicit,optional" json:"ServiceProviderName,omitempty"`
 	ProfileName                            *string                  `asn1:"tag:18,context,implicit,optional" json:"ProfileName,omitempty"`
 	IconType                               *IconType                `asn1:"tag:19,context,implicit,optional" json:"IconType,omitempty"`
-	Icon                                   []byte                   `asn1:"tag:20,context,implicit,optional" json:"Icon,omitempty"`
+	Icon                                   []byte                   `asn1:"tag:20,context,implicit,optional" json:"Icon,omitzero"`
 	ProfilePolicyRules                     *PprIds                  `asn1:"tag:25,context,implicit,optional" json:"ProfilePolicyRules,omitempty"`
 	ServiceSpecificDataStoredInEuicc       *VendorSpecificExtension `asn1:"tag:34,context,implicit,optional" json:"ServiceSpecificDataStoredInEuicc,omitempty"`
 	ServiceSpecificDataStoredInEuiccIndef_ bool                     `asn1:"-" json:"-"`
@@ -859,7 +859,7 @@ type StoreMetadataRequest struct {
 	ServiceProviderName                       string                                             `asn1:"tag:17,context,implicit"`
 	ProfileName                               string                                             `asn1:"tag:18,context,implicit"`
 	IconType                                  *IconType                                          `asn1:"tag:19,context,implicit,optional" json:"IconType,omitempty"`
-	Icon                                      []byte                                             `asn1:"tag:20,context,implicit,optional" json:"Icon,omitempty"`
+	Icon                                      []byte                                             `asn1:"tag:20,context,implicit,optional" json:"Icon,omitzero"`
 	ProfileClass                              *ProfileClass                                      `asn1:"tag:21,context,implicit,optional" json:"ProfileClass,omitempty"`
 	NotificationConfigurationInfo             *StoreMetadataRequestNotificationConfigurationInfo `asn1:"tag:22,context,implicit,optional" json:"NotificationConfigurationInfo,omitempty"`
 	NotificationConfigurationInfoIndef_       bool                                               `asn1:"-" json:"-"`
@@ -1003,7 +1003,7 @@ type SmdpSigned2 struct {
 	TransactionId      TransactionId `asn1:"tag:0,context,implicit"`
 	CcRequiredFlag     bool          `asn1:""`
 	CcRequiredFlagRaw_ byte          `asn1:"-" json:"-"`
-	BppEuiccOtpk       []byte        `asn1:"tag:73,application,implicit,optional" json:"BppEuiccOtpk,omitempty"`
+	BppEuiccOtpk       []byte        `asn1:"tag:73,application,implicit,optional" json:"BppEuiccOtpk,omitzero"`
 	ExtCount_          int64         `asn1:"-" json:"-"`
 	ExtPresent_        []bool        `asn1:"-" json:"-"`
 	ExtData_           [][]byte      `asn1:"-" json:"-"`
@@ -1288,13 +1288,13 @@ type EUICCInfo2 struct {
 	TreProductReference                         *string                                          `asn1:"tag:14,context,implicit,optional" json:"TreProductReference,omitempty"`
 	AdditionalEuiccProfilePackageVersions       *EUICCInfo2AdditionalEuiccProfilePackageVersions `asn1:"tag:15,context,implicit,optional" json:"AdditionalEuiccProfilePackageVersions,omitempty"`
 	AdditionalEuiccProfilePackageVersionsIndef_ bool                                             `asn1:"-" json:"-"`
-	LpaMode                                     LpaMode                                          `asn1:"tag:16,context,implicit,optional" json:"LpaMode,omitempty"`
+	LpaMode                                     LpaMode                                          `asn1:"tag:16,context,implicit,optional" json:"LpaMode,omitzero"`
 	EuiccCiPKIdListForSigningV3                 *EUICCInfo2EuiccCiPKIdListForSigningV3           `asn1:"tag:17,context,implicit,optional" json:"EuiccCiPKIdListForSigningV3,omitempty"`
 	EuiccCiPKIdListForSigningV3Indef_           bool                                             `asn1:"-" json:"-"`
-	AdditionalEuiccInfo                         []byte                                           `asn1:"tag:18,context,implicit,optional" json:"AdditionalEuiccInfo,omitempty"`
+	AdditionalEuiccInfo                         []byte                                           `asn1:"tag:18,context,implicit,optional" json:"AdditionalEuiccInfo,omitzero"`
 	HighestSvn                                  *VersionType                                     `asn1:"tag:19,context,implicit,optional" json:"HighestSvn,omitempty"`
 	IotSpecificInfo                             *IoTSpecificInfo                                 `asn1:"tag:20,context,implicit,optional" json:"IotSpecificInfo,omitempty"`
-	EuiccMinimumSecurityLevel                   []byte                                           `asn1:"tag:21,context,implicit,optional" json:"EuiccMinimumSecurityLevel,omitempty"`
+	EuiccMinimumSecurityLevel                   []byte                                           `asn1:"tag:21,context,implicit,optional" json:"EuiccMinimumSecurityLevel,omitzero"`
 	ExtCount_                                   int64                                            `asn1:"-" json:"-"`
 	ExtPresent_                                 []bool                                           `asn1:"-" json:"-"`
 	ExtData_                                    [][]byte                                         `asn1:"-" json:"-"`
@@ -2185,8 +2185,8 @@ type EuiccCancelSessionSigned struct {
 // ProfileInfoListRequest represents the ASN.1 type ProfileInfoListRequest (SEQUENCE).
 type ProfileInfoListRequest struct {
 	SearchCriteria     *ProfileInfoListRequestSearchCriteria `asn1:"tag:0,context,explicit,optional" json:"SearchCriteria,omitempty"`
-	TagList            []byte                                `asn1:"tag:28,application,implicit,optional" json:"TagList,omitempty"`
-	IotSpecificTagList []byte                                `asn1:"tag:29,application,implicit,optional" json:"IotSpecificTagList,omitempty"`
+	TagList            []byte                                `asn1:"tag:28,application,implicit,optional" json:"TagList,omitzero"`
+	IotSpecificTagList []byte                                `asn1:"tag:29,application,implicit,optional" json:"IotSpecificTagList,omitzero"`
 	ExtCount_          int64                                 `asn1:"-" json:"-"`
 	ExtPresent_        []bool                                `asn1:"-" json:"-"`
 	ExtData_           [][]byte                              `asn1:"-" json:"-"`
@@ -2234,7 +2234,7 @@ type ProfileInfo struct {
 	ServiceProviderName                    *string                                   `asn1:"tag:17,context,implicit,optional" json:"ServiceProviderName,omitempty"`
 	ProfileName                            *string                                   `asn1:"tag:18,context,implicit,optional" json:"ProfileName,omitempty"`
 	IconType                               *IconType                                 `asn1:"tag:19,context,implicit,optional" json:"IconType,omitempty"`
-	Icon                                   []byte                                    `asn1:"tag:20,context,implicit,optional" json:"Icon,omitempty"`
+	Icon                                   []byte                                    `asn1:"tag:20,context,implicit,optional" json:"Icon,omitzero"`
 	ProfileClass                           *ProfileClass                             `asn1:"tag:21,context,implicit,optional" json:"ProfileClass,omitempty"`
 	NotificationConfigurationInfo          *ProfileInfoNotificationConfigurationInfo `asn1:"tag:22,context,implicit,optional" json:"NotificationConfigurationInfo,omitempty"`
 	NotificationConfigurationInfoIndef_    bool                                      `asn1:"-" json:"-"`
@@ -3042,7 +3042,7 @@ type InitiateAuthenticationOkEs9 struct {
 // AuthenticateClientRequest represents the ASN.1 type AuthenticateClientRequest (SEQUENCE).
 type AuthenticateClientRequest struct {
 	TransactionId              TransactionId              `asn1:"tag:0,context,implicit"`
-	AuthenticateServerResponse AuthenticateServerResponse `asn1:"tag:56,context,explicit"`
+	AuthenticateServerResponse AuthenticateServerResponse `asn1:"tag:56,context,implicit"`
 	UseMatchingIdForAcr        *struct{}                  `asn1:",optional" json:"UseMatchingIdForAcr,omitempty"`
 	ExtCount_                  int64                      `asn1:"-" json:"-"`
 	ExtPresent_                []bool                     `asn1:"-" json:"-"`
@@ -3120,7 +3120,7 @@ type AuthenticateClientOkAcr struct {
 // GetBoundProfilePackageRequest represents the ASN.1 type GetBoundProfilePackageRequest (SEQUENCE).
 type GetBoundProfilePackageRequest struct {
 	TransactionId           TransactionId           `asn1:"tag:0,context,implicit"`
-	PrepareDownloadResponse PrepareDownloadResponse `asn1:"tag:33,context,explicit"`
+	PrepareDownloadResponse PrepareDownloadResponse `asn1:"tag:33,context,implicit"`
 	ExtCount_               int64                   `asn1:"-" json:"-"`
 	ExtPresent_             []bool                  `asn1:"-" json:"-"`
 	ExtData_                [][]byte                `asn1:"-" json:"-"`
@@ -5709,7 +5709,9 @@ type AuthenticateClientOkEs11EventEntries struct {
 }
 
 // MarshalBER encodes OperatorId to BER format.
-func (v *OperatorId) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *OperatorId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: OperatorId receiver is nil", ber.ErrInvalidValue)
 	}
@@ -5764,7 +5766,7 @@ func (v *OperatorId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_gid2...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -5842,6 +5844,8 @@ func (v *OperatorId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 	if v == nil {
 		return fmt.Errorf("%w: OperatorId destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -5981,7 +5985,9 @@ func (v *OperatorId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 }
 
 // MarshalBER encodes BoundProfilePackage to BER format.
-func (v *BoundProfilePackage) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *BoundProfilePackage) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: BoundProfilePackage receiver is nil", ber.ErrInvalidValue)
 	}
@@ -5996,7 +6002,7 @@ func (v *BoundProfilePackage) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		return nil, err
 	}
 	var children []byte
-	enc_initialisesecurechannelrequest, err := v.InitialiseSecureChannelRequest.MarshalBER(opts...)
+	enc_initialisesecurechannelrequest, err := v.InitialiseSecureChannelRequest.MarshalBER(ber.ChildEncodeOptions(opts, "initialiseSecureChannelRequest")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding initialiseSecureChannelRequest: %w", err)
 	}
@@ -6004,13 +6010,13 @@ func (v *BoundProfilePackage) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 	if v.FirstSequenceOf87 == nil {
 		return nil, fmt.Errorf("encoding firstSequenceOf87: %w: required collection is nil", ber.ErrInvalidValue)
 	}
-	enc_firstsequenceof87, err := MarshalBERBoundProfilePackageFirstSequenceOf87(v.FirstSequenceOf87, opts...)
+	enc_firstsequenceof87, err := MarshalBERBoundProfilePackageFirstSequenceOf87(v.FirstSequenceOf87, ber.ChildEncodeOptions(opts, "firstSequenceOf87")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding firstSequenceOf87: %w", err)
 	}
 	if v.FirstSequenceOf87Indef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_firstsequenceof87)
+		_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_firstsequenceof87)
 		if tlvErr_ != nil {
 			return nil, tlvErr_
 		}
@@ -6032,13 +6038,13 @@ func (v *BoundProfilePackage) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 	if v.SequenceOf88 == nil {
 		return nil, fmt.Errorf("encoding sequenceOf88: %w: required collection is nil", ber.ErrInvalidValue)
 	}
-	enc_sequenceof88, err := MarshalBERBoundProfilePackageSequenceOf88(v.SequenceOf88, opts...)
+	enc_sequenceof88, err := MarshalBERBoundProfilePackageSequenceOf88(v.SequenceOf88, ber.ChildEncodeOptions(opts, "sequenceOf88")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding sequenceOf88: %w", err)
 	}
 	if v.SequenceOf88Indef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_sequenceof88)
+		_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_sequenceof88)
 		if tlvErr_ != nil {
 			return nil, tlvErr_
 		}
@@ -6058,13 +6064,13 @@ func (v *BoundProfilePackage) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 	}
 	children = append(children, enc_sequenceof88...)
 	if v.SecondSequenceOf87 != nil {
-		enc_secondsequenceof87, err := MarshalBERBoundProfilePackageSecondSequenceOf87(v.SecondSequenceOf87, opts...)
+		enc_secondsequenceof87, err := MarshalBERBoundProfilePackageSecondSequenceOf87(v.SecondSequenceOf87, ber.ChildEncodeOptions(opts, "secondSequenceOf87")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding secondSequenceOf87: %w", err)
 		}
 		if v.SecondSequenceOf87Indef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_secondsequenceof87)
+			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_secondsequenceof87)
 			if tlvErr_ != nil {
 				return nil, tlvErr_
 			}
@@ -6087,13 +6093,13 @@ func (v *BoundProfilePackage) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 	if v.SequenceOf86 == nil {
 		return nil, fmt.Errorf("encoding sequenceOf86: %w: required collection is nil", ber.ErrInvalidValue)
 	}
-	enc_sequenceof86, err := MarshalBERBoundProfilePackageSequenceOf86(v.SequenceOf86, opts...)
+	enc_sequenceof86, err := MarshalBERBoundProfilePackageSequenceOf86(v.SequenceOf86, ber.ChildEncodeOptions(opts, "sequenceOf86")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding sequenceOf86: %w", err)
 	}
 	if v.SequenceOf86Indef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_sequenceof86)
+		_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_sequenceof86)
 		if tlvErr_ != nil {
 			return nil, tlvErr_
 		}
@@ -6113,7 +6119,7 @@ func (v *BoundProfilePackage) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 	}
 	children = append(children, enc_sequenceof86...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -6213,6 +6219,8 @@ func (v *BoundProfilePackage) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: BoundProfilePackage destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -6472,7 +6480,9 @@ func (v *BoundProfilePackage) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBER encodes ProfileInstallationResult to BER format.
-func (v *ProfileInstallationResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ProfileInstallationResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ProfileInstallationResult receiver is nil", ber.ErrInvalidValue)
 	}
@@ -6487,7 +6497,7 @@ func (v *ProfileInstallationResult) marshalBER(opts ...ber.EncodeOption) ([]byte
 		return nil, err
 	}
 	var children []byte
-	enc_profileinstallationresultdata, err := v.ProfileInstallationResultData.MarshalBER(opts...)
+	enc_profileinstallationresultdata, err := v.ProfileInstallationResultData.MarshalBER(ber.ChildEncodeOptions(opts, "profileInstallationResultData")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding profileInstallationResultData: %w", err)
 	}
@@ -6503,7 +6513,7 @@ func (v *ProfileInstallationResult) marshalBER(opts ...ber.EncodeOption) ([]byte
 	enc_euiccsignpir = retagged_enc_euiccsignpir
 	children = append(children, enc_euiccsignpir...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -6562,6 +6572,8 @@ func (v *ProfileInstallationResult) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: ProfileInstallationResult destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -6675,7 +6687,9 @@ func (v *ProfileInstallationResult) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes ProfileInstallationResultData to BER format.
-func (v *ProfileInstallationResultData) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ProfileInstallationResultData) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ProfileInstallationResultData receiver is nil", ber.ErrInvalidValue)
 	}
@@ -6705,7 +6719,7 @@ func (v *ProfileInstallationResultData) marshalBER(opts ...ber.EncodeOption) ([]
 	}
 	enc_transactionid = retagged_enc_transactionid
 	children = append(children, enc_transactionid...)
-	enc_notificationmetadata, err := v.NotificationMetadata.MarshalBER(opts...)
+	enc_notificationmetadata, err := v.NotificationMetadata.MarshalBER(ber.ChildEncodeOptions(opts, "notificationMetadata")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding notificationMetadata: %w", err)
 	}
@@ -6715,7 +6729,7 @@ func (v *ProfileInstallationResultData) marshalBER(opts ...ber.EncodeOption) ([]
 		return nil, fmt.Errorf("encoding smdpOid: %w", oidErr)
 	}
 	children = append(children, enc_smdpoid...)
-	enc_finalresult, err := v.FinalResult.MarshalBER(opts...)
+	enc_finalresult, err := v.FinalResult.MarshalBER(ber.ChildEncodeOptions(opts, "finalResult")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding finalResult: %w", err)
 	}
@@ -6728,7 +6742,7 @@ func (v *ProfileInstallationResultData) marshalBER(opts ...ber.EncodeOption) ([]
 	}
 	children = append(children, enc_finalresult...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -6809,6 +6823,8 @@ func (v *ProfileInstallationResultData) UnmarshalBER(data []byte, opts ...ber.De
 	if v == nil {
 		return fmt.Errorf("%w: ProfileInstallationResultData destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -6968,7 +6984,9 @@ func (v *ProfileInstallationResultData) UnmarshalBER(data []byte, opts ...ber.De
 }
 
 // MarshalBER encodes SuccessResult to BER format.
-func (v *SuccessResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *SuccessResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: SuccessResult receiver is nil", ber.ErrInvalidValue)
 	}
@@ -7004,7 +7022,7 @@ func (v *SuccessResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	children = append(children, enc_simaresponse...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -7063,6 +7081,8 @@ func (v *SuccessResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	if v == nil {
 		return fmt.Errorf("%w: SuccessResult destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -7163,7 +7183,9 @@ func (v *SuccessResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 }
 
 // MarshalBER encodes ErrorResult to BER format.
-func (v *ErrorResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ErrorResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ErrorResult receiver is nil", ber.ErrInvalidValue)
 	}
@@ -7211,7 +7233,7 @@ func (v *ErrorResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_simaresponse...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -7282,6 +7304,8 @@ func (v *ErrorResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if v == nil {
 		return fmt.Errorf("%w: ErrorResult destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -7427,7 +7451,9 @@ func (v *ErrorResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 }
 
 // MarshalBER encodes DeviceInfo to BER format.
-func (v *DeviceInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *DeviceInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: DeviceInfo receiver is nil", ber.ErrInvalidValue)
 	}
@@ -7457,7 +7483,7 @@ func (v *DeviceInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	enc_tac = retagged_enc_tac
 	children = append(children, enc_tac...)
-	enc_devicecapabilities, err := v.DeviceCapabilities.MarshalBER(opts...)
+	enc_devicecapabilities, err := v.DeviceCapabilities.MarshalBER(ber.ChildEncodeOptions(opts, "deviceCapabilities")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding deviceCapabilities: %w", err)
 	}
@@ -7485,7 +7511,7 @@ func (v *DeviceInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_imei...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -7566,6 +7592,8 @@ func (v *DeviceInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 	if v == nil {
 		return fmt.Errorf("%w: DeviceInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -7713,7 +7741,9 @@ func (v *DeviceInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 }
 
 // MarshalBER encodes DeviceCapabilities to BER format.
-func (v *DeviceCapabilities) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *DeviceCapabilities) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: DeviceCapabilities receiver is nil", ber.ErrInvalidValue)
 	}
@@ -7936,7 +7966,7 @@ func (v *DeviceCapabilities) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.CatSupportedClasses.Bytes, v.CatSupportedClasses.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "catSupportedClasses", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 		if v.CatSupportedClasses.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7964,7 +7994,7 @@ func (v *DeviceCapabilities) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_euiccformfactortype...)
 	}
 	if v.DeviceAdditionalFeatureSupport != nil {
-		enc_deviceadditionalfeaturesupport, err := v.DeviceAdditionalFeatureSupport.MarshalBER(opts...)
+		enc_deviceadditionalfeaturesupport, err := v.DeviceAdditionalFeatureSupport.MarshalBER(ber.ChildEncodeOptions(opts, "deviceAdditionalFeatureSupport")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding deviceAdditionalFeatureSupport: %w", err)
 		}
@@ -7976,7 +8006,7 @@ func (v *DeviceCapabilities) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_deviceadditionalfeaturesupport...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -8205,7 +8235,7 @@ func (v *DeviceCapabilities) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.CatSupportedClasses.Bytes, v.CatSupportedClasses.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "catSupportedClasses", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 		if v.CatSupportedClasses.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -8265,6 +8295,8 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if v == nil {
 		return fmt.Errorf("%w: DeviceCapabilities destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -8762,7 +8794,7 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					return fmt.Errorf("decoding deviceAdditionalFeatureSupport: %w", reconstructionErr_deviceadditionalfeaturesupport)
 				}
 				var dec_deviceadditionalfeaturesupport DeviceAdditionalFeatureSupport
-				if unmErr := dec_deviceadditionalfeaturesupport.UnmarshalBER(reconstructed_deviceadditionalfeaturesupport, ber.ChildDecodeOptions(opts, "deviceadditionalfeaturesupport")...); unmErr != nil {
+				if unmErr := dec_deviceadditionalfeaturesupport.UnmarshalBER(reconstructed_deviceadditionalfeaturesupport, ber.ChildDecodeOptions(opts, "deviceAdditionalFeatureSupport")...); unmErr != nil {
 					return fmt.Errorf("decoding deviceAdditionalFeatureSupport: %w", unmErr)
 				}
 				v.DeviceAdditionalFeatureSupport = &dec_deviceadditionalfeaturesupport
@@ -8803,7 +8835,9 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 }
 
 // MarshalBER encodes DeviceAdditionalFeatureSupport to BER format.
-func (v *DeviceAdditionalFeatureSupport) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *DeviceAdditionalFeatureSupport) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: DeviceAdditionalFeatureSupport receiver is nil", ber.ErrInvalidValue)
 	}
@@ -8848,7 +8882,7 @@ func (v *DeviceAdditionalFeatureSupport) marshalBER(opts ...ber.EncodeOption) ([
 		children = append(children, enc_groupofdevicemanufactureroid...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -8916,6 +8950,8 @@ func (v *DeviceAdditionalFeatureSupport) UnmarshalBER(data []byte, opts ...ber.D
 	if v == nil {
 		return fmt.Errorf("%w: DeviceAdditionalFeatureSupport destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -9029,7 +9065,9 @@ func (v *DeviceAdditionalFeatureSupport) UnmarshalBER(data []byte, opts ...ber.D
 }
 
 // MarshalBERSegmentedCrlList encodes a SegmentedCrlList list to BER.
-func MarshalBERSegmentedCrlList(collection *SegmentedCrlList, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBERSegmentedCrlList(collection *SegmentedCrlList, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -9045,8 +9083,8 @@ func MarshalBERSegmentedCrlList(collection *SegmentedCrlList, opts ...ber.Encode
 func marshalBERSegmentedCrlList(collection *SegmentedCrlList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	var children []byte
-	for _, elem := range list {
-		enc, err := elem.MarshalBER(opts...)
+	for elemIndex, elem := range list {
+		enc, err := elem.MarshalBER(ber.ChildEncodeOptions(opts, fmt.Sprintf("element[%d]", elemIndex))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -9080,7 +9118,9 @@ func MarshalDERSegmentedCrlList(collection *SegmentedCrlList) ([]byte, error) {
 }
 
 // UnmarshalBERSegmentedCrlList decodes a SegmentedCrlList list from BER.
-func UnmarshalBERSegmentedCrlList(data []byte, opts ...ber.DecodeOption) (*SegmentedCrlList, error) {
+func UnmarshalBERSegmentedCrlList(data []byte, opts ...ber.DecodeOption) (returnValue *SegmentedCrlList, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -9095,17 +9135,13 @@ func UnmarshalBERSegmentedCrlList(data []byte, opts ...ber.DecodeOption) (*Segme
 	var result []CertificateList
 	offset := 0
 	for offset < len(content) {
+		elementData := content[offset:]
 		var elem CertificateList
-		_, n, _, tlvErr := ber.DecodeTLV(content[offset:], opts...)
+		_, n, _, tlvErr := ber.DecodeTLV(elementData, opts...)
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
 		}
-		if offset < 0 || offset >
-			len(content) || n < 0 || n > len(content[offset:]) {
-			return nil, fmt.Errorf("invalid BER content window")
-		}
-
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(elementData[:n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -9130,7 +9166,9 @@ func UnmarshalBERSegmentedCrlList(data []byte, opts ...ber.DecodeOption) (*Segme
 }
 
 // MarshalBER encodes ActivationCodeRetrievalInfo to BER format.
-func (v *ActivationCodeRetrievalInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ActivationCodeRetrievalInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ActivationCodeRetrievalInfo receiver is nil", ber.ErrInvalidValue)
 	}
@@ -9214,6 +9252,8 @@ func (v *ActivationCodeRetrievalInfo) UnmarshalBER(data []byte, opts ...ber.Deco
 	if v == nil {
 		return fmt.Errorf("%w: ActivationCodeRetrievalInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -9297,7 +9337,9 @@ func (v *ActivationCodeRetrievalInfo) UnmarshalBER(data []byte, opts ...ber.Deco
 }
 
 // MarshalBER encodes UpdateMetadataRequest to BER format.
-func (v *UpdateMetadataRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *UpdateMetadataRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: UpdateMetadataRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -9379,7 +9421,7 @@ func (v *UpdateMetadataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		if bitStringErr := ber.ValidateBitStringLength(v.ProfilePolicyRules.Bytes, v.ProfilePolicyRules.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profilePolicyRules", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -9395,13 +9437,13 @@ func (v *UpdateMetadataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		children = append(children, enc_profilepolicyrules...)
 	}
 	if v.ServiceSpecificDataStoredInEuicc != nil {
-		enc_servicespecificdatastoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc, opts...)
+		enc_servicespecificdatastoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc, ber.ChildEncodeOptions(opts, "serviceSpecificDataStoredInEuicc")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding serviceSpecificDataStoredInEuicc: %w", err)
 		}
 		if v.ServiceSpecificDataStoredInEuiccIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_servicespecificdatastoredineuicc)
+			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_servicespecificdatastoredineuicc)
 			if tlvErr_ != nil {
 				return nil, tlvErr_
 			}
@@ -9436,7 +9478,7 @@ func (v *UpdateMetadataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		children = append(children, enc_reserved103...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -9524,11 +9566,11 @@ func (v *UpdateMetadataRequest) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ProfilePolicyRules.Bytes, v.ProfilePolicyRules.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profilePolicyRules", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
-		enc_profilepolicyrules, encodeErr_enc_profilepolicyrules := ber.EncodeBitString(v.ProfilePolicyRules.Bytes, (8-(v.ProfilePolicyRules.BitLength%8))%8)
+		enc_profilepolicyrules, encodeErr_enc_profilepolicyrules := ber.EncodeDERNamedBitString(v.ProfilePolicyRules.Bytes, v.ProfilePolicyRules.BitLength)
 		if encodeErr_enc_profilepolicyrules != nil {
 			return nil, fmt.Errorf("encoding profilePolicyRules: %w", encodeErr_enc_profilepolicyrules)
 		}
@@ -9586,6 +9628,8 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if v == nil {
 		return fmt.Errorf("%w: UpdateMetadataRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -9874,7 +9918,9 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes InitialiseSecureChannelRequest to BER format.
-func (v *InitialiseSecureChannelRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *InitialiseSecureChannelRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: InitialiseSecureChannelRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -9914,7 +9960,7 @@ func (v *InitialiseSecureChannelRequest) marshalBER(opts ...ber.EncodeOption) ([
 	}
 	enc_transactionid = retagged_enc_transactionid
 	children = append(children, enc_transactionid...)
-	enc_controlreftemplate, err := v.ControlRefTemplate.MarshalBER(opts...)
+	enc_controlreftemplate, err := v.ControlRefTemplate.MarshalBER(ber.ChildEncodeOptions(opts, "controlRefTemplate")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding controlRefTemplate: %w", err)
 	}
@@ -9945,7 +9991,7 @@ func (v *InitialiseSecureChannelRequest) marshalBER(opts ...ber.EncodeOption) ([
 	enc_smdpsign = retagged_enc_smdpsign
 	children = append(children, enc_smdpsign...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -10044,6 +10090,8 @@ func (v *InitialiseSecureChannelRequest) UnmarshalBER(data []byte, opts ...ber.D
 	if v == nil {
 		return fmt.Errorf("%w: InitialiseSecureChannelRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -10247,7 +10295,9 @@ func (v *InitialiseSecureChannelRequest) UnmarshalBER(data []byte, opts ...ber.D
 }
 
 // MarshalBER encodes ControlRefTemplate to BER format.
-func (v *ControlRefTemplate) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ControlRefTemplate) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ControlRefTemplate receiver is nil", ber.ErrInvalidValue)
 	}
@@ -10308,7 +10358,7 @@ func (v *ControlRefTemplate) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	enc_hostid = retagged_enc_hostid
 	children = append(children, enc_hostid...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -10392,6 +10442,8 @@ func (v *ControlRefTemplate) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if v == nil {
 		return fmt.Errorf("%w: ControlRefTemplate destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -10541,7 +10593,9 @@ func (v *ControlRefTemplate) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 }
 
 // MarshalBER encodes ConfigureISDPRequest to BER format.
-func (v *ConfigureISDPRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ConfigureISDPRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ConfigureISDPRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -10557,7 +10611,7 @@ func (v *ConfigureISDPRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	}
 	var children []byte
 	if v.DpProprietaryData != nil {
-		enc_dpproprietarydata, err := v.DpProprietaryData.MarshalBER(opts...)
+		enc_dpproprietarydata, err := v.DpProprietaryData.MarshalBER(ber.ChildEncodeOptions(opts, "dpProprietaryData")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding dpProprietaryData: %w", err)
 		}
@@ -10569,7 +10623,7 @@ func (v *ConfigureISDPRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_dpproprietarydata...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -10625,6 +10679,8 @@ func (v *ConfigureISDPRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if v == nil {
 		return fmt.Errorf("%w: ConfigureISDPRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -10671,7 +10727,7 @@ func (v *ConfigureISDPRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 					return fmt.Errorf("decoding dpProprietaryData: %w", reconstructionErr_dpproprietarydata)
 				}
 				var dec_dpproprietarydata DpProprietaryData
-				if unmErr := dec_dpproprietarydata.UnmarshalBER(reconstructed_dpproprietarydata, ber.ChildDecodeOptions(opts, "dpproprietarydata")...); unmErr != nil {
+				if unmErr := dec_dpproprietarydata.UnmarshalBER(reconstructed_dpproprietarydata, ber.ChildDecodeOptions(opts, "dpProprietaryData")...); unmErr != nil {
 					return fmt.Errorf("decoding dpProprietaryData: %w", unmErr)
 				}
 				v.DpProprietaryData = &dec_dpproprietarydata
@@ -10712,7 +10768,9 @@ func (v *ConfigureISDPRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes DpProprietaryData to BER format.
-func (v *DpProprietaryData) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *DpProprietaryData) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: DpProprietaryData receiver is nil", ber.ErrInvalidValue)
 	}
@@ -10738,7 +10796,7 @@ func (v *DpProprietaryData) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 	enc_dpoid = retagged_enc_dpoid
 	children = append(children, enc_dpoid...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -10787,6 +10845,8 @@ func (v *DpProprietaryData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if v == nil {
 		return fmt.Errorf("%w: DpProprietaryData destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -10867,7 +10927,9 @@ func (v *DpProprietaryData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 }
 
 // MarshalBER encodes StoreMetadataRequest to BER format.
-func (v *StoreMetadataRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *StoreMetadataRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: StoreMetadataRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -10969,13 +11031,13 @@ func (v *StoreMetadataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_profileclass...)
 	}
 	if v.NotificationConfigurationInfo != nil {
-		enc_notificationconfigurationinfo, err := MarshalBERStoreMetadataRequestNotificationConfigurationInfo(v.NotificationConfigurationInfo, opts...)
+		enc_notificationconfigurationinfo, err := MarshalBERStoreMetadataRequestNotificationConfigurationInfo(v.NotificationConfigurationInfo, ber.ChildEncodeOptions(opts, "notificationConfigurationInfo")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding notificationConfigurationInfo: %w", err)
 		}
 		if v.NotificationConfigurationInfoIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_notificationconfigurationinfo)
+			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_notificationconfigurationinfo)
 			if tlvErr_ != nil {
 				return nil, tlvErr_
 			}
@@ -10996,7 +11058,7 @@ func (v *StoreMetadataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_notificationconfigurationinfo...)
 	}
 	if v.ProfileOwner != nil {
-		enc_profileowner, err := v.ProfileOwner.MarshalBER(opts...)
+		enc_profileowner, err := v.ProfileOwner.MarshalBER(ber.ChildEncodeOptions(opts, "profileOwner")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileOwner: %w", err)
 		}
@@ -11011,7 +11073,7 @@ func (v *StoreMetadataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if bitStringErr := ber.ValidateBitStringLength(v.ProfilePolicyRules.Bytes, v.ProfilePolicyRules.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profilePolicyRules", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -11027,13 +11089,13 @@ func (v *StoreMetadataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_profilepolicyrules...)
 	}
 	if v.ServiceSpecificDataStoredInEuicc != nil {
-		enc_servicespecificdatastoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc, opts...)
+		enc_servicespecificdatastoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc, ber.ChildEncodeOptions(opts, "serviceSpecificDataStoredInEuicc")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding serviceSpecificDataStoredInEuicc: %w", err)
 		}
 		if v.ServiceSpecificDataStoredInEuiccIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_servicespecificdatastoredineuicc)
+			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_servicespecificdatastoredineuicc)
 			if tlvErr_ != nil {
 				return nil, tlvErr_
 			}
@@ -11054,13 +11116,13 @@ func (v *StoreMetadataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_servicespecificdatastoredineuicc...)
 	}
 	if v.ServiceSpecificDataNotStoredInEuicc != nil {
-		enc_servicespecificdatanotstoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataNotStoredInEuicc, opts...)
+		enc_servicespecificdatanotstoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataNotStoredInEuicc, ber.ChildEncodeOptions(opts, "serviceSpecificDataNotStoredInEuicc")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding serviceSpecificDataNotStoredInEuicc: %w", err)
 		}
 		if v.ServiceSpecificDataNotStoredInEuiccIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_servicespecificdatanotstoredineuicc)
+			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_servicespecificdatanotstoredineuicc)
 			if tlvErr_ != nil {
 				return nil, tlvErr_
 			}
@@ -11109,7 +11171,7 @@ func (v *StoreMetadataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_fallbackallowed...)
 	}
 	if v.IotSpecificMetadata != nil {
-		enc_iotspecificmetadata, err := v.IotSpecificMetadata.MarshalBER(opts...)
+		enc_iotspecificmetadata, err := v.IotSpecificMetadata.MarshalBER(ber.ChildEncodeOptions(opts, "iotSpecificMetadata")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding iotSpecificMetadata: %w", err)
 		}
@@ -11121,7 +11183,7 @@ func (v *StoreMetadataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_iotspecificmetadata...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -11218,12 +11280,14 @@ func (v *StoreMetadataRequest) MarshalDER() ([]byte, error) {
 		if encodeErr_enc_profileclass != nil {
 			return nil, fmt.Errorf("encoding profileClass: %w", encodeErr_enc_profileclass)
 		}
-		retagged_enc_profileclass, tagErr_enc_profileclass := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 21, enc_profileclass)
-		if tagErr_enc_profileclass != nil {
-			return nil, fmt.Errorf("encoding profileClass: %w", tagErr_enc_profileclass)
+		if string(enc_profileclass) != "\x02\x01\x02" {
+			retagged_enc_profileclass, tagErr_enc_profileclass := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 21, enc_profileclass)
+			if tagErr_enc_profileclass != nil {
+				return nil, fmt.Errorf("encoding profileClass: %w", tagErr_enc_profileclass)
+			}
+			enc_profileclass = retagged_enc_profileclass
+			children = append(children, enc_profileclass...)
 		}
-		enc_profileclass = retagged_enc_profileclass
-		children = append(children, enc_profileclass...)
 	}
 	if v.NotificationConfigurationInfo != nil {
 		enc_notificationconfigurationinfo, err := MarshalDERStoreMetadataRequestNotificationConfigurationInfo(v.NotificationConfigurationInfo)
@@ -11256,11 +11320,11 @@ func (v *StoreMetadataRequest) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ProfilePolicyRules.Bytes, v.ProfilePolicyRules.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profilePolicyRules", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
-		enc_profilepolicyrules, encodeErr_enc_profilepolicyrules := ber.EncodeBitString(v.ProfilePolicyRules.Bytes, (8-(v.ProfilePolicyRules.BitLength%8))%8)
+		enc_profilepolicyrules, encodeErr_enc_profilepolicyrules := ber.EncodeDERNamedBitString(v.ProfilePolicyRules.Bytes, v.ProfilePolicyRules.BitLength)
 		if encodeErr_enc_profilepolicyrules != nil {
 			return nil, fmt.Errorf("encoding profilePolicyRules: %w", encodeErr_enc_profilepolicyrules)
 		}
@@ -11351,6 +11415,8 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if v == nil {
 		return fmt.Errorf("%w: StoreMetadataRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -11629,7 +11695,7 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 					return fmt.Errorf("decoding profileOwner: %w", reconstructionErr_profileowner)
 				}
 				var dec_profileowner OperatorId
-				if unmErr := dec_profileowner.UnmarshalBER(reconstructed_profileowner, ber.ChildDecodeOptions(opts, "profileowner")...); unmErr != nil {
+				if unmErr := dec_profileowner.UnmarshalBER(reconstructed_profileowner, ber.ChildDecodeOptions(opts, "profileOwner")...); unmErr != nil {
 					return fmt.Errorf("decoding profileOwner: %w", unmErr)
 				}
 				v.ProfileOwner = &dec_profileowner
@@ -11843,7 +11909,7 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 					return fmt.Errorf("decoding iotSpecificMetadata: %w", reconstructionErr_iotspecificmetadata)
 				}
 				var dec_iotspecificmetadata StoreMetadataRequestIotSpecificMetadata
-				if unmErr := dec_iotspecificmetadata.UnmarshalBER(reconstructed_iotspecificmetadata, ber.ChildDecodeOptions(opts, "iotspecificmetadata")...); unmErr != nil {
+				if unmErr := dec_iotspecificmetadata.UnmarshalBER(reconstructed_iotspecificmetadata, ber.ChildDecodeOptions(opts, "iotSpecificMetadata")...); unmErr != nil {
 					return fmt.Errorf("decoding iotSpecificMetadata: %w", unmErr)
 				}
 				v.IotSpecificMetadata = &dec_iotspecificmetadata
@@ -11884,7 +11950,9 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes NotificationConfigurationInformation to BER format.
-func (v *NotificationConfigurationInformation) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *NotificationConfigurationInformation) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: NotificationConfigurationInformation receiver is nil", ber.ErrInvalidValue)
 	}
@@ -11902,7 +11970,7 @@ func (v *NotificationConfigurationInformation) marshalBER(opts ...ber.EncodeOpti
 	if bitStringErr := ber.ValidateBitStringLength(v.ProfileManagementOperation.Bytes, v.ProfileManagementOperation.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "profileManagementOperation", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 	if v.ProfileManagementOperation.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -11927,7 +11995,7 @@ func (v *NotificationConfigurationInformation) marshalBER(opts ...ber.EncodeOpti
 	enc_notificationaddress = retagged_enc_notificationaddress
 	children = append(children, enc_notificationaddress...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -11951,11 +12019,11 @@ func (v *NotificationConfigurationInformation) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.ProfileManagementOperation.Bytes, v.ProfileManagementOperation.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "profileManagementOperation", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 	if v.ProfileManagementOperation.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
-	enc_profilemanagementoperation, encodeErr_enc_profilemanagementoperation := ber.EncodeBitString(v.ProfileManagementOperation.Bytes, (8-(v.ProfileManagementOperation.BitLength%8))%8)
+	enc_profilemanagementoperation, encodeErr_enc_profilemanagementoperation := ber.EncodeDERNamedBitString(v.ProfileManagementOperation.Bytes, v.ProfileManagementOperation.BitLength)
 	if encodeErr_enc_profilemanagementoperation != nil {
 		return nil, fmt.Errorf("encoding profileManagementOperation: %w", encodeErr_enc_profilemanagementoperation)
 	}
@@ -11996,6 +12064,8 @@ func (v *NotificationConfigurationInformation) UnmarshalBER(data []byte, opts ..
 	if v == nil {
 		return fmt.Errorf("%w: NotificationConfigurationInformation destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -12108,7 +12178,9 @@ func (v *NotificationConfigurationInformation) UnmarshalBER(data []byte, opts ..
 }
 
 // MarshalBERVendorSpecificExtension encodes a VendorSpecificExtension list to BER.
-func MarshalBERVendorSpecificExtension(collection *VendorSpecificExtension, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBERVendorSpecificExtension(collection *VendorSpecificExtension, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -12124,8 +12196,8 @@ func MarshalBERVendorSpecificExtension(collection *VendorSpecificExtension, opts
 func marshalBERVendorSpecificExtension(collection *VendorSpecificExtension, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	var children []byte
-	for _, elem := range list {
-		enc, err := elem.MarshalBER(opts...)
+	for elemIndex, elem := range list {
+		enc, err := elem.MarshalBER(ber.ChildEncodeOptions(opts, fmt.Sprintf("element[%d]", elemIndex))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -12159,7 +12231,9 @@ func MarshalDERVendorSpecificExtension(collection *VendorSpecificExtension) ([]b
 }
 
 // UnmarshalBERVendorSpecificExtension decodes a VendorSpecificExtension list from BER.
-func UnmarshalBERVendorSpecificExtension(data []byte, opts ...ber.DecodeOption) (*VendorSpecificExtension, error) {
+func UnmarshalBERVendorSpecificExtension(data []byte, opts ...ber.DecodeOption) (returnValue *VendorSpecificExtension, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -12174,17 +12248,13 @@ func UnmarshalBERVendorSpecificExtension(data []byte, opts ...ber.DecodeOption) 
 	var result []VendorSpecificExtensionElem
 	offset := 0
 	for offset < len(content) {
+		elementData := content[offset:]
 		var elem VendorSpecificExtensionElem
-		_, n, _, tlvErr := ber.DecodeTLV(content[offset:], opts...)
+		_, n, _, tlvErr := ber.DecodeTLV(elementData, opts...)
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
 		}
-		if offset < 0 || offset >
-			len(content) || n < 0 || n > len(content[offset:]) {
-			return nil, fmt.Errorf("invalid BER content window")
-		}
-
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(elementData[:n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -12209,7 +12279,9 @@ func UnmarshalBERVendorSpecificExtension(data []byte, opts ...ber.DecodeOption) 
 }
 
 // MarshalBER encodes ReplaceSessionKeysRequest to BER format.
-func (v *ReplaceSessionKeysRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ReplaceSessionKeysRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReplaceSessionKeysRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -12255,7 +12327,7 @@ func (v *ReplaceSessionKeysRequest) marshalBER(opts ...ber.EncodeOption) ([]byte
 	enc_ppkcmac = retagged_enc_ppkcmac
 	children = append(children, enc_ppkcmac...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -12329,6 +12401,8 @@ func (v *ReplaceSessionKeysRequest) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: ReplaceSessionKeysRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -12467,7 +12541,9 @@ func (v *ReplaceSessionKeysRequest) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes ISDRProprietaryApplicationTemplate to BER format.
-func (v *ISDRProprietaryApplicationTemplate) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ISDRProprietaryApplicationTemplate) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ISDRProprietaryApplicationTemplate receiver is nil", ber.ErrInvalidValue)
 	}
@@ -12501,7 +12577,7 @@ func (v *ISDRProprietaryApplicationTemplate) marshalBER(opts ...ber.EncodeOption
 		if bitStringErr := ber.ValidateBitStringLength(v.LpaeSupport.Bytes, v.LpaeSupport.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "lpaeSupport", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 		if v.LpaeSupport.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -12512,7 +12588,7 @@ func (v *ISDRProprietaryApplicationTemplate) marshalBER(opts ...ber.EncodeOption
 		children = append(children, enc_lpaesupport...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -12552,11 +12628,11 @@ func (v *ISDRProprietaryApplicationTemplate) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.LpaeSupport.Bytes, v.LpaeSupport.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "lpaeSupport", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 		if v.LpaeSupport.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
-		enc_lpaesupport, encodeErr_enc_lpaesupport := ber.EncodeBitString(v.LpaeSupport.Bytes, (8-(v.LpaeSupport.BitLength%8))%8)
+		enc_lpaesupport, encodeErr_enc_lpaesupport := ber.EncodeDERNamedBitString(v.LpaeSupport.Bytes, v.LpaeSupport.BitLength)
 		if encodeErr_enc_lpaesupport != nil {
 			return nil, fmt.Errorf("encoding lpaeSupport: %w", encodeErr_enc_lpaesupport)
 		}
@@ -12588,6 +12664,8 @@ func (v *ISDRProprietaryApplicationTemplate) UnmarshalBER(data []byte, opts ...b
 	if v == nil {
 		return fmt.Errorf("%w: ISDRProprietaryApplicationTemplate destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -12700,7 +12778,9 @@ func (v *ISDRProprietaryApplicationTemplate) UnmarshalBER(data []byte, opts ...b
 }
 
 // MarshalBER encodes LpaeActivationRequest to BER format.
-func (v *LpaeActivationRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *LpaeActivationRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: LpaeActivationRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -12718,7 +12798,7 @@ func (v *LpaeActivationRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	if bitStringErr := ber.ValidateBitStringLength(v.LpaeOption.Bytes, v.LpaeOption.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "lpaeOption", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 	if v.LpaeOption.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -12733,7 +12813,7 @@ func (v *LpaeActivationRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	enc_lpaeoption = retagged_enc_lpaeoption
 	children = append(children, enc_lpaeoption...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -12757,11 +12837,11 @@ func (v *LpaeActivationRequest) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.LpaeOption.Bytes, v.LpaeOption.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "lpaeOption", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 	if v.LpaeOption.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
-	enc_lpaeoption, encodeErr_enc_lpaeoption := ber.EncodeBitString(v.LpaeOption.Bytes, (8-(v.LpaeOption.BitLength%8))%8)
+	enc_lpaeoption, encodeErr_enc_lpaeoption := ber.EncodeDERNamedBitString(v.LpaeOption.Bytes, v.LpaeOption.BitLength)
 	if encodeErr_enc_lpaeoption != nil {
 		return nil, fmt.Errorf("encoding lpaeOption: %w", encodeErr_enc_lpaeoption)
 	}
@@ -12797,6 +12877,8 @@ func (v *LpaeActivationRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if v == nil {
 		return fmt.Errorf("%w: LpaeActivationRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -12884,7 +12966,9 @@ func (v *LpaeActivationRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes LpaeActivationResponse to BER format.
-func (v *LpaeActivationResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *LpaeActivationResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: LpaeActivationResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -12910,7 +12994,7 @@ func (v *LpaeActivationResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	enc_lpaeactivationresult = retagged_enc_lpaeactivationresult
 	children = append(children, enc_lpaeactivationresult...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -12964,6 +13048,8 @@ func (v *LpaeActivationResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	if v == nil {
 		return fmt.Errorf("%w: LpaeActivationResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -13052,7 +13138,9 @@ func (v *LpaeActivationResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 }
 
 // MarshalBER encodes EuiccConfiguredAddressesRequest to BER format.
-func (v *EuiccConfiguredAddressesRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *EuiccConfiguredAddressesRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: EuiccConfiguredAddressesRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -13068,7 +13156,7 @@ func (v *EuiccConfiguredAddressesRequest) marshalBER(opts ...ber.EncodeOption) (
 	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -13112,6 +13200,8 @@ func (v *EuiccConfiguredAddressesRequest) UnmarshalBER(data []byte, opts ...ber.
 	if v == nil {
 		return fmt.Errorf("%w: EuiccConfiguredAddressesRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -13168,7 +13258,9 @@ func (v *EuiccConfiguredAddressesRequest) UnmarshalBER(data []byte, opts ...ber.
 }
 
 // MarshalBER encodes EuiccConfiguredAddressesResponse to BER format.
-func (v *EuiccConfiguredAddressesResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *EuiccConfiguredAddressesResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: EuiccConfiguredAddressesResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -13206,7 +13298,7 @@ func (v *EuiccConfiguredAddressesResponse) marshalBER(opts ...ber.EncodeOption) 
 	enc_rootdsaddress = retagged_enc_rootdsaddress
 	children = append(children, enc_rootdsaddress...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -13272,6 +13364,8 @@ func (v *EuiccConfiguredAddressesResponse) UnmarshalBER(data []byte, opts ...ber
 	if v == nil {
 		return fmt.Errorf("%w: EuiccConfiguredAddressesResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -13381,7 +13475,9 @@ func (v *EuiccConfiguredAddressesResponse) UnmarshalBER(data []byte, opts ...ber
 }
 
 // MarshalBER encodes SetDefaultDpAddressRequest to BER format.
-func (v *SetDefaultDpAddressRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *SetDefaultDpAddressRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: SetDefaultDpAddressRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -13407,7 +13503,7 @@ func (v *SetDefaultDpAddressRequest) marshalBER(opts ...ber.EncodeOption) ([]byt
 	enc_defaultdpaddress = retagged_enc_defaultdpaddress
 	children = append(children, enc_defaultdpaddress...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -13461,6 +13557,8 @@ func (v *SetDefaultDpAddressRequest) UnmarshalBER(data []byte, opts ...ber.Decod
 	if v == nil {
 		return fmt.Errorf("%w: SetDefaultDpAddressRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -13545,7 +13643,9 @@ func (v *SetDefaultDpAddressRequest) UnmarshalBER(data []byte, opts ...ber.Decod
 }
 
 // MarshalBER encodes SetDefaultDpAddressResponse to BER format.
-func (v *SetDefaultDpAddressResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *SetDefaultDpAddressResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: SetDefaultDpAddressResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -13571,7 +13671,7 @@ func (v *SetDefaultDpAddressResponse) marshalBER(opts ...ber.EncodeOption) ([]by
 	enc_setdefaultdpaddressresult = retagged_enc_setdefaultdpaddressresult
 	children = append(children, enc_setdefaultdpaddressresult...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -13625,6 +13725,8 @@ func (v *SetDefaultDpAddressResponse) UnmarshalBER(data []byte, opts ...ber.Deco
 	if v == nil {
 		return fmt.Errorf("%w: SetDefaultDpAddressResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -13713,7 +13815,9 @@ func (v *SetDefaultDpAddressResponse) UnmarshalBER(data []byte, opts ...ber.Deco
 }
 
 // MarshalBER encodes PrepareDownloadRequest to BER format.
-func (v *PrepareDownloadRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *PrepareDownloadRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: PrepareDownloadRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -13728,7 +13832,7 @@ func (v *PrepareDownloadRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		return nil, err
 	}
 	var children []byte
-	enc_smdpsigned2, err := v.SmdpSigned2.MarshalBER(opts...)
+	enc_smdpsigned2, err := v.SmdpSigned2.MarshalBER(ber.ChildEncodeOptions(opts, "smdpSigned2")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding smdpSigned2: %w", err)
 	}
@@ -13755,13 +13859,13 @@ func (v *PrepareDownloadRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		}
 		children = append(children, enc_hashcc...)
 	}
-	enc_smdpcertificate, err := v.SmdpCertificate.MarshalBER(opts...)
+	enc_smdpcertificate, err := v.SmdpCertificate.MarshalBER(ber.ChildEncodeOptions(opts, "smdpCertificate")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding smdpCertificate: %w", err)
 	}
 	children = append(children, enc_smdpcertificate...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -13837,6 +13941,8 @@ func (v *PrepareDownloadRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	if v == nil {
 		return fmt.Errorf("%w: PrepareDownloadRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -13992,7 +14098,9 @@ func (v *PrepareDownloadRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 }
 
 // MarshalBER encodes SmdpSigned2 to BER format.
-func (v *SmdpSigned2) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *SmdpSigned2) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: SmdpSigned2 receiver is nil", ber.ErrInvalidValue)
 	}
@@ -14042,7 +14150,7 @@ func (v *SmdpSigned2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_bppeuiccotpk...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -14110,6 +14218,8 @@ func (v *SmdpSigned2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if v == nil {
 		return fmt.Errorf("%w: SmdpSigned2 destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -14240,7 +14350,9 @@ func (v *SmdpSigned2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 }
 
 // MarshalBER encodes PrepareDownloadResponse to BER format.
-func (v *PrepareDownloadResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *PrepareDownloadResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: PrepareDownloadResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -14259,7 +14371,7 @@ func (v *PrepareDownloadResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if v.DownloadResponseOk == nil {
 			return nil, fmt.Errorf("%w: choice PrepareDownloadResponse: downloadResponseOk is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.DownloadResponseOk.MarshalBER(opts...)
+		enc_0, err := v.DownloadResponseOk.MarshalBER(ber.ChildEncodeOptions(opts, "downloadResponseOk")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding downloadResponseOk: %w", err)
 		}
@@ -14280,7 +14392,7 @@ func (v *PrepareDownloadResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if v.DownloadResponseError == nil {
 			return nil, fmt.Errorf("%w: choice PrepareDownloadResponse: downloadResponseError is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.DownloadResponseError.MarshalBER(opts...)
+		enc_1, err := v.DownloadResponseError.MarshalBER(ber.ChildEncodeOptions(opts, "downloadResponseError")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding downloadResponseError: %w", err)
 		}
@@ -14372,6 +14484,8 @@ func (v *PrepareDownloadResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: PrepareDownloadResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -14431,7 +14545,7 @@ func (v *PrepareDownloadResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 			return reconstructionErr
 		}
 		var dec PrepareDownloadResponseOk
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "downloadResponseOk")...); unmErr != nil {
 			return fmt.Errorf("decoding downloadResponseOk: %w", unmErr)
 		}
 		v.DownloadResponseOk = &dec
@@ -14446,7 +14560,7 @@ func (v *PrepareDownloadResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 			return reconstructionErr
 		}
 		var dec PrepareDownloadResponseError
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "downloadResponseError")...); unmErr != nil {
 			return fmt.Errorf("decoding downloadResponseError: %w", unmErr)
 		}
 		v.DownloadResponseError = &dec
@@ -14457,7 +14571,9 @@ func (v *PrepareDownloadResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes PrepareDownloadResponseOk to BER format.
-func (v *PrepareDownloadResponseOk) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *PrepareDownloadResponseOk) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: PrepareDownloadResponseOk receiver is nil", ber.ErrInvalidValue)
 	}
@@ -14472,7 +14588,7 @@ func (v *PrepareDownloadResponseOk) marshalBER(opts ...ber.EncodeOption) ([]byte
 		return nil, err
 	}
 	var children []byte
-	enc_euiccsigned2, err := v.EuiccSigned2.MarshalBER(opts...)
+	enc_euiccsigned2, err := v.EuiccSigned2.MarshalBER(ber.ChildEncodeOptions(opts, "euiccSigned2")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccSigned2: %w", err)
 	}
@@ -14488,7 +14604,7 @@ func (v *PrepareDownloadResponseOk) marshalBER(opts ...ber.EncodeOption) ([]byte
 	enc_euiccsignature2 = retagged_enc_euiccsignature2
 	children = append(children, enc_euiccsignature2...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -14542,6 +14658,8 @@ func (v *PrepareDownloadResponseOk) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: PrepareDownloadResponseOk destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -14645,7 +14763,9 @@ func (v *PrepareDownloadResponseOk) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes EUICCSigned2 to BER format.
-func (v *EUICCSigned2) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *EUICCSigned2) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: EUICCSigned2 receiver is nil", ber.ErrInvalidValue)
 	}
@@ -14698,7 +14818,7 @@ func (v *EUICCSigned2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_hashcc...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -14774,6 +14894,8 @@ func (v *EUICCSigned2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if v == nil {
 		return fmt.Errorf("%w: EUICCSigned2 destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -14913,7 +15035,9 @@ func (v *EUICCSigned2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 }
 
 // MarshalBER encodes PrepareDownloadResponseError to BER format.
-func (v *PrepareDownloadResponseError) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *PrepareDownloadResponseError) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: PrepareDownloadResponseError receiver is nil", ber.ErrInvalidValue)
 	}
@@ -14949,7 +15073,7 @@ func (v *PrepareDownloadResponseError) marshalBER(opts ...ber.EncodeOption) ([]b
 	}
 	children = append(children, enc_downloaderrorcode...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -15008,6 +15132,8 @@ func (v *PrepareDownloadResponseError) UnmarshalBER(data []byte, opts ...ber.Dec
 	if v == nil {
 		return fmt.Errorf("%w: PrepareDownloadResponseError destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -15112,7 +15238,9 @@ func (v *PrepareDownloadResponseError) UnmarshalBER(data []byte, opts ...ber.Dec
 }
 
 // MarshalBER encodes GetEuiccChallengeRequest to BER format.
-func (v *GetEuiccChallengeRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *GetEuiccChallengeRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: GetEuiccChallengeRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -15128,7 +15256,7 @@ func (v *GetEuiccChallengeRequest) marshalBER(opts ...ber.EncodeOption) ([]byte,
 	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -15172,6 +15300,8 @@ func (v *GetEuiccChallengeRequest) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: GetEuiccChallengeRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -15228,7 +15358,9 @@ func (v *GetEuiccChallengeRequest) UnmarshalBER(data []byte, opts ...ber.DecodeO
 }
 
 // MarshalBER encodes GetEuiccChallengeResponse to BER format.
-func (v *GetEuiccChallengeResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *GetEuiccChallengeResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: GetEuiccChallengeResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -15259,7 +15391,7 @@ func (v *GetEuiccChallengeResponse) marshalBER(opts ...ber.EncodeOption) ([]byte
 	enc_euiccchallenge = retagged_enc_euiccchallenge
 	children = append(children, enc_euiccchallenge...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -15318,6 +15450,8 @@ func (v *GetEuiccChallengeResponse) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: GetEuiccChallengeResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -15406,7 +15540,9 @@ func (v *GetEuiccChallengeResponse) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes GetEuiccInfo1Request to BER format.
-func (v *GetEuiccInfo1Request) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *GetEuiccInfo1Request) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: GetEuiccInfo1Request receiver is nil", ber.ErrInvalidValue)
 	}
@@ -15422,7 +15558,7 @@ func (v *GetEuiccInfo1Request) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -15466,6 +15602,8 @@ func (v *GetEuiccInfo1Request) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if v == nil {
 		return fmt.Errorf("%w: GetEuiccInfo1Request destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -15522,7 +15660,9 @@ func (v *GetEuiccInfo1Request) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes GetEuiccInfo2Request to BER format.
-func (v *GetEuiccInfo2Request) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *GetEuiccInfo2Request) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: GetEuiccInfo2Request receiver is nil", ber.ErrInvalidValue)
 	}
@@ -15538,7 +15678,7 @@ func (v *GetEuiccInfo2Request) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -15582,6 +15722,8 @@ func (v *GetEuiccInfo2Request) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if v == nil {
 		return fmt.Errorf("%w: GetEuiccInfo2Request destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -15638,7 +15780,9 @@ func (v *GetEuiccInfo2Request) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes EUICCInfo1 to BER format.
-func (v *EUICCInfo1) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *EUICCInfo1) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: EUICCInfo1 receiver is nil", ber.ErrInvalidValue)
 	}
@@ -15671,13 +15815,13 @@ func (v *EUICCInfo1) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if v.EuiccCiPKIdListForVerification == nil {
 		return nil, fmt.Errorf("encoding euiccCiPKIdListForVerification: %w: required collection is nil", ber.ErrInvalidValue)
 	}
-	enc_euicccipkidlistforverification, err := MarshalBEREUICCInfo1EuiccCiPKIdListForVerification(v.EuiccCiPKIdListForVerification, opts...)
+	enc_euicccipkidlistforverification, err := MarshalBEREUICCInfo1EuiccCiPKIdListForVerification(v.EuiccCiPKIdListForVerification, ber.ChildEncodeOptions(opts, "euiccCiPKIdListForVerification")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccCiPKIdListForVerification: %w", err)
 	}
 	if v.EuiccCiPKIdListForVerificationIndef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_euicccipkidlistforverification)
+		_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_euicccipkidlistforverification)
 		if tlvErr_ != nil {
 			return nil, tlvErr_
 		}
@@ -15699,13 +15843,13 @@ func (v *EUICCInfo1) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if v.EuiccCiPKIdListForSigning == nil {
 		return nil, fmt.Errorf("encoding euiccCiPKIdListForSigning: %w: required collection is nil", ber.ErrInvalidValue)
 	}
-	enc_euicccipkidlistforsigning, err := MarshalBEREUICCInfo1EuiccCiPKIdListForSigning(v.EuiccCiPKIdListForSigning, opts...)
+	enc_euicccipkidlistforsigning, err := MarshalBEREUICCInfo1EuiccCiPKIdListForSigning(v.EuiccCiPKIdListForSigning, ber.ChildEncodeOptions(opts, "euiccCiPKIdListForSigning")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccCiPKIdListForSigning: %w", err)
 	}
 	if v.EuiccCiPKIdListForSigningIndef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_euicccipkidlistforsigning)
+		_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_euicccipkidlistforsigning)
 		if tlvErr_ != nil {
 			return nil, tlvErr_
 		}
@@ -15725,7 +15869,7 @@ func (v *EUICCInfo1) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	children = append(children, enc_euicccipkidlistforsigning...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -15810,6 +15954,8 @@ func (v *EUICCInfo1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 	if v == nil {
 		return fmt.Errorf("%w: EUICCInfo1 destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -15986,7 +16132,9 @@ func (v *EUICCInfo1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 }
 
 // MarshalBER encodes EUICCInfo2 to BER format.
-func (v *EUICCInfo2) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *EUICCInfo2) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: EUICCInfo2 receiver is nil", ber.ErrInvalidValue)
 	}
@@ -16059,7 +16207,7 @@ func (v *EUICCInfo2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(v.UiccCapability.Bytes, v.UiccCapability.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "uiccCapability", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 	if v.UiccCapability.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -16110,7 +16258,7 @@ func (v *EUICCInfo2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(v.RspCapability.Bytes, v.RspCapability.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "rspCapability", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 	if v.RspCapability.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -16127,13 +16275,13 @@ func (v *EUICCInfo2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if v.EuiccCiPKIdListForVerification == nil {
 		return nil, fmt.Errorf("encoding euiccCiPKIdListForVerification: %w: required collection is nil", ber.ErrInvalidValue)
 	}
-	enc_euicccipkidlistforverification, err := MarshalBEREUICCInfo2EuiccCiPKIdListForVerification(v.EuiccCiPKIdListForVerification, opts...)
+	enc_euicccipkidlistforverification, err := MarshalBEREUICCInfo2EuiccCiPKIdListForVerification(v.EuiccCiPKIdListForVerification, ber.ChildEncodeOptions(opts, "euiccCiPKIdListForVerification")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccCiPKIdListForVerification: %w", err)
 	}
 	if v.EuiccCiPKIdListForVerificationIndef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_euicccipkidlistforverification)
+		_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_euicccipkidlistforverification)
 		if tlvErr_ != nil {
 			return nil, tlvErr_
 		}
@@ -16155,13 +16303,13 @@ func (v *EUICCInfo2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if v.EuiccCiPKIdListForSigning == nil {
 		return nil, fmt.Errorf("encoding euiccCiPKIdListForSigning: %w: required collection is nil", ber.ErrInvalidValue)
 	}
-	enc_euicccipkidlistforsigning, err := MarshalBEREUICCInfo2EuiccCiPKIdListForSigning(v.EuiccCiPKIdListForSigning, opts...)
+	enc_euicccipkidlistforsigning, err := MarshalBEREUICCInfo2EuiccCiPKIdListForSigning(v.EuiccCiPKIdListForSigning, ber.ChildEncodeOptions(opts, "euiccCiPKIdListForSigning")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccCiPKIdListForSigning: %w", err)
 	}
 	if v.EuiccCiPKIdListForSigningIndef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_euicccipkidlistforsigning)
+		_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_euicccipkidlistforsigning)
 		if tlvErr_ != nil {
 			return nil, tlvErr_
 		}
@@ -16196,7 +16344,7 @@ func (v *EUICCInfo2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.ForbiddenProfilePolicyRules.Bytes, v.ForbiddenProfilePolicyRules.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "forbiddenProfilePolicyRules", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 		if v.ForbiddenProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -16232,7 +16380,7 @@ func (v *EUICCInfo2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	children = append(children, enc_sasacreditationnumber...)
 	if v.CertificationDataObject != nil {
-		enc_certificationdataobject, err := v.CertificationDataObject.MarshalBER(opts...)
+		enc_certificationdataobject, err := v.CertificationDataObject.MarshalBER(ber.ChildEncodeOptions(opts, "certificationDataObject")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding certificationDataObject: %w", err)
 		}
@@ -16247,7 +16395,7 @@ func (v *EUICCInfo2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.TreProperties.Bytes, v.TreProperties.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "treProperties", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 		if v.TreProperties.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -16275,13 +16423,13 @@ func (v *EUICCInfo2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_treproductreference...)
 	}
 	if v.AdditionalEuiccProfilePackageVersions != nil {
-		enc_additionaleuiccprofilepackageversions, err := MarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions(v.AdditionalEuiccProfilePackageVersions, opts...)
+		enc_additionaleuiccprofilepackageversions, err := MarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions(v.AdditionalEuiccProfilePackageVersions, ber.ChildEncodeOptions(opts, "additionalEuiccProfilePackageVersions")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding additionalEuiccProfilePackageVersions: %w", err)
 		}
 		if v.AdditionalEuiccProfilePackageVersionsIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_additionaleuiccprofilepackageversions)
+			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_additionaleuiccprofilepackageversions)
 			if tlvErr_ != nil {
 				return nil, tlvErr_
 			}
@@ -16314,13 +16462,13 @@ func (v *EUICCInfo2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_lpamode...)
 	}
 	if v.EuiccCiPKIdListForSigningV3 != nil {
-		enc_euicccipkidlistforsigningv3, err := MarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3(v.EuiccCiPKIdListForSigningV3, opts...)
+		enc_euicccipkidlistforsigningv3, err := MarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3(v.EuiccCiPKIdListForSigningV3, ber.ChildEncodeOptions(opts, "euiccCiPKIdListForSigningV3")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding euiccCiPKIdListForSigningV3: %w", err)
 		}
 		if v.EuiccCiPKIdListForSigningV3Indef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_euicccipkidlistforsigningv3)
+			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_euicccipkidlistforsigningv3)
 			if tlvErr_ != nil {
 				return nil, tlvErr_
 			}
@@ -16375,7 +16523,7 @@ func (v *EUICCInfo2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_highestsvn...)
 	}
 	if v.IotSpecificInfo != nil {
-		enc_iotspecificinfo, err := v.IotSpecificInfo.MarshalBER(opts...)
+		enc_iotspecificinfo, err := v.IotSpecificInfo.MarshalBER(ber.ChildEncodeOptions(opts, "iotSpecificInfo")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding iotSpecificInfo: %w", err)
 		}
@@ -16404,7 +16552,7 @@ func (v *EUICCInfo2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_euiccminimumsecuritylevel...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -16483,11 +16631,11 @@ func (v *EUICCInfo2) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.UiccCapability.Bytes, v.UiccCapability.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "uiccCapability", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 	if v.UiccCapability.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
-	enc_uicccapability, encodeErr_enc_uicccapability := ber.EncodeBitString(v.UiccCapability.Bytes, (8-(v.UiccCapability.BitLength%8))%8)
+	enc_uicccapability, encodeErr_enc_uicccapability := ber.EncodeDERNamedBitString(v.UiccCapability.Bytes, v.UiccCapability.BitLength)
 	if encodeErr_enc_uicccapability != nil {
 		return nil, fmt.Errorf("encoding uiccCapability: %w", encodeErr_enc_uicccapability)
 	}
@@ -16537,11 +16685,11 @@ func (v *EUICCInfo2) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.RspCapability.Bytes, v.RspCapability.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "rspCapability", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 	if v.RspCapability.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
-	enc_rspcapability, encodeErr_enc_rspcapability := ber.EncodeBitString(v.RspCapability.Bytes, (8-(v.RspCapability.BitLength%8))%8)
+	enc_rspcapability, encodeErr_enc_rspcapability := ber.EncodeDERNamedBitString(v.RspCapability.Bytes, v.RspCapability.BitLength)
 	if encodeErr_enc_rspcapability != nil {
 		return nil, fmt.Errorf("encoding rspCapability: %w", encodeErr_enc_rspcapability)
 	}
@@ -16596,11 +16744,11 @@ func (v *EUICCInfo2) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ForbiddenProfilePolicyRules.Bytes, v.ForbiddenProfilePolicyRules.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "forbiddenProfilePolicyRules", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 		if v.ForbiddenProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
-		enc_forbiddenprofilepolicyrules, encodeErr_enc_forbiddenprofilepolicyrules := ber.EncodeBitString(v.ForbiddenProfilePolicyRules.Bytes, (8-(v.ForbiddenProfilePolicyRules.BitLength%8))%8)
+		enc_forbiddenprofilepolicyrules, encodeErr_enc_forbiddenprofilepolicyrules := ber.EncodeDERNamedBitString(v.ForbiddenProfilePolicyRules.Bytes, v.ForbiddenProfilePolicyRules.BitLength)
 		if encodeErr_enc_forbiddenprofilepolicyrules != nil {
 			return nil, fmt.Errorf("encoding forbiddenProfilePolicyRules: %w", encodeErr_enc_forbiddenprofilepolicyrules)
 		}
@@ -16650,11 +16798,11 @@ func (v *EUICCInfo2) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.TreProperties.Bytes, v.TreProperties.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "treProperties", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 		if v.TreProperties.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
-		enc_treproperties, encodeErr_enc_treproperties := ber.EncodeBitString(v.TreProperties.Bytes, (8-(v.TreProperties.BitLength%8))%8)
+		enc_treproperties, encodeErr_enc_treproperties := ber.EncodeDERNamedBitString(v.TreProperties.Bytes, v.TreProperties.BitLength)
 		if encodeErr_enc_treproperties != nil {
 			return nil, fmt.Errorf("encoding treProperties: %w", encodeErr_enc_treproperties)
 		}
@@ -16802,6 +16950,8 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 	if v == nil {
 		return fmt.Errorf("%w: EUICCInfo2 destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -17295,7 +17445,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 					return fmt.Errorf("decoding certificationDataObject: %w", reconstructionErr_certificationdataobject)
 				}
 				var dec_certificationdataobject CertificationDataObject
-				if unmErr := dec_certificationdataobject.UnmarshalBER(reconstructed_certificationdataobject, ber.ChildDecodeOptions(opts, "certificationdataobject")...); unmErr != nil {
+				if unmErr := dec_certificationdataobject.UnmarshalBER(reconstructed_certificationdataobject, ber.ChildDecodeOptions(opts, "certificationDataObject")...); unmErr != nil {
 					return fmt.Errorf("decoding certificationDataObject: %w", unmErr)
 				}
 				v.CertificationDataObject = &dec_certificationdataobject
@@ -17563,7 +17713,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 					return fmt.Errorf("decoding iotSpecificInfo: %w", reconstructionErr_iotspecificinfo)
 				}
 				var dec_iotspecificinfo IoTSpecificInfo
-				if unmErr := dec_iotspecificinfo.UnmarshalBER(reconstructed_iotspecificinfo, ber.ChildDecodeOptions(opts, "iotspecificinfo")...); unmErr != nil {
+				if unmErr := dec_iotspecificinfo.UnmarshalBER(reconstructed_iotspecificinfo, ber.ChildDecodeOptions(opts, "iotSpecificInfo")...); unmErr != nil {
 					return fmt.Errorf("decoding iotSpecificInfo: %w", unmErr)
 				}
 				v.IotSpecificInfo = &dec_iotspecificinfo
@@ -17637,7 +17787,9 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 }
 
 // MarshalBER encodes CertificationDataObject to BER format.
-func (v *CertificationDataObject) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *CertificationDataObject) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: CertificationDataObject receiver is nil", ber.ErrInvalidValue)
 	}
@@ -17673,7 +17825,7 @@ func (v *CertificationDataObject) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	enc_discoverybaseurl = retagged_enc_discoverybaseurl
 	children = append(children, enc_discoverybaseurl...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -17732,6 +17884,8 @@ func (v *CertificationDataObject) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: CertificationDataObject destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -17839,7 +17993,9 @@ func (v *CertificationDataObject) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes IoTSpecificInfo to BER format.
-func (v *IoTSpecificInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *IoTSpecificInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: IoTSpecificInfo receiver is nil", ber.ErrInvalidValue)
 	}
@@ -17855,7 +18011,7 @@ func (v *IoTSpecificInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -17894,6 +18050,8 @@ func (v *IoTSpecificInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 	if v == nil {
 		return fmt.Errorf("%w: IoTSpecificInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -17947,7 +18105,9 @@ func (v *IoTSpecificInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 }
 
 // MarshalBER encodes ListNotificationRequest to BER format.
-func (v *ListNotificationRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ListNotificationRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ListNotificationRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -17966,7 +18126,7 @@ func (v *ListNotificationRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if bitStringErr := ber.ValidateBitStringLength(v.ProfileManagementOperation.Bytes, v.ProfileManagementOperation.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profileManagementOperation", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 		if v.ProfileManagementOperation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -17982,7 +18142,7 @@ func (v *ListNotificationRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		children = append(children, enc_profilemanagementoperation...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -18007,11 +18167,11 @@ func (v *ListNotificationRequest) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ProfileManagementOperation.Bytes, v.ProfileManagementOperation.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profileManagementOperation", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 		if v.ProfileManagementOperation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
-		enc_profilemanagementoperation, encodeErr_enc_profilemanagementoperation := ber.EncodeBitString(v.ProfileManagementOperation.Bytes, (8-(v.ProfileManagementOperation.BitLength%8))%8)
+		enc_profilemanagementoperation, encodeErr_enc_profilemanagementoperation := ber.EncodeDERNamedBitString(v.ProfileManagementOperation.Bytes, v.ProfileManagementOperation.BitLength)
 		if encodeErr_enc_profilemanagementoperation != nil {
 			return nil, fmt.Errorf("encoding profileManagementOperation: %w", encodeErr_enc_profilemanagementoperation)
 		}
@@ -18048,6 +18208,8 @@ func (v *ListNotificationRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: ListNotificationRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -18136,7 +18298,9 @@ func (v *ListNotificationRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes ListNotificationResponse to BER format.
-func (v *ListNotificationResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ListNotificationResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ListNotificationResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -18152,7 +18316,7 @@ func (v *ListNotificationResponse) marshalBER(opts ...ber.EncodeOption) ([]byte,
 	}
 	switch v.Choice {
 	case ListNotificationResponseChoiceNotificationMetadataList:
-		enc_0, err := MarshalBERListNotificationResponseNotificationMetadataList(v.NotificationMetadataList, opts...)
+		enc_0, err := MarshalBERListNotificationResponseNotificationMetadataList(v.NotificationMetadataList, ber.ChildEncodeOptions(opts, "notificationMetadataList")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding notificationMetadataList: %w", err)
 		}
@@ -18238,6 +18402,8 @@ func (v *ListNotificationResponse) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: ListNotificationResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -18323,7 +18489,9 @@ func (v *ListNotificationResponse) UnmarshalBER(data []byte, opts ...ber.DecodeO
 }
 
 // MarshalBER encodes NotificationMetadata to BER format.
-func (v *NotificationMetadata) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *NotificationMetadata) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: NotificationMetadata receiver is nil", ber.ErrInvalidValue)
 	}
@@ -18354,7 +18522,7 @@ func (v *NotificationMetadata) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	if bitStringErr := ber.ValidateBitStringLength(v.ProfileManagementOperation.Bytes, v.ProfileManagementOperation.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "profileManagementOperation", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 	if v.ProfileManagementOperation.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -18391,7 +18559,7 @@ func (v *NotificationMetadata) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_iccid...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -18428,11 +18596,11 @@ func (v *NotificationMetadata) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.ProfileManagementOperation.Bytes, v.ProfileManagementOperation.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "profileManagementOperation", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 	if v.ProfileManagementOperation.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
-	enc_profilemanagementoperation, encodeErr_enc_profilemanagementoperation := ber.EncodeBitString(v.ProfileManagementOperation.Bytes, (8-(v.ProfileManagementOperation.BitLength%8))%8)
+	enc_profilemanagementoperation, encodeErr_enc_profilemanagementoperation := ber.EncodeDERNamedBitString(v.ProfileManagementOperation.Bytes, v.ProfileManagementOperation.BitLength)
 	if encodeErr_enc_profilemanagementoperation != nil {
 		return nil, fmt.Errorf("encoding profileManagementOperation: %w", encodeErr_enc_profilemanagementoperation)
 	}
@@ -18490,6 +18658,8 @@ func (v *NotificationMetadata) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if v == nil {
 		return fmt.Errorf("%w: NotificationMetadata destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -18652,7 +18822,9 @@ func (v *NotificationMetadata) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes RetrieveNotificationsListRequest to BER format.
-func (v *RetrieveNotificationsListRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *RetrieveNotificationsListRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: RetrieveNotificationsListRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -18668,7 +18840,7 @@ func (v *RetrieveNotificationsListRequest) marshalBER(opts ...ber.EncodeOption) 
 	}
 	var children []byte
 	if v.SearchCriteria != nil {
-		enc_searchcriteria, err := v.SearchCriteria.MarshalBER(opts...)
+		enc_searchcriteria, err := v.SearchCriteria.MarshalBER(ber.ChildEncodeOptions(opts, "searchCriteria")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding searchCriteria: %w", err)
 		}
@@ -18682,7 +18854,7 @@ func (v *RetrieveNotificationsListRequest) marshalBER(opts ...ber.EncodeOption) 
 		children = append(children, enc_searchcriteria...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -18740,6 +18912,8 @@ func (v *RetrieveNotificationsListRequest) UnmarshalBER(data []byte, opts ...ber
 	if v == nil {
 		return fmt.Errorf("%w: RetrieveNotificationsListRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -18783,7 +18957,7 @@ func (v *RetrieveNotificationsListRequest) UnmarshalBER(data []byte, opts ...ber
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_searchcriteria RetrieveNotificationsListRequestSearchCriteria
-				if unmErr := dec_searchcriteria.UnmarshalBER(innerData_searchcriteria, ber.ChildDecodeOptions(opts, "searchcriteria")...); unmErr != nil {
+				if unmErr := dec_searchcriteria.UnmarshalBER(innerData_searchcriteria, ber.ChildDecodeOptions(opts, "searchCriteria")...); unmErr != nil {
 					return fmt.Errorf("decoding searchCriteria: %w", unmErr)
 				}
 				v.SearchCriteria = &dec_searchcriteria
@@ -18823,7 +18997,9 @@ func (v *RetrieveNotificationsListRequest) UnmarshalBER(data []byte, opts ...ber
 }
 
 // MarshalBER encodes RetrieveNotificationsListResponse to BER format.
-func (v *RetrieveNotificationsListResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *RetrieveNotificationsListResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: RetrieveNotificationsListResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -18839,7 +19015,7 @@ func (v *RetrieveNotificationsListResponse) marshalBER(opts ...ber.EncodeOption)
 	}
 	switch v.Choice {
 	case RetrieveNotificationsListResponseChoiceNotificationList:
-		enc_0, err := MarshalBERRetrieveNotificationsListResponseNotificationList(v.NotificationList, opts...)
+		enc_0, err := MarshalBERRetrieveNotificationsListResponseNotificationList(v.NotificationList, ber.ChildEncodeOptions(opts, "notificationList")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding notificationList: %w", err)
 		}
@@ -18925,6 +19101,8 @@ func (v *RetrieveNotificationsListResponse) UnmarshalBER(data []byte, opts ...be
 	if v == nil {
 		return fmt.Errorf("%w: RetrieveNotificationsListResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -19010,7 +19188,9 @@ func (v *RetrieveNotificationsListResponse) UnmarshalBER(data []byte, opts ...be
 }
 
 // MarshalBER encodes PendingNotification to BER format.
-func (v *PendingNotification) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *PendingNotification) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: PendingNotification receiver is nil", ber.ErrInvalidValue)
 	}
@@ -19029,7 +19209,7 @@ func (v *PendingNotification) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		if v.ProfileInstallationResult == nil {
 			return nil, fmt.Errorf("%w: choice PendingNotification: profileInstallationResult is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.ProfileInstallationResult.MarshalBER(opts...)
+		enc_0, err := v.ProfileInstallationResult.MarshalBER(ber.ChildEncodeOptions(opts, "profileInstallationResult")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileInstallationResult: %w", err)
 		}
@@ -19038,7 +19218,7 @@ func (v *PendingNotification) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		if v.OtherSignedNotification == nil {
 			return nil, fmt.Errorf("%w: choice PendingNotification: otherSignedNotification is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.OtherSignedNotification.MarshalBER(opts...)
+		enc_1, err := v.OtherSignedNotification.MarshalBER(ber.ChildEncodeOptions(opts, "otherSignedNotification")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding otherSignedNotification: %w", err)
 		}
@@ -19094,6 +19274,8 @@ func (v *PendingNotification) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: PendingNotification destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -19132,14 +19314,14 @@ func (v *PendingNotification) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 55 && peekTag.Constructed == true {
 		v.Choice = PendingNotificationChoiceProfileInstallationResult
 		var dec ProfileInstallationResult
-		if unmErr := dec.UnmarshalBER(choiceData, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(choiceData, ber.ChildDecodeOptions(opts, "profileInstallationResult")...); unmErr != nil {
 			return fmt.Errorf("decoding profileInstallationResult: %w", unmErr)
 		}
 		v.ProfileInstallationResult = &dec
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 && peekTag.Constructed == true {
 		v.Choice = PendingNotificationChoiceOtherSignedNotification
 		var dec OtherSignedNotification
-		if unmErr := dec.UnmarshalBER(choiceData, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(choiceData, ber.ChildDecodeOptions(opts, "otherSignedNotification")...); unmErr != nil {
 			return fmt.Errorf("decoding otherSignedNotification: %w", unmErr)
 		}
 		v.OtherSignedNotification = &dec
@@ -19150,7 +19332,9 @@ func (v *PendingNotification) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBER encodes OtherSignedNotification to BER format.
-func (v *OtherSignedNotification) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *OtherSignedNotification) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: OtherSignedNotification receiver is nil", ber.ErrInvalidValue)
 	}
@@ -19165,7 +19349,7 @@ func (v *OtherSignedNotification) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		return nil, err
 	}
 	var children []byte
-	enc_tbsothernotification, err := v.TbsOtherNotification.MarshalBER(opts...)
+	enc_tbsothernotification, err := v.TbsOtherNotification.MarshalBER(ber.ChildEncodeOptions(opts, "tbsOtherNotification")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding tbsOtherNotification: %w", err)
 	}
@@ -19180,18 +19364,18 @@ func (v *OtherSignedNotification) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	enc_euiccnotificationsignature = retagged_enc_euiccnotificationsignature
 	children = append(children, enc_euiccnotificationsignature...)
-	enc_euicccertificate, err := v.EuiccCertificate.MarshalBER(opts...)
+	enc_euicccertificate, err := v.EuiccCertificate.MarshalBER(ber.ChildEncodeOptions(opts, "euiccCertificate")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccCertificate: %w", err)
 	}
 	children = append(children, enc_euicccertificate...)
-	enc_eumcertificate, err := v.EumCertificate.MarshalBER(opts...)
+	enc_eumcertificate, err := v.EumCertificate.MarshalBER(ber.ChildEncodeOptions(opts, "eumCertificate")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding eumCertificate: %w", err)
 	}
 	children = append(children, enc_eumcertificate...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -19255,6 +19439,8 @@ func (v *OtherSignedNotification) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: OtherSignedNotification destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -19407,7 +19593,9 @@ func (v *OtherSignedNotification) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes NotificationSentRequest to BER format.
-func (v *NotificationSentRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *NotificationSentRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: NotificationSentRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -19436,7 +19624,7 @@ func (v *NotificationSentRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	enc_seqnumber = retagged_enc_seqnumber
 	children = append(children, enc_seqnumber...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -19493,6 +19681,8 @@ func (v *NotificationSentRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: NotificationSentRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -19576,7 +19766,9 @@ func (v *NotificationSentRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes NotificationSentResponse to BER format.
-func (v *NotificationSentResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *NotificationSentResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: NotificationSentResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -19602,7 +19794,7 @@ func (v *NotificationSentResponse) marshalBER(opts ...ber.EncodeOption) ([]byte,
 	enc_deletenotificationstatus = retagged_enc_deletenotificationstatus
 	children = append(children, enc_deletenotificationstatus...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -19656,6 +19848,8 @@ func (v *NotificationSentResponse) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: NotificationSentResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -19744,7 +19938,9 @@ func (v *NotificationSentResponse) UnmarshalBER(data []byte, opts ...ber.DecodeO
 }
 
 // MarshalBER encodes LoadCRLRequest to BER format.
-func (v *LoadCRLRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *LoadCRLRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: LoadCRLRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -19759,7 +19955,7 @@ func (v *LoadCRLRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		return nil, err
 	}
 	var children []byte
-	enc_crl, err := v.Crl.MarshalBER(opts...)
+	enc_crl, err := v.Crl.MarshalBER(ber.ChildEncodeOptions(opts, "crl")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding crl: %w", err)
 	}
@@ -19770,7 +19966,7 @@ func (v *LoadCRLRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	enc_crl = retagged_enc_crl
 	children = append(children, enc_crl...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -19824,6 +20020,8 @@ func (v *LoadCRLRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	if v == nil {
 		return fmt.Errorf("%w: LoadCRLRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -19909,7 +20107,9 @@ func (v *LoadCRLRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 }
 
 // MarshalBER encodes LoadCRLResponse to BER format.
-func (v *LoadCRLResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *LoadCRLResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: LoadCRLResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -19928,7 +20128,7 @@ func (v *LoadCRLResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.LoadCRLResponseOk == nil {
 			return nil, fmt.Errorf("%w: choice LoadCRLResponse: loadCRLResponseOk is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.LoadCRLResponseOk.MarshalBER(opts...)
+		enc_0, err := v.LoadCRLResponseOk.MarshalBER(ber.ChildEncodeOptions(opts, "loadCRLResponseOk")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding loadCRLResponseOk: %w", err)
 		}
@@ -20017,6 +20217,8 @@ func (v *LoadCRLResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 	if v == nil {
 		return fmt.Errorf("%w: LoadCRLResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -20076,7 +20278,7 @@ func (v *LoadCRLResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 			return reconstructionErr
 		}
 		var dec LoadCRLResponseOk
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "loadCRLResponseOk")...); unmErr != nil {
 			return fmt.Errorf("decoding loadCRLResponseOk: %w", unmErr)
 		}
 		v.LoadCRLResponseOk = &dec
@@ -20102,7 +20304,9 @@ func (v *LoadCRLResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 }
 
 // MarshalBER encodes LoadCRLResponseOk to BER format.
-func (v *LoadCRLResponseOk) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *LoadCRLResponseOk) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: LoadCRLResponseOk receiver is nil", ber.ErrInvalidValue)
 	}
@@ -20118,13 +20322,13 @@ func (v *LoadCRLResponseOk) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 	}
 	var children []byte
 	if v.MissingParts != nil {
-		enc_missingparts, err := MarshalBERLoadCRLResponseOkMissingParts(v.MissingParts, opts...)
+		enc_missingparts, err := MarshalBERLoadCRLResponseOkMissingParts(v.MissingParts, ber.ChildEncodeOptions(opts, "missingParts")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding missingParts: %w", err)
 		}
 		if v.MissingPartsIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_missingparts)
+			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_missingparts)
 			if tlvErr_ != nil {
 				return nil, tlvErr_
 			}
@@ -20145,7 +20349,7 @@ func (v *LoadCRLResponseOk) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		children = append(children, enc_missingparts...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -20196,6 +20400,8 @@ func (v *LoadCRLResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	if v == nil {
 		return fmt.Errorf("%w: LoadCRLResponseOk destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -20291,7 +20497,9 @@ func (v *LoadCRLResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 }
 
 // MarshalBER encodes AuthenticateServerRequest to BER format.
-func (v *AuthenticateServerRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *AuthenticateServerRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: AuthenticateServerRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -20306,7 +20514,7 @@ func (v *AuthenticateServerRequest) marshalBER(opts ...ber.EncodeOption) ([]byte
 		return nil, err
 	}
 	var children []byte
-	enc_serversigned1, err := v.ServerSigned1.MarshalBER(opts...)
+	enc_serversigned1, err := v.ServerSigned1.MarshalBER(ber.ChildEncodeOptions(opts, "serverSigned1")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding serverSigned1: %w", err)
 	}
@@ -20326,18 +20534,18 @@ func (v *AuthenticateServerRequest) marshalBER(opts ...ber.EncodeOption) ([]byte
 		return nil, fmt.Errorf("encoding euiccCiPKIdToBeUsed: %w", encodeErr_enc_euicccipkidtobeused)
 	}
 	children = append(children, enc_euicccipkidtobeused...)
-	enc_servercertificate, err := v.ServerCertificate.MarshalBER(opts...)
+	enc_servercertificate, err := v.ServerCertificate.MarshalBER(ber.ChildEncodeOptions(opts, "serverCertificate")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding serverCertificate: %w", err)
 	}
 	children = append(children, enc_servercertificate...)
-	enc_ctxparams1, err := v.CtxParams1.MarshalBER(opts...)
+	enc_ctxparams1, err := v.CtxParams1.MarshalBER(ber.ChildEncodeOptions(opts, "ctxParams1")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding ctxParams1: %w", err)
 	}
 	children = append(children, enc_ctxparams1...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -20411,6 +20619,8 @@ func (v *AuthenticateServerRequest) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: AuthenticateServerRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -20578,7 +20788,9 @@ func (v *AuthenticateServerRequest) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes ServerSigned1 to BER format.
-func (v *ServerSigned1) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ServerSigned1) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ServerSigned1 receiver is nil", ber.ErrInvalidValue)
 	}
@@ -20649,7 +20861,7 @@ func (v *ServerSigned1) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	enc_serverchallenge = retagged_enc_serverchallenge
 	children = append(children, enc_serverchallenge...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -20743,6 +20955,8 @@ func (v *ServerSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	if v == nil {
 		return fmt.Errorf("%w: ServerSigned1 destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -20923,7 +21137,9 @@ func (v *ServerSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 }
 
 // MarshalBER encodes CtxParams1 to BER format.
-func (v *CtxParams1) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *CtxParams1) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: CtxParams1 receiver is nil", ber.ErrInvalidValue)
 	}
@@ -20942,7 +21158,7 @@ func (v *CtxParams1) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.CtxParamsForCommonAuthentication == nil {
 			return nil, fmt.Errorf("%w: choice CtxParams1: ctxParamsForCommonAuthentication is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.CtxParamsForCommonAuthentication.MarshalBER(opts...)
+		enc_0, err := v.CtxParamsForCommonAuthentication.MarshalBER(ber.ChildEncodeOptions(opts, "ctxParamsForCommonAuthentication")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ctxParamsForCommonAuthentication: %w", err)
 		}
@@ -20996,6 +21212,8 @@ func (v *CtxParams1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 	if v == nil {
 		return fmt.Errorf("%w: CtxParams1 destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -21042,7 +21260,7 @@ func (v *CtxParams1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 			return reconstructionErr
 		}
 		var dec CtxParamsForCommonAuthentication
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "ctxParamsForCommonAuthentication")...); unmErr != nil {
 			return fmt.Errorf("decoding ctxParamsForCommonAuthentication: %w", unmErr)
 		}
 		v.CtxParamsForCommonAuthentication = &dec
@@ -21053,7 +21271,9 @@ func (v *CtxParams1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 }
 
 // MarshalBER encodes CtxParamsForCommonAuthentication to BER format.
-func (v *CtxParamsForCommonAuthentication) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *CtxParamsForCommonAuthentication) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: CtxParamsForCommonAuthentication receiver is nil", ber.ErrInvalidValue)
 	}
@@ -21080,7 +21300,7 @@ func (v *CtxParamsForCommonAuthentication) marshalBER(opts ...ber.EncodeOption) 
 		enc_matchingid = retagged_enc_matchingid
 		children = append(children, enc_matchingid...)
 	}
-	enc_deviceinfo, err := v.DeviceInfo.MarshalBER(opts...)
+	enc_deviceinfo, err := v.DeviceInfo.MarshalBER(ber.ChildEncodeOptions(opts, "deviceInfo")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding deviceInfo: %w", err)
 	}
@@ -21091,7 +21311,7 @@ func (v *CtxParamsForCommonAuthentication) marshalBER(opts ...ber.EncodeOption) 
 	enc_deviceinfo = retagged_enc_deviceinfo
 	children = append(children, enc_deviceinfo...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -21152,6 +21372,8 @@ func (v *CtxParamsForCommonAuthentication) UnmarshalBER(data []byte, opts ...ber
 	if v == nil {
 		return fmt.Errorf("%w: CtxParamsForCommonAuthentication destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -21260,7 +21482,9 @@ func (v *CtxParamsForCommonAuthentication) UnmarshalBER(data []byte, opts ...ber
 }
 
 // MarshalBER encodes AuthenticateServerResponse to BER format.
-func (v *AuthenticateServerResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *AuthenticateServerResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: AuthenticateServerResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -21279,7 +21503,7 @@ func (v *AuthenticateServerResponse) marshalBER(opts ...ber.EncodeOption) ([]byt
 		if v.AuthenticateResponseOk == nil {
 			return nil, fmt.Errorf("%w: choice AuthenticateServerResponse: authenticateResponseOk is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.AuthenticateResponseOk.MarshalBER(opts...)
+		enc_0, err := v.AuthenticateResponseOk.MarshalBER(ber.ChildEncodeOptions(opts, "authenticateResponseOk")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding authenticateResponseOk: %w", err)
 		}
@@ -21300,7 +21524,7 @@ func (v *AuthenticateServerResponse) marshalBER(opts ...ber.EncodeOption) ([]byt
 		if v.AuthenticateResponseError == nil {
 			return nil, fmt.Errorf("%w: choice AuthenticateServerResponse: authenticateResponseError is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.AuthenticateResponseError.MarshalBER(opts...)
+		enc_1, err := v.AuthenticateResponseError.MarshalBER(ber.ChildEncodeOptions(opts, "authenticateResponseError")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding authenticateResponseError: %w", err)
 		}
@@ -21392,6 +21616,8 @@ func (v *AuthenticateServerResponse) UnmarshalBER(data []byte, opts ...ber.Decod
 	if v == nil {
 		return fmt.Errorf("%w: AuthenticateServerResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -21451,7 +21677,7 @@ func (v *AuthenticateServerResponse) UnmarshalBER(data []byte, opts ...ber.Decod
 			return reconstructionErr
 		}
 		var dec AuthenticateResponseOk
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "authenticateResponseOk")...); unmErr != nil {
 			return fmt.Errorf("decoding authenticateResponseOk: %w", unmErr)
 		}
 		v.AuthenticateResponseOk = &dec
@@ -21466,7 +21692,7 @@ func (v *AuthenticateServerResponse) UnmarshalBER(data []byte, opts ...ber.Decod
 			return reconstructionErr
 		}
 		var dec AuthenticateResponseError
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "authenticateResponseError")...); unmErr != nil {
 			return fmt.Errorf("decoding authenticateResponseError: %w", unmErr)
 		}
 		v.AuthenticateResponseError = &dec
@@ -21477,7 +21703,9 @@ func (v *AuthenticateServerResponse) UnmarshalBER(data []byte, opts ...ber.Decod
 }
 
 // MarshalBER encodes AuthenticateResponseOk to BER format.
-func (v *AuthenticateResponseOk) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *AuthenticateResponseOk) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: AuthenticateResponseOk receiver is nil", ber.ErrInvalidValue)
 	}
@@ -21492,7 +21720,7 @@ func (v *AuthenticateResponseOk) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		return nil, err
 	}
 	var children []byte
-	enc_euiccsigned1, err := v.EuiccSigned1.MarshalBER(opts...)
+	enc_euiccsigned1, err := v.EuiccSigned1.MarshalBER(ber.ChildEncodeOptions(opts, "euiccSigned1")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccSigned1: %w", err)
 	}
@@ -21507,18 +21735,18 @@ func (v *AuthenticateResponseOk) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	enc_euiccsignature1 = retagged_enc_euiccsignature1
 	children = append(children, enc_euiccsignature1...)
-	enc_euicccertificate, err := v.EuiccCertificate.MarshalBER(opts...)
+	enc_euicccertificate, err := v.EuiccCertificate.MarshalBER(ber.ChildEncodeOptions(opts, "euiccCertificate")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccCertificate: %w", err)
 	}
 	children = append(children, enc_euicccertificate...)
-	enc_eumcertificate, err := v.EumCertificate.MarshalBER(opts...)
+	enc_eumcertificate, err := v.EumCertificate.MarshalBER(ber.ChildEncodeOptions(opts, "eumCertificate")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding eumCertificate: %w", err)
 	}
 	children = append(children, enc_eumcertificate...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -21582,6 +21810,8 @@ func (v *AuthenticateResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	if v == nil {
 		return fmt.Errorf("%w: AuthenticateResponseOk destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -21735,7 +21965,9 @@ func (v *AuthenticateResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 }
 
 // MarshalBER encodes EuiccSigned1 to BER format.
-func (v *EuiccSigned1) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *EuiccSigned1) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: EuiccSigned1 receiver is nil", ber.ErrInvalidValue)
 	}
@@ -21790,18 +22022,18 @@ func (v *EuiccSigned1) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	enc_serverchallenge = retagged_enc_serverchallenge
 	children = append(children, enc_serverchallenge...)
-	enc_euiccinfo2, err := v.EuiccInfo2.MarshalBER(opts...)
+	enc_euiccinfo2, err := v.EuiccInfo2.MarshalBER(ber.ChildEncodeOptions(opts, "euiccInfo2")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccInfo2: %w", err)
 	}
 	children = append(children, enc_euiccinfo2...)
-	enc_ctxparams1, err := v.CtxParams1.MarshalBER(opts...)
+	enc_ctxparams1, err := v.CtxParams1.MarshalBER(ber.ChildEncodeOptions(opts, "ctxParams1")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding ctxParams1: %w", err)
 	}
 	children = append(children, enc_ctxparams1...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -21890,6 +22122,8 @@ func (v *EuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if v == nil {
 		return fmt.Errorf("%w: EuiccSigned1 destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -22088,7 +22322,9 @@ func (v *EuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 }
 
 // MarshalBER encodes AuthenticateResponseError to BER format.
-func (v *AuthenticateResponseError) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *AuthenticateResponseError) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: AuthenticateResponseError receiver is nil", ber.ErrInvalidValue)
 	}
@@ -22124,7 +22360,7 @@ func (v *AuthenticateResponseError) marshalBER(opts ...ber.EncodeOption) ([]byte
 	}
 	children = append(children, enc_authenticateerrorcode...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -22183,6 +22419,8 @@ func (v *AuthenticateResponseError) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: AuthenticateResponseError destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -22287,7 +22525,9 @@ func (v *AuthenticateResponseError) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes CancelSessionRequest to BER format.
-func (v *CancelSessionRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *CancelSessionRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: CancelSessionRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -22328,7 +22568,7 @@ func (v *CancelSessionRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	enc_reason = retagged_enc_reason
 	children = append(children, enc_reason...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -22397,6 +22637,8 @@ func (v *CancelSessionRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if v == nil {
 		return fmt.Errorf("%w: CancelSessionRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -22517,7 +22759,9 @@ func (v *CancelSessionRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes CancelSessionResponse to BER format.
-func (v *CancelSessionResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *CancelSessionResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: CancelSessionResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -22536,7 +22780,7 @@ func (v *CancelSessionResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		if v.CancelSessionResponseOk == nil {
 			return nil, fmt.Errorf("%w: choice CancelSessionResponse: cancelSessionResponseOk is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.CancelSessionResponseOk.MarshalBER(opts...)
+		enc_0, err := v.CancelSessionResponseOk.MarshalBER(ber.ChildEncodeOptions(opts, "cancelSessionResponseOk")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cancelSessionResponseOk: %w", err)
 		}
@@ -22625,6 +22869,8 @@ func (v *CancelSessionResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if v == nil {
 		return fmt.Errorf("%w: CancelSessionResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -22684,7 +22930,7 @@ func (v *CancelSessionResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 			return reconstructionErr
 		}
 		var dec CancelSessionResponseOk
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "cancelSessionResponseOk")...); unmErr != nil {
 			return fmt.Errorf("decoding cancelSessionResponseOk: %w", unmErr)
 		}
 		v.CancelSessionResponseOk = &dec
@@ -22710,7 +22956,9 @@ func (v *CancelSessionResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes CancelSessionResponseOk to BER format.
-func (v *CancelSessionResponseOk) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *CancelSessionResponseOk) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: CancelSessionResponseOk receiver is nil", ber.ErrInvalidValue)
 	}
@@ -22725,7 +22973,7 @@ func (v *CancelSessionResponseOk) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		return nil, err
 	}
 	var children []byte
-	enc_euicccancelsessionsigned, err := v.EuiccCancelSessionSigned.MarshalBER(opts...)
+	enc_euicccancelsessionsigned, err := v.EuiccCancelSessionSigned.MarshalBER(ber.ChildEncodeOptions(opts, "euiccCancelSessionSigned")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccCancelSessionSigned: %w", err)
 	}
@@ -22741,7 +22989,7 @@ func (v *CancelSessionResponseOk) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	enc_euicccancelsessionsignature = retagged_enc_euicccancelsessionsignature
 	children = append(children, enc_euicccancelsessionsignature...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -22795,6 +23043,8 @@ func (v *CancelSessionResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: CancelSessionResponseOk destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -22901,7 +23151,9 @@ func (v *CancelSessionResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes EuiccCancelSessionSigned to BER format.
-func (v *EuiccCancelSessionSigned) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *EuiccCancelSessionSigned) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: EuiccCancelSessionSigned receiver is nil", ber.ErrInvalidValue)
 	}
@@ -22952,7 +23204,7 @@ func (v *EuiccCancelSessionSigned) marshalBER(opts ...ber.EncodeOption) ([]byte,
 	enc_reason = retagged_enc_reason
 	children = append(children, enc_reason...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -23026,6 +23278,8 @@ func (v *EuiccCancelSessionSigned) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: EuiccCancelSessionSigned destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -23169,7 +23423,9 @@ func (v *EuiccCancelSessionSigned) UnmarshalBER(data []byte, opts ...ber.DecodeO
 }
 
 // MarshalBER encodes ProfileInfoListRequest to BER format.
-func (v *ProfileInfoListRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ProfileInfoListRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ProfileInfoListRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -23185,7 +23441,7 @@ func (v *ProfileInfoListRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	var children []byte
 	if v.SearchCriteria != nil {
-		enc_searchcriteria, err := v.SearchCriteria.MarshalBER(opts...)
+		enc_searchcriteria, err := v.SearchCriteria.MarshalBER(ber.ChildEncodeOptions(opts, "searchCriteria")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding searchCriteria: %w", err)
 		}
@@ -23223,7 +23479,7 @@ func (v *ProfileInfoListRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_iotspecifictaglist...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -23305,6 +23561,8 @@ func (v *ProfileInfoListRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	if v == nil {
 		return fmt.Errorf("%w: ProfileInfoListRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -23348,7 +23606,7 @@ func (v *ProfileInfoListRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_searchcriteria ProfileInfoListRequestSearchCriteria
-				if unmErr := dec_searchcriteria.UnmarshalBER(innerData_searchcriteria, ber.ChildDecodeOptions(opts, "searchcriteria")...); unmErr != nil {
+				if unmErr := dec_searchcriteria.UnmarshalBER(innerData_searchcriteria, ber.ChildDecodeOptions(opts, "searchCriteria")...); unmErr != nil {
 					return fmt.Errorf("decoding searchCriteria: %w", unmErr)
 				}
 				v.SearchCriteria = &dec_searchcriteria
@@ -23444,7 +23702,9 @@ func (v *ProfileInfoListRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 }
 
 // MarshalBER encodes ProfileInfoListResponse to BER format.
-func (v *ProfileInfoListResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ProfileInfoListResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ProfileInfoListResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -23460,7 +23720,7 @@ func (v *ProfileInfoListResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	switch v.Choice {
 	case ProfileInfoListResponseChoiceProfileInfoListOk:
-		enc_0, err := MarshalBERProfileInfoListResponseProfileInfoListOk(v.ProfileInfoListOk, opts...)
+		enc_0, err := MarshalBERProfileInfoListResponseProfileInfoListOk(v.ProfileInfoListOk, ber.ChildEncodeOptions(opts, "profileInfoListOk")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileInfoListOk: %w", err)
 		}
@@ -23546,6 +23806,8 @@ func (v *ProfileInfoListResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: ProfileInfoListResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -23631,7 +23893,9 @@ func (v *ProfileInfoListResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes ProfileInfo to BER format.
-func (v *ProfileInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ProfileInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ProfileInfo receiver is nil", ber.ErrInvalidValue)
 	}
@@ -23785,13 +24049,13 @@ func (v *ProfileInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_profileclass...)
 	}
 	if v.NotificationConfigurationInfo != nil {
-		enc_notificationconfigurationinfo, err := MarshalBERProfileInfoNotificationConfigurationInfo(v.NotificationConfigurationInfo, opts...)
+		enc_notificationconfigurationinfo, err := MarshalBERProfileInfoNotificationConfigurationInfo(v.NotificationConfigurationInfo, ber.ChildEncodeOptions(opts, "notificationConfigurationInfo")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding notificationConfigurationInfo: %w", err)
 		}
 		if v.NotificationConfigurationInfoIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_notificationconfigurationinfo)
+			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_notificationconfigurationinfo)
 			if tlvErr_ != nil {
 				return nil, tlvErr_
 			}
@@ -23812,7 +24076,7 @@ func (v *ProfileInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_notificationconfigurationinfo...)
 	}
 	if v.ProfileOwner != nil {
-		enc_profileowner, err := v.ProfileOwner.MarshalBER(opts...)
+		enc_profileowner, err := v.ProfileOwner.MarshalBER(ber.ChildEncodeOptions(opts, "profileOwner")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding profileOwner: %w", err)
 		}
@@ -23824,7 +24088,7 @@ func (v *ProfileInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_profileowner...)
 	}
 	if v.DpProprietaryData != nil {
-		enc_dpproprietarydata, err := v.DpProprietaryData.MarshalBER(opts...)
+		enc_dpproprietarydata, err := v.DpProprietaryData.MarshalBER(ber.ChildEncodeOptions(opts, "dpProprietaryData")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding dpProprietaryData: %w", err)
 		}
@@ -23839,7 +24103,7 @@ func (v *ProfileInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.ProfilePolicyRules.Bytes, v.ProfilePolicyRules.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profilePolicyRules", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -23855,13 +24119,13 @@ func (v *ProfileInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_profilepolicyrules...)
 	}
 	if v.ServiceSpecificDataStoredInEuicc != nil {
-		enc_servicespecificdatastoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc, opts...)
+		enc_servicespecificdatastoredineuicc, err := MarshalBERVendorSpecificExtension(v.ServiceSpecificDataStoredInEuicc, ber.ChildEncodeOptions(opts, "serviceSpecificDataStoredInEuicc")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding serviceSpecificDataStoredInEuicc: %w", err)
 		}
 		if v.ServiceSpecificDataStoredInEuiccIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_servicespecificdatastoredineuicc)
+			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_servicespecificdatastoredineuicc)
 			if tlvErr_ != nil {
 				return nil, tlvErr_
 			}
@@ -23924,7 +24188,7 @@ func (v *ProfileInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_fallbackallowed...)
 	}
 	if v.IotSpecificProfileInfo != nil {
-		enc_iotspecificprofileinfo, err := v.IotSpecificProfileInfo.MarshalBER(opts...)
+		enc_iotspecificprofileinfo, err := v.IotSpecificProfileInfo.MarshalBER(ber.ChildEncodeOptions(opts, "iotSpecificProfileInfo")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding iotSpecificProfileInfo: %w", err)
 		}
@@ -23936,7 +24200,7 @@ func (v *ProfileInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_iotspecificprofileinfo...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -24135,11 +24399,11 @@ func (v *ProfileInfo) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ProfilePolicyRules.Bytes, v.ProfilePolicyRules.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profilePolicyRules", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
-		enc_profilepolicyrules, encodeErr_enc_profilepolicyrules := ber.EncodeBitString(v.ProfilePolicyRules.Bytes, (8-(v.ProfilePolicyRules.BitLength%8))%8)
+		enc_profilepolicyrules, encodeErr_enc_profilepolicyrules := ber.EncodeDERNamedBitString(v.ProfilePolicyRules.Bytes, v.ProfilePolicyRules.BitLength)
 		if encodeErr_enc_profilepolicyrules != nil {
 			return nil, fmt.Errorf("encoding profilePolicyRules: %w", encodeErr_enc_profilepolicyrules)
 		}
@@ -24173,12 +24437,14 @@ func (v *ProfileInfo) MarshalDER() ([]byte, error) {
 	}
 	if v.FallbackAttribute != nil {
 		enc_fallbackattribute := ber.EncodeBoolean(*v.FallbackAttribute)
-		retagged_enc_fallbackattribute, tagErr_enc_fallbackattribute := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 38, enc_fallbackattribute)
-		if tagErr_enc_fallbackattribute != nil {
-			return nil, fmt.Errorf("encoding fallbackAttribute: %w", tagErr_enc_fallbackattribute)
+		if string(enc_fallbackattribute) != "\x01\x01\x00" {
+			retagged_enc_fallbackattribute, tagErr_enc_fallbackattribute := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 38, enc_fallbackattribute)
+			if tagErr_enc_fallbackattribute != nil {
+				return nil, fmt.Errorf("encoding fallbackAttribute: %w", tagErr_enc_fallbackattribute)
+			}
+			enc_fallbackattribute = retagged_enc_fallbackattribute
+			children = append(children, enc_fallbackattribute...)
 		}
-		enc_fallbackattribute = retagged_enc_fallbackattribute
-		children = append(children, enc_fallbackattribute...)
 	}
 	if v.FallbackAllowed != nil {
 		enc_fallbackallowed := ber.EncodeBoolean(*v.FallbackAllowed)
@@ -24227,6 +24493,8 @@ func (v *ProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if v == nil {
 		return fmt.Errorf("%w: ProfileInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -24600,7 +24868,7 @@ func (v *ProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 					return fmt.Errorf("decoding profileOwner: %w", reconstructionErr_profileowner)
 				}
 				var dec_profileowner OperatorId
-				if unmErr := dec_profileowner.UnmarshalBER(reconstructed_profileowner, ber.ChildDecodeOptions(opts, "profileowner")...); unmErr != nil {
+				if unmErr := dec_profileowner.UnmarshalBER(reconstructed_profileowner, ber.ChildDecodeOptions(opts, "profileOwner")...); unmErr != nil {
 					return fmt.Errorf("decoding profileOwner: %w", unmErr)
 				}
 				v.ProfileOwner = &dec_profileowner
@@ -24631,7 +24899,7 @@ func (v *ProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 					return fmt.Errorf("decoding dpProprietaryData: %w", reconstructionErr_dpproprietarydata)
 				}
 				var dec_dpproprietarydata DpProprietaryData
-				if unmErr := dec_dpproprietarydata.UnmarshalBER(reconstructed_dpproprietarydata, ber.ChildDecodeOptions(opts, "dpproprietarydata")...); unmErr != nil {
+				if unmErr := dec_dpproprietarydata.UnmarshalBER(reconstructed_dpproprietarydata, ber.ChildDecodeOptions(opts, "dpProprietaryData")...); unmErr != nil {
 					return fmt.Errorf("decoding dpProprietaryData: %w", unmErr)
 				}
 				v.DpProprietaryData = &dec_dpproprietarydata
@@ -24836,7 +25104,7 @@ func (v *ProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 					return fmt.Errorf("decoding iotSpecificProfileInfo: %w", reconstructionErr_iotspecificprofileinfo)
 				}
 				var dec_iotspecificprofileinfo ProfileInfoIotSpecificProfileInfo
-				if unmErr := dec_iotspecificprofileinfo.UnmarshalBER(reconstructed_iotspecificprofileinfo, ber.ChildDecodeOptions(opts, "iotspecificprofileinfo")...); unmErr != nil {
+				if unmErr := dec_iotspecificprofileinfo.UnmarshalBER(reconstructed_iotspecificprofileinfo, ber.ChildDecodeOptions(opts, "iotSpecificProfileInfo")...); unmErr != nil {
 					return fmt.Errorf("decoding iotSpecificProfileInfo: %w", unmErr)
 				}
 				v.IotSpecificProfileInfo = &dec_iotspecificprofileinfo
@@ -24877,7 +25145,9 @@ func (v *ProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 }
 
 // MarshalBER encodes EnableProfileRequest to BER format.
-func (v *EnableProfileRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *EnableProfileRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: EnableProfileRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -24892,7 +25162,7 @@ func (v *EnableProfileRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		return nil, err
 	}
 	var children []byte
-	enc_profileidentifier, err := v.ProfileIdentifier.MarshalBER(opts...)
+	enc_profileidentifier, err := v.ProfileIdentifier.MarshalBER(ber.ChildEncodeOptions(opts, "profileIdentifier")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding profileIdentifier: %w", err)
 	}
@@ -24917,7 +25187,7 @@ func (v *EnableProfileRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	enc_refreshflag = retagged_enc_refreshflag
 	children = append(children, enc_refreshflag...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -24980,6 +25250,8 @@ func (v *EnableProfileRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if v == nil {
 		return fmt.Errorf("%w: EnableProfileRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -25096,7 +25368,9 @@ func (v *EnableProfileRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes EnableProfileResponse to BER format.
-func (v *EnableProfileResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *EnableProfileResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: EnableProfileResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -25122,7 +25396,7 @@ func (v *EnableProfileResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	enc_enableresult = retagged_enc_enableresult
 	children = append(children, enc_enableresult...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -25176,6 +25450,8 @@ func (v *EnableProfileResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if v == nil {
 		return fmt.Errorf("%w: EnableProfileResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -25263,7 +25539,9 @@ func (v *EnableProfileResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes DisableProfileRequest to BER format.
-func (v *DisableProfileRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *DisableProfileRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: DisableProfileRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -25278,7 +25556,7 @@ func (v *DisableProfileRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		return nil, err
 	}
 	var children []byte
-	enc_profileidentifier, err := v.ProfileIdentifier.MarshalBER(opts...)
+	enc_profileidentifier, err := v.ProfileIdentifier.MarshalBER(ber.ChildEncodeOptions(opts, "profileIdentifier")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding profileIdentifier: %w", err)
 	}
@@ -25303,7 +25581,7 @@ func (v *DisableProfileRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	enc_refreshflag = retagged_enc_refreshflag
 	children = append(children, enc_refreshflag...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -25366,6 +25644,8 @@ func (v *DisableProfileRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if v == nil {
 		return fmt.Errorf("%w: DisableProfileRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -25482,7 +25762,9 @@ func (v *DisableProfileRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes DisableProfileResponse to BER format.
-func (v *DisableProfileResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *DisableProfileResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: DisableProfileResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -25508,7 +25790,7 @@ func (v *DisableProfileResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	enc_disableresult = retagged_enc_disableresult
 	children = append(children, enc_disableresult...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -25562,6 +25844,8 @@ func (v *DisableProfileResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	if v == nil {
 		return fmt.Errorf("%w: DisableProfileResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -25649,7 +25933,9 @@ func (v *DisableProfileResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 }
 
 // MarshalBER encodes DeleteProfileRequest to BER format.
-func (v *DeleteProfileRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *DeleteProfileRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: DeleteProfileRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -25741,6 +26027,8 @@ func (v *DeleteProfileRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if v == nil {
 		return fmt.Errorf("%w: DeleteProfileRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -25830,7 +26118,9 @@ func (v *DeleteProfileRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes DeleteProfileResponse to BER format.
-func (v *DeleteProfileResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *DeleteProfileResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: DeleteProfileResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -25856,7 +26146,7 @@ func (v *DeleteProfileResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	enc_deleteresult = retagged_enc_deleteresult
 	children = append(children, enc_deleteresult...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -25910,6 +26200,8 @@ func (v *DeleteProfileResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if v == nil {
 		return fmt.Errorf("%w: DeleteProfileResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -25997,7 +26289,9 @@ func (v *DeleteProfileResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 }
 
 // MarshalBER encodes EuiccMemoryResetRequest to BER format.
-func (v *EuiccMemoryResetRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *EuiccMemoryResetRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: EuiccMemoryResetRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -26015,7 +26309,7 @@ func (v *EuiccMemoryResetRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	if bitStringErr := ber.ValidateBitStringLength(v.ResetOptions.Bytes, v.ResetOptions.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "resetOptions", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 	if v.ResetOptions.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -26030,7 +26324,7 @@ func (v *EuiccMemoryResetRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	enc_resetoptions = retagged_enc_resetoptions
 	children = append(children, enc_resetoptions...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -26054,11 +26348,11 @@ func (v *EuiccMemoryResetRequest) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.ResetOptions.Bytes, v.ResetOptions.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "resetOptions", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 	if v.ResetOptions.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
-	enc_resetoptions, encodeErr_enc_resetoptions := ber.EncodeBitString(v.ResetOptions.Bytes, (8-(v.ResetOptions.BitLength%8))%8)
+	enc_resetoptions, encodeErr_enc_resetoptions := ber.EncodeDERNamedBitString(v.ResetOptions.Bytes, v.ResetOptions.BitLength)
 	if encodeErr_enc_resetoptions != nil {
 		return nil, fmt.Errorf("encoding resetOptions: %w", encodeErr_enc_resetoptions)
 	}
@@ -26094,6 +26388,8 @@ func (v *EuiccMemoryResetRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: EuiccMemoryResetRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -26181,7 +26477,9 @@ func (v *EuiccMemoryResetRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes EuiccMemoryResetResponse to BER format.
-func (v *EuiccMemoryResetResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *EuiccMemoryResetResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: EuiccMemoryResetResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -26207,7 +26505,7 @@ func (v *EuiccMemoryResetResponse) marshalBER(opts ...ber.EncodeOption) ([]byte,
 	enc_resetresult = retagged_enc_resetresult
 	children = append(children, enc_resetresult...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -26261,6 +26559,8 @@ func (v *EuiccMemoryResetResponse) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: EuiccMemoryResetResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -26348,7 +26648,9 @@ func (v *EuiccMemoryResetResponse) UnmarshalBER(data []byte, opts ...ber.DecodeO
 }
 
 // MarshalBER encodes GetEuiccDataRequest to BER format.
-func (v *GetEuiccDataRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *GetEuiccDataRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: GetEuiccDataRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -26379,7 +26681,7 @@ func (v *GetEuiccDataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 	enc_taglist = retagged_enc_taglist
 	children = append(children, enc_taglist...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -26438,6 +26740,8 @@ func (v *GetEuiccDataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: GetEuiccDataRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -26526,7 +26830,9 @@ func (v *GetEuiccDataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBER encodes GetEuiccDataResponse to BER format.
-func (v *GetEuiccDataResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *GetEuiccDataResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: GetEuiccDataResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -26557,7 +26863,7 @@ func (v *GetEuiccDataResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	enc_eidvalue = retagged_enc_eidvalue
 	children = append(children, enc_eidvalue...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -26616,6 +26922,8 @@ func (v *GetEuiccDataResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if v == nil {
 		return fmt.Errorf("%w: GetEuiccDataResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -26704,7 +27012,9 @@ func (v *GetEuiccDataResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes SetNicknameRequest to BER format.
-func (v *SetNicknameRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *SetNicknameRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: SetNicknameRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -26750,7 +27060,7 @@ func (v *SetNicknameRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	enc_profilenickname = retagged_enc_profilenickname
 	children = append(children, enc_profilenickname...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -26824,6 +27134,8 @@ func (v *SetNicknameRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if v == nil {
 		return fmt.Errorf("%w: SetNicknameRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -26945,7 +27257,9 @@ func (v *SetNicknameRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 }
 
 // MarshalBER encodes SetNicknameResponse to BER format.
-func (v *SetNicknameResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *SetNicknameResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: SetNicknameResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -26971,7 +27285,7 @@ func (v *SetNicknameResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 	enc_setnicknameresult = retagged_enc_setnicknameresult
 	children = append(children, enc_setnicknameresult...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -27025,6 +27339,8 @@ func (v *SetNicknameResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if v == nil {
 		return fmt.Errorf("%w: SetNicknameResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -27113,7 +27429,9 @@ func (v *SetNicknameResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 }
 
 // MarshalBER encodes GetRatRequest to BER format.
-func (v *GetRatRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *GetRatRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: GetRatRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -27129,7 +27447,7 @@ func (v *GetRatRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -27173,6 +27491,8 @@ func (v *GetRatRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	if v == nil {
 		return fmt.Errorf("%w: GetRatRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -27229,7 +27549,9 @@ func (v *GetRatRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 }
 
 // MarshalBER encodes GetRatResponse to BER format.
-func (v *GetRatResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *GetRatResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: GetRatResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -27247,13 +27569,13 @@ func (v *GetRatResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if v.Rat == nil {
 		return nil, fmt.Errorf("encoding rat: %w: required collection is nil", ber.ErrInvalidValue)
 	}
-	enc_rat, err := MarshalBERRulesAuthorisationTable(v.Rat, opts...)
+	enc_rat, err := MarshalBERRulesAuthorisationTable(v.Rat, ber.ChildEncodeOptions(opts, "rat")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding rat: %w", err)
 	}
 	if v.RatIndef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_rat)
+		_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_rat)
 		if tlvErr_ != nil {
 			return nil, tlvErr_
 		}
@@ -27273,7 +27595,7 @@ func (v *GetRatResponse) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	children = append(children, enc_rat...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -27330,6 +27652,8 @@ func (v *GetRatResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	if v == nil {
 		return fmt.Errorf("%w: GetRatResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -27429,7 +27753,9 @@ func (v *GetRatResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 }
 
 // MarshalBERRulesAuthorisationTable encodes a RulesAuthorisationTable list to BER.
-func MarshalBERRulesAuthorisationTable(collection *RulesAuthorisationTable, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBERRulesAuthorisationTable(collection *RulesAuthorisationTable, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -27445,8 +27771,8 @@ func MarshalBERRulesAuthorisationTable(collection *RulesAuthorisationTable, opts
 func marshalBERRulesAuthorisationTable(collection *RulesAuthorisationTable, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	var children []byte
-	for _, elem := range list {
-		enc, err := elem.MarshalBER(opts...)
+	for elemIndex, elem := range list {
+		enc, err := elem.MarshalBER(ber.ChildEncodeOptions(opts, fmt.Sprintf("element[%d]", elemIndex))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -27480,7 +27806,9 @@ func MarshalDERRulesAuthorisationTable(collection *RulesAuthorisationTable) ([]b
 }
 
 // UnmarshalBERRulesAuthorisationTable decodes a RulesAuthorisationTable list from BER.
-func UnmarshalBERRulesAuthorisationTable(data []byte, opts ...ber.DecodeOption) (*RulesAuthorisationTable, error) {
+func UnmarshalBERRulesAuthorisationTable(data []byte, opts ...ber.DecodeOption) (returnValue *RulesAuthorisationTable, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -27495,17 +27823,13 @@ func UnmarshalBERRulesAuthorisationTable(data []byte, opts ...ber.DecodeOption) 
 	var result []ProfilePolicyAuthorisationRule
 	offset := 0
 	for offset < len(content) {
+		elementData := content[offset:]
 		var elem ProfilePolicyAuthorisationRule
-		_, n, _, tlvErr := ber.DecodeTLV(content[offset:], opts...)
+		_, n, _, tlvErr := ber.DecodeTLV(elementData, opts...)
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
 		}
-		if offset < 0 || offset >
-			len(content) || n < 0 || n > len(content[offset:]) {
-			return nil, fmt.Errorf("invalid BER content window")
-		}
-
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(elementData[:n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -27530,7 +27854,9 @@ func UnmarshalBERRulesAuthorisationTable(data []byte, opts ...ber.DecodeOption) 
 }
 
 // MarshalBER encodes ProfilePolicyAuthorisationRule to BER format.
-func (v *ProfilePolicyAuthorisationRule) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ProfilePolicyAuthorisationRule) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ProfilePolicyAuthorisationRule receiver is nil", ber.ErrInvalidValue)
 	}
@@ -27548,7 +27874,7 @@ func (v *ProfilePolicyAuthorisationRule) marshalBER(opts ...ber.EncodeOption) ([
 	if bitStringErr := ber.ValidateBitStringLength(v.PprIds.Bytes, v.PprIds.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "pprIds", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 	if v.PprIds.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -27565,13 +27891,13 @@ func (v *ProfilePolicyAuthorisationRule) marshalBER(opts ...ber.EncodeOption) ([
 	if v.AllowedOperators == nil {
 		return nil, fmt.Errorf("encoding allowedOperators: %w: required collection is nil", ber.ErrInvalidValue)
 	}
-	enc_allowedoperators, err := MarshalBERProfilePolicyAuthorisationRuleAllowedOperators(v.AllowedOperators, opts...)
+	enc_allowedoperators, err := MarshalBERProfilePolicyAuthorisationRuleAllowedOperators(v.AllowedOperators, ber.ChildEncodeOptions(opts, "allowedOperators")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding allowedOperators: %w", err)
 	}
 	if v.AllowedOperatorsIndef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_allowedoperators)
+		_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_allowedoperators)
 		if tlvErr_ != nil {
 			return nil, tlvErr_
 		}
@@ -27593,7 +27919,7 @@ func (v *ProfilePolicyAuthorisationRule) marshalBER(opts ...ber.EncodeOption) ([
 	if bitStringErr := ber.ValidateBitStringLength(v.PprFlags.Bytes, v.PprFlags.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "pprFlags", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 	if v.PprFlags.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -27608,7 +27934,7 @@ func (v *ProfilePolicyAuthorisationRule) marshalBER(opts ...ber.EncodeOption) ([
 	enc_pprflags = retagged_enc_pprflags
 	children = append(children, enc_pprflags...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -27632,11 +27958,11 @@ func (v *ProfilePolicyAuthorisationRule) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.PprIds.Bytes, v.PprIds.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "pprIds", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 	if v.PprIds.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
-	enc_pprids, encodeErr_enc_pprids := ber.EncodeBitString(v.PprIds.Bytes, (8-(v.PprIds.BitLength%8))%8)
+	enc_pprids, encodeErr_enc_pprids := ber.EncodeDERNamedBitString(v.PprIds.Bytes, v.PprIds.BitLength)
 	if encodeErr_enc_pprids != nil {
 		return nil, fmt.Errorf("encoding pprIds: %w", encodeErr_enc_pprids)
 	}
@@ -27665,11 +27991,11 @@ func (v *ProfilePolicyAuthorisationRule) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.PprFlags.Bytes, v.PprFlags.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "pprFlags", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:523
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
 	if v.PprFlags.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
-	enc_pprflags, encodeErr_enc_pprflags := ber.EncodeBitString(v.PprFlags.Bytes, (8-(v.PprFlags.BitLength%8))%8)
+	enc_pprflags, encodeErr_enc_pprflags := ber.EncodeDERNamedBitString(v.PprFlags.Bytes, v.PprFlags.BitLength)
 	if encodeErr_enc_pprflags != nil {
 		return nil, fmt.Errorf("encoding pprFlags: %w", encodeErr_enc_pprflags)
 	}
@@ -27700,6 +28026,8 @@ func (v *ProfilePolicyAuthorisationRule) UnmarshalBER(data []byte, opts ...ber.D
 	if v == nil {
 		return fmt.Errorf("%w: ProfilePolicyAuthorisationRule destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -27858,7 +28186,9 @@ func (v *ProfilePolicyAuthorisationRule) UnmarshalBER(data []byte, opts ...ber.D
 }
 
 // MarshalBER encodes RemoteProfileProvisioningRequest to BER format.
-func (v *RemoteProfileProvisioningRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *RemoteProfileProvisioningRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: RemoteProfileProvisioningRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -27877,7 +28207,7 @@ func (v *RemoteProfileProvisioningRequest) marshalBER(opts ...ber.EncodeOption) 
 		if v.InitiateAuthenticationRequest == nil {
 			return nil, fmt.Errorf("%w: choice RemoteProfileProvisioningRequest: initiateAuthenticationRequest is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.InitiateAuthenticationRequest.MarshalBER(opts...)
+		enc_0, err := v.InitiateAuthenticationRequest.MarshalBER(ber.ChildEncodeOptions(opts, "initiateAuthenticationRequest")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding initiateAuthenticationRequest: %w", err)
 		}
@@ -27893,7 +28223,7 @@ func (v *RemoteProfileProvisioningRequest) marshalBER(opts ...ber.EncodeOption) 
 		if v.AuthenticateClientRequest == nil {
 			return nil, fmt.Errorf("%w: choice RemoteProfileProvisioningRequest: authenticateClientRequest is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.AuthenticateClientRequest.MarshalBER(opts...)
+		enc_1, err := v.AuthenticateClientRequest.MarshalBER(ber.ChildEncodeOptions(opts, "authenticateClientRequest")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding authenticateClientRequest: %w", err)
 		}
@@ -27909,7 +28239,7 @@ func (v *RemoteProfileProvisioningRequest) marshalBER(opts ...ber.EncodeOption) 
 		if v.GetBoundProfilePackageRequest == nil {
 			return nil, fmt.Errorf("%w: choice RemoteProfileProvisioningRequest: getBoundProfilePackageRequest is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.GetBoundProfilePackageRequest.MarshalBER(opts...)
+		enc_2, err := v.GetBoundProfilePackageRequest.MarshalBER(ber.ChildEncodeOptions(opts, "getBoundProfilePackageRequest")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding getBoundProfilePackageRequest: %w", err)
 		}
@@ -27925,7 +28255,7 @@ func (v *RemoteProfileProvisioningRequest) marshalBER(opts ...ber.EncodeOption) 
 		if v.CancelSessionRequestEs9 == nil {
 			return nil, fmt.Errorf("%w: choice RemoteProfileProvisioningRequest: cancelSessionRequestEs9 is nil", ber.ErrInvalidValue)
 		}
-		enc_3, err := v.CancelSessionRequestEs9.MarshalBER(opts...)
+		enc_3, err := v.CancelSessionRequestEs9.MarshalBER(ber.ChildEncodeOptions(opts, "cancelSessionRequestEs9")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cancelSessionRequestEs9: %w", err)
 		}
@@ -27941,7 +28271,7 @@ func (v *RemoteProfileProvisioningRequest) marshalBER(opts ...ber.EncodeOption) 
 		if v.HandleNotification == nil {
 			return nil, fmt.Errorf("%w: choice RemoteProfileProvisioningRequest: handleNotification is nil", ber.ErrInvalidValue)
 		}
-		enc_4, err := v.HandleNotification.MarshalBER(opts...)
+		enc_4, err := v.HandleNotification.MarshalBER(ber.ChildEncodeOptions(opts, "handleNotification")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding handleNotification: %w", err)
 		}
@@ -28075,6 +28405,8 @@ func (v *RemoteProfileProvisioningRequest) UnmarshalBER(data []byte, opts ...ber
 	if v == nil {
 		return fmt.Errorf("%w: RemoteProfileProvisioningRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -28126,35 +28458,35 @@ func (v *RemoteProfileProvisioningRequest) UnmarshalBER(data []byte, opts ...ber
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 57 && peekTag.Constructed == true {
 		v.Choice = RemoteProfileProvisioningRequestChoiceInitiateAuthenticationRequest
 		var dec InitiateAuthenticationRequest
-		if unmErr := dec.UnmarshalBER(choiceData, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(choiceData, ber.ChildDecodeOptions(opts, "initiateAuthenticationRequest")...); unmErr != nil {
 			return fmt.Errorf("decoding initiateAuthenticationRequest: %w", unmErr)
 		}
 		v.InitiateAuthenticationRequest = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 59 && peekTag.Constructed == true {
 		v.Choice = RemoteProfileProvisioningRequestChoiceAuthenticateClientRequest
 		var dec AuthenticateClientRequest
-		if unmErr := dec.UnmarshalBER(choiceData, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(choiceData, ber.ChildDecodeOptions(opts, "authenticateClientRequest")...); unmErr != nil {
 			return fmt.Errorf("decoding authenticateClientRequest: %w", unmErr)
 		}
 		v.AuthenticateClientRequest = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 58 && peekTag.Constructed == true {
 		v.Choice = RemoteProfileProvisioningRequestChoiceGetBoundProfilePackageRequest
 		var dec GetBoundProfilePackageRequest
-		if unmErr := dec.UnmarshalBER(choiceData, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(choiceData, ber.ChildDecodeOptions(opts, "getBoundProfilePackageRequest")...); unmErr != nil {
 			return fmt.Errorf("decoding getBoundProfilePackageRequest: %w", unmErr)
 		}
 		v.GetBoundProfilePackageRequest = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 65 && peekTag.Constructed == true {
 		v.Choice = RemoteProfileProvisioningRequestChoiceCancelSessionRequestEs9
 		var dec CancelSessionRequestEs9
-		if unmErr := dec.UnmarshalBER(choiceData, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(choiceData, ber.ChildDecodeOptions(opts, "cancelSessionRequestEs9")...); unmErr != nil {
 			return fmt.Errorf("decoding cancelSessionRequestEs9: %w", unmErr)
 		}
 		v.CancelSessionRequestEs9 = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 61 && peekTag.Constructed == true {
 		v.Choice = RemoteProfileProvisioningRequestChoiceHandleNotification
 		var dec HandleNotification
-		if unmErr := dec.UnmarshalBER(choiceData, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(choiceData, ber.ChildDecodeOptions(opts, "handleNotification")...); unmErr != nil {
 			return fmt.Errorf("decoding handleNotification: %w", unmErr)
 		}
 		v.HandleNotification = &dec
@@ -28165,7 +28497,9 @@ func (v *RemoteProfileProvisioningRequest) UnmarshalBER(data []byte, opts ...ber
 }
 
 // MarshalBER encodes RemoteProfileProvisioningResponse to BER format.
-func (v *RemoteProfileProvisioningResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *RemoteProfileProvisioningResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: RemoteProfileProvisioningResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -28184,7 +28518,7 @@ func (v *RemoteProfileProvisioningResponse) marshalBER(opts ...ber.EncodeOption)
 		if v.InitiateAuthenticationResponse == nil {
 			return nil, fmt.Errorf("%w: choice RemoteProfileProvisioningResponse: initiateAuthenticationResponse is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.InitiateAuthenticationResponse.MarshalBER(opts...)
+		enc_0, err := v.InitiateAuthenticationResponse.MarshalBER(ber.ChildEncodeOptions(opts, "initiateAuthenticationResponse")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding initiateAuthenticationResponse: %w", err)
 		}
@@ -28200,7 +28534,7 @@ func (v *RemoteProfileProvisioningResponse) marshalBER(opts ...ber.EncodeOption)
 		if v.AuthenticateClientResponseEs9 == nil {
 			return nil, fmt.Errorf("%w: choice RemoteProfileProvisioningResponse: authenticateClientResponseEs9 is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.AuthenticateClientResponseEs9.MarshalBER(opts...)
+		enc_1, err := v.AuthenticateClientResponseEs9.MarshalBER(ber.ChildEncodeOptions(opts, "authenticateClientResponseEs9")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding authenticateClientResponseEs9: %w", err)
 		}
@@ -28216,7 +28550,7 @@ func (v *RemoteProfileProvisioningResponse) marshalBER(opts ...ber.EncodeOption)
 		if v.GetBoundProfilePackageResponse == nil {
 			return nil, fmt.Errorf("%w: choice RemoteProfileProvisioningResponse: getBoundProfilePackageResponse is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.GetBoundProfilePackageResponse.MarshalBER(opts...)
+		enc_2, err := v.GetBoundProfilePackageResponse.MarshalBER(ber.ChildEncodeOptions(opts, "getBoundProfilePackageResponse")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding getBoundProfilePackageResponse: %w", err)
 		}
@@ -28232,7 +28566,7 @@ func (v *RemoteProfileProvisioningResponse) marshalBER(opts ...ber.EncodeOption)
 		if v.CancelSessionResponseEs9 == nil {
 			return nil, fmt.Errorf("%w: choice RemoteProfileProvisioningResponse: cancelSessionResponseEs9 is nil", ber.ErrInvalidValue)
 		}
-		enc_3, err := v.CancelSessionResponseEs9.MarshalBER(opts...)
+		enc_3, err := v.CancelSessionResponseEs9.MarshalBER(ber.ChildEncodeOptions(opts, "cancelSessionResponseEs9")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cancelSessionResponseEs9: %w", err)
 		}
@@ -28248,7 +28582,7 @@ func (v *RemoteProfileProvisioningResponse) marshalBER(opts ...ber.EncodeOption)
 		if v.AuthenticateClientResponseEs11 == nil {
 			return nil, fmt.Errorf("%w: choice RemoteProfileProvisioningResponse: authenticateClientResponseEs11 is nil", ber.ErrInvalidValue)
 		}
-		enc_4, err := v.AuthenticateClientResponseEs11.MarshalBER(opts...)
+		enc_4, err := v.AuthenticateClientResponseEs11.MarshalBER(ber.ChildEncodeOptions(opts, "authenticateClientResponseEs11")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding authenticateClientResponseEs11: %w", err)
 		}
@@ -28382,6 +28716,8 @@ func (v *RemoteProfileProvisioningResponse) UnmarshalBER(data []byte, opts ...be
 	if v == nil {
 		return fmt.Errorf("%w: RemoteProfileProvisioningResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -28430,38 +28766,38 @@ func (v *RemoteProfileProvisioningResponse) UnmarshalBER(data []byte, opts ...be
 		return &ber.DecodeError{Offset: total, TypeName: "RemoteProfileProvisioningResponse", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 57 && peekTag.Constructed == true {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 57 {
 		v.Choice = RemoteProfileProvisioningResponseChoiceInitiateAuthenticationResponse
 		var dec InitiateAuthenticationResponse
-		if unmErr := dec.UnmarshalBER(choiceData, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(choiceData, ber.ChildDecodeOptions(opts, "initiateAuthenticationResponse")...); unmErr != nil {
 			return fmt.Errorf("decoding initiateAuthenticationResponse: %w", unmErr)
 		}
 		v.InitiateAuthenticationResponse = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 59 && peekTag.Constructed == true {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 59 {
 		v.Choice = RemoteProfileProvisioningResponseChoiceAuthenticateClientResponseEs9
 		var dec AuthenticateClientResponseEs9
-		if unmErr := dec.UnmarshalBER(choiceData, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(choiceData, ber.ChildDecodeOptions(opts, "authenticateClientResponseEs9")...); unmErr != nil {
 			return fmt.Errorf("decoding authenticateClientResponseEs9: %w", unmErr)
 		}
 		v.AuthenticateClientResponseEs9 = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 58 && peekTag.Constructed == true {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 58 {
 		v.Choice = RemoteProfileProvisioningResponseChoiceGetBoundProfilePackageResponse
 		var dec GetBoundProfilePackageResponse
-		if unmErr := dec.UnmarshalBER(choiceData, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(choiceData, ber.ChildDecodeOptions(opts, "getBoundProfilePackageResponse")...); unmErr != nil {
 			return fmt.Errorf("decoding getBoundProfilePackageResponse: %w", unmErr)
 		}
 		v.GetBoundProfilePackageResponse = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 65 && peekTag.Constructed == true {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 65 {
 		v.Choice = RemoteProfileProvisioningResponseChoiceCancelSessionResponseEs9
 		var dec CancelSessionResponseEs9
-		if unmErr := dec.UnmarshalBER(choiceData, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(choiceData, ber.ChildDecodeOptions(opts, "cancelSessionResponseEs9")...); unmErr != nil {
 			return fmt.Errorf("decoding cancelSessionResponseEs9: %w", unmErr)
 		}
 		v.CancelSessionResponseEs9 = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 64 && peekTag.Constructed == true {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 64 {
 		v.Choice = RemoteProfileProvisioningResponseChoiceAuthenticateClientResponseEs11
 		var dec AuthenticateClientResponseEs11
-		if unmErr := dec.UnmarshalBER(choiceData, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(choiceData, ber.ChildDecodeOptions(opts, "authenticateClientResponseEs11")...); unmErr != nil {
 			return fmt.Errorf("decoding authenticateClientResponseEs11: %w", unmErr)
 		}
 		v.AuthenticateClientResponseEs11 = &dec
@@ -28472,7 +28808,9 @@ func (v *RemoteProfileProvisioningResponse) UnmarshalBER(data []byte, opts ...be
 }
 
 // MarshalBER encodes InitiateAuthenticationRequest to BER format.
-func (v *InitiateAuthenticationRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *InitiateAuthenticationRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: InitiateAuthenticationRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -28512,13 +28850,13 @@ func (v *InitiateAuthenticationRequest) marshalBER(opts ...ber.EncodeOption) ([]
 	}
 	enc_smdpaddress = retagged_enc_smdpaddress
 	children = append(children, enc_smdpaddress...)
-	enc_euiccinfo1, err := v.EuiccInfo1.MarshalBER(opts...)
+	enc_euiccinfo1, err := v.EuiccInfo1.MarshalBER(ber.ChildEncodeOptions(opts, "euiccInfo1")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding euiccInfo1: %w", err)
 	}
 	children = append(children, enc_euiccinfo1...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -28592,6 +28930,8 @@ func (v *InitiateAuthenticationRequest) UnmarshalBER(data []byte, opts ...ber.De
 	if v == nil {
 		return fmt.Errorf("%w: InitiateAuthenticationRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -28730,7 +29070,9 @@ func (v *InitiateAuthenticationRequest) UnmarshalBER(data []byte, opts ...ber.De
 }
 
 // MarshalBER encodes InitiateAuthenticationResponse to BER format.
-func (v *InitiateAuthenticationResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *InitiateAuthenticationResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: InitiateAuthenticationResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -28749,7 +29091,7 @@ func (v *InitiateAuthenticationResponse) marshalBER(opts ...ber.EncodeOption) ([
 		if v.InitiateAuthenticationOk == nil {
 			return nil, fmt.Errorf("%w: choice InitiateAuthenticationResponse: initiateAuthenticationOk is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.InitiateAuthenticationOk.MarshalBER(opts...)
+		enc_0, err := v.InitiateAuthenticationOk.MarshalBER(ber.ChildEncodeOptions(opts, "initiateAuthenticationOk")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding initiateAuthenticationOk: %w", err)
 		}
@@ -28838,6 +29180,8 @@ func (v *InitiateAuthenticationResponse) UnmarshalBER(data []byte, opts ...ber.D
 	if v == nil {
 		return fmt.Errorf("%w: InitiateAuthenticationResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -28897,7 +29241,7 @@ func (v *InitiateAuthenticationResponse) UnmarshalBER(data []byte, opts ...ber.D
 			return reconstructionErr
 		}
 		var dec InitiateAuthenticationOkEs9
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "initiateAuthenticationOk")...); unmErr != nil {
 			return fmt.Errorf("decoding initiateAuthenticationOk: %w", unmErr)
 		}
 		v.InitiateAuthenticationOk = &dec
@@ -28923,7 +29267,9 @@ func (v *InitiateAuthenticationResponse) UnmarshalBER(data []byte, opts ...ber.D
 }
 
 // MarshalBER encodes InitiateAuthenticationOkEs9 to BER format.
-func (v *InitiateAuthenticationOkEs9) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *InitiateAuthenticationOkEs9) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: InitiateAuthenticationOkEs9 receiver is nil", ber.ErrInvalidValue)
 	}
@@ -28953,7 +29299,7 @@ func (v *InitiateAuthenticationOkEs9) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	enc_transactionid = retagged_enc_transactionid
 	children = append(children, enc_transactionid...)
-	enc_serversigned1, err := v.ServerSigned1.MarshalBER(opts...)
+	enc_serversigned1, err := v.ServerSigned1.MarshalBER(ber.ChildEncodeOptions(opts, "serverSigned1")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding serverSigned1: %w", err)
 	}
@@ -28973,13 +29319,13 @@ func (v *InitiateAuthenticationOkEs9) marshalBER(opts ...ber.EncodeOption) ([]by
 		return nil, fmt.Errorf("encoding euiccCiPKIdToBeUsed: %w", encodeErr_enc_euicccipkidtobeused)
 	}
 	children = append(children, enc_euicccipkidtobeused...)
-	enc_servercertificate, err := v.ServerCertificate.MarshalBER(opts...)
+	enc_servercertificate, err := v.ServerCertificate.MarshalBER(ber.ChildEncodeOptions(opts, "serverCertificate")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding serverCertificate: %w", err)
 	}
 	children = append(children, enc_servercertificate...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -29058,6 +29404,8 @@ func (v *InitiateAuthenticationOkEs9) UnmarshalBER(data []byte, opts ...ber.Deco
 	if v == nil {
 		return fmt.Errorf("%w: InitiateAuthenticationOkEs9 destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -29231,7 +29579,9 @@ func (v *InitiateAuthenticationOkEs9) UnmarshalBER(data []byte, opts ...ber.Deco
 }
 
 // MarshalBER encodes AuthenticateClientRequest to BER format.
-func (v *AuthenticateClientRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *AuthenticateClientRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: AuthenticateClientRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -29261,7 +29611,7 @@ func (v *AuthenticateClientRequest) marshalBER(opts ...ber.EncodeOption) ([]byte
 	}
 	enc_transactionid = retagged_enc_transactionid
 	children = append(children, enc_transactionid...)
-	enc_authenticateserverresponse, err := v.AuthenticateServerResponse.MarshalBER(opts...)
+	enc_authenticateserverresponse, err := v.AuthenticateServerResponse.MarshalBER(ber.ChildEncodeOptions(opts, "authenticateServerResponse")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding authenticateServerResponse: %w", err)
 	}
@@ -29271,7 +29621,7 @@ func (v *AuthenticateClientRequest) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_usematchingidforacr...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -29339,6 +29689,8 @@ func (v *AuthenticateClientRequest) UnmarshalBER(data []byte, opts ...ber.Decode
 	if v == nil {
 		return fmt.Errorf("%w: AuthenticateClientRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -29476,7 +29828,9 @@ func (v *AuthenticateClientRequest) UnmarshalBER(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes AuthenticateClientResponseEs9 to BER format.
-func (v *AuthenticateClientResponseEs9) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *AuthenticateClientResponseEs9) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: AuthenticateClientResponseEs9 receiver is nil", ber.ErrInvalidValue)
 	}
@@ -29495,7 +29849,7 @@ func (v *AuthenticateClientResponseEs9) marshalBER(opts ...ber.EncodeOption) ([]
 		if v.AuthenticateClientOk == nil {
 			return nil, fmt.Errorf("%w: choice AuthenticateClientResponseEs9: authenticateClientOk is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.AuthenticateClientOk.MarshalBER(opts...)
+		enc_0, err := v.AuthenticateClientOk.MarshalBER(ber.ChildEncodeOptions(opts, "authenticateClientOk")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding authenticateClientOk: %w", err)
 		}
@@ -29537,7 +29891,7 @@ func (v *AuthenticateClientResponseEs9) marshalBER(opts ...ber.EncodeOption) ([]
 		if v.AuthenticateClientOkAcr == nil {
 			return nil, fmt.Errorf("%w: choice AuthenticateClientResponseEs9: authenticateClientOkAcr is nil", ber.ErrInvalidValue)
 		}
-		enc_2, err := v.AuthenticateClientOkAcr.MarshalBER(opts...)
+		enc_2, err := v.AuthenticateClientOkAcr.MarshalBER(ber.ChildEncodeOptions(opts, "authenticateClientOkAcr")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding authenticateClientOkAcr: %w", err)
 		}
@@ -29629,6 +29983,8 @@ func (v *AuthenticateClientResponseEs9) UnmarshalBER(data []byte, opts ...ber.De
 	if v == nil {
 		return fmt.Errorf("%w: AuthenticateClientResponseEs9 destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -29688,7 +30044,7 @@ func (v *AuthenticateClientResponseEs9) UnmarshalBER(data []byte, opts ...ber.De
 			return reconstructionErr
 		}
 		var dec AuthenticateClientOk
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "authenticateClientOk")...); unmErr != nil {
 			return fmt.Errorf("decoding authenticateClientOk: %w", unmErr)
 		}
 		v.AuthenticateClientOk = &dec
@@ -29718,7 +30074,7 @@ func (v *AuthenticateClientResponseEs9) UnmarshalBER(data []byte, opts ...ber.De
 			return reconstructionErr
 		}
 		var dec AuthenticateClientOkAcr
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "authenticateClientOkAcr")...); unmErr != nil {
 			return fmt.Errorf("decoding authenticateClientOkAcr: %w", unmErr)
 		}
 		v.AuthenticateClientOkAcr = &dec
@@ -29729,7 +30085,9 @@ func (v *AuthenticateClientResponseEs9) UnmarshalBER(data []byte, opts ...ber.De
 }
 
 // MarshalBER encodes AuthenticateClientOk to BER format.
-func (v *AuthenticateClientOk) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *AuthenticateClientOk) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: AuthenticateClientOk receiver is nil", ber.ErrInvalidValue)
 	}
@@ -29759,12 +30117,12 @@ func (v *AuthenticateClientOk) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	}
 	enc_transactionid = retagged_enc_transactionid
 	children = append(children, enc_transactionid...)
-	enc_profilemetadata, err := v.ProfileMetaData.MarshalBER(opts...)
+	enc_profilemetadata, err := v.ProfileMetaData.MarshalBER(ber.ChildEncodeOptions(opts, "profileMetaData")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding profileMetaData: %w", err)
 	}
 	children = append(children, enc_profilemetadata...)
-	enc_smdpsigned2, err := v.SmdpSigned2.MarshalBER(opts...)
+	enc_smdpsigned2, err := v.SmdpSigned2.MarshalBER(ber.ChildEncodeOptions(opts, "smdpSigned2")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding smdpSigned2: %w", err)
 	}
@@ -29779,13 +30137,13 @@ func (v *AuthenticateClientOk) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	}
 	enc_smdpsignature2 = retagged_enc_smdpsignature2
 	children = append(children, enc_smdpsignature2...)
-	enc_smdpcertificate, err := v.SmdpCertificate.MarshalBER(opts...)
+	enc_smdpcertificate, err := v.SmdpCertificate.MarshalBER(ber.ChildEncodeOptions(opts, "smdpCertificate")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding smdpCertificate: %w", err)
 	}
 	children = append(children, enc_smdpcertificate...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -29864,6 +30222,8 @@ func (v *AuthenticateClientOk) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if v == nil {
 		return fmt.Errorf("%w: AuthenticateClientOk destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -30055,7 +30415,9 @@ func (v *AuthenticateClientOk) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 }
 
 // MarshalBER encodes AuthenticateClientOkAcr to BER format.
-func (v *AuthenticateClientOkAcr) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *AuthenticateClientOkAcr) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: AuthenticateClientOkAcr receiver is nil", ber.ErrInvalidValue)
 	}
@@ -30085,13 +30447,13 @@ func (v *AuthenticateClientOkAcr) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	enc_transactionid = retagged_enc_transactionid
 	children = append(children, enc_transactionid...)
-	enc_profilemetadata, err := v.ProfileMetaData.MarshalBER(opts...)
+	enc_profilemetadata, err := v.ProfileMetaData.MarshalBER(ber.ChildEncodeOptions(opts, "profileMetaData")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding profileMetaData: %w", err)
 	}
 	children = append(children, enc_profilemetadata...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -30150,6 +30512,8 @@ func (v *AuthenticateClientOkAcr) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: AuthenticateClientOkAcr destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -30263,7 +30627,9 @@ func (v *AuthenticateClientOkAcr) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes GetBoundProfilePackageRequest to BER format.
-func (v *GetBoundProfilePackageRequest) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *GetBoundProfilePackageRequest) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: GetBoundProfilePackageRequest receiver is nil", ber.ErrInvalidValue)
 	}
@@ -30293,13 +30659,13 @@ func (v *GetBoundProfilePackageRequest) marshalBER(opts ...ber.EncodeOption) ([]
 	}
 	enc_transactionid = retagged_enc_transactionid
 	children = append(children, enc_transactionid...)
-	enc_preparedownloadresponse, err := v.PrepareDownloadResponse.MarshalBER(opts...)
+	enc_preparedownloadresponse, err := v.PrepareDownloadResponse.MarshalBER(ber.ChildEncodeOptions(opts, "prepareDownloadResponse")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding prepareDownloadResponse: %w", err)
 	}
 	children = append(children, enc_preparedownloadresponse...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -30363,6 +30729,8 @@ func (v *GetBoundProfilePackageRequest) UnmarshalBER(data []byte, opts ...ber.De
 	if v == nil {
 		return fmt.Errorf("%w: GetBoundProfilePackageRequest destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -30481,7 +30849,9 @@ func (v *GetBoundProfilePackageRequest) UnmarshalBER(data []byte, opts ...ber.De
 }
 
 // MarshalBER encodes GetBoundProfilePackageResponse to BER format.
-func (v *GetBoundProfilePackageResponse) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *GetBoundProfilePackageResponse) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: GetBoundProfilePackageResponse receiver is nil", ber.ErrInvalidValue)
 	}
@@ -30500,7 +30870,7 @@ func (v *GetBoundProfilePackageResponse) marshalBER(opts ...ber.EncodeOption) ([
 		if v.GetBoundProfilePackageOk == nil {
 			return nil, fmt.Errorf("%w: choice GetBoundProfilePackageResponse: getBoundProfilePackageOk is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.GetBoundProfilePackageOk.MarshalBER(opts...)
+		enc_0, err := v.GetBoundProfilePackageOk.MarshalBER(ber.ChildEncodeOptions(opts, "getBoundProfilePackageOk")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding getBoundProfilePackageOk: %w", err)
 		}
@@ -30589,6 +30959,8 @@ func (v *GetBoundProfilePackageResponse) UnmarshalBER(data []byte, opts ...ber.D
 	if v == nil {
 		return fmt.Errorf("%w: GetBoundProfilePackageResponse destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -30648,7 +31020,7 @@ func (v *GetBoundProfilePackageResponse) UnmarshalBER(data []byte, opts ...ber.D
 			return reconstructionErr
 		}
 		var dec GetBoundProfilePackageOk
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "getBoundProfilePackageOk")...); unmErr != nil {
 			return fmt.Errorf("decoding getBoundProfilePackageOk: %w", unmErr)
 		}
 		v.GetBoundProfilePackageOk = &dec
@@ -30674,7 +31046,9 @@ func (v *GetBoundProfilePackageResponse) UnmarshalBER(data []byte, opts ...ber.D
 }
 
 // MarshalBER encodes GetBoundProfilePackageOk to BER format.
-func (v *GetBoundProfilePackageOk) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *GetBoundProfilePackageOk) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: GetBoundProfilePackageOk receiver is nil", ber.ErrInvalidValue)
 	}
@@ -30704,13 +31078,13 @@ func (v *GetBoundProfilePackageOk) marshalBER(opts ...ber.EncodeOption) ([]byte,
 	}
 	enc_transactionid = retagged_enc_transactionid
 	children = append(children, enc_transactionid...)
-	enc_boundprofilepackage, err := v.BoundProfilePackage.MarshalBER(opts...)
+	enc_boundprofilepackage, err := v.BoundProfilePackage.MarshalBER(ber.ChildEncodeOptions(opts, "boundProfilePackage")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding boundProfilePackage: %w", err)
 	}
 	children = append(children, enc_boundprofilepackage...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -30769,6 +31143,8 @@ func (v *GetBoundProfilePackageOk) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: GetBoundProfilePackageOk destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -30884,7 +31260,9 @@ func (v *GetBoundProfilePackageOk) UnmarshalBER(data []byte, opts ...ber.DecodeO
 }
 
 // MarshalBER encodes HandleNotification to BER format.
-func (v *HandleNotification) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *HandleNotification) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: HandleNotification receiver is nil", ber.ErrInvalidValue)
 	}
@@ -30899,7 +31277,7 @@ func (v *HandleNotification) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		return nil, err
 	}
 	var children []byte
-	enc_pendingnotification, err := v.PendingNotification.MarshalBER(opts...)
+	enc_pendingnotification, err := v.PendingNotification.MarshalBER(ber.ChildEncodeOptions(opts, "pendingNotification")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding pendingNotification: %w", err)
 	}
@@ -30912,7 +31290,7 @@ func (v *HandleNotification) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	children = append(children, enc_pendingnotification...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -30968,6 +31346,8 @@ func (v *HandleNotification) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if v == nil {
 		return fmt.Errorf("%w: HandleNotification destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -31051,7 +31431,9 @@ func (v *HandleNotification) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 }
 
 // MarshalBER encodes CancelSessionRequestEs9 to BER format.
-func (v *CancelSessionRequestEs9) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *CancelSessionRequestEs9) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: CancelSessionRequestEs9 receiver is nil", ber.ErrInvalidValue)
 	}
@@ -31081,7 +31463,7 @@ func (v *CancelSessionRequestEs9) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	enc_transactionid = retagged_enc_transactionid
 	children = append(children, enc_transactionid...)
-	enc_cancelsessionresponse, err := v.CancelSessionResponse.MarshalBER(opts...)
+	enc_cancelsessionresponse, err := v.CancelSessionResponse.MarshalBER(ber.ChildEncodeOptions(opts, "cancelSessionResponse")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding cancelSessionResponse: %w", err)
 	}
@@ -31094,7 +31476,7 @@ func (v *CancelSessionRequestEs9) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	children = append(children, enc_cancelsessionresponse...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -31165,6 +31547,8 @@ func (v *CancelSessionRequestEs9) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if v == nil {
 		return fmt.Errorf("%w: CancelSessionRequestEs9 destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -31280,7 +31664,9 @@ func (v *CancelSessionRequestEs9) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes CancelSessionResponseEs9 to BER format.
-func (v *CancelSessionResponseEs9) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *CancelSessionResponseEs9) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: CancelSessionResponseEs9 receiver is nil", ber.ErrInvalidValue)
 	}
@@ -31299,7 +31685,7 @@ func (v *CancelSessionResponseEs9) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		if v.CancelSessionOk == nil {
 			return nil, fmt.Errorf("%w: choice CancelSessionResponseEs9: cancelSessionOk is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.CancelSessionOk.MarshalBER(opts...)
+		enc_0, err := v.CancelSessionOk.MarshalBER(ber.ChildEncodeOptions(opts, "cancelSessionOk")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cancelSessionOk: %w", err)
 		}
@@ -31388,6 +31774,8 @@ func (v *CancelSessionResponseEs9) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: CancelSessionResponseEs9 destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -31447,7 +31835,7 @@ func (v *CancelSessionResponseEs9) UnmarshalBER(data []byte, opts ...ber.DecodeO
 			return reconstructionErr
 		}
 		var dec CancelSessionOk
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "cancelSessionOk")...); unmErr != nil {
 			return fmt.Errorf("decoding cancelSessionOk: %w", unmErr)
 		}
 		v.CancelSessionOk = &dec
@@ -31473,7 +31861,9 @@ func (v *CancelSessionResponseEs9) UnmarshalBER(data []byte, opts ...ber.DecodeO
 }
 
 // MarshalBER encodes CancelSessionOk to BER format.
-func (v *CancelSessionOk) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *CancelSessionOk) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: CancelSessionOk receiver is nil", ber.ErrInvalidValue)
 	}
@@ -31489,7 +31879,7 @@ func (v *CancelSessionOk) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -31528,6 +31918,8 @@ func (v *CancelSessionOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 	if v == nil {
 		return fmt.Errorf("%w: CancelSessionOk destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -31581,7 +31973,9 @@ func (v *CancelSessionOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 }
 
 // MarshalBER encodes AuthenticateClientResponseEs11 to BER format.
-func (v *AuthenticateClientResponseEs11) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *AuthenticateClientResponseEs11) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: AuthenticateClientResponseEs11 receiver is nil", ber.ErrInvalidValue)
 	}
@@ -31600,7 +31994,7 @@ func (v *AuthenticateClientResponseEs11) marshalBER(opts ...ber.EncodeOption) ([
 		if v.AuthenticateClientOk == nil {
 			return nil, fmt.Errorf("%w: choice AuthenticateClientResponseEs11: authenticateClientOk is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.AuthenticateClientOk.MarshalBER(opts...)
+		enc_0, err := v.AuthenticateClientOk.MarshalBER(ber.ChildEncodeOptions(opts, "authenticateClientOk")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding authenticateClientOk: %w", err)
 		}
@@ -31689,6 +32083,8 @@ func (v *AuthenticateClientResponseEs11) UnmarshalBER(data []byte, opts ...ber.D
 	if v == nil {
 		return fmt.Errorf("%w: AuthenticateClientResponseEs11 destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -31748,7 +32144,7 @@ func (v *AuthenticateClientResponseEs11) UnmarshalBER(data []byte, opts ...ber.D
 			return reconstructionErr
 		}
 		var dec AuthenticateClientOkEs11
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "authenticateClientOk")...); unmErr != nil {
 			return fmt.Errorf("decoding authenticateClientOk: %w", unmErr)
 		}
 		v.AuthenticateClientOk = &dec
@@ -31774,7 +32170,9 @@ func (v *AuthenticateClientResponseEs11) UnmarshalBER(data []byte, opts ...ber.D
 }
 
 // MarshalBER encodes AuthenticateClientOkEs11 to BER format.
-func (v *AuthenticateClientOkEs11) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *AuthenticateClientOkEs11) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: AuthenticateClientOkEs11 receiver is nil", ber.ErrInvalidValue)
 	}
@@ -31807,13 +32205,13 @@ func (v *AuthenticateClientOkEs11) marshalBER(opts ...ber.EncodeOption) ([]byte,
 	if v.EventEntries == nil {
 		return nil, fmt.Errorf("encoding eventEntries: %w: required collection is nil", ber.ErrInvalidValue)
 	}
-	enc_evententries, err := MarshalBERAuthenticateClientOkEs11EventEntries(v.EventEntries, opts...)
+	enc_evententries, err := MarshalBERAuthenticateClientOkEs11EventEntries(v.EventEntries, ber.ChildEncodeOptions(opts, "eventEntries")...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding eventEntries: %w", err)
 	}
 	if v.EventEntriesIndef_ {
 		// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
-		_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_evententries)
+		_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_evententries)
 		if tlvErr_ != nil {
 			return nil, tlvErr_
 		}
@@ -31833,7 +32231,7 @@ func (v *AuthenticateClientOkEs11) marshalBER(opts ...ber.EncodeOption) ([]byte,
 	}
 	children = append(children, enc_evententries...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -31900,6 +32298,8 @@ func (v *AuthenticateClientOkEs11) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if v == nil {
 		return fmt.Errorf("%w: AuthenticateClientOkEs11 destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -32028,7 +32428,9 @@ func (v *AuthenticateClientOkEs11) UnmarshalBER(data []byte, opts ...ber.DecodeO
 }
 
 // MarshalBER encodes EventEntries to BER format.
-func (v *EventEntries) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *EventEntries) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: EventEntries receiver is nil", ber.ErrInvalidValue)
 	}
@@ -32064,7 +32466,7 @@ func (v *EventEntries) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	enc_rspserveraddress = retagged_enc_rspserveraddress
 	children = append(children, enc_rspserveraddress...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -32123,6 +32525,8 @@ func (v *EventEntries) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if v == nil {
 		return fmt.Errorf("%w: EventEntries destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -32231,7 +32635,9 @@ func (v *EventEntries) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 }
 
 // MarshalBERBoundProfilePackageFirstSequenceOf87 encodes a BoundProfilePackageFirstSequenceOf87 list to BER.
-func MarshalBERBoundProfilePackageFirstSequenceOf87(collection *BoundProfilePackageFirstSequenceOf87, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBERBoundProfilePackageFirstSequenceOf87(collection *BoundProfilePackageFirstSequenceOf87, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -32248,11 +32654,20 @@ func marshalBERBoundProfilePackageFirstSequenceOf87(collection *BoundProfilePack
 	list := collection.Values
 	var children []byte
 	for _, elem := range list {
+		elementStart := len(children)
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString(elem)
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
 		}
 		children = append(children, encodedElem...)
+		{
+			encodedElement := children[elementStart:]
+			taggedElement, tagErr := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, encodedElement)
+			if tagErr != nil {
+				return nil, fmt.Errorf("encoding element: %w", tagErr)
+			}
+			children = append(children[:elementStart], taggedElement...)
+		}
 	}
 	return ber.EncodeSequence(children)
 }
@@ -32265,11 +32680,20 @@ func MarshalDERBoundProfilePackageFirstSequenceOf87(collection *BoundProfilePack
 	list := collection.Values
 	var children []byte
 	for _, elem := range list {
+		elementStart := len(children)
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString(elem)
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
 		}
 		children = append(children, encodedElem...)
+		{
+			encodedElement := children[elementStart:]
+			taggedElement, tagErr := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, encodedElement)
+			if tagErr != nil {
+				return nil, fmt.Errorf("encoding element: %w", tagErr)
+			}
+			children = append(children[:elementStart], taggedElement...)
+		}
 	}
 	encoded, setErr := ber.EncodeSequence(children)
 	if setErr != nil {
@@ -32282,7 +32706,9 @@ func MarshalDERBoundProfilePackageFirstSequenceOf87(collection *BoundProfilePack
 }
 
 // UnmarshalBERBoundProfilePackageFirstSequenceOf87 decodes a BoundProfilePackageFirstSequenceOf87 list from BER.
-func UnmarshalBERBoundProfilePackageFirstSequenceOf87(data []byte, opts ...ber.DecodeOption) (*BoundProfilePackageFirstSequenceOf87, error) {
+func UnmarshalBERBoundProfilePackageFirstSequenceOf87(data []byte, opts ...ber.DecodeOption) (returnValue *BoundProfilePackageFirstSequenceOf87, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -32297,17 +32723,37 @@ func UnmarshalBERBoundProfilePackageFirstSequenceOf87(data []byte, opts ...ber.D
 	var result [][]byte
 	offset := 0
 	for offset < len(content) {
-		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
+		_, elementLength, _, elementErr := ber.DecodeTLV(content[offset:], opts...)
+		if elementErr != nil {
+			return nil, fmt.Errorf("decoding element TLV: %w", elementErr)
+		}
+		if offset < 0 || offset >
+			len(content) || elementLength < 0 || elementLength > len(content[offset:]) {
+			return nil, fmt.Errorf("invalid BER content window")
+		}
+
+		elementData := content[offset : offset+elementLength]
+		{
+			decodedElement, tagErr := ber.DecodeTaggedCollectionElement(elementData, tag.Tag{Class: tag.ClassContextSpecific, Number: 7}, false, tag.Tag{Class: tag.ClassUniversal, Number: 4}, opts...)
+			if tagErr != nil {
+				return nil, fmt.Errorf("decoding element: %w", tagErr)
+			}
+			elementData = decodedElement
+		}
+		val, n, osErr := ber.DecodeOctetString(elementData, opts...)
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
 		result = append(result, val)
 		if offset < 0 || offset >
-			len(content) || n < 0 || n > len(content[offset:]) {
+			len(content) || elementLength < 0 || elementLength > len(content[offset:]) {
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		offset += n
+		offset += elementLength
+		if n != len(elementData) {
+			return nil, fmt.Errorf("%w: tagged element has trailing data", ber.ErrExtraData)
+		}
 	}
 	decoded := &BoundProfilePackageFirstSequenceOf87{Values: result}
 	if ber.BERNeedsPreservation(opts) {
@@ -32323,7 +32769,9 @@ func UnmarshalBERBoundProfilePackageFirstSequenceOf87(data []byte, opts ...ber.D
 }
 
 // MarshalBERBoundProfilePackageSequenceOf88 encodes a BoundProfilePackageSequenceOf88 list to BER.
-func MarshalBERBoundProfilePackageSequenceOf88(collection *BoundProfilePackageSequenceOf88, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBERBoundProfilePackageSequenceOf88(collection *BoundProfilePackageSequenceOf88, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -32340,11 +32788,20 @@ func marshalBERBoundProfilePackageSequenceOf88(collection *BoundProfilePackageSe
 	list := collection.Values
 	var children []byte
 	for _, elem := range list {
+		elementStart := len(children)
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString(elem)
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
 		}
 		children = append(children, encodedElem...)
+		{
+			encodedElement := children[elementStart:]
+			taggedElement, tagErr := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, encodedElement)
+			if tagErr != nil {
+				return nil, fmt.Errorf("encoding element: %w", tagErr)
+			}
+			children = append(children[:elementStart], taggedElement...)
+		}
 	}
 	return ber.EncodeSequence(children)
 }
@@ -32357,11 +32814,20 @@ func MarshalDERBoundProfilePackageSequenceOf88(collection *BoundProfilePackageSe
 	list := collection.Values
 	var children []byte
 	for _, elem := range list {
+		elementStart := len(children)
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString(elem)
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
 		}
 		children = append(children, encodedElem...)
+		{
+			encodedElement := children[elementStart:]
+			taggedElement, tagErr := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, encodedElement)
+			if tagErr != nil {
+				return nil, fmt.Errorf("encoding element: %w", tagErr)
+			}
+			children = append(children[:elementStart], taggedElement...)
+		}
 	}
 	encoded, setErr := ber.EncodeSequence(children)
 	if setErr != nil {
@@ -32374,7 +32840,9 @@ func MarshalDERBoundProfilePackageSequenceOf88(collection *BoundProfilePackageSe
 }
 
 // UnmarshalBERBoundProfilePackageSequenceOf88 decodes a BoundProfilePackageSequenceOf88 list from BER.
-func UnmarshalBERBoundProfilePackageSequenceOf88(data []byte, opts ...ber.DecodeOption) (*BoundProfilePackageSequenceOf88, error) {
+func UnmarshalBERBoundProfilePackageSequenceOf88(data []byte, opts ...ber.DecodeOption) (returnValue *BoundProfilePackageSequenceOf88, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -32389,17 +32857,37 @@ func UnmarshalBERBoundProfilePackageSequenceOf88(data []byte, opts ...ber.Decode
 	var result [][]byte
 	offset := 0
 	for offset < len(content) {
-		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
+		_, elementLength, _, elementErr := ber.DecodeTLV(content[offset:], opts...)
+		if elementErr != nil {
+			return nil, fmt.Errorf("decoding element TLV: %w", elementErr)
+		}
+		if offset < 0 || offset >
+			len(content) || elementLength < 0 || elementLength > len(content[offset:]) {
+			return nil, fmt.Errorf("invalid BER content window")
+		}
+
+		elementData := content[offset : offset+elementLength]
+		{
+			decodedElement, tagErr := ber.DecodeTaggedCollectionElement(elementData, tag.Tag{Class: tag.ClassContextSpecific, Number: 8}, false, tag.Tag{Class: tag.ClassUniversal, Number: 4}, opts...)
+			if tagErr != nil {
+				return nil, fmt.Errorf("decoding element: %w", tagErr)
+			}
+			elementData = decodedElement
+		}
+		val, n, osErr := ber.DecodeOctetString(elementData, opts...)
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
 		result = append(result, val)
 		if offset < 0 || offset >
-			len(content) || n < 0 || n > len(content[offset:]) {
+			len(content) || elementLength < 0 || elementLength > len(content[offset:]) {
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		offset += n
+		offset += elementLength
+		if n != len(elementData) {
+			return nil, fmt.Errorf("%w: tagged element has trailing data", ber.ErrExtraData)
+		}
 	}
 	decoded := &BoundProfilePackageSequenceOf88{Values: result}
 	if ber.BERNeedsPreservation(opts) {
@@ -32415,7 +32903,9 @@ func UnmarshalBERBoundProfilePackageSequenceOf88(data []byte, opts ...ber.Decode
 }
 
 // MarshalBERBoundProfilePackageSecondSequenceOf87 encodes a BoundProfilePackageSecondSequenceOf87 list to BER.
-func MarshalBERBoundProfilePackageSecondSequenceOf87(collection *BoundProfilePackageSecondSequenceOf87, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBERBoundProfilePackageSecondSequenceOf87(collection *BoundProfilePackageSecondSequenceOf87, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -32432,11 +32922,20 @@ func marshalBERBoundProfilePackageSecondSequenceOf87(collection *BoundProfilePac
 	list := collection.Values
 	var children []byte
 	for _, elem := range list {
+		elementStart := len(children)
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString(elem)
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
 		}
 		children = append(children, encodedElem...)
+		{
+			encodedElement := children[elementStart:]
+			taggedElement, tagErr := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, encodedElement)
+			if tagErr != nil {
+				return nil, fmt.Errorf("encoding element: %w", tagErr)
+			}
+			children = append(children[:elementStart], taggedElement...)
+		}
 	}
 	return ber.EncodeSequence(children)
 }
@@ -32449,11 +32948,20 @@ func MarshalDERBoundProfilePackageSecondSequenceOf87(collection *BoundProfilePac
 	list := collection.Values
 	var children []byte
 	for _, elem := range list {
+		elementStart := len(children)
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString(elem)
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
 		}
 		children = append(children, encodedElem...)
+		{
+			encodedElement := children[elementStart:]
+			taggedElement, tagErr := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, encodedElement)
+			if tagErr != nil {
+				return nil, fmt.Errorf("encoding element: %w", tagErr)
+			}
+			children = append(children[:elementStart], taggedElement...)
+		}
 	}
 	encoded, setErr := ber.EncodeSequence(children)
 	if setErr != nil {
@@ -32466,7 +32974,9 @@ func MarshalDERBoundProfilePackageSecondSequenceOf87(collection *BoundProfilePac
 }
 
 // UnmarshalBERBoundProfilePackageSecondSequenceOf87 decodes a BoundProfilePackageSecondSequenceOf87 list from BER.
-func UnmarshalBERBoundProfilePackageSecondSequenceOf87(data []byte, opts ...ber.DecodeOption) (*BoundProfilePackageSecondSequenceOf87, error) {
+func UnmarshalBERBoundProfilePackageSecondSequenceOf87(data []byte, opts ...ber.DecodeOption) (returnValue *BoundProfilePackageSecondSequenceOf87, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -32481,17 +32991,37 @@ func UnmarshalBERBoundProfilePackageSecondSequenceOf87(data []byte, opts ...ber.
 	var result [][]byte
 	offset := 0
 	for offset < len(content) {
-		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
+		_, elementLength, _, elementErr := ber.DecodeTLV(content[offset:], opts...)
+		if elementErr != nil {
+			return nil, fmt.Errorf("decoding element TLV: %w", elementErr)
+		}
+		if offset < 0 || offset >
+			len(content) || elementLength < 0 || elementLength > len(content[offset:]) {
+			return nil, fmt.Errorf("invalid BER content window")
+		}
+
+		elementData := content[offset : offset+elementLength]
+		{
+			decodedElement, tagErr := ber.DecodeTaggedCollectionElement(elementData, tag.Tag{Class: tag.ClassContextSpecific, Number: 7}, false, tag.Tag{Class: tag.ClassUniversal, Number: 4}, opts...)
+			if tagErr != nil {
+				return nil, fmt.Errorf("decoding element: %w", tagErr)
+			}
+			elementData = decodedElement
+		}
+		val, n, osErr := ber.DecodeOctetString(elementData, opts...)
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
 		result = append(result, val)
 		if offset < 0 || offset >
-			len(content) || n < 0 || n > len(content[offset:]) {
+			len(content) || elementLength < 0 || elementLength > len(content[offset:]) {
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		offset += n
+		offset += elementLength
+		if n != len(elementData) {
+			return nil, fmt.Errorf("%w: tagged element has trailing data", ber.ErrExtraData)
+		}
 	}
 	decoded := &BoundProfilePackageSecondSequenceOf87{Values: result}
 	if ber.BERNeedsPreservation(opts) {
@@ -32507,7 +33037,9 @@ func UnmarshalBERBoundProfilePackageSecondSequenceOf87(data []byte, opts ...ber.
 }
 
 // MarshalBERBoundProfilePackageSequenceOf86 encodes a BoundProfilePackageSequenceOf86 list to BER.
-func MarshalBERBoundProfilePackageSequenceOf86(collection *BoundProfilePackageSequenceOf86, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBERBoundProfilePackageSequenceOf86(collection *BoundProfilePackageSequenceOf86, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -32524,11 +33056,20 @@ func marshalBERBoundProfilePackageSequenceOf86(collection *BoundProfilePackageSe
 	list := collection.Values
 	var children []byte
 	for _, elem := range list {
+		elementStart := len(children)
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString(elem)
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
 		}
 		children = append(children, encodedElem...)
+		{
+			encodedElement := children[elementStart:]
+			taggedElement, tagErr := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, encodedElement)
+			if tagErr != nil {
+				return nil, fmt.Errorf("encoding element: %w", tagErr)
+			}
+			children = append(children[:elementStart], taggedElement...)
+		}
 	}
 	return ber.EncodeSequence(children)
 }
@@ -32541,11 +33082,20 @@ func MarshalDERBoundProfilePackageSequenceOf86(collection *BoundProfilePackageSe
 	list := collection.Values
 	var children []byte
 	for _, elem := range list {
+		elementStart := len(children)
 		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString(elem)
 		if encodeErr_encodedElem != nil {
 			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
 		}
 		children = append(children, encodedElem...)
+		{
+			encodedElement := children[elementStart:]
+			taggedElement, tagErr := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, encodedElement)
+			if tagErr != nil {
+				return nil, fmt.Errorf("encoding element: %w", tagErr)
+			}
+			children = append(children[:elementStart], taggedElement...)
+		}
 	}
 	encoded, setErr := ber.EncodeSequence(children)
 	if setErr != nil {
@@ -32558,7 +33108,9 @@ func MarshalDERBoundProfilePackageSequenceOf86(collection *BoundProfilePackageSe
 }
 
 // UnmarshalBERBoundProfilePackageSequenceOf86 decodes a BoundProfilePackageSequenceOf86 list from BER.
-func UnmarshalBERBoundProfilePackageSequenceOf86(data []byte, opts ...ber.DecodeOption) (*BoundProfilePackageSequenceOf86, error) {
+func UnmarshalBERBoundProfilePackageSequenceOf86(data []byte, opts ...ber.DecodeOption) (returnValue *BoundProfilePackageSequenceOf86, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -32573,17 +33125,37 @@ func UnmarshalBERBoundProfilePackageSequenceOf86(data []byte, opts ...ber.Decode
 	var result [][]byte
 	offset := 0
 	for offset < len(content) {
-		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
+		_, elementLength, _, elementErr := ber.DecodeTLV(content[offset:], opts...)
+		if elementErr != nil {
+			return nil, fmt.Errorf("decoding element TLV: %w", elementErr)
+		}
+		if offset < 0 || offset >
+			len(content) || elementLength < 0 || elementLength > len(content[offset:]) {
+			return nil, fmt.Errorf("invalid BER content window")
+		}
+
+		elementData := content[offset : offset+elementLength]
+		{
+			decodedElement, tagErr := ber.DecodeTaggedCollectionElement(elementData, tag.Tag{Class: tag.ClassContextSpecific, Number: 6}, false, tag.Tag{Class: tag.ClassUniversal, Number: 4}, opts...)
+			if tagErr != nil {
+				return nil, fmt.Errorf("decoding element: %w", tagErr)
+			}
+			elementData = decodedElement
+		}
+		val, n, osErr := ber.DecodeOctetString(elementData, opts...)
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
 		result = append(result, val)
 		if offset < 0 || offset >
-			len(content) || n < 0 || n > len(content[offset:]) {
+			len(content) || elementLength < 0 || elementLength > len(content[offset:]) {
 			return nil, fmt.Errorf("invalid BER content window")
 		}
 
-		offset += n
+		offset += elementLength
+		if n != len(elementData) {
+			return nil, fmt.Errorf("%w: tagged element has trailing data", ber.ErrExtraData)
+		}
 	}
 	decoded := &BoundProfilePackageSequenceOf86{Values: result}
 	if ber.BERNeedsPreservation(opts) {
@@ -32599,7 +33171,9 @@ func UnmarshalBERBoundProfilePackageSequenceOf86(data []byte, opts ...ber.Decode
 }
 
 // MarshalBER encodes ProfileInstallationResultDataFinalResult to BER format.
-func (v *ProfileInstallationResultDataFinalResult) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ProfileInstallationResultDataFinalResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ProfileInstallationResultDataFinalResult receiver is nil", ber.ErrInvalidValue)
 	}
@@ -32618,7 +33192,7 @@ func (v *ProfileInstallationResultDataFinalResult) marshalBER(opts ...ber.Encode
 		if v.SuccessResult == nil {
 			return nil, fmt.Errorf("%w: choice ProfileInstallationResultDataFinalResult: successResult is nil", ber.ErrInvalidValue)
 		}
-		enc_0, err := v.SuccessResult.MarshalBER(opts...)
+		enc_0, err := v.SuccessResult.MarshalBER(ber.ChildEncodeOptions(opts, "successResult")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding successResult: %w", err)
 		}
@@ -32632,7 +33206,7 @@ func (v *ProfileInstallationResultDataFinalResult) marshalBER(opts ...ber.Encode
 		if v.ErrorResult == nil {
 			return nil, fmt.Errorf("%w: choice ProfileInstallationResultDataFinalResult: errorResult is nil", ber.ErrInvalidValue)
 		}
-		enc_1, err := v.ErrorResult.MarshalBER(opts...)
+		enc_1, err := v.ErrorResult.MarshalBER(ber.ChildEncodeOptions(opts, "errorResult")...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding errorResult: %w", err)
 		}
@@ -32703,6 +33277,8 @@ func (v *ProfileInstallationResultDataFinalResult) UnmarshalBER(data []byte, opt
 	if v == nil {
 		return fmt.Errorf("%w: ProfileInstallationResultDataFinalResult destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -32749,7 +33325,7 @@ func (v *ProfileInstallationResultDataFinalResult) UnmarshalBER(data []byte, opt
 			return reconstructionErr
 		}
 		var dec SuccessResult
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "successResult")...); unmErr != nil {
 			return fmt.Errorf("decoding successResult: %w", unmErr)
 		}
 		v.SuccessResult = &dec
@@ -32764,7 +33340,7 @@ func (v *ProfileInstallationResultDataFinalResult) UnmarshalBER(data []byte, opt
 			return reconstructionErr
 		}
 		var dec ErrorResult
-		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
+		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "errorResult")...); unmErr != nil {
 			return fmt.Errorf("decoding errorResult: %w", unmErr)
 		}
 		v.ErrorResult = &dec
@@ -32775,7 +33351,9 @@ func (v *ProfileInstallationResultDataFinalResult) UnmarshalBER(data []byte, opt
 }
 
 // MarshalBERStoreMetadataRequestNotificationConfigurationInfo encodes a StoreMetadataRequestNotificationConfigurationInfo list to BER.
-func MarshalBERStoreMetadataRequestNotificationConfigurationInfo(collection *StoreMetadataRequestNotificationConfigurationInfo, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBERStoreMetadataRequestNotificationConfigurationInfo(collection *StoreMetadataRequestNotificationConfigurationInfo, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -32791,8 +33369,8 @@ func MarshalBERStoreMetadataRequestNotificationConfigurationInfo(collection *Sto
 func marshalBERStoreMetadataRequestNotificationConfigurationInfo(collection *StoreMetadataRequestNotificationConfigurationInfo, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	var children []byte
-	for _, elem := range list {
-		enc, err := elem.MarshalBER(opts...)
+	for elemIndex, elem := range list {
+		enc, err := elem.MarshalBER(ber.ChildEncodeOptions(opts, fmt.Sprintf("element[%d]", elemIndex))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -32826,7 +33404,9 @@ func MarshalDERStoreMetadataRequestNotificationConfigurationInfo(collection *Sto
 }
 
 // UnmarshalBERStoreMetadataRequestNotificationConfigurationInfo decodes a StoreMetadataRequestNotificationConfigurationInfo list from BER.
-func UnmarshalBERStoreMetadataRequestNotificationConfigurationInfo(data []byte, opts ...ber.DecodeOption) (*StoreMetadataRequestNotificationConfigurationInfo, error) {
+func UnmarshalBERStoreMetadataRequestNotificationConfigurationInfo(data []byte, opts ...ber.DecodeOption) (returnValue *StoreMetadataRequestNotificationConfigurationInfo, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -32841,17 +33421,13 @@ func UnmarshalBERStoreMetadataRequestNotificationConfigurationInfo(data []byte, 
 	var result []NotificationConfigurationInformation
 	offset := 0
 	for offset < len(content) {
+		elementData := content[offset:]
 		var elem NotificationConfigurationInformation
-		_, n, _, tlvErr := ber.DecodeTLV(content[offset:], opts...)
+		_, n, _, tlvErr := ber.DecodeTLV(elementData, opts...)
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
 		}
-		if offset < 0 || offset >
-			len(content) || n < 0 || n > len(content[offset:]) {
-			return nil, fmt.Errorf("invalid BER content window")
-		}
-
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(elementData[:n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -32876,7 +33452,9 @@ func UnmarshalBERStoreMetadataRequestNotificationConfigurationInfo(data []byte, 
 }
 
 // MarshalBER encodes StoreMetadataRequestIotSpecificMetadata to BER format.
-func (v *StoreMetadataRequestIotSpecificMetadata) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *StoreMetadataRequestIotSpecificMetadata) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: StoreMetadataRequestIotSpecificMetadata receiver is nil", ber.ErrInvalidValue)
 	}
@@ -32892,7 +33470,7 @@ func (v *StoreMetadataRequestIotSpecificMetadata) marshalBER(opts ...ber.EncodeO
 	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -32931,6 +33509,8 @@ func (v *StoreMetadataRequestIotSpecificMetadata) UnmarshalBER(data []byte, opts
 	if v == nil {
 		return fmt.Errorf("%w: StoreMetadataRequestIotSpecificMetadata destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -32984,7 +33564,9 @@ func (v *StoreMetadataRequestIotSpecificMetadata) UnmarshalBER(data []byte, opts
 }
 
 // MarshalBER encodes VendorSpecificExtensionElem to BER format.
-func (v *VendorSpecificExtensionElem) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *VendorSpecificExtensionElem) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: VendorSpecificExtensionElem receiver is nil", ber.ErrInvalidValue)
 	}
@@ -33017,7 +33599,7 @@ func (v *VendorSpecificExtensionElem) marshalBER(opts ...ber.EncodeOption) ([]by
 	enc_vendorspecificdata = retagged_enc_vendorspecificdata
 	children = append(children, enc_vendorspecificdata...)
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -33073,6 +33655,8 @@ func (v *VendorSpecificExtensionElem) UnmarshalBER(data []byte, opts ...ber.Deco
 	if v == nil {
 		return fmt.Errorf("%w: VendorSpecificExtensionElem destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -33182,7 +33766,9 @@ func (v *VendorSpecificExtensionElem) UnmarshalBER(data []byte, opts ...ber.Deco
 }
 
 // MarshalBEREUICCInfo1EuiccCiPKIdListForVerification encodes a EUICCInfo1EuiccCiPKIdListForVerification list to BER.
-func MarshalBEREUICCInfo1EuiccCiPKIdListForVerification(collection *EUICCInfo1EuiccCiPKIdListForVerification, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBEREUICCInfo1EuiccCiPKIdListForVerification(collection *EUICCInfo1EuiccCiPKIdListForVerification, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -33233,7 +33819,9 @@ func MarshalDEREUICCInfo1EuiccCiPKIdListForVerification(collection *EUICCInfo1Eu
 }
 
 // UnmarshalBEREUICCInfo1EuiccCiPKIdListForVerification decodes a EUICCInfo1EuiccCiPKIdListForVerification list from BER.
-func UnmarshalBEREUICCInfo1EuiccCiPKIdListForVerification(data []byte, opts ...ber.DecodeOption) (*EUICCInfo1EuiccCiPKIdListForVerification, error) {
+func UnmarshalBEREUICCInfo1EuiccCiPKIdListForVerification(data []byte, opts ...ber.DecodeOption) (returnValue *EUICCInfo1EuiccCiPKIdListForVerification, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -33248,7 +33836,8 @@ func UnmarshalBEREUICCInfo1EuiccCiPKIdListForVerification(data []byte, opts ...b
 	var result []SubjectKeyIdentifier
 	offset := 0
 	for offset < len(content) {
-		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
+		elementData := content[offset:]
+		val, n, osErr := ber.DecodeOctetString(elementData, opts...)
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
@@ -33274,7 +33863,9 @@ func UnmarshalBEREUICCInfo1EuiccCiPKIdListForVerification(data []byte, opts ...b
 }
 
 // MarshalBEREUICCInfo1EuiccCiPKIdListForSigning encodes a EUICCInfo1EuiccCiPKIdListForSigning list to BER.
-func MarshalBEREUICCInfo1EuiccCiPKIdListForSigning(collection *EUICCInfo1EuiccCiPKIdListForSigning, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBEREUICCInfo1EuiccCiPKIdListForSigning(collection *EUICCInfo1EuiccCiPKIdListForSigning, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -33325,7 +33916,9 @@ func MarshalDEREUICCInfo1EuiccCiPKIdListForSigning(collection *EUICCInfo1EuiccCi
 }
 
 // UnmarshalBEREUICCInfo1EuiccCiPKIdListForSigning decodes a EUICCInfo1EuiccCiPKIdListForSigning list from BER.
-func UnmarshalBEREUICCInfo1EuiccCiPKIdListForSigning(data []byte, opts ...ber.DecodeOption) (*EUICCInfo1EuiccCiPKIdListForSigning, error) {
+func UnmarshalBEREUICCInfo1EuiccCiPKIdListForSigning(data []byte, opts ...ber.DecodeOption) (returnValue *EUICCInfo1EuiccCiPKIdListForSigning, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -33340,7 +33933,8 @@ func UnmarshalBEREUICCInfo1EuiccCiPKIdListForSigning(data []byte, opts ...ber.De
 	var result []SubjectKeyIdentifier
 	offset := 0
 	for offset < len(content) {
-		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
+		elementData := content[offset:]
+		val, n, osErr := ber.DecodeOctetString(elementData, opts...)
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
@@ -33366,7 +33960,9 @@ func UnmarshalBEREUICCInfo1EuiccCiPKIdListForSigning(data []byte, opts ...ber.De
 }
 
 // MarshalBEREUICCInfo2EuiccCiPKIdListForVerification encodes a EUICCInfo2EuiccCiPKIdListForVerification list to BER.
-func MarshalBEREUICCInfo2EuiccCiPKIdListForVerification(collection *EUICCInfo2EuiccCiPKIdListForVerification, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBEREUICCInfo2EuiccCiPKIdListForVerification(collection *EUICCInfo2EuiccCiPKIdListForVerification, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -33417,7 +34013,9 @@ func MarshalDEREUICCInfo2EuiccCiPKIdListForVerification(collection *EUICCInfo2Eu
 }
 
 // UnmarshalBEREUICCInfo2EuiccCiPKIdListForVerification decodes a EUICCInfo2EuiccCiPKIdListForVerification list from BER.
-func UnmarshalBEREUICCInfo2EuiccCiPKIdListForVerification(data []byte, opts ...ber.DecodeOption) (*EUICCInfo2EuiccCiPKIdListForVerification, error) {
+func UnmarshalBEREUICCInfo2EuiccCiPKIdListForVerification(data []byte, opts ...ber.DecodeOption) (returnValue *EUICCInfo2EuiccCiPKIdListForVerification, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -33432,7 +34030,8 @@ func UnmarshalBEREUICCInfo2EuiccCiPKIdListForVerification(data []byte, opts ...b
 	var result []SubjectKeyIdentifier
 	offset := 0
 	for offset < len(content) {
-		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
+		elementData := content[offset:]
+		val, n, osErr := ber.DecodeOctetString(elementData, opts...)
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
@@ -33458,7 +34057,9 @@ func UnmarshalBEREUICCInfo2EuiccCiPKIdListForVerification(data []byte, opts ...b
 }
 
 // MarshalBEREUICCInfo2EuiccCiPKIdListForSigning encodes a EUICCInfo2EuiccCiPKIdListForSigning list to BER.
-func MarshalBEREUICCInfo2EuiccCiPKIdListForSigning(collection *EUICCInfo2EuiccCiPKIdListForSigning, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBEREUICCInfo2EuiccCiPKIdListForSigning(collection *EUICCInfo2EuiccCiPKIdListForSigning, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -33509,7 +34110,9 @@ func MarshalDEREUICCInfo2EuiccCiPKIdListForSigning(collection *EUICCInfo2EuiccCi
 }
 
 // UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigning decodes a EUICCInfo2EuiccCiPKIdListForSigning list from BER.
-func UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigning(data []byte, opts ...ber.DecodeOption) (*EUICCInfo2EuiccCiPKIdListForSigning, error) {
+func UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigning(data []byte, opts ...ber.DecodeOption) (returnValue *EUICCInfo2EuiccCiPKIdListForSigning, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -33524,7 +34127,8 @@ func UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigning(data []byte, opts ...ber.De
 	var result []SubjectKeyIdentifier
 	offset := 0
 	for offset < len(content) {
-		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
+		elementData := content[offset:]
+		val, n, osErr := ber.DecodeOctetString(elementData, opts...)
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
@@ -33550,7 +34154,9 @@ func UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigning(data []byte, opts ...ber.De
 }
 
 // MarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions encodes a EUICCInfo2AdditionalEuiccProfilePackageVersions list to BER.
-func MarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions(collection *EUICCInfo2AdditionalEuiccProfilePackageVersions, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions(collection *EUICCInfo2AdditionalEuiccProfilePackageVersions, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -33611,7 +34217,9 @@ func MarshalDEREUICCInfo2AdditionalEuiccProfilePackageVersions(collection *EUICC
 }
 
 // UnmarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions decodes a EUICCInfo2AdditionalEuiccProfilePackageVersions list from BER.
-func UnmarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions(data []byte, opts ...ber.DecodeOption) (*EUICCInfo2AdditionalEuiccProfilePackageVersions, error) {
+func UnmarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions(data []byte, opts ...ber.DecodeOption) (returnValue *EUICCInfo2AdditionalEuiccProfilePackageVersions, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -33626,7 +34234,8 @@ func UnmarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions(data []byte, op
 	var result []VersionType
 	offset := 0
 	for offset < len(content) {
-		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
+		elementData := content[offset:]
+		val, n, osErr := ber.DecodeOctetString(elementData, opts...)
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
@@ -33657,7 +34266,9 @@ func UnmarshalBEREUICCInfo2AdditionalEuiccProfilePackageVersions(data []byte, op
 }
 
 // MarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3 encodes a EUICCInfo2EuiccCiPKIdListForSigningV3 list to BER.
-func MarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3(collection *EUICCInfo2EuiccCiPKIdListForSigningV3, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3(collection *EUICCInfo2EuiccCiPKIdListForSigningV3, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -33708,7 +34319,9 @@ func MarshalDEREUICCInfo2EuiccCiPKIdListForSigningV3(collection *EUICCInfo2Euicc
 }
 
 // UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3 decodes a EUICCInfo2EuiccCiPKIdListForSigningV3 list from BER.
-func UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3(data []byte, opts ...ber.DecodeOption) (*EUICCInfo2EuiccCiPKIdListForSigningV3, error) {
+func UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3(data []byte, opts ...ber.DecodeOption) (returnValue *EUICCInfo2EuiccCiPKIdListForSigningV3, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -33723,7 +34336,8 @@ func UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3(data []byte, opts ...ber.
 	var result []SubjectKeyIdentifier
 	offset := 0
 	for offset < len(content) {
-		val, n, osErr := ber.DecodeOctetString(content[offset:], opts...)
+		elementData := content[offset:]
+		val, n, osErr := ber.DecodeOctetString(elementData, opts...)
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
@@ -33749,7 +34363,9 @@ func UnmarshalBEREUICCInfo2EuiccCiPKIdListForSigningV3(data []byte, opts ...ber.
 }
 
 // MarshalBERListNotificationResponseNotificationMetadataList encodes a ListNotificationResponseNotificationMetadataList list to BER.
-func MarshalBERListNotificationResponseNotificationMetadataList(collection *ListNotificationResponseNotificationMetadataList, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBERListNotificationResponseNotificationMetadataList(collection *ListNotificationResponseNotificationMetadataList, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -33765,8 +34381,8 @@ func MarshalBERListNotificationResponseNotificationMetadataList(collection *List
 func marshalBERListNotificationResponseNotificationMetadataList(collection *ListNotificationResponseNotificationMetadataList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	var children []byte
-	for _, elem := range list {
-		enc, err := elem.MarshalBER(opts...)
+	for elemIndex, elem := range list {
+		enc, err := elem.MarshalBER(ber.ChildEncodeOptions(opts, fmt.Sprintf("element[%d]", elemIndex))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -33800,7 +34416,9 @@ func MarshalDERListNotificationResponseNotificationMetadataList(collection *List
 }
 
 // UnmarshalBERListNotificationResponseNotificationMetadataList decodes a ListNotificationResponseNotificationMetadataList list from BER.
-func UnmarshalBERListNotificationResponseNotificationMetadataList(data []byte, opts ...ber.DecodeOption) (*ListNotificationResponseNotificationMetadataList, error) {
+func UnmarshalBERListNotificationResponseNotificationMetadataList(data []byte, opts ...ber.DecodeOption) (returnValue *ListNotificationResponseNotificationMetadataList, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -33815,17 +34433,13 @@ func UnmarshalBERListNotificationResponseNotificationMetadataList(data []byte, o
 	var result []NotificationMetadata
 	offset := 0
 	for offset < len(content) {
+		elementData := content[offset:]
 		var elem NotificationMetadata
-		_, n, _, tlvErr := ber.DecodeTLV(content[offset:], opts...)
+		_, n, _, tlvErr := ber.DecodeTLV(elementData, opts...)
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
 		}
-		if offset < 0 || offset >
-			len(content) || n < 0 || n > len(content[offset:]) {
-			return nil, fmt.Errorf("invalid BER content window")
-		}
-
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(elementData[:n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -33850,7 +34464,9 @@ func UnmarshalBERListNotificationResponseNotificationMetadataList(data []byte, o
 }
 
 // MarshalBER encodes RetrieveNotificationsListRequestSearchCriteria to BER format.
-func (v *RetrieveNotificationsListRequestSearchCriteria) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *RetrieveNotificationsListRequestSearchCriteria) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: RetrieveNotificationsListRequestSearchCriteria receiver is nil", ber.ErrInvalidValue)
 	}
@@ -33883,7 +34499,7 @@ func (v *RetrieveNotificationsListRequestSearchCriteria) marshalBER(opts ...ber.
 		if bitStringErr := ber.ValidateBitStringLength(v.ProfileManagementOperation.Bytes, v.ProfileManagementOperation.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profileManagementOperation", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2327
+		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2419
 		if v.ProfileManagementOperation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -33907,6 +34523,25 @@ func (v *RetrieveNotificationsListRequestSearchCriteria) MarshalDER() ([]byte, e
 	if v == nil {
 		return nil, fmt.Errorf("%w: RetrieveNotificationsListRequestSearchCriteria receiver is nil", ber.ErrInvalidValue)
 	}
+	switch v.Choice {
+	case RetrieveNotificationsListRequestSearchCriteriaChoiceProfileManagementOperation:
+		if v.ProfileManagementOperation == nil {
+			return nil, fmt.Errorf("%w: choice RetrieveNotificationsListRequestSearchCriteria: profileManagementOperation is nil", ber.ErrInvalidValue)
+		}
+		enc_der_1, err := ber.EncodeDERNamedBitString(v.ProfileManagementOperation.Bytes, v.ProfileManagementOperation.BitLength)
+		if err != nil {
+			return nil, fmt.Errorf("encoding profileManagementOperation: %w", err)
+		}
+		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_1)
+		if tagErr_enc_der_1 != nil {
+			return nil, fmt.Errorf("encoding profileManagementOperation: %w", tagErr_enc_der_1)
+		}
+		enc_der_1 = retagged_enc_der_1
+		if derErr := ber.ValidateDEREncodedElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding profileManagementOperation as DER: %w", derErr)
+		}
+		return enc_der_1, nil
+	}
 	if v.Choice == RetrieveNotificationsListRequestSearchCriteriaChoiceProfileManagementOperation && v.ProfileManagementOperation != nil {
 		if bitStringErr := ber.ValidateDERBitString(v.ProfileManagementOperation.Bytes, v.ProfileManagementOperation.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding profileManagementOperation: %w", bitStringErr)
@@ -33927,6 +34562,8 @@ func (v *RetrieveNotificationsListRequestSearchCriteria) UnmarshalBER(data []byt
 	if v == nil {
 		return fmt.Errorf("%w: RetrieveNotificationsListRequestSearchCriteria destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -33996,7 +34633,9 @@ func (v *RetrieveNotificationsListRequestSearchCriteria) UnmarshalBER(data []byt
 }
 
 // MarshalBERRetrieveNotificationsListResponseNotificationList encodes a RetrieveNotificationsListResponseNotificationList list to BER.
-func MarshalBERRetrieveNotificationsListResponseNotificationList(collection *RetrieveNotificationsListResponseNotificationList, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBERRetrieveNotificationsListResponseNotificationList(collection *RetrieveNotificationsListResponseNotificationList, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -34012,8 +34651,8 @@ func MarshalBERRetrieveNotificationsListResponseNotificationList(collection *Ret
 func marshalBERRetrieveNotificationsListResponseNotificationList(collection *RetrieveNotificationsListResponseNotificationList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	var children []byte
-	for _, elem := range list {
-		enc, err := elem.MarshalBER(opts...)
+	for elemIndex, elem := range list {
+		enc, err := elem.MarshalBER(ber.ChildEncodeOptions(opts, fmt.Sprintf("element[%d]", elemIndex))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -34047,7 +34686,9 @@ func MarshalDERRetrieveNotificationsListResponseNotificationList(collection *Ret
 }
 
 // UnmarshalBERRetrieveNotificationsListResponseNotificationList decodes a RetrieveNotificationsListResponseNotificationList list from BER.
-func UnmarshalBERRetrieveNotificationsListResponseNotificationList(data []byte, opts ...ber.DecodeOption) (*RetrieveNotificationsListResponseNotificationList, error) {
+func UnmarshalBERRetrieveNotificationsListResponseNotificationList(data []byte, opts ...ber.DecodeOption) (returnValue *RetrieveNotificationsListResponseNotificationList, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -34062,17 +34703,13 @@ func UnmarshalBERRetrieveNotificationsListResponseNotificationList(data []byte, 
 	var result []PendingNotification
 	offset := 0
 	for offset < len(content) {
+		elementData := content[offset:]
 		var elem PendingNotification
-		_, n, _, tlvErr := ber.DecodeTLV(content[offset:], opts...)
+		_, n, _, tlvErr := ber.DecodeTLV(elementData, opts...)
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
 		}
-		if offset < 0 || offset >
-			len(content) || n < 0 || n > len(content[offset:]) {
-			return nil, fmt.Errorf("invalid BER content window")
-		}
-
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(elementData[:n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -34097,7 +34734,9 @@ func UnmarshalBERRetrieveNotificationsListResponseNotificationList(data []byte, 
 }
 
 // MarshalBERLoadCRLResponseOkMissingParts encodes a LoadCRLResponseOkMissingParts list to BER.
-func MarshalBERLoadCRLResponseOkMissingParts(collection *LoadCRLResponseOkMissingParts, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBERLoadCRLResponseOkMissingParts(collection *LoadCRLResponseOkMissingParts, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -34154,7 +34793,9 @@ func MarshalDERLoadCRLResponseOkMissingParts(collection *LoadCRLResponseOkMissin
 }
 
 // UnmarshalBERLoadCRLResponseOkMissingParts decodes a LoadCRLResponseOkMissingParts list from BER.
-func UnmarshalBERLoadCRLResponseOkMissingParts(data []byte, opts ...ber.DecodeOption) (*LoadCRLResponseOkMissingParts, error) {
+func UnmarshalBERLoadCRLResponseOkMissingParts(data []byte, opts ...ber.DecodeOption) (returnValue *LoadCRLResponseOkMissingParts, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -34169,7 +34810,8 @@ func UnmarshalBERLoadCRLResponseOkMissingParts(data []byte, opts ...ber.DecodeOp
 	var result []*big.Int
 	offset := 0
 	for offset < len(content) {
-		val, n, intErr := ber.DecodeBigInt(content[offset:], opts...)
+		elementData := content[offset:]
+		val, n, intErr := ber.DecodeBigInt(elementData, opts...)
 		if intErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", intErr)
 		}
@@ -34195,7 +34837,9 @@ func UnmarshalBERLoadCRLResponseOkMissingParts(data []byte, opts ...ber.DecodeOp
 }
 
 // MarshalBER encodes ProfileInfoListRequestSearchCriteria to BER format.
-func (v *ProfileInfoListRequestSearchCriteria) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ProfileInfoListRequestSearchCriteria) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ProfileInfoListRequestSearchCriteria receiver is nil", ber.ErrInvalidValue)
 	}
@@ -34287,6 +34931,8 @@ func (v *ProfileInfoListRequestSearchCriteria) UnmarshalBER(data []byte, opts ..
 	if v == nil {
 		return fmt.Errorf("%w: ProfileInfoListRequestSearchCriteria destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -34378,7 +35024,9 @@ func (v *ProfileInfoListRequestSearchCriteria) UnmarshalBER(data []byte, opts ..
 }
 
 // MarshalBERProfileInfoListResponseProfileInfoListOk encodes a ProfileInfoListResponseProfileInfoListOk list to BER.
-func MarshalBERProfileInfoListResponseProfileInfoListOk(collection *ProfileInfoListResponseProfileInfoListOk, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBERProfileInfoListResponseProfileInfoListOk(collection *ProfileInfoListResponseProfileInfoListOk, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -34394,8 +35042,8 @@ func MarshalBERProfileInfoListResponseProfileInfoListOk(collection *ProfileInfoL
 func marshalBERProfileInfoListResponseProfileInfoListOk(collection *ProfileInfoListResponseProfileInfoListOk, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	var children []byte
-	for _, elem := range list {
-		enc, err := elem.MarshalBER(opts...)
+	for elemIndex, elem := range list {
+		enc, err := elem.MarshalBER(ber.ChildEncodeOptions(opts, fmt.Sprintf("element[%d]", elemIndex))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -34429,7 +35077,9 @@ func MarshalDERProfileInfoListResponseProfileInfoListOk(collection *ProfileInfoL
 }
 
 // UnmarshalBERProfileInfoListResponseProfileInfoListOk decodes a ProfileInfoListResponseProfileInfoListOk list from BER.
-func UnmarshalBERProfileInfoListResponseProfileInfoListOk(data []byte, opts ...ber.DecodeOption) (*ProfileInfoListResponseProfileInfoListOk, error) {
+func UnmarshalBERProfileInfoListResponseProfileInfoListOk(data []byte, opts ...ber.DecodeOption) (returnValue *ProfileInfoListResponseProfileInfoListOk, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -34444,17 +35094,13 @@ func UnmarshalBERProfileInfoListResponseProfileInfoListOk(data []byte, opts ...b
 	var result []ProfileInfo
 	offset := 0
 	for offset < len(content) {
+		elementData := content[offset:]
 		var elem ProfileInfo
-		_, n, _, tlvErr := ber.DecodeTLV(content[offset:], opts...)
+		_, n, _, tlvErr := ber.DecodeTLV(elementData, opts...)
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
 		}
-		if offset < 0 || offset >
-			len(content) || n < 0 || n > len(content[offset:]) {
-			return nil, fmt.Errorf("invalid BER content window")
-		}
-
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(elementData[:n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -34479,7 +35125,9 @@ func UnmarshalBERProfileInfoListResponseProfileInfoListOk(data []byte, opts ...b
 }
 
 // MarshalBERProfileInfoNotificationConfigurationInfo encodes a ProfileInfoNotificationConfigurationInfo list to BER.
-func MarshalBERProfileInfoNotificationConfigurationInfo(collection *ProfileInfoNotificationConfigurationInfo, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBERProfileInfoNotificationConfigurationInfo(collection *ProfileInfoNotificationConfigurationInfo, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -34495,8 +35143,8 @@ func MarshalBERProfileInfoNotificationConfigurationInfo(collection *ProfileInfoN
 func marshalBERProfileInfoNotificationConfigurationInfo(collection *ProfileInfoNotificationConfigurationInfo, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	var children []byte
-	for _, elem := range list {
-		enc, err := elem.MarshalBER(opts...)
+	for elemIndex, elem := range list {
+		enc, err := elem.MarshalBER(ber.ChildEncodeOptions(opts, fmt.Sprintf("element[%d]", elemIndex))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -34530,7 +35178,9 @@ func MarshalDERProfileInfoNotificationConfigurationInfo(collection *ProfileInfoN
 }
 
 // UnmarshalBERProfileInfoNotificationConfigurationInfo decodes a ProfileInfoNotificationConfigurationInfo list from BER.
-func UnmarshalBERProfileInfoNotificationConfigurationInfo(data []byte, opts ...ber.DecodeOption) (*ProfileInfoNotificationConfigurationInfo, error) {
+func UnmarshalBERProfileInfoNotificationConfigurationInfo(data []byte, opts ...ber.DecodeOption) (returnValue *ProfileInfoNotificationConfigurationInfo, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -34545,17 +35195,13 @@ func UnmarshalBERProfileInfoNotificationConfigurationInfo(data []byte, opts ...b
 	var result []NotificationConfigurationInformation
 	offset := 0
 	for offset < len(content) {
+		elementData := content[offset:]
 		var elem NotificationConfigurationInformation
-		_, n, _, tlvErr := ber.DecodeTLV(content[offset:], opts...)
+		_, n, _, tlvErr := ber.DecodeTLV(elementData, opts...)
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
 		}
-		if offset < 0 || offset >
-			len(content) || n < 0 || n > len(content[offset:]) {
-			return nil, fmt.Errorf("invalid BER content window")
-		}
-
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(elementData[:n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -34580,7 +35226,9 @@ func UnmarshalBERProfileInfoNotificationConfigurationInfo(data []byte, opts ...b
 }
 
 // MarshalBER encodes ProfileInfoIotSpecificProfileInfo to BER format.
-func (v *ProfileInfoIotSpecificProfileInfo) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *ProfileInfoIotSpecificProfileInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ProfileInfoIotSpecificProfileInfo receiver is nil", ber.ErrInvalidValue)
 	}
@@ -34596,7 +35244,7 @@ func (v *ProfileInfoIotSpecificProfileInfo) marshalBER(opts ...ber.EncodeOption)
 	}
 	var children []byte
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeTLV(ext)
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
@@ -34635,6 +35283,8 @@ func (v *ProfileInfoIotSpecificProfileInfo) UnmarshalBER(data []byte, opts ...be
 	if v == nil {
 		return fmt.Errorf("%w: ProfileInfoIotSpecificProfileInfo destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
@@ -34688,7 +35338,9 @@ func (v *ProfileInfoIotSpecificProfileInfo) UnmarshalBER(data []byte, opts ...be
 }
 
 // MarshalBER encodes EnableProfileRequestProfileIdentifier to BER format.
-func (v *EnableProfileRequestProfileIdentifier) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *EnableProfileRequestProfileIdentifier) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: EnableProfileRequestProfileIdentifier receiver is nil", ber.ErrInvalidValue)
 	}
@@ -34766,6 +35418,8 @@ func (v *EnableProfileRequestProfileIdentifier) UnmarshalBER(data []byte, opts .
 	if v == nil {
 		return fmt.Errorf("%w: EnableProfileRequestProfileIdentifier destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -34842,7 +35496,9 @@ func (v *EnableProfileRequestProfileIdentifier) UnmarshalBER(data []byte, opts .
 }
 
 // MarshalBER encodes DisableProfileRequestProfileIdentifier to BER format.
-func (v *DisableProfileRequestProfileIdentifier) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *DisableProfileRequestProfileIdentifier) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: DisableProfileRequestProfileIdentifier receiver is nil", ber.ErrInvalidValue)
 	}
@@ -34920,6 +35576,8 @@ func (v *DisableProfileRequestProfileIdentifier) UnmarshalBER(data []byte, opts 
 	if v == nil {
 		return fmt.Errorf("%w: DisableProfileRequestProfileIdentifier destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -34996,7 +35654,9 @@ func (v *DisableProfileRequestProfileIdentifier) UnmarshalBER(data []byte, opts 
 }
 
 // MarshalBERProfilePolicyAuthorisationRuleAllowedOperators encodes a ProfilePolicyAuthorisationRuleAllowedOperators list to BER.
-func MarshalBERProfilePolicyAuthorisationRuleAllowedOperators(collection *ProfilePolicyAuthorisationRuleAllowedOperators, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBERProfilePolicyAuthorisationRuleAllowedOperators(collection *ProfilePolicyAuthorisationRuleAllowedOperators, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -35012,8 +35672,8 @@ func MarshalBERProfilePolicyAuthorisationRuleAllowedOperators(collection *Profil
 func marshalBERProfilePolicyAuthorisationRuleAllowedOperators(collection *ProfilePolicyAuthorisationRuleAllowedOperators, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	var children []byte
-	for _, elem := range list {
-		enc, err := elem.MarshalBER(opts...)
+	for elemIndex, elem := range list {
+		enc, err := elem.MarshalBER(ber.ChildEncodeOptions(opts, fmt.Sprintf("element[%d]", elemIndex))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -35047,7 +35707,9 @@ func MarshalDERProfilePolicyAuthorisationRuleAllowedOperators(collection *Profil
 }
 
 // UnmarshalBERProfilePolicyAuthorisationRuleAllowedOperators decodes a ProfilePolicyAuthorisationRuleAllowedOperators list from BER.
-func UnmarshalBERProfilePolicyAuthorisationRuleAllowedOperators(data []byte, opts ...ber.DecodeOption) (*ProfilePolicyAuthorisationRuleAllowedOperators, error) {
+func UnmarshalBERProfilePolicyAuthorisationRuleAllowedOperators(data []byte, opts ...ber.DecodeOption) (returnValue *ProfilePolicyAuthorisationRuleAllowedOperators, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -35062,17 +35724,13 @@ func UnmarshalBERProfilePolicyAuthorisationRuleAllowedOperators(data []byte, opt
 	var result []OperatorId
 	offset := 0
 	for offset < len(content) {
+		elementData := content[offset:]
 		var elem OperatorId
-		_, n, _, tlvErr := ber.DecodeTLV(content[offset:], opts...)
+		_, n, _, tlvErr := ber.DecodeTLV(elementData, opts...)
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
 		}
-		if offset < 0 || offset >
-			len(content) || n < 0 || n > len(content[offset:]) {
-			return nil, fmt.Errorf("invalid BER content window")
-		}
-
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(elementData[:n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -35097,7 +35755,9 @@ func UnmarshalBERProfilePolicyAuthorisationRuleAllowedOperators(data []byte, opt
 }
 
 // MarshalBERAuthenticateClientOkEs11EventEntries encodes a AuthenticateClientOkEs11EventEntries list to BER.
-func MarshalBERAuthenticateClientOkEs11EventEntries(collection *AuthenticateClientOkEs11EventEntries, opts ...ber.EncodeOption) ([]byte, error) {
+func MarshalBERAuthenticateClientOkEs11EventEntries(collection *AuthenticateClientOkEs11EventEntries, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -35113,8 +35773,8 @@ func MarshalBERAuthenticateClientOkEs11EventEntries(collection *AuthenticateClie
 func marshalBERAuthenticateClientOkEs11EventEntries(collection *AuthenticateClientOkEs11EventEntries, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	var children []byte
-	for _, elem := range list {
-		enc, err := elem.MarshalBER(opts...)
+	for elemIndex, elem := range list {
+		enc, err := elem.MarshalBER(ber.ChildEncodeOptions(opts, fmt.Sprintf("element[%d]", elemIndex))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding element: %w", err)
 		}
@@ -35148,7 +35808,9 @@ func MarshalDERAuthenticateClientOkEs11EventEntries(collection *AuthenticateClie
 }
 
 // UnmarshalBERAuthenticateClientOkEs11EventEntries decodes a AuthenticateClientOkEs11EventEntries list from BER.
-func UnmarshalBERAuthenticateClientOkEs11EventEntries(data []byte, opts ...ber.DecodeOption) (*AuthenticateClientOkEs11EventEntries, error) {
+func UnmarshalBERAuthenticateClientOkEs11EventEntries(data []byte, opts ...ber.DecodeOption) (returnValue *AuthenticateClientOkEs11EventEntries, returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return nil, err
@@ -35163,17 +35825,13 @@ func UnmarshalBERAuthenticateClientOkEs11EventEntries(data []byte, opts ...ber.D
 	var result []EventEntries
 	offset := 0
 	for offset < len(content) {
+		elementData := content[offset:]
 		var elem EventEntries
-		_, n, _, tlvErr := ber.DecodeTLV(content[offset:], opts...)
+		_, n, _, tlvErr := ber.DecodeTLV(elementData, opts...)
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
 		}
-		if offset < 0 || offset >
-			len(content) || n < 0 || n > len(content[offset:]) {
-			return nil, fmt.Errorf("invalid BER content window")
-		}
-
-		if unmErr := elem.UnmarshalBER(content[offset:offset+n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(elementData[:n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)

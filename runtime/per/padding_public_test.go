@@ -14,7 +14,7 @@ func TestCompletePaddingObservedBits(t *testing.T) {
 		count uint8
 		zero  bool
 	}{
-		{"canonical", 0x00, 0, 5, true},
+		{"canonical", 0x00, 0, 0, true}, // zero padding is not retained
 		{"nonzero", 0x05, 5, 5, false},
 	} {
 		t.Run(tc.name, func(t *testing.T) {

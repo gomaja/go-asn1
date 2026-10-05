@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"math"
 	"math/big"
-	"strings"
 )
 
 var (
@@ -95,14 +94,45 @@ func NewReal(base int, mantissa, exponent *big.Int) (Real, error) {
 			e.Add(e, new(big.Int).SetUint64(uint64(shift)))
 		}
 	} else {
-		digits := new(big.Int).Abs(new(big.Int).Set(m)).String()
-		trimmed := strings.TrimRight(digits, "0")
-		if trimmed != digits {
-			m.SetString(trimmed, 10)
+		// A decoded decimal mantissa may be millions of digits long. Avoid
+		// converting it to text and parsing it again to strip powers of ten.
+		// Squared powers remove any trailing zeros in logarithmically many
+		// exact big.Int divisions (X.690 (02/2021) §8.5.8).
+		absolute := new(big.Int).Abs(m)
+		ten := big.NewInt(10)
+		if new(big.Int).Mod(absolute, ten).Sign() == 0 {
+			quotient := new(big.Int)
+			remainder := new(big.Int)
+			smallZeros := 0
+			for smallZeros < 16 {
+				quotient.QuoRem(absolute, ten, remainder)
+				if remainder.Sign() != 0 {
+					break
+				}
+				absolute.Set(quotient)
+				smallZeros++
+			}
+			zeros := big.NewInt(int64(smallZeros))
+			if smallZeros == 16 && new(big.Int).Mod(absolute, ten).Sign() == 0 {
+				var powers []*big.Int
+				for power := ten; power.Cmp(absolute) <= 0; power = new(big.Int).Mul(power, power) {
+					powers = append(powers, power)
+				}
+				for i := len(powers); i > 0; {
+					i--
+					quotient.QuoRem(absolute, powers[i], remainder)
+					if remainder.Sign() != 0 {
+						continue
+					}
+					absolute.Set(quotient)
+					zeros.Add(zeros, new(big.Int).Lsh(big.NewInt(1), uint(i)))
+				}
+			}
+			m.Set(absolute)
 			if mantissa.Sign() < 0 {
 				m.Neg(m)
 			}
-			e.Add(e, big.NewInt(int64(len(digits)-len(trimmed))))
+			e.Add(e, zeros)
 		}
 	}
 	return Real{Kind: RealFinite, Base: base, Mantissa: m, Exponent: e}, nil

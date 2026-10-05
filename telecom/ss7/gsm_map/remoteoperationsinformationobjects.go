@@ -30,7 +30,7 @@ type Code struct {
 	berOriginal_ []byte                   `json:"-"`
 	berSnapshot_ []byte                   `json:"-"`
 	Local        *big.Int                 `json:"Local,omitempty"`
-	Global       runtime.ObjectIdentifier `json:"Global,omitempty"`
+	Global       runtime.ObjectIdentifier `json:"Global,omitzero"`
 }
 
 // NewCodeLocal creates a Code with the local alternative.
@@ -53,7 +53,9 @@ func NewCodeGlobal(v runtime.ObjectIdentifier) Code {
 type Priority = *big.Int
 
 // MarshalBER encodes Code to BER format.
-func (v *Code) MarshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *Code) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Code receiver is nil", ber.ErrInvalidValue)
 	}
@@ -108,6 +110,8 @@ func (v *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr er
 	if v == nil {
 		return fmt.Errorf("%w: Code destination is nil", ber.ErrInvalidValue)
 	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {

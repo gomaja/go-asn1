@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"math"
 	"math/big"
+	mathbits "math/bits"
 	"sort"
-	"time"
 	"unicode/utf8"
 
 	"github.com/gomaja/go-asn1/runtime"
@@ -198,6 +198,26 @@ func EncodeBigInt(v *big.Int) ([]byte, error) {
 // unusedBits is the number of unused bits in the last byte (0-7).
 func EncodeBitString(bytes []byte, unusedBits int) ([]byte, error) {
 	return encodeBitStringWithLimit(bytes, unusedBits, math.MaxInt)
+}
+
+// EncodeDERNamedBitString removes trailing zero bits from a named BIT STRING
+// before DER encoding, as required by ITU-T X.690 (02/2021) §11.2.2.
+func EncodeDERNamedBitString(bytes []byte, bitLength int) ([]byte, error) {
+	if err := ValidateDERBitString(bytes, bitLength); err != nil {
+		return nil, err
+	}
+	// The last nonzero octet contains the highest-numbered named bit.
+	end := len(bytes)
+	for end > 0 {
+		if bytes[end-1] != 0 {
+			break
+		}
+		end--
+	}
+	if end == 0 {
+		return EncodeBitString(nil, 0)
+	}
+	return EncodeBitString(bytes[:end], mathbits.TrailingZeros8(bytes[end-1]))
 }
 
 func encodeBitStringWithLimit(bytes []byte, unusedBits, limit int) ([]byte, error) {
@@ -464,20 +484,45 @@ func fixedWidthStringCapacity(octets, width int) (int, error) {
 	return octets * width, nil
 }
 
-// EncodeUTCTime encodes a UTCTime per X.690 section 11.8.
-func EncodeUTCTime(t time.Time) []byte {
-	utc := t.UTC()
-	s := utc.Format("060102150405Z")
-	return encodeFixedTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagUTCTime}, []byte(s))
+// EncodeUTCTime encodes a UTCTime with its lexical form verbatim, as BER
+// permits any X.680 (02/2021) §47.3 form (X.690 (02/2021) §8.25). An unset
+// value is rejected.
+func EncodeUTCTime(value runtime.UTCTime) ([]byte, error) {
+	if value.IsZero() {
+		return nil, fmt.Errorf("%w: %w", ErrInvalidValue, runtime.ErrTimeNotSet)
+	}
+	return encodeFixedTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagUTCTime}, []byte(value.String())), nil
 }
 
-// EncodeGeneralizedTime encodes a GeneralizedTime per X.690 section 11.7.
-func EncodeGeneralizedTime(t time.Time) []byte {
-	utc := t.UTC()
-	// X.690 (02/2021) §11.7.3 retains nonzero fractional seconds and
-	// removes their trailing zeros and the decimal point when the fraction is zero.
-	s := utc.Format("20060102150405.999999999Z")
-	return encodeFixedTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagGeneralizedTime}, []byte(s))
+// EncodeGeneralizedTime encodes a GeneralizedTime with its lexical form
+// verbatim, as BER permits any X.680 (02/2021) §46.3 form (X.690 (02/2021)
+// §8.25). An unset value is rejected.
+func EncodeGeneralizedTime(value runtime.GeneralizedTime) ([]byte, error) {
+	if value.IsZero() {
+		return nil, fmt.Errorf("%w: %w", ErrInvalidValue, runtime.ErrTimeNotSet)
+	}
+	return encodeFixedTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagGeneralizedTime}, []byte(value.String())), nil
+}
+
+// EncodeUTCTimeDER encodes the X.690 (02/2021) §11.8 form YYMMDDhhmmssZ.
+// A value with no such form, or an unset value, is rejected.
+func EncodeUTCTimeDER(value runtime.UTCTime) ([]byte, error) {
+	canonical, err := value.Canonical()
+	if err != nil {
+		return nil, fmt.Errorf("%w: %w", ErrInvalidValue, err)
+	}
+	return encodeFixedTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagUTCTime}, []byte(canonical.String())), nil
+}
+
+// EncodeGeneralizedTimeDER encodes the X.690 (02/2021) §11.7 form
+// YYYYMMDDhhmmss[.f]Z. A local time of day, a value with no four-digit UTC
+// year, or an unset value is rejected.
+func EncodeGeneralizedTimeDER(value runtime.GeneralizedTime) ([]byte, error) {
+	canonical, err := value.Canonical()
+	if err != nil {
+		return nil, fmt.Errorf("%w: %w", ErrInvalidValue, err)
+	}
+	return encodeFixedTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagGeneralizedTime}, []byte(canonical.String())), nil
 }
 
 // EncodeSequence encodes a SEQUENCE (constructed) from pre-encoded children.

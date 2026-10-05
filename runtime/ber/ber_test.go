@@ -254,8 +254,8 @@ func TestValidateDERUniversalCanonicalValues(t *testing.T) {
 	}
 	for _, wire := range [][]byte{
 		{0x01, 0x01, 0xff}, {0x02, 0x01, 0x80}, {0x03, 0x02, 0x07, 0x80},
-		EncodeUTCTime(time.Date(1992, 7, 22, 13, 21, 0, 0, time.UTC)),
-		EncodeGeneralizedTime(time.Date(2024, 1, 2, 3, 4, 5, 0, time.UTC)),
+		mustTimeTLV(EncodeUTCTime(mustUTCTime("920722132100Z"))),
+		mustTimeTLV(EncodeGeneralizedTime(mustGeneralizedTime("20240102030405Z"))),
 	} {
 		if err := ValidateDERElement(wire); err != nil {
 			t.Errorf("valid DER %x: %v", wire, err)
@@ -698,8 +698,11 @@ func TestEncodeDecodeReal(t *testing.T) {
 }
 
 func TestEncodeDecodeUTCTime(t *testing.T) {
-	now := time.Date(2024, 3, 15, 10, 30, 45, 0, time.UTC)
-	encoded := EncodeUTCTime(now)
+	now, err := runtime.UTCTimeFromTime(time.Date(2024, 3, 15, 10, 30, 45, 0, time.UTC))
+	if err != nil {
+		t.Fatal(err)
+	}
+	encoded := mustTimeTLV(EncodeUTCTime(now))
 	decoded, consumed, err := DecodeUTCTime(encoded)
 	if err != nil {
 		t.Fatalf("decode error: %v", err)
@@ -707,14 +710,17 @@ func TestEncodeDecodeUTCTime(t *testing.T) {
 	if consumed != len(encoded) {
 		t.Errorf("consumed: got %d, want %d", consumed, len(encoded))
 	}
-	if !decoded.Equal(now) {
+	if decoded != now {
 		t.Errorf("got %v, want %v", decoded, now)
 	}
 }
 
 func TestEncodeDecodeGeneralizedTime(t *testing.T) {
-	now := time.Date(2024, 3, 15, 10, 30, 45, 0, time.UTC)
-	encoded := EncodeGeneralizedTime(now)
+	now, err := runtime.GeneralizedTimeFromTime(time.Date(2024, 3, 15, 10, 30, 45, 0, time.UTC))
+	if err != nil {
+		t.Fatal(err)
+	}
+	encoded := mustTimeTLV(EncodeGeneralizedTime(now))
 	decoded, consumed, err := DecodeGeneralizedTime(encoded)
 	if err != nil {
 		t.Fatalf("decode error: %v", err)
@@ -722,7 +728,7 @@ func TestEncodeDecodeGeneralizedTime(t *testing.T) {
 	if consumed != len(encoded) {
 		t.Errorf("consumed: got %d, want %d", consumed, len(encoded))
 	}
-	if !decoded.Equal(now) {
+	if decoded != now {
 		t.Errorf("got %v, want %v", decoded, now)
 	}
 }
@@ -730,8 +736,11 @@ func TestEncodeDecodeGeneralizedTime(t *testing.T) {
 // X.690 (02/2021) §11.7.3 keeps nonzero fractional seconds and omits
 // trailing zeros in DER.
 func TestGeneralizedTimeDERKeepsFractionalSeconds(t *testing.T) {
-	value := time.Date(2024, 3, 15, 10, 30, 45, 520000000, time.UTC)
-	wire := EncodeGeneralizedTime(value)
+	value, err := runtime.GeneralizedTimeFromTime(time.Date(2024, 3, 15, 10, 30, 45, 520000000, time.UTC))
+	if err != nil {
+		t.Fatal(err)
+	}
+	wire := mustTimeTLV(EncodeGeneralizedTimeDER(value))
 	_, _, contents, err := DecodeTLV(wire)
 	if err != nil {
 		t.Fatal(err)
@@ -743,14 +752,14 @@ func TestGeneralizedTimeDERKeepsFractionalSeconds(t *testing.T) {
 		t.Fatalf("DER validation: %v", err)
 	}
 	decoded, _, err := DecodeGeneralizedTime(wire)
-	if err != nil || !decoded.Equal(value) {
+	if err != nil || decoded != value {
 		t.Fatalf("decoded %v, error %v", decoded, err)
 	}
 }
 
 func TestEncodeDecodeUTCTimeValue(t *testing.T) {
-	now := time.Date(2024, 3, 15, 10, 30, 45, 0, time.UTC)
-	encoded := EncodeUTCTime(now)
+	now := mustUTCTime("2403151030+0100")
+	encoded := mustTimeTLV(EncodeUTCTime(now))
 	_, _, value, err := DecodeTLV(encoded)
 	if err != nil {
 		t.Fatalf("DecodeTLV error: %v", err)
@@ -759,14 +768,14 @@ func TestEncodeDecodeUTCTimeValue(t *testing.T) {
 	if err != nil {
 		t.Fatalf("decode error: %v", err)
 	}
-	if !decoded.Equal(now) {
+	if decoded != now {
 		t.Errorf("got %v, want %v", decoded, now)
 	}
 }
 
 func TestEncodeDecodeGeneralizedTimeValue(t *testing.T) {
-	now := time.Date(2024, 3, 15, 10, 30, 45, 0, time.UTC)
-	encoded := EncodeGeneralizedTime(now)
+	now := mustGeneralizedTime("2024031510,5-0130")
+	encoded := mustTimeTLV(EncodeGeneralizedTime(now))
 	_, _, value, err := DecodeTLV(encoded)
 	if err != nil {
 		t.Fatalf("DecodeTLV error: %v", err)
@@ -775,20 +784,20 @@ func TestEncodeDecodeGeneralizedTimeValue(t *testing.T) {
 	if err != nil {
 		t.Fatalf("decode error: %v", err)
 	}
-	if !decoded.Equal(now) {
+	if decoded != now {
 		t.Errorf("got %v, want %v", decoded, now)
 	}
 }
 
 func TestDecodeUTCTimeValueInvalid(t *testing.T) {
-	if _, err := DecodeUTCTimeValue([]byte("not-a-time")); !errors.Is(err, ErrInvalidValue) {
-		t.Fatalf("DecodeUTCTimeValue() error = %v, want %v", err, ErrInvalidValue)
+	if _, err := DecodeUTCTimeValue([]byte("not-a-time")); !errors.Is(err, ErrInvalidValue) || !errors.Is(err, runtime.ErrTimeSyntax) {
+		t.Fatalf("DecodeUTCTimeValue() error = %v, want %v and %v", err, ErrInvalidValue, runtime.ErrTimeSyntax)
 	}
 }
 
 func TestDecodeGeneralizedTimeValueInvalid(t *testing.T) {
-	if _, err := DecodeGeneralizedTimeValue([]byte("not-a-time")); !errors.Is(err, ErrInvalidValue) {
-		t.Fatalf("DecodeGeneralizedTimeValue() error = %v, want %v", err, ErrInvalidValue)
+	if _, err := DecodeGeneralizedTimeValue([]byte("not-a-time")); !errors.Is(err, ErrInvalidValue) || !errors.Is(err, runtime.ErrTimeSyntax) {
+		t.Fatalf("DecodeGeneralizedTimeValue() error = %v, want %v and %v", err, ErrInvalidValue, runtime.ErrTimeSyntax)
 	}
 }
 

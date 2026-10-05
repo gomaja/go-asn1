@@ -27,8 +27,20 @@ func TestConstraintTolerancePolicy(t *testing.T) {
 	if len(reports) != 1 || reports[0].Path != "parent.field" || reports[0].ObservedValue != "2" {
 		t.Fatalf("tolerant reports = %+v", reports)
 	}
-	if err := CheckEncodedValue([]EncodeOption{option}, "field", "(1 | 3)", "2"); err != nil {
+	encodeChild := ChildEncodeOptions([]EncodeOption{option}, "parent")
+	if err := CheckEncodedValue(encodeChild, "field", "(1 | 3)", "2"); err != nil {
 		t.Fatal(err)
+	}
+	if err := CheckEncodedLength(encodeChild, "octets", "SIZE (1..3)", 4); err != nil {
+		t.Fatal(err)
+	}
+	reports = log.Snapshot()
+	if len(reports) != 3 || reports[1].Path != "parent.field" || reports[1].Constraint != "(1 | 3)" || reports[1].ObservedValue != "2" ||
+		reports[2].Path != "parent.octets" || reports[2].ObservedLength == nil || *reports[2].ObservedLength != 4 {
+		t.Fatalf("tolerant encode reports = %+v", reports)
+	}
+	if err := CheckEncodedValue(ChildEncodeOptions(nil, "parent"), "field", "(1 | 3)", "2"); !errors.As(err, &strict) || strict.Path != "parent.field" {
+		t.Fatalf("strict encode prefix = %v", err)
 	}
 	if err := CheckDecodedValue([]DecodeOption{WithConstraintTolerance(nil)}, "field", "(1 | 3)", "2"); !errors.Is(err, ErrInvalidValue) {
 		t.Fatalf("nil report destination error = %v", err)

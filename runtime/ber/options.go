@@ -1,6 +1,10 @@
 package ber
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/gomaja/go-asn1/runtime/tag"
+)
 
 // DecodeLimits bound BER work on untrusted input. Zero fields retain the
 // defaults. X.690 (02/2021) places no depth or size ceiling on BER; callers
@@ -77,4 +81,13 @@ func decodeLimits(options []DecodeOption) (DecodeLimits, error) {
 func encodingStructureOption(data []byte) DecodeOption {
 	bound := max(1, len(data))
 	return WithDecodeLimits(DecodeLimits{MaxDepth: bound, MaxElements: bound, MaxWork: bound})
+}
+
+// DecodeEncodedTLV reads one TLV of a value being encoded, such as a retained
+// unknown extension or a nested encoding the encoder re-wraps. Its limits
+// scale with data instead of the untrusted-input defaults, so a value that a
+// caller decoded under raised limits can be encoded again; X.690 (02/2021)
+// §§8.1.3 and 8.7 place no ceiling on BER nesting.
+func DecodeEncodedTLV(data []byte) (tag.Tag, int, []byte, error) {
+	return DecodeTLV(data, encodingStructureOption(data))
 }
