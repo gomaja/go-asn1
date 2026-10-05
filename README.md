@@ -144,13 +144,19 @@ longer suffix after the top-level value or a contained value, and any bit
 after a value inside a `BIT STRING (CONTAINING ...)`, where §11.1.3.2 allows
 no padding.
 
-A receiver that must accept the non-conformant bit runs some RRC senders emit
-(TS 25.331 V19.0.1 §12.1.3) passes a `per.ToleranceLog` in
-`per.DecodeOptions{TrailingBitsTolerance}`. Tolerance then accepts a suffix of
-more than seven bits after the top-level value and up to seven zero bits after
-a value inside a `BIT STRING (CONTAINING ...)`. Each accepted run is recorded
-with its field path, kind, offset and bits, so no walk of the decoded value is
-needed. Bits within the padding the default decode accepts are kept but never
+3GPP-conformant RRC decoding (TS 36.331 §8.1, TS 25.331 §12.1.3) requires
+enabling `TrailingBitsTolerance`. TS 36.331 V19.4.0 §8.1 requires RRC decoders
+never to report an error for extraneous zero or non-zero bits at the end of a
+PDU, or of a `BIT STRING` or `OCTET STRING` constrained with `CONTAINING`; TS
+25.331 V19.0.1 §12.1.3 requires UMTS receivers to accept any bit string in the
+extension and padding parts of a PDU. The default stays strict X.691, so a
+receiver passes a `per.ToleranceLog` in
+`per.DecodeOptions{TrailingBitsTolerance}`. Tolerance then accepts any suffix
+of more than seven bits after the top-level value or after a value inside an
+`OCTET STRING (CONTAINING ...)`, and any zero or non-zero bits after a value
+inside a `BIT STRING (CONTAINING ...)`. Each accepted run is recorded with its
+field path, kind, offset and bits, so no walk of the decoded value is needed.
+Bits within the padding the default decode accepts are kept but never
 recorded.
 
 ```go
@@ -188,12 +194,12 @@ A log may be shared by concurrent decodes. A successful decode appends all of
 its records together; a failed decode appends none. The decoded value keeps the accepted
 bits, so `MarshalUPER` reproduces the input octets:
 
-- A top-level suffix is kept in the value's `PERPadding_`, a `per.FinalPadding`
-  (see `Trailing()`). That field is one pointer wide and does not allocate for
-  ordinary 0–7 padding bits.
-- Contained padding is kept in the `<Field>PERPadding_` field, a two-byte
-  `per.CompletePadding`, which only a SEQUENCE holding a
-  `BIT STRING (CONTAINING ...)` carries.
+- A suffix after the top-level value, or after a value inside an
+  `OCTET STRING (CONTAINING ...)`, is kept in that value's `PERPadding_`, a
+  `per.FinalPadding` (see `Trailing()`). That field is one pointer wide and
+  does not allocate for ordinary 0–7 padding bits.
+- Bits after a value inside a `BIT STRING (CONTAINING ...)` are kept in the
+  host SEQUENCE's `<Field>PERPadding_`, also a `per.FinalPadding`.
 
 The single zero octet of an empty top-level value, and the single zero bit of
 an empty contained value, are part of the complete encoding (X.691 (02/2021)
