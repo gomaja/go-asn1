@@ -112,9 +112,9 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 			}
 			if len(rec.PaddedBITStringContaining) != 0 || strings.Contains(rec.Expected, "6 padding bits reported") {
 				p := value.V390NonCriticalExtensions.Present.V3a0NonCriticalExtensions.LaterNonCriticalExtensions.InterRATHandoverInfoR3AddExtPERPadding_
-				_, count := p.Bits()
-				if count == 0 || reported[per.ToleratedContainedPadding] != int(count) {
-					return false, false, "contained padding was not reported"
+				count := p.Trailing().BitLength
+				if count == 0 || reported[per.ToleratedContainedBits] != count {
+					return false, false, "contained bits were not reported"
 				}
 			}
 			if trailing := value.PERPadding_.Trailing().BitLength; len(rec.TrailingBitsAfterBasicProduction) != 0 && (trailing == 0 || reported[per.ToleratedTrailingBits] != trailing) {

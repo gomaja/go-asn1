@@ -9,16 +9,23 @@ import (
 )
 
 // TS 25.331 V19.0.1 12.1.3 requires receiver tolerance for extension and
-// padding parts; X.691 (02/2021) 11.1.3.2 still makes these senders invalid.
+// padding parts, and TS 36.331 V19.4.0 8.1 for any extraneous bits after a
+// value in a BIT STRING (CONTAINING ...); X.691 (02/2021) 11.1.3.2 still
+// makes these senders invalid. The contained interRATHandoverInfo-r3-add-ext
+// value is two bits, and pycrate 0.7.11 decodes the same value from each input.
 func TestInterRATHandoverNonstandardPaddingOption(t *testing.T) {
 	const containedPath = "InterRATHandoverInfo.V390NonCriticalExtensions.Present.V3a0NonCriticalExtensions.LaterNonCriticalExtensions.InterRATHandoverInfoR3AddExt"
 	for _, tc := range []struct {
 		name, input         string
 		contained, trailing int
+		containedBits       string
 	}{
-		{"contained-zero-padding", "19408000", 6, 0},
-		{"top-level-zero-octets", "1940200000", 0, 18},
-		{"top-level-nonzero-bits", "19402000052150", 0, 34},
+		{"contained-zero-padding", "19408000", 6, 0, "00"},
+		{"contained-nonzero-bits", "19408200", 6, 0, "80"},
+		{"contained-zero-bits-beyond-seven", "1940c000", 10, 0, "0000"},
+		{"contained-nonzero-bits-beyond-seven", "1940c201", 10, 0, "8040"},
+		{"top-level-zero-octets", "1940200000", 0, 18, ""},
+		{"top-level-nonzero-bits", "19402000052150", 0, 34, ""},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			input, err := hex.DecodeString(tc.input)
@@ -37,9 +44,9 @@ func TestInterRATHandoverNonstandardPaddingOption(t *testing.T) {
 			if trailing := decoded.PERPadding_.Trailing(); trailing.BitLength != tc.trailing {
 				t.Fatalf("trailing length = %d, want %d", trailing.BitLength, tc.trailing)
 			}
-			_, count := decoded.V390NonCriticalExtensions.Present.V3a0NonCriticalExtensions.LaterNonCriticalExtensions.InterRATHandoverInfoR3AddExtPERPadding_.Bits()
-			if int(count) != tc.contained {
-				t.Fatalf("contained padding = %d, want %d", count, tc.contained)
+			kept := decoded.V390NonCriticalExtensions.Present.V3a0NonCriticalExtensions.LaterNonCriticalExtensions.InterRATHandoverInfoR3AddExtPERPadding_.Trailing()
+			if kept.BitLength != tc.contained || hex.EncodeToString(kept.Bytes) != tc.containedBits {
+				t.Fatalf("contained bits = %x/%d, want %s/%d", kept.Bytes, kept.BitLength, tc.containedBits, tc.contained)
 			}
 			records := tolerated.Snapshot()
 			if len(records) != 1 {
@@ -49,8 +56,9 @@ func TestInterRATHandoverNonstandardPaddingOption(t *testing.T) {
 			switch {
 			// The contained InterRATHandoverInfo-r3-add-ext-IEs value is two
 			// bits, so the padding starts at offset 2 of the BIT STRING.
-			case tc.contained != 0 && (record.Path != containedPath || record.Kind != per.ToleratedContainedPadding || record.Bits.BitLength != tc.contained || record.Offset != 2):
-				t.Fatalf("record = %+v, want %d contained padding bits at %s", record, tc.contained, containedPath)
+			case tc.contained != 0 && (record.Path != containedPath || record.Kind != per.ToleratedContainedBits || record.Bits.BitLength != tc.contained ||
+				hex.EncodeToString(record.Bits.Bytes) != tc.containedBits || record.Offset != 2):
+				t.Fatalf("record = %+v, want %d contained bits at %s", record, tc.contained, containedPath)
 			case tc.trailing != 0 && (record.Path != "InterRATHandoverInfo" || record.Kind != per.ToleratedTrailingBits || record.Bits.BitLength != tc.trailing ||
 				!bytes.Equal(record.Bits.Bytes, decoded.PERPadding_.Trailing().Bytes) || record.Offset+tc.trailing != 8*len(input)):
 				t.Fatalf("record = %+v, want %d trailing bits", record, tc.trailing)
