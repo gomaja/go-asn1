@@ -139,7 +139,8 @@ seven bits that pad it to an octet boundary (ITU-T X.691 (02/2021)
 §§11.1.3.1, 11.2.1). This applies to the top-level value, to a value inside
 an `OCTET STRING (CONTAINING ...)` and to each open type. The sender must set
 those bits to zero, but the decoder accepts them whatever their value and
-keeps them, so the input re-encodes unchanged. The default decode rejects a
+keeps nonzero ones, so the input re-encodes unchanged. Zero padding is what an
+encoder writes anyway, so it is not kept. The default decode rejects a
 longer suffix after the top-level value or a contained value, and any bit
 after a value inside a `BIT STRING (CONTAINING ...)`, where §11.1.3.2 allows
 no padding.
@@ -156,7 +157,7 @@ of more than seven bits after the top-level value or after a value inside an
 `OCTET STRING (CONTAINING ...)`, and any zero or non-zero bits after a value
 inside a `BIT STRING (CONTAINING ...)`. Each accepted run is recorded with its
 field path, kind, offset and bits, so no walk of the decoded value is needed.
-Bits within the padding the default decode accepts are kept but never
+Nonzero bits within the padding the default decode accepts are kept but never
 recorded.
 
 ```go
@@ -205,6 +206,54 @@ The single zero octet of an empty top-level value, and the single zero bit of
 an empty contained value, are part of the complete encoding (X.691 (02/2021)
 §§11.1.3.1, 11.1.3.2, 11.1.4). They are never recorded as tolerances; a
 nonzero mandated octet or bit, or a missing one, is rejected in both modes.
+
+### Editing decoded PER values
+
+A decoded UPER or APER value can be edited and encoded again. Each complete
+encoding decides for itself what it keeps: the top-level value, a value
+inside an `OCTET STRING` or `BIT STRING (CONTAINING ...)`, and each open
+type. Its kept bits are reproduced only while they still belong to its new
+encoding:
+
+- A tolerated suffix, or bits after a value inside a
+  `BIT STRING (CONTAINING ...)`, is reproduced only after the value encoding
+  it followed, bit for bit. An edit of that value drops it: the value is
+  encoded as a new one would be, with zero padding after a complete encoding
+  (X.691 (02/2021) §§11.1.3.1, 11.1.4) and nothing after a value inside a
+  `BIT STRING` (§11.1.3.2).
+- Nonzero padding is kept while it still fills the final octet exactly;
+  otherwise the edited value gets zero padding. Nonzero padding comes only
+  from a non-conformant sender, since §§11.1.3.1 and 11.1.4 require zero
+  bits. Only its width is kept, so an edit that leaves the bit length
+  unchanged, or changes it by a multiple of eight, keeps it. Padding carries
+  no value, so it does not affect decoding.
+
+```go
+var value rrc.RRCConnectionSetupCompleteV8a0IEs
+if err := value.UnmarshalUPER([]byte{0x00}); err != nil {
+    return err
+}
+value.NonCriticalExtension = &rrc.RRCConnectionSetupCompleteV1020IEs{}
+wire, err := value.MarshalUPER() // 40, as for a newly built value
+```
+
+Editing an enclosing value does not touch the bits kept by an unchanged value
+inside it: that value still reproduces its received suffix. A tolerantly
+decoded message whose nested values kept tolerated bits therefore still needs
+tolerance to decode after an edit elsewhere, and differs from a fresh
+encoding. To get a fresh, strictly decodable encoding, reset the padding
+fields (`PERPadding_`, `<Field>PERPadding_`, `PERExtPadding_`,
+`PEROpenTypePadding_`) of the value and of every value inside it, or build
+the value anew.
+
+### Present empty values
+
+An OPTIONAL component is absent when its Go value is nil. A present empty
+`OCTET STRING`, `BIT STRING` or `SEQUENCE OF` decodes to a non-nil empty value
+and is encoded again, in UPER, APER, BER and DER. JSON keeps the difference
+too: an OPTIONAL slice-typed field is tagged `omitzero`, so an absent one is
+omitted and a present empty one is written as `""` or `[]`. Pointer-typed
+fields keep `omitempty`, which already omits only nil.
 
 ## Available Protocols
 
