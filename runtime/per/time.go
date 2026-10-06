@@ -29,23 +29,31 @@ func DecodeUTCTime(bb *BitBuffer) (runtime.UTCTime, error) {
 	return parseCanonicalUTCTime(text)
 }
 
-// In aligned PER, X.691 (02/2021) 30.4 encodes this VisibleString
-// with octet-aligned character units, as checked against pycrate 0.7.11.
+// In aligned PER, each character of this VisibleString takes B2 = 8 bits
+// (X.691 (02/2021) 30.5.2), as checked against pycrate 0.7.11.
 func EncodeUTCTimeAligned(bb *BitBuffer, value runtime.UTCTime) error {
 	text, err := canonicalUTCTime(value)
 	if err != nil {
 		return err
 	}
-	return EncodeOctetStringAligned(bb, []byte(text), 0, 0, false)
+	return EncodeKnownMultiplierStringAligned(bb, text, 7, 0, 0, false)
 }
 
 // DecodeUTCTimeAligned accepts only the X.690 (02/2021) §11.8 form.
 func DecodeUTCTimeAligned(bb *BitBuffer) (runtime.UTCTime, error) {
-	data, err := DecodeOctetStringAligned(bb, 0, 0, false)
+	text, err := DecodeKnownMultiplierStringAligned(bb, 7, 0, 0, false)
 	if err != nil {
 		return runtime.UTCTime{}, err
 	}
-	return parseCanonicalUTCTime(string(data))
+	return parseCanonicalUTCTime(text)
+}
+
+// UTCTimeEquals reports whether value is encoded as the canonical text, the
+// X.690 (02/2021) §11.8 form that X.691 (02/2021) §10.6.5 transmits. A value
+// that has no such form equals nothing.
+func UTCTimeEquals(value runtime.UTCTime, canonical string) bool {
+	text, err := canonicalUTCTime(value)
+	return err == nil && text == canonical
 }
 
 func canonicalUTCTime(value runtime.UTCTime) (string, error) {

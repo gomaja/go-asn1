@@ -829,17 +829,25 @@ func (v *HandoverPreparationInformationNBExtR14IEs) UnmarshalUPERFrom(bb *per.Bi
 		if err != nil {
 			return runtime.WrapDecodePath(err, "UeRadioAccessCapabilityInfoExtR14")
 		}
-		containedBB_ueradioaccesscapabilityinfoextr14 := per.NewBitBufferFromBytes(containedBytes_ueradioaccesscapabilityinfoextr14)
-		containedBB_ueradioaccesscapabilityinfoextr14.InheritDecodeOptions(bb)
 		var contained_ueradioaccesscapabilityinfoextr14 UECapabilityNBExtR14IEs
-		if err := contained_ueradioaccesscapabilityinfoextr14.UnmarshalUPERFrom(containedBB_ueradioaccesscapabilityinfoextr14); err != nil {
-			return runtime.WrapDecodePath(fmt.Errorf("decoding contained ue-RadioAccessCapabilityInfoExt-r14: %w", err), "UeRadioAccessCapabilityInfoExtR14")
+		if containedSite_ueradioaccesscapabilityinfoextr14 := bb.EnterContained(); containedSite_ueradioaccesscapabilityinfoextr14.Decodes() {
+			containedBB_ueradioaccesscapabilityinfoextr14 := per.NewBitBufferFromBytes(containedBytes_ueradioaccesscapabilityinfoextr14)
+			containedBB_ueradioaccesscapabilityinfoextr14.InheritDecodeOptions(bb)
+			err := contained_ueradioaccesscapabilityinfoextr14.UnmarshalUPERFrom(containedBB_ueradioaccesscapabilityinfoextr14)
+			if err == nil {
+				contained_ueradioaccesscapabilityinfoextr14.PERPadding_, err = per.CaptureContainedFinalBits(containedBB_ueradioaccesscapabilityinfoextr14)
+			}
+			if err != nil {
+				err = fmt.Errorf("decoding contained ue-RadioAccessCapabilityInfoExt-r14: %w", err)
+				if !containedSite_ueradioaccesscapabilityinfoextr14.DefersErrors() {
+					return runtime.WrapDecodePath(err, "UeRadioAccessCapabilityInfoExtR14")
+				}
+				contained_ueradioaccesscapabilityinfoextr14 = UECapabilityNBExtR14IEs{}
+				contained_ueradioaccesscapabilityinfoextr14.PERPadding_ = containedSite_ueradioaccesscapabilityinfoextr14.DeferOctets(containedBytes_ueradioaccesscapabilityinfoextr14, err)
+			}
+		} else {
+			contained_ueradioaccesscapabilityinfoextr14.PERPadding_ = containedSite_ueradioaccesscapabilityinfoextr14.DeferOctets(containedBytes_ueradioaccesscapabilityinfoextr14, nil)
 		}
-		containedPadding_ueradioaccesscapabilityinfoextr14, err := per.CaptureContainedFinalBits(containedBB_ueradioaccesscapabilityinfoextr14)
-		if err != nil {
-			return runtime.WrapDecodePath(fmt.Errorf("decoding contained ue-RadioAccessCapabilityInfoExt-r14: %w", err), "UeRadioAccessCapabilityInfoExtR14")
-		}
-		contained_ueradioaccesscapabilityinfoextr14.PERPadding_ = containedPadding_ueradioaccesscapabilityinfoextr14
 		v.UeRadioAccessCapabilityInfoExtR14 = &contained_ueradioaccesscapabilityinfoextr14
 		bb.LeaveComponent(toleranceMark_ueradioaccesscapabilityinfoextr14)
 	}
@@ -1160,17 +1168,25 @@ func (v *UERadioAccessCapabilityInformationNBIEs) UnmarshalUPERFrom(bb *per.BitB
 	if err != nil {
 		return runtime.WrapDecodePath(err, "UeRadioAccessCapabilityInfoR13")
 	}
-	containedBB_ueradioaccesscapabilityinfor13 := per.NewBitBufferFromBytes(containedBytes_ueradioaccesscapabilityinfor13)
-	containedBB_ueradioaccesscapabilityinfor13.InheritDecodeOptions(bb)
 	var contained_ueradioaccesscapabilityinfor13 UECapabilityNBR13
-	if err := contained_ueradioaccesscapabilityinfor13.UnmarshalUPERFrom(containedBB_ueradioaccesscapabilityinfor13); err != nil {
-		return runtime.WrapDecodePath(fmt.Errorf("decoding contained ue-RadioAccessCapabilityInfo-r13: %w", err), "UeRadioAccessCapabilityInfoR13")
+	if containedSite_ueradioaccesscapabilityinfor13 := bb.EnterContained(); containedSite_ueradioaccesscapabilityinfor13.Decodes() {
+		containedBB_ueradioaccesscapabilityinfor13 := per.NewBitBufferFromBytes(containedBytes_ueradioaccesscapabilityinfor13)
+		containedBB_ueradioaccesscapabilityinfor13.InheritDecodeOptions(bb)
+		err := contained_ueradioaccesscapabilityinfor13.UnmarshalUPERFrom(containedBB_ueradioaccesscapabilityinfor13)
+		if err == nil {
+			contained_ueradioaccesscapabilityinfor13.PERPadding_, err = per.CaptureContainedFinalBits(containedBB_ueradioaccesscapabilityinfor13)
+		}
+		if err != nil {
+			err = fmt.Errorf("decoding contained ue-RadioAccessCapabilityInfo-r13: %w", err)
+			if !containedSite_ueradioaccesscapabilityinfor13.DefersErrors() {
+				return runtime.WrapDecodePath(err, "UeRadioAccessCapabilityInfoR13")
+			}
+			contained_ueradioaccesscapabilityinfor13 = UECapabilityNBR13{}
+			contained_ueradioaccesscapabilityinfor13.PERPadding_ = containedSite_ueradioaccesscapabilityinfor13.DeferOctets(containedBytes_ueradioaccesscapabilityinfor13, err)
+		}
+	} else {
+		contained_ueradioaccesscapabilityinfor13.PERPadding_ = containedSite_ueradioaccesscapabilityinfor13.DeferOctets(containedBytes_ueradioaccesscapabilityinfor13, nil)
 	}
-	containedPadding_ueradioaccesscapabilityinfor13, err := per.CaptureContainedFinalBits(containedBB_ueradioaccesscapabilityinfor13)
-	if err != nil {
-		return runtime.WrapDecodePath(fmt.Errorf("decoding contained ue-RadioAccessCapabilityInfo-r13: %w", err), "UeRadioAccessCapabilityInfoR13")
-	}
-	contained_ueradioaccesscapabilityinfor13.PERPadding_ = containedPadding_ueradioaccesscapabilityinfor13
 	v.UeRadioAccessCapabilityInfoR13 = contained_ueradioaccesscapabilityinfor13
 	bb.LeaveComponent(toleranceMark_ueradioaccesscapabilityinfor13)
 	if opt_noncriticalextension {
@@ -1337,17 +1353,25 @@ func (v *UERadioAccessCapabilityInformationNBR14IEs) UnmarshalUPERFrom(bb *per.B
 		if err != nil {
 			return runtime.WrapDecodePath(err, "UeRadioAccessCapabilityInfoR14")
 		}
-		containedBB_ueradioaccesscapabilityinfor14 := per.NewBitBufferFromBytes(containedBytes_ueradioaccesscapabilityinfor14)
-		containedBB_ueradioaccesscapabilityinfor14.InheritDecodeOptions(bb)
 		var contained_ueradioaccesscapabilityinfor14 UECapabilityInformationNB
-		if err := contained_ueradioaccesscapabilityinfor14.UnmarshalUPERFrom(containedBB_ueradioaccesscapabilityinfor14); err != nil {
-			return runtime.WrapDecodePath(fmt.Errorf("decoding contained ue-RadioAccessCapabilityInfo-r14: %w", err), "UeRadioAccessCapabilityInfoR14")
+		if containedSite_ueradioaccesscapabilityinfor14 := bb.EnterContained(); containedSite_ueradioaccesscapabilityinfor14.Decodes() {
+			containedBB_ueradioaccesscapabilityinfor14 := per.NewBitBufferFromBytes(containedBytes_ueradioaccesscapabilityinfor14)
+			containedBB_ueradioaccesscapabilityinfor14.InheritDecodeOptions(bb)
+			err := contained_ueradioaccesscapabilityinfor14.UnmarshalUPERFrom(containedBB_ueradioaccesscapabilityinfor14)
+			if err == nil {
+				contained_ueradioaccesscapabilityinfor14.PERPadding_, err = per.CaptureContainedFinalBits(containedBB_ueradioaccesscapabilityinfor14)
+			}
+			if err != nil {
+				err = fmt.Errorf("decoding contained ue-RadioAccessCapabilityInfo-r14: %w", err)
+				if !containedSite_ueradioaccesscapabilityinfor14.DefersErrors() {
+					return runtime.WrapDecodePath(err, "UeRadioAccessCapabilityInfoR14")
+				}
+				contained_ueradioaccesscapabilityinfor14 = UECapabilityInformationNB{}
+				contained_ueradioaccesscapabilityinfor14.PERPadding_ = containedSite_ueradioaccesscapabilityinfor14.DeferOctets(containedBytes_ueradioaccesscapabilityinfor14, err)
+			}
+		} else {
+			contained_ueradioaccesscapabilityinfor14.PERPadding_ = containedSite_ueradioaccesscapabilityinfor14.DeferOctets(containedBytes_ueradioaccesscapabilityinfor14, nil)
 		}
-		containedPadding_ueradioaccesscapabilityinfor14, err := per.CaptureContainedFinalBits(containedBB_ueradioaccesscapabilityinfor14)
-		if err != nil {
-			return runtime.WrapDecodePath(fmt.Errorf("decoding contained ue-RadioAccessCapabilityInfo-r14: %w", err), "UeRadioAccessCapabilityInfoR14")
-		}
-		contained_ueradioaccesscapabilityinfor14.PERPadding_ = containedPadding_ueradioaccesscapabilityinfor14
 		v.UeRadioAccessCapabilityInfoR14 = &contained_ueradioaccesscapabilityinfor14
 		bb.LeaveComponent(toleranceMark_ueradioaccesscapabilityinfor14)
 	}
@@ -1468,17 +1492,25 @@ func (v *UERadioPagingInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if err != nil {
 		return runtime.WrapDecodePath(err, "UeRadioPagingInfoR13")
 	}
-	containedBB_ueradiopaginginfor13 := per.NewBitBufferFromBytes(containedBytes_ueradiopaginginfor13)
-	containedBB_ueradiopaginginfor13.InheritDecodeOptions(bb)
 	var contained_ueradiopaginginfor13 UERadioPagingInfoNBR13
-	if err := contained_ueradiopaginginfor13.UnmarshalUPERFrom(containedBB_ueradiopaginginfor13); err != nil {
-		return runtime.WrapDecodePath(fmt.Errorf("decoding contained ue-RadioPagingInfo-r13: %w", err), "UeRadioPagingInfoR13")
+	if containedSite_ueradiopaginginfor13 := bb.EnterContained(); containedSite_ueradiopaginginfor13.Decodes() {
+		containedBB_ueradiopaginginfor13 := per.NewBitBufferFromBytes(containedBytes_ueradiopaginginfor13)
+		containedBB_ueradiopaginginfor13.InheritDecodeOptions(bb)
+		err := contained_ueradiopaginginfor13.UnmarshalUPERFrom(containedBB_ueradiopaginginfor13)
+		if err == nil {
+			contained_ueradiopaginginfor13.PERPadding_, err = per.CaptureContainedFinalBits(containedBB_ueradiopaginginfor13)
+		}
+		if err != nil {
+			err = fmt.Errorf("decoding contained ue-RadioPagingInfo-r13: %w", err)
+			if !containedSite_ueradiopaginginfor13.DefersErrors() {
+				return runtime.WrapDecodePath(err, "UeRadioPagingInfoR13")
+			}
+			contained_ueradiopaginginfor13 = UERadioPagingInfoNBR13{}
+			contained_ueradiopaginginfor13.PERPadding_ = containedSite_ueradiopaginginfor13.DeferOctets(containedBytes_ueradiopaginginfor13, err)
+		}
+	} else {
+		contained_ueradiopaginginfor13.PERPadding_ = containedSite_ueradiopaginginfor13.DeferOctets(containedBytes_ueradiopaginginfor13, nil)
 	}
-	containedPadding_ueradiopaginginfor13, err := per.CaptureContainedFinalBits(containedBB_ueradiopaginginfor13)
-	if err != nil {
-		return runtime.WrapDecodePath(fmt.Errorf("decoding contained ue-RadioPagingInfo-r13: %w", err), "UeRadioPagingInfoR13")
-	}
-	contained_ueradiopaginginfor13.PERPadding_ = containedPadding_ueradiopaginginfor13
 	v.UeRadioPagingInfoR13 = contained_ueradiopaginginfor13
 	bb.LeaveComponent(toleranceMark_ueradiopaginginfor13)
 	if opt_noncriticalextension {
@@ -1536,7 +1568,7 @@ func (v *ASConfigNB) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extHighest+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:362
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extHighest < 16383; gen/codegen_uper.go:392
 		if extHighest < 0 || extHighest >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extHighest)
 		}
@@ -1550,7 +1582,7 @@ func (v *ASConfigNB) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:378
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:408
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1582,7 +1614,7 @@ func (v *ASConfigNB) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:430
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:459
 		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1648,12 +1680,12 @@ func (v *ASConfigNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:559
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:595
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:561
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:597
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1683,7 +1715,7 @@ func (v *ASConfigNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			v.PERExtPadding_[0] = padding
 		}
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:612
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:650
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1726,14 +1758,14 @@ func (v *ASContextNB) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:475
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:479
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1743,7 +1775,7 @@ func (v *ASContextNB) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:486
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1806,13 +1838,13 @@ func (v *ASContextNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:669
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:672
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1872,14 +1904,14 @@ func (v *ReestablishmentInfoNB) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:475
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:479
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1889,7 +1921,7 @@ func (v *ReestablishmentInfoNB) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:486
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -1952,7 +1984,7 @@ func (v *ReestablishmentInfoNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalreestabinfolistr13 {
 		tmp_additionalreestabinfolistr13 := make(AdditionalReestabInfoList, 0)
 		_, errCollection_additionalreestabinfolistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_additionalreestabinfolistr13, fragmentLength_additionalreestabinfolistr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1172
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
 			if fragmentOffset_additionalreestabinfolistr13 < 0 || fragmentLength_additionalreestabinfolistr13 < 0 || fragmentLength_additionalreestabinfolistr13 > int64(^uint(0)>>1) || fragmentOffset_additionalreestabinfolistr13 > int64(^uint(0)>>1)-fragmentLength_additionalreestabinfolistr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1976,13 +2008,13 @@ func (v *ReestablishmentInfoNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:669
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:672
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2025,14 +2057,14 @@ func (v *RRMConfigNB) MarshalUPERTo(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount := v.ExtCount_
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
-		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:446
+		// arithmetic pattern UPER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_uper.go:475
 		if extCount < 0 || extCount >= 16383 {
 			return fmt.Errorf("%w: extension bitmap index %d", per.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
 		if err := per.EncodeNormallySmallLength(bb, extCount+1); err != nil {
 			return err
 		}
-		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:450
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:479
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2042,7 +2074,7 @@ func (v *RRMConfigNB) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
-		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:457
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:486
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2105,13 +2137,13 @@ func (v *RRMConfigNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
-		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:631
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:669
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
-		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:634
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:672
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
 			return fmt.Errorf("extension count out of range")
 		}
@@ -2141,7 +2173,7 @@ func (v *HandoverPreparationInformationNBCriticalExtensions) MarshalUPERTo(bb *p
 	if v.Choice < 1 {
 		return fmt.Errorf("HandoverPreparationInformationNBCriticalExtensions: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -2195,7 +2227,7 @@ func (v *HandoverPreparationInformationNBCriticalExtensions) UnmarshalUPERFrom(b
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -2232,7 +2264,7 @@ func (v *HandoverPreparationInformationNBCriticalExtensionsC1) MarshalUPERTo(bb 
 	if v.Choice < 1 {
 		return fmt.Errorf("HandoverPreparationInformationNBCriticalExtensionsC1: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -2282,7 +2314,7 @@ func (v *HandoverPreparationInformationNBCriticalExtensionsC1) UnmarshalUPERFrom
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -2395,7 +2427,7 @@ func (v *UEPagingCoverageInformationNBCriticalExtensions) MarshalUPERTo(bb *per.
 	if v.Choice < 1 {
 		return fmt.Errorf("UEPagingCoverageInformationNBCriticalExtensions: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -2449,7 +2481,7 @@ func (v *UEPagingCoverageInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -2484,7 +2516,7 @@ func (v *UEPagingCoverageInformationNBCriticalExtensionsC1) MarshalUPERTo(bb *pe
 	if v.Choice < 1 {
 		return fmt.Errorf("UEPagingCoverageInformationNBCriticalExtensionsC1: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -2534,7 +2566,7 @@ func (v *UEPagingCoverageInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -2645,7 +2677,7 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensions) MarshalUPERTo(b
 	if v.Choice < 1 {
 		return fmt.Errorf("UERadioAccessCapabilityInformationNBCriticalExtensions: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -2699,7 +2731,7 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensions) UnmarshalUPERFr
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -2736,7 +2768,7 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsC1) MarshalUPERTo
 	if v.Choice < 1 {
 		return fmt.Errorf("UERadioAccessCapabilityInformationNBCriticalExtensionsC1: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -2786,7 +2818,7 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsC1) UnmarshalUPER
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -2899,7 +2931,7 @@ func (v *UERadioPagingInformationNBCriticalExtensions) MarshalUPERTo(bb *per.Bit
 	if v.Choice < 1 {
 		return fmt.Errorf("UERadioPagingInformationNBCriticalExtensions: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -2953,7 +2985,7 @@ func (v *UERadioPagingInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *per
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -2990,7 +3022,7 @@ func (v *UERadioPagingInformationNBCriticalExtensionsC1) MarshalUPERTo(bb *per.B
 	if v.Choice < 1 {
 		return fmt.Errorf("UERadioPagingInformationNBCriticalExtensionsC1: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -3040,7 +3072,7 @@ func (v *UERadioPagingInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb *p
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}

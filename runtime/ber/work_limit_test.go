@@ -32,7 +32,7 @@ func TestConstructedBERWorkLimits(t *testing.T) {
 		{"total work", nestedOctets(t, 60, bytes.Repeat([]byte{0x5a}, 300000)), DecodeLimits{MaxWork: 16 << 20}},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
-			if _, _, err := DecodeOctetString(tc.wire, WithDecodeLimits(tc.limit)); !errors.Is(err, ErrInvalidValue) {
+			if _, _, err := DecodeOctetString(tc.wire, WithDecodeLimits(tc.limit)); !errors.Is(err, ErrResourceLimit) {
 				t.Fatalf("DecodeOctetString error = %v, want bounded failure", err)
 			}
 		})
@@ -50,7 +50,7 @@ func TestBERDecodeLimitsCanBeRaised(t *testing.T) {
 			t.Fatalf("limits=%+v: value=%x n=%d error=%v", limits, value, n, err)
 		}
 	}
-	if _, _, err := DecodeOctetString(wire, WithDecodeLimits(DecodeLimits{MaxDepth: 64})); !errors.Is(err, ErrInvalidValue) || !bytes.Contains([]byte(err.Error()), []byte("depth")) {
+	if _, _, err := DecodeOctetString(wire, WithDecodeLimits(DecodeLimits{MaxDepth: 64})); !errors.Is(err, ErrResourceLimit) || !bytes.Contains([]byte(err.Error()), []byte("depth")) {
 		t.Fatalf("explicit depth 64 error = %v", err)
 	}
 	if _, _, _, err := DecodeTLV(wire, WithDecodeLimits(DecodeLimits{MaxDepth: 65})); err != nil {
@@ -63,20 +63,20 @@ func TestDERDepthLimit(t *testing.T) {
 	for range 129 {
 		wire = mustEncode(t)(EncodeSequence(wire))
 	}
-	if err := ValidateDERElement(wire); !errors.Is(err, ErrInvalidValue) {
+	if err := ValidateDERElement(wire); !errors.Is(err, ErrResourceLimit) {
 		t.Fatalf("ValidateDERElement depth error = %v", err)
 	}
 }
 
 func TestValidateBERElementLimits(t *testing.T) {
 	tooMany := mustEncode(t)(EncodeSequence(bytes.Repeat(EncodeNull(), 4)))
-	if err := ValidateBERElement(tooMany, WithDecodeLimits(DecodeLimits{MaxElements: 4})); !errors.Is(err, ErrInvalidValue) {
+	if err := ValidateBERElement(tooMany, WithDecodeLimits(DecodeLimits{MaxElements: 4})); !errors.Is(err, ErrResourceLimit) {
 		t.Fatalf("element limit error = %v", err)
 	}
 	if err := ValidateBERElement(tooMany, WithDecodeLimits(DecodeLimits{MaxElements: 5})); err != nil {
 		t.Fatalf("raised element limit: %v", err)
 	}
-	if err := ValidateBERElement(tooMany, WithDecodeLimits(DecodeLimits{MaxWork: len(tooMany) - 1})); !errors.Is(err, ErrInvalidValue) {
+	if err := ValidateBERElement(tooMany, WithDecodeLimits(DecodeLimits{MaxWork: len(tooMany) - 1})); !errors.Is(err, ErrResourceLimit) {
 		t.Fatalf("work limit error = %v", err)
 	}
 	for _, invalid := range [][]byte{{}, {0, 0}, {0x30, 0x80, 0x05, 0x00}, {0x30, 0x02, 0x05, 0x00, 0x05, 0x00}} {

@@ -185,11 +185,11 @@ func realMagnitudeBounds(value runtime.Real) (*big.Int, *big.Int) {
 func boundedRealRat(value runtime.Real) (*big.Rat, error) {
 	const maxExponent = int64(1_000_000)
 	if !value.Exponent.IsInt64() {
-		return nil, fmt.Errorf("%w: REAL constraint comparison exceeds exact work limit", ErrInvalidValue)
+		return nil, fmt.Errorf("%w: REAL constraint comparison exceeds exact work limit", ErrResourceLimit)
 	}
 	exponent := value.Exponent.Int64()
 	if exponent < -maxExponent || exponent > maxExponent {
-		return nil, fmt.Errorf("%w: REAL constraint comparison exceeds exact work limit", ErrInvalidValue)
+		return nil, fmt.Errorf("%w: REAL constraint comparison exceeds exact work limit", ErrResourceLimit)
 	}
 	numerator := new(big.Int).Set(value.Mantissa)
 	denominator := big.NewInt(1)

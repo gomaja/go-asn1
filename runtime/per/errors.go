@@ -16,6 +16,9 @@ var (
 	ErrConstraintViolation = errors.New("per: constraint violation")
 	ErrTruncated           = errors.New("per: data truncated")
 	ErrExtraData           = errors.New("per: trailing data after value")
+	// ErrResourceLimit reports an operational decode limit in DecodeOptions,
+	// not an X.691 rule.
+	ErrResourceLimit = errors.New("per: decode resource limit exceeded")
 	// ErrUnsupportedFragmentedNormallySmallLength reports a normally small
 	// length requiring interleaved bitmap fragments under X.691 (02/2021)
 	// 11.9.3.8. The current codec supports lengths through 16,383.

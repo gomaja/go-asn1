@@ -498,10 +498,14 @@ func EncodeBitStringAlignedExt(bb *BitBuffer, data []byte, bitLen int, lb, ub in
 		if err := EncodeConstrainedWholeNumberAligned(bb, int64(bitLen), lb, ub); err != nil {
 			return err
 		}
-		if ub > 16 {
-			if err := bb.AlignToOctetWrite(); err != nil {
-				return err
-			}
+		// X.691 (02/2021) 16.11 octet-aligns every bitstring that is not
+		// fixed-size, whatever "ub" is; 11.9.3.3 adds nothing, not even
+		// padding, after a zero length.
+		if bitLen == 0 {
+			return nil
+		}
+		if err := bb.AlignToOctetWrite(); err != nil {
+			return err
 		}
 		return bb.WriteBitsFromBytes(data, bitLen)
 	}
@@ -524,7 +528,11 @@ func DecodeBitStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, extensi
 			return nil, 0, err
 		}
 		if isExtension {
-			return decodeLengthDelimitedBits(bb, true)
+			data, bitLen, err := decodeLengthDelimitedBits(bb, true)
+			if err == nil {
+				err = rejectRootLengthInExtension("BIT STRING", int64(bitLen), lb, ub)
+			}
+			return data, bitLen, err
 		}
 	}
 	if fixedRootSizeOmitsLength(lb, ub, constrained) {
@@ -546,7 +554,8 @@ func DecodeBitStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, extensi
 		if err != nil {
 			return nil, 0, err
 		}
-		if ub > 16 {
+		// X.691 (02/2021) 16.11 and 11.9.3.3, as in EncodeBitStringAlignedExt.
+		if bitLen != 0 {
 			if err := bb.AlignToOctetRead(); err != nil {
 				return nil, 0, err
 			}
@@ -609,10 +618,14 @@ func EncodeOctetStringAlignedExt(bb *BitBuffer, data []byte, lb, ub int64, const
 		if err := EncodeConstrainedWholeNumberAligned(bb, length, lb, ub); err != nil {
 			return err
 		}
-		if ub > 2 {
-			if err := bb.AlignToOctetWrite(); err != nil {
-				return err
-			}
+		// X.691 (02/2021) 17.8 octet-aligns every octetstring that is not
+		// fixed-size, whatever "ub" is; 11.9.3.3 adds nothing, not even
+		// padding, after a zero length.
+		if length == 0 {
+			return nil
+		}
+		if err := bb.AlignToOctetWrite(); err != nil {
+			return err
 		}
 		return bb.WriteBytes(data)
 	}
@@ -635,7 +648,11 @@ func DecodeOctetStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, exten
 			return nil, err
 		}
 		if isExtension {
-			return decodeLengthDelimitedOctets(bb, true)
+			data, err := decodeLengthDelimitedOctets(bb, true)
+			if err == nil {
+				err = rejectRootLengthInExtension("OCTET STRING", int64(len(data)), lb, ub)
+			}
+			return data, err
 		}
 	}
 	if fixedRootSizeOmitsLength(lb, ub, constrained) {
@@ -656,7 +673,8 @@ func DecodeOctetStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, exten
 		if err != nil {
 			return nil, err
 		}
-		if ub > 2 {
+		// X.691 (02/2021) 17.8 and 11.9.3.3, as in EncodeOctetStringAlignedExt.
+		if length != 0 {
 			if err := bb.AlignToOctetRead(); err != nil {
 				return nil, err
 			}
@@ -678,127 +696,38 @@ func DecodeOctetStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, exten
 	return bb.ReadBytes(int(length))
 }
 
-// EncodeKnownMultiplierStringAligned encodes a string with known char set (APER).
-func EncodeKnownMultiplierStringAligned(bb *BitBuffer, s string, bitsPerChar int, lb, ub int64, constrained bool) error {
-	return EncodeKnownMultiplierStringAlignedExt(bb, s, bitsPerChar, lb, ub, constrained, false)
+// EncodeKnownMultiplierStringAligned is EncodeKnownMultiplierString in the
+// ALIGNED variant: each character takes B2 bits, the smallest power of two
+// not below alphabetBits (ITU-T X.691 (02/2021) 30.5.2), so 8 for IA5String,
+// VisibleString and PrintableString.
+func EncodeKnownMultiplierStringAligned(bb *BitBuffer, s string, alphabetBits int, lb, ub int64, constrained bool) error {
+	return EncodeKnownMultiplierStringAlignedExt(bb, s, alphabetBits, lb, ub, constrained, false)
 }
 
 // EncodeKnownMultiplierStringAlignedExt implements the size extension bit
 // required by ITU-T X.691 (02/2021) Section 30.4.
-func EncodeKnownMultiplierStringAlignedExt(bb *BitBuffer, s string, bitsPerChar int, lb, ub int64, constrained, extensible bool) error {
-	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+func EncodeKnownMultiplierStringAlignedExt(bb *BitBuffer, s string, alphabetBits int, lb, ub int64, constrained, extensible bool) error {
+	codec, err := identityCharacterCodec(alphabetBits, true)
+	if err != nil {
 		return err
 	}
-	if err := validateKnownMultiplierWidth(bitsPerChar); err != nil {
-		return err
-	}
-	if err := validateKnownMultiplierStringValue(s, bitsPerChar); err != nil {
-		return err
-	}
-	length := knownMultiplierStringLength(s, bitsPerChar)
-	if extensible && constrained {
-		inRoot := length >= lb && length <= ub
-		if err := EncodeBoolean(bb, !inRoot); err != nil {
-			return err
-		}
-		if !inRoot {
-			return encodeLengthDelimitedKnownMultiplierString(bb, s, bitsPerChar, true)
-		}
-	}
-	if err := validateRootSize(length, lb, ub, constrained); err != nil {
-		return err
-	}
-	if fixedRootSizeOmitsLength(lb, ub, constrained) {
-		if length != lb {
-			return fmt.Errorf("%w: string length %d does not match fixed SIZE(%d)", ErrConstraintViolation, length, lb)
-		}
-		payloadBits, err := knownMultiplierPayloadBits(length, bitsPerChar)
-		if err != nil {
-			return err
-		}
-		if payloadBits > 16 {
-			if err := bb.AlignToOctetWrite(); err != nil {
-				return err
-			}
-		}
-		return writeKnownMultiplierString(bb, s, bitsPerChar)
-	}
-	if constrained && ub < 65536 {
-		if err := EncodeConstrainedWholeNumberAligned(bb, length, lb, ub); err != nil {
-			return err
-		}
-		if ub > 2 {
-			if err := bb.AlignToOctetWrite(); err != nil {
-				return err
-			}
-		}
-	} else {
-		return encodeLengthDelimitedKnownMultiplierString(bb, s, bitsPerChar, true)
-	}
-	return writeKnownMultiplierString(bb, s, bitsPerChar)
+	return encodeCharacterString(bb, s, codec, lb, ub, constrained, extensible, true)
 }
 
-// DecodeKnownMultiplierStringAligned decodes a string with known char set (APER).
-func DecodeKnownMultiplierStringAligned(bb *BitBuffer, bitsPerChar int, lb, ub int64, constrained bool) (string, error) {
-	return DecodeKnownMultiplierStringAlignedExt(bb, bitsPerChar, lb, ub, constrained, false)
+// DecodeKnownMultiplierStringAligned decodes a string encoded by
+// EncodeKnownMultiplierStringAligned.
+func DecodeKnownMultiplierStringAligned(bb *BitBuffer, alphabetBits int, lb, ub int64, constrained bool) (string, error) {
+	return DecodeKnownMultiplierStringAlignedExt(bb, alphabetBits, lb, ub, constrained, false)
 }
 
 // DecodeKnownMultiplierStringAlignedExt implements the size extension bit
 // required by ITU-T X.691 (02/2021) Section 30.4.
-func DecodeKnownMultiplierStringAlignedExt(bb *BitBuffer, bitsPerChar int, lb, ub int64, constrained, extensible bool) (string, error) {
-	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+func DecodeKnownMultiplierStringAlignedExt(bb *BitBuffer, alphabetBits int, lb, ub int64, constrained, extensible bool) (string, error) {
+	codec, err := identityCharacterCodec(alphabetBits, true)
+	if err != nil {
 		return "", err
 	}
-	if err := validateKnownMultiplierWidth(bitsPerChar); err != nil {
-		return "", err
-	}
-	if extensible && constrained {
-		isExtension, err := DecodeBoolean(bb)
-		if err != nil {
-			return "", err
-		}
-		if isExtension {
-			value, _, err := decodeLengthDelimitedKnownMultiplierString(bb, bitsPerChar, true)
-			return value, err
-		}
-	}
-	var length int64
-	var err error
-	if fixedRootSizeOmitsLength(lb, ub, constrained) {
-		payloadBits, payloadErr := knownMultiplierPayloadBits(lb, bitsPerChar)
-		if payloadErr != nil {
-			return "", payloadErr
-		}
-		if payloadBits > 16 {
-			if err := bb.AlignToOctetRead(); err != nil {
-				return "", err
-			}
-		}
-		length = lb
-	} else if constrained && ub < 65536 {
-		length, err = DecodeConstrainedWholeNumberAligned(bb, lb, ub)
-		if err != nil {
-			return "", err
-		}
-		if ub > 2 {
-			if err := bb.AlignToOctetRead(); err != nil {
-				return "", err
-			}
-		}
-	} else {
-		value, decodedLength, err := decodeLengthDelimitedKnownMultiplierStringBounded(bb, bitsPerChar, true, rootSizeMaximum(ub, constrained))
-		if err != nil {
-			return "", err
-		}
-		if err := validateRootSize(decodedLength, lb, ub, constrained); err != nil {
-			return "", err
-		}
-		return value, nil
-	}
-	if err := validateRootSize(length, lb, ub, constrained); err != nil {
-		return "", err
-	}
-	return readKnownMultiplierString(bb, length, bitsPerChar)
+	return decodeCharacterString(bb, codec, lb, ub, constrained, extensible, true)
 }
 
 // EncodeOpenTypeAligned wraps a complete encoding with an aligned length

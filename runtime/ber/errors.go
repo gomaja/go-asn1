@@ -14,6 +14,7 @@ var (
 	ErrExtraData        = errors.New("ber: trailing data after value")
 	ErrInvalidValue     = errors.New("ber: invalid value encoding")
 	ErrUnsupported      = errors.New("ber: unsupported encoding")
+	ErrResourceLimit    = errors.New("ber: resource limit exceeded")
 )
 
 // DecodeError provides context about where a decode failure occurred.

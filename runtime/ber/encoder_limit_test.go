@@ -10,8 +10,8 @@ import (
 
 func TestBERWorkBudgetRejectsHostBoundBeforeIncrement(t *testing.T) {
 	budget := berWorkBudget{elements: math.MaxInt, limits: DecodeLimits{MaxElements: math.MaxInt, MaxWork: math.MaxInt}}
-	if err := budget.charge(0); !errors.Is(err, ErrInvalidValue) {
-		t.Fatalf("charge after host limit = %v, want ErrInvalidValue", err)
+	if err := budget.charge(0); !errors.Is(err, ErrResourceLimit) {
+		t.Fatalf("charge after host limit = %v, want ErrResourceLimit", err)
 	}
 	if budget.elements != math.MaxInt {
 		t.Fatalf("rejected charge changed element count to %d", budget.elements)
@@ -20,8 +20,8 @@ func TestBERWorkBudgetRejectsHostBoundBeforeIncrement(t *testing.T) {
 
 func TestBERWorkBudgetRejectsConfiguredBoundBeforeIncrement(t *testing.T) {
 	budget := berWorkBudget{elements: 2, limits: DecodeLimits{MaxElements: 2, MaxWork: 4}}
-	if err := budget.charge(0); !errors.Is(err, ErrInvalidValue) {
-		t.Fatalf("charge after configured limit = %v, want ErrInvalidValue", err)
+	if err := budget.charge(0); !errors.Is(err, ErrResourceLimit) {
+		t.Fatalf("charge after configured limit = %v, want ErrResourceLimit", err)
 	}
 	if budget.elements != 2 {
 		t.Fatalf("rejected charge changed element count to %d", budget.elements)

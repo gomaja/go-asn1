@@ -75,3 +75,40 @@ func FuzzBigIntJSONRoundTrip(f *testing.F) {
 		}
 	})
 }
+
+func TestBigIntEqualsDecimal(t *testing.T) {
+	huge, _ := new(big.Int).SetString("123456789012345678901234567890", 10)
+	for _, test := range []struct {
+		value *big.Int
+		text  string
+		want  bool
+	}{
+		{big.NewInt(-3), "-3", true},
+		{big.NewInt(3), "-3", false},
+		{big.NewInt(0), "0", true},
+		{huge, "123456789012345678901234567890", true},
+		{huge, "123456789012345678901234567891", false},
+		{big.NewInt(7), "123456789012345678901234567890", false},
+		{huge, "7", false},
+		{nil, "0", false},
+		{big.NewInt(1), "+1", false},
+		{big.NewInt(1), "01", false},
+		{big.NewInt(0), "-0", false},
+		{big.NewInt(0), "00", false},
+		{big.NewInt(-1), "-01", false},
+		{big.NewInt(0), "", false},
+		{big.NewInt(0), "-", false},
+		{big.NewInt(1), " 1", false},
+		{huge, "+123456789012345678901234567890", false},
+		{huge, "0123456789012345678901234567890", false},
+		{big.NewInt(-7), "-7", true},
+	} {
+		if got := BigIntEqualsDecimal(test.value, test.text); got != test.want {
+			t.Errorf("BigIntEqualsDecimal(%v, %s) = %t, want %t", test.value, test.text, got, test.want)
+		}
+	}
+	small := big.NewInt(-3)
+	if allocations := testing.AllocsPerRun(100, func() { BigIntEqualsDecimal(small, "-3") }); allocations != 0 {
+		t.Errorf("an int64 comparison allocates %v times", allocations)
+	}
+}

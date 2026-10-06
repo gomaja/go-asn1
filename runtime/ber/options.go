@@ -13,6 +13,10 @@ type DecodeLimits struct {
 	MaxDepth    int // constructed nesting levels
 	MaxElements int // TLVs examined while scanning a constructed value
 	MaxWork     int // aggregate encoded bytes visited by constructed decoders
+	// MaxRealDecimalDigits bounds the total received mantissa and exponent
+	// digits in each decimal REAL, including leading zeros. Zero is unlimited.
+	// This is an operational limit, not an X.690 (02/2021) §8.5.8 restriction.
+	MaxRealDecimalDigits int
 }
 
 // DefaultDecodeLimits returns the limits used when no option is supplied.
@@ -51,6 +55,9 @@ func WithDecodeLimits(limits DecodeLimits) DecodeOption {
 		if limits.MaxWork != 0 {
 			dst.MaxWork = limits.MaxWork
 		}
+		if limits.MaxRealDecimalDigits != 0 {
+			dst.MaxRealDecimalDigits = limits.MaxRealDecimalDigits
+		}
 		return nil
 	})
 }
@@ -67,6 +74,9 @@ func decodeOptions(options []DecodeOption) (decodeConfig, error) {
 	}
 	if config.limits.MaxDepth <= 0 || config.limits.MaxElements <= 0 || config.limits.MaxWork <= 0 {
 		return config, fmt.Errorf("%w: BER decode limits must be positive", ErrInvalidValue)
+	}
+	if config.limits.MaxRealDecimalDigits < 0 {
+		return config, fmt.Errorf("%w: REAL decimal digit limit must be nonnegative", ErrInvalidValue)
 	}
 	return config, nil
 }

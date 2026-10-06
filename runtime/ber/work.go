@@ -20,7 +20,7 @@ func ValidateBERElement(data []byte, options ...DecodeOption) error {
 		return ErrTruncated
 	}
 	if len(data) > limits.MaxWork {
-		return fmt.Errorf("%w: BER total-work limit exceeded", ErrInvalidValue)
+		return fmt.Errorf("%w: BER total-work limit exceeded", ErrResourceLimit)
 	}
 	type frame struct {
 		end        int
@@ -71,7 +71,7 @@ func ValidateBERElement(data []byte, options ...DecodeOption) error {
 			return err
 		}
 		if elements >= limits.MaxElements {
-			return fmt.Errorf("%w: BER element limit exceeded", ErrInvalidValue)
+			return fmt.Errorf("%w: BER element limit exceeded", ErrResourceLimit)
 		}
 		elements++
 		start := pos + tagLen + lenLen
@@ -85,7 +85,7 @@ func ValidateBERElement(data []byte, options ...DecodeOption) error {
 				return ErrIndefiniteLength
 			}
 			if len(stack) > limits.MaxDepth {
-				return fmt.Errorf("%w: BER nesting depth exceeded", ErrInvalidValue)
+				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
 			stack = append(stack, frame{end: parent.end, indefinite: true})
 			pos = start
@@ -105,7 +105,7 @@ func ValidateBERElement(data []byte, options ...DecodeOption) error {
 		}
 		if t.Constructed {
 			if len(stack) > limits.MaxDepth {
-				return fmt.Errorf("%w: BER nesting depth exceeded", ErrInvalidValue)
+				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
 			stack = append(stack, frame{end: end})
 			pos = start
