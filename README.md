@@ -345,6 +345,57 @@ correctly in the `lateNonCriticalExtension` of LTE RRC
 `NPRSSubframePartB` and in S1AP `HOReport.candidatePCIList`. BER is not
 affected, because each BER extension addition carries its own tag.
 
+### DEFAULT components
+
+In UPER and APER, a SEQUENCE or SET component marked `DEFAULT` is nil when
+absent, like an OPTIONAL one. A new value leaves out a component of a simple type that
+holds its default value, as ITU-T X.691 (02/2021) §19.5 requires: setting
+LTE RRC `MeasObjectEUTRA.OffsetFreq` to `rrc.QOffsetRangeDB0` sends the same
+octets as leaving it nil. Simple types are those that are not composite
+(§3.7.25): INTEGER, ENUMERATED, BOOLEAN, BIT STRING, OCTET STRING, the
+character strings, NULL, OBJECT IDENTIFIER and UTCTime. Equality follows the
+abstract value. Trailing zero bits of a BIT STRING with named bits do not
+count (X.680 (02/2021) §22.7), and a UTCTime is compared in the form PER
+transmits (X.691 §10.6.5, X.690 §11.8). A component of a composite type, such
+as a SEQUENCE, SEQUENCE OF or CHOICE, is sent whenever it is set, which §19.5
+leaves to the sender. Inside an extension addition group the rule applies to
+each component, and the group stays present while it holds a value (§19.9). A
+lone extension addition that holds its default is left out.
+
+This applies to 35 components in 31 LTE RRC types, 173 components in 90 UMTS
+RRC types and 2 LPP components. S1AP, X2AP and LPPa have no DEFAULT
+components. In APER, only a SEQUENCE or SET with such a component carries
+its `PERPadding_` as the pointer-wide `per.FinalPadding`, to hold the record
+described below. Other APER types keep the two-byte `per.CompletePadding`.
+
+Decoders accept a DEFAULT component of a simple type that carries its
+default value explicitly, as some senders do although §19.5 forbids it. The
+rule for such a component is:
+- a freshly built value always leaves it out while it holds its default
+  (§19.5);
+- an unchanged received value re-encodes exactly as received, including a
+  non-conforming explicit default, so byte-exact replay holds. The decoded
+  value records the explicit default in its `PERPadding_` for this;
+- a component edited to another value is sent as it now is, and a component
+  received with another value and then set to its default is left out.
+
+Replaying the explicit default is a deliberate exception to §19.5, of the
+same kind as the replay of nonzero padding and of a received extension
+bitmap width. A composite DEFAULT component has no record: it is sent
+whenever it is set. The record adds no field. Recording the first eight such
+components of a type allocates nothing, and a record that includes a later
+one allocates once; every LTE RRC and LPP type has at most three.
+
+The record shares that `per.FinalPadding` with the final bits of a complete
+encoding and with the raw state of a deferred contained value, and each is
+kept alongside the others. A deferred value was not decoded, so it has no
+record until it is decoded later. Resetting `PERPadding_` drops those three
+records and nothing else. For a fresh encoding of a decoded value, also reset
+its extension metadata (`ExtCount_`, `ExtPresent_`, `ExtData_`,
+`PERExtPadding_`), in the value and in every value inside it. Otherwise a
+lone extension addition received explicitly at its default leaves its
+received, now empty, extension bitmap behind.
+
 ## Available Protocols
 
 Protocols marked with **[compiled]** have generated Go code. Others have placeholder directories ready for future compilation.
