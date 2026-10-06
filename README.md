@@ -42,6 +42,23 @@ Extension-addition bitmaps of 16,384 bits or more require the fragmented form
 in X.691 (02/2021) §11.9.3.8. Encode and decode return
 `per.ErrUnsupportedFragmentedNormallySmallLength` for that form.
 
+A fresh extension-bearing SEQUENCE or SET emits all n extension-presence
+bits, where n is the number of additions in its source version (X.691
+(02/2021) §19.7 and its NOTE, §§19.8 and 11.9). A decoded value replays its
+received bitmap width, even when another version sent fewer or more bits.
+Edits within that boundary retain it; an addition beyond it expands the
+bitmap to at least the current source width, preserving unknown additions.
+CHOICE extensions have an index instead of this bitmap.
+
+BER decode depth, element-count, aggregate-work and decimal REAL digit
+budgets return `ber.ErrResourceLimit`, distinct from `ber.ErrInvalidValue`.
+Decimal REAL digits are unlimited by default. Set
+`ber.WithDecodeLimits(ber.DecodeLimits{MaxRealDecimalDigits: 1000})` at a
+runtime or generated decoder entry point to cap the combined mantissa and
+exponent digits before conversion, including leading zeros. Implicitly
+tagged REALs use the same budget. DER validation checks decimal REAL
+canonical spelling directly, without big-number conversion.
+
 ### BER constraints and trace tolerance
 
 BER decoding and encoding enforce resolved INTEGER, ENUMERATED, REAL, and
@@ -295,7 +312,13 @@ Editing an enclosing value does not touch the bits kept by an unchanged value
 inside it: that value still reproduces its received suffix. A tolerantly
 decoded message whose nested values kept tolerated bits therefore still needs
 tolerance to decode after an edit elsewhere, and differs from a fresh
-encoding. To get a fresh, strictly decodable encoding, build the value anew.
+encoding. To get a fresh, strictly decodable encoding, reset the padding
+fields (`PERPadding_`, `<Field>PERPadding_`, `PERExtPadding_`,
+`PEROpenTypePadding_`) of the value and of every value inside it. Also reset
+`ExtCount_` and `ExtPresent_` for fresh extension bitmaps. To encode only
+the current source version, also clear `ExtData_`; this deliberately drops
+unknown additions. Keep their data if they must survive, which may require
+a wider bitmap. Alternatively, build the value anew.
 
 ### Present empty values
 
