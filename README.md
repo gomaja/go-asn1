@@ -59,6 +59,28 @@ exponent digits before conversion, including leading zeros. Implicitly
 tagged REALs use the same budget. DER validation checks decimal REAL
 canonical spelling directly, without big-number conversion.
 
+### APER character strings and bit strings
+
+In the ALIGNED variant, each character of an IA5String, VisibleString or
+PrintableString takes B2 = 8 bits, the smallest power of two not below the
+7 bits its alphabet needs (ITU-T X.691 (02/2021) §30.5.2). Earlier releases
+used 7 bits, so the APER string IEs were encoded and decoded wrongly: S1AP
+`ENBname` and `MMEname`, the S1AP `URI-Address` of TraceActivation extension
+325, and the X2AP `URI-Address` of TraceActivation extension 405. A
+conforming `ENBname` "ab" (`00806162`) decoded as "0X". These IEs now match
+the standard, and encodings of them written by earlier releases no longer
+decode. A known-multiplier string is aligned as §§30.5.6 and 30.5.7
+require, and NumericString and PER-visible `FROM` alphabets use
+canonical-order indexes where §30.5.4 requires them. No release package has
+a NumericString or a PER-visible `FROM` alphabet.
+
+A BIT STRING or OCTET STRING whose size is not fixed is octet-aligned in
+APER whatever its upper bound, and nothing follows a zero length (§§16.11,
+17.8, 11.9.3.3). No release package has a variable-size BIT STRING with an
+upper bound of 16 bits or less, or an OCTET STRING of at most 2 octets, so
+their wire output is unchanged. In both variants, a root length received in
+extension form is rejected on decode (§§16.6, 17.3).
+
 ### BER constraints and trace tolerance
 
 BER decoding and encoding enforce resolved INTEGER, ENUMERATED, REAL, and
