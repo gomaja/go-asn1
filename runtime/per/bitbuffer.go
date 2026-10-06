@@ -11,12 +11,18 @@ type BitBuffer struct {
 	bitPos        int  // current read position (read) or total bits written (write)
 	bitLen        int  // total bits available (read mode only)
 	invalidLength bool // input octets cannot be represented as an int bit length
-	decodeOptions DecodeOptions
-	trace         *decodeTrace // non-nil only for a decode with tolerance
+	contained     ContainedDecoding
+	// zeroWidthLimit is DecodeOptions.MaxZeroWidthCharacters; zero selects
+	// DefaultMaxZeroWidthCharacters. A uint32 here fills the padding after
+	// contained, so BitBuffer keeps its 64 bytes.
+	zeroWidthLimit uint32
+	tolerance      *ToleranceLog
+	trace          *decodeTrace // non-nil only for a decode with tolerance or deferral
 }
 
-// DecodeOptions configures receiver tolerance for non-conformant PER senders.
-// The zero value decodes strictly.
+// DecodeOptions configures receiver behaviour for PER decoding: tolerance for
+// non-conformant senders and the treatment of contained values. The zero
+// value decodes strictly and eagerly.
 type DecodeOptions struct {
 	// TrailingBitsTolerance, when non-nil, accepts the bit runs listed by
 	// ToleranceKind and records each one in the log, with its field path,
@@ -28,21 +34,50 @@ type DecodeOptions struct {
 	// option; the default is strict X.691. Decoded values keep the accepted
 	// bits, so they re-encode to the original octets.
 	TrailingBitsTolerance *ToleranceLog
+	// ContainedDecoding selects how values carried in a BIT STRING or OCTET
+	// STRING (CONTAINING ...) are decoded. The zero value, Eager, decodes
+	// them with the enclosing value. DeferOnError and DeferAll keep some or
+	// all of them as raw encodings (see ContainedDecoding), as TS 36.331
+	// V19.4.0 8.1 and TS 38.331 V19.4.0 8.1 recommend for RRC receivers.
+	ContainedDecoding ContainedDecoding
+	// Deferrals receives a record of each contained value that a successful
+	// decode kept raw. DeferOnError and DeferAll require it: a decode that
+	// sets either without a log fails, so no deferral goes unreported.
+	Deferrals *DeferralLog
+	// MaxZeroWidthCharacters bounds the characters decoded through a length
+	// determinant for a permitted alphabet of one character, whose UNALIGNED
+	// characters take no bits (X.691 (02/2021) 30.5.2), so each length
+	// octet can stand for up to 64K characters. Zero selects
+	// DefaultMaxZeroWidthCharacters. This is an operational limit, not an
+	// X.691 rule; fixed and constrained lengths below 64K never reach it.
+	MaxZeroWidthCharacters uint32
+}
+
+// DefaultMaxZeroWidthCharacters is the default MaxZeroWidthCharacters.
+const DefaultMaxZeroWidthCharacters = 1 << 20
+
+func (bb *BitBuffer) zeroWidthCharacterLimit() int64 {
+	if bb.zeroWidthLimit > 0 {
+		return int64(bb.zeroWidthLimit)
+	}
+	return DefaultMaxZeroWidthCharacters
 }
 
 // SetDecodeOptions starts a top-level decode with options.
 func (bb *BitBuffer) SetDecodeOptions(options DecodeOptions) {
-	bb.decodeOptions, bb.trace = options, nil
-	if options.TrailingBitsTolerance != nil {
-		bb.trace = &decodeTrace{}
+	bb.contained, bb.tolerance, bb.trace = options.ContainedDecoding, options.TrailingBitsTolerance, nil
+	bb.zeroWidthLimit = options.MaxZeroWidthCharacters
+	if options.TrailingBitsTolerance != nil || options.ContainedDecoding != Eager {
+		bb.trace = &decodeTrace{deferrals: options.Deferrals}
 	}
 }
 
 // InheritDecodeOptions makes bb decode a value nested in parent, such as an
 // open type or contained encoding. It shares parent's options, field path and
-// pending tolerance records.
+// pending tolerance and deferral records.
 func (bb *BitBuffer) InheritDecodeOptions(parent *BitBuffer) {
-	bb.decodeOptions, bb.trace = parent.decodeOptions, parent.trace
+	bb.contained, bb.tolerance, bb.trace = parent.contained, parent.tolerance, parent.trace
+	bb.zeroWidthLimit = parent.zeroWidthLimit
 }
 
 // NewBitBuffer creates a write-mode buffer.

@@ -440,8 +440,13 @@ func TestFragmentedRootUpperBoundRejectsBeforeOversizedPayload(t *testing.T) {
 			},
 		} {
 			t.Run(map[bool]string{false: "uper", true: "aper"}[aligned]+"/"+tc.name, func(t *testing.T) {
-				firstPayloadBytes := 4 * perFragmentUnit * tc.bitsPerFragmentUnit / 8
-				secondPayloadBytes := perFragmentUnit * tc.bitsPerFragmentUnit / 8
+				unitBits := tc.bitsPerFragmentUnit
+				if aligned && tc.name == "character-string" {
+					// X.691 (02/2021) 30.5.2: B2 = 8 bits per character.
+					unitBits = 8
+				}
+				firstPayloadBytes := 4 * perFragmentUnit * unitBits / 8
+				secondPayloadBytes := perFragmentUnit * unitBits / 8
 				wire := make([]byte, 0, 3+firstPayloadBytes+secondPayloadBytes)
 				wire = append(wire, 0xc4)
 				wire = append(wire, make([]byte, firstPayloadBytes)...)

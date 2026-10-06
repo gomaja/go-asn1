@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"math"
 	"math/bits"
-	"strings"
-	"unicode/utf8"
 )
 
 // BitWidth returns the number of bits needed to represent values 0..rangeVal.
@@ -437,7 +435,11 @@ func DecodeBitStringExt(bb *BitBuffer, lb, ub int64, constrained, extensible boo
 			return nil, 0, err
 		}
 		if isExtension {
-			return decodeLengthDelimitedBits(bb, false)
+			data, bitLen, err := decodeLengthDelimitedBits(bb, false)
+			if err == nil {
+				err = rejectRootLengthInExtension("BIT STRING", int64(bitLen), lb, ub)
+			}
+			return data, bitLen, err
 		}
 	}
 	if fixedRootSizeOmitsLength(lb, ub, constrained) {
@@ -534,7 +536,11 @@ func DecodeOctetStringExt(bb *BitBuffer, lb, ub int64, constrained, extensible b
 			return nil, err
 		}
 		if isExtension {
-			return decodeLengthDelimitedOctets(bb, false)
+			data, err := decodeLengthDelimitedOctets(bb, false)
+			if err == nil {
+				err = rejectRootLengthInExtension("OCTET STRING", int64(len(data)), lb, ub)
+			}
+			return data, err
 		}
 	}
 	if fixedRootSizeOmitsLength(lb, ub, constrained) {
@@ -578,101 +584,41 @@ func DecodeNull(_ *BitBuffer) error {
 	return nil
 }
 
-// EncodeKnownMultiplierString encodes a string with known character set.
-// bitsPerChar is the bits per character (e.g., 7 for IA5String/VisibleString, 4 for NumericString).
-func EncodeKnownMultiplierString(bb *BitBuffer, s string, bitsPerChar int, lb, ub int64, constrained bool) error {
-	return EncodeKnownMultiplierStringExt(bb, s, bitsPerChar, lb, ub, constrained, false)
+// EncodeKnownMultiplierString encodes a known-multiplier character string of
+// a type's whole alphabet whose character values all fit in alphabetBits, B
+// of ITU-T X.691 (02/2021) 30.5.2: 7 for IA5String, VisibleString and
+// PrintableString, 16 for BMPString and 32 for UniversalString. Each
+// character encodes as its own value (30.5.4 a)). NumericString, and any
+// type with a PER-visible permitted-alphabet constraint, use
+// EncodeAlphabetString instead.
+func EncodeKnownMultiplierString(bb *BitBuffer, s string, alphabetBits int, lb, ub int64, constrained bool) error {
+	return EncodeKnownMultiplierStringExt(bb, s, alphabetBits, lb, ub, constrained, false)
 }
 
 // EncodeKnownMultiplierStringExt implements the size extension bit required
 // by ITU-T X.691 (02/2021) Section 30.4.
-func EncodeKnownMultiplierStringExt(bb *BitBuffer, s string, bitsPerChar int, lb, ub int64, constrained, extensible bool) error {
-	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+func EncodeKnownMultiplierStringExt(bb *BitBuffer, s string, alphabetBits int, lb, ub int64, constrained, extensible bool) error {
+	codec, err := identityCharacterCodec(alphabetBits, false)
+	if err != nil {
 		return err
 	}
-	if err := validateKnownMultiplierWidth(bitsPerChar); err != nil {
-		return err
-	}
-	if err := validateKnownMultiplierStringValue(s, bitsPerChar); err != nil {
-		return err
-	}
-	length := knownMultiplierStringLength(s, bitsPerChar)
-	if extensible && constrained {
-		inRoot := length >= lb && length <= ub
-		if err := EncodeBoolean(bb, !inRoot); err != nil {
-			return err
-		}
-		if !inRoot {
-			return encodeLengthDelimitedKnownMultiplierString(bb, s, bitsPerChar, false)
-		}
-	}
-	if err := validateRootSize(length, lb, ub, constrained); err != nil {
-		return err
-	}
-	if fixedRootSizeOmitsLength(lb, ub, constrained) {
-		// Fixed size — write exactly lb characters.
-		if length != lb {
-			return fmt.Errorf("%w: string length %d does not match fixed SIZE(%d)", ErrConstraintViolation, length, lb)
-		}
-		return writeKnownMultiplierString(bb, s, bitsPerChar)
-	}
-	if constrained && ub < 65536 {
-		if err := EncodeConstrainedWholeNumber(bb, length, lb, ub); err != nil {
-			return err
-		}
-	} else {
-		return encodeLengthDelimitedKnownMultiplierString(bb, s, bitsPerChar, false)
-	}
-	return writeKnownMultiplierString(bb, s, bitsPerChar)
+	return encodeCharacterString(bb, s, codec, lb, ub, constrained, extensible, false)
 }
 
-// DecodeKnownMultiplierString decodes a string with known character set.
-func DecodeKnownMultiplierString(bb *BitBuffer, bitsPerChar int, lb, ub int64, constrained bool) (string, error) {
-	return DecodeKnownMultiplierStringExt(bb, bitsPerChar, lb, ub, constrained, false)
+// DecodeKnownMultiplierString decodes a string encoded by
+// EncodeKnownMultiplierString.
+func DecodeKnownMultiplierString(bb *BitBuffer, alphabetBits int, lb, ub int64, constrained bool) (string, error) {
+	return DecodeKnownMultiplierStringExt(bb, alphabetBits, lb, ub, constrained, false)
 }
 
 // DecodeKnownMultiplierStringExt implements the size extension bit required
 // by ITU-T X.691 (02/2021) Section 30.4.
-func DecodeKnownMultiplierStringExt(bb *BitBuffer, bitsPerChar int, lb, ub int64, constrained, extensible bool) (string, error) {
-	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+func DecodeKnownMultiplierStringExt(bb *BitBuffer, alphabetBits int, lb, ub int64, constrained, extensible bool) (string, error) {
+	codec, err := identityCharacterCodec(alphabetBits, false)
+	if err != nil {
 		return "", err
 	}
-	if err := validateKnownMultiplierWidth(bitsPerChar); err != nil {
-		return "", err
-	}
-	if extensible && constrained {
-		isExtension, err := DecodeBoolean(bb)
-		if err != nil {
-			return "", err
-		}
-		if isExtension {
-			value, _, err := decodeLengthDelimitedKnownMultiplierString(bb, bitsPerChar, false)
-			return value, err
-		}
-	}
-	var length int64
-	var err error
-	if fixedRootSizeOmitsLength(lb, ub, constrained) {
-		length = lb
-	} else if constrained && ub < 65536 {
-		length, err = DecodeConstrainedWholeNumber(bb, lb, ub)
-		if err != nil {
-			return "", err
-		}
-	} else {
-		value, decodedLength, err := decodeLengthDelimitedKnownMultiplierStringBounded(bb, bitsPerChar, false, rootSizeMaximum(ub, constrained))
-		if err != nil {
-			return "", err
-		}
-		if err := validateRootSize(decodedLength, lb, ub, constrained); err != nil {
-			return "", err
-		}
-		return value, nil
-	}
-	if err := validateRootSize(length, lb, ub, constrained); err != nil {
-		return "", err
-	}
-	return readKnownMultiplierString(bb, length, bitsPerChar)
+	return decodeCharacterString(bb, codec, lb, ub, constrained, extensible, false)
 }
 
 // EncodeOpenType wraps a complete encoding with an unconstrained length
@@ -832,80 +778,6 @@ func decodeLengthDelimitedBitsBounded(bb *BitBuffer, aligned bool, maximum int64
 	return result, int(total), nil
 }
 
-func encodeLengthDelimitedKnownMultiplierString(bb *BitBuffer, value string, bitsPerChar int, aligned bool) error {
-	if err := validateKnownMultiplierStringValue(value, bitsPerChar); err != nil {
-		return err
-	}
-	length := knownMultiplierStringLength(value, bitsPerChar)
-	var runes []rune
-	if bitsPerChar > 8 {
-		runes = []rune(value)
-	}
-	return EncodeLengthFragments(bb, length, aligned, func(offset, fragmentLength int64) error {
-		if aligned {
-			if err := bb.AlignToOctetWrite(); err != nil {
-				return err
-			}
-		}
-		var limit int64
-		if bitsPerChar <= 8 {
-			limit = int64(len(value))
-		} else {
-			limit = int64(len(runes))
-		}
-		if offset < 0 || fragmentLength < 0 {
-			return fmt.Errorf("%w: negative character fragment offset %d or length %d", ErrInvalidValue, offset, fragmentLength)
-		}
-		if offset > limit {
-			return fmt.Errorf("%w: character fragment at %d with %d characters exceeds %d source characters", ErrInvalidValue, offset, fragmentLength, limit)
-		}
-		if fragmentLength > limit-offset {
-			return fmt.Errorf("%w: character fragment at %d with %d characters exceeds %d source characters", ErrInvalidValue, offset, fragmentLength, limit)
-		}
-		end := offset + fragmentLength
-		if end < 0 || end > int64(math.MaxInt) {
-			return fmt.Errorf("%w: character fragment exceeds host int", ErrInvalidValue)
-		}
-		if bitsPerChar <= 8 {
-			return writeKnownMultiplierString(bb, value[int(offset):int(end)], bitsPerChar)
-		}
-		for _, character := range runes[int(offset):int(end)] {
-			if character < 0 {
-				return fmt.Errorf("%w: negative character value", ErrInvalidValue)
-			}
-			if err := bb.WriteBits(uint64(character), bitsPerChar); err != nil {
-				return err
-			}
-		}
-		return nil
-	})
-}
-
-func decodeLengthDelimitedKnownMultiplierString(bb *BitBuffer, bitsPerChar int, aligned bool) (string, int64, error) {
-	return decodeLengthDelimitedKnownMultiplierStringBounded(bb, bitsPerChar, aligned, math.MaxInt64)
-}
-
-func decodeLengthDelimitedKnownMultiplierStringBounded(bb *BitBuffer, bitsPerChar int, aligned bool, maximum int64) (string, int64, error) {
-	var result strings.Builder
-	total, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(_ int64, length int64) error {
-		if aligned {
-			if err := bb.AlignToOctetRead(); err != nil {
-				return err
-			}
-		}
-		fragment, err := readKnownMultiplierString(bb, length, bitsPerChar)
-		if err != nil {
-			return err
-		}
-		_, err = result.WriteString(fragment)
-		return err
-	})
-	if err != nil {
-		return "", 0, err
-	}
-	return result.String(), total, nil
-}
-
 func encodeNonNegativeBinaryIntegerWithLength(bb *BitBuffer, v uint64) error {
 	buf := minimalUnsignedBytes(v)
 	if err := EncodeUnconstrainedLength(bb, int64(len(buf))); err != nil {
@@ -985,6 +857,16 @@ func validateRootSize(length, lb, ub int64, constrained bool) error {
 	return nil
 }
 
+// rejectRootLengthInExtension enforces X.691 (02/2021) 16.6 and 17.3: the
+// extension bit marks only a length outside the root, so a root length in
+// extension form cannot be re-encoded as received.
+func rejectRootLengthInExtension(what string, length, lb, ub int64) error {
+	if length >= lb && length <= ub {
+		return fmt.Errorf("%w: extension %s length %d is inside the root SIZE(%d..%d)", ErrInvalidValue, what, length, lb, ub)
+	}
+	return nil
+}
+
 func rootSizeMaximum(ub int64, constrained bool) int64 {
 	if constrained {
 		return ub
@@ -996,134 +878,6 @@ func rootSizeMaximum(ub int64, constrained bool) int64 {
 // 64K; 16.11 requires a length determinant at 64K and above.
 func fixedRootSizeOmitsLength(lb, ub int64, constrained bool) bool {
 	return constrained && lb == ub && ub < 64*1024
-}
-
-func validateKnownMultiplierWidth(bitsPerChar int) error {
-	if bitsPerChar < 1 || bitsPerChar > 32 {
-		return fmt.Errorf("%w: character width %d bits is outside [1..32]", ErrInvalidValue, bitsPerChar)
-	}
-	return nil
-}
-
-func knownMultiplierStringLength(value string, bitsPerChar int) int64 {
-	if bitsPerChar <= 8 {
-		return int64(len(value))
-	}
-	return int64(utf8.RuneCountInString(value))
-}
-
-func knownMultiplierPayloadBits(length int64, bitsPerChar int) (int, error) {
-	if length < 0 {
-		return 0, fmt.Errorf("%w: negative character-string length %d", ErrInvalidValue, length)
-	}
-	if err := validateKnownMultiplierWidth(bitsPerChar); err != nil {
-		return 0, err
-	}
-	if bitsPerChar < 1 || bitsPerChar > 32 {
-		return 0, fmt.Errorf("%w: character width %d bits is outside [1..32]", ErrInvalidValue, bitsPerChar)
-	}
-	maximumInt := int64(^uint(0) >> 1)
-	if length > maximumInt/int64(bitsPerChar) {
-		return 0, fmt.Errorf("%w: character-string payload length overflows int", ErrInvalidValue)
-	}
-	return int(length) * bitsPerChar, nil
-}
-
-func writeKnownMultiplierString(bb *BitBuffer, value string, bitsPerChar int) error {
-	if err := validateKnownMultiplierStringValue(value, bitsPerChar); err != nil {
-		return err
-	}
-
-	if bitsPerChar <= 8 {
-		for _, character := range []byte(value) {
-			if err := bb.WriteBits(uint64(character), bitsPerChar); err != nil {
-				return err
-			}
-		}
-		return nil
-	}
-	for _, character := range value {
-		if character < 0 {
-			return fmt.Errorf("%w: negative character value", ErrInvalidValue)
-		}
-		if err := bb.WriteBits(uint64(character), bitsPerChar); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-func validateKnownMultiplierStringValue(value string, bitsPerChar int) error {
-	if err := validateKnownMultiplierWidth(bitsPerChar); err != nil {
-		return err
-	}
-	if bitsPerChar > 8 && !utf8.ValidString(value) {
-		return fmt.Errorf("%w: wide character string is not valid UTF-8", ErrInvalidValue)
-	}
-	if bitsPerChar < 1 || bitsPerChar > 32 {
-		return fmt.Errorf("%w: character width %d bits is outside [1..32]", ErrInvalidValue, bitsPerChar)
-	}
-	maximum := uint64(1) << bitsPerChar
-	if bitsPerChar <= 8 {
-		for _, character := range []byte(value) {
-			if uint64(character) >= maximum {
-				return fmt.Errorf("%w: character %#x does not fit in %d bits", ErrConstraintViolation, character, bitsPerChar)
-			}
-		}
-		return nil
-	}
-	for _, character := range value {
-		if character < 0 {
-			return fmt.Errorf("%w: negative character value", ErrInvalidValue)
-		}
-		if uint64(character) >= maximum {
-			return fmt.Errorf("%w: character %U does not fit in %d bits", ErrConstraintViolation, character, bitsPerChar)
-		}
-	}
-	return nil
-}
-
-func readKnownMultiplierString(bb *BitBuffer, length int64, bitsPerChar int) (string, error) {
-	payloadBits, err := knownMultiplierPayloadBits(length, bitsPerChar)
-	if err != nil {
-		return "", err
-	}
-	if payloadBits > bb.BitsRemaining() {
-		return "", fmt.Errorf("%w: character string requires %d bits with %d remaining", ErrTruncated, payloadBits, bb.BitsRemaining())
-	}
-	if length < 0 || length > int64(math.MaxInt) {
-		return "", fmt.Errorf("%w: character string length exceeds host int", ErrInvalidValue)
-	}
-	if bitsPerChar <= 8 {
-		result := make([]byte, int(length))
-		for index := range result {
-			value, err := bb.ReadBits(bitsPerChar)
-			if err != nil {
-				return "", err
-			}
-			if value > math.MaxUint8 {
-				return "", fmt.Errorf("%w: character exceeds byte", ErrInvalidValue)
-			}
-			result[index] = byte(value)
-		}
-		return string(result), nil
-	}
-	result := make([]rune, int(length))
-	for index := range result {
-		value, err := bb.ReadBits(bitsPerChar)
-		if err != nil {
-			return "", err
-		}
-		if value > math.MaxInt32 {
-			return "", fmt.Errorf("%w: character exceeds rune", ErrInvalidValue)
-		}
-		character := rune(value)
-		if !utf8.ValidRune(character) {
-			return "", fmt.Errorf("%w: invalid Unicode scalar value U+%X", ErrInvalidValue, value)
-		}
-		result[index] = character
-	}
-	return string(result), nil
 }
 
 func minimalUnsignedBytes(v uint64) []byte {

@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "1e7a10c866398cb58720b31c4e7693f8603493c1",
-  "target_base_commit": "83c8d0b849a123c68905e9bff824d580685122a5",
+  "compiler_commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
+  "target_base_commit": "463dcee818fabfee56fdc509a35e31afa521cbdc",
   "inputs": {
     "sha256": "e1b6b11253768644540c66c6cfb593a3601b246b2741e993a062e8effd8d2c09",
     "files": [
@@ -30,7 +30,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "1e7a10c866398cb58720b31c4e7693f8603493c1",
+          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
           "dirty": false
         },
         "frontend": {
@@ -1872,7 +1872,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "1e7a10c866398cb58720b31c4e7693f8603493c1",
+          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
           "dirty": false
         },
         "frontend": {
@@ -1936,13 +1936,13 @@
           },
           {
             "path": "lpp/lppbroadcastdefinitions.go",
-            "sha256": "50069c45886a51b0448ee5787977af2dd99a7256d362b9493087a8963480d131",
+            "sha256": "8357009530d54a76f88879b3cc3255e668d11cf93f85b7ef886e90c88c326782",
             "size_bytes": 49448
           },
           {
             "path": "lpp/lpppdudefinitions.go",
-            "sha256": "8d573d9bec75e764220c472dc51d8bce4cc2a2105f77e5e8f1f9d3687a5b5b82",
-            "size_bytes": 8416523
+            "sha256": "081470bc02048a7386f2ef2ee2aec99590f35a2e36bb5b74902873e08ec99bc4",
+            "size_bytes": 8425741
           },
           {
             "path": "lpp/per_helpers.go",
@@ -2250,7 +2250,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "1e7a10c866398cb58720b31c4e7693f8603493c1",
+          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
           "dirty": false
         },
         "frontend": {
@@ -2369,17 +2369,17 @@
           },
           {
             "path": "lppa/lppacontainers.go",
-            "sha256": "1e263837259c9cefec3f473802e35b292e82abf9bd537e9e2105fb3eadade721",
+            "sha256": "692bebe308ceaaf87f8704f77c58774a0825060f0ca96f6f3743eaea79032a4e",
             "size_bytes": 39031
           },
           {
             "path": "lppa/lppaies.go",
-            "sha256": "67a2d6d3ffe9f1a5e71326db5b1777497150336f2641bc78b9ccb5ae1ef6a22b",
+            "sha256": "f76bd4124b858210be1d00e98903806c63359d94e9f02ccfc0294484d8be6c76",
             "size_bytes": 524761
           },
           {
             "path": "lppa/lppapducontents.go",
-            "sha256": "9db3c62d738c0a7664a2c91b032a3aed9c1395a6a9a5adaeb1cafecf54d12efe",
+            "sha256": "b88adffda94c70e5f323c159fd3226cab13bf3ed3aef2b453c5bfe82a522ce6b",
             "size_bytes": 116599
           },
           {
@@ -2698,7 +2698,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "1e7a10c866398cb58720b31c4e7693f8603493c1",
+          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
           "dirty": false
         },
         "frontend": {
@@ -3192,37 +3192,37 @@
           },
           {
             "path": "rrc/eutrainternodedefinitions.go",
-            "sha256": "498e8fc48282209a4b41c50a8ce1d876795aec5890189d998d213f158f9d72bf",
-            "size_bytes": 563892
+            "sha256": "5212d0493847f60cf9ae54bd0db79d8c6467bec92c98a7c20b1d1ab7f0cce27e",
+            "size_bytes": 569609
           },
           {
             "path": "rrc/eutrarrcdefinitions.go",
-            "sha256": "1f91e4d372bffe0f01c74a0f45ef47569dcbf09ffd57977fd8f12cff7f9b86e8",
-            "size_bytes": 18380137
+            "sha256": "4e5a5a9b799304bfc0bad569d32e760f0ce3c0349816484f1908ccda177547fd",
+            "size_bytes": 18412508
           },
           {
             "path": "rrc/eutrasidelinkpreconf.go",
-            "sha256": "eeff3bf88491d6a0e461b400c44ab838e5430135610e43a9c9315220715a4e24",
-            "size_bytes": 262607
+            "sha256": "4712fde0a6a8f720ab8857fb2c675aefed3cc35c56ea450fcec0169ab3bee24a",
+            "size_bytes": 262708
           },
           {
             "path": "rrc/eutrauevariables.go",
-            "sha256": "b65ad1ab13f46bb13c240d1e3509fe046ee977b8b715e8c0eb7bf3e194624745",
+            "sha256": "dd0664125b8a726350f0a8fb24f52e1ca92a6a9cf74c53adcfd4a4c2b18d29f4",
             "size_bytes": 206410
           },
           {
             "path": "rrc/nbiotinternodedefinitions.go",
-            "sha256": "fc0cc32a68663a116f6104487aa40c91fe39889665e91ca55db41c80d2dc4365",
-            "size_bytes": 142755
+            "sha256": "b30bf7b311761e8dfcff9528faa3cd6d704460f8f04cc42bc22c3f9ebed4cbfb",
+            "size_bytes": 144340
           },
           {
             "path": "rrc/nbiotrrcdefinitions.go",
-            "sha256": "fb1e9443fc9546b12118c44b81b876df8d2eb0dfb35a899b2d1423130d757f10",
-            "size_bytes": 3120554
+            "sha256": "1152f36d80b9f062d78fc575fd1724f25f2d1fe44e29335539e35b940a6fb79f",
+            "size_bytes": 3127847
           },
           {
             "path": "rrc/nbiotuevariables.go",
-            "sha256": "a2c2fadafe6519e5ef291cba7dd226da38bb8639268ab350091147f0cff5b543",
+            "sha256": "d90e14e61652973f700e152719fb94514932749fc6098fbc35349dfba28f31f9",
             "size_bytes": 22087
           },
           {
@@ -3466,7 +3466,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "1e7a10c866398cb58720b31c4e7693f8603493c1",
+          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
           "dirty": false
         },
         "frontend": {
@@ -3555,7 +3555,7 @@
           },
           {
             "path": "rrc/classdefinitions.go",
-            "sha256": "690477867d784f5202edb3fb827254501ce0d5afd16adfb98ac10b6e4978ac4f",
+            "sha256": "99428233d43b80167681ecde58ee8b5181664d64caf2d5eed9a78481e375802b",
             "size_bytes": 175348
           },
           {
@@ -3570,18 +3570,18 @@
           },
           {
             "path": "rrc/informationelements.go",
-            "sha256": "0aa8b4d7c364f700ed9b46c01f01b65b8f6b5668b5ba316e66484690e00987a5",
-            "size_bytes": 21695566
+            "sha256": "84d550886b63c3d35897d9d5b80e0ce25f4067f86feb94ec81389b8d620bd079",
+            "size_bytes": 21748699
           },
           {
             "path": "rrc/internodedefinitions.go",
-            "sha256": "61451c915b34484a1d0e8f25441079ca705d51ecc334bb0b84101ad69905e364",
-            "size_bytes": 2273880
+            "sha256": "8f983c3634b3166c6a199bc11ad8ad7a64a9b1abff54e3526c8e1588dd08e93b",
+            "size_bytes": 2318041
           },
           {
             "path": "rrc/pdudefinitions.go",
-            "sha256": "a725c7ea9f8b01962f449b069532e0650eb4bd4bec82f78709f28705ccfb0490",
-            "size_bytes": 13718219
+            "sha256": "a53d01244abd2837b982829b9d4645608fed877f212e0056b6008ae19a8e75a5",
+            "size_bytes": 13733976
           },
           {
             "path": "rrc/per_helpers.go",
@@ -3818,7 +3818,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "1e7a10c866398cb58720b31c4e7693f8603493c1",
+          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
           "dirty": false
         },
         "frontend": {
@@ -3970,17 +3970,17 @@
           },
           {
             "path": "s1ap/s1apcontainers.go",
-            "sha256": "9957281e68f10e0fe98c7e87e9048e95dc3f15417574f3f30ab65715ca18cdee",
+            "sha256": "9abd741302c3ecf85cc919e67251608f508b1f5afd3632e1c653d4b2b18aa38e",
             "size_bytes": 39005
           },
           {
             "path": "s1ap/s1apies.go",
-            "sha256": "fefc422d90bb170f1739fe1034eb5c7b88e917852d4ca57d1d05f3e726cff959",
+            "sha256": "e1b612bb1a808e027babc542295f6883a2fad5088b9579ff5349fae680f200f1",
             "size_bytes": 1853227
           },
           {
             "path": "s1ap/s1appducontents.go",
-            "sha256": "5c8dad40f40ee726a7efc673e7134577e9398fc22e0aeb2028febec9bf6d0239",
+            "sha256": "608ac1edd8263733517587db263174b8478aaa38017243126730b44e8e323201",
             "size_bytes": 918949
           },
           {
@@ -3990,7 +3990,7 @@
           },
           {
             "path": "s1ap/sontransferies.go",
-            "sha256": "90890477afdb0472f1b7654970ee1b7b1be060d441b233591a247e66caba1d64",
+            "sha256": "2ceb58093138f86fcf093a74ac9f6973a24c079a507ccc2e5403e4d2868354ea",
             "size_bytes": 213682
           }
         ],
@@ -4224,7 +4224,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "1e7a10c866398cb58720b31c4e7693f8603493c1",
+          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
           "dirty": false
         },
         "frontend": {
@@ -4588,7 +4588,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "1e7a10c866398cb58720b31c4e7693f8603493c1",
+          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
           "dirty": false
         },
         "frontend": {
@@ -4976,7 +4976,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "1e7a10c866398cb58720b31c4e7693f8603493c1",
+          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
           "dirty": false
         },
         "frontend": {
@@ -5340,7 +5340,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "1e7a10c866398cb58720b31c4e7693f8603493c1",
+          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
           "dirty": false
         },
         "frontend": {
@@ -5469,17 +5469,17 @@
           },
           {
             "path": "x2ap/x2apcontainers.go",
-            "sha256": "72fd13e88f4df4010db86c17cb0c8888760640e9d7ff3a839dd8e7689dd2e9d9",
+            "sha256": "cae9fdf47f6e5c9cc8b12fa9b72854b08ade86856afb26f0a40d0e3c33bb5885",
             "size_bytes": 39031
           },
           {
             "path": "x2ap/x2apies.go",
-            "sha256": "30685dbbd9890936d7f07c86b91cb198e3afc3daab0621329b2f1a366d10b155",
+            "sha256": "861ed485aa58358cab91871a61e5e255c5100395540dec1d865f8f65258bf97d",
             "size_bytes": 2287051
           },
           {
             "path": "x2ap/x2appducontents.go",
-            "sha256": "c3c081503a271209fb35ed34d8d0a2f6575198aebab7ba84baf18723c50257d1",
+            "sha256": "73ab9d9b15f897fa1197ce677cf7dd19f5001ec41225bf0c4442dbbb45a0da42",
             "size_bytes": 2192804
           },
           {
@@ -5711,7 +5711,7 @@
     }
   ],
   "outputs": {
-    "sha256": "13128c115ed56325f957ecbf39763c46a9ef7fd959c8c80d7c93c28f1406eaec",
+    "sha256": "eb3cdff45fb7b89475ef3d790f9300ee15933372c87156c5cb2706c583421250",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
@@ -5794,14 +5794,20 @@
       {
         "path": "runtime/ber/decoder.go",
         "mode": "0644",
-        "sha256": "f78fcb9c539d658eec1a54d7a6cd39d17cf40ac7acd1f587cf885e4fad8b584a",
-        "size_bytes": 56950
+        "sha256": "e5c29155a20c68ec744dd33a77d02164abb617eed56b36a7e71c73ba4d247faa",
+        "size_bytes": 57950
       },
       {
         "path": "runtime/ber/depth_overflow_test.go",
         "mode": "0644",
         "sha256": "0782318af0b579d4daf285ba0587a9783cecc1453a93d0aefb14b18bbd4ae4c5",
         "size_bytes": 1004
+      },
+      {
+        "path": "runtime/ber/der_real_cost_test.go",
+        "mode": "0644",
+        "sha256": "4bde9bd21fa5af11f1729b28fcafa1742b014463b13a6c992a054be61372ceb0",
+        "size_bytes": 940
       },
       {
         "path": "runtime/ber/encoder.go",
@@ -5812,8 +5818,8 @@
       {
         "path": "runtime/ber/encoder_limit_test.go",
         "mode": "0644",
-        "sha256": "a20235c9b2daaeaab066c0e978b6236322093977758ea5f61098f9c91b8f14ed",
-        "size_bytes": 3150
+        "sha256": "e977c17b827def05ae6c01c0bc2f7f0a727213ba6e182c989c1df727327abdd2",
+        "size_bytes": 3154
       },
       {
         "path": "runtime/ber/encoder_test_helpers_test.go",
@@ -5824,8 +5830,8 @@
       {
         "path": "runtime/ber/errors.go",
         "mode": "0644",
-        "sha256": "e0e949e646529c96328ed0a259c185fd40b001ebfa5eb002c253cad4b4c21d24",
-        "size_bytes": 1155
+        "sha256": "d735ade296441ce52eac4e47465c5e6439a3a30fd347058580bb8eb70332bb5c",
+        "size_bytes": 1221
       },
       {
         "path": "runtime/ber/external.go",
@@ -5896,8 +5902,8 @@
       {
         "path": "runtime/ber/options.go",
         "mode": "0644",
-        "sha256": "f759c15fe1f92ac3c9db0f3a2da0f76082fbc5cab7850c3a3876ab526a5ca688",
-        "size_bytes": 3271
+        "sha256": "5a15c33f6d7eedcd9739a85ef337c9f10bd7d7fff91dad120044526cb86c7b2b",
+        "size_bytes": 3772
       },
       {
         "path": "runtime/ber/present_empty_test.go",
@@ -5914,8 +5920,8 @@
       {
         "path": "runtime/ber/real_constraint.go",
         "mode": "0644",
-        "sha256": "f941904ce025f94b228920b32560edd25109902a1a1962d2bcb04986544e1725",
-        "size_bytes": 5130
+        "sha256": "566f38c72c92af927193d146013b92ec27e5cd25f33198d268dfa0d2b677c203",
+        "size_bytes": 5132
       },
       {
         "path": "runtime/ber/real_constraint_test.go",
@@ -5926,8 +5932,8 @@
       {
         "path": "runtime/ber/real_decimal_fastpath_test.go",
         "mode": "0644",
-        "sha256": "734fbdc4c568b51ea1b82b46b637f8303a08bd93a9d1a76e505b9eb5db40aafc",
-        "size_bytes": 3375
+        "sha256": "20a28f1d6ae79e2d424eb6493bfa971530ec42643f4b43f42aa6e0c82ad79381",
+        "size_bytes": 3686
       },
       {
         "path": "runtime/ber/real_decimal_test.go",
@@ -5946,6 +5952,18 @@
         "mode": "0644",
         "sha256": "8c8427d75071986c4bd66c7f949fae7acacdf0ff81d21dc208fb49473c85d72f",
         "size_bytes": 2777
+      },
+      {
+        "path": "runtime/ber/real_limits_test.go",
+        "mode": "0644",
+        "sha256": "3a13687b48918fe7f93ba848862e5ebc3505954a2e7baa9da9141d2b69284b98",
+        "size_bytes": 2816
+      },
+      {
+        "path": "runtime/ber/resource_limits_test.go",
+        "mode": "0644",
+        "sha256": "8d01bdbc05b77be0d027c6da44af3f3099c8eb1263ab7256c41fcd9feea10e3f",
+        "size_bytes": 1591
       },
       {
         "path": "runtime/ber/retag_capacity_test.go",
@@ -5980,14 +5998,14 @@
       {
         "path": "runtime/ber/work.go",
         "mode": "0644",
-        "sha256": "2eb8d8f4fc4e0590e8a2fdc3150b3baf6e5cc69482e2e824213f621389a20f5f",
-        "size_bytes": 6939
+        "sha256": "1d8ea3df4630bec1883aabf15b924224c5220f377dab1335a90e00aa46396434",
+        "size_bytes": 6943
       },
       {
         "path": "runtime/ber/work_limit_test.go",
         "mode": "0644",
-        "sha256": "f71bac7dfc97a7cd4fed6e441b17423368a33198ce6f26e28b53a0e9ac170c54",
-        "size_bytes": 3862
+        "sha256": "a78b68b6b7e152b4dd8c85e748b620b14903b23da46389c58df550a23745236a",
+        "size_bytes": 3867
       },
       {
         "path": "runtime/constraint/constraint.go",
@@ -6016,20 +6034,26 @@
       {
         "path": "runtime/integer_value.go",
         "mode": "0644",
-        "sha256": "4c52e0dad85279bf655e87f46d73260c4dc7c887996b42a142b888094416cc7d",
-        "size_bytes": 1833
+        "sha256": "c61cdcfa8f4081d6ce136abd57e34e716a85398b7ab56d81d9e974b2ceae1763",
+        "size_bytes": 2920
       },
       {
         "path": "runtime/integer_value_test.go",
         "mode": "0644",
-        "sha256": "40575e551c7d2c747e08c29b31a67b158f77c95efb669d9f090c461319c5cabf",
-        "size_bytes": 2112
+        "sha256": "766d77d17bd7576cb0e35266996a060d6ec44ad22916b9d3f458a5cf8a06e49c",
+        "size_bytes": 3391
+      },
+      {
+        "path": "runtime/per/aligned_bitstring_test.go",
+        "mode": "0644",
+        "sha256": "83d29d98b0c36cf8c191dabe9ed08ae5d9976ba950e1593029c550a9e90dfe49",
+        "size_bytes": 7389
       },
       {
         "path": "runtime/per/aper.go",
         "mode": "0644",
-        "sha256": "6a0345e451bf76b5c550e23e5c9029775ddfd3d5637bce2650dc868629fe6a78",
-        "size_bytes": 27308
+        "sha256": "6ad155d4686dfb42c58fc48e548d21ad84b3a2fa15774fdea33d9f8a5723534e",
+        "size_bytes": 25772
       },
       {
         "path": "runtime/per/big_width_test.go",
@@ -6040,8 +6064,8 @@
       {
         "path": "runtime/per/bitbuffer.go",
         "mode": "0644",
-        "sha256": "600d0d8d24800a894ed825e07c674eadf38bb592df4ebfd2892af0fd2f95fd2a",
-        "size_bytes": 16556
+        "sha256": "92fc7d9f19a178936f608fd42241366dc4ffe6c5a4c4e02eb7cf6200bae7e30b",
+        "size_bytes": 18525
       },
       {
         "path": "runtime/per/bitbuffer_arithmetic_test.go",
@@ -6056,10 +6080,34 @@
         "size_bytes": 2432
       },
       {
+        "path": "runtime/per/charstring.go",
+        "mode": "0644",
+        "sha256": "52ab3f0cc1900c0d868923ded1cb93d3af8cff3ec5e0f3eb645c4f5d61a75df3",
+        "size_bytes": 17806
+      },
+      {
+        "path": "runtime/per/charstring_test.go",
+        "mode": "0644",
+        "sha256": "9503bc6ab62285fa766a769286363b0861e3b92cfe31417f5f6cac07b214046b",
+        "size_bytes": 21569
+      },
+      {
         "path": "runtime/per/complete_encoding_test.go",
         "mode": "0644",
         "sha256": "0e521031e114351f972353413e1c5ba71ee717650aef81b1f87ae83710cbfa3f",
         "size_bytes": 3622
+      },
+      {
+        "path": "runtime/per/contained.go",
+        "mode": "0644",
+        "sha256": "6ec88a15253b6eac03727b9fa2888ae7b26292a379c4d2eefd04f5ea552f1bdb",
+        "size_bytes": 14139
+      },
+      {
+        "path": "runtime/per/contained_test.go",
+        "mode": "0644",
+        "sha256": "4fa1b3e7ac4490428cdc37835e4b5b6d485ffaac39f9ea69f45388b0a3019684",
+        "size_bytes": 9845
       },
       {
         "path": "runtime/per/edited_padding_test.go",
@@ -6070,8 +6118,20 @@
       {
         "path": "runtime/per/errors.go",
         "mode": "0644",
-        "sha256": "7466b8affc74510bd818246f85a3def390c1c3a9e96ec012b86697ee8d1f2f14",
-        "size_bytes": 1145
+        "sha256": "fbf36bda6c0e4f96dfcb4498b0e341db6392dadb7a8d80e13dffd34a945f993f",
+        "size_bytes": 1313
+      },
+      {
+        "path": "runtime/per/explicit_default.go",
+        "mode": "0644",
+        "sha256": "7ac705072b9b7f33fb09a8ce98bf9d691a155effe179144c786083f75a2cbb76",
+        "size_bytes": 2724
+      },
+      {
+        "path": "runtime/per/explicit_default_test.go",
+        "mode": "0644",
+        "sha256": "18f746e4eb5fa6552fffea0c81db83b434c3b36f8a469c63b271fe695bf2cc19",
+        "size_bytes": 3621
       },
       {
         "path": "runtime/per/fragment.go",
@@ -6082,13 +6142,13 @@
       {
         "path": "runtime/per/fragment_test.go",
         "mode": "0644",
-        "sha256": "d7f04edb46288c0b9828e522641ddf48fa2f3c850c0715a416f6163aa0f9c19d",
-        "size_bytes": 17738
+        "sha256": "d89a141124d3440a8396cb400454b43346ec647f9cbc51413498f676c1f62a15",
+        "size_bytes": 17882
       },
       {
         "path": "runtime/per/hardening_test.go",
         "mode": "0644",
-        "sha256": "45080f960510dee1dd320c0d10854ca61a2ab7231e1579760ef550803d96260b",
+        "sha256": "e3d4a539560524607654c4459ee7bac6d7dc50db90209a14fccabedd226fd851",
         "size_bytes": 26531
       },
       {
@@ -6196,8 +6256,8 @@
       {
         "path": "runtime/per/time.go",
         "mode": "0644",
-        "sha256": "9a6086a69661142c33fb70e3f4f16d08a141c20eab7237b109df8c3d9e106f88",
-        "size_bytes": 2193
+        "sha256": "9e0fc8eeccc80d3c51bafc205e753eec9df939eb69542e95e1b30b9615871266",
+        "size_bytes": 2546
       },
       {
         "path": "runtime/per/time_test.go",
@@ -6208,8 +6268,8 @@
       {
         "path": "runtime/per/tolerance.go",
         "mode": "0644",
-        "sha256": "354ecb48e93de096b50804fe77b462ee0b9f3b814078f613b9349d6ab1c4b04f",
-        "size_bytes": 15170
+        "sha256": "9fc91580745e521d216549ef3e09d3858ff10d97c9d98c9aa870d70aa3b29ea7",
+        "size_bytes": 16994
       },
       {
         "path": "runtime/per/tolerance_test.go",
@@ -6220,8 +6280,8 @@
       {
         "path": "runtime/per/uper.go",
         "mode": "0644",
-        "sha256": "a8fb98853d1516caacb280effe22770b62d23283d682a40ce856012d411a3eef",
-        "size_bytes": 37149
+        "sha256": "f4c53f6618804e414977e1ecc4723649b7e41b928a30d3476a724661031db91a",
+        "size_bytes": 29660
       },
       {
         "path": "runtime/per/uper_test.go",
@@ -6274,14 +6334,14 @@
       {
         "path": "runtime/types.go",
         "mode": "0644",
-        "sha256": "8898ce851e66cf023f37ef4ed83c9b626b7a3c1d16d6fbfec117e8b3952091b5",
-        "size_bytes": 1789
+        "sha256": "752df59b681de66eddba322f67798d828de7a4d8422fbacb77e54df8b5880311",
+        "size_bytes": 3232
       },
       {
         "path": "runtime/types_test.go",
         "mode": "0644",
-        "sha256": "9a2c696fbcf345e4eb5a0cbdf99badce3e0491e7db32f33a4561684695771ed2",
-        "size_bytes": 634
+        "sha256": "cb9e2f1c0cbc3b91b2d6d2cb05e41e64a99a2079920c990e466383278e953fee",
+        "size_bytes": 3827
       },
       {
         "path": "telecom/esim/sgp22/asn1_wire_vectors_test.go",
@@ -6370,14 +6430,14 @@
       {
         "path": "telecom/lte/lpp/lppbroadcastdefinitions.go",
         "mode": "0644",
-        "sha256": "50069c45886a51b0448ee5787977af2dd99a7256d362b9493087a8963480d131",
+        "sha256": "8357009530d54a76f88879b3cc3255e668d11cf93f85b7ef886e90c88c326782",
         "size_bytes": 49448
       },
       {
         "path": "telecom/lte/lpp/lpppdudefinitions.go",
         "mode": "0644",
-        "sha256": "8d573d9bec75e764220c472dc51d8bce4cc2a2105f77e5e8f1f9d3687a5b5b82",
-        "size_bytes": 8416523
+        "sha256": "081470bc02048a7386f2ef2ee2aec99590f35a2e36bb5b74902873e08ec99bc4",
+        "size_bytes": 8425741
       },
       {
         "path": "telecom/lte/lpp/per_helpers.go",
@@ -6418,19 +6478,19 @@
       {
         "path": "telecom/lte/lppa/lppacontainers.go",
         "mode": "0644",
-        "sha256": "1e263837259c9cefec3f473802e35b292e82abf9bd537e9e2105fb3eadade721",
+        "sha256": "692bebe308ceaaf87f8704f77c58774a0825060f0ca96f6f3743eaea79032a4e",
         "size_bytes": 39031
       },
       {
         "path": "telecom/lte/lppa/lppaies.go",
         "mode": "0644",
-        "sha256": "67a2d6d3ffe9f1a5e71326db5b1777497150336f2641bc78b9ccb5ae1ef6a22b",
+        "sha256": "f76bd4124b858210be1d00e98903806c63359d94e9f02ccfc0294484d8be6c76",
         "size_bytes": 524761
       },
       {
         "path": "telecom/lte/lppa/lppapducontents.go",
         "mode": "0644",
-        "sha256": "9db3c62d738c0a7664a2c91b032a3aed9c1395a6a9a5adaeb1cafecf54d12efe",
+        "sha256": "b88adffda94c70e5f323c159fd3226cab13bf3ed3aef2b453c5bfe82a522ce6b",
         "size_bytes": 116599
       },
       {
@@ -6466,43 +6526,43 @@
       {
         "path": "telecom/lte/rrc/eutrainternodedefinitions.go",
         "mode": "0644",
-        "sha256": "498e8fc48282209a4b41c50a8ce1d876795aec5890189d998d213f158f9d72bf",
-        "size_bytes": 563892
+        "sha256": "5212d0493847f60cf9ae54bd0db79d8c6467bec92c98a7c20b1d1ab7f0cce27e",
+        "size_bytes": 569609
       },
       {
         "path": "telecom/lte/rrc/eutrarrcdefinitions.go",
         "mode": "0644",
-        "sha256": "1f91e4d372bffe0f01c74a0f45ef47569dcbf09ffd57977fd8f12cff7f9b86e8",
-        "size_bytes": 18380137
+        "sha256": "4e5a5a9b799304bfc0bad569d32e760f0ce3c0349816484f1908ccda177547fd",
+        "size_bytes": 18412508
       },
       {
         "path": "telecom/lte/rrc/eutrasidelinkpreconf.go",
         "mode": "0644",
-        "sha256": "eeff3bf88491d6a0e461b400c44ab838e5430135610e43a9c9315220715a4e24",
-        "size_bytes": 262607
+        "sha256": "4712fde0a6a8f720ab8857fb2c675aefed3cc35c56ea450fcec0169ab3bee24a",
+        "size_bytes": 262708
       },
       {
         "path": "telecom/lte/rrc/eutrauevariables.go",
         "mode": "0644",
-        "sha256": "b65ad1ab13f46bb13c240d1e3509fe046ee977b8b715e8c0eb7bf3e194624745",
+        "sha256": "dd0664125b8a726350f0a8fb24f52e1ca92a6a9cf74c53adcfd4a4c2b18d29f4",
         "size_bytes": 206410
       },
       {
         "path": "telecom/lte/rrc/nbiotinternodedefinitions.go",
         "mode": "0644",
-        "sha256": "fc0cc32a68663a116f6104487aa40c91fe39889665e91ca55db41c80d2dc4365",
-        "size_bytes": 142755
+        "sha256": "b30bf7b311761e8dfcff9528faa3cd6d704460f8f04cc42bc22c3f9ebed4cbfb",
+        "size_bytes": 144340
       },
       {
         "path": "telecom/lte/rrc/nbiotrrcdefinitions.go",
         "mode": "0644",
-        "sha256": "fb1e9443fc9546b12118c44b81b876df8d2eb0dfb35a899b2d1423130d757f10",
-        "size_bytes": 3120554
+        "sha256": "1152f36d80b9f062d78fc575fd1724f25f2d1fe44e29335539e35b940a6fb79f",
+        "size_bytes": 3127847
       },
       {
         "path": "telecom/lte/rrc/nbiotuevariables.go",
         "mode": "0644",
-        "sha256": "a2c2fadafe6519e5ef291cba7dd226da38bb8639268ab350091147f0cff5b543",
+        "sha256": "d90e14e61652973f700e152719fb94514932749fc6098fbc35349dfba28f31f9",
         "size_bytes": 22087
       },
       {
@@ -6568,19 +6628,19 @@
       {
         "path": "telecom/lte/s1ap/s1apcontainers.go",
         "mode": "0644",
-        "sha256": "9957281e68f10e0fe98c7e87e9048e95dc3f15417574f3f30ab65715ca18cdee",
+        "sha256": "9abd741302c3ecf85cc919e67251608f508b1f5afd3632e1c653d4b2b18aa38e",
         "size_bytes": 39005
       },
       {
         "path": "telecom/lte/s1ap/s1apies.go",
         "mode": "0644",
-        "sha256": "fefc422d90bb170f1739fe1034eb5c7b88e917852d4ca57d1d05f3e726cff959",
+        "sha256": "e1b612bb1a808e027babc542295f6883a2fad5088b9579ff5349fae680f200f1",
         "size_bytes": 1853227
       },
       {
         "path": "telecom/lte/s1ap/s1appducontents.go",
         "mode": "0644",
-        "sha256": "5c8dad40f40ee726a7efc673e7134577e9398fc22e0aeb2028febec9bf6d0239",
+        "sha256": "608ac1edd8263733517587db263174b8478aaa38017243126730b44e8e323201",
         "size_bytes": 918949
       },
       {
@@ -6592,7 +6652,7 @@
       {
         "path": "telecom/lte/s1ap/sontransferies.go",
         "mode": "0644",
-        "sha256": "90890477afdb0472f1b7654970ee1b7b1be060d441b233591a247e66caba1d64",
+        "sha256": "2ceb58093138f86fcf093a74ac9f6973a24c079a507ccc2e5403e4d2868354ea",
         "size_bytes": 213682
       },
       {
@@ -6640,19 +6700,19 @@
       {
         "path": "telecom/lte/x2ap/x2apcontainers.go",
         "mode": "0644",
-        "sha256": "72fd13e88f4df4010db86c17cb0c8888760640e9d7ff3a839dd8e7689dd2e9d9",
+        "sha256": "cae9fdf47f6e5c9cc8b12fa9b72854b08ade86856afb26f0a40d0e3c33bb5885",
         "size_bytes": 39031
       },
       {
         "path": "telecom/lte/x2ap/x2apies.go",
         "mode": "0644",
-        "sha256": "30685dbbd9890936d7f07c86b91cb198e3afc3daab0621329b2f1a366d10b155",
+        "sha256": "861ed485aa58358cab91871a61e5e255c5100395540dec1d865f8f65258bf97d",
         "size_bytes": 2287051
       },
       {
         "path": "telecom/lte/x2ap/x2appducontents.go",
         "mode": "0644",
-        "sha256": "c3c081503a271209fb35ed34d8d0a2f6575198aebab7ba84baf18723c50257d1",
+        "sha256": "73ab9d9b15f897fa1197ce677cf7dd19f5001ec41225bf0c4442dbbb45a0da42",
         "size_bytes": 2192804
       },
       {
@@ -7222,7 +7282,7 @@
       {
         "path": "telecom/umts/rrc/classdefinitions.go",
         "mode": "0644",
-        "sha256": "690477867d784f5202edb3fb827254501ce0d5afd16adfb98ac10b6e4978ac4f",
+        "sha256": "99428233d43b80167681ecde58ee8b5181664d64caf2d5eed9a78481e375802b",
         "size_bytes": 175348
       },
       {
@@ -7240,14 +7300,14 @@
       {
         "path": "telecom/umts/rrc/informationelements.go",
         "mode": "0644",
-        "sha256": "0aa8b4d7c364f700ed9b46c01f01b65b8f6b5668b5ba316e66484690e00987a5",
-        "size_bytes": 21695566
+        "sha256": "84d550886b63c3d35897d9d5b80e0ce25f4067f86feb94ec81389b8d620bd079",
+        "size_bytes": 21748699
       },
       {
         "path": "telecom/umts/rrc/internodedefinitions.go",
         "mode": "0644",
-        "sha256": "61451c915b34484a1d0e8f25441079ca705d51ecc334bb0b84101ad69905e364",
-        "size_bytes": 2273880
+        "sha256": "8f983c3634b3166c6a199bc11ad8ad7a64a9b1abff54e3526c8e1588dd08e93b",
+        "size_bytes": 2318041
       },
       {
         "path": "telecom/umts/rrc/nonstandard_padding_test.go",
@@ -7258,8 +7318,8 @@
       {
         "path": "telecom/umts/rrc/pdudefinitions.go",
         "mode": "0644",
-        "sha256": "a725c7ea9f8b01962f449b069532e0650eb4bd4bec82f78709f28705ccfb0490",
-        "size_bytes": 13718219
+        "sha256": "a53d01244abd2837b982829b9d4645608fed877f212e0056b6008ae19a8e75a5",
+        "size_bytes": 13733976
       },
       {
         "path": "telecom/umts/rrc/per_helpers.go",
@@ -7333,6 +7393,7 @@
         "$STAGE/runtime/ber/constructed_bit_string_test.go",
         "$STAGE/runtime/ber/decoder.go",
         "$STAGE/runtime/ber/depth_overflow_test.go",
+        "$STAGE/runtime/ber/der_real_cost_test.go",
         "$STAGE/runtime/ber/encoder.go",
         "$STAGE/runtime/ber/encoder_limit_test.go",
         "$STAGE/runtime/ber/encoder_test_helpers_test.go",
@@ -7357,6 +7418,8 @@
         "$STAGE/runtime/ber/real_decimal_test.go",
         "$STAGE/runtime/ber/real_default.go",
         "$STAGE/runtime/ber/real_default_test.go",
+        "$STAGE/runtime/ber/real_limits_test.go",
+        "$STAGE/runtime/ber/resource_limits_test.go",
         "$STAGE/runtime/ber/retag_capacity_test.go",
         "$STAGE/runtime/ber/string_capacity_test.go",
         "$STAGE/runtime/ber/string_fixed_width_test.go",
@@ -7370,14 +7433,21 @@
         "$STAGE/runtime/external.go",
         "$STAGE/runtime/integer_value.go",
         "$STAGE/runtime/integer_value_test.go",
+        "$STAGE/runtime/per/aligned_bitstring_test.go",
         "$STAGE/runtime/per/aper.go",
         "$STAGE/runtime/per/big_width_test.go",
         "$STAGE/runtime/per/bitbuffer.go",
         "$STAGE/runtime/per/bitbuffer_arithmetic_test.go",
         "$STAGE/runtime/per/bitbuffer_bounds_test.go",
+        "$STAGE/runtime/per/charstring.go",
+        "$STAGE/runtime/per/charstring_test.go",
         "$STAGE/runtime/per/complete_encoding_test.go",
+        "$STAGE/runtime/per/contained.go",
+        "$STAGE/runtime/per/contained_test.go",
         "$STAGE/runtime/per/edited_padding_test.go",
         "$STAGE/runtime/per/errors.go",
+        "$STAGE/runtime/per/explicit_default.go",
+        "$STAGE/runtime/per/explicit_default_test.go",
         "$STAGE/runtime/per/fragment.go",
         "$STAGE/runtime/per/fragment_test.go",
         "$STAGE/runtime/per/hardening_test.go",
@@ -7612,6 +7682,7 @@
         "$STAGE/runtime/ber/constructed_bit_string_test.go",
         "$STAGE/runtime/ber/decoder.go",
         "$STAGE/runtime/ber/depth_overflow_test.go",
+        "$STAGE/runtime/ber/der_real_cost_test.go",
         "$STAGE/runtime/ber/encoder.go",
         "$STAGE/runtime/ber/encoder_limit_test.go",
         "$STAGE/runtime/ber/encoder_test_helpers_test.go",
@@ -7636,6 +7707,8 @@
         "$STAGE/runtime/ber/real_decimal_test.go",
         "$STAGE/runtime/ber/real_default.go",
         "$STAGE/runtime/ber/real_default_test.go",
+        "$STAGE/runtime/ber/real_limits_test.go",
+        "$STAGE/runtime/ber/resource_limits_test.go",
         "$STAGE/runtime/ber/retag_capacity_test.go",
         "$STAGE/runtime/ber/string_capacity_test.go",
         "$STAGE/runtime/ber/string_fixed_width_test.go",
@@ -7649,14 +7722,21 @@
         "$STAGE/runtime/external.go",
         "$STAGE/runtime/integer_value.go",
         "$STAGE/runtime/integer_value_test.go",
+        "$STAGE/runtime/per/aligned_bitstring_test.go",
         "$STAGE/runtime/per/aper.go",
         "$STAGE/runtime/per/big_width_test.go",
         "$STAGE/runtime/per/bitbuffer.go",
         "$STAGE/runtime/per/bitbuffer_arithmetic_test.go",
         "$STAGE/runtime/per/bitbuffer_bounds_test.go",
+        "$STAGE/runtime/per/charstring.go",
+        "$STAGE/runtime/per/charstring_test.go",
         "$STAGE/runtime/per/complete_encoding_test.go",
+        "$STAGE/runtime/per/contained.go",
+        "$STAGE/runtime/per/contained_test.go",
         "$STAGE/runtime/per/edited_padding_test.go",
         "$STAGE/runtime/per/errors.go",
+        "$STAGE/runtime/per/explicit_default.go",
+        "$STAGE/runtime/per/explicit_default_test.go",
         "$STAGE/runtime/per/fragment.go",
         "$STAGE/runtime/per/fragment_test.go",
         "$STAGE/runtime/per/hardening_test.go",

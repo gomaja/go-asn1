@@ -1563,7 +1563,7 @@ func (v *DLDCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("DLDCCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -1821,7 +1821,7 @@ func (v *DLDCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -2103,7 +2103,7 @@ func (v *ULDCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ULDCCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -2367,7 +2367,7 @@ func (v *ULDCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -2588,7 +2588,7 @@ func (v *ULDCCHMessageTypeExt) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ULDCCHMessageTypeExt: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -2650,7 +2650,7 @@ func (v *ULDCCHMessageTypeExt) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -2776,7 +2776,7 @@ func (v *DLCCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("DLCCCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -2860,7 +2860,7 @@ func (v *DLCCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -2992,7 +2992,7 @@ func (v *ULCCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ULCCCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -3060,7 +3060,7 @@ func (v *ULCCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -3111,7 +3111,7 @@ func (v *ULCCCHMessageTypeR11) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ULCCCHMessageTypeR11: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -3161,7 +3161,7 @@ func (v *ULCCCHMessageTypeR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -3240,7 +3240,7 @@ func (v *PCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("PCCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -3288,7 +3288,7 @@ func (v *PCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -3363,7 +3363,7 @@ func (v *DLSHCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("DLSHCCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -3411,7 +3411,7 @@ func (v *DLSHCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -3486,7 +3486,7 @@ func (v *ULSHCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ULSHCCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -3534,7 +3534,7 @@ func (v *ULSHCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -3609,7 +3609,7 @@ func (v *BCCHFACHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("BCCHFACHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -3665,7 +3665,7 @@ func (v *BCCHFACHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -3836,7 +3836,7 @@ func (v *MCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MCCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -3934,7 +3934,7 @@ func (v *MCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -4061,7 +4061,7 @@ func (v *MSCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MSCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:165
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -4111,7 +4111,7 @@ func (v *MSCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:254
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}

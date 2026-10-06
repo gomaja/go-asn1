@@ -88,10 +88,15 @@ func (log *ToleranceLog) append(records []Tolerance) {
 
 // decodeTrace is the per-decode state shared by a top-level BitBuffer and the
 // nested buffers that inherit its options. It exists only when a caller asked
-// for tolerance, so a strict decode pays one nil check per tracked component.
+// for tolerance or deferral, so a strict eager decode pays one nil check per
+// tracked component.
 type decodeTrace struct {
 	path    []pathSegment
 	pending []Tolerance
+	// deferred holds the deferral records of the decode, published to
+	// deferrals together with pending.
+	deferred  []pendingDeferral
+	deferrals *DeferralLog
 }
 
 // pathSegment is a component name, or a list index when name is empty.
@@ -152,25 +157,48 @@ func (bb *BitBuffer) recordTolerance(kind ToleranceKind, offset int, bits Traili
 	bb.trace.pending = append(bb.trace.pending, Tolerance{Path: bb.trace.relativePath(), Kind: kind, Offset: offset, Bits: bits})
 }
 
-// commitTolerances qualifies the pending records with the top-level type
-// name and publishes them to the caller's log.
-func (bb *BitBuffer) commitTolerances(root string) {
-	if bb.trace == nil || len(bb.trace.pending) == 0 {
+// commitRecords qualifies the pending tolerance and deferral records with
+// the top-level type name and publishes them to the caller's logs.
+func (bb *BitBuffer) commitRecords(root string) {
+	trace := bb.trace
+	if trace == nil {
 		return
 	}
-	for i := range bb.trace.pending {
-		record := &bb.trace.pending[i]
-		switch {
-		case record.Path == "":
-			record.Path = root
-		case strings.HasPrefix(record.Path, "["):
-			record.Path = strings.Join([]string{root, record.Path}, "")
-		default:
-			record.Path = strings.Join([]string{root, record.Path}, ".")
+	if len(trace.pending) != 0 {
+		for i := range trace.pending {
+			record := &trace.pending[i]
+			record.Path = qualifyPath(root, record.Path)
 		}
+		bb.tolerance.append(trace.pending)
+		trace.pending = nil
 	}
-	bb.decodeOptions.TrailingBitsTolerance.append(bb.trace.pending)
-	bb.trace.pending = nil
+	if len(trace.deferred) != 0 {
+		records := make([]Deferral, len(trace.deferred))
+		for i, pending := range trace.deferred {
+			records[i] = pending.record
+			records[i].Path = qualifyPath(root, pending.record.Path)
+			// The error is shared with the deferred value, which the
+			// caller has not seen yet: it gets the same full path.
+			if pending.err != nil {
+				pending.err.Path = records[i].Path
+			}
+		}
+		trace.deferrals.append(records)
+		trace.deferred = nil
+	}
+}
+
+// qualifyPath prefixes a path relative to the top-level value with root, in
+// the form of runtime.DecodePathError.
+func qualifyPath(root, path string) string {
+	switch {
+	case path == "":
+		return root
+	case strings.HasPrefix(path, "["):
+		return strings.Join([]string{root, path}, "")
+	default:
+		return strings.Join([]string{root, path}, ".")
+	}
 }
 
 // CaptureContainedBits consumes the bits left after a value decoded from a
@@ -198,7 +226,7 @@ func CaptureContainedBits(bb *BitBuffer) (FinalPadding, error) {
 	if remaining == 0 {
 		return FinalPadding{}, nil
 	}
-	if bb.decodeOptions.TrailingBitsTolerance == nil {
+	if bb.tolerance == nil {
 		return FinalPadding{}, fmt.Errorf("%w: contained value has %d trailing bits", ErrExtraData, remaining)
 	}
 	offset := bb.bitPos
@@ -247,12 +275,19 @@ func AppendContainedBits(bb *BitBuffer, kept FinalPadding) error {
 // A value that consumed no bits is completed by one zero octet (X.691
 // (02/2021) 11.1.3.1 and 11.1.4). That octet is part of the complete
 // encoding, never a tolerated suffix, and must be zero in either mode.
+//
+// The decode's deferral records are published with its tolerance records.
+// A decode whose ContainedDecoding is unknown, or defers without a
+// Deferrals log, fails here, before anything is published.
 func CaptureFinalBits(bb *BitBuffer, root string) (FinalPadding, error) {
+	if err := bb.checkContainedDecoding(); err != nil {
+		return FinalPadding{}, err
+	}
 	final, err := captureFinalBits(bb, "top-level value")
 	if err != nil {
 		return FinalPadding{}, err
 	}
-	bb.commitTolerances(root)
+	bb.commitRecords(root)
 	return final, nil
 }
 
@@ -269,7 +304,7 @@ func CaptureContainedFinalBits(bb *BitBuffer) (FinalPadding, error) {
 func captureFinalBits(bb *BitBuffer, context string) (FinalPadding, error) {
 	var final FinalPadding
 	remaining := bb.BitsRemaining()
-	if bb.decodeOptions.TrailingBitsTolerance == nil || remaining <= 7 || bb.bitPos == 0 && remaining == 8 {
+	if bb.tolerance == nil || remaining <= 7 || bb.bitPos == 0 && remaining == 8 {
 		padding, err := captureTrailingPadding(bb, context)
 		if err != nil {
 			return FinalPadding{}, err
@@ -312,6 +347,16 @@ func captureFinalBits(bb *BitBuffer, context string) (FinalPadding, error) {
 // replayed only after the value encoding it followed, bit for bit: an edited
 // value never carries it. Padding is applied while it still fills the final
 // octet exactly (see CompleteBytesWithPadding).
+//
+// The FinalPadding of a contained value that a decode kept raw holds that
+// raw encoding instead (see Deferred).
+//
+// A decoded SEQUENCE or SET also records here which DEFAULT components of a
+// simple type it carried explicitly with their default values (see
+// ExplicitDefaults). A record of only the first eight such components of a
+// type comes from a shared table and allocates nothing; one that includes a
+// later component allocates once. A value kept raw was not decoded, so it
+// has no such record.
 type FinalPadding struct{ bits *finalBits }
 
 type finalBits struct {
@@ -322,6 +367,11 @@ type finalBits struct {
 	// zero octet or bit of an empty value.
 	value     []byte
 	valueBits int
+	// deferred is set only on the shell of a contained value kept raw.
+	deferred *Deferred
+	// explicitDefaults has bit i set when the decoded value carried its i-th
+	// DEFAULT component of a simple type explicitly, holding the default.
+	explicitDefaults uint64
 }
 
 // keepTrailing retains bits accepted after the value encoding in the first

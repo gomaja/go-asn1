@@ -650,7 +650,7 @@ func TestLargeRootSizeRejectsOutOfRangeValues(t *testing.T) {
 				if err := bb.AlignToOctetWrite(); err != nil {
 					return err
 				}
-				return bb.WriteBits('A', 7)
+				return bb.WriteBits('A', 8)
 			},
 			decodeRoot: func(bb *BitBuffer) error {
 				_, err := DecodeKnownMultiplierStringAlignedExt(bb, 7, lower, upper, true, true)

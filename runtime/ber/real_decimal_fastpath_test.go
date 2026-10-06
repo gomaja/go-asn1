@@ -97,5 +97,12 @@ func FuzzDecimalRealCanonicalForm(f *testing.F) {
 		if got, want := canonicalDecimalRealContents(contents), bytes.Equal(contents, canonical); got != want {
 			t.Fatalf("canonical(%x) = %v, encoder = %x", contents, got, canonical)
 		}
+		wire, err := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, contents)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := ValidateDERElement(wire); (err == nil) != bytes.Equal(contents, canonical) {
+			t.Fatalf("DER validation = %v; received %x, canonical %x", err, contents, canonical)
+		}
 	})
 }

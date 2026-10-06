@@ -33,10 +33,10 @@ func newBERWorkBudget(options []DecodeOption) (berWorkBudget, error) {
 func (budget *berWorkBudget) charge(size int) error {
 	if size < 0 || budget.elements < 0 || budget.elements >= budget.limits.MaxElements ||
 		budget.bytes < 0 || budget.bytes > budget.limits.MaxWork {
-		return fmt.Errorf("%w: BER element or total-work limit exceeded", ErrInvalidValue)
+		return fmt.Errorf("%w: BER element or total-work limit exceeded", ErrResourceLimit)
 	}
 	if size > budget.limits.MaxWork-budget.bytes {
-		return fmt.Errorf("%w: BER element or total-work limit exceeded", ErrInvalidValue)
+		return fmt.Errorf("%w: BER element or total-work limit exceeded", ErrResourceLimit)
 	}
 	budget.elements++
 	budget.bytes += size
@@ -177,7 +177,7 @@ func decodeTLV(data []byte, limits DecodeLimits, form *berFormState) (tag.Tag, i
 				return tag.Tag{}, 0, nil, ErrInvalidLength
 			}
 			if pos-headerLen > limits.MaxWork || elements > limits.MaxElements {
-				return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER scan work limit exceeded", ErrInvalidValue)
+				return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER scan work limit exceeded", ErrResourceLimit)
 			}
 			if len(data)-pos < 2 {
 				return tag.Tag{}, 0, nil, ErrTruncated
@@ -194,7 +194,7 @@ func decodeTLV(data []byte, limits DecodeLimits, form *berFormState) (tag.Tag, i
 			}
 			// Skip nested TLVs.
 			if elements >= limits.MaxElements {
-				return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER scan element limit exceeded", ErrInvalidValue)
+				return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER scan element limit exceeded", ErrResourceLimit)
 			}
 			elements++
 			_, innerTagLen, err := DecodeTag(data[pos:])
@@ -214,7 +214,7 @@ func decodeTLV(data []byte, limits DecodeLimits, form *berFormState) (tag.Tag, i
 			start := pos + innerTagLen + innerLenLen
 			if innerIndef {
 				if depth >= limits.MaxDepth {
-					return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER nesting depth exceeded", ErrInvalidValue)
+					return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 				}
 				depth++
 				pos = start
@@ -238,7 +238,7 @@ func decodeTLV(data []byte, limits DecodeLimits, form *berFormState) (tag.Tag, i
 	}
 	end := headerLen + length
 	if end > limits.MaxWork {
-		return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER total-work limit exceeded", ErrInvalidValue)
+		return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER total-work limit exceeded", ErrResourceLimit)
 	}
 	markBERForm(form, t, data[tagLen:headerLen], false, data[headerLen:end])
 	return t, end, data[headerLen:end], nil
@@ -276,7 +276,7 @@ func ValidateDEREncodedElement(data []byte) error {
 
 func validateDERTLV(data []byte, depth, maxDepth int) (int, error) {
 	if depth > maxDepth {
-		return 0, fmt.Errorf("%w: DER nesting depth exceeded", ErrInvalidValue)
+		return 0, fmt.Errorf("%w: DER nesting depth exceeded", ErrResourceLimit)
 	}
 	t, tagLen, err := DecodeTag(data)
 	if err != nil {
@@ -322,16 +322,24 @@ func validateDERTLV(data []byte, depth, maxDepth int) (int, error) {
 			return 0, fmt.Errorf("%w: DER REAL must be primitive", ErrInvalidTag)
 		}
 		value := data[headerLen:end]
-		decoded, err := decodeRealContents(value)
-		if err != nil {
-			return 0, err
-		}
-		canonical, err := EncodeRealValue(decoded)
-		if err != nil {
-			return 0, err
-		}
-		if !bytes.Equal(value, canonical) {
-			return 0, fmt.Errorf("%w: REAL is not in distinguished encoding", ErrInvalidValue)
+		if len(value) != 0 && value[0]&0xc0 == 0 {
+			// X.690 (02/2021) §11.3.2 and ISO 6093 NR3 determine
+			// canonical decimal REALs by spelling; no numeric conversion.
+			if !canonicalDecimalRealContents(value) {
+				return 0, fmt.Errorf("%w: REAL is not in distinguished encoding", ErrInvalidValue)
+			}
+		} else {
+			decoded, err := decodeRealContents(value)
+			if err != nil {
+				return 0, err
+			}
+			canonical, err := EncodeRealValue(decoded)
+			if err != nil {
+				return 0, err
+			}
+			if !bytes.Equal(value, canonical) {
+				return 0, fmt.Errorf("%w: REAL is not in distinguished encoding", ErrInvalidValue)
+			}
 		}
 	}
 	if t.Constructed {
@@ -341,7 +349,7 @@ func validateDERTLV(data []byte, depth, maxDepth int) (int, error) {
 		offset := headerLen
 		for offset < end {
 			if depth >= maxDepth {
-				return 0, fmt.Errorf("%w: DER nesting depth exceeded", ErrInvalidValue)
+				return 0, fmt.Errorf("%w: DER nesting depth exceeded", ErrResourceLimit)
 			}
 			n, err := validateDERTLV(data[offset:end], depth+1, maxDepth)
 			if err != nil {
@@ -645,13 +653,13 @@ func DecodeSequenceChildren(data []byte, options ...DecodeOption) ([][]byte, err
 		return nil, err
 	}
 	if len(data) > limits.MaxWork {
-		return nil, fmt.Errorf("%w: BER total-work limit exceeded", ErrInvalidValue)
+		return nil, fmt.Errorf("%w: BER total-work limit exceeded", ErrResourceLimit)
 	}
 	var children [][]byte
 	offset := 0
 	for offset < len(data) {
 		if len(children) >= limits.MaxElements {
-			return nil, fmt.Errorf("%w: BER element limit exceeded", ErrInvalidValue)
+			return nil, fmt.Errorf("%w: BER element limit exceeded", ErrResourceLimit)
 		}
 		t, total, value, err := DecodeTLV(data[offset:], options...)
 		if err != nil {
@@ -774,7 +782,7 @@ func DecodeBitString(data []byte, options ...DecodeOption) ([]byte, int, int, er
 
 func decodeBitStringBounded(data []byte, depth int, budget *berWorkBudget) ([]byte, int, int, error) {
 	if depth > budget.limits.MaxDepth {
-		return nil, 0, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrInvalidValue)
+		return nil, 0, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 	}
 	t, total, value, err := decodeTLV(data, budget.limits, budget.form)
 	if err != nil {
@@ -801,7 +809,7 @@ func DecodeOctetString(data []byte, options ...DecodeOption) ([]byte, int, error
 
 func decodeOctetStringBounded(data []byte, depth int, budget *berWorkBudget) ([]byte, int, error) {
 	if depth > budget.limits.MaxDepth {
-		return nil, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrInvalidValue)
+		return nil, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 	}
 	t, total, value, err := decodeTLV(data, budget.limits, budget.form)
 	if err != nil {
@@ -818,7 +826,7 @@ func decodeOctetStringBounded(data []byte, depth int, budget *berWorkBudget) ([]
 		result := []byte{} // zero segments: present empty, X.690 (02/2021) 8.7.3 (go-asn1#91)
 		for offset := 0; offset < len(value); {
 			if depth >= budget.limits.MaxDepth {
-				return nil, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrInvalidValue)
+				return nil, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
 			childVal, consumed, err := decodeOctetStringBounded(value[offset:], depth+1, budget)
 			if err != nil {
@@ -1195,7 +1203,7 @@ func decodeBitStringValueBounded(constructed bool, value []byte, depth int, budg
 	unusedBits := 0
 	for index, offset := 0, 0; offset < len(value); {
 		if depth >= budget.limits.MaxDepth {
-			return nil, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrInvalidValue)
+			return nil, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 		}
 		segment, segmentUnused, consumed, err := decodeBitStringBounded(value[offset:], depth+1, budget)
 		if err != nil {
@@ -1211,7 +1219,7 @@ func decodeBitStringValueBounded(constructed bool, value []byte, depth int, budg
 		unusedBits = segmentUnused
 		offset += consumed
 		if index >= math.MaxInt {
-			return nil, 0, fmt.Errorf("%w: BIT STRING segment count exceeds host int", ErrInvalidValue)
+			return nil, 0, fmt.Errorf("%w: BIT STRING segment count exceeds host int", ErrResourceLimit)
 		}
 		index++
 	}
@@ -1331,6 +1339,24 @@ func DecodeImplicitGeneralizedTimeValue(constructed bool, value []byte, options 
 
 // DecodeRealValue decodes X.690 (02/2021), clause 8.5 REAL contents octets.
 func DecodeRealValue(value []byte, options ...DecodeOption) (runtime.Real, error) {
+	config, err := decodeOptions(options)
+	if err != nil {
+		return runtime.Real{}, err
+	}
+	// X.690 (02/2021) §8.5.8 permits arbitrary decimal field lengths.
+	// Apply the caller's operational budget before copying the field or
+	// converting either the exponent or mantissa to a big.Int.
+	if limit := config.limits.MaxRealDecimalDigits; limit > 0 && len(value) != 0 && value[0]&0xc0 == 0 {
+		digits := 0
+		for _, character := range value[1:] {
+			if character >= '0' && character <= '9' {
+				if digits == limit {
+					return runtime.Real{}, fmt.Errorf("%w: REAL decimal digit limit %d exceeded", ErrResourceLimit, limit)
+				}
+				digits++
+			}
+		}
+	}
 	decoded, err := decodeRealContents(value)
 	if err != nil {
 		return runtime.Real{}, err
