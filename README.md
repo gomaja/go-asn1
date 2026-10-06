@@ -320,6 +320,142 @@ the current source version, also clear `ExtData_`; this deliberately drops
 unknown additions. Keep their data if they must survive, which may require
 a wider bitmap. Alternatively, build the value anew.
 
+### Deferred contained values
+
+UPER decoding decodes a value carried in a `BIT STRING (CONTAINING ...)` or
+`OCTET STRING (CONTAINING ...)` together with its enclosing value. TS 36.331
+V19.4.0 §8.1 and TS 38.331 V19.4.0 §8.1 recommend otherwise for RRC
+receivers: "errors in the decoding of the contained type should not cause the
+decoding of the entire RRC message PDU to fail", and the contained value is
+best decoded "as a separate step". `per.DecodeOptions.ContainedDecoding`
+selects the behaviour:
+
+| Mode | Contained value that decodes | Contained value that fails |
+|---|---|---|
+| `per.Eager` (default) | typed | fails the whole decode |
+| `per.DeferOnError` | typed | kept raw with its error; the rest decodes |
+| `per.DeferAll` | kept raw, not decoded | kept raw, not decoded |
+
+The affected values are the 39 contained `OCTET STRING`s of `lte/rrc`, and
+the 57 contained `BIT STRING`s and 13 contained `OCTET STRING`s of
+`umts/rrc`, one of them `InterRATHandoverInfo`'s `ue-CapabilityContainer`
+(TS 25.331 V19.0.1 §11.2). No other package has one.
+
+`DeferOnError` applies at every nesting level: a contained value inside one
+that decodes is itself decoded or deferred. `DeferAll` keeps the outermost
+contained values raw, and anything nested in them is part of their raw
+contents. Only the contained value's own decode, including its final or
+trailing bits, is deferred. The enclosing `BIT STRING` or `OCTET STRING` is
+decoded and checked first, so a bad length determinant fails the decode in
+every mode, as does any other component. TS 25.331 V19.0.1 has no rule for
+contained values; the modes still apply to `umts/rrc`. They are independent
+of `TrailingBitsTolerance`, which RRC receivers need as well.
+Both deferring modes require a `per.DeferralLog` in `DecodeOptions.Deferrals`;
+a decode that defers without one fails. A successful decode appends one
+record per deferred value, in decode order and in the same commit as its
+tolerance records; a failed decode appends none:
+```go
+var tolerated per.ToleranceLog
+var deferred per.DeferralLog
+options := per.DecodeOptions{
+    TrailingBitsTolerance: &tolerated,
+    ContainedDecoding:     per.DeferOnError,
+    Deferrals:             &deferred,
+}
+var message rrc.ULDCCHMessage
+if err := message.UnmarshalUPERWithOptions(wire, options); err != nil {
+    return err
+}
+for _, record := range deferred.Snapshot() {
+    log.Printf("%s: %v of %d bits kept raw: %v", record.Path, record.Kind,
+        record.BitLength, record.Err)
+}
+```
+
+`Path` is the field path from the top-level type, as for tolerance records.
+`Err` is nil under `DeferAll`; under `DeferOnError` it carries the same full
+path. For a value that is not nested in another contained value, it reads as
+the error an Eager decode reports when that value is the first to fail.
+
+A deferred value stays in place with its Go type: an OPTIONAL field stays
+non-nil, a CHOICE keeps its alternative, and a mandatory field stays set. The
+value is a shell, the zero value of its type, whose `PERPadding_` holds the
+raw state. `PERPadding_.Deferred()` returns that state, or nil for any other
+value, with `Kind()`, `Bytes()` (a copy), the exact `BitLength()` and
+`Err()`. No field is added to any type, and an Eager decode allocates exactly
+as before.
+
+A deferred value is decoded later through the normal entry points. The
+contents of an `OCTET STRING` are a complete encoding; those of a
+`BIT STRING` are read from a buffer bounded to their bit length, and the bits
+after the value go to the host's `<Field>PERPadding_`:
+
+```go
+// lte/rrc: an OCTET STRING (CONTAINING ...) OPTIONAL.
+if ies.LateNonCriticalExtension != nil {
+    if d := ies.LateNonCriticalExtension.PERPadding_.Deferred(); d != nil {
+        var later rrc.RRCConnectionSetupCompleteV8x0IEs
+        if err := later.UnmarshalUPERWithOptions(d.Bytes(), options); err != nil {
+            return err
+        }
+        ies.LateNonCriticalExtension = &later
+    }
+}
+
+// umts/rrc: a BIT STRING (CONTAINING ...) OPTIONAL.
+if ext.UeCapabilityContainer != nil {
+    if d := ext.UeCapabilityContainer.PERPadding_.Deferred(); d != nil {
+        bb, err := d.BitBuffer(options)
+        if err != nil {
+            return err
+        }
+        var later umts.UECapabilityContainerIEs
+        if err := later.UnmarshalUPERFrom(bb); err != nil {
+            return err
+        }
+        padding, err := per.CaptureDeferredBits(bb, "UECapabilityContainerIEs")
+        if err != nil {
+            return err
+        }
+        ext.UeCapabilityContainer, ext.UeCapabilityContainerPERPadding_ = &later, padding
+    }
+}
+```
+
+An unchanged deferred value is encoded as its raw bits, so `MarshalUPER`
+reproduces the input, padding included, and edits elsewhere leave it alone.
+
+The edit check looks at the shell's state, not at assignments: every typed
+field other than `PERPadding_` must still hold its zero value. A shell with a
+nonzero typed field fails the encode with `per.ErrEditedDeferred` instead of
+dropping either the edit or the raw bits. A zero value assigned to a field
+(`shell.Level = 0`, a nil slice) leaves the shell indistinguishable from an
+unedited one, so its raw bits are encoded again. Any intended replacement,
+including one made of zero values, therefore takes an explicit step: assign a
+new value to the field, or reset the shell with
+`shell.PERPadding_ = per.FinalPadding{}`, which discards the raw bits so that
+the shell's typed fields are encoded.
+
+Placement is checked by container kind and encode entry point, not by field
+identity. A value deferred from an `OCTET STRING` holds a complete encoding:
+its own `MarshalUPER` returns those raw bytes wherever the value is, ordinary
+value copies included, so a copy placed in another
+`OCTET STRING (CONTAINING ...)` of the same type is encoded from them. A
+value deferred from a `BIT STRING` is written as its exact raw bits by a
+`BIT STRING (CONTAINING ...)` of the same type. Anywhere else the encode
+fails with `per.ErrMisplacedDeferred`: in a component, list element or
+alternative that is not a contained string (all of them encode through
+`MarshalUPERTo`), an `OCTET STRING` value in a `BIT STRING`, and a
+`BIT STRING` value in an `OCTET STRING` or passed to its own `MarshalUPER`.
+
+JSON stays the semantic typed shape: a deferred value appears as its zero
+shell, and its raw state is not in the document. JSON is therefore not a
+wire-preserving format; the deferral log and `Deferred()` carry the raw
+contents.
+
+Deferral is UPER only. The APER packages take no decode options and decode
+contained values eagerly; none of them has a contained value.
+
 ### Present empty values
 
 An OPTIONAL component is absent when its Go value is nil. A present empty
