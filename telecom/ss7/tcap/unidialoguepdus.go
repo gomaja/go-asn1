@@ -217,7 +217,7 @@ func (v *AUDTApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -287,7 +287,7 @@ func (v *AUDTApdu) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -424,6 +424,13 @@ func (v *AUDTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	}
 	if decodedTag_applicationcontextname.Class != tag.ClassContextSpecific || decodedTag_applicationcontextname.Number != 1 || decodedTag_applicationcontextname.Constructed != true {
 		return fmt.Errorf("decoding application-context-name: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_applicationcontextname)
+	}
+	_, innerUsed_applicationcontextname, _, innerErr_applicationcontextname := ber.DecodeTLV(innerData_applicationcontextname, opts...)
+	if innerErr_applicationcontextname != nil {
+		return fmt.Errorf("decoding application-context-name: %w", innerErr_applicationcontextname)
+	}
+	if innerUsed_applicationcontextname != len(innerData_applicationcontextname) {
+		return fmt.Errorf("decoding application-context-name: %w", ber.ErrExtraData)
 	}
 	// Decode inner value from explicit tag wrapper
 	val_applicationcontextname, _, oidErr := ber.DecodeObjectIdentifier(innerData_applicationcontextname, opts...)

@@ -6003,7 +6003,7 @@ func (v *VLRCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6075,7 +6075,7 @@ func (v *VLRCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedLCSCapabilitySets.Bytes, v.SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedLCS-CapabilitySets", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6099,7 +6099,7 @@ func (v *VLRCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6123,7 +6123,7 @@ func (v *VLRCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedRATTypesIndicator.Bytes, v.SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedRAT-TypesIndicator", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6205,7 +6205,7 @@ func (v *VLRCapability) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6280,7 +6280,7 @@ func (v *VLRCapability) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedLCSCapabilitySets.Bytes, v.SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedLCS-CapabilitySets", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6307,7 +6307,7 @@ func (v *VLRCapability) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6334,7 +6334,7 @@ func (v *VLRCapability) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedRATTypesIndicator.Bytes, v.SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedRAT-TypesIndicator", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6567,6 +6567,13 @@ func (v *VLRCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 				}
 				if decodedTag_superchargersupportedinservingnetworkentity.Class != tag.ClassContextSpecific || decodedTag_superchargersupportedinservingnetworkentity.Number != 3 || decodedTag_superchargersupportedinservingnetworkentity.Constructed != true {
 					return fmt.Errorf("decoding superChargerSupportedInServingNetworkEntity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_superchargersupportedinservingnetworkentity)
+				}
+				_, innerUsed_superchargersupportedinservingnetworkentity, _, innerErr_superchargersupportedinservingnetworkentity := ber.DecodeTLV(innerData_superchargersupportedinservingnetworkentity, opts...)
+				if innerErr_superchargersupportedinservingnetworkentity != nil {
+					return fmt.Errorf("decoding superChargerSupportedInServingNetworkEntity: %w", innerErr_superchargersupportedinservingnetworkentity)
+				}
+				if innerUsed_superchargersupportedinservingnetworkentity != len(innerData_superchargersupportedinservingnetworkentity) {
+					return fmt.Errorf("decoding superChargerSupportedInServingNetworkEntity: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_superchargersupportedinservingnetworkentity SuperChargerInfo
@@ -10318,6 +10325,13 @@ func (v *SendIdentificationRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if decodedTag_currentsecuritycontext.Class != tag.ClassContextSpecific || decodedTag_currentsecuritycontext.Number != 2 || decodedTag_currentsecuritycontext.Constructed != true {
 					return fmt.Errorf("decoding currentSecurityContext: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_currentsecuritycontext)
 				}
+				_, innerUsed_currentsecuritycontext, _, innerErr_currentsecuritycontext := ber.DecodeTLV(innerData_currentsecuritycontext, opts...)
+				if innerErr_currentsecuritycontext != nil {
+					return fmt.Errorf("decoding currentSecurityContext: %w", innerErr_currentsecuritycontext)
+				}
+				if innerUsed_currentsecuritycontext != len(innerData_currentsecuritycontext) {
+					return fmt.Errorf("decoding currentSecurityContext: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				var dec_currentsecuritycontext CurrentSecurityContext
 				if unmErr := dec_currentsecuritycontext.UnmarshalBER(innerData_currentsecuritycontext, ber.ChildDecodeOptions(opts, "currentSecurityContext")...); unmErr != nil {
@@ -13690,6 +13704,13 @@ func (v *UpdateGprsLocationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if decodedTag_epsinfo.Class != tag.ClassContextSpecific || decodedTag_epsinfo.Number != 5 || decodedTag_epsinfo.Constructed != true {
 					return fmt.Errorf("decoding eps-info: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_epsinfo)
 				}
+				_, innerUsed_epsinfo, _, innerErr_epsinfo := ber.DecodeTLV(innerData_epsinfo, opts...)
+				if innerErr_epsinfo != nil {
+					return fmt.Errorf("decoding eps-info: %w", innerErr_epsinfo)
+				}
+				if innerUsed_epsinfo != len(innerData_epsinfo) {
+					return fmt.Errorf("decoding eps-info: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				var dec_epsinfo EPSInfo
 				if unmErr := dec_epsinfo.UnmarshalBER(innerData_epsinfo, ber.ChildDecodeOptions(opts, "eps-info")...); unmErr != nil {
@@ -14305,7 +14326,7 @@ func (v *EPSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.IsrInformation.Bytes, v.IsrInformation.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "isr-Information", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2438
+		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2468
 		if v.IsrInformation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -14888,7 +14909,7 @@ func (v *SGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -14912,7 +14933,7 @@ func (v *SGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedLCSCapabilitySets.Bytes, v.SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedLCS-CapabilitySets", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -14936,7 +14957,7 @@ func (v *SGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -14969,7 +14990,7 @@ func (v *SGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedRATTypesIndicator.Bytes, v.SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedRAT-TypesIndicator", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -14993,7 +15014,7 @@ func (v *SGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedFeatures.Bytes, v.SupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedFeatures", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15076,7 +15097,7 @@ func (v *SGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.ExtSupportedFeatures.Bytes, v.ExtSupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ext-SupportedFeatures", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ExtSupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15161,7 +15182,7 @@ func (v *SGSNCapability) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15188,7 +15209,7 @@ func (v *SGSNCapability) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedLCSCapabilitySets.Bytes, v.SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedLCS-CapabilitySets", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15215,7 +15236,7 @@ func (v *SGSNCapability) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15251,7 +15272,7 @@ func (v *SGSNCapability) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedRATTypesIndicator.Bytes, v.SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedRAT-TypesIndicator", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15278,7 +15299,7 @@ func (v *SGSNCapability) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedFeatures.Bytes, v.SupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedFeatures", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15359,7 +15380,7 @@ func (v *SGSNCapability) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ExtSupportedFeatures.Bytes, v.ExtSupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ext-SupportedFeatures", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ExtSupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15483,6 +15504,13 @@ func (v *SGSNCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				}
 				if decodedTag_superchargersupportedinservingnetworkentity.Class != tag.ClassContextSpecific || decodedTag_superchargersupportedinservingnetworkentity.Number != 2 || decodedTag_superchargersupportedinservingnetworkentity.Constructed != true {
 					return fmt.Errorf("decoding superChargerSupportedInServingNetworkEntity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_superchargersupportedinservingnetworkentity)
+				}
+				_, innerUsed_superchargersupportedinservingnetworkentity, _, innerErr_superchargersupportedinservingnetworkentity := ber.DecodeTLV(innerData_superchargersupportedinservingnetworkentity, opts...)
+				if innerErr_superchargersupportedinservingnetworkentity != nil {
+					return fmt.Errorf("decoding superChargerSupportedInServingNetworkEntity: %w", innerErr_superchargersupportedinservingnetworkentity)
+				}
+				if innerUsed_superchargersupportedinservingnetworkentity != len(innerData_superchargersupportedinservingnetworkentity) {
+					return fmt.Errorf("decoding superChargerSupportedInServingNetworkEntity: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_superchargersupportedinservingnetworkentity SuperChargerInfo
@@ -18843,7 +18871,7 @@ func (v *PrepareHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.LclsNegotiation.Bytes, v.LclsNegotiation.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "lcls-Negotiation", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.LclsNegotiation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -18867,7 +18895,7 @@ func (v *PrepareHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.LclsConfigurationPreference.Bytes, v.LclsConfigurationPreference.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "lcls-Configuration-Preference", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.LclsConfigurationPreference.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -19371,7 +19399,7 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.LclsNegotiation.Bytes, v.LclsNegotiation.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "lcls-Negotiation", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.LclsNegotiation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -19398,7 +19426,7 @@ func (v *PrepareHOArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.LclsConfigurationPreference.Bytes, v.LclsConfigurationPreference.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "lcls-Configuration-Preference", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.LclsConfigurationPreference.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -28092,7 +28120,7 @@ func (v *CheckIMEIArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(v.RequestedEquipmentInfo.Bytes, v.RequestedEquipmentInfo.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "requestedEquipmentInfo", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.RequestedEquipmentInfo.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -28148,7 +28176,7 @@ func (v *CheckIMEIArg) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.RequestedEquipmentInfo.Bytes, v.RequestedEquipmentInfo.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "requestedEquipmentInfo", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.RequestedEquipmentInfo.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -28593,7 +28621,7 @@ func (v *UESBIIu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.UesbiIuA.Bytes, v.UesbiIuA.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "uesbi-IuA", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.UesbiIuA.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -28617,7 +28645,7 @@ func (v *UESBIIu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.UesbiIuB.Bytes, v.UesbiIuB.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "uesbi-IuB", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.UesbiIuB.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -28663,7 +28691,7 @@ func (v *UESBIIu) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.UesbiIuA.Bytes, v.UesbiIuA.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "uesbi-IuA", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.UesbiIuA.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -28690,7 +28718,7 @@ func (v *UESBIIu) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.UesbiIuB.Bytes, v.UesbiIuB.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "uesbi-IuB", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.UesbiIuB.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -29349,7 +29377,7 @@ func (v *InsertSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if bitStringErr := ber.ValidateBitStringLength(v.AccessRestrictionData.Bytes, v.AccessRestrictionData.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "accessRestrictionData", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.AccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -29788,7 +29816,7 @@ func (v *InsertSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if bitStringErr := ber.ValidateBitStringLength(v.ExtAccessRestrictionData.Bytes, v.ExtAccessRestrictionData.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ext-AccessRestrictionData", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ExtAccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -30224,7 +30252,7 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.AccessRestrictionData.Bytes, v.AccessRestrictionData.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "accessRestrictionData", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.AccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -30566,7 +30594,7 @@ func (v *InsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ExtAccessRestrictionData.Bytes, v.ExtAccessRestrictionData.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ext-AccessRestrictionData", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ExtAccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -33501,7 +33529,7 @@ func (v *CSGSubscriptionData) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 	if bitStringErr := ber.ValidateBitStringLength(v.CsgId.Bytes, v.CsgId.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "csg-Id", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.CsgId.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -33608,7 +33636,7 @@ func (v *CSGSubscriptionData) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.CsgId.Bytes, v.CsgId.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "csg-Id", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.CsgId.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -38957,7 +38985,7 @@ func (v *AdjacentAccessRestrictionData) marshalBER(opts ...ber.EncodeOption) ([]
 	if bitStringErr := ber.ValidateBitStringLength(v.AccessRestrictionData.Bytes, v.AccessRestrictionData.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "accessRestrictionData", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.AccessRestrictionData.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -38980,7 +39008,7 @@ func (v *AdjacentAccessRestrictionData) marshalBER(opts ...ber.EncodeOption) ([]
 		if bitStringErr := ber.ValidateBitStringLength(v.ExtAccessRestrictionData.Bytes, v.ExtAccessRestrictionData.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ext-AccessRestrictionData", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ExtAccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -39040,7 +39068,7 @@ func (v *AdjacentAccessRestrictionData) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.AccessRestrictionData.Bytes, v.AccessRestrictionData.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "accessRestrictionData", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.AccessRestrictionData.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -39066,7 +39094,7 @@ func (v *AdjacentAccessRestrictionData) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ExtAccessRestrictionData.Bytes, v.ExtAccessRestrictionData.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ext-AccessRestrictionData", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ExtAccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -45330,7 +45358,7 @@ func (v *ODBData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(v.OdbGeneralData.Bytes, v.OdbGeneralData.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "odb-GeneralData", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.OdbGeneralData.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -45348,7 +45376,7 @@ func (v *ODBData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.OdbHPLMNData.Bytes, v.OdbHPLMNData.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "odb-HPLMN-Data", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OdbHPLMNData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -45395,7 +45423,7 @@ func (v *ODBData) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.OdbGeneralData.Bytes, v.OdbGeneralData.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "odb-GeneralData", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.OdbGeneralData.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -45416,7 +45444,7 @@ func (v *ODBData) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OdbHPLMNData.Bytes, v.OdbHPLMNData.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "odb-HPLMN-Data", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OdbHPLMNData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -51775,7 +51803,7 @@ func (v *InsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if bitStringErr := ber.ValidateBitStringLength(v.OdbGeneralData.Bytes, v.OdbGeneralData.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "odb-GeneralData", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OdbGeneralData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -51813,7 +51841,7 @@ func (v *InsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -51849,7 +51877,7 @@ func (v *InsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -51873,7 +51901,7 @@ func (v *InsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedFeatures.Bytes, v.SupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedFeatures", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -51897,7 +51925,7 @@ func (v *InsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if bitStringErr := ber.ValidateBitStringLength(v.ExtSupportedFeatures.Bytes, v.ExtSupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ext-SupportedFeatures", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ExtSupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -51994,7 +52022,7 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OdbGeneralData.Bytes, v.OdbGeneralData.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "odb-GeneralData", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OdbGeneralData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -52035,7 +52063,7 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -52074,7 +52102,7 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -52101,7 +52129,7 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedFeatures.Bytes, v.SupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedFeatures", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -52128,7 +52156,7 @@ func (v *InsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ExtSupportedFeatures.Bytes, v.ExtSupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ext-SupportedFeatures", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ExtSupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -52837,7 +52865,7 @@ func (v *DeleteSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if bitStringErr := ber.ValidateBitStringLength(v.SpecificCSIWithdraw.Bytes, v.SpecificCSIWithdraw.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "specificCSI-Withdraw", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SpecificCSIWithdraw.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -53210,7 +53238,7 @@ func (v *DeleteSubscriberDataArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SpecificCSIWithdraw.Bytes, v.SpecificCSIWithdraw.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "specificCSI-Withdraw", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SpecificCSIWithdraw.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -53737,6 +53765,13 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				if decodedTag_gprssubscriptiondatawithdraw.Class != tag.ClassContextSpecific || decodedTag_gprssubscriptiondatawithdraw.Number != 10 || decodedTag_gprssubscriptiondatawithdraw.Constructed != true {
 					return fmt.Errorf("decoding gprsSubscriptionDataWithdraw: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gprssubscriptiondatawithdraw)
 				}
+				_, innerUsed_gprssubscriptiondatawithdraw, _, innerErr_gprssubscriptiondatawithdraw := ber.DecodeTLV(innerData_gprssubscriptiondatawithdraw, opts...)
+				if innerErr_gprssubscriptiondatawithdraw != nil {
+					return fmt.Errorf("decoding gprsSubscriptionDataWithdraw: %w", innerErr_gprssubscriptiondatawithdraw)
+				}
+				if innerUsed_gprssubscriptiondatawithdraw != len(innerData_gprssubscriptiondatawithdraw) {
+					return fmt.Errorf("decoding gprsSubscriptionDataWithdraw: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				var dec_gprssubscriptiondatawithdraw GPRSSubscriptionDataWithdraw
 				if unmErr := dec_gprssubscriptiondatawithdraw.UnmarshalBER(innerData_gprssubscriptiondatawithdraw, ber.ChildDecodeOptions(opts, "gprsSubscriptionDataWithdraw")...); unmErr != nil {
@@ -53790,6 +53825,13 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 				if decodedTag_lsainformationwithdraw.Class != tag.ClassContextSpecific || decodedTag_lsainformationwithdraw.Number != 12 || decodedTag_lsainformationwithdraw.Constructed != true {
 					return fmt.Errorf("decoding lsaInformationWithdraw: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lsainformationwithdraw)
+				}
+				_, innerUsed_lsainformationwithdraw, _, innerErr_lsainformationwithdraw := ber.DecodeTLV(innerData_lsainformationwithdraw, opts...)
+				if innerErr_lsainformationwithdraw != nil {
+					return fmt.Errorf("decoding lsaInformationWithdraw: %w", innerErr_lsainformationwithdraw)
+				}
+				if innerUsed_lsainformationwithdraw != len(innerData_lsainformationwithdraw) {
+					return fmt.Errorf("decoding lsaInformationWithdraw: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_lsainformationwithdraw LSAInformationWithdraw
@@ -53958,6 +54000,13 @@ func (v *DeleteSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 				if decodedTag_epssubscriptiondatawithdraw.Class != tag.ClassContextSpecific || decodedTag_epssubscriptiondatawithdraw.Number != 18 || decodedTag_epssubscriptiondatawithdraw.Constructed != true {
 					return fmt.Errorf("decoding epsSubscriptionDataWithdraw: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_epssubscriptiondatawithdraw)
+				}
+				_, innerUsed_epssubscriptiondatawithdraw, _, innerErr_epssubscriptiondatawithdraw := ber.DecodeTLV(innerData_epssubscriptiondatawithdraw, opts...)
+				if innerErr_epssubscriptiondatawithdraw != nil {
+					return fmt.Errorf("decoding epsSubscriptionDataWithdraw: %w", innerErr_epssubscriptiondatawithdraw)
+				}
+				if innerUsed_epssubscriptiondatawithdraw != len(innerData_epssubscriptiondatawithdraw) {
+					return fmt.Errorf("decoding epsSubscriptionDataWithdraw: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_epssubscriptiondatawithdraw EPSSubscriptionDataWithdraw
@@ -67147,7 +67196,7 @@ func (v *VoiceGroupCallData) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.AdditionalSubscriptions.Bytes, v.AdditionalSubscriptions.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "additionalSubscriptions", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.AdditionalSubscriptions.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -67166,7 +67215,7 @@ func (v *VoiceGroupCallData) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.AdditionalInfo.Bytes, v.AdditionalInfo.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "additionalInfo", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -67246,7 +67295,7 @@ func (v *VoiceGroupCallData) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.AdditionalSubscriptions.Bytes, v.AdditionalSubscriptions.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "additionalSubscriptions", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.AdditionalSubscriptions.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -67268,7 +67317,7 @@ func (v *VoiceGroupCallData) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.AdditionalInfo.Bytes, v.AdditionalInfo.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "additionalInfo", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -68994,6 +69043,13 @@ func (v *SubscriberInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				if decodedTag_subscriberstate.Class != tag.ClassContextSpecific || decodedTag_subscriberstate.Number != 1 || decodedTag_subscriberstate.Constructed != true {
 					return fmt.Errorf("decoding subscriberState: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_subscriberstate)
 				}
+				_, innerUsed_subscriberstate, _, innerErr_subscriberstate := ber.DecodeTLV(innerData_subscriberstate, opts...)
+				if innerErr_subscriberstate != nil {
+					return fmt.Errorf("decoding subscriberState: %w", innerErr_subscriberstate)
+				}
+				if innerUsed_subscriberstate != len(innerData_subscriberstate) {
+					return fmt.Errorf("decoding subscriberState: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				var dec_subscriberstate SubscriberState
 				if unmErr := dec_subscriberstate.UnmarshalBER(innerData_subscriberstate, ber.ChildDecodeOptions(opts, "subscriberState")...); unmErr != nil {
@@ -69083,6 +69139,13 @@ func (v *SubscriberInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				}
 				if decodedTag_pssubscriberstate.Class != tag.ClassContextSpecific || decodedTag_pssubscriberstate.Number != 4 || decodedTag_pssubscriberstate.Constructed != true {
 					return fmt.Errorf("decoding ps-SubscriberState: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pssubscriberstate)
+				}
+				_, innerUsed_pssubscriberstate, _, innerErr_pssubscriberstate := ber.DecodeTLV(innerData_pssubscriberstate, opts...)
+				if innerErr_pssubscriberstate != nil {
+					return fmt.Errorf("decoding ps-SubscriberState: %w", innerErr_pssubscriberstate)
+				}
+				if innerUsed_pssubscriberstate != len(innerData_pssubscriberstate) {
+					return fmt.Errorf("decoding ps-SubscriberState: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_pssubscriberstate PSSubscriberState
@@ -69330,6 +69393,13 @@ func (v *SubscriberInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				}
 				if decodedTag_epssubscriberstate.Class != tag.ClassContextSpecific || decodedTag_epssubscriberstate.Number != 12 || decodedTag_epssubscriberstate.Constructed != true {
 					return fmt.Errorf("decoding eps-SubscriberState: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_epssubscriberstate)
+				}
+				_, innerUsed_epssubscriberstate, _, innerErr_epssubscriberstate := ber.DecodeTLV(innerData_epssubscriberstate, opts...)
+				if innerErr_epssubscriberstate != nil {
+					return fmt.Errorf("decoding eps-SubscriberState: %w", innerErr_epssubscriberstate)
+				}
+				if innerUsed_epssubscriberstate != len(innerData_epssubscriberstate) {
+					return fmt.Errorf("decoding eps-SubscriberState: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_epssubscriberstate PSSubscriberState
@@ -70250,7 +70320,7 @@ func (v *RequestedInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.RequestedNodes.Bytes, v.RequestedNodes.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "requestedNodes", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.RequestedNodes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -70407,7 +70477,7 @@ func (v *RequestedInfo) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.RequestedNodes.Bytes, v.RequestedNodes.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "requestedNodes", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.RequestedNodes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -71469,6 +71539,13 @@ func (v *LocationInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 				if decodedTag_cellglobalidorserviceareaidorlai.Class != tag.ClassContextSpecific || decodedTag_cellglobalidorserviceareaidorlai.Number != 3 || decodedTag_cellglobalidorserviceareaidorlai.Constructed != true {
 					return fmt.Errorf("decoding cellGlobalIdOrServiceAreaIdOrLAI: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cellglobalidorserviceareaidorlai)
+				}
+				_, innerUsed_cellglobalidorserviceareaidorlai, _, innerErr_cellglobalidorserviceareaidorlai := ber.DecodeTLV(innerData_cellglobalidorserviceareaidorlai, opts...)
+				if innerErr_cellglobalidorserviceareaidorlai != nil {
+					return fmt.Errorf("decoding cellGlobalIdOrServiceAreaIdOrLAI: %w", innerErr_cellglobalidorserviceareaidorlai)
+				}
+				if innerUsed_cellglobalidorserviceareaidorlai != len(innerData_cellglobalidorserviceareaidorlai) {
+					return fmt.Errorf("decoding cellGlobalIdOrServiceAreaIdOrLAI: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_cellglobalidorserviceareaidorlai CellGlobalIdOrServiceAreaIdOrLAI
@@ -72781,6 +72858,13 @@ func (v *LocationInformationGPRS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				if decodedTag_cellglobalidorserviceareaidorlai.Class != tag.ClassContextSpecific || decodedTag_cellglobalidorserviceareaidorlai.Number != 0 || decodedTag_cellglobalidorserviceareaidorlai.Constructed != true {
 					return fmt.Errorf("decoding cellGlobalIdOrServiceAreaIdOrLAI: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cellglobalidorserviceareaidorlai)
 				}
+				_, innerUsed_cellglobalidorserviceareaidorlai, _, innerErr_cellglobalidorserviceareaidorlai := ber.DecodeTLV(innerData_cellglobalidorserviceareaidorlai, opts...)
+				if innerErr_cellglobalidorserviceareaidorlai != nil {
+					return fmt.Errorf("decoding cellGlobalIdOrServiceAreaIdOrLAI: %w", innerErr_cellglobalidorserviceareaidorlai)
+				}
+				if innerUsed_cellglobalidorserviceareaidorlai != len(innerData_cellglobalidorserviceareaidorlai) {
+					return fmt.Errorf("decoding cellGlobalIdOrServiceAreaIdOrLAI: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				var dec_cellglobalidorserviceareaidorlai CellGlobalIdOrServiceAreaIdOrLAI
 				if unmErr := dec_cellglobalidorserviceareaidorlai.UnmarshalBER(innerData_cellglobalidorserviceareaidorlai, ber.ChildDecodeOptions(opts, "cellGlobalIdOrServiceAreaIdOrLAI")...); unmErr != nil {
@@ -74078,7 +74162,7 @@ func (v *UserCSGInformation) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	if bitStringErr := ber.ValidateBitStringLength(v.CsgId.Bytes, v.CsgId.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "csg-Id", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.CsgId.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -74168,7 +74252,7 @@ func (v *UserCSGInformation) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.CsgId.Bytes, v.CsgId.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "csg-Id", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.CsgId.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -77211,6 +77295,13 @@ func (v *AnyTimeInterrogationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if decodedTag_subscriberidentity.Class != tag.ClassContextSpecific || decodedTag_subscriberidentity.Number != 0 || decodedTag_subscriberidentity.Constructed != true {
 		return fmt.Errorf("decoding subscriberIdentity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_subscriberidentity)
 	}
+	_, innerUsed_subscriberidentity, _, innerErr_subscriberidentity := ber.DecodeTLV(innerData_subscriberidentity, opts...)
+	if innerErr_subscriberidentity != nil {
+		return fmt.Errorf("decoding subscriberIdentity: %w", innerErr_subscriberidentity)
+	}
+	if innerUsed_subscriberidentity != len(innerData_subscriberidentity) {
+		return fmt.Errorf("decoding subscriberIdentity: %w", ber.ErrExtraData)
+	}
 	// Decode inner value from explicit tag wrapper
 	if unmErr := v.SubscriberIdentity.UnmarshalBER(innerData_subscriberidentity, ber.ChildDecodeOptions(opts, "subscriberIdentity")...); unmErr != nil {
 		return fmt.Errorf("decoding subscriberIdentity: %w", unmErr)
@@ -77759,6 +77850,13 @@ func (v *AnyTimeSubscriptionInterrogationArg) UnmarshalBER(data []byte, opts ...
 	if decodedTag_subscriberidentity.Class != tag.ClassContextSpecific || decodedTag_subscriberidentity.Number != 0 || decodedTag_subscriberidentity.Constructed != true {
 		return fmt.Errorf("decoding subscriberIdentity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_subscriberidentity)
 	}
+	_, innerUsed_subscriberidentity, _, innerErr_subscriberidentity := ber.DecodeTLV(innerData_subscriberidentity, opts...)
+	if innerErr_subscriberidentity != nil {
+		return fmt.Errorf("decoding subscriberIdentity: %w", innerErr_subscriberidentity)
+	}
+	if innerUsed_subscriberidentity != len(innerData_subscriberidentity) {
+		return fmt.Errorf("decoding subscriberIdentity: %w", ber.ErrExtraData)
+	}
 	// Decode inner value from explicit tag wrapper
 	if unmErr := v.SubscriberIdentity.UnmarshalBER(innerData_subscriberidentity, ber.ChildDecodeOptions(opts, "subscriberIdentity")...); unmErr != nil {
 		return fmt.Errorf("decoding subscriberIdentity: %w", unmErr)
@@ -77991,7 +78089,7 @@ func (v *AnyTimeSubscriptionInterrogationRes) marshalBER(opts ...ber.EncodeOptio
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedVLRCAMELPhases.Bytes, v.SupportedVLRCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedVLR-CAMEL-Phases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedVLRCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -78015,7 +78113,7 @@ func (v *AnyTimeSubscriptionInterrogationRes) marshalBER(opts ...ber.EncodeOptio
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedSGSNCAMELPhases.Bytes, v.SupportedSGSNCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedSGSN-CAMEL-Phases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedSGSNCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -78051,7 +78149,7 @@ func (v *AnyTimeSubscriptionInterrogationRes) marshalBER(opts ...ber.EncodeOptio
 		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIsInVLR.Bytes, v.OfferedCamel4CSIsInVLR.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIsInVLR", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OfferedCamel4CSIsInVLR.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -78075,7 +78173,7 @@ func (v *AnyTimeSubscriptionInterrogationRes) marshalBER(opts ...ber.EncodeOptio
 		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIsInSGSN.Bytes, v.OfferedCamel4CSIsInSGSN.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIsInSGSN", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OfferedCamel4CSIsInSGSN.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -78293,7 +78391,7 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedVLRCAMELPhases.Bytes, v.SupportedVLRCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedVLR-CAMEL-Phases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedVLRCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -78320,7 +78418,7 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedSGSNCAMELPhases.Bytes, v.SupportedSGSNCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedSGSN-CAMEL-Phases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedSGSNCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -78359,7 +78457,7 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4CSIsInVLR.Bytes, v.OfferedCamel4CSIsInVLR.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIsInVLR", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OfferedCamel4CSIsInVLR.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -78386,7 +78484,7 @@ func (v *AnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4CSIsInSGSN.Bytes, v.OfferedCamel4CSIsInSGSN.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIsInSGSN", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OfferedCamel4CSIsInSGSN.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -79639,6 +79737,13 @@ func (v *ExtCwFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	}
 	if decodedTag_basicservice.Class != tag.ClassContextSpecific || decodedTag_basicservice.Number != 1 || decodedTag_basicservice.Constructed != true {
 		return fmt.Errorf("decoding basicService: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_basicservice)
+	}
+	_, innerUsed_basicservice, _, innerErr_basicservice := ber.DecodeTLV(innerData_basicservice, opts...)
+	if innerErr_basicservice != nil {
+		return fmt.Errorf("decoding basicService: %w", innerErr_basicservice)
+	}
+	if innerUsed_basicservice != len(innerData_basicservice) {
+		return fmt.Errorf("decoding basicService: %w", ber.ErrExtraData)
 	}
 	// Decode inner value from explicit tag wrapper
 	if unmErr := v.BasicService.UnmarshalBER(innerData_basicservice, ber.ChildDecodeOptions(opts, "basicService")...); unmErr != nil {
@@ -82948,7 +83053,7 @@ func (v *CAMELSubscriptionInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		if bitStringErr := ber.ValidateBitStringLength(v.SpecificCSIDeletedList.Bytes, v.SpecificCSIDeletedList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "specificCSIDeletedList", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SpecificCSIDeletedList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -83327,7 +83432,7 @@ func (v *CAMELSubscriptionInfo) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SpecificCSIDeletedList.Bytes, v.SpecificCSIDeletedList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "specificCSIDeletedList", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SpecificCSIDeletedList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -84465,7 +84570,7 @@ func (v *AnyTimeModificationArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		if bitStringErr := ber.ValidateBitStringLength(v.ActivationRequestForUEReachability.Bytes, v.ActivationRequestForUEReachability.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "activationRequestForUE-reachability", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ActivationRequestForUEReachability.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -84696,7 +84801,7 @@ func (v *AnyTimeModificationArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ActivationRequestForUEReachability.Bytes, v.ActivationRequestForUEReachability.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "activationRequestForUE-reachability", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ActivationRequestForUEReachability.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -84847,6 +84952,13 @@ func (v *AnyTimeModificationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	}
 	if decodedTag_subscriberidentity.Class != tag.ClassContextSpecific || decodedTag_subscriberidentity.Number != 0 || decodedTag_subscriberidentity.Constructed != true {
 		return fmt.Errorf("decoding subscriberIdentity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_subscriberidentity)
+	}
+	_, innerUsed_subscriberidentity, _, innerErr_subscriberidentity := ber.DecodeTLV(innerData_subscriberidentity, opts...)
+	if innerErr_subscriberidentity != nil {
+		return fmt.Errorf("decoding subscriberIdentity: %w", innerErr_subscriberidentity)
+	}
+	if innerUsed_subscriberidentity != len(innerData_subscriberidentity) {
+		return fmt.Errorf("decoding subscriberIdentity: %w", ber.ErrExtraData)
 	}
 	// Decode inner value from explicit tag wrapper
 	if unmErr := v.SubscriberIdentity.UnmarshalBER(innerData_subscriberidentity, ber.ChildDecodeOptions(opts, "subscriberIdentity")...); unmErr != nil {
@@ -85567,6 +85679,13 @@ func (v *ModificationRequestForCWInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 				}
 				if decodedTag_basicservice.Class != tag.ClassContextSpecific || decodedTag_basicservice.Number != 0 || decodedTag_basicservice.Constructed != true {
 					return fmt.Errorf("decoding basicService: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_basicservice)
+				}
+				_, innerUsed_basicservice, _, innerErr_basicservice := ber.DecodeTLV(innerData_basicservice, opts...)
+				if innerErr_basicservice != nil {
+					return fmt.Errorf("decoding basicService: %w", innerErr_basicservice)
+				}
+				if innerUsed_basicservice != len(innerData_basicservice) {
+					return fmt.Errorf("decoding basicService: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_basicservice ExtBasicServiceCode
@@ -87572,6 +87691,13 @@ func (v *AnyTimeModificationRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if decodedTag_ssinfoforcse.Class != tag.ClassContextSpecific || decodedTag_ssinfoforcse.Number != 0 || decodedTag_ssinfoforcse.Constructed != true {
 					return fmt.Errorf("decoding ss-InfoFor-CSE: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssinfoforcse)
 				}
+				_, innerUsed_ssinfoforcse, _, innerErr_ssinfoforcse := ber.DecodeTLV(innerData_ssinfoforcse, opts...)
+				if innerErr_ssinfoforcse != nil {
+					return fmt.Errorf("decoding ss-InfoFor-CSE: %w", innerErr_ssinfoforcse)
+				}
+				if innerUsed_ssinfoforcse != len(innerData_ssinfoforcse) {
+					return fmt.Errorf("decoding ss-InfoFor-CSE: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				var dec_ssinfoforcse ExtSSInfoForCSE
 				if unmErr := dec_ssinfoforcse.UnmarshalBER(innerData_ssinfoforcse, ber.ChildDecodeOptions(opts, "ss-InfoFor-CSE")...); unmErr != nil {
@@ -88256,6 +88382,13 @@ func (v *ModificationRequestForCFInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 				if decodedTag_basicservice.Class != tag.ClassContextSpecific || decodedTag_basicservice.Number != 1 || decodedTag_basicservice.Constructed != true {
 					return fmt.Errorf("decoding basicService: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_basicservice)
 				}
+				_, innerUsed_basicservice, _, innerErr_basicservice := ber.DecodeTLV(innerData_basicservice, opts...)
+				if innerErr_basicservice != nil {
+					return fmt.Errorf("decoding basicService: %w", innerErr_basicservice)
+				}
+				if innerUsed_basicservice != len(innerData_basicservice) {
+					return fmt.Errorf("decoding basicService: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				var dec_basicservice ExtBasicServiceCode
 				if unmErr := dec_basicservice.UnmarshalBER(innerData_basicservice, ber.ChildDecodeOptions(opts, "basicService")...); unmErr != nil {
@@ -88825,6 +88958,13 @@ func (v *ModificationRequestForCBInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 				}
 				if decodedTag_basicservice.Class != tag.ClassContextSpecific || decodedTag_basicservice.Number != 1 || decodedTag_basicservice.Constructed != true {
 					return fmt.Errorf("decoding basicService: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_basicservice)
+				}
+				_, innerUsed_basicservice, _, innerErr_basicservice := ber.DecodeTLV(innerData_basicservice, opts...)
+				if innerErr_basicservice != nil {
+					return fmt.Errorf("decoding basicService: %w", innerErr_basicservice)
+				}
+				if innerUsed_basicservice != len(innerData_basicservice) {
+					return fmt.Errorf("decoding basicService: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_basicservice ExtBasicServiceCode
@@ -90092,7 +90232,7 @@ func (v *NoteSubscriberDataModifiedArg) marshalBER(opts ...ber.EncodeOption) ([]
 		if bitStringErr := ber.ValidateBitStringLength(v.UeReachable.Bytes, v.UeReachable.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ue-reachable", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.UeReachable.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -90319,7 +90459,7 @@ func (v *NoteSubscriberDataModifiedArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.UeReachable.Bytes, v.UeReachable.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ue-reachable", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.UeReachable.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -91191,7 +91331,7 @@ func (v *NoteMMEventArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedCAMELPhases.Bytes, v.SupportedCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedCAMELPhases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -91239,7 +91379,7 @@ func (v *NoteMMEventArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4Functionalities.Bytes, v.OfferedCamel4Functionalities.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4Functionalities", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OfferedCamel4Functionalities.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -91354,7 +91494,7 @@ func (v *NoteMMEventArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedCAMELPhases.Bytes, v.SupportedCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedCAMELPhases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SupportedCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -91405,7 +91545,7 @@ func (v *NoteMMEventArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4Functionalities.Bytes, v.OfferedCamel4Functionalities.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4Functionalities", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OfferedCamel4Functionalities.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}

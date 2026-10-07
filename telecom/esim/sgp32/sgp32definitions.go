@@ -9733,7 +9733,7 @@ func (v *EimConfigurationData) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if bitStringErr := ber.ValidateBitStringLength(v.EimSupportedProtocol.Bytes, v.EimSupportedProtocol.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "eimSupportedProtocol", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.EimSupportedProtocol.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -9913,7 +9913,7 @@ func (v *EimConfigurationData) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.EimSupportedProtocol.Bytes, v.EimSupportedProtocol.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "eimSupportedProtocol", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.EimSupportedProtocol.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -10162,6 +10162,13 @@ func (v *EimConfigurationData) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if decodedTag_eimpublickeydata.Class != tag.ClassContextSpecific || decodedTag_eimpublickeydata.Number != 5 || decodedTag_eimpublickeydata.Constructed != true {
 					return fmt.Errorf("decoding eimPublicKeyData: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_eimpublickeydata)
 				}
+				_, innerUsed_eimpublickeydata, _, innerErr_eimpublickeydata := ber.DecodeTLV(innerData_eimpublickeydata, opts...)
+				if innerErr_eimpublickeydata != nil {
+					return fmt.Errorf("decoding eimPublicKeyData: %w", innerErr_eimpublickeydata)
+				}
+				if innerUsed_eimpublickeydata != len(innerData_eimpublickeydata) {
+					return fmt.Errorf("decoding eimPublicKeyData: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				var dec_eimpublickeydata EimConfigurationDataEimPublicKeyData
 				if unmErr := dec_eimpublickeydata.UnmarshalBER(innerData_eimpublickeydata, ber.ChildDecodeOptions(opts, "eimPublicKeyData")...); unmErr != nil {
@@ -10189,6 +10196,13 @@ func (v *EimConfigurationData) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 				if decodedTag_trustedpublickeydatatls.Class != tag.ClassContextSpecific || decodedTag_trustedpublickeydatatls.Number != 6 || decodedTag_trustedpublickeydatatls.Constructed != true {
 					return fmt.Errorf("decoding trustedPublicKeyDataTls: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_trustedpublickeydatatls)
+				}
+				_, innerUsed_trustedpublickeydatatls, _, innerErr_trustedpublickeydatatls := ber.DecodeTLV(innerData_trustedpublickeydatatls, opts...)
+				if innerErr_trustedpublickeydatatls != nil {
+					return fmt.Errorf("decoding trustedPublicKeyDataTls: %w", innerErr_trustedpublickeydatatls)
+				}
+				if innerUsed_trustedpublickeydatatls != len(innerData_trustedpublickeydatatls) {
+					return fmt.Errorf("decoding trustedPublicKeyDataTls: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_trustedpublickeydatatls EimConfigurationDataTrustedPublicKeyDataTls
@@ -11374,6 +11388,13 @@ func (v *IpaEuiccDataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if decodedTag_searchcriterianotification.Class != tag.ClassContextSpecific || decodedTag_searchcriterianotification.Number != 1 || decodedTag_searchcriterianotification.Constructed != true {
 					return fmt.Errorf("decoding searchCriteriaNotification: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_searchcriterianotification)
 				}
+				_, innerUsed_searchcriterianotification, _, innerErr_searchcriterianotification := ber.DecodeTLV(innerData_searchcriterianotification, opts...)
+				if innerErr_searchcriterianotification != nil {
+					return fmt.Errorf("decoding searchCriteriaNotification: %w", innerErr_searchcriterianotification)
+				}
+				if innerUsed_searchcriterianotification != len(innerData_searchcriterianotification) {
+					return fmt.Errorf("decoding searchCriteriaNotification: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				var dec_searchcriterianotification IpaEuiccDataRequestSearchCriteriaNotification
 				if unmErr := dec_searchcriterianotification.UnmarshalBER(innerData_searchcriterianotification, ber.ChildDecodeOptions(opts, "searchCriteriaNotification")...); unmErr != nil {
@@ -11401,6 +11422,13 @@ func (v *IpaEuiccDataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 				if decodedTag_searchcriteriaeuiccpackageresult.Class != tag.ClassContextSpecific || decodedTag_searchcriteriaeuiccpackageresult.Number != 2 || decodedTag_searchcriteriaeuiccpackageresult.Constructed != true {
 					return fmt.Errorf("decoding searchCriteriaEuiccPackageResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_searchcriteriaeuiccpackageresult)
+				}
+				_, innerUsed_searchcriteriaeuiccpackageresult, _, innerErr_searchcriteriaeuiccpackageresult := ber.DecodeTLV(innerData_searchcriteriaeuiccpackageresult, opts...)
+				if innerErr_searchcriteriaeuiccpackageresult != nil {
+					return fmt.Errorf("decoding searchCriteriaEuiccPackageResult: %w", innerErr_searchcriteriaeuiccpackageresult)
+				}
+				if innerUsed_searchcriteriaeuiccpackageresult != len(innerData_searchcriteriaeuiccpackageresult) {
+					return fmt.Errorf("decoding searchCriteriaEuiccPackageResult: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_searchcriteriaeuiccpackageresult IpaEuiccDataRequestSearchCriteriaEuiccPackageResult
@@ -11644,6 +11672,13 @@ func (v *ProfileDownloadTriggerRequest) UnmarshalBER(data []byte, opts ...ber.De
 				}
 				if decodedTag_profiledownloaddata.Class != tag.ClassContextSpecific || decodedTag_profiledownloaddata.Number != 0 || decodedTag_profiledownloaddata.Constructed != true {
 					return fmt.Errorf("decoding profileDownloadData: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profiledownloaddata)
+				}
+				_, innerUsed_profiledownloaddata, _, innerErr_profiledownloaddata := ber.DecodeTLV(innerData_profiledownloaddata, opts...)
+				if innerErr_profiledownloaddata != nil {
+					return fmt.Errorf("decoding profileDownloadData: %w", innerErr_profiledownloaddata)
+				}
+				if innerUsed_profiledownloaddata != len(innerData_profiledownloaddata) {
+					return fmt.Errorf("decoding profileDownloadData: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_profiledownloaddata ProfileDownloadData
@@ -13361,6 +13396,13 @@ func (v *EuiccResultData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 		if tlvErr != nil {
 			return fmt.Errorf("decoding addEimResult: %w", tlvErr)
 		}
+		_, innerUsed, _, innerErr := ber.DecodeTLV(innerData, opts...)
+		if innerErr != nil {
+			return fmt.Errorf("decoding addEimResult: %w", innerErr)
+		}
+		if innerUsed != len(innerData) {
+			return fmt.Errorf("decoding addEimResult: %w", ber.ErrExtraData)
+		}
 		var dec AddEimResult
 		if unmErr := dec.UnmarshalBER(innerData, ber.ChildDecodeOptions(opts, "addEimResult")...); unmErr != nil {
 			return fmt.Errorf("decoding addEimResult: %w", unmErr)
@@ -13401,6 +13443,13 @@ func (v *EuiccResultData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding listEimResult: %w", tlvErr)
+		}
+		_, innerUsed, _, innerErr := ber.DecodeTLV(innerData, opts...)
+		if innerErr != nil {
+			return fmt.Errorf("decoding listEimResult: %w", innerErr)
+		}
+		if innerUsed != len(innerData) {
+			return fmt.Errorf("decoding listEimResult: %w", ber.ErrExtraData)
 		}
 		var dec ListEimResult
 		if unmErr := dec.UnmarshalBER(innerData, ber.ChildDecodeOptions(opts, "listEimResult")...); unmErr != nil {
@@ -16707,7 +16756,7 @@ func (v *ISDRProprietaryApplicationTemplateIoT) marshalBER(opts ...ber.EncodeOpt
 	if bitStringErr := ber.ValidateBitStringLength(v.EuiccConfiguration.Bytes, v.EuiccConfiguration.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "euiccConfiguration", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.EuiccConfiguration.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -16746,7 +16795,7 @@ func (v *ISDRProprietaryApplicationTemplateIoT) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.EuiccConfiguration.Bytes, v.EuiccConfiguration.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "euiccConfiguration", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.EuiccConfiguration.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -16894,7 +16943,7 @@ func (v *IpaeActivationRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	if bitStringErr := ber.ValidateBitStringLength(v.IpaeOption.Bytes, v.IpaeOption.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "ipaeOption", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.IpaeOption.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -16933,7 +16982,7 @@ func (v *IpaeActivationRequest) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.IpaeOption.Bytes, v.IpaeOption.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "ipaeOption", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.IpaeOption.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -17251,7 +17300,7 @@ func (v *IpaCapabilities) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(v.IpaFeatures.Bytes, v.IpaFeatures.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "ipaFeatures", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.IpaFeatures.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -17269,7 +17318,7 @@ func (v *IpaCapabilities) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.IpaSupportedProtocols.Bytes, v.IpaSupportedProtocols.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ipaSupportedProtocols", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.IpaSupportedProtocols.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -17336,7 +17385,7 @@ func (v *IpaCapabilities) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.IpaFeatures.Bytes, v.IpaFeatures.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "ipaFeatures", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.IpaFeatures.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -17357,7 +17406,7 @@ func (v *IpaCapabilities) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.IpaSupportedProtocols.Bytes, v.IpaSupportedProtocols.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ipaSupportedProtocols", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.IpaSupportedProtocols.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -17775,7 +17824,7 @@ func (v *SGPProfileInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.ProfilePolicyRules.Bytes, v.ProfilePolicyRules.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profilePolicyRules", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -18071,7 +18120,7 @@ func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ProfilePolicyRules.Bytes, v.ProfilePolicyRules.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profilePolicyRules", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -18899,7 +18948,7 @@ func (v *SGPUpdateMetadataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		if bitStringErr := ber.ValidateBitStringLength(v.ProfilePolicyRules.Bytes, v.ProfilePolicyRules.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profilePolicyRules", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -19044,7 +19093,7 @@ func (v *SGPUpdateMetadataRequest) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ProfilePolicyRules.Bytes, v.ProfilePolicyRules.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profilePolicyRules", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -19541,7 +19590,7 @@ func (v *SGPStoreMetadataRequest) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if bitStringErr := ber.ValidateBitStringLength(v.ProfilePolicyRules.Bytes, v.ProfilePolicyRules.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profilePolicyRules", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -19788,7 +19837,7 @@ func (v *SGPStoreMetadataRequest) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ProfilePolicyRules.Bytes, v.ProfilePolicyRules.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profilePolicyRules", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -20711,7 +20760,7 @@ func (v *SGPEUICCInfo2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(v.UiccCapability.Bytes, v.UiccCapability.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "uiccCapability", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.UiccCapability.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -20762,7 +20811,7 @@ func (v *SGPEUICCInfo2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(v.RspCapability.Bytes, v.RspCapability.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "rspCapability", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.RspCapability.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -20848,7 +20897,7 @@ func (v *SGPEUICCInfo2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.ForbiddenProfilePolicyRules.Bytes, v.ForbiddenProfilePolicyRules.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "forbiddenProfilePolicyRules", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ForbiddenProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -20899,7 +20948,7 @@ func (v *SGPEUICCInfo2) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.TreProperties.Bytes, v.TreProperties.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "treProperties", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.TreProperties.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -21135,7 +21184,7 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.UiccCapability.Bytes, v.UiccCapability.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "uiccCapability", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.UiccCapability.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -21189,7 +21238,7 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.RspCapability.Bytes, v.RspCapability.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "rspCapability", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.RspCapability.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -21248,7 +21297,7 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ForbiddenProfilePolicyRules.Bytes, v.ForbiddenProfilePolicyRules.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "forbiddenProfilePolicyRules", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ForbiddenProfilePolicyRules.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -21302,7 +21351,7 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.TreProperties.Bytes, v.TreProperties.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "treProperties", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.TreProperties.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -23032,7 +23081,7 @@ func (v *SGPEuiccMemoryResetRequest) marshalBER(opts ...ber.EncodeOption) ([]byt
 	if bitStringErr := ber.ValidateBitStringLength(v.ResetOptions.Bytes, v.ResetOptions.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "resetOptions", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.ResetOptions.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -23071,7 +23120,7 @@ func (v *SGPEuiccMemoryResetRequest) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.ResetOptions.Bytes, v.ResetOptions.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "resetOptions", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.ResetOptions.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -23977,6 +24026,13 @@ func (v *SGPRetrieveNotificationsListRequest) UnmarshalBER(data []byte, opts ...
 				}
 				if decodedTag_searchcriteria.Class != tag.ClassContextSpecific || decodedTag_searchcriteria.Number != 0 || decodedTag_searchcriteria.Constructed != true {
 					return fmt.Errorf("decoding searchCriteria: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_searchcriteria)
+				}
+				_, innerUsed_searchcriteria, _, innerErr_searchcriteria := ber.DecodeTLV(innerData_searchcriteria, opts...)
+				if innerErr_searchcriteria != nil {
+					return fmt.Errorf("decoding searchCriteria: %w", innerErr_searchcriteria)
+				}
+				if innerUsed_searchcriteria != len(innerData_searchcriteria) {
+					return fmt.Errorf("decoding searchCriteria: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_searchcriteria SGPRetrieveNotificationsListRequestSearchCriteria
@@ -25534,6 +25590,13 @@ func (v *GetEimConfigurationDataRequest) UnmarshalBER(data []byte, opts ...ber.D
 				}
 				if decodedTag_searchcriteria.Class != tag.ClassContextSpecific || decodedTag_searchcriteria.Number != 0 || decodedTag_searchcriteria.Constructed != true {
 					return fmt.Errorf("decoding searchCriteria: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_searchcriteria)
+				}
+				_, innerUsed_searchcriteria, _, innerErr_searchcriteria := ber.DecodeTLV(innerData_searchcriteria, opts...)
+				if innerErr_searchcriteria != nil {
+					return fmt.Errorf("decoding searchCriteria: %w", innerErr_searchcriteria)
+				}
+				if innerUsed_searchcriteria != len(innerData_searchcriteria) {
+					return fmt.Errorf("decoding searchCriteria: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_searchcriteria GetEimConfigurationDataRequestSearchCriteria
@@ -30004,6 +30067,13 @@ func (v *CompactEuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if decodedTag_ctxparams1.Class != tag.ClassContextSpecific || decodedTag_ctxparams1.Number != 2 || decodedTag_ctxparams1.Constructed != true {
 					return fmt.Errorf("decoding ctxParams1: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ctxparams1)
 				}
+				_, innerUsed_ctxparams1, _, innerErr_ctxparams1 := ber.DecodeTLV(innerData_ctxparams1, opts...)
+				if innerErr_ctxparams1 != nil {
+					return fmt.Errorf("decoding ctxParams1: %w", innerErr_ctxparams1)
+				}
+				if innerUsed_ctxparams1 != len(innerData_ctxparams1) {
+					return fmt.Errorf("decoding ctxParams1: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				var dec_ctxparams1 CtxParams1
 				if unmErr := dec_ctxparams1.UnmarshalBER(innerData_ctxparams1, ber.ChildDecodeOptions(opts, "ctxParams1")...); unmErr != nil {
@@ -30946,6 +31016,13 @@ func (v *CompactProfileInstallationResultData) UnmarshalBER(data []byte, opts ..
 	}
 	if decodedTag_compactfinalresult.Class != tag.ClassContextSpecific || decodedTag_compactfinalresult.Number != 2 || decodedTag_compactfinalresult.Constructed != true {
 		return fmt.Errorf("decoding compactFinalResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_compactfinalresult)
+	}
+	_, innerUsed_compactfinalresult, _, innerErr_compactfinalresult := ber.DecodeTLV(innerData_compactfinalresult, opts...)
+	if innerErr_compactfinalresult != nil {
+		return fmt.Errorf("decoding compactFinalResult: %w", innerErr_compactfinalresult)
+	}
+	if innerUsed_compactfinalresult != len(innerData_compactfinalresult) {
+		return fmt.Errorf("decoding compactFinalResult: %w", ber.ErrExtraData)
 	}
 	// Decode inner value from explicit tag wrapper
 	if unmErr := v.CompactFinalResult.UnmarshalBER(innerData_compactfinalresult, ber.ChildDecodeOptions(opts, "compactFinalResult")...); unmErr != nil {
@@ -33594,6 +33671,13 @@ func (v *InitiateAuthenticationOkEsipa) UnmarshalBER(data []byte, opts ...ber.De
 				if decodedTag_ctxparams1.Class != tag.ClassContextSpecific || decodedTag_ctxparams1.Number != 2 || decodedTag_ctxparams1.Constructed != true {
 					return fmt.Errorf("decoding ctxParams1: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ctxparams1)
 				}
+				_, innerUsed_ctxparams1, _, innerErr_ctxparams1 := ber.DecodeTLV(innerData_ctxparams1, opts...)
+				if innerErr_ctxparams1 != nil {
+					return fmt.Errorf("decoding ctxParams1: %w", innerErr_ctxparams1)
+				}
+				if innerUsed_ctxparams1 != len(innerData_ctxparams1) {
+					return fmt.Errorf("decoding ctxParams1: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				var dec_ctxparams1 CtxParams1
 				if unmErr := dec_ctxparams1.UnmarshalBER(innerData_ctxparams1, ber.ChildDecodeOptions(opts, "ctxParams1")...); unmErr != nil {
@@ -35531,6 +35615,13 @@ func (v *HandleNotificationEsipa) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		if tlvErr != nil {
 			return fmt.Errorf("decoding pendingNotification: %w", tlvErr)
 		}
+		_, innerUsed, _, innerErr := ber.DecodeTLV(innerData, opts...)
+		if innerErr != nil {
+			return fmt.Errorf("decoding pendingNotification: %w", innerErr)
+		}
+		if innerUsed != len(innerData) {
+			return fmt.Errorf("decoding pendingNotification: %w", ber.ErrExtraData)
+		}
 		var dec SGPPendingNotification
 		if unmErr := dec.UnmarshalBER(innerData, ber.ChildDecodeOptions(opts, "pendingNotification")...); unmErr != nil {
 			return fmt.Errorf("decoding pendingNotification: %w", unmErr)
@@ -35743,6 +35834,13 @@ func (v *CancelSessionRequestEsipa) UnmarshalBER(data []byte, opts ...ber.Decode
 	}
 	if decodedTag_cancelsessionresponse.Class != tag.ClassContextSpecific || decodedTag_cancelsessionresponse.Number != 1 || decodedTag_cancelsessionresponse.Constructed != true {
 		return fmt.Errorf("decoding cancelSessionResponse: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cancelsessionresponse)
+	}
+	_, innerUsed_cancelsessionresponse, _, innerErr_cancelsessionresponse := ber.DecodeTLV(innerData_cancelsessionresponse, opts...)
+	if innerErr_cancelsessionresponse != nil {
+		return fmt.Errorf("decoding cancelSessionResponse: %w", innerErr_cancelsessionresponse)
+	}
+	if innerUsed_cancelsessionresponse != len(innerData_cancelsessionresponse) {
+		return fmt.Errorf("decoding cancelSessionResponse: %w", ber.ErrExtraData)
 	}
 	// Decode inner value from explicit tag wrapper
 	if unmErr := v.CancelSessionResponse.UnmarshalBER(innerData_cancelsessionresponse, ber.ChildDecodeOptions(opts, "cancelSessionResponse")...); unmErr != nil {
@@ -38345,6 +38443,13 @@ func (v *EimPackageReceivedWithCid) UnmarshalBER(data []byte, opts ...ber.Decode
 				if decodedTag_correlationid.Class != tag.ClassContextSpecific || decodedTag_correlationid.Number != 0 || decodedTag_correlationid.Constructed != true {
 					return fmt.Errorf("decoding correlationId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_correlationid)
 				}
+				_, innerUsed_correlationid, _, innerErr_correlationid := ber.DecodeTLV(innerData_correlationid, opts...)
+				if innerErr_correlationid != nil {
+					return fmt.Errorf("decoding correlationId: %w", innerErr_correlationid)
+				}
+				if innerUsed_correlationid != len(innerData_correlationid) {
+					return fmt.Errorf("decoding correlationId: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				var dec_correlationid EimPackageReceivedWithCidCorrelationId
 				if unmErr := dec_correlationid.UnmarshalBER(innerData_correlationid, ber.ChildDecodeOptions(opts, "correlationId")...); unmErr != nil {
@@ -38530,6 +38635,13 @@ func (v *EimPackageErrorWithCid) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				if decodedTag_correlationid.Class != tag.ClassContextSpecific || decodedTag_correlationid.Number != 0 || decodedTag_correlationid.Constructed != true {
 					return fmt.Errorf("decoding correlationId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_correlationid)
+				}
+				_, innerUsed_correlationid, _, innerErr_correlationid := ber.DecodeTLV(innerData_correlationid, opts...)
+				if innerErr_correlationid != nil {
+					return fmt.Errorf("decoding correlationId: %w", innerErr_correlationid)
+				}
+				if innerUsed_correlationid != len(innerData_correlationid) {
+					return fmt.Errorf("decoding correlationId: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_correlationid EimPackageErrorWithCidCorrelationId
@@ -40668,7 +40780,7 @@ func (v *IpaEuiccDataRequestSearchCriteriaNotification) marshalBER(opts ...ber.E
 		if bitStringErr := ber.ValidateBitStringLength(v.ProfileManagementOperation.Bytes, v.ProfileManagementOperation.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profileManagementOperation", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2438
+		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2468
 		if v.ProfileManagementOperation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -43225,7 +43337,7 @@ func (v *SGPRetrieveNotificationsListRequestSearchCriteria) marshalBER(opts ...b
 		if bitStringErr := ber.ValidateBitStringLength(v.ProfileManagementOperation.Bytes, v.ProfileManagementOperation.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profileManagementOperation", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2438
+		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2468
 		if v.ProfileManagementOperation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}

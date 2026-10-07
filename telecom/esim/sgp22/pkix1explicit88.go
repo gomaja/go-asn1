@@ -4212,7 +4212,7 @@ func (v *Certificate) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(v.Signature.Bytes, v.Signature.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "signature", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.Signature.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -4246,7 +4246,7 @@ func (v *Certificate) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.Signature.Bytes, v.Signature.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "signature", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.Signature.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -4438,7 +4438,7 @@ func (v *TBSCertificate) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.IssuerUniqueID.Bytes, v.IssuerUniqueID.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "issuerUniqueID", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.IssuerUniqueID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4457,7 +4457,7 @@ func (v *TBSCertificate) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SubjectUniqueID.Bytes, v.SubjectUniqueID.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "subjectUniqueID", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SubjectUniqueID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4556,7 +4556,7 @@ func (v *TBSCertificate) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.IssuerUniqueID.Bytes, v.IssuerUniqueID.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "issuerUniqueID", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.IssuerUniqueID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4578,7 +4578,7 @@ func (v *TBSCertificate) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SubjectUniqueID.Bytes, v.SubjectUniqueID.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "subjectUniqueID", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SubjectUniqueID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4666,6 +4666,13 @@ func (v *TBSCertificate) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				}
 				if decodedTag_version.Class != tag.ClassContextSpecific || decodedTag_version.Number != 0 || decodedTag_version.Constructed != true {
 					return fmt.Errorf("decoding version: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_version)
+				}
+				_, innerUsed_version, _, innerErr_version := ber.DecodeTLV(innerData_version, opts...)
+				if innerErr_version != nil {
+					return fmt.Errorf("decoding version: %w", innerErr_version)
+				}
+				if innerUsed_version != len(innerData_version) {
+					return fmt.Errorf("decoding version: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				val_version, _, err := ber.DecodeBigInt(innerData_version, opts...)
@@ -4893,6 +4900,13 @@ func (v *TBSCertificate) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				}
 				if decodedTag_extensions.Class != tag.ClassContextSpecific || decodedTag_extensions.Number != 3 || decodedTag_extensions.Constructed != true {
 					return fmt.Errorf("decoding extensions: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensions)
+				}
+				_, innerUsed_extensions, _, innerErr_extensions := ber.DecodeTLV(innerData_extensions, opts...)
+				if innerErr_extensions != nil {
+					return fmt.Errorf("decoding extensions: %w", innerErr_extensions)
+				}
+				if innerUsed_extensions != len(innerData_extensions) {
+					return fmt.Errorf("decoding extensions: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				dec_extensions, unmErr := UnmarshalBERExtensions(innerData_extensions, ber.ChildDecodeOptions(opts, "extensions")...)
@@ -5231,7 +5245,7 @@ func (v *SubjectPublicKeyInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	if bitStringErr := ber.ValidateBitStringLength(v.SubjectPublicKey.Bytes, v.SubjectPublicKey.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "subjectPublicKey", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.SubjectPublicKey.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -5260,7 +5274,7 @@ func (v *SubjectPublicKeyInfo) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.SubjectPublicKey.Bytes, v.SubjectPublicKey.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "subjectPublicKey", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.SubjectPublicKey.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -5665,7 +5679,7 @@ func (v *CertificateList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(v.Signature.Bytes, v.Signature.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "signature", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.Signature.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -5699,7 +5713,7 @@ func (v *CertificateList) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.Signature.Bytes, v.Signature.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "signature", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 	if v.Signature.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -6173,6 +6187,13 @@ func (v *TBSCertList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 				}
 				if decodedTag_crlextensions.Class != tag.ClassContextSpecific || decodedTag_crlextensions.Number != 0 || decodedTag_crlextensions.Constructed != true {
 					return fmt.Errorf("decoding crlExtensions: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_crlextensions)
+				}
+				_, innerUsed_crlextensions, _, innerErr_crlextensions := ber.DecodeTLV(innerData_crlextensions, opts...)
+				if innerErr_crlextensions != nil {
+					return fmt.Errorf("decoding crlExtensions: %w", innerErr_crlextensions)
+				}
+				if innerUsed_crlextensions != len(innerData_crlextensions) {
+					return fmt.Errorf("decoding crlExtensions: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				dec_crlextensions, unmErr := UnmarshalBERExtensions(innerData_crlextensions, ber.ChildDecodeOptions(opts, "crlExtensions")...)
@@ -7042,6 +7063,13 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte, opts ...ber.Decode
 				if decodedTag_privatedomainname.Class != tag.ClassContextSpecific || decodedTag_privatedomainname.Number != 2 || decodedTag_privatedomainname.Constructed != true {
 					return fmt.Errorf("decoding private-domain-name: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_privatedomainname)
 				}
+				_, innerUsed_privatedomainname, _, innerErr_privatedomainname := ber.DecodeTLV(innerData_privatedomainname, opts...)
+				if innerErr_privatedomainname != nil {
+					return fmt.Errorf("decoding private-domain-name: %w", innerErr_privatedomainname)
+				}
+				if innerUsed_privatedomainname != len(innerData_privatedomainname) {
+					return fmt.Errorf("decoding private-domain-name: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				var dec_privatedomainname PrivateDomainName
 				if unmErr := dec_privatedomainname.UnmarshalBER(innerData_privatedomainname, ber.ChildDecodeOptions(opts, "private-domain-name")...); unmErr != nil {
@@ -7852,7 +7880,21 @@ func (v *PersonalName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
-	if err := ber.MarkBERSetOrder(data, opts...); err != nil {
+	if err := ber.MarkBERSetOrder(data, func(candidate tag.Tag) int {
+		if candidate.Class == tag.ClassContextSpecific && candidate.Number == 0 {
+			return 0
+		}
+		if candidate.Class == tag.ClassContextSpecific && candidate.Number == 1 {
+			return 1
+		}
+		if candidate.Class == tag.ClassContextSpecific && candidate.Number == 2 {
+			return 2
+		}
+		if candidate.Class == tag.ClassContextSpecific && candidate.Number == 3 {
+			return 3
+		}
+		return -1
+	}, opts...); err != nil {
 		return err
 	}
 	*v = PersonalName{}
@@ -8690,6 +8732,13 @@ func (v *ExtensionAttribute) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if decodedTag_extensionattributevalue.Class != tag.ClassContextSpecific || decodedTag_extensionattributevalue.Number != 1 || decodedTag_extensionattributevalue.Constructed != true {
 		return fmt.Errorf("decoding extension-attribute-value: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensionattributevalue)
 	}
+	_, innerUsed_extensionattributevalue, _, innerErr_extensionattributevalue := ber.DecodeTLV(innerData_extensionattributevalue, opts...)
+	if innerErr_extensionattributevalue != nil {
+		return fmt.Errorf("decoding extension-attribute-value: %w", innerErr_extensionattributevalue)
+	}
+	if innerUsed_extensionattributevalue != len(innerData_extensionattributevalue) {
+		return fmt.Errorf("decoding extension-attribute-value: %w", ber.ErrExtraData)
+	}
 	// Decode inner value from explicit tag wrapper
 	v.ExtensionAttributeValue = runtime.RawValue{Bytes: innerData_extensionattributevalue}
 	if offset < 0 || offset >
@@ -8885,7 +8934,21 @@ func (v *TeletexPersonalName) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
-	if err := ber.MarkBERSetOrder(data, opts...); err != nil {
+	if err := ber.MarkBERSetOrder(data, func(candidate tag.Tag) int {
+		if candidate.Class == tag.ClassContextSpecific && candidate.Number == 0 {
+			return 0
+		}
+		if candidate.Class == tag.ClassContextSpecific && candidate.Number == 1 {
+			return 1
+		}
+		if candidate.Class == tag.ClassContextSpecific && candidate.Number == 2 {
+			return 2
+		}
+		if candidate.Class == tag.ClassContextSpecific && candidate.Number == 3 {
+			return 3
+		}
+		return -1
+	}, opts...); err != nil {
 		return err
 	}
 	*v = TeletexPersonalName{}
@@ -9544,7 +9607,15 @@ func (v *UnformattedPostalAddress) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
-	if err := ber.MarkBERSetOrder(data, opts...); err != nil {
+	if err := ber.MarkBERSetOrder(data, func(candidate tag.Tag) int {
+		if candidate.Class == tag.ClassUniversal && candidate.Number == 16 && candidate.Constructed == true {
+			return 0
+		}
+		if candidate.Class == tag.ClassUniversal && candidate.Number == 20 {
+			return 1
+		}
+		return -1
+	}, opts...); err != nil {
 		return err
 	}
 	*v = UnformattedPostalAddress{}
@@ -9742,7 +9813,15 @@ func (v *PDSParameter) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
 		return err
 	}
-	if err := ber.MarkBERSetOrder(data, opts...); err != nil {
+	if err := ber.MarkBERSetOrder(data, func(candidate tag.Tag) int {
+		if candidate.Class == tag.ClassUniversal && candidate.Number == 19 {
+			return 0
+		}
+		if candidate.Class == tag.ClassUniversal && candidate.Number == 20 {
+			return 1
+		}
+		return -1
+	}, opts...); err != nil {
 		return err
 	}
 	*v = PDSParameter{}
@@ -10194,6 +10273,13 @@ func (v *PresentationAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if decodedTag_pselector.Class != tag.ClassContextSpecific || decodedTag_pselector.Number != 0 || decodedTag_pselector.Constructed != true {
 					return fmt.Errorf("decoding pSelector: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pselector)
 				}
+				_, innerUsed_pselector, _, innerErr_pselector := ber.DecodeTLV(innerData_pselector, opts...)
+				if innerErr_pselector != nil {
+					return fmt.Errorf("decoding pSelector: %w", innerErr_pselector)
+				}
+				if innerUsed_pselector != len(innerData_pselector) {
+					return fmt.Errorf("decoding pSelector: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				val_pselector, _, err := ber.DecodeOctetString(innerData_pselector, opts...)
 				if err != nil {
@@ -10220,6 +10306,13 @@ func (v *PresentationAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 				if decodedTag_sselector.Class != tag.ClassContextSpecific || decodedTag_sselector.Number != 1 || decodedTag_sselector.Constructed != true {
 					return fmt.Errorf("decoding sSelector: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sselector)
+				}
+				_, innerUsed_sselector, _, innerErr_sselector := ber.DecodeTLV(innerData_sselector, opts...)
+				if innerErr_sselector != nil {
+					return fmt.Errorf("decoding sSelector: %w", innerErr_sselector)
+				}
+				if innerUsed_sselector != len(innerData_sselector) {
+					return fmt.Errorf("decoding sSelector: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				val_sselector, _, err := ber.DecodeOctetString(innerData_sselector, opts...)
@@ -10248,6 +10341,13 @@ func (v *PresentationAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 				if decodedTag_tselector.Class != tag.ClassContextSpecific || decodedTag_tselector.Number != 2 || decodedTag_tselector.Constructed != true {
 					return fmt.Errorf("decoding tSelector: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_tselector)
+				}
+				_, innerUsed_tselector, _, innerErr_tselector := ber.DecodeTLV(innerData_tselector, opts...)
+				if innerErr_tselector != nil {
+					return fmt.Errorf("decoding tSelector: %w", innerErr_tselector)
+				}
+				if innerUsed_tselector != len(innerData_tselector) {
+					return fmt.Errorf("decoding tSelector: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				val_tselector, _, err := ber.DecodeOctetString(innerData_tselector, opts...)
@@ -10281,6 +10381,13 @@ func (v *PresentationAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	}
 	if decodedTag_naddresses.Class != tag.ClassContextSpecific || decodedTag_naddresses.Number != 3 || decodedTag_naddresses.Constructed != true {
 		return fmt.Errorf("decoding nAddresses: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_naddresses)
+	}
+	_, innerUsed_naddresses, _, innerErr_naddresses := ber.DecodeTLV(innerData_naddresses, opts...)
+	if innerErr_naddresses != nil {
+		return fmt.Errorf("decoding nAddresses: %w", innerErr_naddresses)
+	}
+	if innerUsed_naddresses != len(innerData_naddresses) {
+		return fmt.Errorf("decoding nAddresses: %w", ber.ErrExtraData)
 	}
 	// Decode inner value from explicit tag wrapper
 	dec_naddresses, unmErr := UnmarshalBERPresentationAddressNAddresses(innerData_naddresses, ber.ChildDecodeOptions(opts, "nAddresses")...)

@@ -4653,6 +4653,13 @@ func (v *SriResExtension) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 				if decodedTag_basicservice.Class != tag.ClassContextSpecific || decodedTag_basicservice.Number != 9 || decodedTag_basicservice.Constructed != true {
 					return fmt.Errorf("decoding basicService: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_basicservice)
 				}
+				_, innerUsed_basicservice, _, innerErr_basicservice := ber.DecodeTLV(innerData_basicservice, opts...)
+				if innerErr_basicservice != nil {
+					return fmt.Errorf("decoding basicService: %w", innerErr_basicservice)
+				}
+				if innerUsed_basicservice != len(innerData_basicservice) {
+					return fmt.Errorf("decoding basicService: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				var dec_basicservice BasicServiceCode5
 				if unmErr := dec_basicservice.UnmarshalBER(innerData_basicservice, ber.ChildDecodeOptions(opts, "basicService")...); unmErr != nil {
@@ -13763,7 +13770,7 @@ func (v *COSFeature) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.CustomerGroupID.Bytes, v.CustomerGroupID.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "customerGroupID", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.CustomerGroupID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -13787,7 +13794,7 @@ func (v *COSFeature) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SubGroupID.Bytes, v.SubGroupID.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "subGroupID", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SubGroupID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -13811,7 +13818,7 @@ func (v *COSFeature) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.ClassOfServiceID.Bytes, v.ClassOfServiceID.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "classOfServiceID", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ClassOfServiceID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -13869,7 +13876,7 @@ func (v *COSFeature) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.CustomerGroupID.Bytes, v.CustomerGroupID.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "customerGroupID", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.CustomerGroupID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -13896,7 +13903,7 @@ func (v *COSFeature) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SubGroupID.Bytes, v.SubGroupID.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "subGroupID", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SubGroupID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -13923,7 +13930,7 @@ func (v *COSFeature) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ClassOfServiceID.Bytes, v.ClassOfServiceID.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "classOfServiceID", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ClassOfServiceID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -14597,6 +14604,13 @@ func (v *AnyTimePOBarringArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	}
 	if decodedTag_subscriberidentity.Class != tag.ClassContextSpecific || decodedTag_subscriberidentity.Number != 0 || decodedTag_subscriberidentity.Constructed != true {
 		return fmt.Errorf("decoding subscriberIdentity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_subscriberidentity)
+	}
+	_, innerUsed_subscriberidentity, _, innerErr_subscriberidentity := ber.DecodeTLV(innerData_subscriberidentity, opts...)
+	if innerErr_subscriberidentity != nil {
+		return fmt.Errorf("decoding subscriberIdentity: %w", innerErr_subscriberidentity)
+	}
+	if innerUsed_subscriberidentity != len(innerData_subscriberidentity) {
+		return fmt.Errorf("decoding subscriberIdentity: %w", ber.ErrExtraData)
 	}
 	// Decode inner value from explicit tag wrapper
 	if unmErr := v.SubscriberIdentity.UnmarshalBER(innerData_subscriberidentity, ber.ChildDecodeOptions(opts, "subscriberIdentity")...); unmErr != nil {

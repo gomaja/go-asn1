@@ -2607,6 +2607,13 @@ func (v *GeneralName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		if tlvErr != nil {
 			return fmt.Errorf("decoding directoryName: %w", tlvErr)
 		}
+		_, innerUsed, _, innerErr := ber.DecodeTLV(innerData, opts...)
+		if innerErr != nil {
+			return fmt.Errorf("decoding directoryName: %w", innerErr)
+		}
+		if innerUsed != len(innerData) {
+			return fmt.Errorf("decoding directoryName: %w", ber.ErrExtraData)
+		}
 		var dec Name
 		if unmErr := dec.UnmarshalBER(innerData, ber.ChildDecodeOptions(opts, "directoryName")...); unmErr != nil {
 			return fmt.Errorf("decoding directoryName: %w", unmErr)
@@ -2794,6 +2801,13 @@ func (v *AnotherName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if decodedTag_value.Class != tag.ClassContextSpecific || decodedTag_value.Number != 0 || decodedTag_value.Constructed != true {
 		return fmt.Errorf("decoding value: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_value)
 	}
+	_, innerUsed_value, _, innerErr_value := ber.DecodeTLV(innerData_value, opts...)
+	if innerErr_value != nil {
+		return fmt.Errorf("decoding value: %w", innerErr_value)
+	}
+	if innerUsed_value != len(innerData_value) {
+		return fmt.Errorf("decoding value: %w", ber.ErrExtraData)
+	}
 	// Decode inner value from explicit tag wrapper
 	v.Value = runtime.RawValue{Bytes: innerData_value}
 	if offset < 0 || offset >
@@ -2942,6 +2956,13 @@ func (v *EDIPartyName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 				if decodedTag_nameassigner.Class != tag.ClassContextSpecific || decodedTag_nameassigner.Number != 0 || decodedTag_nameassigner.Constructed != true {
 					return fmt.Errorf("decoding nameAssigner: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_nameassigner)
 				}
+				_, innerUsed_nameassigner, _, innerErr_nameassigner := ber.DecodeTLV(innerData_nameassigner, opts...)
+				if innerErr_nameassigner != nil {
+					return fmt.Errorf("decoding nameAssigner: %w", innerErr_nameassigner)
+				}
+				if innerUsed_nameassigner != len(innerData_nameassigner) {
+					return fmt.Errorf("decoding nameAssigner: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				var dec_nameassigner DirectoryString
 				if unmErr := dec_nameassigner.UnmarshalBER(innerData_nameassigner, ber.ChildDecodeOptions(opts, "nameAssigner")...); unmErr != nil {
@@ -2971,6 +2992,13 @@ func (v *EDIPartyName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	}
 	if decodedTag_partyname.Class != tag.ClassContextSpecific || decodedTag_partyname.Number != 1 || decodedTag_partyname.Constructed != true {
 		return fmt.Errorf("decoding partyName: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_partyname)
+	}
+	_, innerUsed_partyname, _, innerErr_partyname := ber.DecodeTLV(innerData_partyname, opts...)
+	if innerErr_partyname != nil {
+		return fmt.Errorf("decoding partyName: %w", innerErr_partyname)
+	}
+	if innerUsed_partyname != len(innerData_partyname) {
+		return fmt.Errorf("decoding partyName: %w", ber.ErrExtraData)
 	}
 	// Decode inner value from explicit tag wrapper
 	if unmErr := v.PartyName.UnmarshalBER(innerData_partyname, ber.ChildDecodeOptions(opts, "partyName")...); unmErr != nil {
@@ -4244,7 +4272,7 @@ func (v *DistributionPoint) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		if bitStringErr := ber.ValidateBitStringLength(v.Reasons.Bytes, v.Reasons.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "reasons", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.Reasons.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4321,7 +4349,7 @@ func (v *DistributionPoint) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.Reasons.Bytes, v.Reasons.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "reasons", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.Reasons.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4407,6 +4435,13 @@ func (v *DistributionPoint) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 				}
 				if decodedTag_distributionpoint.Class != tag.ClassContextSpecific || decodedTag_distributionpoint.Number != 0 || decodedTag_distributionpoint.Constructed != true {
 					return fmt.Errorf("decoding distributionPoint: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_distributionpoint)
+				}
+				_, innerUsed_distributionpoint, _, innerErr_distributionpoint := ber.DecodeTLV(innerData_distributionpoint, opts...)
+				if innerErr_distributionpoint != nil {
+					return fmt.Errorf("decoding distributionPoint: %w", innerErr_distributionpoint)
+				}
+				if innerUsed_distributionpoint != len(innerData_distributionpoint) {
+					return fmt.Errorf("decoding distributionPoint: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_distributionpoint DistributionPointName
@@ -5247,7 +5282,7 @@ func (v *IssuingDistributionPoint) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		if bitStringErr := ber.ValidateBitStringLength(v.OnlySomeReasons.Bytes, v.OnlySomeReasons.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "onlySomeReasons", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OnlySomeReasons.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5342,7 +5377,7 @@ func (v *IssuingDistributionPoint) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OnlySomeReasons.Bytes, v.OnlySomeReasons.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "onlySomeReasons", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.OnlySomeReasons.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5433,6 +5468,13 @@ func (v *IssuingDistributionPoint) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 				if decodedTag_distributionpoint.Class != tag.ClassContextSpecific || decodedTag_distributionpoint.Number != 0 || decodedTag_distributionpoint.Constructed != true {
 					return fmt.Errorf("decoding distributionPoint: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_distributionpoint)
+				}
+				_, innerUsed_distributionpoint, _, innerErr_distributionpoint := ber.DecodeTLV(innerData_distributionpoint, opts...)
+				if innerErr_distributionpoint != nil {
+					return fmt.Errorf("decoding distributionPoint: %w", innerErr_distributionpoint)
+				}
+				if innerUsed_distributionpoint != len(innerData_distributionpoint) {
+					return fmt.Errorf("decoding distributionPoint: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_distributionpoint DistributionPointName

@@ -838,7 +838,7 @@ func (v *ActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if bitStringErr := ber.ValidateBitStringLength(v.TraceNETypeList.Bytes, v.TraceNETypeList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "traceNE-TypeList", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.TraceNETypeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1039,7 +1039,7 @@ func (v *ActivateTraceModeArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.TraceNETypeList.Bytes, v.TraceNETypeList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "traceNE-TypeList", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.TraceNETypeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5319,7 +5319,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.MscSList.Bytes, v.MscSList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "msc-s-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5343,7 +5343,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.MgwList.Bytes, v.MgwList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "mgw-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5367,7 +5367,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.SgsnList.Bytes, v.SgsnList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "sgsn-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5391,7 +5391,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.GgsnList.Bytes, v.GgsnList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ggsn-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5415,7 +5415,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.RncList.Bytes, v.RncList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "rnc-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.RncList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5439,7 +5439,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.BmscList.Bytes, v.BmscList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "bmsc-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5463,7 +5463,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.MmeList.Bytes, v.MmeList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "mme-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MmeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5487,7 +5487,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.SgwList.Bytes, v.SgwList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "sgw-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5511,7 +5511,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.PgwList.Bytes, v.PgwList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "pgw-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.PgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5535,7 +5535,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.ENBList.Bytes, v.ENBList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "eNB-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ENBList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5581,7 +5581,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MscSList.Bytes, v.MscSList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "msc-s-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5608,7 +5608,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MgwList.Bytes, v.MgwList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "mgw-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5635,7 +5635,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SgsnList.Bytes, v.SgsnList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "sgsn-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5662,7 +5662,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.GgsnList.Bytes, v.GgsnList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ggsn-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5689,7 +5689,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.RncList.Bytes, v.RncList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "rnc-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.RncList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5716,7 +5716,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.BmscList.Bytes, v.BmscList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "bmsc-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5743,7 +5743,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MmeList.Bytes, v.MmeList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "mme-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MmeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5770,7 +5770,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SgwList.Bytes, v.SgwList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "sgw-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5797,7 +5797,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.PgwList.Bytes, v.PgwList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "pgw-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.PgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5824,7 +5824,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ENBList.Bytes, v.ENBList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "eNB-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ENBList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6310,7 +6310,7 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.MscSList.Bytes, v.MscSList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "msc-s-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6334,7 +6334,7 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.MgwList.Bytes, v.MgwList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "mgw-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6358,7 +6358,7 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SgsnList.Bytes, v.SgsnList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "sgsn-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6382,7 +6382,7 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.GgsnList.Bytes, v.GgsnList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ggsn-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6406,7 +6406,7 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.BmscList.Bytes, v.BmscList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "bmsc-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6430,7 +6430,7 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.MmeList.Bytes, v.MmeList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "mme-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MmeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6454,7 +6454,7 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SgwList.Bytes, v.SgwList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "sgw-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6478,7 +6478,7 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.PgwList.Bytes, v.PgwList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "pgw-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.PgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6524,7 +6524,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MscSList.Bytes, v.MscSList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "msc-s-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6551,7 +6551,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MgwList.Bytes, v.MgwList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "mgw-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6578,7 +6578,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SgsnList.Bytes, v.SgsnList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "sgsn-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6605,7 +6605,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.GgsnList.Bytes, v.GgsnList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ggsn-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6632,7 +6632,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.BmscList.Bytes, v.BmscList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "bmsc-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6659,7 +6659,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MmeList.Bytes, v.MmeList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "mme-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MmeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6686,7 +6686,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SgwList.Bytes, v.SgwList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "sgw-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.SgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6713,7 +6713,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.PgwList.Bytes, v.PgwList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "pgw-List", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.PgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7199,7 +7199,7 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if bitStringErr := ber.ValidateBitStringLength(v.RncInterfaceList.Bytes, v.RncInterfaceList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "rnc-InterfaceList", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.RncInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7232,7 +7232,7 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if bitStringErr := ber.ValidateBitStringLength(v.MscSInterfaceList.Bytes, v.MscSInterfaceList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "msc-s-InterfaceList", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MscSInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7256,7 +7256,7 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if bitStringErr := ber.ValidateBitStringLength(v.MscSEventList.Bytes, v.MscSEventList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "msc-s-EventList", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MscSEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7289,7 +7289,7 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if bitStringErr := ber.ValidateBitStringLength(v.MgwInterfaceList.Bytes, v.MgwInterfaceList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "mgw-InterfaceList", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MgwInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7313,7 +7313,7 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if bitStringErr := ber.ValidateBitStringLength(v.MgwEventList.Bytes, v.MgwEventList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "mgw-EventList", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MgwEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7460,7 +7460,7 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.RncInterfaceList.Bytes, v.RncInterfaceList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "rnc-InterfaceList", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.RncInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7496,7 +7496,7 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MscSInterfaceList.Bytes, v.MscSInterfaceList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "msc-s-InterfaceList", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MscSInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7523,7 +7523,7 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MscSEventList.Bytes, v.MscSEventList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "msc-s-EventList", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MscSEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7559,7 +7559,7 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MgwInterfaceList.Bytes, v.MgwInterfaceList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "mgw-InterfaceList", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MgwInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7586,7 +7586,7 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MgwEventList.Bytes, v.MgwEventList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "mgw-EventList", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MgwEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
