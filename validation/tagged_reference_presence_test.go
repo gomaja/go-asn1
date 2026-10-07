@@ -68,7 +68,8 @@ func TestTaggedReferenceOptionalPresence(t *testing.T) {
 
 // BuiltInStandardAttributes with country-name ([APPLICATION 1] CHOICE, an
 // explicit tag over the CHOICE) holding the iso-3166-alpha2-code
-// PrintableString "US" (RFC 5280 Appendix A.1).
+// PrintableString "US" (RFC 5280 Appendix A.1). pycrate 0.7.11 encodes the
+// same value to the same bytes.
 func TestTaggedReferenceCountryName(t *testing.T) {
 	wire, err := hex.DecodeString("3006610413025553")
 	if err != nil {
@@ -93,5 +94,44 @@ func TestTaggedReferenceCountryName(t *testing.T) {
 	}
 	if out, err := a32.MarshalBER(); err != nil || !bytes.Equal(out, wire) {
 		t.Fatalf("sgp32 re-encode = %x, %v", out, err)
+	}
+}
+
+// BuiltInStandardAttributes with administration-domain-name ([APPLICATION 2]
+// CHOICE) holding the printable alternative "US" (RFC 5280 Appendix A.1).
+// pycrate 0.7.11 encodes {administration-domain-name: printable "US"} as
+// 3006620413025553.
+func TestTaggedReferenceAdministrationDomainName(t *testing.T) {
+	wire, err := hex.DecodeString("3006620413025553")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var a22 sgp22.BuiltInStandardAttributes
+	if err := a22.UnmarshalBER(wire); err != nil {
+		t.Fatal(err)
+	}
+	if a22.CountryName != nil || a22.AdministrationDomainName == nil || a22.AdministrationDomainName.Choice != sgp22.AdministrationDomainNameChoicePrintable ||
+		a22.AdministrationDomainName.Printable == nil || *a22.AdministrationDomainName.Printable != "US" || a22.AdministrationDomainName.Numeric != nil {
+		t.Fatalf("sgp22 country-name = %+v, administration-domain-name = %+v", a22.CountryName, a22.AdministrationDomainName)
+	}
+	if out, err := a22.MarshalBER(); err != nil || !bytes.Equal(out, wire) {
+		t.Fatalf("sgp22 BER = %x, %v", out, err)
+	}
+	if out, err := a22.MarshalDER(); err != nil || !bytes.Equal(out, wire) {
+		t.Fatalf("sgp22 DER = %x, %v", out, err)
+	}
+	var a32 sgp32.BuiltInStandardAttributes
+	if err := a32.UnmarshalBER(wire); err != nil {
+		t.Fatal(err)
+	}
+	if a32.CountryName != nil || a32.AdministrationDomainName == nil || a32.AdministrationDomainName.Choice != sgp32.AdministrationDomainNameChoicePrintable ||
+		a32.AdministrationDomainName.Printable == nil || *a32.AdministrationDomainName.Printable != "US" || a32.AdministrationDomainName.Numeric != nil {
+		t.Fatalf("sgp32 country-name = %+v, administration-domain-name = %+v", a32.CountryName, a32.AdministrationDomainName)
+	}
+	if out, err := a32.MarshalBER(); err != nil || !bytes.Equal(out, wire) {
+		t.Fatalf("sgp32 BER = %x, %v", out, err)
+	}
+	if out, err := a32.MarshalDER(); err != nil || !bytes.Equal(out, wire) {
+		t.Fatalf("sgp32 DER = %x, %v", out, err)
 	}
 }
