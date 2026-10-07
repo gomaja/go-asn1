@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
-  "target_base_commit": "463dcee818fabfee56fdc509a35e31afa521cbdc",
+  "compiler_commit": "eb6a45801042716b3461fa39489aa2c8a1a2cb9c",
+  "target_base_commit": "2e83d89af0dc815fc1e0a589691032aa069153bc",
   "inputs": {
     "sha256": "e1b6b11253768644540c66c6cfb593a3601b246b2741e993a062e8effd8d2c09",
     "files": [
@@ -30,7 +30,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
+          "commit": "eb6a45801042716b3461fa39489aa2c8a1a2cb9c",
           "dirty": false
         },
         "frontend": {
@@ -1150,8 +1150,8 @@
         ],
         "ir": {
           "path": "gsm-map/resolved-schema.json",
-          "sha256": "698d321f03573deb0cacce9596e20777ce748d6146703a1f9f7105060bc8628b",
-          "size_bytes": 8993240
+          "sha256": "0b44fc3e5eb2700ce54263b2b23dd2b308de3d230d0ce15527e0b799a2735ca9",
+          "size_bytes": 8993702
         },
         "outputs": [
           {
@@ -1166,13 +1166,13 @@
           },
           {
             "path": "gsm_map/dummymap.go",
-            "sha256": "4fb9b6fe3722ea5546ecb3c8ffe7c520e957338d322cc298a958f65f7296e466",
-            "size_bytes": 634898
+            "sha256": "3a153a6c32783739799f96a3811eab4565adc680a35d35c03684dc496db2f60a",
+            "size_bytes": 634255
           },
           {
             "path": "gsm_map/ericssonmap.go",
-            "sha256": "7a884308b5527318c5c8f4da3e44e6dcc79acd1d683ceeb463852ec75e15e19f",
-            "size_bytes": 227141
+            "sha256": "8bf6ebcb22ca2dd1cccf9cc37d1855a0a522caa5d2f72d2448763330778b91ae",
+            "size_bytes": 226804
           },
           {
             "path": "gsm_map/mapapplicationcontexts.go",
@@ -1216,73 +1216,73 @@
           },
           {
             "path": "gsm_map/mapchdatatypes.go",
-            "sha256": "7b5aea4eb09fdf157b95ceb36af08968af97987f8a01a67ed65e3b99964c2797",
-            "size_bytes": 614506
+            "sha256": "ff80140483fcb1f86b4f65812a56b59ddb0c4c7ace4346e549a5fe64bc80ef27",
+            "size_bytes": 613882
           },
           {
             "path": "gsm_map/mapchdatatypes_2.go",
-            "sha256": "23e05daae47287ccddc178a4c96c5ec02e6df84d5ca7186df70694accaea4e94",
-            "size_bytes": 591848
+            "sha256": "df9d871404e62c5ec485131b461912a1a47a6cf8c4ae6c3d1c84bf6792838a10",
+            "size_bytes": 591212
           },
           {
             "path": "gsm_map/mapcommondatatypes.go",
-            "sha256": "381e0af421624dede3455503877d84e7d0808350c3f2e6024bde40131530e821",
-            "size_bytes": 153765
+            "sha256": "9e275d3cf25bc8ee92d10eaf220920cc7b5e2860e40414e1ce49a66335e9f40e",
+            "size_bytes": 153611
           },
           {
             "path": "gsm_map/mapcommondatatypes_2.go",
-            "sha256": "bc61d71b3915245c3b356a50a89e6a3dcb72f82fe20a3b9d06bc71b4b34d67d4",
-            "size_bytes": 157308
+            "sha256": "7748cdbec9764c4e53c50c8be7e42be5c449ee1e2c0a5cb6362c7b3078ff9b9b",
+            "size_bytes": 157177
           },
           {
             "path": "gsm_map/mapcommondatatypes_3.go",
-            "sha256": "69b54197139741c254f040c5b2c50c3838dc9720f71257902f39cb7f56cf45ac",
-            "size_bytes": 155262
+            "sha256": "5fc48e7917d7db6223a1d81a24987a6802ab7ad5f27464995f3f9cc1d07b1735",
+            "size_bytes": 155108
           },
           {
             "path": "gsm_map/mapcommondatatypes_4.go",
-            "sha256": "4debff2483ba286da1a4ee66971472814335f253f979f12c31a51a5e982934db",
-            "size_bytes": 154550
+            "sha256": "90e5c365df8f63e3ce24f7bf3fd7cbbbd07e8a7c9adda9820b0e2f132418e0cd",
+            "size_bytes": 154396
           },
           {
             "path": "gsm_map/mapcommondatatypes_5.go",
-            "sha256": "301a41e751178edc78d117a8d7a5d116b8a11b98420b0227b43393613d9b4608",
-            "size_bytes": 145319
+            "sha256": "b96d154e1a0b951f61e7faf234e2bc7f1e2754cbe34a31ef7f794549b2d5dc98",
+            "size_bytes": 145181
           },
           {
             "path": "gsm_map/mapcommondatatypes_6.go",
-            "sha256": "723f51a8c596e0ac4b0cf5a2ca0310afe8bb8853632e8ae1e6721ce1ef0246e3",
-            "size_bytes": 144534
+            "sha256": "3535fde82b1ceb13434331a747adbbb52d690674e1f1a87e5b250d05e3ec3452",
+            "size_bytes": 144396
           },
           {
             "path": "gsm_map/mapdialogueinformation.go",
-            "sha256": "569607c57c51e6f2ad7d4cba1fd9bd179babd8e3028d6640448bb17dca90107f",
-            "size_bytes": 81108
+            "sha256": "ccb57da8a850fa7dc81b78fa8ba589978742b7022bb6be420a46753d6d8e9b46",
+            "size_bytes": 80941
           },
           {
             "path": "gsm_map/maperdatatypes.go",
-            "sha256": "5cb06ecd1e786cbfc454266b8264854370535e4f135bd39ac4f4cbda2dd59738",
-            "size_bytes": 380228
+            "sha256": "40d37d372d094904f2f510d963e8b5605496e4c468dd771b98000c75dc66a150",
+            "size_bytes": 378447
           },
           {
             "path": "gsm_map/maperdatatypes_2.go",
-            "sha256": "32f6de13a3fd232a5c35e19e1aa1b3d56d28766d1cf474e0e026bf7fd2086bb1",
-            "size_bytes": 369964
+            "sha256": "21bd8b3f2759f588b051fa1b3bd3fe5d30f7d365cb0d8e56a92bf1b3390a525e",
+            "size_bytes": 368155
           },
           {
             "path": "gsm_map/maperdatatypes_3.go",
-            "sha256": "47e09819ffcbe24fba43e7fda9a02679b68800b2e2109d3e77d11b9400aa78a0",
-            "size_bytes": 381688
+            "sha256": "194f33ddb17cb5c4d1d0ef7ced3710a406be85e6fb4cbbe754c71235835a1938",
+            "size_bytes": 379883
           },
           {
             "path": "gsm_map/maperdatatypes_4.go",
-            "sha256": "3a080f6d2135f18bdc0fac780c79336093dddabcc24e38ce8fa5897bdf45d5cc",
-            "size_bytes": 373816
+            "sha256": "a4b72ed73afb629e8d8351b4cb3987c3657ac78eb1e35f3d2137de51fa110a46",
+            "size_bytes": 372011
           },
           {
             "path": "gsm_map/maperdatatypes_5.go",
-            "sha256": "25f965750a52fd6923c91f9e512a00acf69b4777e3efa5f2afd6d4bf127d404f",
-            "size_bytes": 366277
+            "sha256": "d28d7ae451971936cb389a96f5f1def28969ea9ee6ddea8ab2d45c976708df2d",
+            "size_bytes": 364472
           },
           {
             "path": "gsm_map/maperrors.go",
@@ -1296,38 +1296,38 @@
           },
           {
             "path": "gsm_map/mapextensiondatatypes.go",
-            "sha256": "a4c66918db82295f669d8d4d59010dfe5046afeb3b8cd51003f9a991f14609f1",
-            "size_bytes": 44020
+            "sha256": "ed9f595938606656e53a55e0512516d093d26b840529343ea0e4040db5d408de",
+            "size_bytes": 43897
           },
           {
             "path": "gsm_map/mapextensiondatatypes_2.go",
-            "sha256": "10017a538ce88886696a2b9c6c8418ef01149aa896dd84d5fcfc4d75e9a0b7b2",
-            "size_bytes": 46543
+            "sha256": "d3c7393e87cace467decfefd094f896285acfa28661ef94be34e7069541edbec",
+            "size_bytes": 46430
           },
           {
             "path": "gsm_map/mapextensiondatatypes_3.go",
-            "sha256": "021e57d41e5b2699d39a82f85009bc2dbb66235623f61cd5848662875bed6070",
-            "size_bytes": 44167
+            "sha256": "af3fa8d61be073b03c4a8b3e914102e8d002a6d4055f9c2d75ac10547802081b",
+            "size_bytes": 44038
           },
           {
             "path": "gsm_map/mapextensiondatatypes_4.go",
-            "sha256": "45d520fa98af7610172921ab5f1f3ab1f79c7e02cddabf6d5c6f7cafa37c214a",
-            "size_bytes": 44167
+            "sha256": "f46d2136f9292b1e8ed0e0e9450450b5250a323572755d28e19ddc0def387297",
+            "size_bytes": 44038
           },
           {
             "path": "gsm_map/mapextensiondatatypes_5.go",
-            "sha256": "2b3f74e858d4133340977632e00aad1269a795ff49c4f950fd723daa03922e77",
-            "size_bytes": 44167
+            "sha256": "450f3ce541787163fa4685686d3162b5ed1da67c932627ede4a047308d84a973",
+            "size_bytes": 44038
           },
           {
             "path": "gsm_map/mapextensiondatatypes_6.go",
-            "sha256": "5ed1ba6d398615bc1f63a2c24d8630b948b4926ddc971cc832b090ba596c6031",
-            "size_bytes": 44167
+            "sha256": "1fe1053100067cc828daa85030c070e457ab536e2b75a1bf0721e9ffed8f92d2",
+            "size_bytes": 44038
           },
           {
             "path": "gsm_map/mapgrdatatypes.go",
-            "sha256": "6f6c3c7de50392a6437475179e8ffc965762ecf2421d395669b15f2b6c006d96",
-            "size_bytes": 204882
+            "sha256": "6ef57ae4f09f04513182672986bd8618d34f6f790bb940dbcbbf0d62af080642",
+            "size_bytes": 204681
           },
           {
             "path": "gsm_map/mapgroupcalloperations.go",
@@ -1336,13 +1336,13 @@
           },
           {
             "path": "gsm_map/maplcsdatatypes.go",
-            "sha256": "4002c3a5a59eaa6673a031c63db17ab34a58ff56f84c6b8efb60e19cc9a09f40",
-            "size_bytes": 561969
+            "sha256": "4753333133f14bb57e317a6d8b7d38b2d0ebb9ffb8406688c0affd157e11491b",
+            "size_bytes": 561523
           },
           {
             "path": "gsm_map/maplcsdatatypes_2.go",
-            "sha256": "75b207d6c307f91cbba42e83d7d4be8f880a37a6b3570f42579d677b6861b97f",
-            "size_bytes": 565657
+            "sha256": "dbaaab8fec2c0b9b68ff826569501fa95b157e327bd0295d572f3371b26d475f",
+            "size_bytes": 565199
           },
           {
             "path": "gsm_map/maplocationserviceoperations.go",
@@ -1356,53 +1356,53 @@
           },
           {
             "path": "gsm_map/mapmsdatatypes.go",
-            "sha256": "7686905c552002b39dfba4af54b27b23f44783bdf993c0e78034a7ae78e3b78d",
-            "size_bytes": 4270026
+            "sha256": "7c39e0b6789505cbdc61f30378e21117f613ca0dbf1d70c9b9909c1db6e23b45",
+            "size_bytes": 4266493
           },
           {
             "path": "gsm_map/mapmsdatatypes_2.go",
-            "sha256": "d28db94db503cdf6c610733b57e78fa51e6c57d964e9656315db704728e5731c",
-            "size_bytes": 2992785
+            "sha256": "0a30c8775d976de8b90cdd4e8b770790667fd339e222b1a96ad525aa77a17cb4",
+            "size_bytes": 2989935
           },
           {
             "path": "gsm_map/mapmsdatatypes_3.go",
-            "sha256": "108c2f3c52e1040a03c7ba9d06a29ce5e14cb086c727e3a637f46a89300e6e24",
-            "size_bytes": 4011130
+            "sha256": "9eec2460f4f365e5e52e772915b6ee105c05e7f5187e19eeaa1847f70e39994d",
+            "size_bytes": 4007677
           },
           {
             "path": "gsm_map/mapmsdatatypes_4.go",
-            "sha256": "c521d103e4fff0db70b4dfacb731641cb43a2634857cad61ccc6416d8ac255c8",
-            "size_bytes": 4281078
+            "sha256": "b399eb18881511e5fee9afc381a0b9fe3b370e3a18d084b52899aede64bd579b",
+            "size_bytes": 4277542
           },
           {
             "path": "gsm_map/mapmsdatatypes_5.go",
-            "sha256": "b87f6b860b4bec4af0dbdef21a1bf71bb4fdca7eecf3766d6f0d79acacb9e797",
-            "size_bytes": 3809726
+            "sha256": "ae7bf74cd81dfa8d66185a9a9f9188e9f8a2c05dc5f6ecd63cbcd45d8d46135a",
+            "size_bytes": 3806414
           },
           {
             "path": "gsm_map/mapomdatatypes.go",
-            "sha256": "b49dd937a878d297fbd30fefe508bc108b0d40a580028620a94a3c85961a87e3",
-            "size_bytes": 420193
+            "sha256": "60de858f6c9087b9a549295c8b112c8074380da9a838cd01b40ad7dc00028ca3",
+            "size_bytes": 419971
           },
           {
             "path": "gsm_map/mapomdatatypes_2.go",
-            "sha256": "4532b2d58d5173de72f7233509fb89a1020af53b413f2a7f3d8d217cf8d87dca",
-            "size_bytes": 196396
+            "sha256": "4e285a34ce153133507c172b584cfc4e2f7be645ff518c83603dcd525ad9ab7e",
+            "size_bytes": 196223
           },
           {
             "path": "gsm_map/mapomdatatypes_3.go",
-            "sha256": "ccc47b49db5925b801e4d03910986582e972852afcf6d9e405bdec8f2328cce0",
-            "size_bytes": 411614
+            "sha256": "1265672332ee9087faa63cf39454b2ff79fce8b1ea14acdd992a54192b1a99db",
+            "size_bytes": 411392
           },
           {
             "path": "gsm_map/mapomdatatypes_4.go",
-            "sha256": "32d57895fef7fbc749be039f2f348f1b79fc30e194984bd5e367e076f1b07a77",
-            "size_bytes": 421462
+            "sha256": "bb63b351b0306cd4a6e34df807305c9e23a9f561ed2522a4e375044c33c8d1ce",
+            "size_bytes": 421240
           },
           {
             "path": "gsm_map/mapomdatatypes_5.go",
-            "sha256": "db0d85c849afc43169050c1ce11069ebfb404ca4d8480148c068af82f57062e8",
-            "size_bytes": 340235
+            "sha256": "cfaf4ac501a4f7db753983e123bf5b23b5b61bb2573e5bb1afd67e43eeee43d8",
+            "size_bytes": 340013
           },
           {
             "path": "gsm_map/mapoperationandmaintenanceoperations.go",
@@ -1421,18 +1421,18 @@
           },
           {
             "path": "gsm_map/mapsmdatatypes.go",
-            "sha256": "295e59babff66f06c49536196019dd375e9496c335a295e5b6d09f80aee54943",
-            "size_bytes": 458348
+            "sha256": "e104e6e2427572e6e4d3921030ab4fc5a2fa256f8e7794bc0e2b7e564e6d97ef",
+            "size_bytes": 457992
           },
           {
             "path": "gsm_map/mapsmdatatypes_2.go",
-            "sha256": "cb9f6fa54fb0d00b6862693907681daa810223f2c42c06eed00638d8e445517c",
-            "size_bytes": 339664
+            "sha256": "73a8427e185c204b0cd98de3c8b1410deb60db309a3f765df4707a927cfe2102",
+            "size_bytes": 339308
           },
           {
             "path": "gsm_map/mapsmdatatypes_3.go",
-            "sha256": "c386e72f31f58fb21c45772b6eaac76a937186f23fb597b86604717d09aab99f",
-            "size_bytes": 436672
+            "sha256": "81d19206fb5687fd12477d0974fadc10af04aba250c09fcb05ab3b1d693ccb64",
+            "size_bytes": 436316
           },
           {
             "path": "gsm_map/mapsscode.go",
@@ -1466,33 +1466,33 @@
           },
           {
             "path": "gsm_map/mapssdatatypes.go",
-            "sha256": "09d2f06df89773e36f82ac081e447d3680bf26d7b88d3afbafbad97cf63c1f48",
-            "size_bytes": 333204
+            "sha256": "5697c8f1e36cf97e385405f6bb2be5d92659dd33d42783c0c31e85a5c43b86f3",
+            "size_bytes": 332821
           },
           {
             "path": "gsm_map/mapssdatatypes_2.go",
-            "sha256": "135473df9341a19ecc5d8ada0c07ec4ad08889e6d3c7c974fa6f548756bdc6d9",
-            "size_bytes": 337137
+            "sha256": "db9baddb2c19a1d6488a8e0bdba96961a80c6f4a5c6bf1b461da48b05ed12676",
+            "size_bytes": 336766
           },
           {
             "path": "gsm_map/mapssdatatypes_3.go",
-            "sha256": "b3fb7d6d416463b6d56f0a0f4b8d7d4ba116860c2f3f229a8c3ff313af787a7b",
-            "size_bytes": 334252
+            "sha256": "b18c2c3793137d251d9acfa2742d1a317866361542cbe69819115351b2f65dd2",
+            "size_bytes": 333863
           },
           {
             "path": "gsm_map/mapssdatatypes_4.go",
-            "sha256": "06850b9a57b8abc09143f3c3050f04dddfd524dc9ff52c407281f7505ba83e8b",
-            "size_bytes": 334252
+            "sha256": "62738e1bf9d7a05aeee2791fcc73760429d049f8a86e02e7dac9b8df2a41923e",
+            "size_bytes": 333863
           },
           {
             "path": "gsm_map/mapssdatatypes_5.go",
-            "sha256": "311f10467550e62dd6f46b583b7d749200540d46f1dd7ba12ec64229c99ff610",
-            "size_bytes": 334252
+            "sha256": "bd09be0b9723b41d92822bca18abf45a863b293724bbfa41bd5b73ba9eab7449",
+            "size_bytes": 333863
           },
           {
             "path": "gsm_map/mapssdatatypes_6.go",
-            "sha256": "bc4f5e00ee9a3fdda4ba512af3b8c4d13aca4a9b8653e162005177f1b9c420b8",
-            "size_bytes": 334252
+            "sha256": "9f003bc754a46c0c5fe3326f49bc85de2d1e1127737837ca98fa1e2c3b82a517",
+            "size_bytes": 333863
           },
           {
             "path": "gsm_map/mapsupplementaryserviceoperations.go",
@@ -1536,13 +1536,13 @@
           },
           {
             "path": "gsm_map/nokiamapextensions.go",
-            "sha256": "c49cc7bc92935f1f9785b4c73c91dd3a0cea2600972c9fdf664131274f30360e",
-            "size_bytes": 610056
+            "sha256": "062af784961f5c5a91d1d0be7e7e39f2bf963cb03a2ad0946c4989f0ba65bdbd",
+            "size_bytes": 609143
           },
           {
             "path": "gsm_map/remoteoperationsgenericrospdus.go",
-            "sha256": "46589a9f3f175a463524d06aec68ba5182d2bc44c6a1ede7b74c39e12e28300a",
-            "size_bytes": 112036
+            "sha256": "24951cf7d3cdebbf4c25885a9c4895359bfa5f246c3a3977e4796b316019e024",
+            "size_bytes": 111836
           },
           {
             "path": "gsm_map/remoteoperationsinformationobjects.go",
@@ -1551,18 +1551,18 @@
           },
           {
             "path": "gsm_map/remoteoperationsusefuldefinitions.go",
-            "sha256": "bd9c73a0cef2699d362f98b4972f9f8041c264502613c01948c72c8c7a28be01",
-            "size_bytes": 69640
+            "sha256": "8a857956de76825da955edf16da4ffe7aba3476a352b7c68fd141a765acc06db",
+            "size_bytes": 69544
           },
           {
             "path": "gsm_map/ssdatatypes.go",
-            "sha256": "ebf14719e460113f6fd32cf1617af3e1ac48ef5fa53e4b63458824df75057cbe",
-            "size_bytes": 1094600
+            "sha256": "01b507d96f47b7648e0ebeb3e1133124bbd64d606685ba055b8039532a88a903",
+            "size_bytes": 1093501
           },
           {
             "path": "gsm_map/sserrors.go",
-            "sha256": "bea74dcaec687f054e8b2fac2a1fa38cda10f5c5a54e0d85a9ebb2bb6db9255c",
-            "size_bytes": 6966
+            "sha256": "c6142c0a9dbe3d9e35c39a0c37774daed289eb12d476ad9b97ee6b1f7543ad7d",
+            "size_bytes": 6947
           },
           {
             "path": "gsm_map/ssoperations.go",
@@ -1872,7 +1872,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
+          "commit": "eb6a45801042716b3461fa39489aa2c8a1a2cb9c",
           "dirty": false
         },
         "frontend": {
@@ -1941,8 +1941,8 @@
           },
           {
             "path": "lpp/lpppdudefinitions.go",
-            "sha256": "081470bc02048a7386f2ef2ee2aec99590f35a2e36bb5b74902873e08ec99bc4",
-            "size_bytes": 8425741
+            "sha256": "85b7ee46f186df0cb7a042c9ac8cd290dacd06aca767b73462840d967262e269",
+            "size_bytes": 8461289
           },
           {
             "path": "lpp/per_helpers.go",
@@ -2250,7 +2250,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
+          "commit": "eb6a45801042716b3461fa39489aa2c8a1a2cb9c",
           "dirty": false
         },
         "frontend": {
@@ -2698,7 +2698,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
+          "commit": "eb6a45801042716b3461fa39489aa2c8a1a2cb9c",
           "dirty": false
         },
         "frontend": {
@@ -3197,8 +3197,8 @@
           },
           {
             "path": "rrc/eutrarrcdefinitions.go",
-            "sha256": "4e5a5a9b799304bfc0bad569d32e760f0ce3c0349816484f1908ccda177547fd",
-            "size_bytes": 18412508
+            "sha256": "61c1a4af9c7d33a20fe3dcd41ff105c364e39a4bc9be10726cdaa5247963a88a",
+            "size_bytes": 18412292
           },
           {
             "path": "rrc/eutrasidelinkpreconf.go",
@@ -3217,8 +3217,8 @@
           },
           {
             "path": "rrc/nbiotrrcdefinitions.go",
-            "sha256": "1152f36d80b9f062d78fc575fd1724f25f2d1fe44e29335539e35b940a6fb79f",
-            "size_bytes": 3127847
+            "sha256": "8542180da0c8ea30a283aec59eec2164eb3a8945a7019406ccefcc8020c63701",
+            "size_bytes": 3127784
           },
           {
             "path": "rrc/nbiotuevariables.go",
@@ -3466,7 +3466,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
+          "commit": "eb6a45801042716b3461fa39489aa2c8a1a2cb9c",
           "dirty": false
         },
         "frontend": {
@@ -3570,13 +3570,13 @@
           },
           {
             "path": "rrc/informationelements.go",
-            "sha256": "84d550886b63c3d35897d9d5b80e0ce25f4067f86feb94ec81389b8d620bd079",
-            "size_bytes": 21748699
+            "sha256": "6a594545653d0a70b88f05228ea711b4d62e1eba980185a414a2e21dc3ece483",
+            "size_bytes": 21748141
           },
           {
             "path": "rrc/internodedefinitions.go",
-            "sha256": "8f983c3634b3166c6a199bc11ad8ad7a64a9b1abff54e3526c8e1588dd08e93b",
-            "size_bytes": 2318041
+            "sha256": "7e0cc359f127fbad2e051b255d6d84579fd34f2dc3524d829fd4bbcba3354b7d",
+            "size_bytes": 2318014
           },
           {
             "path": "rrc/pdudefinitions.go",
@@ -3818,7 +3818,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
+          "commit": "eb6a45801042716b3461fa39489aa2c8a1a2cb9c",
           "dirty": false
         },
         "frontend": {
@@ -4224,7 +4224,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
+          "commit": "eb6a45801042716b3461fa39489aa2c8a1a2cb9c",
           "dirty": false
         },
         "frontend": {
@@ -4326,8 +4326,8 @@
         ],
         "ir": {
           "path": "sgp22/resolved-schema.json",
-          "sha256": "63752a1fcc0c2984bce41b6f761858d7eab6a404952642012067e98c87b06d11",
-          "size_bytes": 403889
+          "sha256": "7e12b300af59be060d6c4fbbd3a8d090e4d8577c2fcd2e5f492bede42e6bcd62",
+          "size_bytes": 404435
         },
         "outputs": [
           {
@@ -4342,18 +4342,18 @@
           },
           {
             "path": "sgp22/pkix1explicit88.go",
-            "sha256": "a2d77e0a49a0bc9a37424d3970c13a027232504b0c3e4fe4318f2c8a4bc1c1b1",
-            "size_bytes": 449143
+            "sha256": "63ec6570a9a1a20947a294ee8fe3d82509724b8b991d8bf32fe751d408a59b05",
+            "size_bytes": 448666
           },
           {
             "path": "sgp22/pkix1implicit88.go",
-            "sha256": "cc1e6f3e8fd181194e978980ade96c3c3785219760d656a0c2775da5af4491c3",
-            "size_bytes": 235749
+            "sha256": "f1ba304436a9407c47207792cdf9c22cea0792870975c148dd2d09840edcea7e",
+            "size_bytes": 235375
           },
           {
             "path": "sgp22/rspdefinitions.go",
-            "sha256": "a63d501dbd9d036f7a5e89a44d112bdb7f8dcddac928c86b2c8b222cd855d363",
-            "size_bytes": 1556779
+            "sha256": "20e497feca6ec0b172fabf793b0bcaa2c0f277be160ec9eecd35556a113c4396",
+            "size_bytes": 1555312
           }
         ],
         "standards": [
@@ -4588,7 +4588,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
+          "commit": "eb6a45801042716b3461fa39489aa2c8a1a2cb9c",
           "dirty": false
         },
         "frontend": {
@@ -4708,8 +4708,8 @@
         ],
         "ir": {
           "path": "sgp32/resolved-schema.json",
-          "sha256": "8e4ccdd4d2382aaf4ec633b823f283ec5ea6be6d9742e32c64611c5eeee32091",
-          "size_bytes": 639419
+          "sha256": "c40ce4a895c5c04c27def91a43329acb1268866ae602752c7777ede5b5ad4b52",
+          "size_bytes": 639965
         },
         "outputs": [
           {
@@ -4724,23 +4724,23 @@
           },
           {
             "path": "sgp32/pkix1explicit88.go",
-            "sha256": "8924c0303d25b57ee2bb276dd41a23ca5f36e8fdc902a812433f24544b5f6b26",
-            "size_bytes": 449143
+            "sha256": "9aa89e4dafc1eecbd4cebd8e6bfecfdbbde34977f2709274f6d22d2235a52b0d",
+            "size_bytes": 448666
           },
           {
             "path": "sgp32/pkix1implicit88.go",
-            "sha256": "d091d8aa0cf32073fb75830cdb94d2f82fbc7ecb4d6b9377771304e175da67e0",
-            "size_bytes": 235749
+            "sha256": "f471ae3d173735ac039bfa5aff446af39cac84cdafaf91f53e9c78cc027a207e",
+            "size_bytes": 235375
           },
           {
             "path": "sgp32/rspdefinitions.go",
-            "sha256": "aadeaeee0a2f9d8aa28f1f37155c7eb94c2570d5ec5b117eb5c0b4248f1f944a",
-            "size_bytes": 1556779
+            "sha256": "e54ceb48e215ce956afbeef94607b6f16428c2804a0c8f8cec0592e36316d2e8",
+            "size_bytes": 1555312
           },
           {
             "path": "sgp32/sgp32definitions.go",
-            "sha256": "733a02961be43091ef85588db5cf7b59e53c44eee0239190c0f26cbc621d8142",
-            "size_bytes": 1974302
+            "sha256": "d14ca02cd7f95a13cde8eff1cf307f54f3521a925ad0030aaae0453905bd0dee",
+            "size_bytes": 1972639
           }
         ],
         "standards": [
@@ -4976,7 +4976,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
+          "commit": "eb6a45801042716b3461fa39489aa2c8a1a2cb9c",
           "dirty": false
         },
         "frontend": {
@@ -5074,8 +5074,8 @@
         ],
         "ir": {
           "path": "tcap/resolved-schema.json",
-          "sha256": "5b2edfc78bf8e354ba51ba55a85a8faaeaf631f7714dd6014924ebbf62216994",
-          "size_bytes": 251069
+          "sha256": "5199fc9b7af2fe5652a1b16485afe41ed173a40b484a0b8acedf46564bfa3619",
+          "size_bytes": 251573
         },
         "outputs": [
           {
@@ -5085,13 +5085,13 @@
           },
           {
             "path": "tcap/dialoguepdus.go",
-            "sha256": "ec8265c896860b40c50b66b55ad6b604468af4eea8857471698f7128476da79d",
-            "size_bytes": 122176
+            "sha256": "7d5fb2c4012d6e62ed237445893d70d838d848493df3df1aa45cdb39bde8d7ea",
+            "size_bytes": 122072
           },
           {
             "path": "tcap/remoteoperationsgenericrospdus.go",
-            "sha256": "c0e05498f47ae94b9a26dd34374abd29f6c72e15b7177d4a3bc0e9f8b384f856",
-            "size_bytes": 112033
+            "sha256": "1d46f5ad9fb83ec3ff45e98e22f052e1db62f6d830e7df74f297f889a0aa82a7",
+            "size_bytes": 111833
           },
           {
             "path": "tcap/remoteoperationsinformationobjects.go",
@@ -5100,18 +5100,18 @@
           },
           {
             "path": "tcap/remoteoperationsusefuldefinitions.go",
-            "sha256": "eee6acc5ebebf00cf8643c376f1338d11f38f842247fdeab7bc010f258f05009",
-            "size_bytes": 69637
+            "sha256": "f248e6f455222aec0e2299ad06a7e7f6482ab05d655dcee9aa5d1f7d54e38815",
+            "size_bytes": 69541
           },
           {
             "path": "tcap/tcapmessages.go",
-            "sha256": "4d27daa9667d6e661c9e80a830344f0bb47ec7d66f354fec10088c1c364080a3",
-            "size_bytes": 103442
+            "sha256": "62302d2c01671ebc01efa817e1760be92f92e0c21496c7b2c2f7513f67278c18",
+            "size_bytes": 103266
           },
           {
             "path": "tcap/unidialoguepdus.go",
-            "sha256": "9228e588672f65448be41e6c5510808fbe1ba18e0c818f2059a31e2f634387ef",
-            "size_bytes": 23603
+            "sha256": "5c255a35434c8b05579a1ae2799b532271503fae49bc598c8ab70d938685142c",
+            "size_bytes": 23579
           }
         ],
         "standards": [
@@ -5340,7 +5340,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "b8f0c78cb4070bdce177678e94019d94dbd69e4c",
+          "commit": "eb6a45801042716b3461fa39489aa2c8a1a2cb9c",
           "dirty": false
         },
         "frontend": {
@@ -5711,7 +5711,7 @@
     }
   ],
   "outputs": {
-    "sha256": "eb3cdff45fb7b89475ef3d790f9300ee15933372c87156c5cb2706c583421250",
+    "sha256": "8eb8ca50adc133ebe3fcc6d5453a2ce97da02bb8ec32f2b2e8405dac69df7caa",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
@@ -5764,8 +5764,8 @@
       {
         "path": "runtime/ber/constraints.go",
         "mode": "0644",
-        "sha256": "6837928f72719b29997752ead3823dca088c879c4fa257361235fe52129840b4",
-        "size_bytes": 13013
+        "sha256": "3436a19393058f17cd7ba97cbda8fa8e779a5f5b3f64c7bcd3d0acc0927ada74",
+        "size_bytes": 13109
       },
       {
         "path": "runtime/ber/constraints_example_test.go",
@@ -6052,8 +6052,8 @@
       {
         "path": "runtime/per/aper.go",
         "mode": "0644",
-        "sha256": "6ad155d4686dfb42c58fc48e548d21ad84b3a2fa15774fdea33d9f8a5723534e",
-        "size_bytes": 25772
+        "sha256": "b8c45ed5b77d7ddf8f0858979395eeb6164fe0ea3f618c26ac0d2b63160f07e0",
+        "size_bytes": 26199
       },
       {
         "path": "runtime/per/big_width_test.go",
@@ -6124,14 +6124,14 @@
       {
         "path": "runtime/per/explicit_default.go",
         "mode": "0644",
-        "sha256": "7ac705072b9b7f33fb09a8ce98bf9d691a155effe179144c786083f75a2cbb76",
-        "size_bytes": 2724
+        "sha256": "7407bb07cdc7363405e3357f463f530a1178a162d39a8bd598a09c37f8e4947b",
+        "size_bytes": 4378
       },
       {
         "path": "runtime/per/explicit_default_test.go",
         "mode": "0644",
-        "sha256": "18f746e4eb5fa6552fffea0c81db83b434c3b36f8a469c63b271fe695bf2cc19",
-        "size_bytes": 3621
+        "sha256": "2bba6781b7585f2bade908716b8c366fb73f479f1a5a7d5b1d3709211b34112b",
+        "size_bytes": 5017
       },
       {
         "path": "runtime/per/fragment.go",
@@ -6154,14 +6154,20 @@
       {
         "path": "runtime/per/integer_big.go",
         "mode": "0644",
-        "sha256": "eaf9e775591caf9cc0224a2e206e3f8973352d9ba9ed0db4ea5829af53e22bfe",
-        "size_bytes": 18591
+        "sha256": "cbee5aab4234ba1daabab46f26d943e3bb3c1b66256604137f7cc562ede8c3e6",
+        "size_bytes": 19058
       },
       {
         "path": "runtime/per/integer_big_test.go",
         "mode": "0644",
         "sha256": "9de9d00353db5e07d67a8bf25b66962ad7a18253227fbb4dcb9eab090132babb",
         "size_bytes": 14367
+      },
+      {
+        "path": "runtime/per/integer_extension_root_test.go",
+        "mode": "0644",
+        "sha256": "fe85dd7429f78900f06fb0c7f87bfdfbbf50054d4e67d531a65cf4746428d53c",
+        "size_bytes": 13114
       },
       {
         "path": "runtime/per/integer_int64_boundary_test.go",
@@ -6172,8 +6178,8 @@
       {
         "path": "runtime/per/integer_set.go",
         "mode": "0644",
-        "sha256": "9ee6cf763cce5288aef4757cc4373cba61aafaf0de6cf6045074982000a250a6",
-        "size_bytes": 3742
+        "sha256": "429e43d3e572f5552c86b6dfc86030f8e2748ca5298d5900913044bcc39173e7",
+        "size_bytes": 4004
       },
       {
         "path": "runtime/per/integer_set_test.go",
@@ -6184,14 +6190,26 @@
       {
         "path": "runtime/per/integer_uint64.go",
         "mode": "0644",
-        "sha256": "ed89585d4d549a407d963e2a43bfff94c716c1d3d33571499698d4b41fbea3aa",
-        "size_bytes": 7335
+        "sha256": "21a76ed5851d44a62d0c71f2cf132085c371a3fda9b3495dfbbb98343ce685f6",
+        "size_bytes": 7595
       },
       {
         "path": "runtime/per/minimal_integer_octets_test.go",
         "mode": "0644",
         "sha256": "31a8d06cf728130aff60026f67369bdce59b1b1479c1b1a2c6b90b0223aa356d",
         "size_bytes": 6500
+      },
+      {
+        "path": "runtime/per/named_bits.go",
+        "mode": "0644",
+        "sha256": "269e4f899a84bffead186cbff6d8c210682a8d204b5b9316b9b45f38ee5a4332",
+        "size_bytes": 9628
+      },
+      {
+        "path": "runtime/per/named_bits_test.go",
+        "mode": "0644",
+        "sha256": "4eed5fc381977534af1ff6075e6113a63b94a6055f2c4c4c0524170301a5e459",
+        "size_bytes": 11567
       },
       {
         "path": "runtime/per/normally_small_length_test.go",
@@ -6268,20 +6286,20 @@
       {
         "path": "runtime/per/tolerance.go",
         "mode": "0644",
-        "sha256": "9fc91580745e521d216549ef3e09d3858ff10d97c9d98c9aa870d70aa3b29ea7",
-        "size_bytes": 16994
+        "sha256": "85af36a95dd05761ff578a20e14b823ede3c80ab3f375e01878ec8990a714690",
+        "size_bytes": 19045
       },
       {
         "path": "runtime/per/tolerance_test.go",
         "mode": "0644",
-        "sha256": "ff713df0a8188eefd475e8036cd15ccfd7b064eb061ff0ce0aeac9b0826eae52",
-        "size_bytes": 17884
+        "sha256": "906e5bebc79ef0b684597b23b350a923f27aa8f924171e90143e746751d762cb",
+        "size_bytes": 20396
       },
       {
         "path": "runtime/per/uper.go",
         "mode": "0644",
-        "sha256": "f4c53f6618804e414977e1ecc4723649b7e41b928a30d3476a724661031db91a",
-        "size_bytes": 29660
+        "sha256": "d0263a3749a08328085e51c4218cdcb7a1a953970060e61cd9c0625f25d0cc40",
+        "size_bytes": 31290
       },
       {
         "path": "runtime/per/uper_test.go",
@@ -6358,20 +6376,20 @@
       {
         "path": "telecom/esim/sgp22/pkix1explicit88.go",
         "mode": "0644",
-        "sha256": "a2d77e0a49a0bc9a37424d3970c13a027232504b0c3e4fe4318f2c8a4bc1c1b1",
-        "size_bytes": 449143
+        "sha256": "63ec6570a9a1a20947a294ee8fe3d82509724b8b991d8bf32fe751d408a59b05",
+        "size_bytes": 448666
       },
       {
         "path": "telecom/esim/sgp22/pkix1implicit88.go",
         "mode": "0644",
-        "sha256": "cc1e6f3e8fd181194e978980ade96c3c3785219760d656a0c2775da5af4491c3",
-        "size_bytes": 235749
+        "sha256": "f1ba304436a9407c47207792cdf9c22cea0792870975c148dd2d09840edcea7e",
+        "size_bytes": 235375
       },
       {
         "path": "telecom/esim/sgp22/rspdefinitions.go",
         "mode": "0644",
-        "sha256": "a63d501dbd9d036f7a5e89a44d112bdb7f8dcddac928c86b2c8b222cd855d363",
-        "size_bytes": 1556779
+        "sha256": "20e497feca6ec0b172fabf793b0bcaa2c0f277be160ec9eecd35556a113c4396",
+        "size_bytes": 1555312
       },
       {
         "path": "telecom/esim/sgp32/asn1_wire_vectors_test.go",
@@ -6388,26 +6406,26 @@
       {
         "path": "telecom/esim/sgp32/pkix1explicit88.go",
         "mode": "0644",
-        "sha256": "8924c0303d25b57ee2bb276dd41a23ca5f36e8fdc902a812433f24544b5f6b26",
-        "size_bytes": 449143
+        "sha256": "9aa89e4dafc1eecbd4cebd8e6bfecfdbbde34977f2709274f6d22d2235a52b0d",
+        "size_bytes": 448666
       },
       {
         "path": "telecom/esim/sgp32/pkix1implicit88.go",
         "mode": "0644",
-        "sha256": "d091d8aa0cf32073fb75830cdb94d2f82fbc7ecb4d6b9377771304e175da67e0",
-        "size_bytes": 235749
+        "sha256": "f471ae3d173735ac039bfa5aff446af39cac84cdafaf91f53e9c78cc027a207e",
+        "size_bytes": 235375
       },
       {
         "path": "telecom/esim/sgp32/rspdefinitions.go",
         "mode": "0644",
-        "sha256": "aadeaeee0a2f9d8aa28f1f37155c7eb94c2570d5ec5b117eb5c0b4248f1f944a",
-        "size_bytes": 1556779
+        "sha256": "e54ceb48e215ce956afbeef94607b6f16428c2804a0c8f8cec0592e36316d2e8",
+        "size_bytes": 1555312
       },
       {
         "path": "telecom/esim/sgp32/sgp32definitions.go",
         "mode": "0644",
-        "sha256": "733a02961be43091ef85588db5cf7b59e53c44eee0239190c0f26cbc621d8142",
-        "size_bytes": 1974302
+        "sha256": "d14ca02cd7f95a13cde8eff1cf307f54f3521a925ad0030aaae0453905bd0dee",
+        "size_bytes": 1972639
       },
       {
         "path": "telecom/esim/sgp32/sgp32definitions_test.go",
@@ -6436,8 +6454,8 @@
       {
         "path": "telecom/lte/lpp/lpppdudefinitions.go",
         "mode": "0644",
-        "sha256": "081470bc02048a7386f2ef2ee2aec99590f35a2e36bb5b74902873e08ec99bc4",
-        "size_bytes": 8425741
+        "sha256": "85b7ee46f186df0cb7a042c9ac8cd290dacd06aca767b73462840d967262e269",
+        "size_bytes": 8461289
       },
       {
         "path": "telecom/lte/lpp/per_helpers.go",
@@ -6532,8 +6550,8 @@
       {
         "path": "telecom/lte/rrc/eutrarrcdefinitions.go",
         "mode": "0644",
-        "sha256": "4e5a5a9b799304bfc0bad569d32e760f0ce3c0349816484f1908ccda177547fd",
-        "size_bytes": 18412508
+        "sha256": "61c1a4af9c7d33a20fe3dcd41ff105c364e39a4bc9be10726cdaa5247963a88a",
+        "size_bytes": 18412292
       },
       {
         "path": "telecom/lte/rrc/eutrasidelinkpreconf.go",
@@ -6556,8 +6574,8 @@
       {
         "path": "telecom/lte/rrc/nbiotrrcdefinitions.go",
         "mode": "0644",
-        "sha256": "1152f36d80b9f062d78fc575fd1724f25f2d1fe44e29335539e35b940a6fb79f",
-        "size_bytes": 3127847
+        "sha256": "8542180da0c8ea30a283aec59eec2164eb3a8945a7019406ccefcc8020c63701",
+        "size_bytes": 3127784
       },
       {
         "path": "telecom/lte/rrc/nbiotuevariables.go",
@@ -6736,14 +6754,14 @@
       {
         "path": "telecom/ss7/gsm_map/dummymap.go",
         "mode": "0644",
-        "sha256": "4fb9b6fe3722ea5546ecb3c8ffe7c520e957338d322cc298a958f65f7296e466",
-        "size_bytes": 634898
+        "sha256": "3a153a6c32783739799f96a3811eab4565adc680a35d35c03684dc496db2f60a",
+        "size_bytes": 634255
       },
       {
         "path": "telecom/ss7/gsm_map/ericssonmap.go",
         "mode": "0644",
-        "sha256": "7a884308b5527318c5c8f4da3e44e6dcc79acd1d683ceeb463852ec75e15e19f",
-        "size_bytes": 227141
+        "sha256": "8bf6ebcb22ca2dd1cccf9cc37d1855a0a522caa5d2f72d2448763330778b91ae",
+        "size_bytes": 226804
       },
       {
         "path": "telecom/ss7/gsm_map/mapapplicationcontexts.go",
@@ -6796,86 +6814,86 @@
       {
         "path": "telecom/ss7/gsm_map/mapchdatatypes.go",
         "mode": "0644",
-        "sha256": "7b5aea4eb09fdf157b95ceb36af08968af97987f8a01a67ed65e3b99964c2797",
-        "size_bytes": 614506
+        "sha256": "ff80140483fcb1f86b4f65812a56b59ddb0c4c7ace4346e549a5fe64bc80ef27",
+        "size_bytes": 613882
       },
       {
         "path": "telecom/ss7/gsm_map/mapchdatatypes_2.go",
         "mode": "0644",
-        "sha256": "23e05daae47287ccddc178a4c96c5ec02e6df84d5ca7186df70694accaea4e94",
-        "size_bytes": 591848
+        "sha256": "df9d871404e62c5ec485131b461912a1a47a6cf8c4ae6c3d1c84bf6792838a10",
+        "size_bytes": 591212
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes.go",
         "mode": "0644",
-        "sha256": "381e0af421624dede3455503877d84e7d0808350c3f2e6024bde40131530e821",
-        "size_bytes": 153765
+        "sha256": "9e275d3cf25bc8ee92d10eaf220920cc7b5e2860e40414e1ce49a66335e9f40e",
+        "size_bytes": 153611
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_2.go",
         "mode": "0644",
-        "sha256": "bc61d71b3915245c3b356a50a89e6a3dcb72f82fe20a3b9d06bc71b4b34d67d4",
-        "size_bytes": 157308
+        "sha256": "7748cdbec9764c4e53c50c8be7e42be5c449ee1e2c0a5cb6362c7b3078ff9b9b",
+        "size_bytes": 157177
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_3.go",
         "mode": "0644",
-        "sha256": "69b54197139741c254f040c5b2c50c3838dc9720f71257902f39cb7f56cf45ac",
-        "size_bytes": 155262
+        "sha256": "5fc48e7917d7db6223a1d81a24987a6802ab7ad5f27464995f3f9cc1d07b1735",
+        "size_bytes": 155108
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_4.go",
         "mode": "0644",
-        "sha256": "4debff2483ba286da1a4ee66971472814335f253f979f12c31a51a5e982934db",
-        "size_bytes": 154550
+        "sha256": "90e5c365df8f63e3ce24f7bf3fd7cbbbd07e8a7c9adda9820b0e2f132418e0cd",
+        "size_bytes": 154396
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_5.go",
         "mode": "0644",
-        "sha256": "301a41e751178edc78d117a8d7a5d116b8a11b98420b0227b43393613d9b4608",
-        "size_bytes": 145319
+        "sha256": "b96d154e1a0b951f61e7faf234e2bc7f1e2754cbe34a31ef7f794549b2d5dc98",
+        "size_bytes": 145181
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_6.go",
         "mode": "0644",
-        "sha256": "723f51a8c596e0ac4b0cf5a2ca0310afe8bb8853632e8ae1e6721ce1ef0246e3",
-        "size_bytes": 144534
+        "sha256": "3535fde82b1ceb13434331a747adbbb52d690674e1f1a87e5b250d05e3ec3452",
+        "size_bytes": 144396
       },
       {
         "path": "telecom/ss7/gsm_map/mapdialogueinformation.go",
         "mode": "0644",
-        "sha256": "569607c57c51e6f2ad7d4cba1fd9bd179babd8e3028d6640448bb17dca90107f",
-        "size_bytes": 81108
+        "sha256": "ccb57da8a850fa7dc81b78fa8ba589978742b7022bb6be420a46753d6d8e9b46",
+        "size_bytes": 80941
       },
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes.go",
         "mode": "0644",
-        "sha256": "5cb06ecd1e786cbfc454266b8264854370535e4f135bd39ac4f4cbda2dd59738",
-        "size_bytes": 380228
+        "sha256": "40d37d372d094904f2f510d963e8b5605496e4c468dd771b98000c75dc66a150",
+        "size_bytes": 378447
       },
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes_2.go",
         "mode": "0644",
-        "sha256": "32f6de13a3fd232a5c35e19e1aa1b3d56d28766d1cf474e0e026bf7fd2086bb1",
-        "size_bytes": 369964
+        "sha256": "21bd8b3f2759f588b051fa1b3bd3fe5d30f7d365cb0d8e56a92bf1b3390a525e",
+        "size_bytes": 368155
       },
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes_3.go",
         "mode": "0644",
-        "sha256": "47e09819ffcbe24fba43e7fda9a02679b68800b2e2109d3e77d11b9400aa78a0",
-        "size_bytes": 381688
+        "sha256": "194f33ddb17cb5c4d1d0ef7ced3710a406be85e6fb4cbbe754c71235835a1938",
+        "size_bytes": 379883
       },
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes_4.go",
         "mode": "0644",
-        "sha256": "3a080f6d2135f18bdc0fac780c79336093dddabcc24e38ce8fa5897bdf45d5cc",
-        "size_bytes": 373816
+        "sha256": "a4b72ed73afb629e8d8351b4cb3987c3657ac78eb1e35f3d2137de51fa110a46",
+        "size_bytes": 372011
       },
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes_5.go",
         "mode": "0644",
-        "sha256": "25f965750a52fd6923c91f9e512a00acf69b4777e3efa5f2afd6d4bf127d404f",
-        "size_bytes": 366277
+        "sha256": "d28d7ae451971936cb389a96f5f1def28969ea9ee6ddea8ab2d45c976708df2d",
+        "size_bytes": 364472
       },
       {
         "path": "telecom/ss7/gsm_map/maperrors.go",
@@ -6892,44 +6910,44 @@
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes.go",
         "mode": "0644",
-        "sha256": "a4c66918db82295f669d8d4d59010dfe5046afeb3b8cd51003f9a991f14609f1",
-        "size_bytes": 44020
+        "sha256": "ed9f595938606656e53a55e0512516d093d26b840529343ea0e4040db5d408de",
+        "size_bytes": 43897
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_2.go",
         "mode": "0644",
-        "sha256": "10017a538ce88886696a2b9c6c8418ef01149aa896dd84d5fcfc4d75e9a0b7b2",
-        "size_bytes": 46543
+        "sha256": "d3c7393e87cace467decfefd094f896285acfa28661ef94be34e7069541edbec",
+        "size_bytes": 46430
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_3.go",
         "mode": "0644",
-        "sha256": "021e57d41e5b2699d39a82f85009bc2dbb66235623f61cd5848662875bed6070",
-        "size_bytes": 44167
+        "sha256": "af3fa8d61be073b03c4a8b3e914102e8d002a6d4055f9c2d75ac10547802081b",
+        "size_bytes": 44038
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_4.go",
         "mode": "0644",
-        "sha256": "45d520fa98af7610172921ab5f1f3ab1f79c7e02cddabf6d5c6f7cafa37c214a",
-        "size_bytes": 44167
+        "sha256": "f46d2136f9292b1e8ed0e0e9450450b5250a323572755d28e19ddc0def387297",
+        "size_bytes": 44038
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_5.go",
         "mode": "0644",
-        "sha256": "2b3f74e858d4133340977632e00aad1269a795ff49c4f950fd723daa03922e77",
-        "size_bytes": 44167
+        "sha256": "450f3ce541787163fa4685686d3162b5ed1da67c932627ede4a047308d84a973",
+        "size_bytes": 44038
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_6.go",
         "mode": "0644",
-        "sha256": "5ed1ba6d398615bc1f63a2c24d8630b948b4926ddc971cc832b090ba596c6031",
-        "size_bytes": 44167
+        "sha256": "1fe1053100067cc828daa85030c070e457ab536e2b75a1bf0721e9ffed8f92d2",
+        "size_bytes": 44038
       },
       {
         "path": "telecom/ss7/gsm_map/mapgrdatatypes.go",
         "mode": "0644",
-        "sha256": "6f6c3c7de50392a6437475179e8ffc965762ecf2421d395669b15f2b6c006d96",
-        "size_bytes": 204882
+        "sha256": "6ef57ae4f09f04513182672986bd8618d34f6f790bb940dbcbbf0d62af080642",
+        "size_bytes": 204681
       },
       {
         "path": "telecom/ss7/gsm_map/mapgroupcalloperations.go",
@@ -6940,14 +6958,14 @@
       {
         "path": "telecom/ss7/gsm_map/maplcsdatatypes.go",
         "mode": "0644",
-        "sha256": "4002c3a5a59eaa6673a031c63db17ab34a58ff56f84c6b8efb60e19cc9a09f40",
-        "size_bytes": 561969
+        "sha256": "4753333133f14bb57e317a6d8b7d38b2d0ebb9ffb8406688c0affd157e11491b",
+        "size_bytes": 561523
       },
       {
         "path": "telecom/ss7/gsm_map/maplcsdatatypes_2.go",
         "mode": "0644",
-        "sha256": "75b207d6c307f91cbba42e83d7d4be8f880a37a6b3570f42579d677b6861b97f",
-        "size_bytes": 565657
+        "sha256": "dbaaab8fec2c0b9b68ff826569501fa95b157e327bd0295d572f3371b26d475f",
+        "size_bytes": 565199
       },
       {
         "path": "telecom/ss7/gsm_map/maplocationserviceoperations.go",
@@ -6964,62 +6982,62 @@
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes.go",
         "mode": "0644",
-        "sha256": "7686905c552002b39dfba4af54b27b23f44783bdf993c0e78034a7ae78e3b78d",
-        "size_bytes": 4270026
+        "sha256": "7c39e0b6789505cbdc61f30378e21117f613ca0dbf1d70c9b9909c1db6e23b45",
+        "size_bytes": 4266493
       },
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes_2.go",
         "mode": "0644",
-        "sha256": "d28db94db503cdf6c610733b57e78fa51e6c57d964e9656315db704728e5731c",
-        "size_bytes": 2992785
+        "sha256": "0a30c8775d976de8b90cdd4e8b770790667fd339e222b1a96ad525aa77a17cb4",
+        "size_bytes": 2989935
       },
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes_3.go",
         "mode": "0644",
-        "sha256": "108c2f3c52e1040a03c7ba9d06a29ce5e14cb086c727e3a637f46a89300e6e24",
-        "size_bytes": 4011130
+        "sha256": "9eec2460f4f365e5e52e772915b6ee105c05e7f5187e19eeaa1847f70e39994d",
+        "size_bytes": 4007677
       },
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes_4.go",
         "mode": "0644",
-        "sha256": "c521d103e4fff0db70b4dfacb731641cb43a2634857cad61ccc6416d8ac255c8",
-        "size_bytes": 4281078
+        "sha256": "b399eb18881511e5fee9afc381a0b9fe3b370e3a18d084b52899aede64bd579b",
+        "size_bytes": 4277542
       },
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes_5.go",
         "mode": "0644",
-        "sha256": "b87f6b860b4bec4af0dbdef21a1bf71bb4fdca7eecf3766d6f0d79acacb9e797",
-        "size_bytes": 3809726
+        "sha256": "ae7bf74cd81dfa8d66185a9a9f9188e9f8a2c05dc5f6ecd63cbcd45d8d46135a",
+        "size_bytes": 3806414
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes.go",
         "mode": "0644",
-        "sha256": "b49dd937a878d297fbd30fefe508bc108b0d40a580028620a94a3c85961a87e3",
-        "size_bytes": 420193
+        "sha256": "60de858f6c9087b9a549295c8b112c8074380da9a838cd01b40ad7dc00028ca3",
+        "size_bytes": 419971
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes_2.go",
         "mode": "0644",
-        "sha256": "4532b2d58d5173de72f7233509fb89a1020af53b413f2a7f3d8d217cf8d87dca",
-        "size_bytes": 196396
+        "sha256": "4e285a34ce153133507c172b584cfc4e2f7be645ff518c83603dcd525ad9ab7e",
+        "size_bytes": 196223
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes_3.go",
         "mode": "0644",
-        "sha256": "ccc47b49db5925b801e4d03910986582e972852afcf6d9e405bdec8f2328cce0",
-        "size_bytes": 411614
+        "sha256": "1265672332ee9087faa63cf39454b2ff79fce8b1ea14acdd992a54192b1a99db",
+        "size_bytes": 411392
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes_4.go",
         "mode": "0644",
-        "sha256": "32d57895fef7fbc749be039f2f348f1b79fc30e194984bd5e367e076f1b07a77",
-        "size_bytes": 421462
+        "sha256": "bb63b351b0306cd4a6e34df807305c9e23a9f561ed2522a4e375044c33c8d1ce",
+        "size_bytes": 421240
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes_5.go",
         "mode": "0644",
-        "sha256": "db0d85c849afc43169050c1ce11069ebfb404ca4d8480148c068af82f57062e8",
-        "size_bytes": 340235
+        "sha256": "cfaf4ac501a4f7db753983e123bf5b23b5b61bb2573e5bb1afd67e43eeee43d8",
+        "size_bytes": 340013
       },
       {
         "path": "telecom/ss7/gsm_map/mapoperationandmaintenanceoperations.go",
@@ -7042,20 +7060,20 @@
       {
         "path": "telecom/ss7/gsm_map/mapsmdatatypes.go",
         "mode": "0644",
-        "sha256": "295e59babff66f06c49536196019dd375e9496c335a295e5b6d09f80aee54943",
-        "size_bytes": 458348
+        "sha256": "e104e6e2427572e6e4d3921030ab4fc5a2fa256f8e7794bc0e2b7e564e6d97ef",
+        "size_bytes": 457992
       },
       {
         "path": "telecom/ss7/gsm_map/mapsmdatatypes_2.go",
         "mode": "0644",
-        "sha256": "cb9f6fa54fb0d00b6862693907681daa810223f2c42c06eed00638d8e445517c",
-        "size_bytes": 339664
+        "sha256": "73a8427e185c204b0cd98de3c8b1410deb60db309a3f765df4707a927cfe2102",
+        "size_bytes": 339308
       },
       {
         "path": "telecom/ss7/gsm_map/mapsmdatatypes_3.go",
         "mode": "0644",
-        "sha256": "c386e72f31f58fb21c45772b6eaac76a937186f23fb597b86604717d09aab99f",
-        "size_bytes": 436672
+        "sha256": "81d19206fb5687fd12477d0974fadc10af04aba250c09fcb05ab3b1d693ccb64",
+        "size_bytes": 436316
       },
       {
         "path": "telecom/ss7/gsm_map/mapsscode.go",
@@ -7096,38 +7114,38 @@
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes.go",
         "mode": "0644",
-        "sha256": "09d2f06df89773e36f82ac081e447d3680bf26d7b88d3afbafbad97cf63c1f48",
-        "size_bytes": 333204
+        "sha256": "5697c8f1e36cf97e385405f6bb2be5d92659dd33d42783c0c31e85a5c43b86f3",
+        "size_bytes": 332821
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_2.go",
         "mode": "0644",
-        "sha256": "135473df9341a19ecc5d8ada0c07ec4ad08889e6d3c7c974fa6f548756bdc6d9",
-        "size_bytes": 337137
+        "sha256": "db9baddb2c19a1d6488a8e0bdba96961a80c6f4a5c6bf1b461da48b05ed12676",
+        "size_bytes": 336766
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_3.go",
         "mode": "0644",
-        "sha256": "b3fb7d6d416463b6d56f0a0f4b8d7d4ba116860c2f3f229a8c3ff313af787a7b",
-        "size_bytes": 334252
+        "sha256": "b18c2c3793137d251d9acfa2742d1a317866361542cbe69819115351b2f65dd2",
+        "size_bytes": 333863
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_4.go",
         "mode": "0644",
-        "sha256": "06850b9a57b8abc09143f3c3050f04dddfd524dc9ff52c407281f7505ba83e8b",
-        "size_bytes": 334252
+        "sha256": "62738e1bf9d7a05aeee2791fcc73760429d049f8a86e02e7dac9b8df2a41923e",
+        "size_bytes": 333863
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_5.go",
         "mode": "0644",
-        "sha256": "311f10467550e62dd6f46b583b7d749200540d46f1dd7ba12ec64229c99ff610",
-        "size_bytes": 334252
+        "sha256": "bd09be0b9723b41d92822bca18abf45a863b293724bbfa41bd5b73ba9eab7449",
+        "size_bytes": 333863
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_6.go",
         "mode": "0644",
-        "sha256": "bc4f5e00ee9a3fdda4ba512af3b8c4d13aca4a9b8653e162005177f1b9c420b8",
-        "size_bytes": 334252
+        "sha256": "9f003bc754a46c0c5fe3326f49bc85de2d1e1127737837ca98fa1e2c3b82a517",
+        "size_bytes": 333863
       },
       {
         "path": "telecom/ss7/gsm_map/mapsupplementaryserviceoperations.go",
@@ -7180,14 +7198,14 @@
       {
         "path": "telecom/ss7/gsm_map/nokiamapextensions.go",
         "mode": "0644",
-        "sha256": "c49cc7bc92935f1f9785b4c73c91dd3a0cea2600972c9fdf664131274f30360e",
-        "size_bytes": 610056
+        "sha256": "062af784961f5c5a91d1d0be7e7e39f2bf963cb03a2ad0946c4989f0ba65bdbd",
+        "size_bytes": 609143
       },
       {
         "path": "telecom/ss7/gsm_map/remoteoperationsgenericrospdus.go",
         "mode": "0644",
-        "sha256": "46589a9f3f175a463524d06aec68ba5182d2bc44c6a1ede7b74c39e12e28300a",
-        "size_bytes": 112036
+        "sha256": "24951cf7d3cdebbf4c25885a9c4895359bfa5f246c3a3977e4796b316019e024",
+        "size_bytes": 111836
       },
       {
         "path": "telecom/ss7/gsm_map/remoteoperationsinformationobjects.go",
@@ -7198,20 +7216,20 @@
       {
         "path": "telecom/ss7/gsm_map/remoteoperationsusefuldefinitions.go",
         "mode": "0644",
-        "sha256": "bd9c73a0cef2699d362f98b4972f9f8041c264502613c01948c72c8c7a28be01",
-        "size_bytes": 69640
+        "sha256": "8a857956de76825da955edf16da4ffe7aba3476a352b7c68fd141a765acc06db",
+        "size_bytes": 69544
       },
       {
         "path": "telecom/ss7/gsm_map/ssdatatypes.go",
         "mode": "0644",
-        "sha256": "ebf14719e460113f6fd32cf1617af3e1ac48ef5fa53e4b63458824df75057cbe",
-        "size_bytes": 1094600
+        "sha256": "01b507d96f47b7648e0ebeb3e1133124bbd64d606685ba055b8039532a88a903",
+        "size_bytes": 1093501
       },
       {
         "path": "telecom/ss7/gsm_map/sserrors.go",
         "mode": "0644",
-        "sha256": "bea74dcaec687f054e8b2fac2a1fa38cda10f5c5a54e0d85a9ebb2bb6db9255c",
-        "size_bytes": 6966
+        "sha256": "c6142c0a9dbe3d9e35c39a0c37774daed289eb12d476ad9b97ee6b1f7543ad7d",
+        "size_bytes": 6947
       },
       {
         "path": "telecom/ss7/gsm_map/ssoperations.go",
@@ -7234,8 +7252,8 @@
       {
         "path": "telecom/ss7/tcap/dialoguepdus.go",
         "mode": "0644",
-        "sha256": "ec8265c896860b40c50b66b55ad6b604468af4eea8857471698f7128476da79d",
-        "size_bytes": 122176
+        "sha256": "7d5fb2c4012d6e62ed237445893d70d838d848493df3df1aa45cdb39bde8d7ea",
+        "size_bytes": 122072
       },
       {
         "path": "telecom/ss7/tcap/linked_invoke_test.go",
@@ -7246,8 +7264,8 @@
       {
         "path": "telecom/ss7/tcap/remoteoperationsgenericrospdus.go",
         "mode": "0644",
-        "sha256": "c0e05498f47ae94b9a26dd34374abd29f6c72e15b7177d4a3bc0e9f8b384f856",
-        "size_bytes": 112033
+        "sha256": "1d46f5ad9fb83ec3ff45e98e22f052e1db62f6d830e7df74f297f889a0aa82a7",
+        "size_bytes": 111833
       },
       {
         "path": "telecom/ss7/tcap/remoteoperationsinformationobjects.go",
@@ -7258,20 +7276,20 @@
       {
         "path": "telecom/ss7/tcap/remoteoperationsusefuldefinitions.go",
         "mode": "0644",
-        "sha256": "eee6acc5ebebf00cf8643c376f1338d11f38f842247fdeab7bc010f258f05009",
-        "size_bytes": 69637
+        "sha256": "f248e6f455222aec0e2299ad06a7e7f6482ab05d655dcee9aa5d1f7d54e38815",
+        "size_bytes": 69541
       },
       {
         "path": "telecom/ss7/tcap/tcapmessages.go",
         "mode": "0644",
-        "sha256": "4d27daa9667d6e661c9e80a830344f0bb47ec7d66f354fec10088c1c364080a3",
-        "size_bytes": 103442
+        "sha256": "62302d2c01671ebc01efa817e1760be92f92e0c21496c7b2c2f7513f67278c18",
+        "size_bytes": 103266
       },
       {
         "path": "telecom/ss7/tcap/unidialoguepdus.go",
         "mode": "0644",
-        "sha256": "9228e588672f65448be41e6c5510808fbe1ba18e0c818f2059a31e2f634387ef",
-        "size_bytes": 23603
+        "sha256": "5c255a35434c8b05579a1ae2799b532271503fae49bc598c8ab70d938685142c",
+        "size_bytes": 23579
       },
       {
         "path": "telecom/umts/rrc/asn1_wire_vectors_test.go",
@@ -7300,14 +7318,14 @@
       {
         "path": "telecom/umts/rrc/informationelements.go",
         "mode": "0644",
-        "sha256": "84d550886b63c3d35897d9d5b80e0ce25f4067f86feb94ec81389b8d620bd079",
-        "size_bytes": 21748699
+        "sha256": "6a594545653d0a70b88f05228ea711b4d62e1eba980185a414a2e21dc3ece483",
+        "size_bytes": 21748141
       },
       {
         "path": "telecom/umts/rrc/internodedefinitions.go",
         "mode": "0644",
-        "sha256": "8f983c3634b3166c6a199bc11ad8ad7a64a9b1abff54e3526c8e1588dd08e93b",
-        "size_bytes": 2318041
+        "sha256": "7e0cc359f127fbad2e051b255d6d84579fd34f2dc3524d829fd4bbcba3354b7d",
+        "size_bytes": 2318014
       },
       {
         "path": "telecom/umts/rrc/nonstandard_padding_test.go",
@@ -7453,11 +7471,14 @@
         "$STAGE/runtime/per/hardening_test.go",
         "$STAGE/runtime/per/integer_big.go",
         "$STAGE/runtime/per/integer_big_test.go",
+        "$STAGE/runtime/per/integer_extension_root_test.go",
         "$STAGE/runtime/per/integer_int64_boundary_test.go",
         "$STAGE/runtime/per/integer_set.go",
         "$STAGE/runtime/per/integer_set_test.go",
         "$STAGE/runtime/per/integer_uint64.go",
         "$STAGE/runtime/per/minimal_integer_octets_test.go",
+        "$STAGE/runtime/per/named_bits.go",
+        "$STAGE/runtime/per/named_bits_test.go",
         "$STAGE/runtime/per/normally_small_length_test.go",
         "$STAGE/runtime/per/normally_small_nonnegative_test.go",
         "$STAGE/runtime/per/oid.go",
@@ -7742,11 +7763,14 @@
         "$STAGE/runtime/per/hardening_test.go",
         "$STAGE/runtime/per/integer_big.go",
         "$STAGE/runtime/per/integer_big_test.go",
+        "$STAGE/runtime/per/integer_extension_root_test.go",
         "$STAGE/runtime/per/integer_int64_boundary_test.go",
         "$STAGE/runtime/per/integer_set.go",
         "$STAGE/runtime/per/integer_set_test.go",
         "$STAGE/runtime/per/integer_uint64.go",
         "$STAGE/runtime/per/minimal_integer_octets_test.go",
+        "$STAGE/runtime/per/named_bits.go",
+        "$STAGE/runtime/per/named_bits_test.go",
         "$STAGE/runtime/per/normally_small_length_test.go",
         "$STAGE/runtime/per/normally_small_nonnegative_test.go",
         "$STAGE/runtime/per/oid.go",

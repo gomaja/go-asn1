@@ -612,8 +612,7 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_imsi := CommonDataTypesIMSI(decVal_imsi)
 				v.Imsi = &tmp_imsi
-				if offset < 0 || offset >
-					len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
+				if offset > len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -1154,9 +1153,7 @@ func (v *OMTraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				}
 				tmp_mscstracedepth := OMTraceDepth(decVal_mscstracedepth)
 				v.MscSTraceDepth = &tmp_mscstracedepth
-				if offset < 0 || offset >
-					len(content) || n_mscstracedepth < 0 || n_mscstracedepth >
-					len(content[offset:]) {
+				if offset > len(content) || n_mscstracedepth < 0 || n_mscstracedepth > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -1744,8 +1741,7 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 				tmp_mscslist := runtime.BitString{Bytes: bsBytes_mscslist, BitLength: bsBitLength_mscslist}
 				v.MscSList = &tmp_mscslist
-				if offset < 0 || offset >
-					len(content) || n_mscslist < 0 || n_mscslist > len(content[offset:]) {
+				if offset > len(content) || n_mscslist < 0 || n_mscslist > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -2333,8 +2329,7 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				}
 				tmp_mscslist := runtime.BitString{Bytes: bsBytes_mscslist, BitLength: bsBitLength_mscslist}
 				v.MscSList = &tmp_mscslist
-				if offset < 0 || offset >
-					len(content) || n_mscslist < 0 || n_mscslist > len(content[offset:]) {
+				if offset > len(content) || n_mscslist < 0 || n_mscslist > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -3065,9 +3060,7 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_tracereference := OMTraceReference(decVal_tracereference)
 				v.TraceReference = &tmp_tracereference
-				if offset < 0 || offset >
-					len(content) || n_tracereference < 0 || n_tracereference > len(
-					content[offset:]) {
+				if offset > len(content) || n_tracereference < 0 || n_tracereference > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -3622,9 +3615,7 @@ func (v *OMActivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
-					len(content[offset:]) {
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -3910,8 +3901,7 @@ func (v *OMDeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 				tmp_imsi := CommonDataTypesIMSI(decVal_imsi)
 				v.Imsi = &tmp_imsi
-				if offset < 0 || offset >
-					len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
+				if offset > len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -4177,9 +4167,7 @@ func (v *OMDeactivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeO
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
-					len(content[offset:]) {
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 

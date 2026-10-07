@@ -41207,7 +41207,7 @@ func (v *PDCPCapabilityR4SupportForRfc3095Supported) UnmarshalUPERWithOptions(da
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PDCPCapabilityR4SupportForRfc3095Supported")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -41460,7 +41460,7 @@ func (v *PDCPCapabilityR5SupportForRfc3095Supported) UnmarshalUPERWithOptions(da
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PDCPCapabilityR5SupportForRfc3095Supported")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -41718,7 +41718,7 @@ func (v *PDCPCapabilityR6SupportForRfc3095Supported) UnmarshalUPERWithOptions(da
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PDCPCapabilityR6SupportForRfc3095Supported")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 

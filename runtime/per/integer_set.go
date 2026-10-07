@@ -39,7 +39,11 @@ func DecodeIntegerValueSet(bb *BitBuffer, ranges []IntegerRange, extensible bool
 			return 0, err
 		}
 		if outside {
-			return DecodeUnconstrainedWholeNumber(bb)
+			value, err := DecodeUnconstrainedWholeNumber(bb)
+			if err == nil {
+				err = rejectRootValueInExtension(value, integerSetContains(value, ranges))
+			}
+			return value, err
 		}
 	}
 	value, err := DecodeConstrainedWholeNumber(bb, minimum, maximum)
@@ -83,7 +87,11 @@ func DecodeIntegerValueSetAligned(bb *BitBuffer, ranges []IntegerRange, extensib
 			return 0, err
 		}
 		if outside {
-			return DecodeUnconstrainedWholeNumberAligned(bb)
+			value, err := DecodeUnconstrainedWholeNumberAligned(bb)
+			if err == nil {
+				err = rejectRootValueInExtension(value, integerSetContains(value, ranges))
+			}
+			return value, err
 		}
 	}
 	value, err := DecodeConstrainedWholeNumberAligned(bb, minimum, maximum)

@@ -160,8 +160,7 @@ func (v *PruAssociationRejParam) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_newlmfroutingid := val_newlmfroutingid
 				v.NewLmfRoutingId = tmp_newlmfroutingid
-				if offset < 0 || offset >
-					len(content) || n_newlmfroutingid < 0 || n_newlmfroutingid > len(content[offset:]) {
+				if offset > len(content) || n_newlmfroutingid < 0 || n_newlmfroutingid > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 

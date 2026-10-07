@@ -854,8 +854,7 @@ func (v *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 				}
 				tmp_destinationreference := AddressString(decVal_destinationreference)
 				v.DestinationReference = &tmp_destinationreference
-				if offset < 0 || offset >
-					len(content) || n_destinationreference < 0 || n_destinationreference >
+				if offset > len(content) || n_destinationreference < 0 || n_destinationreference >
 					len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
@@ -1070,9 +1069,7 @@ func (v *MAPAcceptInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
-					len(content[offset:]) {
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -1080,9 +1077,7 @@ func (v *MAPAcceptInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
-					len(content[offset:]) {
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -1227,8 +1222,7 @@ func (v *MAPCloseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
 					len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
@@ -1237,8 +1231,7 @@ func (v *MAPCloseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
 					len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
@@ -1410,8 +1403,7 @@ func (v *MAPRefuseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		return fmt.Errorf("decoding reason: %w", err)
 	}
 	v.Reason = Reason(val_reason)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -1617,18 +1609,16 @@ func (v *MAPUserAbortInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if tlvErr_mapuserabortchoice != nil {
 		return fmt.Errorf("decoding map-UserAbortChoice: %w", tlvErr_mapuserabortchoice)
 	}
-	if offset < 0 || offset >
-		len(content) || n_mapuserabortchoice < 0 || n_mapuserabortchoice >
-		len(content[offset:]) {
+	if offset > len(content) || n_mapuserabortchoice < 0 || n_mapuserabortchoice > len(
+		content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
 	if unmErr := v.MapUserAbortChoice.UnmarshalBER(content[offset:offset+n_mapuserabortchoice], ber.ChildDecodeOptions(opts, "map-UserAbortChoice")...); unmErr != nil {
 		return fmt.Errorf("decoding map-UserAbortChoice: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_mapuserabortchoice < 0 || n_mapuserabortchoice >
-		len(content[offset:]) {
+	if offset > len(content) || n_mapuserabortchoice < 0 || n_mapuserabortchoice > len(
+		content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -2001,8 +1991,7 @@ func (v *MAPProviderAbortInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 		return fmt.Errorf("decoding map-ProviderAbortReason: %w", err)
 	}
 	v.MapProviderAbortReason = MAPProviderAbortReason(val_mapproviderabortreason)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 

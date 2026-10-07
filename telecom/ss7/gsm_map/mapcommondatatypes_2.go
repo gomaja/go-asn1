@@ -1006,8 +1006,7 @@ func (v *CommonDataTypesExternalSignalInfo) UnmarshalBER(data []byte, opts ...be
 		return fmt.Errorf("decoding protocolId: %w", err)
 	}
 	v.ProtocolId = CommonDataTypesProtocolId(val_protocolid)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -1225,8 +1224,7 @@ func (v *CommonDataTypesExtExternalSignalInfo) UnmarshalBER(data []byte, opts ..
 		return fmt.Errorf("decoding ext-ProtocolId: %w", err)
 	}
 	v.ExtProtocolId = CommonDataTypesExtProtocolId(val_extprotocolid)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -1439,8 +1437,7 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) UnmarshalBER(data []byte, opts 
 		return fmt.Errorf("decoding accessNetworkProtocolId: %w", err)
 	}
 	v.AccessNetworkProtocolId = CommonDataTypesAccessNetworkProtocolId(val_accessnetworkprotocolid)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -1798,8 +1795,7 @@ func (v *CommonDataTypesIMSIWithLMSI) UnmarshalBER(data []byte, opts ...ber.Deco
 		return fmt.Errorf("decoding imsi: %w", err)
 	}
 	v.Imsi = CommonDataTypesIMSI(val_imsi)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -2301,8 +2297,7 @@ func (v *CommonDataTypesNAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.D
 		return fmt.Errorf("decoding naea-PreferredCIC: %w", octetErr)
 	}
 	v.NaeaPreferredCIC = CommonDataTypesNAEACIC(decVal_naeapreferredcic)
-	if offset < 0 || offset >
-		len(content) || n_naeapreferredcic < 0 || n_naeapreferredcic > len(content[offset:]) {
+	if offset > len(content) || n_naeapreferredcic < 0 || n_naeapreferredcic > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -2709,8 +2704,7 @@ func (v *CommonDataTypesLCSClientExternalID) UnmarshalBER(data []byte, opts ...b
 				}
 				tmp_externaladdress := CommonDataTypesISDNAddressString(decVal_externaladdress)
 				v.ExternalAddress = &tmp_externaladdress
-				if offset < 0 || offset >
-					len(content) || n_externaladdress < 0 || n_externaladdress > len(content[offset:]) {
+				if offset > len(content) || n_externaladdress < 0 || n_externaladdress > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -3395,8 +3389,7 @@ func (v *CommonDataTypesEMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		return fmt.Errorf("decoding maximumentitledPriority: %w", err)
 	}
 	v.MaximumentitledPriority = CommonDataTypesEMLPPPriority(val_maximumentitledpriority)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -3722,8 +3715,7 @@ func (v *CommonDataTypesMCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		return fmt.Errorf("decoding ss-Code: %w", octetErr)
 	}
 	v.SsCode = SSSSCode(decVal_sscode)
-	if offset < 0 || offset >
-		len(content) || n_sscode < 0 || n_sscode > len(content[offset:]) {
+	if offset > len(content) || n_sscode < 0 || n_sscode > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 

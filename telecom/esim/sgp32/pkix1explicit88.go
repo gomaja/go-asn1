@@ -1739,8 +1739,7 @@ func (v *Attribute) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 		return fmt.Errorf("decoding type: %w", err)
 	}
 	v.Type = runtime.ObjectIdentifier(val_type)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -1877,8 +1876,7 @@ func (v *AttributeTypeAndValue) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		return fmt.Errorf("decoding type: %w", err)
 	}
 	v.Type = runtime.ObjectIdentifier(val_type)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -4309,18 +4307,14 @@ func (v *Certificate) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if tlvErr_tbscertificate != nil {
 		return fmt.Errorf("decoding tbsCertificate: %w", tlvErr_tbscertificate)
 	}
-	if offset < 0 || offset >
-		len(content) || n_tbscertificate < 0 || n_tbscertificate >
-		len(content[offset:]) {
+	if offset > len(content) || n_tbscertificate < 0 || n_tbscertificate > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
 	if unmErr := v.TbsCertificate.UnmarshalBER(content[offset:offset+n_tbscertificate], ber.ChildDecodeOptions(opts, "tbsCertificate")...); unmErr != nil {
 		return fmt.Errorf("decoding tbsCertificate: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_tbscertificate < 0 || n_tbscertificate >
-		len(content[offset:]) {
+	if offset > len(content) || n_tbscertificate < 0 || n_tbscertificate > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -4683,8 +4677,7 @@ func (v *TBSCertificate) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 					return fmt.Errorf("decoding version: %w", namedErr)
 				}
 				v.Version = &named_version
-				if offset < 0 || offset >
-					len(content) || n_version < 0 || n_version > len(content[offset:]) {
+				if offset > len(content) || n_version < 0 || n_version > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -5027,18 +5020,14 @@ func (v *Validity) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	if tlvErr_notbefore != nil {
 		return fmt.Errorf("decoding notBefore: %w", tlvErr_notbefore)
 	}
-	if offset < 0 || offset >
-		len(content) || n_notbefore < 0 || n_notbefore >
-		len(content[offset:]) {
+	if offset > len(content) || n_notbefore < 0 || n_notbefore > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
 	if unmErr := v.NotBefore.UnmarshalBER(content[offset:offset+n_notbefore], ber.ChildDecodeOptions(opts, "notBefore")...); unmErr != nil {
 		return fmt.Errorf("decoding notBefore: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_notbefore < 0 || n_notbefore >
-		len(content[offset:]) {
+	if offset > len(content) || n_notbefore < 0 || n_notbefore > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -5332,16 +5321,14 @@ func (v *SubjectPublicKeyInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if tlvErr_algorithm != nil {
 		return fmt.Errorf("decoding algorithm: %w", tlvErr_algorithm)
 	}
-	if offset < 0 || offset >
-		len(content) || n_algorithm < 0 || n_algorithm > len(content[offset:]) {
+	if offset > len(content) || n_algorithm < 0 || n_algorithm > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
 	if unmErr := v.Algorithm.UnmarshalBER(content[offset:offset+n_algorithm], ber.ChildDecodeOptions(opts, "algorithm")...); unmErr != nil {
 		return fmt.Errorf("decoding algorithm: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_algorithm < 0 || n_algorithm > len(content[offset:]) {
+	if offset > len(content) || n_algorithm < 0 || n_algorithm > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -5601,8 +5588,7 @@ func (v *Extension) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 		return fmt.Errorf("decoding extnID: %w", err)
 	}
 	v.ExtnID = runtime.ObjectIdentifier(val_extnid)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -5774,16 +5760,14 @@ func (v *CertificateList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 	if tlvErr_tbscertlist != nil {
 		return fmt.Errorf("decoding tbsCertList: %w", tlvErr_tbscertlist)
 	}
-	if offset < 0 || offset >
-		len(content) || n_tbscertlist < 0 || n_tbscertlist > len(content[offset:]) {
+	if offset > len(content) || n_tbscertlist < 0 || n_tbscertlist > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
 	if unmErr := v.TbsCertList.UnmarshalBER(content[offset:offset+n_tbscertlist], ber.ChildDecodeOptions(opts, "tbsCertList")...); unmErr != nil {
 		return fmt.Errorf("decoding tbsCertList: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_tbscertlist < 0 || n_tbscertlist > len(content[offset:]) {
+	if offset > len(content) || n_tbscertlist < 0 || n_tbscertlist > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -6032,8 +6016,7 @@ func (v *TBSCertList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 					return fmt.Errorf("decoding version: %w", namedErr)
 				}
 				v.Version = &named_version
-				if offset < 0 || offset >
-					len(content) || n < 0 || n > len(content[offset:]) {
+				if offset > len(content) || n < 0 || n > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -6315,8 +6298,7 @@ func (v *AlgorithmIdentifier) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		return fmt.Errorf("decoding algorithm: %w", err)
 	}
 	v.Algorithm = runtime.ObjectIdentifier(val_algorithm)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -6484,18 +6466,16 @@ func (v *ORAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	if tlvErr_builtinstandardattributes != nil {
 		return fmt.Errorf("decoding built-in-standard-attributes: %w", tlvErr_builtinstandardattributes)
 	}
-	if offset < 0 || offset >
-		len(content) || n_builtinstandardattributes < 0 ||
-		n_builtinstandardattributes > len(content[offset:]) {
+	if offset > len(content) || n_builtinstandardattributes < 0 || n_builtinstandardattributes >
+		len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
 	if unmErr := v.BuiltInStandardAttributes.UnmarshalBER(content[offset:offset+n_builtinstandardattributes], ber.ChildDecodeOptions(opts, "built-in-standard-attributes")...); unmErr != nil {
 		return fmt.Errorf("decoding built-in-standard-attributes: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_builtinstandardattributes < 0 ||
-		n_builtinstandardattributes > len(content[offset:]) {
+	if offset > len(content) || n_builtinstandardattributes < 0 || n_builtinstandardattributes >
+		len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -6933,15 +6913,14 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte, opts ...ber.Decode
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
-			if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 18) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 19) {
+			if peekTag.Class == tag.ClassApplication && peekTag.Number == 1 && peekTag.Constructed == true {
 				// Decode nested CHOICE (CountryName)
 				_, n_countryname, _, tlvErr_countryname := ber.DecodeTLV(content[offset:], opts...)
 				if tlvErr_countryname != nil {
 					return fmt.Errorf("decoding country-name: %w", tlvErr_countryname)
 				}
 				var dec_countryname CountryName
-				if offset < 0 || offset >
-					len(content) || n_countryname < 0 || n_countryname > len(content[offset:]) {
+				if offset > len(content) || n_countryname < 0 || n_countryname > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -6949,8 +6928,7 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte, opts ...ber.Decode
 					return fmt.Errorf("decoding country-name: %w", unmErr)
 				}
 				v.CountryName = &dec_countryname
-				if offset < 0 || offset >
-					len(content) || n_countryname < 0 || n_countryname > len(content[offset:]) {
+				if offset > len(content) || n_countryname < 0 || n_countryname > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -6962,7 +6940,7 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte, opts ...ber.Decode
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
-			if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 18) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 19) {
+			if peekTag.Class == tag.ClassApplication && peekTag.Number == 2 && peekTag.Constructed == true {
 				// Decode nested CHOICE (AdministrationDomainName)
 				_, n_administrationdomainname, _, tlvErr_administrationdomainname := ber.DecodeTLV(content[offset:], opts...)
 				if tlvErr_administrationdomainname != nil {
@@ -8397,8 +8375,7 @@ func (v *BuiltInDomainDefinedAttribute) UnmarshalBER(data []byte, opts ...ber.De
 		return fmt.Errorf("decoding type: %w", err)
 	}
 	v.Type = val_type
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -8686,8 +8663,7 @@ func (v *ExtensionAttribute) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		return fmt.Errorf("decoding extension-attribute-type: %w", intErr)
 	}
 	v.ExtensionAttributeType = decVal_extensionattributetype
-	if offset < 0 || offset >
-		len(content) || n_extensionattributetype < 0 || n_extensionattributetype >
+	if offset > len(content) || n_extensionattributetype < 0 || n_extensionattributetype >
 		len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
@@ -10225,8 +10201,7 @@ func (v *PresentationAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 				tmp_pselector := val_pselector
 				v.PSelector = tmp_pselector
-				if offset < 0 || offset >
-					len(content) || n_pselector < 0 || n_pselector > len(content[offset:]) {
+				if offset > len(content) || n_pselector < 0 || n_pselector > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -10565,8 +10540,7 @@ func (v *TeletexDomainDefinedAttribute) UnmarshalBER(data []byte, opts ...ber.De
 		return fmt.Errorf("decoding type: %w", err)
 	}
 	v.Type = val_type
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -10826,8 +10800,7 @@ func (v *TBSCertListRevokedCertificatesElem) UnmarshalBER(data []byte, opts ...b
 		return fmt.Errorf("decoding userCertificate: %w", err)
 	}
 	v.UserCertificate = val_usercertificate
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -11286,8 +11259,7 @@ func (v *ExtendedNetworkAddressE1634Address) UnmarshalBER(data []byte, opts ...b
 		return fmt.Errorf("decoding number: %w", stringErr)
 	}
 	v.Number = decVal_number
-	if offset < 0 || offset >
-		len(content) || n_number < 0 || n_number > len(content[offset:]) {
+	if offset > len(content) || n_number < 0 || n_number > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 

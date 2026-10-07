@@ -692,8 +692,7 @@ func (v *EnhancedCheckIMEIArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 		return fmt.Errorf("decoding imei: %w", err)
 	}
 	v.Imei = IMEI5(val_imei)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -1881,8 +1880,7 @@ func (v *IsdArgData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 				}
 				tmp_privatefeaturecode := PrivateFeatureCode(decVal_privatefeaturecode)
 				v.PrivateFeatureCode = &tmp_privatefeaturecode
-				if offset < 0 || offset >
-					len(content) || n_privatefeaturecode < 0 || n_privatefeaturecode >
+				if offset > len(content) || n_privatefeaturecode < 0 || n_privatefeaturecode >
 					len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
@@ -2252,8 +2250,7 @@ func (v *OickInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 		return fmt.Errorf("decoding ss-Status: %w", err)
 	}
 	v.SsStatus = ExtSSStatus5(val_ssstatus)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -2388,8 +2385,7 @@ func (v *SubscriptionTypeInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 		return fmt.Errorf("decoding subscriptionType: %w", err)
 	}
 	v.SubscriptionType = SubscriptionType(val_subscriptiontype)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -2659,8 +2655,7 @@ func (v *IsdResData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 				}
 				tmp_supportedprivatefeature := PrivateFeatureCode(decVal_supportedprivatefeature)
 				v.SupportedPrivateFeature = &tmp_supportedprivatefeature
-				if offset < 0 || offset >
-					len(content) || n_supportedprivatefeature < 0 || n_supportedprivatefeature >
+				if offset > len(content) || n_supportedprivatefeature < 0 || n_supportedprivatefeature >
 					len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
@@ -2915,8 +2910,7 @@ func (v *DsdArgData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 		return fmt.Errorf("decoding privateFeatureWithdraw: %w", err)
 	}
 	v.PrivateFeatureWithdraw = PrivateFeatureCode(val_privatefeaturewithdraw)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -3210,8 +3204,7 @@ func (v *SriArgData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 				}
 				tmp_privatefeaturecode := PrivateFeatureCode(decVal_privatefeaturecode)
 				v.PrivateFeatureCode = &tmp_privatefeaturecode
-				if offset < 0 || offset >
-					len(content) || n_privatefeaturecode < 0 || n_privatefeaturecode >
+				if offset > len(content) || n_privatefeaturecode < 0 || n_privatefeaturecode >
 					len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
@@ -3604,8 +3597,7 @@ func (v *SriResData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 				}
 				tmp_privatefeaturecode := PrivateFeatureCode(decVal_privatefeaturecode)
 				v.PrivateFeatureCode = &tmp_privatefeaturecode
-				if offset < 0 || offset >
-					len(content) || n_privatefeaturecode < 0 || n_privatefeaturecode >
+				if offset > len(content) || n_privatefeaturecode < 0 || n_privatefeaturecode >
 					len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
@@ -3989,8 +3981,7 @@ func (v *PrnArgData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 				}
 				tmp_privatefeaturecode := PrivateFeatureCode(decVal_privatefeaturecode)
 				v.PrivateFeatureCode = &tmp_privatefeaturecode
-				if offset < 0 || offset >
-					len(content) || n_privatefeaturecode < 0 || n_privatefeaturecode >
+				if offset > len(content) || n_privatefeaturecode < 0 || n_privatefeaturecode >
 					len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
@@ -4329,8 +4320,7 @@ func (v *UlArgData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 				}
 				tmp_privatefeaturecode := PrivateFeatureCode(decVal_privatefeaturecode)
 				v.PrivateFeatureCode = &tmp_privatefeaturecode
-				if offset < 0 || offset >
-					len(content) || n_privatefeaturecode < 0 || n_privatefeaturecode >
+				if offset > len(content) || n_privatefeaturecode < 0 || n_privatefeaturecode >
 					len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
@@ -4644,8 +4634,7 @@ func (v *ExtraSignalInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 		return fmt.Errorf("decoding protocolId: %w", err)
 	}
 	v.ProtocolId = ExtraProtocolId(val_protocolid)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -4803,8 +4792,7 @@ func (v *SaiArgType) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 					return fmt.Errorf("decoding msisdn: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_msisdn))
 				}
 				v.Msisdn = &struct{}{}
-				if offset < 0 || offset >
-					len(content) || n_msisdn < 0 || n_msisdn > len(content[offset:]) {
+				if offset > len(content) || n_msisdn < 0 || n_msisdn > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -4976,8 +4964,7 @@ func (v *SaiResType) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 				}
 				tmp_msisdn := ISDNAddressString5(decVal_msisdn)
 				v.MsIsdn = &tmp_msisdn
-				if offset < 0 || offset >
-					len(content) || n_msisdn < 0 || n_msisdn > len(content[offset:]) {
+				if offset > len(content) || n_msisdn < 0 || n_msisdn > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -5116,8 +5103,7 @@ func (v *AtiArgType) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 					return fmt.Errorf("decoding requestedInfoType: %w", unmErr)
 				}
 				v.RequestedInfoType = &dec_requestedinfotype
-				if offset < 0 || offset >
-					len(content) || n_requestedinfotype < 0 || n_requestedinfotype >
+				if offset > len(content) || n_requestedinfotype < 0 || n_requestedinfotype >
 					len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
@@ -5236,9 +5222,7 @@ func (v *AtiResType) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 					return fmt.Errorf("decoding toBeDecided: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_tobedecided))
 				}
 				v.ToBeDecided = &struct{}{}
-				if offset < 0 || offset >
-					len(content) || n_tobedecided < 0 || n_tobedecided >
-					len(content[offset:]) {
+				if offset > len(content) || n_tobedecided < 0 || n_tobedecided > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -5356,9 +5340,7 @@ func (v *RdArgType) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 					return fmt.Errorf("decoding toBeDecidedOne: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_tobedecidedone))
 				}
 				v.ToBeDecidedOne = &struct{}{}
-				if offset < 0 || offset >
-					len(content) || n_tobedecidedone < 0 || n_tobedecidedone >
-					len(content[offset:]) {
+				if offset > len(content) || n_tobedecidedone < 0 || n_tobedecidedone > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -5476,8 +5458,7 @@ func (v *RequestedInfoType) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 					return fmt.Errorf("decoding sgsnNumber: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_sgsnnumber))
 				}
 				v.SgsnNumber = &struct{}{}
-				if offset < 0 || offset >
-					len(content) || n_sgsnnumber < 0 || n_sgsnnumber > len(content[offset:]) {
+				if offset > len(content) || n_sgsnnumber < 0 || n_sgsnnumber > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -5745,8 +5726,7 @@ func (v *AtiArgData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 				}
 				tmp_privatefeaturecode := PrivateFeatureCode(decVal_privatefeaturecode)
 				v.PrivateFeatureCode = &tmp_privatefeaturecode
-				if offset < 0 || offset >
-					len(content) || n_privatefeaturecode < 0 || n_privatefeaturecode >
+				if offset > len(content) || n_privatefeaturecode < 0 || n_privatefeaturecode >
 					len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}

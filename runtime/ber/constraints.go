@@ -343,9 +343,10 @@ func BERNeedsPreservation(options []DecodeOption) bool {
 	return false
 }
 
-// MarkBERSetOrder marks a BER SET whose components are not in DER tag order.
-// BER leaves SET component order open; DER orders by identifier (X.690
-// (02/2021) §§8.11, 11.6). Only generated SET decoders call this helper.
+// MarkBERSetOrder preserves the received order of a BER SET. BER leaves SET
+// component order open; DER orders by identifier (X.690 (02/2021) §§8.11,
+// 11.6). The generated BER encoder uses schema order, so even a received SET
+// in DER tag order can differ from its fresh BER encoding.
 func MarkBERSetOrder(data []byte, options ...DecodeOption) error {
 	outer, total, contents, err := DecodeTLV(data, options...)
 	if err != nil {
@@ -380,6 +381,7 @@ func MarkBERSetOrder(data []byte, options ...DecodeOption) error {
 		previous = current
 		offset += used
 	}
+	MarkBERNonCanonical(options)
 	return nil
 }
 

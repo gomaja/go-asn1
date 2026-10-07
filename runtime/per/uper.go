@@ -3,6 +3,7 @@ package per
 import (
 	"fmt"
 	"math"
+	"math/big"
 	"math/bits"
 )
 
@@ -299,6 +300,11 @@ func EncodeInteger(bb *BitBuffer, v int64, lb, ub *int64, extensible bool) error
 	if lb != nil {
 		return EncodeSemiConstrainedWholeNumber(bb, v, *lb)
 	}
+	// X.691 (02/2021) 13.2.4: with only an upper bound the value is an
+	// unconstrained whole number, which can carry a value above the bound.
+	if err := checkIntegerUpperBound(v, ub); err != nil {
+		return err
+	}
 	return EncodeUnconstrainedWholeNumber(bb, v)
 }
 
@@ -310,7 +316,11 @@ func DecodeInteger(bb *BitBuffer, lb, ub *int64, extensible bool) (int64, error)
 			return 0, err
 		}
 		if isExtension {
-			return DecodeUnconstrainedWholeNumber(bb)
+			value, err := DecodeUnconstrainedWholeNumber(bb)
+			if err == nil {
+				err = rejectRootValueInExtension(value, integerInRoot(value, lb, ub))
+			}
+			return value, err
 		}
 	}
 	if lb != nil && ub != nil {
@@ -319,7 +329,11 @@ func DecodeInteger(bb *BitBuffer, lb, ub *int64, extensible bool) (int64, error)
 	if lb != nil {
 		return DecodeSemiConstrainedWholeNumber(bb, *lb)
 	}
-	return DecodeUnconstrainedWholeNumber(bb)
+	value, err := DecodeUnconstrainedWholeNumber(bb)
+	if err == nil {
+		err = checkIntegerUpperBound(value, ub)
+	}
+	return value, err
 }
 
 // EncodeEnumerated encodes an enumerated value.
@@ -853,6 +867,34 @@ func validateSizeBounds(lb, ub int64, constrained bool) error {
 func validateRootSize(length, lb, ub int64, constrained bool) error {
 	if constrained && (length < lb || length > ub) {
 		return fmt.Errorf("%w: length %d not in SIZE(%d..%d)", ErrConstraintViolation, length, lb, ub)
+	}
+	return nil
+}
+
+// integerInRoot reports whether value lies in the extension root of an
+// INTEGER with the given bounds; a nil bound is unset.
+func integerInRoot(value int64, lb, ub *int64) bool {
+	return (lb == nil || value >= *lb) && (ub == nil || value <= *ub)
+}
+
+// checkIntegerUpperBound rejects a value above an INTEGER's upper bound that
+// an unconstrained whole number carried, as the big-integer codecs do. In an
+// extensible type such a value is outside the root, and 13.1 sends it in
+// extension form.
+func checkIntegerUpperBound(value int64, ub *int64) error {
+	if ub != nil && value > *ub {
+		return fmt.Errorf("%w: INTEGER %d above upper bound %d", ErrConstraintViolation, value, *ub)
+	}
+	return nil
+}
+
+// rejectRootValueInExtension enforces X.691 (02/2021) 13.1: the extension bit
+// of an INTEGER is 1 only for a value outside the extension root, so a root
+// value in extension form is not an encoding of that value and cannot be
+// re-encoded as received.
+func rejectRootValueInExtension[T int64 | uint64 | *big.Int](value T, inRoot bool) error {
+	if inRoot {
+		return fmt.Errorf("%w: extension INTEGER value %v is inside the extension root", ErrInvalidValue, value)
 	}
 	return nil
 }

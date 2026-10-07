@@ -1044,8 +1044,7 @@ func (v *ExternalSignalInfo3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		return fmt.Errorf("decoding protocolId: %w", err)
 	}
 	v.ProtocolId = ProtocolId3(val_protocolid)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -1265,8 +1264,7 @@ func (v *ExtExternalSignalInfo3) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		return fmt.Errorf("decoding ext-ProtocolId: %w", err)
 	}
 	v.ExtProtocolId = ExtProtocolId3(val_extprotocolid)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -1481,8 +1479,7 @@ func (v *AccessNetworkSignalInfo3) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		return fmt.Errorf("decoding accessNetworkProtocolId: %w", err)
 	}
 	v.AccessNetworkProtocolId = AccessNetworkProtocolId3(val_accessnetworkprotocolid)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -1842,8 +1839,7 @@ func (v *IMSIWithLMSI3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		return fmt.Errorf("decoding imsi: %w", err)
 	}
 	v.Imsi = IMSI3(val_imsi)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -2345,9 +2341,7 @@ func (v *NAEAPreferredCI3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		return fmt.Errorf("decoding naea-PreferredCIC: %w", octetErr)
 	}
 	v.NaeaPreferredCIC = NAEACIC3(decVal_naeapreferredcic)
-	if offset < 0 || offset >
-		len(content) || n_naeapreferredcic < 0 || n_naeapreferredcic >
-		len(content[offset:]) {
+	if offset > len(content) || n_naeapreferredcic < 0 || n_naeapreferredcic > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -2754,9 +2748,7 @@ func (v *LCSClientExternalID3) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 				tmp_externaladdress := ISDNAddressString3(decVal_externaladdress)
 				v.ExternalAddress = &tmp_externaladdress
-				if offset < 0 || offset >
-					len(content) || n_externaladdress < 0 || n_externaladdress >
-					len(content[offset:]) {
+				if offset > len(content) || n_externaladdress < 0 || n_externaladdress > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -2982,8 +2974,7 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) UnmarshalBER(data []byte, op
 		return fmt.Errorf("decoding diameter-Name: %w", octetErr)
 	}
 	v.DiameterName = CommonDataTypesDiameterIdentity(decVal_diametername)
-	if offset < 0 || offset >
-		len(content) || n_diametername < 0 || n_diametername > len(content[offset:]) {
+	if offset > len(content) || n_diametername < 0 || n_diametername > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -3642,8 +3633,7 @@ func (v *EMLPPInfo3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 		return fmt.Errorf("decoding maximumentitledPriority: %w", err)
 	}
 	v.MaximumentitledPriority = EMLPPPriority3(val_maximumentitledpriority)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -3969,8 +3959,7 @@ func (v *MCSSInfo3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 		return fmt.Errorf("decoding ss-Code: %w", octetErr)
 	}
 	v.SsCode = SSCode3(decVal_sscode)
-	if offset < 0 || offset >
-		len(content) || n_sscode < 0 || n_sscode > len(content[offset:]) {
+	if offset > len(content) || n_sscode < 0 || n_sscode > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 

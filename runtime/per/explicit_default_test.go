@@ -33,10 +33,10 @@ func TestExplicitDefaultsRecord(t *testing.T) {
 	}
 }
 
-func TestWithExplicitDefaultsKeepsBoth(t *testing.T) {
+func TestWithRecordsKeepsBoth(t *testing.T) {
 	record := ExplicitDefaults(1 << 2)
 	padding := finalPaddingOf(CompletePadding{bits: 3, count: 2})
-	merged := padding.WithExplicitDefaults(record)
+	merged := padding.WithRecords(record)
 	if !merged.ExplicitDefault(2) || merged.Padding() != padding.Padding() {
 		t.Fatalf("merged padding %v, record %t", merged.Padding(), merged.ExplicitDefault(2))
 	}
@@ -44,10 +44,10 @@ func TestWithExplicitDefaultsKeepsBoth(t *testing.T) {
 	if padding.ExplicitDefault(2) || finalPaddingOf(CompletePadding{bits: 3, count: 2}).ExplicitDefault(2) {
 		t.Fatal("merging changed the shared padding table")
 	}
-	if got := padding.WithExplicitDefaults(FinalPadding{}); got != padding {
+	if got := padding.WithRecords(FinalPadding{}); got != padding {
 		t.Error("merging no record changed the padding")
 	}
-	if got := (FinalPadding{}).WithExplicitDefaults(record); got != record {
+	if got := (FinalPadding{}).WithRecords(record); got != record {
 		t.Error("merging into no padding did not reuse the record")
 	}
 	for _, test := range []struct {
@@ -55,8 +55,8 @@ func TestWithExplicitDefaultsKeepsBoth(t *testing.T) {
 		record func() FinalPadding
 		want   float64
 	}{
-		{"merging into no padding", func() FinalPadding { return (FinalPadding{}).WithExplicitDefaults(record) }, 0},
-		{"merging no record", func() FinalPadding { return padding.WithExplicitDefaults(FinalPadding{}) }, 0},
+		{"merging into no padding", func() FinalPadding { return (FinalPadding{}).WithRecords(record) }, 0},
+		{"merging no record", func() FinalPadding { return padding.WithRecords(FinalPadding{}) }, 0},
 		{"recording nothing", func() FinalPadding { return ExplicitDefaults(0) }, 0},
 		{"recording the eighth", func() FinalPadding { return ExplicitDefaults(1 << 7) }, 0},
 		{"recording the first eight", func() FinalPadding { return ExplicitDefaults(0xff) }, 0},
@@ -98,3 +98,31 @@ func TestUTCTimeEqualsCanonicalForm(t *testing.T) {
 		t.Error("an unset value equals a time")
 	}
 }
+
+// Kept BIT STRINGs share FinalPadding with the final bits and the explicit
+// defaults: each merge keeps all of them.
+func TestKeptBitStringsShareFinalPadding(t *testing.T) {
+	padding := FinalPaddingOf(CompletePadding{bits: 5, count: 3})
+	flags := KeepBitString([]byte{0x40}, 3)
+	decoded := ExplicitDefaults(2).WithKeptBitStrings(KeepAt(nil, 6, flags))
+	merged := padding.WithRecords(decoded)
+	if value, count := merged.Bits(); value != 5 || count != 3 || !merged.ExplicitDefault(1) || merged.KeptBitString(6).IsZero() || !merged.KeptBitString(0).IsZero() {
+		t.Fatalf("merged %d/%d explicit %v kept %v", value, count, merged.ExplicitDefault(1), !merged.KeptBitString(6).IsZero())
+	}
+	if kept := (FinalPadding{}).WithRecords(KeptBitStrings(KeepAt(nil, 1, flags))); kept.KeptBitString(1).IsZero() || kept.ExplicitDefault(0) {
+		t.Fatal("records of an unpadded value lost")
+	}
+	if same := padding.WithRecords(FinalPadding{}); same != padding {
+		t.Fatal("an empty record changed the final bits")
+	}
+	if !KeptBitStrings(nil).KeptBitString(0).IsZero() || !merged.KeptBitString(-1).IsZero() || !merged.KeptBitString(7).IsZero() {
+		t.Fatal("KeptBitString out of range")
+	}
+	// A value received with minimal lengths records nothing and allocates
+	// nothing.
+	if got := testing.AllocsPerRun(100, func() { keptSink = KeptBitStrings(KeepAt(nil, 3, KeptBits{})) }); got != 0 {
+		t.Errorf("an empty record allocates %v", got)
+	}
+}
+
+var keptSink FinalPadding

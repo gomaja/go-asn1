@@ -146,7 +146,11 @@ func decodeIntegerBigBounds(bb *BitBuffer, lower, upper *big.Int, extensible, al
 			return nil, err
 		}
 		if outside {
-			return decodeBigTwosComplement(bb, aligned)
+			value, err := decodeBigTwosComplement(bb, aligned)
+			if err == nil {
+				err = rejectRootValueInExtension(value, integerBigInRootBounds(value, lower, upper))
+			}
+			return value, err
 		}
 	}
 	if lower != nil && upper != nil {
@@ -209,7 +213,11 @@ func decodeIntegerValueSetBig(bb *BitBuffer, ranges []IntegerRange, extensible, 
 			return nil, decodeErr
 		}
 		if outside {
-			return decodeBigTwosComplement(bb, aligned)
+			value, err := decodeBigTwosComplement(bb, aligned)
+			if err == nil {
+				err = rejectRootValueInExtension(value, value.IsInt64() && integerSetContains(value.Int64(), ranges))
+			}
+			return value, err
 		}
 	}
 	var value int64
@@ -261,7 +269,11 @@ func decodeIntegerBigUint64Root(bb *BitBuffer, lower, upper uint64, extensible, 
 			return nil, err
 		}
 		if outside {
-			return decodeBigTwosComplement(bb, aligned)
+			value, err := decodeBigTwosComplement(bb, aligned)
+			if err == nil {
+				err = rejectRootValueInExtension(value, value.IsUint64() && value.Uint64() >= lower && value.Uint64() <= upper)
+			}
+			return value, err
 		}
 	}
 	var (

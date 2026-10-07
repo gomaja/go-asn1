@@ -1006,8 +1006,7 @@ func (v *ExternalSignalInfo6) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		return fmt.Errorf("decoding protocolId: %w", err)
 	}
 	v.ProtocolId = ProtocolId6(val_protocolid)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -1227,8 +1226,7 @@ func (v *ExtExternalSignalInfo6) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		return fmt.Errorf("decoding ext-ProtocolId: %w", err)
 	}
 	v.ExtProtocolId = ExtProtocolId6(val_extprotocolid)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -1443,8 +1441,7 @@ func (v *AccessNetworkSignalInfo6) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		return fmt.Errorf("decoding accessNetworkProtocolId: %w", err)
 	}
 	v.AccessNetworkProtocolId = AccessNetworkProtocolId6(val_accessnetworkprotocolid)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -1804,8 +1801,7 @@ func (v *IMSIWithLMSI6) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		return fmt.Errorf("decoding imsi: %w", err)
 	}
 	v.Imsi = IMSI6(val_imsi)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -2307,9 +2303,7 @@ func (v *NAEAPreferredCI6) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		return fmt.Errorf("decoding naea-PreferredCIC: %w", octetErr)
 	}
 	v.NaeaPreferredCIC = NAEACIC6(decVal_naeapreferredcic)
-	if offset < 0 || offset >
-		len(content) || n_naeapreferredcic < 0 || n_naeapreferredcic >
-		len(content[offset:]) {
+	if offset > len(content) || n_naeapreferredcic < 0 || n_naeapreferredcic > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -2716,9 +2710,7 @@ func (v *LCSClientExternalID6) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 				tmp_externaladdress := ISDNAddressString6(decVal_externaladdress)
 				v.ExternalAddress = &tmp_externaladdress
-				if offset < 0 || offset >
-					len(content) || n_externaladdress < 0 || n_externaladdress >
-					len(content[offset:]) {
+				if offset > len(content) || n_externaladdress < 0 || n_externaladdress > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -3404,8 +3396,7 @@ func (v *EMLPPInfo6) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 		return fmt.Errorf("decoding maximumentitledPriority: %w", err)
 	}
 	v.MaximumentitledPriority = EMLPPPriority6(val_maximumentitledpriority)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -3731,8 +3722,7 @@ func (v *MCSSInfo6) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 		return fmt.Errorf("decoding ss-Code: %w", octetErr)
 	}
 	v.SsCode = SSCode6(decVal_sscode)
-	if offset < 0 || offset >
-		len(content) || n_sscode < 0 || n_sscode > len(content[offset:]) {
+	if offset > len(content) || n_sscode < 0 || n_sscode > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 

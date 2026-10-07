@@ -1018,8 +1018,7 @@ func (v *ActivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 				tmp_imsi := IMSI5(decVal_imsi)
 				v.Imsi = &tmp_imsi
-				if offset < 0 || offset >
-					len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
+				if offset > len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -1762,8 +1761,7 @@ func (v *MDTConfiguration4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 		return fmt.Errorf("decoding jobType: %w", err)
 	}
 	v.JobType = JobType4(val_jobtype)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -2477,8 +2475,7 @@ func (v *AreaScope4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 				v.CgiList = dec_cgilist
 				{
 					_, tagSz_, _ := ber.DecodeTag(content[offset:])
-					if offset < 0 || offset >
-						len(content) || tagSz_ < 0 || tagSz_ > len(content[offset:]) {
+					if offset > len(content) || tagSz_ < 0 || tagSz_ > len(content[offset:]) {
 						return fmt.Errorf("invalid BER content window")
 					}
 
@@ -2486,8 +2483,7 @@ func (v *AreaScope4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 						v.CgiListIndef_ = true
 					}
 				}
-				if offset < 0 || offset >
-					len(content) || n_cgilist < 0 || n_cgilist > len(content[offset:]) {
+				if offset > len(content) || n_cgilist < 0 || n_cgilist > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -3668,9 +3664,7 @@ func (v *TraceDepthList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 				}
 				tmp_mscstracedepth := TraceDepth5(decVal_mscstracedepth)
 				v.MscSTraceDepth = &tmp_mscstracedepth
-				if offset < 0 || offset >
-					len(content) || n_mscstracedepth < 0 || n_mscstracedepth >
-					len(content[offset:]) {
+				if offset > len(content) || n_mscstracedepth < 0 || n_mscstracedepth > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -4574,8 +4568,7 @@ func (v *TraceInterfaceList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				}
 				tmp_mscslist := runtime.BitString{Bytes: bsBytes_mscslist, BitLength: bsBitLength_mscslist}
 				v.MscSList = &tmp_mscslist
-				if offset < 0 || offset >
-					len(content) || n_mscslist < 0 || n_mscslist > len(content[offset:]) {
+				if offset > len(content) || n_mscslist < 0 || n_mscslist > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -5464,8 +5457,7 @@ func (v *TraceEventList5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 				}
 				tmp_mscslist := runtime.BitString{Bytes: bsBytes_mscslist, BitLength: bsBitLength_mscslist}
 				v.MscSList = &tmp_mscslist
-				if offset < 0 || offset >
-					len(content) || n_mscslist < 0 || n_mscslist > len(content[offset:]) {
+				if offset > len(content) || n_mscslist < 0 || n_mscslist > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -6307,8 +6299,7 @@ func (v *TracePropagationList5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 				tmp_tracereference := TraceReference5(decVal_tracereference)
 				v.TraceReference = &tmp_tracereference
-				if offset < 0 || offset >
-					len(content) || n_tracereference < 0 || n_tracereference > len(content[offset:]) {
+				if offset > len(content) || n_tracereference < 0 || n_tracereference > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -6862,9 +6853,7 @@ func (v *ActivateTraceModeRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
-					len(content[offset:]) {
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -7150,8 +7139,7 @@ func (v *DeactivateTraceModeArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 				tmp_imsi := IMSI5(decVal_imsi)
 				v.Imsi = &tmp_imsi
-				if offset < 0 || offset >
-					len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
+				if offset > len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -7416,9 +7404,7 @@ func (v *DeactivateTraceModeRes5) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
-					len(content[offset:]) {
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 

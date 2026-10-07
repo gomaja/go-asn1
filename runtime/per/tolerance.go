@@ -353,10 +353,13 @@ func captureFinalBits(bb *BitBuffer, context string) (FinalPadding, error) {
 //
 // A decoded SEQUENCE or SET also records here which DEFAULT components of a
 // simple type it carried explicitly with their default values (see
-// ExplicitDefaults). A record of only the first eight such components of a
-// type comes from a shared table and allocates nothing; one that includes a
-// later component allocates once. A value kept raw was not decoded, so it
-// has no such record.
+// ExplicitDefaults), and a decoded SEQUENCE, SET, CHOICE or list the BIT
+// STRINGs with a NamedBitList it received with a length other than the
+// minimal one (see KeptBitStrings). A record of only the first eight explicit
+// defaults of a type comes from a shared table and allocates nothing; one
+// that includes a later component allocates once. Kept BIT STRINGs are
+// copies of the received values, allocated only for a value that has one. A
+// value kept raw was not decoded, so it has no such record.
 type FinalPadding struct{ bits *finalBits }
 
 type finalBits struct {
@@ -372,6 +375,10 @@ type finalBits struct {
 	// explicitDefaults has bit i set when the decoded value carried its i-th
 	// DEFAULT component of a simple type explicitly, holding the default.
 	explicitDefaults uint64
+	// kept[i] holds the decoded value's i-th BIT STRING with a NamedBitList,
+	// or list of them, when it was received with a length other than the one
+	// X.691 (02/2021) 16.2 and 16.3 give a new value (KeptBitStrings).
+	kept []KeptBits
 }
 
 // keepTrailing retains bits accepted after the value encoding in the first
@@ -470,9 +477,37 @@ func (bb *BitBuffer) CompleteBytesWithFinalPadding(final FinalPadding) ([]byte, 
 // (CONTAINING ...). It pads to an octet boundary, or writes the single zero
 // octet that X.691 (02/2021) 11.1.4 mandates for an empty encoding, so the
 // decoder's complete-encoding check accepts it.
-func CompleteContainedAligned(bb *BitBuffer) error {
+//
+// padding is what CaptureContainedPaddingAligned kept from the received
+// encoding. It is reproduced while it still fills the final octet exactly,
+// as CompleteBytesWithPadding does for a top-level value (go-asn1#90); a new
+// value has none and is padded with zero bits.
+func CompleteContainedAligned(bb *BitBuffer, padding CompletePadding) error {
 	if bb.bitPos == 0 {
 		return bb.WriteBits(0, 8)
 	}
+	if bb.bitPos < 0 || padding.count > 7 {
+		return fmt.Errorf("%w: invalid complete-encoding padding", ErrInvalidValue)
+	}
+	if padding.bits != 0 && padding.bits < 1<<padding.count && int(padding.count) == (8-bb.bitPos%8)%8 {
+		return bb.WriteBits(uint64(padding.bits), int(padding.count))
+	}
 	return bb.AlignToOctetWrite()
+}
+
+// CaptureContainedPaddingAligned consumes the padding after a value decoded
+// from an APER BIT STRING (CONTAINING ...). The contents are a complete
+// encoding (X.691 (02/2021) 11.1.1 b)), which the ALIGNED variant pads to a
+// multiple of eight bits, or replaces by one zero octet when empty (11.1.4;
+// 11.1.1 NOTE 1). Contents of another length are rejected: they are not a
+// complete encoding, and could not be re-encoded as received.
+//
+// Nonzero padding is accepted and returned, as CaptureFinalPadding does for a
+// top-level value (go-asn1#90), so that an unchanged value re-encodes as
+// received (see CompleteContainedAligned).
+func CaptureContainedPaddingAligned(bb *BitBuffer) (CompletePadding, error) {
+	if !bb.invalidLength && bb.bitLen%8 != 0 {
+		return CompletePadding{}, fmt.Errorf("%w: contained ALIGNED encoding has %d bits, not a multiple of eight", ErrInvalidValue, bb.bitLen)
+	}
+	return captureTrailingPadding(bb, "contained value")
 }
