@@ -614,9 +614,12 @@ defaults:
 
 A fixed-size `BIT STRING` needs no record. The record adds no field, and a
 value received with minimal lengths allocates exactly as before. Recording a
-`BIT STRING` received with another length allocates once for its copy (up to
-eight octets), at most once more as the holder's record grows, and once for
-the holder's record. `per.FinalPadding.WithExplicitDefaults` is now
+`BIT STRING` received with another length allocates once for its copy when
+the value fits in eight octets, which the record holds inline, and twice when
+it is longer, as the unconstrained LPP `lpp-message-segmentation-req-r14` and
+`lpp-message-segmentation-r14` values can be. Recording then allocates at
+most once more as the holder's record grows, and once for the holder's
+record. `per.FinalPadding.WithExplicitDefaults` is now
 `WithRecords`, as it merges both records.
 
 ## Available Protocols
