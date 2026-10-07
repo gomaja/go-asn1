@@ -44,7 +44,11 @@ func DecodeIntegerUint64(bb *BitBuffer, lower, upper uint64, extensible bool) (u
 			return 0, err
 		}
 		if outside {
-			return decodeUnconstrainedUint64(bb, false)
+			value, err := decodeUnconstrainedUint64(bb, false)
+			if err == nil {
+				err = rejectRootValueInExtension(value, value >= lower && value <= upper)
+			}
+			return value, err
 		}
 	}
 	rangeValue := upper - lower
@@ -151,7 +155,11 @@ func DecodeIntegerUint64Aligned(bb *BitBuffer, lower, upper uint64, extensible b
 			return 0, err
 		}
 		if outside {
-			return decodeUnconstrainedUint64(bb, true)
+			value, err := decodeUnconstrainedUint64(bb, true)
+			if err == nil {
+				err = rejectRootValueInExtension(value, value >= lower && value <= upper)
+			}
+			return value, err
 		}
 	}
 	rangeValue := upper - lower

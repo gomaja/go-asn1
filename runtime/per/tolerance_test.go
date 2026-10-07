@@ -340,7 +340,7 @@ func TestZeroBitCompleteEncodingsAreNotTolerances(t *testing.T) {
 		t.Fatalf("contained empty encoding = %d bits, %v", writer.BitsWritten(), err)
 	}
 	aligned := NewBitBuffer()
-	if err := CompleteContainedAligned(aligned); err != nil || !bytes.Equal(aligned.Bytes(), []byte{0}) || aligned.BitsWritten() != 8 {
+	if err := CompleteContainedAligned(aligned, CompletePadding{}); err != nil || !bytes.Equal(aligned.Bytes(), []byte{0}) || aligned.BitsWritten() != 8 {
 		t.Fatalf("aligned empty encoding = %x/%d, %v", aligned.Bytes(), aligned.BitsWritten(), err)
 	}
 }
@@ -495,4 +495,71 @@ func FuzzContainedBitsRoundTrip(f *testing.F) {
 			t.Fatalf("re-encoded %x/%d, want %x/%d", writer.Bytes(), writer.BitsWritten(), wantBytes, length)
 		}
 	})
+}
+
+// X.691 (02/2021) 11.1.1 b) and 11.1.4: the contents of an APER BIT STRING
+// (CONTAINING ...) are a complete encoding. Its padding is captured, nonzero
+// or not, and reproduced while it fills the final octet (go-asn1#103);
+// contents that are not whole octets are rejected.
+func TestContainedPaddingAligned(t *testing.T) {
+	for _, tc := range []struct {
+		name      string
+		data      []byte
+		bitLength int
+		valueBits int
+		padding   uint8
+		count     uint8
+		err       error
+	}{
+		{"zero padding", []byte{0x9c}, 8, 6, 0, 0, nil},
+		{"nonzero padding", []byte{0x9f}, 8, 6, 3, 2, nil},
+		{"whole octets", []byte{0x9c, 0x81}, 16, 16, 0, 0, nil},
+		{"empty value", []byte{0x00}, 8, 0, 0, 0, nil},
+		{"nonzero empty value", []byte{0x01}, 8, 0, 0, 0, ErrInvalidValue},
+		{"six bits", []byte{0x9c}, 6, 6, 0, 0, ErrInvalidValue},
+		{"twelve bits", []byte{0x9c, 0x00}, 12, 6, 0, 0, ErrInvalidValue},
+		{"nine trailing bits", []byte{0x9c, 0x00, 0x00}, 24, 6, 0, 0, ErrExtraData},
+	} {
+		bb, err := NewBitBufferFromBits(tc.data, tc.bitLength)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if _, err := bb.ReadBits(tc.valueBits); err != nil {
+			t.Fatal(err)
+		}
+		padding, err := CaptureContainedPaddingAligned(bb)
+		if tc.err != nil {
+			if !errors.Is(err, tc.err) {
+				t.Errorf("%s: error %v, want %v", tc.name, err, tc.err)
+			}
+			continue
+		}
+		if value, count := padding.Bits(); err != nil || value != tc.padding || count != tc.count {
+			t.Errorf("%s: padding %d/%d, %v, want %d/%d", tc.name, value, count, err, tc.padding, tc.count)
+			continue
+		}
+		writer := NewBitBuffer()
+		if err := writer.WriteBitsFromBytes(tc.data, tc.valueBits); err != nil {
+			t.Fatal(err)
+		}
+		if err := CompleteContainedAligned(writer, padding); err != nil || !bytes.Equal(writer.Bytes(), tc.data) || writer.BitsWritten() != tc.bitLength {
+			t.Errorf("%s: re-encoded %x/%d, %v, want %x", tc.name, writer.Bytes(), writer.BitsWritten(), err, tc.data)
+		}
+	}
+	// Padding that no longer fills the final octet is not reproduced.
+	padded, _ := NewBitBufferFromBits([]byte{0x9f}, 8)
+	if _, err := padded.ReadBits(6); err != nil {
+		t.Fatal(err)
+	}
+	padding, err := CaptureContainedPaddingAligned(padded)
+	if err != nil {
+		t.Fatal(err)
+	}
+	writer := NewBitBuffer()
+	if err := writer.WriteBits(0x5, 3); err != nil {
+		t.Fatal(err)
+	}
+	if err := CompleteContainedAligned(writer, padding); err != nil || !bytes.Equal(writer.Bytes(), []byte{0xa0}) {
+		t.Errorf("three-bit value: %x, %v, want a0", writer.Bytes(), err)
+	}
 }

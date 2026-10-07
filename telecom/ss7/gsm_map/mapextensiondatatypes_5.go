@@ -264,8 +264,7 @@ func (v *ExtensionContainer5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				v.PrivateExtensionList = dec_privateextensionlist
 				{
 					_, tagSz_, _ := ber.DecodeTag(content[offset:])
-					if offset < 0 || offset >
-						len(content) || tagSz_ < 0 || tagSz_ > len(content[offset:]) {
+					if offset > len(content) || tagSz_ < 0 || tagSz_ > len(content[offset:]) {
 						return fmt.Errorf("invalid BER content window")
 					}
 
@@ -273,9 +272,7 @@ func (v *ExtensionContainer5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 						v.PrivateExtensionListIndef_ = true
 					}
 				}
-				if offset < 0 || offset >
-					len(content) || n_privateextensionlist < 0 || n_privateextensionlist >
-					len(content[offset:]) {
+				if offset > len(content) || n_privateextensionlist < 0 || n_privateextensionlist > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -527,8 +524,7 @@ func (v *SLRArgExtensionContainer5) UnmarshalBER(data []byte, opts ...ber.Decode
 				v.PrivateExtensionList = dec_privateextensionlist
 				{
 					_, tagSz_, _ := ber.DecodeTag(content[offset:])
-					if offset < 0 || offset >
-						len(content) || tagSz_ < 0 || tagSz_ > len(content[offset:]) {
+					if offset > len(content) || tagSz_ < 0 || tagSz_ > len(content[offset:]) {
 						return fmt.Errorf("invalid BER content window")
 					}
 
@@ -536,9 +532,7 @@ func (v *SLRArgExtensionContainer5) UnmarshalBER(data []byte, opts ...ber.Decode
 						v.PrivateExtensionListIndef_ = true
 					}
 				}
-				if offset < 0 || offset >
-					len(content) || n_privateextensionlist < 0 || n_privateextensionlist >
-					len(content[offset:]) {
+				if offset > len(content) || n_privateextensionlist < 0 || n_privateextensionlist > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -821,8 +815,7 @@ func (v *PrivateExtension5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 		return fmt.Errorf("decoding extId: %w", err)
 	}
 	v.ExtId = runtime.ObjectIdentifier(val_extid)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -1085,9 +1078,7 @@ func (v *SLRArgPCSExtensions5) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 					return fmt.Errorf("decoding na-ESRK-Request: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_naesrkrequest))
 				}
 				v.NaESRKRequest = &struct{}{}
-				if offset < 0 || offset >
-					len(content) || n_naesrkrequest < 0 || n_naesrkrequest > len(
-					content[offset:]) {
+				if offset > len(content) || n_naesrkrequest < 0 || n_naesrkrequest > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 

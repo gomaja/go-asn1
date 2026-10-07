@@ -382,6 +382,11 @@ func EncodeIntegerAligned(bb *BitBuffer, v int64, lb, ub *int64, extensible bool
 	if lb != nil {
 		return EncodeSemiConstrainedWholeNumberAligned(bb, v, *lb)
 	}
+	// X.691 (02/2021) 13.2.4: with only an upper bound the value is an
+	// unconstrained whole number, which can carry a value above the bound.
+	if err := checkIntegerUpperBound(v, ub); err != nil {
+		return err
+	}
 	return EncodeUnconstrainedWholeNumberAligned(bb, v)
 }
 
@@ -393,7 +398,11 @@ func DecodeIntegerAligned(bb *BitBuffer, lb, ub *int64, extensible bool) (int64,
 			return 0, err
 		}
 		if isExtension {
-			return DecodeUnconstrainedWholeNumberAligned(bb)
+			value, err := DecodeUnconstrainedWholeNumberAligned(bb)
+			if err == nil {
+				err = rejectRootValueInExtension(value, integerInRoot(value, lb, ub))
+			}
+			return value, err
 		}
 	}
 	if lb != nil && ub != nil {
@@ -402,7 +411,11 @@ func DecodeIntegerAligned(bb *BitBuffer, lb, ub *int64, extensible bool) (int64,
 	if lb != nil {
 		return DecodeSemiConstrainedWholeNumberAligned(bb, *lb)
 	}
-	return DecodeUnconstrainedWholeNumberAligned(bb)
+	value, err := DecodeUnconstrainedWholeNumberAligned(bb)
+	if err == nil {
+		err = checkIntegerUpperBound(value, ub)
+	}
+	return value, err
 }
 
 // EncodeEnumeratedAligned encodes an enumerated value using APER rules.

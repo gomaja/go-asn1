@@ -25291,7 +25291,7 @@ func (v *InterFreqCarrierFreqInfoNBR13) UnmarshalUPERWithOptions(data []byte, op
 	if err != nil {
 		return runtime.WrapDecodePath(err, "InterFreqCarrierFreqInfoNBR13")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -29926,7 +29926,7 @@ func (v *PCCHConfigNBR14) UnmarshalUPERWithOptions(data []byte, options per.Deco
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PCCHConfigNBR14")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -30081,7 +30081,7 @@ func (v *PCCHConfigNBR17) UnmarshalUPERWithOptions(data []byte, options per.Deco
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PCCHConfigNBR17")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -35517,7 +35517,7 @@ func (v *DLCarrierConfigCommonNBR14) UnmarshalUPERWithOptions(data []byte, optio
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DLCarrierConfigCommonNBR14")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -46224,7 +46224,7 @@ func (v *WUSConfigNBR15) UnmarshalUPERWithOptions(data []byte, options per.Decod
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WUSConfigNBR15")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -49780,7 +49780,7 @@ func (v *PDCPParametersNBR13) UnmarshalUPERWithOptions(data []byte, options per.
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PDCPParametersNBR13")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -68248,7 +68248,7 @@ func (v *PDCPConfigNBR13HeaderCompressionR13Rohc) UnmarshalUPERWithOptions(data 
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PDCPConfigNBR13HeaderCompressionR13Rohc")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 

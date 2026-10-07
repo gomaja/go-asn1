@@ -118757,7 +118757,7 @@ func (v *InterFreqCarrierFreqInfo) UnmarshalUPERWithOptions(data []byte, options
 	if err != nil {
 		return runtime.WrapDecodePath(err, "InterFreqCarrierFreqInfo")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -119756,7 +119756,7 @@ func (v *InterFreqCarrierFreqInfoR12) UnmarshalUPERWithOptions(data []byte, opti
 	if err != nil {
 		return runtime.WrapDecodePath(err, "InterFreqCarrierFreqInfoR12")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -149191,7 +149191,7 @@ func (v *CRSChEstMPDCCHConfigDedicatedR16) UnmarshalUPERWithOptions(data []byte,
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CRSChEstMPDCCHConfigDedicatedR16")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -154969,7 +154969,7 @@ func (v *GWUSTimeParametersR16) UnmarshalUPERWithOptions(data []byte, options pe
 	if err != nil {
 		return runtime.WrapDecodePath(err, "GWUSTimeParametersR16")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -195854,7 +195854,7 @@ func (v *UplinkPowerControlDedicated) UnmarshalUPERWithOptions(data []byte, opti
 	if err != nil {
 		return runtime.WrapDecodePath(err, "UplinkPowerControlDedicated")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -196553,7 +196553,7 @@ func (v *UplinkPowerControlDedicatedSCellR10) UnmarshalUPERWithOptions(data []by
 	if err != nil {
 		return runtime.WrapDecodePath(err, "UplinkPowerControlDedicatedSCellR10")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -197639,7 +197639,7 @@ func (v *WUSConfigR15) UnmarshalUPERWithOptions(data []byte, options per.DecodeO
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WUSConfigR15")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -211681,7 +211681,7 @@ func (v *MeasObjectCDMA2000) UnmarshalUPERWithOptions(data []byte, options per.D
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasObjectCDMA2000")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -212575,7 +212575,7 @@ func (v *MeasObjectEUTRA) UnmarshalUPERWithOptions(data []byte, options per.Deco
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasObjectEUTRA")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -214793,7 +214793,7 @@ func (v *MeasObjectGERAN) UnmarshalUPERWithOptions(data []byte, options per.Deco
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasObjectGERAN")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -215206,7 +215206,7 @@ func (v *MeasObjectNRR15) UnmarshalUPERWithOptions(data []byte, options per.Deco
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasObjectNRR15")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -217620,7 +217620,7 @@ func (v *MeasObjectUTRA) UnmarshalUPERWithOptions(data []byte, options per.Decod
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasObjectUTRA")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -227790,7 +227790,7 @@ func (v *QuantityConfigEUTRA) UnmarshalUPERWithOptions(data []byte, options per.
 	if err != nil {
 		return runtime.WrapDecodePath(err, "QuantityConfigEUTRA")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -227933,7 +227933,7 @@ func (v *QuantityConfigEUTRAV1310) UnmarshalUPERWithOptions(data []byte, options
 	if err != nil {
 		return runtime.WrapDecodePath(err, "QuantityConfigEUTRAV1310")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -228007,7 +228007,7 @@ func (v *QuantityConfigUTRA) UnmarshalUPERWithOptions(data []byte, options per.D
 	if err != nil {
 		return runtime.WrapDecodePath(err, "QuantityConfigUTRA")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -228085,7 +228085,7 @@ func (v *QuantityConfigUTRAV1020) UnmarshalUPERWithOptions(data []byte, options 
 	if err != nil {
 		return runtime.WrapDecodePath(err, "QuantityConfigUTRAV1020")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -228156,7 +228156,7 @@ func (v *QuantityConfigGERAN) UnmarshalUPERWithOptions(data []byte, options per.
 	if err != nil {
 		return runtime.WrapDecodePath(err, "QuantityConfigGERAN")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -228461,7 +228461,7 @@ func (v *QuantityConfigRSNRR15) UnmarshalUPERWithOptions(data []byte, options pe
 	if err != nil {
 		return runtime.WrapDecodePath(err, "QuantityConfigRSNRR15")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -228562,7 +228562,7 @@ func (v *QuantityConfigWLANR13) UnmarshalUPERWithOptions(data []byte, options pe
 	if err != nil {
 		return runtime.WrapDecodePath(err, "QuantityConfigWLANR13")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -248511,7 +248511,7 @@ func (v *PDCPParameters) UnmarshalUPERWithOptions(data []byte, options per.Decod
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PDCPParameters")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -248751,7 +248751,7 @@ func (v *PDCPParametersV1430) UnmarshalUPERWithOptions(data []byte, options per.
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PDCPParametersV1430")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -274634,7 +274634,7 @@ func (v *PDCPParametersNRR15) UnmarshalUPERWithOptions(data []byte, options per.
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PDCPParametersNRR15")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -354233,7 +354233,7 @@ func (v *PDCPConfigHeaderCompressionRohc) UnmarshalUPERWithOptions(data []byte, 
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PDCPConfigHeaderCompressionRohc")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -354985,7 +354985,7 @@ func (v *PDCPConfigUplinkOnlyHeaderCompressionR14RohcR14) UnmarshalUPERWithOptio
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PDCPConfigUplinkOnlyHeaderCompressionR14RohcR14")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 

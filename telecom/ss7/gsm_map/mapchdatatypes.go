@@ -864,8 +864,7 @@ func (v *CUGCheckInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 		return fmt.Errorf("decoding cug-Interlock: %w", err)
 	}
 	v.CugInterlock = CUGInterlock(val_cuginterlock)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -1835,8 +1834,7 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		return fmt.Errorf("decoding msisdn: %w", octetErr)
 	}
 	v.Msisdn = ISDNAddressString(decVal_msisdn)
-	if offset < 0 || offset >
-		len(content) || n_msisdn < 0 || n_msisdn > len(content[offset:]) {
+	if offset > len(content) || n_msisdn < 0 || n_msisdn > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -3596,8 +3594,7 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 				tmp_imsi := IMSI(decVal_imsi)
 				v.Imsi = &tmp_imsi
-				if offset < 0 || offset >
-					len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
+				if offset > len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -4546,9 +4543,7 @@ func (v *CCBSIndicators) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 					return fmt.Errorf("decoding ccbs-Possible: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_ccbspossible))
 				}
 				v.CcbsPossible = &struct{}{}
-				if offset < 0 || offset >
-					len(content) || n_ccbspossible < 0 || n_ccbspossible >
-					len(content[offset:]) {
+				if offset > len(content) || n_ccbspossible < 0 || n_ccbspossible > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -5076,9 +5071,8 @@ func (v *ForwardingData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				}
 				tmp_forwardedtonumber := ISDNAddressString(decVal_forwardedtonumber)
 				v.ForwardedToNumber = &tmp_forwardedtonumber
-				if offset < 0 || offset >
-					len(content) || n_forwardedtonumber < 0 || n_forwardedtonumber >
-					len(content[offset:]) {
+				if offset > len(content) || n_forwardedtonumber < 0 || n_forwardedtonumber > len(
+					content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -6139,8 +6133,7 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		return fmt.Errorf("decoding imsi: %w", octetErr)
 	}
 	v.Imsi = IMSI(decVal_imsi)
-	if offset < 0 || offset >
-		len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
+	if offset > len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -7143,8 +7136,7 @@ func (v *ProvideRoamingNumberRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		return fmt.Errorf("decoding roamingNumber: %w", err)
 	}
 	v.RoamingNumber = ISDNAddressString(val_roamingnumber)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -7784,9 +7776,7 @@ func (v *ResumeCallHandlingArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 				tmp_callreferencenumber := CallReferenceNumber(decVal_callreferencenumber)
 				v.CallReferenceNumber = &tmp_callreferencenumber
-				if offset < 0 || offset >
-					len(content) || n_callreferencenumber < 0 || n_callreferencenumber >
-					len(content[offset:]) {
+				if offset > len(content) || n_callreferencenumber < 0 || n_callreferencenumber > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -8469,9 +8459,7 @@ func (v *UUData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 				}
 				tmp_uuindicator := UUIndicator(decVal_uuindicator)
 				v.UuIndicator = &tmp_uuindicator
-				if offset < 0 || offset >
-					len(content) || n_uuindicator < 0 || n_uuindicator >
-					len(content[offset:]) {
+				if offset > len(content) || n_uuindicator < 0 || n_uuindicator > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -8710,9 +8698,7 @@ func (v *ResumeCallHandlingRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
-					len(content[offset:]) {
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -8720,9 +8706,7 @@ func (v *ResumeCallHandlingRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
-					len(content[offset:]) {
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -8965,8 +8949,7 @@ func (v *CamelInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 		return fmt.Errorf("decoding supportedCamelPhases: %w", bsLenErr_supportedcamelphases)
 	}
 	v.SupportedCamelPhases = runtime.BitString{Bytes: bsBytes_supportedcamelphases, BitLength: bsBitLength_supportedcamelphases}
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -9406,9 +9389,7 @@ func (v *CamelRoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 					return fmt.Errorf("decoding forwardingData: %w", tlvErr_forwardingdata)
 				}
 				var dec_forwardingdata ForwardingData
-				if offset < 0 || offset >
-					len(content) || n_forwardingdata < 0 || n_forwardingdata >
-					len(content[offset:]) {
+				if offset > len(content) || n_forwardingdata < 0 || n_forwardingdata > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -9416,9 +9397,7 @@ func (v *CamelRoutingInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 					return fmt.Errorf("decoding forwardingData: %w", unmErr)
 				}
 				v.ForwardingData = &dec_forwardingdata
-				if offset < 0 || offset >
-					len(content) || n_forwardingdata < 0 || n_forwardingdata >
-					len(content[offset:]) {
+				if offset > len(content) || n_forwardingdata < 0 || n_forwardingdata > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -9814,8 +9793,7 @@ func (v *GmscCamelSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.Decode
 					return fmt.Errorf("decoding t-CSI: %w", unmErr)
 				}
 				v.TCSI = &dec_tcsi
-				if offset < 0 || offset >
-					len(content) || n_tcsi < 0 || n_tcsi > len(content[offset:]) {
+				if offset > len(content) || n_tcsi < 0 || n_tcsi > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -10250,8 +10228,7 @@ func (v *SetReportingStateArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 				tmp_imsi := IMSI(decVal_imsi)
 				v.Imsi = &tmp_imsi
-				if offset < 0 || offset >
-					len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
+				if offset > len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -10526,9 +10503,8 @@ func (v *SetReportingStateRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 				tmp_ccbssubscriberstatus := CCBSSubscriberStatus(decVal_ccbssubscriberstatus)
 				v.CcbsSubscriberStatus = &tmp_ccbssubscriberstatus
-				if offset < 0 || offset >
-					len(content) || n_ccbssubscriberstatus < 0 || n_ccbssubscriberstatus >
-					len(content[offset:]) {
+				if offset > len(content) || n_ccbssubscriberstatus < 0 || n_ccbssubscriberstatus > len(
+					content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -10802,8 +10778,7 @@ func (v *StatusReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 		return fmt.Errorf("decoding imsi: %w", octetErr)
 	}
 	v.Imsi = IMSI(decVal_imsi)
-	if offset < 0 || offset >
-		len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
+	if offset > len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -11078,8 +11053,7 @@ func (v *EventReportData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 				}
 				tmp_ccbssubscriberstatus := CCBSSubscriberStatus(decVal_ccbssubscriberstatus)
 				v.CcbsSubscriberStatus = &tmp_ccbssubscriberstatus
-				if offset < 0 || offset >
-					len(content) || n_ccbssubscriberstatus < 0 || n_ccbssubscriberstatus >
+				if offset > len(content) || n_ccbssubscriberstatus < 0 || n_ccbssubscriberstatus >
 					len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
@@ -11309,9 +11283,7 @@ func (v *CallReportData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 				}
 				tmp_monitoringmode := MonitoringMode(decVal_monitoringmode)
 				v.MonitoringMode = &tmp_monitoringmode
-				if offset < 0 || offset >
-					len(content) || n_monitoringmode < 0 || n_monitoringmode >
-					len(content[offset:]) {
+				if offset > len(content) || n_monitoringmode < 0 || n_monitoringmode > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -11534,9 +11506,7 @@ func (v *StatusReportRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
-					len(content[offset:]) {
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -11863,8 +11833,7 @@ func (v *RemoteUserFreeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 		return fmt.Errorf("decoding imsi: %w", octetErr)
 	}
 	v.Imsi = IMSI(decVal_imsi)
-	if offset < 0 || offset >
-		len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
+	if offset > len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -12231,8 +12200,7 @@ func (v *RemoteUserFreeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 		return fmt.Errorf("decoding ruf-Outcome: %w", intErr)
 	}
 	v.RufOutcome = RUFOutcome(decVal_rufoutcome)
-	if offset < 0 || offset >
-		len(content) || n_rufoutcome < 0 || n_rufoutcome > len(content[offset:]) {
+	if offset > len(content) || n_rufoutcome < 0 || n_rufoutcome > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -12455,8 +12423,7 @@ func (v *ISTAlertArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		return fmt.Errorf("decoding imsi: %w", octetErr)
 	}
 	v.Imsi = IMSI(decVal_imsi)
-	if offset < 0 || offset >
-		len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
+	if offset > len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -12715,9 +12682,7 @@ func (v *ISTAlertRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 				}
 				tmp_istalerttimer := ISTAlertTimerValue(decVal_istalerttimer)
 				v.IstAlertTimer = &tmp_istalerttimer
-				if offset < 0 || offset >
-					len(content) || n_istalerttimer < 0 || n_istalerttimer >
-					len(content[offset:]) {
+				if offset > len(content) || n_istalerttimer < 0 || n_istalerttimer > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -13002,8 +12967,7 @@ func (v *ISTCommandArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		return fmt.Errorf("decoding imsi: %w", octetErr)
 	}
 	v.Imsi = IMSI(decVal_imsi)
-	if offset < 0 || offset >
-		len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
+	if offset > len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -13181,9 +13145,7 @@ func (v *ISTCommandRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
-					len(content[offset:]) {
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -13191,9 +13153,7 @@ func (v *ISTCommandRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
-					len(content[offset:]) {
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -13366,8 +13326,7 @@ func (v *ReleaseResourcesArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		return fmt.Errorf("decoding msrn: %w", err)
 	}
 	v.Msrn = ISDNAddressString(val_msrn)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -13550,9 +13509,7 @@ func (v *ReleaseResourcesRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
-					len(content[offset:]) {
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -13560,9 +13517,7 @@ func (v *ReleaseResourcesRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
-					len(content[offset:]) {
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 

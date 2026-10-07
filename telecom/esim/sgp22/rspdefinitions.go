@@ -5893,8 +5893,7 @@ func (v *OperatorId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 		return fmt.Errorf("decoding mccMnc: %w", octetErr)
 	}
 	v.MccMnc = decVal_mccmnc
-	if offset < 0 || offset >
-		len(content) || n_mccmnc < 0 || n_mccmnc > len(content[offset:]) {
+	if offset > len(content) || n_mccmnc < 0 || n_mccmnc > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -6264,8 +6263,7 @@ func (v *BoundProfilePackage) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if tlvErr_initialisesecurechannelrequest != nil {
 		return fmt.Errorf("decoding initialiseSecureChannelRequest: %w", tlvErr_initialisesecurechannelrequest)
 	}
-	if offset < 0 || offset >
-		len(content) || n_initialisesecurechannelrequest < 0 || n_initialisesecurechannelrequest >
+	if offset > len(content) || n_initialisesecurechannelrequest < 0 || n_initialisesecurechannelrequest >
 		len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
@@ -6273,8 +6271,7 @@ func (v *BoundProfilePackage) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if unmErr := v.InitialiseSecureChannelRequest.UnmarshalBER(content[offset:offset+n_initialisesecurechannelrequest], ber.ChildDecodeOptions(opts, "initialiseSecureChannelRequest")...); unmErr != nil {
 		return fmt.Errorf("decoding initialiseSecureChannelRequest: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_initialisesecurechannelrequest < 0 || n_initialisesecurechannelrequest >
+	if offset > len(content) || n_initialisesecurechannelrequest < 0 || n_initialisesecurechannelrequest >
 		len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
@@ -6617,8 +6614,7 @@ func (v *ProfileInstallationResult) UnmarshalBER(data []byte, opts ...ber.Decode
 	if tlvErr_profileinstallationresultdata != nil {
 		return fmt.Errorf("decoding profileInstallationResultData: %w", tlvErr_profileinstallationresultdata)
 	}
-	if offset < 0 || offset >
-		len(content) || n_profileinstallationresultdata < 0 || n_profileinstallationresultdata >
+	if offset > len(content) || n_profileinstallationresultdata < 0 || n_profileinstallationresultdata >
 		len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
@@ -6626,8 +6622,7 @@ func (v *ProfileInstallationResult) UnmarshalBER(data []byte, opts ...ber.Decode
 	if unmErr := v.ProfileInstallationResultData.UnmarshalBER(content[offset:offset+n_profileinstallationresultdata], ber.ChildDecodeOptions(opts, "profileInstallationResultData")...); unmErr != nil {
 		return fmt.Errorf("decoding profileInstallationResultData: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_profileinstallationresultdata < 0 || n_profileinstallationresultdata >
+	if offset > len(content) || n_profileinstallationresultdata < 0 || n_profileinstallationresultdata >
 		len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
@@ -6875,8 +6870,7 @@ func (v *ProfileInstallationResultData) UnmarshalBER(data []byte, opts ...ber.De
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -7130,8 +7124,7 @@ func (v *SuccessResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		return fmt.Errorf("decoding aid: %w", octetErr)
 	}
 	v.Aid = decVal_aid
-	if offset < 0 || offset >
-		len(content) || n_aid < 0 || n_aid > len(content[offset:]) {
+	if offset > len(content) || n_aid < 0 || n_aid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -7357,9 +7350,7 @@ func (v *ErrorResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		return fmt.Errorf("decoding bppCommandId: %w", namedErr)
 	}
 	v.BppCommandId = named_bppcommandid
-	if offset < 0 || offset >
-		len(content) || n_bppcommandid < 0 || n_bppcommandid >
-		len(content[offset:]) {
+	if offset > len(content) || n_bppcommandid < 0 || n_bppcommandid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -7641,8 +7632,7 @@ func (v *DeviceInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 		return fmt.Errorf("decoding tac: %w", octetErr)
 	}
 	v.Tac = Octet4(decVal_tac)
-	if offset < 0 || offset >
-		len(content) || n_tac < 0 || n_tac > len(content[offset:]) {
+	if offset > len(content) || n_tac < 0 || n_tac > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -8341,9 +8331,8 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				}
 				tmp_gsmsupportedrelease := VersionType(decVal_gsmsupportedrelease)
 				v.GsmSupportedRelease = &tmp_gsmsupportedrelease
-				if offset < 0 || offset >
-					len(content) || n_gsmsupportedrelease < 0 || n_gsmsupportedrelease >
-					len(content[offset:]) {
+				if offset > len(content) || n_gsmsupportedrelease < 0 || n_gsmsupportedrelease > len(
+					content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -8996,8 +8985,7 @@ func (v *DeviceAdditionalFeatureSupport) UnmarshalBER(data []byte, opts ...ber.D
 				}
 				tmp_naisupport := VersionType(decVal_naisupport)
 				v.NaiSupport = &tmp_naisupport
-				if offset < 0 || offset >
-					len(content) || n_naisupport < 0 || n_naisupport > len(content[offset:]) {
+				if offset > len(content) || n_naisupport < 0 || n_naisupport > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -9676,9 +9664,7 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 					return fmt.Errorf("decoding serviceProviderName: %w", stringErr)
 				}
 				v.ServiceProviderName = &decVal_serviceprovidername
-				if offset < 0 || offset >
-					len(content) || n_serviceprovidername < 0 || n_serviceprovidername >
-					len(content[offset:]) {
+				if offset > len(content) || n_serviceprovidername < 0 || n_serviceprovidername > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -10146,8 +10132,7 @@ func (v *InitialiseSecureChannelRequest) UnmarshalBER(data []byte, opts ...ber.D
 		return fmt.Errorf("decoding remoteOpId: %w", namedErr)
 	}
 	v.RemoteOpId = named_remoteopid
-	if offset < 0 || offset >
-		len(content) || n_remoteopid < 0 || n_remoteopid > len(content[offset:]) {
+	if offset > len(content) || n_remoteopid < 0 || n_remoteopid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -10491,8 +10476,7 @@ func (v *ControlRefTemplate) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		return fmt.Errorf("decoding keyType: %w", octetErr)
 	}
 	v.KeyType = Octet1(decVal_keytype)
-	if offset < 0 || offset >
-		len(content) || n_keytype < 0 || n_keytype > len(content[offset:]) {
+	if offset > len(content) || n_keytype < 0 || n_keytype > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -10731,9 +10715,7 @@ func (v *ConfigureISDPRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 					return fmt.Errorf("decoding dpProprietaryData: %w", unmErr)
 				}
 				v.DpProprietaryData = &dec_dpproprietarydata
-				if offset < 0 || offset >
-					len(content) || n_dpproprietarydata < 0 || n_dpproprietarydata >
-					len(content[offset:]) {
+				if offset > len(content) || n_dpproprietarydata < 0 || n_dpproprietarydata > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -10894,8 +10876,7 @@ func (v *DpProprietaryData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 		return fmt.Errorf("decoding dpOid: %w", oidErr)
 	}
 	v.DpOid = runtime.ObjectIdentifier(decVal_dpoid)
-	if offset < 0 || offset >
-		len(content) || n_dpoid < 0 || n_dpoid > len(content[offset:]) {
+	if offset > len(content) || n_dpoid < 0 || n_dpoid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -11467,8 +11448,7 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 		return fmt.Errorf("decoding iccid: %w", octetErr)
 	}
 	v.Iccid = Iccid(decVal_iccid)
-	if offset < 0 || offset >
-		len(content) || n_iccid < 0 || n_iccid > len(content[offset:]) {
+	if offset > len(content) || n_iccid < 0 || n_iccid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -12117,9 +12097,7 @@ func (v *NotificationConfigurationInformation) UnmarshalBER(data []byte, opts ..
 		return fmt.Errorf("decoding profileManagementOperation: %w", bsLenErr_profilemanagementoperation)
 	}
 	v.ProfileManagementOperation = runtime.BitString{Bytes: bsBytes_profilemanagementoperation, BitLength: bsBitLength_profilemanagementoperation}
-	if offset < 0 || offset >
-		len(content) || n_profilemanagementoperation < 0 || n_profilemanagementoperation >
-		len(content[offset:]) {
+	if offset > len(content) || n_profilemanagementoperation < 0 || n_profilemanagementoperation > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -12453,9 +12431,7 @@ func (v *ReplaceSessionKeysRequest) UnmarshalBER(data []byte, opts ...ber.Decode
 		return fmt.Errorf("decoding initialMacChainingValue: %w", octetErr)
 	}
 	v.InitialMacChainingValue = decVal_initialmacchainingvalue
-	if offset < 0 || offset >
-		len(content) || n_initialmacchainingvalue < 0 || n_initialmacchainingvalue >
-		len(content[offset:]) {
+	if offset > len(content) || n_initialmacchainingvalue < 0 || n_initialmacchainingvalue > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -12716,8 +12692,7 @@ func (v *ISDRProprietaryApplicationTemplate) UnmarshalBER(data []byte, opts ...b
 		return fmt.Errorf("decoding svn: %w", octetErr)
 	}
 	v.Svn = VersionType(decVal_svn)
-	if offset < 0 || offset >
-		len(content) || n_svn < 0 || n_svn > len(content[offset:]) {
+	if offset > len(content) || n_svn < 0 || n_svn > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -12933,8 +12908,7 @@ func (v *LpaeActivationRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		return fmt.Errorf("decoding lpaeOption: %w", bsLenErr_lpaeoption)
 	}
 	v.LpaeOption = runtime.BitString{Bytes: bsBytes_lpaeoption, BitLength: bsBitLength_lpaeoption}
-	if offset < 0 || offset >
-		len(content) || n_lpaeoption < 0 || n_lpaeoption > len(content[offset:]) {
+	if offset > len(content) || n_lpaeoption < 0 || n_lpaeoption > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -13104,9 +13078,7 @@ func (v *LpaeActivationResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		return fmt.Errorf("decoding lpaeActivationResult: %w", namedErr)
 	}
 	v.LpaeActivationResult = named_lpaeactivationresult
-	if offset < 0 || offset >
-		len(content) || n_lpaeactivationresult < 0 || n_lpaeactivationresult >
-		len(content[offset:]) {
+	if offset > len(content) || n_lpaeactivationresult < 0 || n_lpaeactivationresult > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -13412,8 +13384,7 @@ func (v *EuiccConfiguredAddressesResponse) UnmarshalBER(data []byte, opts ...ber
 					return fmt.Errorf("decoding defaultDpAddress: %w", stringErr)
 				}
 				v.DefaultDpAddress = &decVal_defaultdpaddress
-				if offset < 0 || offset >
-					len(content) || n_defaultdpaddress < 0 || n_defaultdpaddress > len(content[offset:]) {
+				if offset > len(content) || n_defaultdpaddress < 0 || n_defaultdpaddress > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -13609,9 +13580,7 @@ func (v *SetDefaultDpAddressRequest) UnmarshalBER(data []byte, opts ...ber.Decod
 		return fmt.Errorf("decoding defaultDpAddress: %w", stringErr)
 	}
 	v.DefaultDpAddress = decVal_defaultdpaddress
-	if offset < 0 || offset >
-		len(content) || n_defaultdpaddress < 0 || n_defaultdpaddress > len(
-		content[offset:]) {
+	if offset > len(content) || n_defaultdpaddress < 0 || n_defaultdpaddress > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -13781,9 +13750,7 @@ func (v *SetDefaultDpAddressResponse) UnmarshalBER(data []byte, opts ...ber.Deco
 		return fmt.Errorf("decoding setDefaultDpAddressResult: %w", namedErr)
 	}
 	v.SetDefaultDpAddressResult = named_setdefaultdpaddressresult
-	if offset < 0 || offset >
-		len(content) || n_setdefaultdpaddressresult < 0 || n_setdefaultdpaddressresult >
-		len(content[offset:]) {
+	if offset > len(content) || n_setdefaultdpaddressresult < 0 || n_setdefaultdpaddressresult > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -13981,16 +13948,14 @@ func (v *PrepareDownloadRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	if tlvErr_smdpsigned2 != nil {
 		return fmt.Errorf("decoding smdpSigned2: %w", tlvErr_smdpsigned2)
 	}
-	if offset < 0 || offset >
-		len(content) || n_smdpsigned2 < 0 || n_smdpsigned2 > len(content[offset:]) {
+	if offset > len(content) || n_smdpsigned2 < 0 || n_smdpsigned2 > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
 	if unmErr := v.SmdpSigned2.UnmarshalBER(content[offset:offset+n_smdpsigned2], ber.ChildDecodeOptions(opts, "smdpSigned2")...); unmErr != nil {
 		return fmt.Errorf("decoding smdpSigned2: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_smdpsigned2 < 0 || n_smdpsigned2 > len(content[offset:]) {
+	if offset > len(content) || n_smdpsigned2 < 0 || n_smdpsigned2 > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -14267,9 +14232,7 @@ func (v *SmdpSigned2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid >
-		len(content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -14695,16 +14658,14 @@ func (v *PrepareDownloadResponseOk) UnmarshalBER(data []byte, opts ...ber.Decode
 	if tlvErr_euiccsigned2 != nil {
 		return fmt.Errorf("decoding euiccSigned2: %w", tlvErr_euiccsigned2)
 	}
-	if offset < 0 || offset >
-		len(content) || n_euiccsigned2 < 0 || n_euiccsigned2 > len(content[offset:]) {
+	if offset > len(content) || n_euiccsigned2 < 0 || n_euiccsigned2 > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
 	if unmErr := v.EuiccSigned2.UnmarshalBER(content[offset:offset+n_euiccsigned2], ber.ChildDecodeOptions(opts, "euiccSigned2")...); unmErr != nil {
 		return fmt.Errorf("decoding euiccSigned2: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_euiccsigned2 < 0 || n_euiccsigned2 > len(content[offset:]) {
+	if offset > len(content) || n_euiccsigned2 < 0 || n_euiccsigned2 > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -14943,9 +14904,7 @@ func (v *EUICCSigned2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid >
-		len(content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -15181,8 +15140,7 @@ func (v *PrepareDownloadResponseError) UnmarshalBER(data []byte, opts ...ber.Dec
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -15502,8 +15460,7 @@ func (v *GetEuiccChallengeResponse) UnmarshalBER(data []byte, opts ...ber.Decode
 		return fmt.Errorf("decoding euiccChallenge: %w", octetErr)
 	}
 	v.EuiccChallenge = Octet16(decVal_euiccchallenge)
-	if offset < 0 || offset >
-		len(content) || n_euiccchallenge < 0 || n_euiccchallenge > len(content[offset:]) {
+	if offset > len(content) || n_euiccchallenge < 0 || n_euiccchallenge > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -16006,8 +15963,7 @@ func (v *EUICCInfo1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 		return fmt.Errorf("decoding svn: %w", octetErr)
 	}
 	v.Svn = VersionType(decVal_svn)
-	if offset < 0 || offset >
-		len(content) || n_svn < 0 || n_svn > len(content[offset:]) {
+	if offset > len(content) || n_svn < 0 || n_svn > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -17002,9 +16958,7 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 		return fmt.Errorf("decoding profileVersion: %w", octetErr)
 	}
 	v.ProfileVersion = VersionType(decVal_profileversion)
-	if offset < 0 || offset >
-		len(content) || n_profileversion < 0 || n_profileversion >
-		len(content[offset:]) {
+	if offset > len(content) || n_profileversion < 0 || n_profileversion > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -17933,8 +17887,7 @@ func (v *CertificationDataObject) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		return fmt.Errorf("decoding platformLabel: %w", stringErr)
 	}
 	v.PlatformLabel = decVal_platformlabel
-	if offset < 0 || offset >
-		len(content) || n_platformlabel < 0 || n_platformlabel > len(content[offset:]) {
+	if offset > len(content) || n_platformlabel < 0 || n_platformlabel > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -18261,8 +18214,7 @@ func (v *ListNotificationRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				}
 				tmp_profilemanagementoperation := runtime.BitString{Bytes: bsBytes_profilemanagementoperation, BitLength: bsBitLength_profilemanagementoperation}
 				v.ProfileManagementOperation = &tmp_profilemanagementoperation
-				if offset < 0 || offset >
-					len(content) || n_profilemanagementoperation < 0 || n_profilemanagementoperation >
+				if offset > len(content) || n_profilemanagementoperation < 0 || n_profilemanagementoperation >
 					len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
@@ -18710,8 +18662,7 @@ func (v *NotificationMetadata) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 		return fmt.Errorf("decoding seqNumber: %w", intErr)
 	}
 	v.SeqNumber = decVal_seqnumber
-	if offset < 0 || offset >
-		len(content) || n_seqnumber < 0 || n_seqnumber > len(content[offset:]) {
+	if offset > len(content) || n_seqnumber < 0 || n_seqnumber > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -18961,8 +18912,7 @@ func (v *RetrieveNotificationsListRequest) UnmarshalBER(data []byte, opts ...ber
 					return fmt.Errorf("decoding searchCriteria: %w", unmErr)
 				}
 				v.SearchCriteria = &dec_searchcriteria
-				if offset < 0 || offset >
-					len(content) || n_searchcriteria < 0 || n_searchcriteria > len(content[offset:]) {
+				if offset > len(content) || n_searchcriteria < 0 || n_searchcriteria > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -19476,18 +19426,14 @@ func (v *OtherSignedNotification) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if tlvErr_tbsothernotification != nil {
 		return fmt.Errorf("decoding tbsOtherNotification: %w", tlvErr_tbsothernotification)
 	}
-	if offset < 0 || offset >
-		len(content) || n_tbsothernotification < 0 || n_tbsothernotification >
-		len(content[offset:]) {
+	if offset > len(content) || n_tbsothernotification < 0 || n_tbsothernotification > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
 	if unmErr := v.TbsOtherNotification.UnmarshalBER(content[offset:offset+n_tbsothernotification], ber.ChildDecodeOptions(opts, "tbsOtherNotification")...); unmErr != nil {
 		return fmt.Errorf("decoding tbsOtherNotification: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_tbsothernotification < 0 || n_tbsothernotification >
-		len(content[offset:]) {
+	if offset > len(content) || n_tbsothernotification < 0 || n_tbsothernotification > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -19733,8 +19679,7 @@ func (v *NotificationSentRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		return fmt.Errorf("decoding seqNumber: %w", intErr)
 	}
 	v.SeqNumber = decVal_seqnumber
-	if offset < 0 || offset >
-		len(content) || n_seqnumber < 0 || n_seqnumber > len(content[offset:]) {
+	if offset > len(content) || n_seqnumber < 0 || n_seqnumber > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -19904,8 +19849,7 @@ func (v *NotificationSentResponse) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		return fmt.Errorf("decoding deleteNotificationStatus: %w", namedErr)
 	}
 	v.DeleteNotificationStatus = named_deletenotificationstatus
-	if offset < 0 || offset >
-		len(content) || n_deletenotificationstatus < 0 || n_deletenotificationstatus >
+	if offset > len(content) || n_deletenotificationstatus < 0 || n_deletenotificationstatus >
 		len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
@@ -20074,8 +20018,7 @@ func (v *LoadCRLRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	if unmErr := v.Crl.UnmarshalBER(reconstructed_crl, ber.ChildDecodeOptions(opts, "crl")...); unmErr != nil {
 		return fmt.Errorf("decoding crl: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_crl < 0 || n_crl > len(content[offset:]) {
+	if offset > len(content) || n_crl < 0 || n_crl > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -20452,8 +20395,7 @@ func (v *LoadCRLResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 				v.MissingParts = dec_missingparts
 				{
 					_, tagSz_, _ := ber.DecodeTag(content[offset:])
-					if offset < 0 || offset >
-						len(content) || tagSz_ < 0 || tagSz_ > len(content[offset:]) {
+					if offset > len(content) || tagSz_ < 0 || tagSz_ > len(content[offset:]) {
 						return fmt.Errorf("invalid BER content window")
 					}
 
@@ -20461,8 +20403,7 @@ func (v *LoadCRLResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 						v.MissingPartsIndef_ = true
 					}
 				}
-				if offset < 0 || offset >
-					len(content) || n_missingparts < 0 || n_missingparts > len(content[offset:]) {
+				if offset > len(content) || n_missingparts < 0 || n_missingparts > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -20659,16 +20600,14 @@ func (v *AuthenticateServerRequest) UnmarshalBER(data []byte, opts ...ber.Decode
 	if tlvErr_serversigned1 != nil {
 		return fmt.Errorf("decoding serverSigned1: %w", tlvErr_serversigned1)
 	}
-	if offset < 0 || offset >
-		len(content) || n_serversigned1 < 0 || n_serversigned1 > len(content[offset:]) {
+	if offset > len(content) || n_serversigned1 < 0 || n_serversigned1 > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
 	if unmErr := v.ServerSigned1.UnmarshalBER(content[offset:offset+n_serversigned1], ber.ChildDecodeOptions(opts, "serverSigned1")...); unmErr != nil {
 		return fmt.Errorf("decoding serverSigned1: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_serversigned1 < 0 || n_serversigned1 > len(content[offset:]) {
+	if offset > len(content) || n_serversigned1 < 0 || n_serversigned1 > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -21004,9 +20943,7 @@ func (v *ServerSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid >
-		len(content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -21417,8 +21354,7 @@ func (v *CtxParamsForCommonAuthentication) UnmarshalBER(data []byte, opts ...ber
 					return fmt.Errorf("decoding matchingId: %w", stringErr)
 				}
 				v.MatchingId = &decVal_matchingid
-				if offset < 0 || offset >
-					len(content) || n_matchingid < 0 || n_matchingid > len(content[offset:]) {
+				if offset > len(content) || n_matchingid < 0 || n_matchingid > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -21847,16 +21783,14 @@ func (v *AuthenticateResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	if tlvErr_euiccsigned1 != nil {
 		return fmt.Errorf("decoding euiccSigned1: %w", tlvErr_euiccsigned1)
 	}
-	if offset < 0 || offset >
-		len(content) || n_euiccsigned1 < 0 || n_euiccsigned1 > len(content[offset:]) {
+	if offset > len(content) || n_euiccsigned1 < 0 || n_euiccsigned1 > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
 	if unmErr := v.EuiccSigned1.UnmarshalBER(content[offset:offset+n_euiccsigned1], ber.ChildDecodeOptions(opts, "euiccSigned1")...); unmErr != nil {
 		return fmt.Errorf("decoding euiccSigned1: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_euiccsigned1 < 0 || n_euiccsigned1 > len(content[offset:]) {
+	if offset > len(content) || n_euiccsigned1 < 0 || n_euiccsigned1 > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -22171,9 +22105,7 @@ func (v *EuiccSigned1) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid >
-		len(content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -22468,8 +22400,7 @@ func (v *AuthenticateResponseError) UnmarshalBER(data []byte, opts ...ber.Decode
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -22689,9 +22620,7 @@ func (v *CancelSessionRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid > len(
-		content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -23080,8 +23009,7 @@ func (v *CancelSessionResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if tlvErr_euicccancelsessionsigned != nil {
 		return fmt.Errorf("decoding euiccCancelSessionSigned: %w", tlvErr_euicccancelsessionsigned)
 	}
-	if offset < 0 || offset >
-		len(content) || n_euicccancelsessionsigned < 0 || n_euicccancelsessionsigned >
+	if offset > len(content) || n_euicccancelsessionsigned < 0 || n_euicccancelsessionsigned >
 		len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
@@ -23089,8 +23017,7 @@ func (v *CancelSessionResponseOk) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if unmErr := v.EuiccCancelSessionSigned.UnmarshalBER(content[offset:offset+n_euicccancelsessionsigned], ber.ChildDecodeOptions(opts, "euiccCancelSessionSigned")...); unmErr != nil {
 		return fmt.Errorf("decoding euiccCancelSessionSigned: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_euicccancelsessionsigned < 0 || n_euicccancelsessionsigned >
+	if offset > len(content) || n_euicccancelsessionsigned < 0 || n_euicccancelsessionsigned >
 		len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
@@ -23327,8 +23254,7 @@ func (v *EuiccCancelSessionSigned) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -23610,9 +23536,7 @@ func (v *ProfileInfoListRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 					return fmt.Errorf("decoding searchCriteria: %w", unmErr)
 				}
 				v.SearchCriteria = &dec_searchcriteria
-				if offset < 0 || offset >
-					len(content) || n_searchcriteria < 0 || n_searchcriteria > len(
-					content[offset:]) {
+				if offset > len(content) || n_searchcriteria < 0 || n_searchcriteria > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -24542,8 +24466,7 @@ func (v *ProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 				}
 				tmp_iccid := Iccid(decVal_iccid)
 				v.Iccid = &tmp_iccid
-				if offset < 0 || offset >
-					len(content) || n_iccid < 0 || n_iccid > len(content[offset:]) {
+				if offset > len(content) || n_iccid < 0 || n_iccid > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -25301,9 +25224,7 @@ func (v *EnableProfileRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if unmErr := v.ProfileIdentifier.UnmarshalBER(innerData_profileidentifier, ber.ChildDecodeOptions(opts, "profileIdentifier")...); unmErr != nil {
 		return fmt.Errorf("decoding profileIdentifier: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_profileidentifier < 0 || n_profileidentifier >
-		len(content[offset:]) {
+	if offset > len(content) || n_profileidentifier < 0 || n_profileidentifier > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -25506,8 +25427,7 @@ func (v *EnableProfileResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		return fmt.Errorf("decoding enableResult: %w", namedErr)
 	}
 	v.EnableResult = named_enableresult
-	if offset < 0 || offset >
-		len(content) || n_enableresult < 0 || n_enableresult > len(content[offset:]) {
+	if offset > len(content) || n_enableresult < 0 || n_enableresult > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -25695,9 +25615,7 @@ func (v *DisableProfileRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if unmErr := v.ProfileIdentifier.UnmarshalBER(innerData_profileidentifier, ber.ChildDecodeOptions(opts, "profileIdentifier")...); unmErr != nil {
 		return fmt.Errorf("decoding profileIdentifier: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_profileidentifier < 0 || n_profileidentifier >
-		len(content[offset:]) {
+	if offset > len(content) || n_profileidentifier < 0 || n_profileidentifier > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -25900,8 +25818,7 @@ func (v *DisableProfileResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		return fmt.Errorf("decoding disableResult: %w", namedErr)
 	}
 	v.DisableResult = named_disableresult
-	if offset < 0 || offset >
-		len(content) || n_disableresult < 0 || n_disableresult > len(content[offset:]) {
+	if offset > len(content) || n_disableresult < 0 || n_disableresult > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -26256,8 +26173,7 @@ func (v *DeleteProfileResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		return fmt.Errorf("decoding deleteResult: %w", namedErr)
 	}
 	v.DeleteResult = named_deleteresult
-	if offset < 0 || offset >
-		len(content) || n_deleteresult < 0 || n_deleteresult > len(content[offset:]) {
+	if offset > len(content) || n_deleteresult < 0 || n_deleteresult > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -26444,8 +26360,7 @@ func (v *EuiccMemoryResetRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		return fmt.Errorf("decoding resetOptions: %w", bsLenErr_resetoptions)
 	}
 	v.ResetOptions = runtime.BitString{Bytes: bsBytes_resetoptions, BitLength: bsBitLength_resetoptions}
-	if offset < 0 || offset >
-		len(content) || n_resetoptions < 0 || n_resetoptions > len(content[offset:]) {
+	if offset > len(content) || n_resetoptions < 0 || n_resetoptions > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -26615,8 +26530,7 @@ func (v *EuiccMemoryResetResponse) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		return fmt.Errorf("decoding resetResult: %w", namedErr)
 	}
 	v.ResetResult = named_resetresult
-	if offset < 0 || offset >
-		len(content) || n_resetresult < 0 || n_resetresult > len(content[offset:]) {
+	if offset > len(content) || n_resetresult < 0 || n_resetresult > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -26792,8 +26706,7 @@ func (v *GetEuiccDataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		return fmt.Errorf("decoding tagList: %w", octetErr)
 	}
 	v.TagList = Octet1(decVal_taglist)
-	if offset < 0 || offset >
-		len(content) || n_taglist < 0 || n_taglist > len(content[offset:]) {
+	if offset > len(content) || n_taglist < 0 || n_taglist > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -26974,8 +26887,7 @@ func (v *GetEuiccDataResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 		return fmt.Errorf("decoding eidValue: %w", octetErr)
 	}
 	v.EidValue = Octet16(decVal_eidvalue)
-	if offset < 0 || offset >
-		len(content) || n_eidvalue < 0 || n_eidvalue > len(content[offset:]) {
+	if offset > len(content) || n_eidvalue < 0 || n_eidvalue > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -27186,8 +27098,7 @@ func (v *SetNicknameRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		return fmt.Errorf("decoding iccid: %w", octetErr)
 	}
 	v.Iccid = Iccid(decVal_iccid)
-	if offset < 0 || offset >
-		len(content) || n_iccid < 0 || n_iccid > len(content[offset:]) {
+	if offset > len(content) || n_iccid < 0 || n_iccid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -27395,9 +27306,7 @@ func (v *SetNicknameResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		return fmt.Errorf("decoding setNicknameResult: %w", namedErr)
 	}
 	v.SetNicknameResult = named_setnicknameresult
-	if offset < 0 || offset >
-		len(content) || n_setnicknameresult < 0 || n_setnicknameresult >
-		len(content[offset:]) {
+	if offset > len(content) || n_setnicknameresult < 0 || n_setnicknameresult > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -27711,8 +27620,7 @@ func (v *GetRatResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	v.Rat = dec_rat
 	{
 		_, tagSz_, _ := ber.DecodeTag(content[offset:])
-		if offset < 0 || offset >
-			len(content) || tagSz_ < 0 || tagSz_ > len(content[offset:]) {
+		if offset > len(content) || tagSz_ < 0 || tagSz_ > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
 		}
 
@@ -27720,8 +27628,7 @@ func (v *GetRatResponse) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 			v.RatIndef_ = true
 		}
 	}
-	if offset < 0 || offset >
-		len(content) || n_rat < 0 || n_rat > len(content[offset:]) {
+	if offset > len(content) || n_rat < 0 || n_rat > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -28079,8 +27986,7 @@ func (v *ProfilePolicyAuthorisationRule) UnmarshalBER(data []byte, opts ...ber.D
 		return fmt.Errorf("decoding pprIds: %w", bsLenErr_pprids)
 	}
 	v.PprIds = runtime.BitString{Bytes: bsBytes_pprids, BitLength: bsBitLength_pprids}
-	if offset < 0 || offset >
-		len(content) || n_pprids < 0 || n_pprids > len(content[offset:]) {
+	if offset > len(content) || n_pprids < 0 || n_pprids > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -28982,8 +28888,7 @@ func (v *InitiateAuthenticationRequest) UnmarshalBER(data []byte, opts ...ber.De
 		return fmt.Errorf("decoding euiccChallenge: %w", octetErr)
 	}
 	v.EuiccChallenge = Octet16(decVal_euiccchallenge)
-	if offset < 0 || offset >
-		len(content) || n_euiccchallenge < 0 || n_euiccchallenge > len(content[offset:]) {
+	if offset > len(content) || n_euiccchallenge < 0 || n_euiccchallenge > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -29453,8 +29358,7 @@ func (v *InitiateAuthenticationOkEs9) UnmarshalBER(data []byte, opts ...ber.Deco
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -29741,8 +29645,7 @@ func (v *AuthenticateClientRequest) UnmarshalBER(data []byte, opts ...ber.Decode
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -30271,9 +30174,7 @@ func (v *AuthenticateClientOk) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid > len(
-		content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -30561,8 +30462,7 @@ func (v *AuthenticateClientOkAcr) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -30781,8 +30681,7 @@ func (v *GetBoundProfilePackageRequest) UnmarshalBER(data []byte, opts ...ber.De
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -31192,8 +31091,7 @@ func (v *GetBoundProfilePackageOk) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -31397,9 +31295,8 @@ func (v *HandleNotification) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if unmErr := v.PendingNotification.UnmarshalBER(innerData_pendingnotification, ber.ChildDecodeOptions(opts, "pendingNotification")...); unmErr != nil {
 		return fmt.Errorf("decoding pendingNotification: %w", unmErr)
 	}
-	if offset < 0 || offset >
-		len(content) || n_pendingnotification < 0 || n_pendingnotification >
-		len(content[offset:]) {
+	if offset > len(content) || n_pendingnotification < 0 || n_pendingnotification > len(
+		content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -31599,8 +31496,7 @@ func (v *CancelSessionRequestEs9) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -32347,8 +32243,7 @@ func (v *AuthenticateClientOkEs11) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		return fmt.Errorf("decoding transactionId: %w", octetErr)
 	}
 	v.TransactionId = TransactionId(decVal_transactionid)
-	if offset < 0 || offset >
-		len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
+	if offset > len(content) || n_transactionid < 0 || n_transactionid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -32574,8 +32469,7 @@ func (v *EventEntries) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 		return fmt.Errorf("decoding eventId: %w", stringErr)
 	}
 	v.EventId = decVal_eventid
-	if offset < 0 || offset >
-		len(content) || n_eventid < 0 || n_eventid > len(content[offset:]) {
+	if offset > len(content) || n_eventid < 0 || n_eventid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -33704,8 +33598,7 @@ func (v *VendorSpecificExtensionElem) UnmarshalBER(data []byte, opts ...ber.Deco
 		return fmt.Errorf("decoding vendorOid: %w", oidErr)
 	}
 	v.VendorOid = runtime.ObjectIdentifier(decVal_vendoroid)
-	if offset < 0 || offset >
-		len(content) || n_vendoroid < 0 || n_vendoroid > len(content[offset:]) {
+	if offset > len(content) || n_vendoroid < 0 || n_vendoroid > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -34499,7 +34392,7 @@ func (v *RetrieveNotificationsListRequestSearchCriteria) marshalBER(opts ...ber.
 		if bitStringErr := ber.ValidateBitStringLength(v.ProfileManagementOperation.Bytes, v.ProfileManagementOperation.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "profileManagementOperation", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2419
+		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2438
 		if v.ProfileManagementOperation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}

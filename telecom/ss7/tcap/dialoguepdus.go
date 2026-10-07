@@ -1262,9 +1262,7 @@ func (v *AARQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 				}
 				tmp_protocolversion := runtime.BitString{Bytes: bsBytes_protocolversion, BitLength: bsBitLength_protocolversion}
 				v.ProtocolVersion = &tmp_protocolversion
-				if offset < 0 || offset >
-					len(content) || n_protocolversion < 0 || n_protocolversion >
-					len(content[offset:]) {
+				if offset > len(content) || n_protocolversion < 0 || n_protocolversion > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -1604,9 +1602,7 @@ func (v *AAREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 				}
 				tmp_protocolversion := runtime.BitString{Bytes: bsBytes_protocolversion, BitLength: bsBitLength_protocolversion}
 				v.ProtocolVersion = &tmp_protocolversion
-				if offset < 0 || offset >
-					len(content) || n_protocolversion < 0 || n_protocolversion >
-					len(content[offset:]) {
+				if offset > len(content) || n_protocolversion < 0 || n_protocolversion > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -1913,8 +1909,7 @@ func (v *RLRQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 					return fmt.Errorf("decoding reason: %w", namedErr)
 				}
 				v.Reason = &named_reason
-				if offset < 0 || offset >
-					len(content) || n_reason < 0 || n_reason > len(content[offset:]) {
+				if offset > len(content) || n_reason < 0 || n_reason > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -2133,8 +2128,7 @@ func (v *RLREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 					return fmt.Errorf("decoding reason: %w", namedErr)
 				}
 				v.Reason = &named_reason
-				if offset < 0 || offset >
-					len(content) || n_reason < 0 || n_reason > len(content[offset:]) {
+				if offset > len(content) || n_reason < 0 || n_reason > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -2353,9 +2347,7 @@ func (v *ABRTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 		return fmt.Errorf("decoding abort-source: %w", namedErr)
 	}
 	v.AbortSource = named_abortsource
-	if offset < 0 || offset >
-		len(content) || n_abortsource < 0 || n_abortsource >
-		len(content[offset:]) {
+	if offset > len(content) || n_abortsource < 0 || n_abortsource > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 

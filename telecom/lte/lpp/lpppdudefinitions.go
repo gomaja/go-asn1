@@ -21222,7 +21222,7 @@ func (v *AccessTypes) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.AccessTypes.Bytes, v.AccessTypes.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.AccessTypes.Bytes, v.AccessTypes.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.AccessTypes.Bytes, v.AccessTypes.BitLength)); err != nil {
 		return fmt.Errorf("encoding accessTypes: %w", err)
 	}
 	if hasExtensions {
@@ -21280,7 +21280,7 @@ func (v *AccessTypes) UnmarshalUPERWithOptions(data []byte, options per.DecodeOp
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AccessTypes")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -21321,6 +21321,11 @@ func (v *AccessTypes) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.AccessTypes.Bytes, v.AccessTypes.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.AccessTypes.Bytes, v.AccessTypes.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -24138,7 +24143,7 @@ func (v *PeriodicAssistanceDataControlParametersR15) MarshalUPERTo(bb *per.BitBu
 				return err
 			}
 			if v.UpdateCapabilitiesR15 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.UpdateCapabilitiesR15.Bytes, v.UpdateCapabilitiesR15.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.UpdateCapabilitiesR15.Bytes, v.UpdateCapabilitiesR15.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.UpdateCapabilitiesR15.Bytes, v.UpdateCapabilitiesR15.BitLength)); err != nil {
 					return fmt.Errorf("encoding updateCapabilities-r15: %w", err)
 				}
 			}
@@ -24189,7 +24194,7 @@ func (v *PeriodicAssistanceDataControlParametersR15) UnmarshalUPERWithOptions(da
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PeriodicAssistanceDataControlParametersR15")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -24259,6 +24264,11 @@ func (v *PeriodicAssistanceDataControlParametersR15) UnmarshalUPERFrom(bb *per.B
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.UpdateCapabilitiesR15 != nil && !per.NamedBitStringMinimal(v.UpdateCapabilitiesR15.Bytes, v.UpdateCapabilitiesR15.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.UpdateCapabilitiesR15.Bytes, v.UpdateCapabilitiesR15.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -24846,7 +24856,7 @@ func (v *PositioningModes) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.PosModes.Bytes, v.PosModes.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.PosModes.Bytes, v.PosModes.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.PosModes.Bytes, v.PosModes.BitLength)); err != nil {
 		return fmt.Errorf("encoding posModes: %w", err)
 	}
 	if hasExtensions {
@@ -24904,7 +24914,7 @@ func (v *PositioningModes) UnmarshalUPERWithOptions(data []byte, options per.Dec
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PositioningModes")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -24945,6 +24955,11 @@ func (v *PositioningModes) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.PosModes.Bytes, v.PosModes.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.PosModes.Bytes, v.PosModes.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -25573,7 +25588,7 @@ func (v *CommonIEsRequestCapabilities) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.LppMessageSegmentationReqR14 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.LppMessageSegmentationReqR14.Bytes, v.LppMessageSegmentationReqR14.BitLength, 0, 0, false, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.LppMessageSegmentationReqR14.Bytes, v.LppMessageSegmentationReqR14.BitLength, 0, 0, false, false, v.PERPadding_.KeptBitString(0).Keeps(v.LppMessageSegmentationReqR14.Bytes, v.LppMessageSegmentationReqR14.BitLength)); err != nil {
 					return fmt.Errorf("encoding lpp-message-segmentation-req-r14: %w", err)
 				}
 			}
@@ -25646,7 +25661,7 @@ func (v *CommonIEsRequestCapabilities) UnmarshalUPERWithOptions(data []byte, opt
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CommonIEsRequestCapabilities")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -25738,6 +25753,11 @@ func (v *CommonIEsRequestCapabilities) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.LppMessageSegmentationReqR14 != nil && !per.NamedBitStringMinimal(v.LppMessageSegmentationReqR14.Bytes, v.LppMessageSegmentationReqR14.BitLength, 0, 0, false, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.LppMessageSegmentationReqR14.Bytes, v.LppMessageSegmentationReqR14.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -25824,7 +25844,7 @@ func (v *CommonIEsProvideCapabilities) MarshalUPERTo(bb *per.BitBuffer) error {
 				}
 			}
 			if v.LppMessageSegmentationR14 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.LppMessageSegmentationR14.Bytes, v.LppMessageSegmentationR14.BitLength, 0, 0, false, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.LppMessageSegmentationR14.Bytes, v.LppMessageSegmentationR14.BitLength, 0, 0, false, false, v.PERPadding_.KeptBitString(0).Keeps(v.LppMessageSegmentationR14.Bytes, v.LppMessageSegmentationR14.BitLength)); err != nil {
 					return fmt.Errorf("encoding lpp-message-segmentation-r14: %w", err)
 				}
 			}
@@ -25905,7 +25925,7 @@ func (v *CommonIEsProvideCapabilities) UnmarshalUPERWithOptions(data []byte, opt
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CommonIEsProvideCapabilities")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -26020,6 +26040,11 @@ func (v *CommonIEsProvideCapabilities) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.LppMessageSegmentationR14 != nil && !per.NamedBitStringMinimal(v.LppMessageSegmentationR14.Bytes, v.LppMessageSegmentationR14.BitLength, 0, 0, false, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.LppMessageSegmentationR14.Bytes, v.LppMessageSegmentationR14.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -27113,7 +27138,7 @@ func (v *PeriodicalReportingCriteria) UnmarshalUPERWithOptions(data []byte, opti
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PeriodicalReportingCriteria")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -27228,7 +27253,7 @@ func (v *PeriodicalReportingCriteriaExtR18) UnmarshalUPERWithOptions(data []byte
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PeriodicalReportingCriteriaExtR18")
 	}
-	v.PERPadding_ = padding.WithExplicitDefaults(v.PERPadding_)
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -29095,7 +29120,7 @@ func (v *CommonIEsProvideLocationInformation) MarshalUPERTo(bb *per.BitBuffer) e
 				return err
 			}
 			if v.LocationSourceR13 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.LocationSourceR13.Bytes, v.LocationSourceR13.BitLength, 1, 16, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.LocationSourceR13.Bytes, v.LocationSourceR13.BitLength, 1, 16, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.LocationSourceR13.Bytes, v.LocationSourceR13.BitLength)); err != nil {
 					return fmt.Errorf("encoding locationSource-r13: %w", err)
 				}
 			}
@@ -29195,7 +29220,7 @@ func (v *CommonIEsProvideLocationInformation) UnmarshalUPERWithOptions(data []by
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CommonIEsProvideLocationInformation")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -29384,6 +29409,11 @@ func (v *CommonIEsProvideLocationInformation) UnmarshalUPERFrom(bb *per.BitBuffe
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.LocationSourceR13 != nil && !per.NamedBitStringMinimal(v.LocationSourceR13.Bytes, v.LocationSourceR13.BitLength, 1, 16, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.LocationSourceR13.Bytes, v.LocationSourceR13.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -36455,7 +36485,7 @@ func (v *NRDLPRSMeasurementTimeWindowsConfigElementR18) MarshalUPERTo(bb *per.Bi
 		}
 	}
 	if v.NrMeasurementsToPerformInTimeWindowR18 != nil {
-		if err := per.EncodeBitStringExt(bb, v.NrMeasurementsToPerformInTimeWindowR18.Bytes, v.NrMeasurementsToPerformInTimeWindowR18.BitLength, 1, 16, true, false); err != nil {
+		if err := per.EncodeNamedBitString(bb, v.NrMeasurementsToPerformInTimeWindowR18.Bytes, v.NrMeasurementsToPerformInTimeWindowR18.BitLength, 1, 16, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.NrMeasurementsToPerformInTimeWindowR18.Bytes, v.NrMeasurementsToPerformInTimeWindowR18.BitLength)); err != nil {
 			return fmt.Errorf("encoding nr-MeasurementsToPerformInTimeWindow-r18: %w", err)
 		}
 	}
@@ -36514,7 +36544,7 @@ func (v *NRDLPRSMeasurementTimeWindowsConfigElementR18) UnmarshalUPERWithOptions
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRDLPRSMeasurementTimeWindowsConfigElementR18")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -36631,6 +36661,11 @@ func (v *NRDLPRSMeasurementTimeWindowsConfigElementR18) UnmarshalUPERFrom(bb *pe
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.NrMeasurementsToPerformInTimeWindowR18 != nil && !per.NamedBitStringMinimal(v.NrMeasurementsToPerformInTimeWindowR18.Bytes, v.NrMeasurementsToPerformInTimeWindowR18.BitLength, 1, 16, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.NrMeasurementsToPerformInTimeWindowR18.Bytes, v.NrMeasurementsToPerformInTimeWindowR18.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -61533,7 +61568,7 @@ func (v *OTDOARequestAssistanceData) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.AdTypeR14 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.AdTypeR14.Bytes, v.AdTypeR14.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.AdTypeR14.Bytes, v.AdTypeR14.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.AdTypeR14.Bytes, v.AdTypeR14.BitLength)); err != nil {
 					return fmt.Errorf("encoding adType-r14: %w", err)
 				}
 			}
@@ -61606,7 +61641,7 @@ func (v *OTDOARequestAssistanceData) UnmarshalUPERWithOptions(data []byte, optio
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOARequestAssistanceData")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -61703,6 +61738,11 @@ func (v *OTDOARequestAssistanceData) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.AdTypeR14 != nil && !per.NamedBitStringMinimal(v.AdTypeR14.Bytes, v.AdTypeR14.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.AdTypeR14.Bytes, v.AdTypeR14.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -64530,7 +64570,7 @@ func (v *OTDOAProvideCapabilities) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.OtdoaMode.Bytes, v.OtdoaMode.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.OtdoaMode.Bytes, v.OtdoaMode.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.OtdoaMode.Bytes, v.OtdoaMode.BitLength)); err != nil {
 		return fmt.Errorf("encoding otdoa-Mode: %w", err)
 	}
 	if hasExtensions {
@@ -65243,7 +65283,7 @@ func (v *OTDOAProvideCapabilities) UnmarshalUPERWithOptions(data []byte, options
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAProvideCapabilities")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -65735,6 +65775,11 @@ func (v *OTDOAProvideCapabilities) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.OtdoaMode.Bytes, v.OtdoaMode.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.OtdoaMode.Bytes, v.OtdoaMode.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -108321,7 +108366,7 @@ func (v *GNSSSSROrbitCorrectionsReqR15) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.OrbitIntegrityReqR17 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.OrbitIntegrityReqR17.Bytes, v.OrbitIntegrityReqR17.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.OrbitIntegrityReqR17.Bytes, v.OrbitIntegrityReqR17.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.OrbitIntegrityReqR17.Bytes, v.OrbitIntegrityReqR17.BitLength)); err != nil {
 					return fmt.Errorf("encoding orbit-IntegrityReq-r17: %w", err)
 				}
 			}
@@ -108372,7 +108417,7 @@ func (v *GNSSSSROrbitCorrectionsReqR15) UnmarshalUPERWithOptions(data []byte, op
 	if err != nil {
 		return runtime.WrapDecodePath(err, "GNSSSSROrbitCorrectionsReqR15")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -108465,6 +108510,11 @@ func (v *GNSSSSROrbitCorrectionsReqR15) UnmarshalUPERFrom(bb *per.BitBuffer) err
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.OrbitIntegrityReqR17 != nil && !per.NamedBitStringMinimal(v.OrbitIntegrityReqR17.Bytes, v.OrbitIntegrityReqR17.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.OrbitIntegrityReqR17.Bytes, v.OrbitIntegrityReqR17.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -109357,7 +109407,7 @@ func (v *GNSSSSRSTECCorrectionReqR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.StecIntegrityReqR17 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.StecIntegrityReqR17.Bytes, v.StecIntegrityReqR17.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.StecIntegrityReqR17.Bytes, v.StecIntegrityReqR17.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.StecIntegrityReqR17.Bytes, v.StecIntegrityReqR17.BitLength)); err != nil {
 					return fmt.Errorf("encoding stec-IntegrityReq-r17: %w", err)
 				}
 			}
@@ -109408,7 +109458,7 @@ func (v *GNSSSSRSTECCorrectionReqR16) UnmarshalUPERWithOptions(data []byte, opti
 	if err != nil {
 		return runtime.WrapDecodePath(err, "GNSSSSRSTECCorrectionReqR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -109475,6 +109525,11 @@ func (v *GNSSSSRSTECCorrectionReqR16) UnmarshalUPERFrom(bb *per.BitBuffer) error
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.StecIntegrityReqR17 != nil && !per.NamedBitStringMinimal(v.StecIntegrityReqR17.Bytes, v.StecIntegrityReqR17.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.StecIntegrityReqR17.Bytes, v.StecIntegrityReqR17.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -112997,7 +113052,7 @@ func (v *AGNSSProvideCapabilities) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.PeriodicAssistanceDataR15 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.PeriodicAssistanceDataR15.Bytes, v.PeriodicAssistanceDataR15.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.PeriodicAssistanceDataR15.Bytes, v.PeriodicAssistanceDataR15.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.PeriodicAssistanceDataR15.Bytes, v.PeriodicAssistanceDataR15.BitLength)); err != nil {
 					return fmt.Errorf("encoding periodicAssistanceData-r15: %w", err)
 				}
 			}
@@ -113092,7 +113147,7 @@ func (v *AGNSSProvideCapabilities) UnmarshalUPERWithOptions(data []byte, options
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AGNSSProvideCapabilities")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -113304,6 +113359,11 @@ func (v *AGNSSProvideCapabilities) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.PeriodicAssistanceDataR15 != nil && !per.NamedBitStringMinimal(v.PeriodicAssistanceDataR15.Bytes, v.PeriodicAssistanceDataR15.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.PeriodicAssistanceDataR15.Bytes, v.PeriodicAssistanceDataR15.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -114562,7 +114622,7 @@ func (v *GNSSIonosphericModelSupport) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.IonoModel.Bytes, v.IonoModel.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.IonoModel.Bytes, v.IonoModel.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.IonoModel.Bytes, v.IonoModel.BitLength)); err != nil {
 		return fmt.Errorf("encoding ionoModel: %w", err)
 	}
 	if hasExtensions {
@@ -114620,7 +114680,7 @@ func (v *GNSSIonosphericModelSupport) UnmarshalUPERWithOptions(data []byte, opti
 	if err != nil {
 		return runtime.WrapDecodePath(err, "GNSSIonosphericModelSupport")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -114661,6 +114721,11 @@ func (v *GNSSIonosphericModelSupport) UnmarshalUPERFrom(bb *per.BitBuffer) error
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.IonoModel.Bytes, v.IonoModel.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.IonoModel.Bytes, v.IonoModel.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -116656,12 +116721,12 @@ func (v *GNSSNavigationModelSupport) MarshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.ClockModel != nil {
-		if err := per.EncodeBitStringExt(bb, v.ClockModel.Bytes, v.ClockModel.BitLength, 1, 8, true, false); err != nil {
+		if err := per.EncodeNamedBitString(bb, v.ClockModel.Bytes, v.ClockModel.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.ClockModel.Bytes, v.ClockModel.BitLength)); err != nil {
 			return fmt.Errorf("encoding clockModel: %w", err)
 		}
 	}
 	if v.OrbitModel != nil {
-		if err := per.EncodeBitStringExt(bb, v.OrbitModel.Bytes, v.OrbitModel.BitLength, 1, 8, true, false); err != nil {
+		if err := per.EncodeNamedBitString(bb, v.OrbitModel.Bytes, v.OrbitModel.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(1).Keeps(v.OrbitModel.Bytes, v.OrbitModel.BitLength)); err != nil {
 			return fmt.Errorf("encoding orbitModel: %w", err)
 		}
 	}
@@ -116717,12 +116782,12 @@ func (v *GNSSNavigationModelSupport) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.ClockModelExtR19 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.ClockModelExtR19.Bytes, v.ClockModelExtR19.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.ClockModelExtR19.Bytes, v.ClockModelExtR19.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(2).Keeps(v.ClockModelExtR19.Bytes, v.ClockModelExtR19.BitLength)); err != nil {
 					return fmt.Errorf("encoding clockModelExt-r19: %w", err)
 				}
 			}
 			if v.OrbitModelExtR19 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.OrbitModelExtR19.Bytes, v.OrbitModelExtR19.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.OrbitModelExtR19.Bytes, v.OrbitModelExtR19.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(3).Keeps(v.OrbitModelExtR19.Bytes, v.OrbitModelExtR19.BitLength)); err != nil {
 					return fmt.Errorf("encoding orbitModelExt-r19: %w", err)
 				}
 			}
@@ -116773,7 +116838,7 @@ func (v *GNSSNavigationModelSupport) UnmarshalUPERWithOptions(data []byte, optio
 	if err != nil {
 		return runtime.WrapDecodePath(err, "GNSSNavigationModelSupport")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -116877,6 +116942,20 @@ func (v *GNSSNavigationModelSupport) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.ClockModel != nil && !per.NamedBitStringMinimal(v.ClockModel.Bytes, v.ClockModel.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.ClockModel.Bytes, v.ClockModel.BitLength))
+	}
+	if v.OrbitModel != nil && !per.NamedBitStringMinimal(v.OrbitModel.Bytes, v.OrbitModel.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 1, per.KeepBitString(v.OrbitModel.Bytes, v.OrbitModel.BitLength))
+	}
+	if v.ClockModelExtR19 != nil && !per.NamedBitStringMinimal(v.ClockModelExtR19.Bytes, v.ClockModelExtR19.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 2, per.KeepBitString(v.ClockModelExtR19.Bytes, v.ClockModelExtR19.BitLength))
+	}
+	if v.OrbitModelExtR19 != nil && !per.NamedBitStringMinimal(v.OrbitModelExtR19.Bytes, v.OrbitModelExtR19.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 3, per.KeepBitString(v.OrbitModelExtR19.Bytes, v.OrbitModelExtR19.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -117339,7 +117418,7 @@ func (v *GNSSAlmanacSupport) MarshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.AlmanacModel != nil {
-		if err := per.EncodeBitStringExt(bb, v.AlmanacModel.Bytes, v.AlmanacModel.BitLength, 1, 8, true, false); err != nil {
+		if err := per.EncodeNamedBitString(bb, v.AlmanacModel.Bytes, v.AlmanacModel.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.AlmanacModel.Bytes, v.AlmanacModel.BitLength)); err != nil {
 			return fmt.Errorf("encoding almanacModel: %w", err)
 		}
 	}
@@ -117392,7 +117471,7 @@ func (v *GNSSAlmanacSupport) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.AlmanacModelExtR19 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.AlmanacModelExtR19.Bytes, v.AlmanacModelExtR19.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.AlmanacModelExtR19.Bytes, v.AlmanacModelExtR19.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(1).Keeps(v.AlmanacModelExtR19.Bytes, v.AlmanacModelExtR19.BitLength)); err != nil {
 					return fmt.Errorf("encoding almanacModelExt-r19: %w", err)
 				}
 			}
@@ -117443,7 +117522,7 @@ func (v *GNSSAlmanacSupport) UnmarshalUPERWithOptions(data []byte, options per.D
 	if err != nil {
 		return runtime.WrapDecodePath(err, "GNSSAlmanacSupport")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -117523,6 +117602,14 @@ func (v *GNSSAlmanacSupport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.AlmanacModel != nil && !per.NamedBitStringMinimal(v.AlmanacModel.Bytes, v.AlmanacModel.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.AlmanacModel.Bytes, v.AlmanacModel.BitLength))
+	}
+	if v.AlmanacModelExtR19 != nil && !per.NamedBitStringMinimal(v.AlmanacModelExtR19.Bytes, v.AlmanacModelExtR19.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 1, per.KeepBitString(v.AlmanacModelExtR19.Bytes, v.AlmanacModelExtR19.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -117545,7 +117632,7 @@ func (v *GNSSUTCModelSupport) MarshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.UtcModel != nil {
-		if err := per.EncodeBitStringExt(bb, v.UtcModel.Bytes, v.UtcModel.BitLength, 1, 8, true, false); err != nil {
+		if err := per.EncodeNamedBitString(bb, v.UtcModel.Bytes, v.UtcModel.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.UtcModel.Bytes, v.UtcModel.BitLength)); err != nil {
 			return fmt.Errorf("encoding utc-Model: %w", err)
 		}
 	}
@@ -117604,7 +117691,7 @@ func (v *GNSSUTCModelSupport) UnmarshalUPERWithOptions(data []byte, options per.
 	if err != nil {
 		return runtime.WrapDecodePath(err, "GNSSUTCModelSupport")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -117653,6 +117740,11 @@ func (v *GNSSUTCModelSupport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.UtcModel != nil && !per.NamedBitStringMinimal(v.UtcModel.Bytes, v.UtcModel.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.UtcModel.Bytes, v.UtcModel.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -118691,7 +118783,7 @@ func (v *GNSSSSROrbitCorrectionsSupportR15) MarshalUPERTo(bb *per.BitBuffer) err
 				return err
 			}
 			if v.OrbitIntegritySupR17 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.OrbitIntegritySupR17.Bytes, v.OrbitIntegritySupR17.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.OrbitIntegritySupR17.Bytes, v.OrbitIntegritySupR17.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.OrbitIntegritySupR17.Bytes, v.OrbitIntegritySupR17.BitLength)); err != nil {
 					return fmt.Errorf("encoding orbit-IntegritySup-r17: %w", err)
 				}
 			}
@@ -118742,7 +118834,7 @@ func (v *GNSSSSROrbitCorrectionsSupportR15) UnmarshalUPERWithOptions(data []byte
 	if err != nil {
 		return runtime.WrapDecodePath(err, "GNSSSSROrbitCorrectionsSupportR15")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -118809,6 +118901,11 @@ func (v *GNSSSSROrbitCorrectionsSupportR15) UnmarshalUPERFrom(bb *per.BitBuffer)
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.OrbitIntegritySupR17 != nil && !per.NamedBitStringMinimal(v.OrbitIntegritySupR17.Bytes, v.OrbitIntegritySupR17.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.OrbitIntegritySupR17.Bytes, v.OrbitIntegritySupR17.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -119563,7 +119660,7 @@ func (v *GNSSSSRSTECCorrectionSupportR16) MarshalUPERTo(bb *per.BitBuffer) error
 				return err
 			}
 			if v.StecIntegritySupR17 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.StecIntegritySupR17.Bytes, v.StecIntegritySupR17.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.StecIntegritySupR17.Bytes, v.StecIntegritySupR17.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.StecIntegritySupR17.Bytes, v.StecIntegritySupR17.BitLength)); err != nil {
 					return fmt.Errorf("encoding stec-IntegritySup-r17: %w", err)
 				}
 			}
@@ -119614,7 +119711,7 @@ func (v *GNSSSSRSTECCorrectionSupportR16) UnmarshalUPERWithOptions(data []byte, 
 	if err != nil {
 		return runtime.WrapDecodePath(err, "GNSSSSRSTECCorrectionSupportR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -119681,6 +119778,11 @@ func (v *GNSSSSRSTECCorrectionSupportR16) UnmarshalUPERFrom(bb *per.BitBuffer) e
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.StecIntegritySupR17 != nil && !per.NamedBitStringMinimal(v.StecIntegritySupR17.Bytes, v.StecIntegritySupR17.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.StecIntegritySupR17.Bytes, v.StecIntegritySupR17.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -120152,7 +120254,7 @@ func (v *GNSSSSROrbitCorrectionsSet2SupportR17) MarshalUPERTo(bb *per.BitBuffer)
 				return err
 			}
 			if v.RefEphSupportR19 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.RefEphSupportR19.Bytes, v.RefEphSupportR19.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.RefEphSupportR19.Bytes, v.RefEphSupportR19.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.RefEphSupportR19.Bytes, v.RefEphSupportR19.BitLength)); err != nil {
 					return fmt.Errorf("encoding refEphSupport-r19: %w", err)
 				}
 			}
@@ -120203,7 +120305,7 @@ func (v *GNSSSSROrbitCorrectionsSet2SupportR17) UnmarshalUPERWithOptions(data []
 	if err != nil {
 		return runtime.WrapDecodePath(err, "GNSSSSROrbitCorrectionsSet2SupportR17")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -120270,6 +120372,11 @@ func (v *GNSSSSROrbitCorrectionsSet2SupportR17) UnmarshalUPERFrom(bb *per.BitBuf
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.RefEphSupportR19 != nil && !per.NamedBitStringMinimal(v.RefEphSupportR19.Bytes, v.RefEphSupportR19.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.RefEphSupportR19.Bytes, v.RefEphSupportR19.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -120336,7 +120443,7 @@ func (v *GNSSSSRClockCorrectionsSet2SupportR17) MarshalUPERTo(bb *per.BitBuffer)
 				return err
 			}
 			if v.RefEphSupportR19 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.RefEphSupportR19.Bytes, v.RefEphSupportR19.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.RefEphSupportR19.Bytes, v.RefEphSupportR19.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.RefEphSupportR19.Bytes, v.RefEphSupportR19.BitLength)); err != nil {
 					return fmt.Errorf("encoding refEphSupport-r19: %w", err)
 				}
 			}
@@ -120387,7 +120494,7 @@ func (v *GNSSSSRClockCorrectionsSet2SupportR17) UnmarshalUPERWithOptions(data []
 	if err != nil {
 		return runtime.WrapDecodePath(err, "GNSSSSRClockCorrectionsSet2SupportR17")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -120454,6 +120561,11 @@ func (v *GNSSSSRClockCorrectionsSet2SupportR17) UnmarshalUPERFrom(bb *per.BitBuf
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.RefEphSupportR19 != nil && !per.NamedBitStringMinimal(v.RefEphSupportR19.Bytes, v.RefEphSupportR19.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.RefEphSupportR19.Bytes, v.RefEphSupportR19.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -120520,7 +120632,7 @@ func (v *GNSSSSRURASet2SupportR17) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.RefEphSupportR19 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.RefEphSupportR19.Bytes, v.RefEphSupportR19.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.RefEphSupportR19.Bytes, v.RefEphSupportR19.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.RefEphSupportR19.Bytes, v.RefEphSupportR19.BitLength)); err != nil {
 					return fmt.Errorf("encoding refEphSupport-r19: %w", err)
 				}
 			}
@@ -120571,7 +120683,7 @@ func (v *GNSSSSRURASet2SupportR17) UnmarshalUPERWithOptions(data []byte, options
 	if err != nil {
 		return runtime.WrapDecodePath(err, "GNSSSSRURASet2SupportR17")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -120638,6 +120750,11 @@ func (v *GNSSSSRURASet2SupportR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.RefEphSupportR19 != nil && !per.NamedBitStringMinimal(v.RefEphSupportR19.Bytes, v.RefEphSupportR19.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.RefEphSupportR19.Bytes, v.RefEphSupportR19.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -121707,7 +121824,7 @@ func (v *GNSSIDBitmap) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.GnssIds.Bytes, v.GnssIds.BitLength, 1, 16, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.GnssIds.Bytes, v.GnssIds.BitLength, 1, 16, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.GnssIds.Bytes, v.GnssIds.BitLength)); err != nil {
 		return fmt.Errorf("encoding gnss-ids: %w", err)
 	}
 	if hasExtensions {
@@ -121765,7 +121882,7 @@ func (v *GNSSIDBitmap) UnmarshalUPERWithOptions(data []byte, options per.DecodeO
 	if err != nil {
 		return runtime.WrapDecodePath(err, "GNSSIDBitmap")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -121806,6 +121923,11 @@ func (v *GNSSIDBitmap) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.GnssIds.Bytes, v.GnssIds.BitLength, 1, 16, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.GnssIds.Bytes, v.GnssIds.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -123400,7 +123522,7 @@ func (v *SBASIDs) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.SbasIDs.Bytes, v.SbasIDs.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.SbasIDs.Bytes, v.SbasIDs.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.SbasIDs.Bytes, v.SbasIDs.BitLength)); err != nil {
 		return fmt.Errorf("encoding sbas-IDs: %w", err)
 	}
 	if hasExtensions {
@@ -123458,7 +123580,7 @@ func (v *SBASIDs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOption
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SBASIDs")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -123499,6 +123621,11 @@ func (v *SBASIDs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.SbasIDs.Bytes, v.SbasIDs.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.SbasIDs.Bytes, v.SbasIDs.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -124535,7 +124662,7 @@ func (v *ECIDRequestLocationInformation) MarshalUPERTo(bb *per.BitBuffer) error 
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.RequestedMeasurements.Bytes, v.RequestedMeasurements.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.RequestedMeasurements.Bytes, v.RequestedMeasurements.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.RequestedMeasurements.Bytes, v.RequestedMeasurements.BitLength)); err != nil {
 		return fmt.Errorf("encoding requestedMeasurements: %w", err)
 	}
 	if hasExtensions {
@@ -124593,7 +124720,7 @@ func (v *ECIDRequestLocationInformation) UnmarshalUPERWithOptions(data []byte, o
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ECIDRequestLocationInformation")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -124634,6 +124761,11 @@ func (v *ECIDRequestLocationInformation) UnmarshalUPERFrom(bb *per.BitBuffer) er
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.RequestedMeasurements.Bytes, v.RequestedMeasurements.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.RequestedMeasurements.Bytes, v.RequestedMeasurements.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -124651,7 +124783,7 @@ func (v *ECIDProvideCapabilities) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.EcidMeasSupported.Bytes, v.EcidMeasSupported.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.EcidMeasSupported.Bytes, v.EcidMeasSupported.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.EcidMeasSupported.Bytes, v.EcidMeasSupported.BitLength)); err != nil {
 		return fmt.Errorf("encoding ecid-MeasSupported: %w", err)
 	}
 	if hasExtensions {
@@ -124866,7 +124998,7 @@ func (v *ECIDProvideCapabilities) UnmarshalUPERWithOptions(data []byte, options 
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ECIDProvideCapabilities")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -125034,6 +125166,11 @@ func (v *ECIDProvideCapabilities) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.EcidMeasSupported.Bytes, v.EcidMeasSupported.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.EcidMeasSupported.Bytes, v.EcidMeasSupported.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -126327,7 +126464,7 @@ func (v *TBSRequestLocationInformationR13) MarshalUPERTo(bb *per.BitBuffer) erro
 				}
 			}
 			if v.MbsRequestedMeasurementsR14 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.MbsRequestedMeasurementsR14.Bytes, v.MbsRequestedMeasurementsR14.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.MbsRequestedMeasurementsR14.Bytes, v.MbsRequestedMeasurementsR14.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.MbsRequestedMeasurementsR14.Bytes, v.MbsRequestedMeasurementsR14.BitLength)); err != nil {
 					return fmt.Errorf("encoding mbsRequestedMeasurements-r14: %w", err)
 				}
 			}
@@ -126378,7 +126515,7 @@ func (v *TBSRequestLocationInformationR13) UnmarshalUPERWithOptions(data []byte,
 	if err != nil {
 		return runtime.WrapDecodePath(err, "TBSRequestLocationInformationR13")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -126461,6 +126598,11 @@ func (v *TBSRequestLocationInformationR13) UnmarshalUPERFrom(bb *per.BitBuffer) 
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.MbsRequestedMeasurementsR14 != nil && !per.NamedBitStringMinimal(v.MbsRequestedMeasurementsR14.Bytes, v.MbsRequestedMeasurementsR14.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.MbsRequestedMeasurementsR14.Bytes, v.MbsRequestedMeasurementsR14.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -126478,7 +126620,7 @@ func (v *TBSProvideCapabilitiesR13) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.TbsModesR13.Bytes, v.TbsModesR13.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.TbsModesR13.Bytes, v.TbsModesR13.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.TbsModesR13.Bytes, v.TbsModesR13.BitLength)); err != nil {
 		return fmt.Errorf("encoding tbs-Modes-r13: %w", err)
 	}
 	if hasExtensions {
@@ -126570,7 +126712,7 @@ func (v *TBSProvideCapabilitiesR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				}
 			}
 			if v.MbsConfigSupportR14 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.MbsConfigSupportR14.Bytes, v.MbsConfigSupportR14.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.MbsConfigSupportR14.Bytes, v.MbsConfigSupportR14.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(1).Keeps(v.MbsConfigSupportR14.Bytes, v.MbsConfigSupportR14.BitLength)); err != nil {
 					return fmt.Errorf("encoding mbs-ConfigSupport-r14: %w", err)
 				}
 			}
@@ -126670,7 +126812,7 @@ func (v *TBSProvideCapabilitiesR13) UnmarshalUPERWithOptions(data []byte, option
 	if err != nil {
 		return runtime.WrapDecodePath(err, "TBSProvideCapabilitiesR13")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -126825,6 +126967,14 @@ func (v *TBSProvideCapabilitiesR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.TbsModesR13.Bytes, v.TbsModesR13.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.TbsModesR13.Bytes, v.TbsModesR13.BitLength))
+	}
+	if v.MbsConfigSupportR14 != nil && !per.NamedBitStringMinimal(v.MbsConfigSupportR14.Bytes, v.MbsConfigSupportR14.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 1, per.KeepBitString(v.MbsConfigSupportR14.Bytes, v.MbsConfigSupportR14.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -130461,7 +130611,7 @@ func (v *SensorProvideCapabilitiesR13) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.SensorModesR13.Bytes, v.SensorModesR13.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.SensorModesR13.Bytes, v.SensorModesR13.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.SensorModesR13.Bytes, v.SensorModesR13.BitLength)); err != nil {
 		return fmt.Errorf("encoding sensor-Modes-r13: %w", err)
 	}
 	if hasExtensions {
@@ -130707,7 +130857,7 @@ func (v *SensorProvideCapabilitiesR13) UnmarshalUPERWithOptions(data []byte, opt
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SensorProvideCapabilitiesR13")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -130900,6 +131050,11 @@ func (v *SensorProvideCapabilitiesR13) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.SensorModesR13.Bytes, v.SensorModesR13.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.SensorModesR13.Bytes, v.SensorModesR13.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -133264,7 +133419,7 @@ func (v *WLANRequestLocationInformationR13) MarshalUPERTo(bb *per.BitBuffer) err
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.RequestedMeasurementsR13.Bytes, v.RequestedMeasurementsR13.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.RequestedMeasurementsR13.Bytes, v.RequestedMeasurementsR13.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.RequestedMeasurementsR13.Bytes, v.RequestedMeasurementsR13.BitLength)); err != nil {
 		return fmt.Errorf("encoding requestedMeasurements-r13: %w", err)
 	}
 	if hasExtensions {
@@ -133367,7 +133522,7 @@ func (v *WLANRequestLocationInformationR13) UnmarshalUPERWithOptions(data []byte
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANRequestLocationInformationR13")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -133438,6 +133593,11 @@ func (v *WLANRequestLocationInformationR13) UnmarshalUPERFrom(bb *per.BitBuffer)
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.RequestedMeasurementsR13.Bytes, v.RequestedMeasurementsR13.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.RequestedMeasurementsR13.Bytes, v.RequestedMeasurementsR13.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -133455,10 +133615,10 @@ func (v *WLANProvideCapabilitiesR13) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.WlanModesR13.Bytes, v.WlanModesR13.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.WlanModesR13.Bytes, v.WlanModesR13.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.WlanModesR13.Bytes, v.WlanModesR13.BitLength)); err != nil {
 		return fmt.Errorf("encoding wlan-Modes-r13: %w", err)
 	}
-	if err := per.EncodeBitStringExt(bb, v.WlanMeasSupportedR13.Bytes, v.WlanMeasSupportedR13.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.WlanMeasSupportedR13.Bytes, v.WlanMeasSupportedR13.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(1).Keeps(v.WlanMeasSupportedR13.Bytes, v.WlanMeasSupportedR13.BitLength)); err != nil {
 		return fmt.Errorf("encoding wlan-MeasSupported-r13: %w", err)
 	}
 	if hasExtensions {
@@ -133537,7 +133697,7 @@ func (v *WLANProvideCapabilitiesR13) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.WlanAPADSupportedR14 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.WlanAPADSupportedR14.Bytes, v.WlanAPADSupportedR14.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.WlanAPADSupportedR14.Bytes, v.WlanAPADSupportedR14.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(2).Keeps(v.WlanAPADSupportedR14.Bytes, v.WlanAPADSupportedR14.BitLength)); err != nil {
 					return fmt.Errorf("encoding wlan-AP-AD-Supported-r14: %w", err)
 				}
 			}
@@ -133642,7 +133802,7 @@ func (v *WLANProvideCapabilitiesR13) UnmarshalUPERWithOptions(data []byte, optio
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANProvideCapabilitiesR13")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -133791,6 +133951,17 @@ func (v *WLANProvideCapabilitiesR13) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.WlanModesR13.Bytes, v.WlanModesR13.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.WlanModesR13.Bytes, v.WlanModesR13.BitLength))
+	}
+	if !per.NamedBitStringMinimal(v.WlanMeasSupportedR13.Bytes, v.WlanMeasSupportedR13.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 1, per.KeepBitString(v.WlanMeasSupportedR13.Bytes, v.WlanMeasSupportedR13.BitLength))
+	}
+	if v.WlanAPADSupportedR14 != nil && !per.NamedBitStringMinimal(v.WlanAPADSupportedR14.Bytes, v.WlanAPADSupportedR14.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 2, per.KeepBitString(v.WlanAPADSupportedR14.Bytes, v.WlanAPADSupportedR14.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -135484,7 +135655,7 @@ func (v *WLANRequestAssistanceDataR14) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.WlanAPStoredDataR14 != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.RequestedADR14.Bytes, v.RequestedADR14.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.RequestedADR14.Bytes, v.RequestedADR14.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.RequestedADR14.Bytes, v.RequestedADR14.BitLength)); err != nil {
 		return fmt.Errorf("encoding requestedAD-r14: %w", err)
 	}
 	if v.VisibleAPsR14 != nil {
@@ -135574,7 +135745,7 @@ func (v *WLANRequestAssistanceDataR14) UnmarshalUPERWithOptions(data []byte, opt
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANRequestAssistanceDataR14")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -135666,6 +135837,11 @@ func (v *WLANRequestAssistanceDataR14) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.RequestedADR14.Bytes, v.RequestedADR14.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.RequestedADR14.Bytes, v.RequestedADR14.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -136937,7 +137113,7 @@ func (v *BTRequestLocationInformationR13) MarshalUPERTo(bb *per.BitBuffer) error
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.RequestedMeasurementsR13.Bytes, v.RequestedMeasurementsR13.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.RequestedMeasurementsR13.Bytes, v.RequestedMeasurementsR13.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.RequestedMeasurementsR13.Bytes, v.RequestedMeasurementsR13.BitLength)); err != nil {
 		return fmt.Errorf("encoding requestedMeasurements-r13: %w", err)
 	}
 	if hasExtensions {
@@ -136992,7 +137168,7 @@ func (v *BTRequestLocationInformationR13) MarshalUPERTo(bb *per.BitBuffer) error
 				return err
 			}
 			if v.BtRequestedAoAConfigR18 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.BtRequestedAoAConfigR18.Bytes, v.BtRequestedAoAConfigR18.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.BtRequestedAoAConfigR18.Bytes, v.BtRequestedAoAConfigR18.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(1).Keeps(v.BtRequestedAoAConfigR18.Bytes, v.BtRequestedAoAConfigR18.BitLength)); err != nil {
 					return fmt.Errorf("encoding bt-requestedAoA-Config-r18: %w", err)
 				}
 			}
@@ -137048,7 +137224,7 @@ func (v *BTRequestLocationInformationR13) UnmarshalUPERWithOptions(data []byte, 
 	if err != nil {
 		return runtime.WrapDecodePath(err, "BTRequestLocationInformationR13")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -137131,6 +137307,14 @@ func (v *BTRequestLocationInformationR13) UnmarshalUPERFrom(bb *per.BitBuffer) e
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.RequestedMeasurementsR13.Bytes, v.RequestedMeasurementsR13.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.RequestedMeasurementsR13.Bytes, v.RequestedMeasurementsR13.BitLength))
+	}
+	if v.BtRequestedAoAConfigR18 != nil && !per.NamedBitStringMinimal(v.BtRequestedAoAConfigR18.Bytes, v.BtRequestedAoAConfigR18.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 1, per.KeepBitString(v.BtRequestedAoAConfigR18.Bytes, v.BtRequestedAoAConfigR18.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -137391,10 +137575,10 @@ func (v *BTProvideCapabilitiesR13) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.BtModesR13.Bytes, v.BtModesR13.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.BtModesR13.Bytes, v.BtModesR13.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.BtModesR13.Bytes, v.BtModesR13.BitLength)); err != nil {
 		return fmt.Errorf("encoding bt-Modes-r13: %w", err)
 	}
-	if err := per.EncodeBitStringExt(bb, v.BtMeasSupportedR13.Bytes, v.BtMeasSupportedR13.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.BtMeasSupportedR13.Bytes, v.BtMeasSupportedR13.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(1).Keeps(v.BtMeasSupportedR13.Bytes, v.BtMeasSupportedR13.BitLength)); err != nil {
 		return fmt.Errorf("encoding bt-MeasSupported-r13: %w", err)
 	}
 	if hasExtensions {
@@ -137578,7 +137762,7 @@ func (v *BTProvideCapabilitiesR13) UnmarshalUPERWithOptions(data []byte, options
 	if err != nil {
 		return runtime.WrapDecodePath(err, "BTProvideCapabilitiesR13")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -137726,6 +137910,14 @@ func (v *BTProvideCapabilitiesR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.BtModesR13.Bytes, v.BtModesR13.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.BtModesR13.Bytes, v.BtModesR13.BitLength))
+	}
+	if !per.NamedBitStringMinimal(v.BtMeasSupportedR13.Bytes, v.BtMeasSupportedR13.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 1, per.KeepBitString(v.BtMeasSupportedR13.Bytes, v.BtMeasSupportedR13.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -139735,7 +139927,7 @@ func (v *BTRequestAssistanceDataR18) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.RequestedADR18.Bytes, v.RequestedADR18.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.RequestedADR18.Bytes, v.RequestedADR18.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.RequestedADR18.Bytes, v.RequestedADR18.BitLength)); err != nil {
 		return fmt.Errorf("encoding requestedAD-r18: %w", err)
 	}
 	if hasExtensions {
@@ -139793,7 +139985,7 @@ func (v *BTRequestAssistanceDataR18) UnmarshalUPERWithOptions(data []byte, optio
 	if err != nil {
 		return runtime.WrapDecodePath(err, "BTRequestAssistanceDataR18")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -139834,6 +140026,11 @@ func (v *BTRequestAssistanceDataR18) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.RequestedADR18.Bytes, v.RequestedADR18.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.RequestedADR18.Bytes, v.RequestedADR18.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -141236,7 +141433,7 @@ func (v *NRECIDRequestLocationInformationR16) MarshalUPERTo(bb *per.BitBuffer) e
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.RequestedMeasurementsR16.Bytes, v.RequestedMeasurementsR16.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.RequestedMeasurementsR16.Bytes, v.RequestedMeasurementsR16.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.RequestedMeasurementsR16.Bytes, v.RequestedMeasurementsR16.BitLength)); err != nil {
 		return fmt.Errorf("encoding requestedMeasurements-r16: %w", err)
 	}
 	if hasExtensions {
@@ -141294,7 +141491,7 @@ func (v *NRECIDRequestLocationInformationR16) UnmarshalUPERWithOptions(data []by
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRECIDRequestLocationInformationR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -141335,6 +141532,11 @@ func (v *NRECIDRequestLocationInformationR16) UnmarshalUPERFrom(bb *per.BitBuffe
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.RequestedMeasurementsR16.Bytes, v.RequestedMeasurementsR16.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.RequestedMeasurementsR16.Bytes, v.RequestedMeasurementsR16.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -141359,7 +141561,7 @@ func (v *NRECIDProvideCapabilitiesR16) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.TriggeredReportingR16 != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeBitStringExt(bb, v.NrECIDMeasSupportedR16.Bytes, v.NrECIDMeasSupportedR16.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.NrECIDMeasSupportedR16.Bytes, v.NrECIDMeasSupportedR16.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.NrECIDMeasSupportedR16.Bytes, v.NrECIDMeasSupportedR16.BitLength)); err != nil {
 		return fmt.Errorf("encoding nr-ECID-MeasSupported-r16: %w", err)
 	}
 	if v.PeriodicalReportingR16 != nil {
@@ -141514,7 +141716,7 @@ func (v *NRECIDProvideCapabilitiesR16) UnmarshalUPERWithOptions(data []byte, opt
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRECIDProvideCapabilitiesR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -141644,6 +141846,11 @@ func (v *NRECIDProvideCapabilitiesR16) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.NrECIDMeasSupportedR16.Bytes, v.NrECIDMeasSupportedR16.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.NrECIDMeasSupportedR16.Bytes, v.NrECIDMeasSupportedR16.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -142695,7 +142902,7 @@ func (v *NRDLTDOARequestAssistanceDataR16) MarshalUPERTo(bb *per.BitBuffer) erro
 			return fmt.Errorf("encoding nr-PhysCellID-r16: %w", err)
 		}
 	}
-	if err := per.EncodeBitStringExt(bb, v.NrAdTypeR16.Bytes, v.NrAdTypeR16.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.NrAdTypeR16.Bytes, v.NrAdTypeR16.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.NrAdTypeR16.Bytes, v.NrAdTypeR16.BitLength)); err != nil {
 		return fmt.Errorf("encoding nr-AdType-r16: %w", err)
 	}
 	if hasExtensions {
@@ -142768,7 +142975,7 @@ func (v *NRDLTDOARequestAssistanceDataR16) MarshalUPERTo(bb *per.BitBuffer) erro
 				return err
 			}
 			if v.NrPosCalcAssistanceRequestR17 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.NrPosCalcAssistanceRequestR17.Bytes, v.NrPosCalcAssistanceRequestR17.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.NrPosCalcAssistanceRequestR17.Bytes, v.NrPosCalcAssistanceRequestR17.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(1).Keeps(v.NrPosCalcAssistanceRequestR17.Bytes, v.NrPosCalcAssistanceRequestR17.BitLength)); err != nil {
 					return fmt.Errorf("encoding nr-PosCalcAssistanceRequest-r17: %w", err)
 				}
 			}
@@ -142813,7 +143020,7 @@ func (v *NRDLTDOARequestAssistanceDataR16) MarshalUPERTo(bb *per.BitBuffer) erro
 				}
 			}
 			if v.NrIntegrityAssistanceRequestR18 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.NrIntegrityAssistanceRequestR18.Bytes, v.NrIntegrityAssistanceRequestR18.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.NrIntegrityAssistanceRequestR18.Bytes, v.NrIntegrityAssistanceRequestR18.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(2).Keeps(v.NrIntegrityAssistanceRequestR18.Bytes, v.NrIntegrityAssistanceRequestR18.BitLength)); err != nil {
 					return fmt.Errorf("encoding nr-IntegrityAssistanceRequest-r18: %w", err)
 				}
 			}
@@ -142864,7 +143071,7 @@ func (v *NRDLTDOARequestAssistanceDataR16) UnmarshalUPERWithOptions(data []byte,
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRDLTDOARequestAssistanceDataR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -143019,6 +143226,17 @@ func (v *NRDLTDOARequestAssistanceDataR16) UnmarshalUPERFrom(bb *per.BitBuffer) 
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.NrAdTypeR16.Bytes, v.NrAdTypeR16.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.NrAdTypeR16.Bytes, v.NrAdTypeR16.BitLength))
+	}
+	if v.NrPosCalcAssistanceRequestR17 != nil && !per.NamedBitStringMinimal(v.NrPosCalcAssistanceRequestR17.Bytes, v.NrPosCalcAssistanceRequestR17.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 1, per.KeepBitString(v.NrPosCalcAssistanceRequestR17.Bytes, v.NrPosCalcAssistanceRequestR17.BitLength))
+	}
+	if v.NrIntegrityAssistanceRequestR18 != nil && !per.NamedBitStringMinimal(v.NrIntegrityAssistanceRequestR18.Bytes, v.NrIntegrityAssistanceRequestR18.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 2, per.KeepBitString(v.NrIntegrityAssistanceRequestR18.Bytes, v.NrIntegrityAssistanceRequestR18.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -145454,7 +145672,7 @@ func (v *NRDLTDOALocationInformationR16) MarshalUPERTo(bb *per.BitBuffer) error 
 				}
 			}
 			if v.LocationSourceR17 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.LocationSourceR17.Bytes, v.LocationSourceR17.BitLength, 1, 16, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.LocationSourceR17.Bytes, v.LocationSourceR17.BitLength, 1, 16, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.LocationSourceR17.Bytes, v.LocationSourceR17.BitLength)); err != nil {
 					return fmt.Errorf("encoding locationSource-r17: %w", err)
 				}
 			}
@@ -145505,7 +145723,7 @@ func (v *NRDLTDOALocationInformationR16) UnmarshalUPERWithOptions(data []byte, o
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRDLTDOALocationInformationR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -145595,6 +145813,11 @@ func (v *NRDLTDOALocationInformationR16) UnmarshalUPERFrom(bb *per.BitBuffer) er
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.LocationSourceR17 != nil && !per.NamedBitStringMinimal(v.LocationSourceR17.Bytes, v.LocationSourceR17.BitLength, 1, 16, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.LocationSourceR17.Bytes, v.LocationSourceR17.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -145627,7 +145850,7 @@ func (v *NRDLTDOARequestLocationInformationR16) MarshalUPERTo(bb *per.BitBuffer)
 			return fmt.Errorf("encoding nr-DL-PRS-RstdMeasurementInfoRequest-r16: %w", err)
 		}
 	}
-	if err := per.EncodeBitStringExt(bb, v.NrRequestedMeasurementsR16.Bytes, v.NrRequestedMeasurementsR16.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.NrRequestedMeasurementsR16.Bytes, v.NrRequestedMeasurementsR16.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.NrRequestedMeasurementsR16.Bytes, v.NrRequestedMeasurementsR16.BitLength)); err != nil {
 		return fmt.Errorf("encoding nr-RequestedMeasurements-r16: %w", err)
 	}
 	if err := per.EncodeBoolean(bb, v.NrAssistanceAvailabilityR16); err != nil {
@@ -145817,7 +146040,7 @@ func (v *NRDLTDOARequestLocationInformationR16) UnmarshalUPERWithOptions(data []
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRDLTDOARequestLocationInformationR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -146007,6 +146230,11 @@ func (v *NRDLTDOARequestLocationInformationR16) UnmarshalUPERFrom(bb *per.BitBuf
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.NrRequestedMeasurementsR16.Bytes, v.NrRequestedMeasurementsR16.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.NrRequestedMeasurementsR16.Bytes, v.NrRequestedMeasurementsR16.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -146534,7 +146762,7 @@ func (v *NRDLTDOAProvideCapabilitiesR16) MarshalUPERTo(bb *per.BitBuffer) error 
 				}
 			}
 			if v.NrPosCalcAssistanceSupportR17 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.NrPosCalcAssistanceSupportR17.Bytes, v.NrPosCalcAssistanceSupportR17.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.NrPosCalcAssistanceSupportR17.Bytes, v.NrPosCalcAssistanceSupportR17.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.NrPosCalcAssistanceSupportR17.Bytes, v.NrPosCalcAssistanceSupportR17.BitLength)); err != nil {
 					return fmt.Errorf("encoding nr-PosCalcAssistanceSupport-r17: %w", err)
 				}
 			}
@@ -146544,7 +146772,7 @@ func (v *NRDLTDOAProvideCapabilitiesR16) MarshalUPERTo(bb *per.BitBuffer) error 
 				}
 			}
 			if v.NrDLPRSExpectedAoDOrAoASupR17 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.NrDLPRSExpectedAoDOrAoASupR17.Bytes, v.NrDLPRSExpectedAoDOrAoASupR17.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.NrDLPRSExpectedAoDOrAoASupR17.Bytes, v.NrDLPRSExpectedAoDOrAoASupR17.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(1).Keeps(v.NrDLPRSExpectedAoDOrAoASupR17.Bytes, v.NrDLPRSExpectedAoDOrAoASupR17.BitLength)); err != nil {
 					return fmt.Errorf("encoding nr-DL-PRS-ExpectedAoD-or-AoA-Sup-r17: %w", err)
 				}
 			}
@@ -146662,12 +146890,12 @@ func (v *NRDLTDOAProvideCapabilitiesR16) MarshalUPERTo(bb *per.BitBuffer) error 
 				}
 			}
 			if v.PeriodicAssistanceDataR18 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.PeriodicAssistanceDataR18.Bytes, v.PeriodicAssistanceDataR18.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.PeriodicAssistanceDataR18.Bytes, v.PeriodicAssistanceDataR18.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(2).Keeps(v.PeriodicAssistanceDataR18.Bytes, v.PeriodicAssistanceDataR18.BitLength)); err != nil {
 					return fmt.Errorf("encoding periodicAssistanceData-r18: %w", err)
 				}
 			}
 			if v.NrIntegrityAssistanceSupportR18 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.NrIntegrityAssistanceSupportR18.Bytes, v.NrIntegrityAssistanceSupportR18.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.NrIntegrityAssistanceSupportR18.Bytes, v.NrIntegrityAssistanceSupportR18.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(3).Keeps(v.NrIntegrityAssistanceSupportR18.Bytes, v.NrIntegrityAssistanceSupportR18.BitLength)); err != nil {
 					return fmt.Errorf("encoding nr-IntegrityAssistanceSupport-r18: %w", err)
 				}
 			}
@@ -146728,7 +146956,7 @@ func (v *NRDLTDOAProvideCapabilitiesR16) UnmarshalUPERWithOptions(data []byte, o
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRDLTDOAProvideCapabilitiesR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -147065,6 +147293,20 @@ func (v *NRDLTDOAProvideCapabilitiesR16) UnmarshalUPERFrom(bb *per.BitBuffer) er
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.NrPosCalcAssistanceSupportR17 != nil && !per.NamedBitStringMinimal(v.NrPosCalcAssistanceSupportR17.Bytes, v.NrPosCalcAssistanceSupportR17.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.NrPosCalcAssistanceSupportR17.Bytes, v.NrPosCalcAssistanceSupportR17.BitLength))
+	}
+	if v.NrDLPRSExpectedAoDOrAoASupR17 != nil && !per.NamedBitStringMinimal(v.NrDLPRSExpectedAoDOrAoASupR17.Bytes, v.NrDLPRSExpectedAoDOrAoASupR17.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 1, per.KeepBitString(v.NrDLPRSExpectedAoDOrAoASupR17.Bytes, v.NrDLPRSExpectedAoDOrAoASupR17.BitLength))
+	}
+	if v.PeriodicAssistanceDataR18 != nil && !per.NamedBitStringMinimal(v.PeriodicAssistanceDataR18.Bytes, v.PeriodicAssistanceDataR18.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 2, per.KeepBitString(v.PeriodicAssistanceDataR18.Bytes, v.PeriodicAssistanceDataR18.BitLength))
+	}
+	if v.NrIntegrityAssistanceSupportR18 != nil && !per.NamedBitStringMinimal(v.NrIntegrityAssistanceSupportR18.Bytes, v.NrIntegrityAssistanceSupportR18.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 3, per.KeepBitString(v.NrIntegrityAssistanceSupportR18.Bytes, v.NrIntegrityAssistanceSupportR18.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -147521,7 +147763,7 @@ func (v *DLTDOAMeasCapabilityPerBandR17) MarshalUPERTo(bb *per.BitBuffer) error 
 				}
 			}
 			if v.SupportOfMeasurementsInTimeWindowR18 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.SupportOfMeasurementsInTimeWindowR18.Bytes, v.SupportOfMeasurementsInTimeWindowR18.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.SupportOfMeasurementsInTimeWindowR18.Bytes, v.SupportOfMeasurementsInTimeWindowR18.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.SupportOfMeasurementsInTimeWindowR18.Bytes, v.SupportOfMeasurementsInTimeWindowR18.BitLength)); err != nil {
 					return fmt.Errorf("encoding supportOfMeasurementsInTimeWindow-r18: %w", err)
 				}
 			}
@@ -147599,7 +147841,7 @@ func (v *DLTDOAMeasCapabilityPerBandR17) UnmarshalUPERWithOptions(data []byte, o
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DLTDOAMeasCapabilityPerBandR17")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -147829,6 +148071,11 @@ func (v *DLTDOAMeasCapabilityPerBandR17) UnmarshalUPERFrom(bb *per.BitBuffer) er
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.SupportOfMeasurementsInTimeWindowR18 != nil && !per.NamedBitStringMinimal(v.SupportOfMeasurementsInTimeWindowR18.Bytes, v.SupportOfMeasurementsInTimeWindowR18.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.SupportOfMeasurementsInTimeWindowR18.Bytes, v.SupportOfMeasurementsInTimeWindowR18.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -148874,7 +149121,7 @@ func (v *NRDLAoDRequestAssistanceDataR16) MarshalUPERTo(bb *per.BitBuffer) error
 			return fmt.Errorf("encoding nr-PhysCellID-r16: %w", err)
 		}
 	}
-	if err := per.EncodeBitStringExt(bb, v.NrAdTypeR16.Bytes, v.NrAdTypeR16.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.NrAdTypeR16.Bytes, v.NrAdTypeR16.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.NrAdTypeR16.Bytes, v.NrAdTypeR16.BitLength)); err != nil {
 		return fmt.Errorf("encoding nr-AdType-r16: %w", err)
 	}
 	if hasExtensions {
@@ -148953,7 +149200,7 @@ func (v *NRDLAoDRequestAssistanceDataR16) MarshalUPERTo(bb *per.BitBuffer) error
 				return err
 			}
 			if v.NrPosCalcAssistanceRequestR17 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.NrPosCalcAssistanceRequestR17.Bytes, v.NrPosCalcAssistanceRequestR17.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.NrPosCalcAssistanceRequestR17.Bytes, v.NrPosCalcAssistanceRequestR17.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(1).Keeps(v.NrPosCalcAssistanceRequestR17.Bytes, v.NrPosCalcAssistanceRequestR17.BitLength)); err != nil {
 					return fmt.Errorf("encoding nr-PosCalcAssistanceRequest-r17: %w", err)
 				}
 			}
@@ -148978,7 +149225,7 @@ func (v *NRDLAoDRequestAssistanceDataR16) MarshalUPERTo(bb *per.BitBuffer) error
 				}
 			}
 			if v.NrIntegrityAssistanceRequestR18 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.NrIntegrityAssistanceRequestR18.Bytes, v.NrIntegrityAssistanceRequestR18.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.NrIntegrityAssistanceRequestR18.Bytes, v.NrIntegrityAssistanceRequestR18.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(2).Keeps(v.NrIntegrityAssistanceRequestR18.Bytes, v.NrIntegrityAssistanceRequestR18.BitLength)); err != nil {
 					return fmt.Errorf("encoding nr-IntegrityAssistanceRequest-r18: %w", err)
 				}
 			}
@@ -149051,7 +149298,7 @@ func (v *NRDLAoDRequestAssistanceDataR16) UnmarshalUPERWithOptions(data []byte, 
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRDLAoDRequestAssistanceDataR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -149217,6 +149464,17 @@ func (v *NRDLAoDRequestAssistanceDataR16) UnmarshalUPERFrom(bb *per.BitBuffer) e
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.NrAdTypeR16.Bytes, v.NrAdTypeR16.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.NrAdTypeR16.Bytes, v.NrAdTypeR16.BitLength))
+	}
+	if v.NrPosCalcAssistanceRequestR17 != nil && !per.NamedBitStringMinimal(v.NrPosCalcAssistanceRequestR17.Bytes, v.NrPosCalcAssistanceRequestR17.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 1, per.KeepBitString(v.NrPosCalcAssistanceRequestR17.Bytes, v.NrPosCalcAssistanceRequestR17.BitLength))
+	}
+	if v.NrIntegrityAssistanceRequestR18 != nil && !per.NamedBitStringMinimal(v.NrIntegrityAssistanceRequestR18.Bytes, v.NrIntegrityAssistanceRequestR18.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 2, per.KeepBitString(v.NrIntegrityAssistanceRequestR18.Bytes, v.NrIntegrityAssistanceRequestR18.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -151045,7 +151303,7 @@ func (v *NRDLAoDLocationInformationR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				}
 			}
 			if v.LocationSourceR17 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.LocationSourceR17.Bytes, v.LocationSourceR17.BitLength, 1, 16, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.LocationSourceR17.Bytes, v.LocationSourceR17.BitLength, 1, 16, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.LocationSourceR17.Bytes, v.LocationSourceR17.BitLength)); err != nil {
 					return fmt.Errorf("encoding locationSource-r17: %w", err)
 				}
 			}
@@ -151096,7 +151354,7 @@ func (v *NRDLAoDLocationInformationR16) UnmarshalUPERWithOptions(data []byte, op
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRDLAoDLocationInformationR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -151186,6 +151444,11 @@ func (v *NRDLAoDLocationInformationR16) UnmarshalUPERFrom(bb *per.BitBuffer) err
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.LocationSourceR17 != nil && !per.NamedBitStringMinimal(v.LocationSourceR17.Bytes, v.LocationSourceR17.BitLength, 1, 16, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.LocationSourceR17.Bytes, v.LocationSourceR17.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -151973,7 +152236,7 @@ func (v *NRDLAoDProvideCapabilitiesR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				}
 			}
 			if v.NrPosCalcAssistanceSupportR17 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.NrPosCalcAssistanceSupportR17.Bytes, v.NrPosCalcAssistanceSupportR17.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.NrPosCalcAssistanceSupportR17.Bytes, v.NrPosCalcAssistanceSupportR17.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.NrPosCalcAssistanceSupportR17.Bytes, v.NrPosCalcAssistanceSupportR17.BitLength)); err != nil {
 					return fmt.Errorf("encoding nr-PosCalcAssistanceSupport-r17: %w", err)
 				}
 			}
@@ -151983,7 +152246,7 @@ func (v *NRDLAoDProvideCapabilitiesR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				}
 			}
 			if v.NrDLPRSExpectedAoDOrAoASupR17 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.NrDLPRSExpectedAoDOrAoASupR17.Bytes, v.NrDLPRSExpectedAoDOrAoASupR17.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.NrDLPRSExpectedAoDOrAoASupR17.Bytes, v.NrDLPRSExpectedAoDOrAoASupR17.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(1).Keeps(v.NrDLPRSExpectedAoDOrAoASupR17.Bytes, v.NrDLPRSExpectedAoDOrAoASupR17.BitLength)); err != nil {
 					return fmt.Errorf("encoding nr-DL-PRS-ExpectedAoD-or-AoA-Sup-r17: %w", err)
 				}
 			}
@@ -152100,7 +152363,7 @@ func (v *NRDLAoDProvideCapabilitiesR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				}
 			}
 			if v.NrIntegrityAssistanceSupportR18 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.NrIntegrityAssistanceSupportR18.Bytes, v.NrIntegrityAssistanceSupportR18.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.NrIntegrityAssistanceSupportR18.Bytes, v.NrIntegrityAssistanceSupportR18.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(2).Keeps(v.NrIntegrityAssistanceSupportR18.Bytes, v.NrIntegrityAssistanceSupportR18.BitLength)); err != nil {
 					return fmt.Errorf("encoding nr-IntegrityAssistanceSupport-r18: %w", err)
 				}
 			}
@@ -152127,7 +152390,7 @@ func (v *NRDLAoDProvideCapabilitiesR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.PeriodicAssistanceDataR19 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.PeriodicAssistanceDataR19.Bytes, v.PeriodicAssistanceDataR19.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.PeriodicAssistanceDataR19.Bytes, v.PeriodicAssistanceDataR19.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(3).Keeps(v.PeriodicAssistanceDataR19.Bytes, v.PeriodicAssistanceDataR19.BitLength)); err != nil {
 					return fmt.Errorf("encoding periodicAssistanceData-r19: %w", err)
 				}
 			}
@@ -152178,7 +152441,7 @@ func (v *NRDLAoDProvideCapabilitiesR16) UnmarshalUPERWithOptions(data []byte, op
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRDLAoDProvideCapabilitiesR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -152518,6 +152781,20 @@ func (v *NRDLAoDProvideCapabilitiesR16) UnmarshalUPERFrom(bb *per.BitBuffer) err
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.NrPosCalcAssistanceSupportR17 != nil && !per.NamedBitStringMinimal(v.NrPosCalcAssistanceSupportR17.Bytes, v.NrPosCalcAssistanceSupportR17.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.NrPosCalcAssistanceSupportR17.Bytes, v.NrPosCalcAssistanceSupportR17.BitLength))
+	}
+	if v.NrDLPRSExpectedAoDOrAoASupR17 != nil && !per.NamedBitStringMinimal(v.NrDLPRSExpectedAoDOrAoASupR17.Bytes, v.NrDLPRSExpectedAoDOrAoASupR17.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 1, per.KeepBitString(v.NrDLPRSExpectedAoDOrAoASupR17.Bytes, v.NrDLPRSExpectedAoDOrAoASupR17.BitLength))
+	}
+	if v.NrIntegrityAssistanceSupportR18 != nil && !per.NamedBitStringMinimal(v.NrIntegrityAssistanceSupportR18.Bytes, v.NrIntegrityAssistanceSupportR18.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 2, per.KeepBitString(v.NrIntegrityAssistanceSupportR18.Bytes, v.NrIntegrityAssistanceSupportR18.BitLength))
+	}
+	if v.PeriodicAssistanceDataR19 != nil && !per.NamedBitStringMinimal(v.PeriodicAssistanceDataR19.Bytes, v.PeriodicAssistanceDataR19.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 3, per.KeepBitString(v.PeriodicAssistanceDataR19.Bytes, v.PeriodicAssistanceDataR19.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -152899,7 +153176,7 @@ func (v *DLAoDMeasCapabilityPerBandR16) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.SupportOfMeasurementsInTimeWindowR18 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.SupportOfMeasurementsInTimeWindowR18.Bytes, v.SupportOfMeasurementsInTimeWindowR18.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.SupportOfMeasurementsInTimeWindowR18.Bytes, v.SupportOfMeasurementsInTimeWindowR18.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.SupportOfMeasurementsInTimeWindowR18.Bytes, v.SupportOfMeasurementsInTimeWindowR18.BitLength)); err != nil {
 					return fmt.Errorf("encoding supportOfMeasurementsInTimeWindow-r18: %w", err)
 				}
 			}
@@ -152955,7 +153232,7 @@ func (v *DLAoDMeasCapabilityPerBandR16) UnmarshalUPERWithOptions(data []byte, op
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DLAoDMeasCapabilityPerBandR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -153097,6 +153374,11 @@ func (v *DLAoDMeasCapabilityPerBandR16) UnmarshalUPERFrom(bb *per.BitBuffer) err
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.SupportOfMeasurementsInTimeWindowR18 != nil && !per.NamedBitStringMinimal(v.SupportOfMeasurementsInTimeWindowR18.Bytes, v.SupportOfMeasurementsInTimeWindowR18.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.SupportOfMeasurementsInTimeWindowR18.Bytes, v.SupportOfMeasurementsInTimeWindowR18.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -154020,7 +154302,7 @@ func (v *NRMultiRTTRequestAssistanceDataR16) MarshalUPERTo(bb *per.BitBuffer) er
 			return fmt.Errorf("encoding nr-PhysCellID-r16: %w", err)
 		}
 	}
-	if err := per.EncodeBitStringExt(bb, v.NrAdTypeR16.Bytes, v.NrAdTypeR16.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.NrAdTypeR16.Bytes, v.NrAdTypeR16.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.NrAdTypeR16.Bytes, v.NrAdTypeR16.BitLength)); err != nil {
 		return fmt.Errorf("encoding nr-AdType-r16: %w", err)
 	}
 	if hasExtensions {
@@ -154139,7 +154421,7 @@ func (v *NRMultiRTTRequestAssistanceDataR16) UnmarshalUPERWithOptions(data []byt
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRMultiRTTRequestAssistanceDataR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -154245,6 +154527,11 @@ func (v *NRMultiRTTRequestAssistanceDataR16) UnmarshalUPERFrom(bb *per.BitBuffer
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.NrAdTypeR16.Bytes, v.NrAdTypeR16.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.NrAdTypeR16.Bytes, v.NrAdTypeR16.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -157122,7 +157409,7 @@ func (v *NRMultiRTTRequestLocationInformationR16) MarshalUPERTo(bb *per.BitBuffe
 			return fmt.Errorf("encoding nr-UE-RxTxTimeDiffMeasurementInfoRequest-r16: %w", err)
 		}
 	}
-	if err := per.EncodeBitStringExt(bb, v.NrRequestedMeasurementsR16.Bytes, v.NrRequestedMeasurementsR16.BitLength, 1, 8, true, false); err != nil {
+	if err := per.EncodeNamedBitString(bb, v.NrRequestedMeasurementsR16.Bytes, v.NrRequestedMeasurementsR16.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.NrRequestedMeasurementsR16.Bytes, v.NrRequestedMeasurementsR16.BitLength)); err != nil {
 		return fmt.Errorf("encoding nr-RequestedMeasurements-r16: %w", err)
 	}
 	if err := per.EncodeBoolean(bb, v.NrAssistanceAvailabilityR16); err != nil {
@@ -157400,7 +157687,7 @@ func (v *NRMultiRTTRequestLocationInformationR16) UnmarshalUPERWithOptions(data 
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRMultiRTTRequestLocationInformationR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -157687,6 +157974,11 @@ func (v *NRMultiRTTRequestLocationInformationR16) UnmarshalUPERFrom(bb *per.BitB
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if !per.NamedBitStringMinimal(v.NrRequestedMeasurementsR16.Bytes, v.NrRequestedMeasurementsR16.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.NrRequestedMeasurementsR16.Bytes, v.NrRequestedMeasurementsR16.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -157916,7 +158208,7 @@ func (v *NRMultiRTTProvideCapabilitiesR16) MarshalUPERTo(bb *per.BitBuffer) erro
 				}
 			}
 			if v.NrDLPRSExpectedAoDOrAoASupR17 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.NrDLPRSExpectedAoDOrAoASupR17.Bytes, v.NrDLPRSExpectedAoDOrAoASupR17.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.NrDLPRSExpectedAoDOrAoASupR17.Bytes, v.NrDLPRSExpectedAoDOrAoASupR17.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.NrDLPRSExpectedAoDOrAoASupR17.Bytes, v.NrDLPRSExpectedAoDOrAoASupR17.BitLength)); err != nil {
 					return fmt.Errorf("encoding nr-DL-PRS-ExpectedAoD-or-AoA-Sup-r17: %w", err)
 				}
 			}
@@ -157926,7 +158218,7 @@ func (v *NRMultiRTTProvideCapabilitiesR16) MarshalUPERTo(bb *per.BitBuffer) erro
 				}
 			}
 			if v.NrUERxTxTEGIDReportingSupportR17 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.NrUERxTxTEGIDReportingSupportR17.Bytes, v.NrUERxTxTEGIDReportingSupportR17.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.NrUERxTxTEGIDReportingSupportR17.Bytes, v.NrUERxTxTEGIDReportingSupportR17.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(1).Keeps(v.NrUERxTxTEGIDReportingSupportR17.Bytes, v.NrUERxTxTEGIDReportingSupportR17.BitLength)); err != nil {
 					return fmt.Errorf("encoding nr-UE-RxTx-TEG-ID-ReportingSupport-r17: %w", err)
 				}
 			}
@@ -158059,7 +158351,7 @@ func (v *NRMultiRTTProvideCapabilitiesR16) UnmarshalUPERWithOptions(data []byte,
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRMultiRTTProvideCapabilitiesR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -158325,6 +158617,14 @@ func (v *NRMultiRTTProvideCapabilitiesR16) UnmarshalUPERFrom(bb *per.BitBuffer) 
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.NrDLPRSExpectedAoDOrAoASupR17 != nil && !per.NamedBitStringMinimal(v.NrDLPRSExpectedAoDOrAoASupR17.Bytes, v.NrDLPRSExpectedAoDOrAoASupR17.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.NrDLPRSExpectedAoDOrAoASupR17.Bytes, v.NrDLPRSExpectedAoDOrAoASupR17.BitLength))
+	}
+	if v.NrUERxTxTEGIDReportingSupportR17 != nil && !per.NamedBitStringMinimal(v.NrUERxTxTEGIDReportingSupportR17.Bytes, v.NrUERxTxTEGIDReportingSupportR17.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 1, per.KeepBitString(v.NrUERxTxTEGIDReportingSupportR17.Bytes, v.NrUERxTxTEGIDReportingSupportR17.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -158818,7 +159118,7 @@ func (v *MultiRTTMeasCapabilityPerBandR17) MarshalUPERTo(bb *per.BitBuffer) erro
 				}
 			}
 			if v.SupportOfMeasurementsInTimeWindowR18 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.SupportOfMeasurementsInTimeWindowR18.Bytes, v.SupportOfMeasurementsInTimeWindowR18.BitLength, 1, 8, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.SupportOfMeasurementsInTimeWindowR18.Bytes, v.SupportOfMeasurementsInTimeWindowR18.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.SupportOfMeasurementsInTimeWindowR18.Bytes, v.SupportOfMeasurementsInTimeWindowR18.BitLength)); err != nil {
 					return fmt.Errorf("encoding supportOfMeasurementsInTimeWindow-r18: %w", err)
 				}
 			}
@@ -158869,7 +159169,7 @@ func (v *MultiRTTMeasCapabilityPerBandR17) UnmarshalUPERWithOptions(data []byte,
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MultiRTTMeasCapabilityPerBandR17")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -159052,6 +159352,11 @@ func (v *MultiRTTMeasCapabilityPerBandR17) UnmarshalUPERFrom(bb *per.BitBuffer) 
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.SupportOfMeasurementsInTimeWindowR18 != nil && !per.NamedBitStringMinimal(v.SupportOfMeasurementsInTimeWindowR18.Bytes, v.SupportOfMeasurementsInTimeWindowR18.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.SupportOfMeasurementsInTimeWindowR18.Bytes, v.SupportOfMeasurementsInTimeWindowR18.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -159977,12 +160282,12 @@ func (v *NRDLAIMLRequestAssistanceDataR19) MarshalUPERTo(bb *per.BitBuffer) erro
 		}
 	}
 	if v.NrPositionCalculationAssistanceReqR19 != nil {
-		if err := per.EncodeBitStringExt(bb, v.NrPositionCalculationAssistanceReqR19.Bytes, v.NrPositionCalculationAssistanceReqR19.BitLength, 1, 8, true, false); err != nil {
+		if err := per.EncodeNamedBitString(bb, v.NrPositionCalculationAssistanceReqR19.Bytes, v.NrPositionCalculationAssistanceReqR19.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.NrPositionCalculationAssistanceReqR19.Bytes, v.NrPositionCalculationAssistanceReqR19.BitLength)); err != nil {
 			return fmt.Errorf("encoding nr-PositionCalculationAssistanceReq-r19: %w", err)
 		}
 	}
 	if v.NrIntegrityAssistanceReqR19 != nil {
-		if err := per.EncodeBitStringExt(bb, v.NrIntegrityAssistanceReqR19.Bytes, v.NrIntegrityAssistanceReqR19.BitLength, 1, 8, true, false); err != nil {
+		if err := per.EncodeNamedBitString(bb, v.NrIntegrityAssistanceReqR19.Bytes, v.NrIntegrityAssistanceReqR19.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(1).Keeps(v.NrIntegrityAssistanceReqR19.Bytes, v.NrIntegrityAssistanceReqR19.BitLength)); err != nil {
 			return fmt.Errorf("encoding nr-IntegrityAssistanceReq-r19: %w", err)
 		}
 	}
@@ -160041,7 +160346,7 @@ func (v *NRDLAIMLRequestAssistanceDataR19) UnmarshalUPERWithOptions(data []byte,
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRDLAIMLRequestAssistanceDataR19")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -160158,6 +160463,14 @@ func (v *NRDLAIMLRequestAssistanceDataR19) UnmarshalUPERFrom(bb *per.BitBuffer) 
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.NrPositionCalculationAssistanceReqR19 != nil && !per.NamedBitStringMinimal(v.NrPositionCalculationAssistanceReqR19.Bytes, v.NrPositionCalculationAssistanceReqR19.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.NrPositionCalculationAssistanceReqR19.Bytes, v.NrPositionCalculationAssistanceReqR19.BitLength))
+	}
+	if v.NrIntegrityAssistanceReqR19 != nil && !per.NamedBitStringMinimal(v.NrIntegrityAssistanceReqR19.Bytes, v.NrIntegrityAssistanceReqR19.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 1, per.KeepBitString(v.NrIntegrityAssistanceReqR19.Bytes, v.NrIntegrityAssistanceReqR19.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -160388,7 +160701,7 @@ func (v *NRDLAIMLLocationInformationR19) MarshalUPERTo(bb *per.BitBuffer) error 
 		}
 	}
 	if v.LocationSourceR19 != nil {
-		if err := per.EncodeBitStringExt(bb, v.LocationSourceR19.Bytes, v.LocationSourceR19.BitLength, 1, 16, true, false); err != nil {
+		if err := per.EncodeNamedBitString(bb, v.LocationSourceR19.Bytes, v.LocationSourceR19.BitLength, 1, 16, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.LocationSourceR19.Bytes, v.LocationSourceR19.BitLength)); err != nil {
 			return fmt.Errorf("encoding locationSource-r19: %w", err)
 		}
 	}
@@ -160447,7 +160760,7 @@ func (v *NRDLAIMLLocationInformationR19) UnmarshalUPERWithOptions(data []byte, o
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRDLAIMLLocationInformationR19")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -160518,6 +160831,11 @@ func (v *NRDLAIMLLocationInformationR19) UnmarshalUPERFrom(bb *per.BitBuffer) er
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.LocationSourceR19 != nil && !per.NamedBitStringMinimal(v.LocationSourceR19.Bytes, v.LocationSourceR19.BitLength, 1, 16, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.LocationSourceR19.Bytes, v.LocationSourceR19.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -160741,7 +161059,7 @@ func (v *NRDLAIMLProvideCapabilitiesR19) MarshalUPERTo(bb *per.BitBuffer) error 
 		}
 	}
 	if v.NrPosCalcAssistanceSupportR19 != nil {
-		if err := per.EncodeBitStringExt(bb, v.NrPosCalcAssistanceSupportR19.Bytes, v.NrPosCalcAssistanceSupportR19.BitLength, 1, 8, true, false); err != nil {
+		if err := per.EncodeNamedBitString(bb, v.NrPosCalcAssistanceSupportR19.Bytes, v.NrPosCalcAssistanceSupportR19.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.NrPosCalcAssistanceSupportR19.Bytes, v.NrPosCalcAssistanceSupportR19.BitLength)); err != nil {
 			return fmt.Errorf("encoding nr-PosCalcAssistanceSupport-r19: %w", err)
 		}
 	}
@@ -160751,7 +161069,7 @@ func (v *NRDLAIMLProvideCapabilitiesR19) MarshalUPERTo(bb *per.BitBuffer) error 
 		}
 	}
 	if v.NrDLPRSExpectedAoDOrAoASupR19 != nil {
-		if err := per.EncodeBitStringExt(bb, v.NrDLPRSExpectedAoDOrAoASupR19.Bytes, v.NrDLPRSExpectedAoDOrAoASupR19.BitLength, 1, 8, true, false); err != nil {
+		if err := per.EncodeNamedBitString(bb, v.NrDLPRSExpectedAoDOrAoASupR19.Bytes, v.NrDLPRSExpectedAoDOrAoASupR19.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(1).Keeps(v.NrDLPRSExpectedAoDOrAoASupR19.Bytes, v.NrDLPRSExpectedAoDOrAoASupR19.BitLength)); err != nil {
 			return fmt.Errorf("encoding nr-DL-PRS-ExpectedAoD-or-AoA-Sup-r19: %w", err)
 		}
 	}
@@ -160776,7 +161094,7 @@ func (v *NRDLAIMLProvideCapabilitiesR19) MarshalUPERTo(bb *per.BitBuffer) error 
 		}
 	}
 	if v.NrIntegrityAssistanceSupportR19 != nil {
-		if err := per.EncodeBitStringExt(bb, v.NrIntegrityAssistanceSupportR19.Bytes, v.NrIntegrityAssistanceSupportR19.BitLength, 1, 8, true, false); err != nil {
+		if err := per.EncodeNamedBitString(bb, v.NrIntegrityAssistanceSupportR19.Bytes, v.NrIntegrityAssistanceSupportR19.BitLength, 1, 8, true, false, v.PERPadding_.KeptBitString(2).Keeps(v.NrIntegrityAssistanceSupportR19.Bytes, v.NrIntegrityAssistanceSupportR19.BitLength)); err != nil {
 			return fmt.Errorf("encoding nr-IntegrityAssistanceSupport-r19: %w", err)
 		}
 	}
@@ -160860,7 +161178,7 @@ func (v *NRDLAIMLProvideCapabilitiesR19) UnmarshalUPERWithOptions(data []byte, o
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRDLAIMLProvideCapabilitiesR19")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -161077,6 +161395,17 @@ func (v *NRDLAIMLProvideCapabilitiesR19) UnmarshalUPERFrom(bb *per.BitBuffer) er
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.NrPosCalcAssistanceSupportR19 != nil && !per.NamedBitStringMinimal(v.NrPosCalcAssistanceSupportR19.Bytes, v.NrPosCalcAssistanceSupportR19.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.NrPosCalcAssistanceSupportR19.Bytes, v.NrPosCalcAssistanceSupportR19.BitLength))
+	}
+	if v.NrDLPRSExpectedAoDOrAoASupR19 != nil && !per.NamedBitStringMinimal(v.NrDLPRSExpectedAoDOrAoASupR19.Bytes, v.NrDLPRSExpectedAoDOrAoASupR19.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 1, per.KeepBitString(v.NrDLPRSExpectedAoDOrAoASupR19.Bytes, v.NrDLPRSExpectedAoDOrAoASupR19.BitLength))
+	}
+	if v.NrIntegrityAssistanceSupportR19 != nil && !per.NamedBitStringMinimal(v.NrIntegrityAssistanceSupportR19.Bytes, v.NrIntegrityAssistanceSupportR19.BitLength, 1, 8, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 2, per.KeepBitString(v.NrIntegrityAssistanceSupportR19.Bytes, v.NrIntegrityAssistanceSupportR19.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 
@@ -161245,7 +161574,7 @@ func (v *NRDLAIMLCapabilityPerBandR19) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.UeRxTEGsSupportR19 != nil {
-				if err := per.EncodeBitStringExt(extBuf, v.UeRxTEGsSupportR19.Bytes, v.UeRxTEGsSupportR19.BitLength, 1, 4, true, false); err != nil {
+				if err := per.EncodeNamedBitString(extBuf, v.UeRxTEGsSupportR19.Bytes, v.UeRxTEGsSupportR19.BitLength, 1, 4, true, false, v.PERPadding_.KeptBitString(0).Keeps(v.UeRxTEGsSupportR19.Bytes, v.UeRxTEGsSupportR19.BitLength)); err != nil {
 					return fmt.Errorf("encoding ue-RxTEGs-Support-r19: %w", err)
 				}
 			}
@@ -161296,7 +161625,7 @@ func (v *NRDLAIMLCapabilityPerBandR19) UnmarshalUPERWithOptions(data []byte, opt
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRDLAIMLCapabilityPerBandR19")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
@@ -161482,6 +161811,11 @@ func (v *NRDLAIMLCapabilityPerBandR19) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 			}
 		}
 	}
+	var keptBitStrings_ []per.KeptBits
+	if v.UeRxTEGsSupportR19 != nil && !per.NamedBitStringMinimal(v.UeRxTEGsSupportR19.Bytes, v.UeRxTEGsSupportR19.BitLength, 1, 4, true, false) {
+		keptBitStrings_ = per.KeepAt(keptBitStrings_, 0, per.KeepBitString(v.UeRxTEGsSupportR19.Bytes, v.UeRxTEGsSupportR19.BitLength))
+	}
+	v.PERPadding_ = per.KeptBitStrings(keptBitStrings_)
 	return nil
 }
 

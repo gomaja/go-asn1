@@ -3,8 +3,8 @@ package validation
 import (
 	"bytes"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
-	"reflect"
 	"testing"
 
 	"github.com/gomaja/go-asn1/runtime/per"
@@ -22,6 +22,45 @@ const (
 	lateValid   = "804000"
 	lateCorrupt = "806000"
 )
+
+// sameDecodedValue checks that a value completed by a later decode equals the
+// Eager value. A deep comparison would also walk the unexported decode state
+// in their padding fields, errors included, so the typed fields are compared
+// through their JSON form, which leaves padding and decode state out, and
+// both values must encode to the input. Callers compare the padding and
+// deferral state explicitly.
+func sameDecodedValue(t *testing.T, got, want interface{ MarshalUPER() ([]byte, error) }, wire []byte) {
+	t.Helper()
+	gotJSON, err := json.Marshal(got)
+	if err != nil {
+		t.Fatal(err)
+	}
+	wantJSON, err := json.Marshal(want)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(gotJSON, wantJSON) {
+		t.Fatalf("later decode %s, Eager %s", gotJSON, wantJSON)
+	}
+	for name, value := range map[string]interface{ MarshalUPER() ([]byte, error) }{"later decode": got, "Eager": want} {
+		if out, err := value.MarshalUPER(); err != nil || !bytes.Equal(out, wire) {
+			t.Fatalf("%s re-encodes %x, %v; want %x", name, out, err, wire)
+		}
+	}
+}
+
+// sameTrailing checks that two padding fields hold the same trailing bits
+// and that neither holds deferred state.
+func sameTrailing(t *testing.T, name string, got, want per.FinalPadding) {
+	t.Helper()
+	if got.Deferred() != nil || want.Deferred() != nil {
+		t.Fatalf("%s: deferred state %+v, %+v", name, got.Deferred(), want.Deferred())
+	}
+	g, w := got.Trailing(), want.Trailing()
+	if g.BitLength != w.BitLength || !bytes.Equal(g.Bytes, w.Bytes) {
+		t.Fatalf("%s: trailing bits %x/%d, want %x/%d", name, g.Bytes, g.BitLength, w.Bytes, w.BitLength)
+	}
+}
 
 func deferring(mode per.ContainedDecoding) (per.DecodeOptions, *per.DeferralLog) {
 	var log per.DeferralLog
@@ -96,9 +135,9 @@ func TestDeferAllLateNonCriticalExtension(t *testing.T) {
 		t.Fatal(err)
 	}
 	value.LateNonCriticalExtension = &later
-	if !reflect.DeepEqual(value, strict) {
-		t.Fatalf("later decode %+v, Eager %+v", value, strict)
-	}
+	sameDecodedValue(t, &value, &strict, wire)
+	sameTrailing(t, "RRCConnectionSetupCompleteV8a0IEs", value.PERPadding_, strict.PERPadding_)
+	sameTrailing(t, "lateNonCriticalExtension", value.LateNonCriticalExtension.PERPadding_, strict.LateNonCriticalExtension.PERPadding_)
 }
 
 // The contained interRATHandoverInfo-r3-add-ext value is two bits (194020).
@@ -172,9 +211,11 @@ func TestDeferOnErrorKeepsPaddedInterRATHandoverInfoR3AddExt(t *testing.T) {
 				t.Fatal(err)
 			}
 			host.InterRATHandoverInfoR3AddExt, host.InterRATHandoverInfoR3AddExtPERPadding_ = &later, padding
-			if !reflect.DeepEqual(value, tolerant) {
-				t.Fatalf("later decode %+v, tolerant Eager %+v", value, tolerant)
-			}
+			sameDecodedValue(t, &value, &tolerant, input)
+			tolerantHost := tolerant.V390NonCriticalExtensions.Present.V3a0NonCriticalExtensions.LaterNonCriticalExtensions
+			sameTrailing(t, "InterRATHandoverInfo", value.PERPadding_, tolerant.PERPadding_)
+			sameTrailing(t, "interRATHandoverInfo-r3-add-ext bits", host.InterRATHandoverInfoR3AddExtPERPadding_, tolerantHost.InterRATHandoverInfoR3AddExtPERPadding_)
+			sameTrailing(t, "interRATHandoverInfo-r3-add-ext", host.InterRATHandoverInfoR3AddExt.PERPadding_, tolerantHost.InterRATHandoverInfoR3AddExt.PERPadding_)
 		})
 	}
 }
@@ -211,7 +252,9 @@ func TestDeferAllInterRATHandoverInfo(t *testing.T) {
 		t.Fatal(err)
 	}
 	host.InterRATHandoverInfoR3AddExt = &later
-	if !reflect.DeepEqual(value, strict) {
-		t.Fatalf("later decode %+v, Eager %+v", value, strict)
-	}
+	sameDecodedValue(t, &value, &strict, input)
+	strictHost := strict.V390NonCriticalExtensions.Present.V3a0NonCriticalExtensions.LaterNonCriticalExtensions
+	sameTrailing(t, "InterRATHandoverInfo", value.PERPadding_, strict.PERPadding_)
+	sameTrailing(t, "interRATHandoverInfo-r3-add-ext bits", host.InterRATHandoverInfoR3AddExtPERPadding_, strictHost.InterRATHandoverInfoR3AddExtPERPadding_)
+	sameTrailing(t, "interRATHandoverInfo-r3-add-ext", host.InterRATHandoverInfoR3AddExt.PERPadding_, strictHost.InterRATHandoverInfoR3AddExt.PERPadding_)
 }

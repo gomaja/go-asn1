@@ -624,8 +624,7 @@ func (v *PrepareGroupCallArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		return fmt.Errorf("decoding teleservice: %w", err)
 	}
 	v.Teleservice = ExtTeleserviceCode(val_teleservice)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -1129,8 +1128,7 @@ func (v *PrepareGroupCallRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		return fmt.Errorf("decoding groupCallNumber: %w", err)
 	}
 	v.GroupCallNumber = ISDNAddressString(val_groupcallnumber)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -1416,8 +1414,7 @@ func (v *SendGroupCallEndSignalArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 				tmp_imsi := IMSI(val_imsi)
 				v.Imsi = &tmp_imsi
-				if offset < 0 || offset >
-					len(content) || n < 0 || n > len(content[offset:]) {
+				if offset > len(content) || n < 0 || n > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -1666,9 +1663,7 @@ func (v *SendGroupCallEndSignalRes) UnmarshalBER(data []byte, opts ...ber.Decode
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
 				var dec_extensioncontainer ExtensionContainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
-					len(content[offset:]) {
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -1676,9 +1671,7 @@ func (v *SendGroupCallEndSignalRes) UnmarshalBER(data []byte, opts ...ber.Decode
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
-				if offset < 0 || offset >
-					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
-					len(content[offset:]) {
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -2116,8 +2109,7 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.De
 				}
 				tmp_imsi := IMSI(val_imsi)
 				v.Imsi = &tmp_imsi
-				if offset < 0 || offset >
-					len(content) || n < 0 || n > len(content[offset:]) {
+				if offset > len(content) || n < 0 || n > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -2789,8 +2781,7 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.De
 					return fmt.Errorf("decoding uplinkRequest: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_uplinkrequest))
 				}
 				v.UplinkRequest = &struct{}{}
-				if offset < 0 || offset >
-					len(content) || n_uplinkrequest < 0 || n_uplinkrequest > len(content[offset:]) {
+				if offset > len(content) || n_uplinkrequest < 0 || n_uplinkrequest > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -3186,9 +3177,7 @@ func (v *StateAttributes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 					return fmt.Errorf("decoding downlinkAttached: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_downlinkattached))
 				}
 				v.DownlinkAttached = &struct{}{}
-				if offset < 0 || offset >
-					len(content) || n_downlinkattached < 0 || n_downlinkattached >
-					len(content[offset:]) {
+				if offset > len(content) || n_downlinkattached < 0 || n_downlinkattached > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
@@ -3658,8 +3647,7 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 		return fmt.Errorf("decoding requestedInfo: %w", err)
 	}
 	v.RequestedInfo = GRRequestedInfo(val_requestedinfo)
-	if offset < 0 || offset >
-		len(content) || n < 0 || n > len(content[offset:]) {
+	if offset > len(content) || n < 0 || n > len(content[offset:]) {
 		return fmt.Errorf("invalid BER content window")
 	}
 
@@ -4333,9 +4321,7 @@ func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 				tmp_anchormscaddress := ISDNAddressString(decVal_anchormscaddress)
 				v.AnchorMSCAddress = &tmp_anchormscaddress
-				if offset < 0 || offset >
-					len(content) || n_anchormscaddress < 0 || n_anchormscaddress >
-					len(content[offset:]) {
+				if offset > len(content) || n_anchormscaddress < 0 || n_anchormscaddress > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 

@@ -401,9 +401,7 @@ func (v *AUDTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 				}
 				tmp_protocolversion := runtime.BitString{Bytes: bsBytes_protocolversion, BitLength: bsBitLength_protocolversion}
 				v.ProtocolVersion = &tmp_protocolversion
-				if offset < 0 || offset >
-					len(content) || n_protocolversion < 0 || n_protocolversion >
-					len(content[offset:]) {
+				if offset > len(content) || n_protocolversion < 0 || n_protocolversion > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
 
