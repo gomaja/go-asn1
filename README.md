@@ -50,6 +50,14 @@ Edits within that boundary retain it; an addition beyond it expands the
 bitmap to at least the current source width, preserving unknown additions.
 CHOICE extensions have an index instead of this bitmap.
 
+An extensible INTEGER sets its extension bit only for a value outside the
+extension root (X.691 (02/2021) §13.1). UPER and APER decoders reject a root
+value received in extension form, which cannot be re-encoded as received, as
+they already reject the same form of ENUMERATED, CHOICE, collection, string
+and BIT STRING or OCTET STRING sizes. An INTEGER constrained only by an
+upper bound also rejects a value above that bound. No conforming encoding is
+affected.
+
 BER decode depth, element-count, aggregate-work and decimal REAL digit
 budgets return `ber.ErrResourceLimit`, distinct from `ber.ErrInvalidValue`.
 Decimal REAL digits are unlimited by default. Set
@@ -320,6 +328,12 @@ encoding:
   bits. Only its width is kept, so an edit that leaves the bit length
   unchanged, or changes it by a multiple of eight, keeps it. Padding carries
   no value, so it does not affect decoding.
+- In APER the contents of a `BIT STRING (CONTAINING ...)` are a complete
+  encoding padded to a multiple of eight bits (§§11.1.1 b), 11.1.4). Their
+  padding is kept in the contained value's own `PERPadding_`, as for an
+  `OCTET STRING (CONTAINING ...)`, under the same rule, and contents of
+  another bit length are rejected. No APER release package has such a
+  component.
 
 ```go
 var value rrc.RRCConnectionSetupCompleteV8a0IEs
@@ -553,6 +567,48 @@ its extension metadata (`ExtCount_`, `ExtPresent_`, `ExtData_`,
 `PERExtPadding_`), in the value and in every value inside it. Otherwise a
 lone extension addition received explicitly at its default leaves its
 received, now empty, extension bitmap behind.
+
+### Named-bit BIT STRINGs
+
+The trailing 0 bits of a `BIT STRING` type with a NamedBitList carry no
+value (X.680 (02/2021) §22.7), and PER fixes them (X.691 (02/2021) §§16.2,
+16.3). In UPER and APER a new value is sent without trailing 0 bits when the
+type has no size constraint, and otherwise with the smallest length that
+carries its 1 bits and satisfies the constraint, 0 bits being added up to
+the lower bound. In LPP, `otdoa-Mode` of `OTDOA-ProvideCapabilities`
+(`SIZE (1..8)`) holding `'1000'B` and `'1'B` is sent alike, with length 1.
+Where an extensible constraint's root can carry the value, the root length
+is used: a value whose 1 bits fit the root is padded to its lower bound
+rather than sent in extension form. A value whose 1 bits do not fit a
+constraint without extension fails with `per.ErrConstraintViolation`. A
+`BIT STRING` without a NamedBitList is sent with the length its value has.
+
+This applies to 76 components in 53 LPP types. UMTS RRC has 25 such
+components, all of a fixed size: a value of another length is now
+normalised to that size instead of rejected. LTE RRC, S1AP, X2AP and LPPa
+have none.
+
+Decoders accept any length, and the replay rule is that of explicit
+defaults:
+- a freshly built value is always sent with the minimal length;
+- an unchanged received value re-encodes exactly as received, trailing 0
+  bits included. The decoded value keeps a copy of each `BIT STRING`
+  received with another length, element by element in a list, in the
+  `PERPadding_` of the SEQUENCE, SET or CHOICE holding it, or of the
+  `<List>Complete` wrapper of a top-level list
+  (`PERPadding_.KeptBitString(i)`);
+- a `BIT STRING` is sent with its received length only while it holds
+  exactly the received value. An edited one, including one edited in place
+  or set to another spelling of the same abstract value, is sent with the
+  minimal length, while its unchanged siblings and list elements keep
+  theirs. A list whose length changed keeps no element's length.
+
+A fixed-size `BIT STRING` needs no record. The record adds no field, and a
+value received with minimal lengths allocates exactly as before. Recording a
+`BIT STRING` received with another length allocates once for its copy (up to
+eight octets), at most once more as the holder's record grows, and once for
+the holder's record. `per.FinalPadding.WithExplicitDefaults` is now
+`WithRecords`, as it merges both records.
 
 ## Available Protocols
 
