@@ -179,6 +179,15 @@ the SGP.22 and SGP.32 `BoundProfilePackage` decode; earlier releases checked
 the element type's universal tag instead and could not decode a
 `BoundProfilePackage`.
 
+An OPTIONAL or DEFAULT component whose type is a reference to a tagged type
+is recognised by that type's own tag, IMPLICIT or EXPLICIT, as is a tagged
+aggregate assignment (ITU-T X.680 (02/2021) §31; X.690 (02/2021) §8.14).
+Earlier releases expected the underlying type's tag, so SGP.32
+`InitiateAuthenticationRequestEsipa.euiccInfo1` (a reference to
+`[32] SEQUENCE`) decoded as absent, and the PKIX `country-name` and
+`administration-domain-name` of `BuiltInStandardAttributes` (each an
+`[APPLICATION n]` CHOICE) failed to decode in SGP.22 and SGP.32.
+
 Constraint tolerance does not admit invalid encodings. Both modes reject:
 
 - INTEGER and ENUMERATED encodings with redundant sign octets, including
@@ -559,10 +568,10 @@ components of a type allocates nothing, and a record that includes a later
 one allocates once; every LTE RRC and LPP type has at most three.
 
 The record shares that `per.FinalPadding` with the final bits of a complete
-encoding and with the raw state of a deferred contained value, and each is
-kept alongside the others. A deferred value was not decoded, so it has no
-record until it is decoded later. Resetting `PERPadding_` drops those three
-records and nothing else. For a fresh encoding of a decoded value, also reset
+encoding, with the raw state of a deferred contained value and with the kept
+named-bit BIT STRINGs described below, and each is kept alongside the others.
+A deferred value was not decoded, so it has no record until it is decoded
+later. Resetting `PERPadding_` drops those four records and nothing else. For a fresh encoding of a decoded value, also reset
 its extension metadata (`ExtCount_`, `ExtPresent_`, `ExtData_`,
 `PERExtPadding_`), in the value and in every value inside it. Otherwise a
 lone extension addition received explicitly at its default leaves its
