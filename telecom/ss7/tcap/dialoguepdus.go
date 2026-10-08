@@ -1078,7 +1078,7 @@ func (v *AARQApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1148,7 +1148,7 @@ func (v *AARQApdu) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1286,6 +1286,13 @@ func (v *AARQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	if decodedTag_applicationcontextname.Class != tag.ClassContextSpecific || decodedTag_applicationcontextname.Number != 1 || decodedTag_applicationcontextname.Constructed != true {
 		return fmt.Errorf("decoding application-context-name: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_applicationcontextname)
 	}
+	_, innerUsed_applicationcontextname, _, innerErr_applicationcontextname := ber.DecodeTLV(innerData_applicationcontextname, opts...)
+	if innerErr_applicationcontextname != nil {
+		return fmt.Errorf("decoding application-context-name: %w", innerErr_applicationcontextname)
+	}
+	if innerUsed_applicationcontextname != len(innerData_applicationcontextname) {
+		return fmt.Errorf("decoding application-context-name: %w", ber.ErrExtraData)
+	}
 	// Decode inner value from explicit tag wrapper
 	val_applicationcontextname, _, oidErr := ber.DecodeObjectIdentifier(innerData_applicationcontextname, opts...)
 	if oidErr != nil {
@@ -1370,7 +1377,7 @@ func (v *AAREApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1464,7 +1471,7 @@ func (v *AAREApdu) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1626,6 +1633,13 @@ func (v *AAREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	if decodedTag_applicationcontextname.Class != tag.ClassContextSpecific || decodedTag_applicationcontextname.Number != 1 || decodedTag_applicationcontextname.Constructed != true {
 		return fmt.Errorf("decoding application-context-name: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_applicationcontextname)
 	}
+	_, innerUsed_applicationcontextname, _, innerErr_applicationcontextname := ber.DecodeTLV(innerData_applicationcontextname, opts...)
+	if innerErr_applicationcontextname != nil {
+		return fmt.Errorf("decoding application-context-name: %w", innerErr_applicationcontextname)
+	}
+	if innerUsed_applicationcontextname != len(innerData_applicationcontextname) {
+		return fmt.Errorf("decoding application-context-name: %w", ber.ErrExtraData)
+	}
 	// Decode inner value from explicit tag wrapper
 	val_applicationcontextname, _, oidErr := ber.DecodeObjectIdentifier(innerData_applicationcontextname, opts...)
 	if oidErr != nil {
@@ -1654,6 +1668,13 @@ func (v *AAREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	}
 	if decodedTag_result.Class != tag.ClassContextSpecific || decodedTag_result.Number != 2 || decodedTag_result.Constructed != true {
 		return fmt.Errorf("decoding result: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_result)
+	}
+	_, innerUsed_result, _, innerErr_result := ber.DecodeTLV(innerData_result, opts...)
+	if innerErr_result != nil {
+		return fmt.Errorf("decoding result: %w", innerErr_result)
+	}
+	if innerUsed_result != len(innerData_result) {
+		return fmt.Errorf("decoding result: %w", ber.ErrExtraData)
 	}
 	// Decode inner value from explicit tag wrapper
 	val_result, _, err := ber.DecodeBigInt(innerData_result, opts...)
@@ -1686,6 +1707,13 @@ func (v *AAREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 	}
 	if decodedTag_resultsourcediagnostic.Class != tag.ClassContextSpecific || decodedTag_resultsourcediagnostic.Number != 3 || decodedTag_resultsourcediagnostic.Constructed != true {
 		return fmt.Errorf("decoding result-source-diagnostic: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_resultsourcediagnostic)
+	}
+	_, innerUsed_resultsourcediagnostic, _, innerErr_resultsourcediagnostic := ber.DecodeTLV(innerData_resultsourcediagnostic, opts...)
+	if innerErr_resultsourcediagnostic != nil {
+		return fmt.Errorf("decoding result-source-diagnostic: %w", innerErr_resultsourcediagnostic)
+	}
+	if innerUsed_resultsourcediagnostic != len(innerData_resultsourcediagnostic) {
+		return fmt.Errorf("decoding result-source-diagnostic: %w", ber.ErrExtraData)
 	}
 	// Decode inner value from explicit tag wrapper
 	if unmErr := v.ResultSourceDiagnostic.UnmarshalBER(innerData_resultsourcediagnostic, ber.ChildDecodeOptions(opts, "result-source-diagnostic")...); unmErr != nil {
@@ -2519,6 +2547,13 @@ func (v *AssociateSourceDiagnostic) UnmarshalBER(data []byte, opts ...ber.Decode
 		if tlvErr != nil {
 			return fmt.Errorf("decoding dialogue-service-user: %w", tlvErr)
 		}
+		_, innerUsed, _, innerErr := ber.DecodeTLV(innerData, opts...)
+		if innerErr != nil {
+			return fmt.Errorf("decoding dialogue-service-user: %w", innerErr)
+		}
+		if innerUsed != len(innerData) {
+			return fmt.Errorf("decoding dialogue-service-user: %w", ber.ErrExtraData)
+		}
 		decVal, _, intErr := ber.DecodeBigInt(innerData, opts...)
 		if intErr != nil {
 			return fmt.Errorf("decoding dialogue-service-user: %w", intErr)
@@ -2533,6 +2568,13 @@ func (v *AssociateSourceDiagnostic) UnmarshalBER(data []byte, opts ...ber.Decode
 		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding dialogue-service-provider: %w", tlvErr)
+		}
+		_, innerUsed, _, innerErr := ber.DecodeTLV(innerData, opts...)
+		if innerErr != nil {
+			return fmt.Errorf("decoding dialogue-service-provider: %w", innerErr)
+		}
+		if innerUsed != len(innerData) {
+			return fmt.Errorf("decoding dialogue-service-provider: %w", ber.ErrExtraData)
 		}
 		decVal, _, intErr := ber.DecodeBigInt(innerData, opts...)
 		if intErr != nil {

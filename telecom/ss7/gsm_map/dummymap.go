@@ -9874,6 +9874,13 @@ func (v *OriginalComponentIdentifier) UnmarshalBER(data []byte, opts ...ber.Deco
 		if tlvErr != nil {
 			return fmt.Errorf("decoding operationCode: %w", tlvErr)
 		}
+		_, innerUsed, _, innerErr := ber.DecodeTLV(innerData, opts...)
+		if innerErr != nil {
+			return fmt.Errorf("decoding operationCode: %w", innerErr)
+		}
+		if innerUsed != len(innerData) {
+			return fmt.Errorf("decoding operationCode: %w", ber.ErrExtraData)
+		}
 		var dec OperationCode
 		if unmErr := dec.UnmarshalBER(innerData, ber.ChildDecodeOptions(opts, "operationCode")...); unmErr != nil {
 			return fmt.Errorf("decoding operationCode: %w", unmErr)
@@ -9884,6 +9891,13 @@ func (v *OriginalComponentIdentifier) UnmarshalBER(data []byte, opts ...ber.Deco
 		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding errorCode: %w", tlvErr)
+		}
+		_, innerUsed, _, innerErr := ber.DecodeTLV(innerData, opts...)
+		if innerErr != nil {
+			return fmt.Errorf("decoding errorCode: %w", innerErr)
+		}
+		if innerUsed != len(innerData) {
+			return fmt.Errorf("decoding errorCode: %w", ber.ErrExtraData)
 		}
 		var dec ErrorCode
 		if unmErr := dec.UnmarshalBER(innerData, ber.ChildDecodeOptions(opts, "errorCode")...); unmErr != nil {
@@ -13671,6 +13685,13 @@ func (v *SentParameter) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding authenticationSet: %w", tlvErr)
+		}
+		_, innerUsed, _, innerErr := ber.DecodeTLV(innerData, opts...)
+		if innerErr != nil {
+			return fmt.Errorf("decoding authenticationSet: %w", innerErr)
+		}
+		if innerUsed != len(innerData) {
+			return fmt.Errorf("decoding authenticationSet: %w", ber.ErrExtraData)
 		}
 		var dec AuthenticationSetListOld
 		if unmErr := dec.UnmarshalBER(innerData, ber.ChildDecodeOptions(opts, "authenticationSet")...); unmErr != nil {

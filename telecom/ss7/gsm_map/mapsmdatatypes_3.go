@@ -2566,6 +2566,13 @@ func (v *LocationInfoWithLMSI3) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if decodedTag_additionalnumber.Class != tag.ClassContextSpecific || decodedTag_additionalnumber.Number != 6 || decodedTag_additionalnumber.Constructed != true {
 					return fmt.Errorf("decoding additional-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalnumber)
 				}
+				_, innerUsed_additionalnumber, _, innerErr_additionalnumber := ber.DecodeTLV(innerData_additionalnumber, opts...)
+				if innerErr_additionalnumber != nil {
+					return fmt.Errorf("decoding additional-Number: %w", innerErr_additionalnumber)
+				}
+				if innerUsed_additionalnumber != len(innerData_additionalnumber) {
+					return fmt.Errorf("decoding additional-Number: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				var dec_additionalnumber AdditionalNumber3
 				if unmErr := dec_additionalnumber.UnmarshalBER(innerData_additionalnumber, ber.ChildDecodeOptions(opts, "additional-Number")...); unmErr != nil {
@@ -2655,6 +2662,13 @@ func (v *LocationInfoWithLMSI3) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				}
 				if decodedTag_thirdnumber.Class != tag.ClassContextSpecific || decodedTag_thirdnumber.Number != 9 || decodedTag_thirdnumber.Constructed != true {
 					return fmt.Errorf("decoding thirdNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_thirdnumber)
+				}
+				_, innerUsed_thirdnumber, _, innerErr_thirdnumber := ber.DecodeTLV(innerData_thirdnumber, opts...)
+				if innerErr_thirdnumber != nil {
+					return fmt.Errorf("decoding thirdNumber: %w", innerErr_thirdnumber)
+				}
+				if innerUsed_thirdnumber != len(innerData_thirdnumber) {
+					return fmt.Errorf("decoding thirdNumber: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_thirdnumber AdditionalNumber3
@@ -7602,7 +7616,7 @@ func (v *InformServiceCentreArg3) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if bitStringErr := ber.ValidateBitStringLength(v.MwStatus.Bytes, v.MwStatus.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "mw-Status", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MwStatus.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7718,7 +7732,7 @@ func (v *InformServiceCentreArg3) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MwStatus.Bytes, v.MwStatus.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "mw-Status", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:526
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
 		if v.MwStatus.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}

@@ -150,10 +150,13 @@ frontend cannot resolve remain fail closed (ITU-T X.680 (02/2021) §§49.7,
 
 Strict and tolerant decoders retain received BER bytes only when an unchanged
 value would otherwise lose a valid noncanonical form, such as a constructed
-string, an indefinite length, a nonminimal length, a non-normalised REAL, or
-the received component order of an extensible SET, and, in tolerant mode, when
-it carries a tolerated constraint violation. Canonical input takes no
-received-byte snapshot. Changing a typed field makes BER encoding use its
+string, an indefinite length, a nonminimal length, a non-normalised REAL, a
+SET whose components arrived in an order other than their schema order, or a
+SET with an unknown component, and, in tolerant mode, when it carries a
+tolerated constraint violation. Canonical input takes no received-byte
+snapshot: a SET received in schema order keeps no copy, because a fresh
+`MarshalBER` writes schema order (X.690 (02/2021) §8.11.2 leaves the order to
+the sender). Changing a typed field makes BER encoding use its
 current value. Out-of-constraint values still require the tolerance option
 when encoding.
 
@@ -186,7 +189,9 @@ Earlier releases expected the underlying type's tag, so SGP.32
 `InitiateAuthenticationRequestEsipa.euiccInfo1` (a reference to
 `[32] SEQUENCE`) decoded as absent, and the PKIX `country-name` and
 `administration-domain-name` of `BuiltInStandardAttributes` (each an
-`[APPLICATION n]` CHOICE) failed to decode in SGP.22 and SGP.32.
+`[APPLICATION n]` CHOICE) failed to decode in SGP.22 and SGP.32. An EXPLICIT
+tag on an inline SET or SEQUENCE type is encoded and decoded as well; no
+release package has one.
 
 Constraint tolerance does not admit invalid encodings. Both modes reject:
 
@@ -196,7 +201,12 @@ Constraint tolerance does not admit invalid encodings. Both modes reject:
 - any component encoding inside a non-extensible SEQUENCE or SET that has no
   components, with a `*ber.DecodeError` naming the type and wrapping
   `ber.ErrExtraData` (X.690 §§8.9.2, 8.11.2). Extensible empty types keep
-  their extensions.
+  their extensions;
+- octets after the base encoding inside an EXPLICIT tag, with
+  `ber.ErrExtraData`: the contents of an explicitly tagged value are exactly
+  one complete encoding (X.690 §8.14.3). Earlier releases accepted and
+  dropped them, for example after the application-context-name of a TCAP
+  `AARQ-apdu`.
 
 #### Time values
 

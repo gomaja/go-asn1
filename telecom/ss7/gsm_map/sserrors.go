@@ -153,6 +153,13 @@ func (v *PruAssociationRejParam) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if decodedTag_newlmfroutingid.Class != tag.ClassContextSpecific || decodedTag_newlmfroutingid.Number != 0 || decodedTag_newlmfroutingid.Constructed != true {
 					return fmt.Errorf("decoding newLmfRoutingId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_newlmfroutingid)
 				}
+				_, innerUsed_newlmfroutingid, _, innerErr_newlmfroutingid := ber.DecodeTLV(innerData_newlmfroutingid, opts...)
+				if innerErr_newlmfroutingid != nil {
+					return fmt.Errorf("decoding newLmfRoutingId: %w", innerErr_newlmfroutingid)
+				}
+				if innerUsed_newlmfroutingid != len(innerData_newlmfroutingid) {
+					return fmt.Errorf("decoding newLmfRoutingId: %w", ber.ErrExtraData)
+				}
 				// Decode inner value from explicit tag wrapper
 				val_newlmfroutingid, _, err := ber.DecodeOctetString(innerData_newlmfroutingid, opts...)
 				if err != nil {

@@ -343,45 +343,61 @@ func BERNeedsPreservation(options []DecodeOption) bool {
 	return false
 }
 
-// MarkBERSetOrder preserves the received order of a BER SET. BER leaves SET
-// component order open; DER orders by identifier (X.690 (02/2021) §§8.11,
-// 11.6). The generated BER encoder uses schema order, so even a received SET
-// in DER tag order can differ from its fresh BER encoding.
-func MarkBERSetOrder(data []byte, options ...DecodeOption) error {
-	outer, total, contents, err := DecodeTLV(data, options...)
+// MarkBERSetOrder preserves a BER SET when its received component order differs
+// from the generated encoder's schema order, or a component is unknown. BER
+// permits any component order; DER sorts by tag (X.690 (02/2021) §§8.11.2,
+// 10.3). Erratum 1 (09/2021) changes only the high-tag-number figure.
+// schemaPosition maps known tags to schema positions (CHOICE tags share one).
+// Generated decoders remove any EXPLICIT type wrapper before calling this helper.
+func MarkBERSetOrder(data []byte, schemaPosition func(tag.Tag) int, options ...DecodeOption) error {
+	if schemaPosition == nil {
+		return ErrInvalidValue
+	}
+	// Generated decoders normally pass only their form marker. Resolve that
+	// directly so a schema-order SET does not allocate for every child scan.
+	limits := DefaultDecodeLimits()
+	var form *berFormState
+	if len(options) == 1 {
+		if marker, ok := options[0].(berFormOption); ok {
+			form = marker.state
+		} else {
+			config, err := decodeOptions(options)
+			if err != nil {
+				return err
+			}
+			limits, form = config.limits, config.form
+		}
+	} else if len(options) != 0 {
+		config, err := decodeOptions(options)
+		if err != nil {
+			return err
+		}
+		limits, form = config.limits, config.form
+	}
+	outer, total, contents, err := decodeTLV(data, limits, form)
 	if err != nil {
 		return err
 	}
 	if total != len(data) || !outer.Constructed {
 		return ErrInvalidValue
 	}
-	if outer.Class != tag.ClassUniversal && len(contents) != 0 {
-		inner, used, value, innerErr := DecodeTLV(contents, options...)
-		if innerErr == nil && used == len(contents) && inner.Class == tag.ClassUniversal && inner.Number == tag.TagSet {
-			contents = value
-		}
-	}
-	var previous tag.Tag
-	seen := false
+	previous := -1
 	for offset := 0; offset < len(contents); {
-		current, used, _, childErr := DecodeTLV(contents[offset:], options...)
+		current, used, _, childErr := decodeTLV(contents[offset:], limits, form)
 		if childErr != nil {
 			return childErr
 		}
 		if used <= 0 || used > len(contents)-offset {
 			return ErrInvalidLength
 		}
-		if seen && (current.Class < previous.Class ||
-			current.Class == previous.Class && current.Number < previous.Number ||
-			current.Class == previous.Class && current.Number == previous.Number && !current.Constructed && previous.Constructed) {
+		position := schemaPosition(current)
+		if position < 0 || position <= previous {
 			MarkBERNonCanonical(options)
 			return nil
 		}
-		seen = true
-		previous = current
+		previous = position
 		offset += used
 	}
-	MarkBERNonCanonical(options)
 	return nil
 }
 
