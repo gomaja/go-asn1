@@ -9,7 +9,8 @@ go get github.com/gomaja/go-asn1@main
 ```
 
 No releases are published. Depend on the `main` branch and update with
-`go get github.com/gomaja/go-asn1@main`.
+`go get github.com/gomaja/go-asn1@main`. The module requires Go 1.26.9 or
+later.
 
 All earlier tagged versions (v0.1.0–v0.4.2) are retracted. The `v0.5.0` tag
 exists only to publish that retraction and is retracted too; do not depend on
@@ -193,6 +194,18 @@ Earlier releases expected the underlying type's tag, so SGP.32
 tag on an inline SET or SEQUENCE type is encoded and decoded as well; no
 release package has one.
 
+The `cancelSessionResponse` component of `CancelSessionRequestEs9` in SGP.22
+and SGP.32, and of `CancelSessionRequestEsipa` in SGP.32, has the automatic
+tag `[1]` over `CancelSessionResponse ::= [65] CHOICE`. X.680 (02/2021)
+§§25.10, 31.2.7 make that tag implicit, `a1 03 81 01 05` for
+`cancelSessionResponseError` 5. GSMA SGP.22 v2.7 Table 45 NOTE 1 and SGP.32
+v1.3 Table 27 NOTE 1 require the field to carry an encoded
+`CancelSessionResponse` data object, the `BF41` TLV, which is the explicit
+form `a1 06 bf41 03 81 01 05` (go-asn1#89). Both forms are in use, so the
+three components are sent explicit, as before, in BER and DER, for a new or
+an edited value. Decoders accept both forms, and an unchanged decoded value
+re-encodes in the form it arrived in.
+
 Constraint tolerance does not admit invalid encodings. Both modes reject:
 
 - INTEGER and ENUMERATED encodings with redundant sign octets, including
@@ -326,6 +339,77 @@ The single zero octet of an empty top-level value, and the single zero bit of
 an empty contained value, are part of the complete encoding (X.691 (02/2021)
 §§11.1.3.1, 11.1.3.2, 11.1.4). They are never recorded as tolerances; a
 nonzero mandated octet or bit, or a missing one, is rejected in both modes.
+
+### Truncated extension additions
+
+An extension addition of a SEQUENCE or SET, or an extension addition group,
+is encoded as an open type whose length determinant gives the length of its
+contents (ITU-T X.691 (02/2021) §§19.9, 11.2.1). A PDU cut in transmission
+can end inside the last of them, and X.691 makes the whole PDU an error. A
+receiver that needs what arrived, such as a trace analyser, passes a
+`per.ToleranceLog` in `per.DecodeOptions{TruncatedExtensionTolerance}`
+(go-asn1#114). The default stays strict.
+
+The tolerance applies only where the end of the input given to the decode
+falls inside an addition's open type, its length determinant or its
+contents, after the extension bitmap was read in full:
+
+- The root components and every addition before the cut are decoded as
+  usual. The cut addition and every later one are absent, and their bits in
+  `ExtPresent_` are cleared; no value is built from missing bits. When no
+  addition remains, the value is the one received without extensions:
+  `ExtCount_` is 0 and `ExtPresent_`, `ExtData_` and `PERExtPadding_` are
+  nil.
+- A cut in the root, in the extension bitmap, or in an open type or
+  contained value that arrived with its full length is still an error, with
+  or without more data after it. So is a cut in a CHOICE extension
+  alternative, which cannot be left absent, and a cut in a value decoded
+  later from a deferred `BIT STRING (CONTAINING ...)`. The contents of a
+  deferred `OCTET STRING` are decoded later as an input of their own, so
+  leave the option off for them: they arrived with their full length.
+- One record is logged per cut, as `per.ToleratedTruncatedExtension`. Its
+  path is the path of the strict decode error, ending in the addition's
+  `ExtData_[k]`. `Offset` is the first bit of the cut open type (in APER,
+  of its alignment padding) and `Bits` holds the bits that arrived from
+  there. `Missing` is the length the determinant declared minus the bits
+  that arrived, or -1 when the input ends inside the determinant; for a
+  fragmented open type it counts the fragment that was cut.
+
+An unchanged decoded value re-encodes to the received octets, cut addition
+included. Any edit before the cut, in the value or in a value enclosing it,
+gives a new, conformant encoding instead: the cut additions are omitted and
+their bitmap bits cleared, and the extension bit is cleared when no addition
+remains (§§19.1, 19.7, 19.8), so a strict decode accepts it. No field needs
+resetting. An addition set anew by the edit is encoded as usual.
+
+```go
+var cuts per.ToleranceLog
+var message rrc.ULDCCHMessage
+options := per.DecodeOptions{TruncatedExtensionTolerance: &cuts}
+// An RLF-Report-r9 whose v1250 group the end of the PDU cuts short.
+if err := message.UnmarshalUPERWithOptions(wire, options); err != nil {
+    return err
+}
+for _, cut := range cuts.Snapshot() {
+    log.Printf("%s: %s at bit %d, %d bits missing", cut.Path, cut.Kind,
+        cut.Offset, cut.Missing)
+}
+replay, err := message.MarshalUPER() // equal to wire
+```
+
+`UnmarshalAPERWithOptions`, new on every APER SEQUENCE, SET, CHOICE and
+`<List>Complete`, takes the option too; `UnmarshalAPER` calls it with no
+options. APER decoders accept `TruncatedExtensionTolerance` and
+`MaxZeroWidthCharacters`, and reject `TrailingBitsTolerance` and a
+`ContainedDecoding` other than `per.Eager` rather than ignore them. Every
+extensible APER SEQUENCE or SET now keeps its final bits in a
+`per.FinalPadding`, which can hold the record of a cut, instead of a
+`per.CompletePadding`.
+
+A decode without the option allocates nothing more. With it, a decode
+allocates its trace and field path, as with the other tolerance options. A
+decode that meets a cut also keeps, in the cut value's `PERPadding_`, a copy
+of the input and the encoding the unchanged value gets, which is no longer.
 
 ### Editing decoded PER values
 
@@ -508,8 +592,9 @@ shell, and its raw state is not in the document. JSON is therefore not a
 wire-preserving format; the deferral log and `Deferred()` carry the raw
 contents.
 
-Deferral is UPER only. The APER packages take no decode options and decode
-contained values eagerly; none of them has a contained value.
+Deferral is UPER only. The APER packages decode contained values eagerly, and
+their `UnmarshalAPERWithOptions` rejects the deferring modes; none of them has
+a contained value.
 
 ### Present empty values
 
@@ -555,9 +640,11 @@ lone extension addition that holds its default is left out.
 
 This applies to 35 components in 31 LTE RRC types, 173 components in 90 UMTS
 RRC types and 2 LPP components. S1AP, X2AP and LPPa have no DEFAULT
-components. In APER, only a SEQUENCE or SET with such a component carries
-its `PERPadding_` as the pointer-wide `per.FinalPadding`, to hold the record
-described below. Other APER types keep the two-byte `per.CompletePadding`.
+components. In APER, a SEQUENCE or SET carries its `PERPadding_` as the
+pointer-wide `per.FinalPadding` when it has such a component, to hold the
+record described below, or when it is extensible, to hold the record of a
+cut extension addition. Other APER types keep the two-byte
+`per.CompletePadding`.
 
 Decoders accept a DEFAULT component of a simple type that carries its
 default value explicitly, as some senders do although §19.5 forbids it. The
@@ -578,10 +665,11 @@ components of a type allocates nothing, and a record that includes a later
 one allocates once; every LTE RRC and LPP type has at most three.
 
 The record shares that `per.FinalPadding` with the final bits of a complete
-encoding, with the raw state of a deferred contained value and with the kept
-named-bit BIT STRINGs described below, and each is kept alongside the others.
-A deferred value was not decoded, so it has no record until it is decoded
-later. Resetting `PERPadding_` drops those four records and nothing else. For a fresh encoding of a decoded value, also reset
+encoding, with the raw state of a deferred contained value, with the record
+of a cut extension addition and with the kept named-bit BIT STRINGs
+described below, and each is kept alongside the others. A deferred value was
+not decoded, so it has no record until it is decoded later. Resetting
+`PERPadding_` drops those five records and nothing else. For a fresh encoding of a decoded value, also reset
 its extension metadata (`ExtCount_`, `ExtPresent_`, `ExtData_`,
 `PERExtPadding_`), in the value and in every value inside it. Otherwise a
 lone extension addition received explicitly at its default leaves its
