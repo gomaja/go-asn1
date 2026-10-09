@@ -1,6 +1,6 @@
 module github.com/gomaja/go-asn1
 
-go 1.25.13
+go 1.26.9
 
 // All tagged versions are superseded. Depend on the main branch instead:
 // go get github.com/gomaja/go-asn1@main
