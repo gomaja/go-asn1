@@ -47,3 +47,53 @@ func DecodeTaggedCollectionElement(data []byte, outer tag.Tag, explicit bool, in
 	}
 	return retagged, nil
 }
+
+// decodeDualTaggedChoiceContent accepts a complete tagged CHOICE TLV or its
+// alternative TLV after an unwritten-mode outer tag. X.680 (02/2021) §31.2.7
+// allows the replacement form; X.690 (02/2021) §8.14.3 requires a complete
+// base encoding inside an EXPLICIT wrapper. GSMA SGP.22 v2.7 Table 45 NOTE 1
+// and SGP.32 v1.3 Table 27 NOTE 1 require the complete response object in
+// their binding.
+// The referenced CHOICE decoder verifies that the inner tag is an alternative.
+func decodeDualTaggedChoiceContent(content []byte, inner tag.Tag, canonicalExplicit bool, opts ...DecodeOption) ([]byte, error) {
+	actual, total, _, err := DecodeTLV(content, opts...)
+	if err != nil {
+		return nil, err
+	}
+	if total != len(content) {
+		return nil, fmt.Errorf("%w: tagged CHOICE content has trailing data", ErrExtraData)
+	}
+	if actual.Class == inner.Class && actual.Number == inner.Number {
+		if !actual.Constructed {
+			return nil, fmt.Errorf("%w: tagged CHOICE must be constructed", ErrInvalidTag)
+		}
+		if !canonicalExplicit {
+			MarkBERNonCanonical(opts)
+		}
+		return content, nil
+	}
+	rebuilt, err := EncodeConstructed(inner, content)
+	if err != nil {
+		return nil, err
+	}
+	if canonicalExplicit {
+		MarkBERNonCanonical(opts)
+	}
+	return rebuilt, nil
+}
+
+// DecodeDualTaggedChoiceElement checks the outer tag before normalizing its
+// single inner value. Both BER forms must use a constructed outer identifier.
+func DecodeDualTaggedChoiceElement(data []byte, outer, inner tag.Tag, canonicalExplicit bool, opts ...DecodeOption) ([]byte, error) {
+	actual, total, content, err := DecodeTLV(data, opts...)
+	if err != nil {
+		return nil, err
+	}
+	if total != len(data) {
+		return nil, fmt.Errorf("%w: tagged CHOICE has trailing data", ErrExtraData)
+	}
+	if actual.Class != outer.Class || actual.Number != outer.Number || !actual.Constructed {
+		return nil, fmt.Errorf("%w: expected constructed %s %d, got %s", ErrInvalidTag, outer.Class, outer.Number, actual)
+	}
+	return decodeDualTaggedChoiceContent(content, inner, canonicalExplicit, opts...)
+}

@@ -12,9 +12,14 @@ type BitBuffer struct {
 	bitLen        int  // total bits available (read mode only)
 	invalidLength bool // input octets cannot be represented as an int bit length
 	contained     ContainedDecoding
+	// outermost is set on the buffer of a top-level decode under
+	// TruncatedExtensionTolerance: only the end of its input can cut an
+	// extension addition short. A nested buffer, bounded by an open type or
+	// contained string that arrived in full, never has it.
+	outermost bool
 	// zeroWidthLimit is DecodeOptions.MaxZeroWidthCharacters; zero selects
 	// DefaultMaxZeroWidthCharacters. A uint32 here fills the padding after
-	// contained, so BitBuffer keeps its 64 bytes.
+	// contained and outermost, so BitBuffer keeps its 64 bytes.
 	zeroWidthLimit uint32
 	tolerance      *ToleranceLog
 	trace          *decodeTrace // non-nil only for a decode with tolerance or deferral
@@ -24,16 +29,41 @@ type BitBuffer struct {
 // non-conformant senders and the treatment of contained values. The zero
 // value decodes strictly and eagerly.
 type DecodeOptions struct {
-	// TrailingBitsTolerance, when non-nil, accepts the bit runs listed by
-	// ToleranceKind and records each one in the log, with its field path,
-	// offset and bits. X.691 (02/2021) 11.1.3.1 and 11.1.3.2 forbid them.
-	// RRC receivers must accept them: TS 25.331 V19.0.1 12.1.3 any bit string
-	// after a PDU's basic production, TS 36.331 V19.4.0 8.1 any extraneous
-	// bits after a PDU or a value in a BIT STRING or OCTET STRING
-	// (CONTAINING ...). 3GPP-conformant RRC decoding therefore requires this
-	// option; the default is strict X.691. Decoded values keep the accepted
-	// bits, so they re-encode to the original octets.
+	// TrailingBitsTolerance, when non-nil, accepts the bit runs of
+	// ToleratedTrailingBits and ToleratedContainedBits and records each one
+	// in the log, with its field path, offset and bits. X.691 (02/2021)
+	// 11.1.3.1 and 11.1.3.2 forbid them. RRC receivers must accept them:
+	// TS 25.331 V19.0.1 12.1.3 any bit string after a PDU's basic production,
+	// TS 36.331 V19.4.0 8.1 any extraneous bits after a PDU or a value in a
+	// BIT STRING or OCTET STRING (CONTAINING ...). 3GPP-conformant RRC
+	// decoding therefore requires this option; the default is strict X.691.
+	// Decoded values keep the accepted bits, so they re-encode to the
+	// original octets. Generated APER decoders reject it.
 	TrailingBitsTolerance *ToleranceLog
+	// TruncatedExtensionTolerance, when non-nil, accepts an extension
+	// addition or extension addition group of a SEQUENCE or SET whose open
+	// type, length determinant or contents, the end of the input cuts short
+	// after the extension bitmap was read in full, and records it in the log
+	// as ToleratedTruncatedExtension (go-asn1#114). X.691 (02/2021) 19.9 and
+	// 11.2.1 make it an error, and the default stays strict; the option is
+	// for receivers of PDUs cut in transmission, such as trace analysers.
+	//
+	// The root and every addition decoded before the cut are kept. The cut
+	// addition and every later one are absent: no value is built from
+	// missing bits. Only the end of the input given to the decode counts. A
+	// cut in the root or in the extension bitmap, in an open type or
+	// contained value that arrived with its full length, or in a CHOICE
+	// extension alternative, which cannot be absent, is still an error. The
+	// contents of a deferred OCTET STRING are decoded later as an input of
+	// their own; they arrived with their full length, so leave the option
+	// off for them.
+	//
+	// A decoded value that is re-encoded unchanged reproduces the received,
+	// cut octets. An edited value is encoded as a new one: the cut additions
+	// are omitted and their bitmap bits cleared, and the extension bit is
+	// cleared too when no addition remains, so the result is a conformant
+	// encoding (X.691 (02/2021) 19.1, 19.7 and 19.8).
+	TruncatedExtensionTolerance *ToleranceLog
 	// ContainedDecoding selects how values carried in a BIT STRING or OCTET
 	// STRING (CONTAINING ...) are decoded. The zero value, Eager, decodes
 	// them with the enclosing value. DeferOnError and DeferAll keep some or
@@ -63,13 +93,30 @@ func (bb *BitBuffer) zeroWidthCharacterLimit() int64 {
 	return DefaultMaxZeroWidthCharacters
 }
 
-// SetDecodeOptions starts a top-level decode with options.
+// SetDecodeOptions starts a top-level decode with options. bb reads the
+// outermost input, whose end alone can cut an extension addition short under
+// TruncatedExtensionTolerance.
 func (bb *BitBuffer) SetDecodeOptions(options DecodeOptions) {
 	bb.contained, bb.tolerance, bb.trace = options.ContainedDecoding, options.TrailingBitsTolerance, nil
-	bb.zeroWidthLimit = options.MaxZeroWidthCharacters
-	if options.TrailingBitsTolerance != nil || options.ContainedDecoding != Eager {
-		bb.trace = &decodeTrace{deferrals: options.Deferrals}
+	bb.zeroWidthLimit, bb.outermost = options.MaxZeroWidthCharacters, options.TruncatedExtensionTolerance != nil
+	if options.TrailingBitsTolerance != nil || options.ContainedDecoding != Eager || options.TruncatedExtensionTolerance != nil {
+		bb.trace = &decodeTrace{deferrals: options.Deferrals, truncated: options.TruncatedExtensionTolerance}
 	}
+}
+
+// SetDecodeOptionsAligned starts a top-level APER decode with options.
+// Generated APER decoders decode contained values eagerly and accept only the
+// final padding of X.691 (02/2021) 11.1.3.1, so TrailingBitsTolerance and a
+// ContainedDecoding other than Eager are rejected rather than ignored.
+func (bb *BitBuffer) SetDecodeOptionsAligned(options DecodeOptions) error {
+	if options.TrailingBitsTolerance != nil {
+		return fmt.Errorf("%w: TrailingBitsTolerance is not supported by APER decoders", ErrInvalidValue)
+	}
+	if options.ContainedDecoding != Eager {
+		return fmt.Errorf("%w: ContainedDecoding %v is not supported by APER decoders", ErrInvalidValue, options.ContainedDecoding)
+	}
+	bb.SetDecodeOptions(options)
+	return nil
 }
 
 // InheritDecodeOptions makes bb decode a value nested in parent, such as an
@@ -77,7 +124,7 @@ func (bb *BitBuffer) SetDecodeOptions(options DecodeOptions) {
 // pending tolerance and deferral records.
 func (bb *BitBuffer) InheritDecodeOptions(parent *BitBuffer) {
 	bb.contained, bb.tolerance, bb.trace = parent.contained, parent.tolerance, parent.trace
-	bb.zeroWidthLimit = parent.zeroWidthLimit
+	bb.zeroWidthLimit, bb.outermost = parent.zeroWidthLimit, false
 }
 
 // NewBitBuffer creates a write-mode buffer.

@@ -9,6 +9,8 @@ import (
 	"strconv"
 	"strings"
 	"testing"
+
+	"github.com/gomaja/go-asn1/runtime/per"
 )
 
 func asn1VectorHex(t *testing.T, input string) []byte {
@@ -155,6 +157,44 @@ func asn1VectorInterface(value reflect.Value) (any, error) {
 	return value.Interface(), nil
 }
 
+func asn1VectorSetPath(t *testing.T, root any, path, valueJSON string) {
+	t.Helper()
+	current := reflect.ValueOf(root).Elem()
+	for _, segment := range strings.Split(path, ".") {
+		fieldEnd := strings.IndexByte(segment, '[')
+		if fieldEnd == -1 {
+			fieldEnd = len(segment)
+		}
+		for current.Kind() == reflect.Pointer {
+			if current.IsNil() {
+				t.Fatalf("path %s: encountered nil", path)
+			}
+			current = current.Elem()
+		}
+		if current.Kind() != reflect.Struct {
+			t.Fatalf("path %s: %s is not a struct", path, segment)
+		}
+		current = current.FieldByName(segment[:fieldEnd])
+		if !current.IsValid() {
+			t.Fatalf("path %s: field %s is absent", path, segment[:fieldEnd])
+		}
+		for suffix := segment[fieldEnd:]; suffix != ""; {
+			closeIndex := strings.IndexByte(suffix, ']')
+			index, err := strconv.Atoi(suffix[1:closeIndex])
+			if err != nil || index < 0 || current.Kind() != reflect.Slice || index >= current.Len() {
+				t.Fatalf("path %s: index %s is invalid", path, suffix[1:closeIndex])
+			}
+			current = current.Index(index)
+			suffix = suffix[closeIndex+1:]
+		}
+	}
+	value := reflect.New(current.Type())
+	if err := json.Unmarshal([]byte(valueJSON), value.Interface()); err != nil {
+		t.Fatalf("path %s: %v", path, err)
+	}
+	current.Set(value.Elem())
+}
+
 // TestVectorUlDcchMeasurementReport verifies 3GPP TS 36.331 V19.4.0 (2026-09), sections 5.5.5 and 6.2.2; UL-DCCH MeasurementReport with serving and E-UTRA neighbour measurements.
 func TestVectorUlDcchMeasurementReport(t *testing.T) {
 	t.Parallel()
@@ -255,8 +295,141 @@ func TestVectorNtnParametersNbV1800(t *testing.T) {
 	}
 }
 
+// TestVectorUlDcchRlfReportV1250 verifies 3GPP TS 36.331 V19.4.0 (2026-09), sections 5.6.5 and 6.2.2; UEInformationResponse-r9 carrying an RLF-Report-r9 with its v1250 extension addition group (go-asn1#114).
+func TestVectorUlDcchRlfReportV1250(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "5a1532a89100099000")
+	var decoded ULDCCHMessage
+	err := decoded.UnmarshalUPER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "Message.C1.UeInformationResponseR9.RrcTransactionIdentifier", "1")
+	asn1VectorAssertPath(t, decoded, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellR9.RsrpResultR9", "25")
+	asn1VectorAssertPath(t, decoded, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellR9.RsrqResultR9", "21")
+	asn1VectorAssertPath(t, decoded, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellV1250", "2")
+	asn1VectorAssertPath(t, decoded, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.LastServCellRSRQTypeR12.AllSymbolsR12", "false")
+	asn1VectorAssertPath(t, decoded, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.LastServCellRSRQTypeR12.WideBandR12", "false")
+	wire, err := decoded.MarshalUPER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+// TestVectorUlDcchRlfReportV1250CutContents verifies ITU-T X.691 (02/2021) 19.9 and 11.2.1; 3GPP TS 36.331 V19.4.0 (2026-09), section 6.2.2; RLF-Report-r9 whose v1250 extension addition group the end of the PDU cuts short (go-asn1#114).
+func TestVectorUlDcchRlfReportV1250CutContents(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "5a1532a891000990")
+	var decoded ULDCCHMessage
+	err := decoded.UnmarshalUPER(input)
+	if err == nil {
+		t.Fatal("decode succeeded, want error")
+	}
+	if !strings.Contains(err.Error(), "data truncated") {
+		t.Fatalf("decode error = %q, want substring %q", err, "data truncated")
+	}
+	if !strings.Contains(err.Error(), "ULDCCHMessage.Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtData_[3]") {
+		t.Fatalf("decode error = %q, want path %q", err, "ULDCCHMessage.Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtData_[3]")
+	}
+	var tolerance per.ToleranceLog
+	var tolerated ULDCCHMessage
+	if err := tolerated.UnmarshalUPERWithOptions(input, per.DecodeOptions{TruncatedExtensionTolerance: &tolerance}); err != nil {
+		t.Fatalf("tolerant decode: %v", err)
+	}
+	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.RrcTransactionIdentifier", "1")
+	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellR9.RsrpResultR9", "25")
+	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellR9.RsrqResultR9", "21")
+	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellV1250", "null")
+	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.LastServCellRSRQTypeR12", "null")
+	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtPresent_", "null")
+	if records := tolerance.Snapshot(); len(records) != 1 || records[0].Kind != per.ToleratedTruncatedExtension || records[0].Path != "ULDCCHMessage.Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtData_[3]" || records[0].Offset != 46 || records[0].Missing != 6 || records[0].Bits.BitLength != 8*len(input)-46 {
+		t.Fatalf("tolerance records = %+v", records)
+	}
+	replay, err := tolerated.MarshalUPER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(replay, input) {
+		t.Fatalf("unchanged replay = %x, want %x", replay, input)
+	}
+	asn1VectorSetPath(t, &tolerated, "Message.C1.UeInformationResponseR9.RrcTransactionIdentifier", "2")
+	edited, err := tolerated.MarshalUPER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	var fresh ULDCCHMessage
+	if err := fresh.UnmarshalUPER(edited); err != nil {
+		t.Fatalf("edited value %x: %v", edited, err)
+	}
+	asn1VectorAssertPath(t, fresh, "Message.C1.UeInformationResponseR9.RrcTransactionIdentifier", "2")
+	asn1VectorAssertPath(t, fresh, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellR9.RsrpResultR9", "25")
+	asn1VectorAssertPath(t, fresh, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellR9.RsrqResultR9", "21")
+	asn1VectorAssertPath(t, fresh, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellV1250", "null")
+	asn1VectorAssertPath(t, fresh, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.LastServCellRSRQTypeR12", "null")
+	asn1VectorAssertPath(t, fresh, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtPresent_", "null")
+}
+
+// TestVectorUlDcchRlfReportV1250CutLength verifies ITU-T X.691 (02/2021) 19.9 and 11.2.1; 3GPP TS 36.331 V19.4.0 (2026-09), section 6.2.2; RLF-Report-r9 whose v1250 extension addition group the end of the PDU cuts short (go-asn1#114).
+func TestVectorUlDcchRlfReportV1250CutLength(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "5a1532a8910009")
+	var decoded ULDCCHMessage
+	err := decoded.UnmarshalUPER(input)
+	if err == nil {
+		t.Fatal("decode succeeded, want error")
+	}
+	if !strings.Contains(err.Error(), "data truncated") {
+		t.Fatalf("decode error = %q, want substring %q", err, "data truncated")
+	}
+	if !strings.Contains(err.Error(), "ULDCCHMessage.Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtData_[3]") {
+		t.Fatalf("decode error = %q, want path %q", err, "ULDCCHMessage.Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtData_[3]")
+	}
+	var tolerance per.ToleranceLog
+	var tolerated ULDCCHMessage
+	if err := tolerated.UnmarshalUPERWithOptions(input, per.DecodeOptions{TruncatedExtensionTolerance: &tolerance}); err != nil {
+		t.Fatalf("tolerant decode: %v", err)
+	}
+	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.RrcTransactionIdentifier", "1")
+	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellR9.RsrpResultR9", "25")
+	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellR9.RsrqResultR9", "21")
+	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellV1250", "null")
+	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.LastServCellRSRQTypeR12", "null")
+	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtPresent_", "null")
+	if records := tolerance.Snapshot(); len(records) != 1 || records[0].Kind != per.ToleratedTruncatedExtension || records[0].Path != "ULDCCHMessage.Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtData_[3]" || records[0].Offset != 46 || records[0].Missing != 14 || records[0].Bits.BitLength != 8*len(input)-46 {
+		t.Fatalf("tolerance records = %+v", records)
+	}
+	replay, err := tolerated.MarshalUPER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(replay, input) {
+		t.Fatalf("unchanged replay = %x, want %x", replay, input)
+	}
+	asn1VectorSetPath(t, &tolerated, "Message.C1.UeInformationResponseR9.RrcTransactionIdentifier", "2")
+	edited, err := tolerated.MarshalUPER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	var fresh ULDCCHMessage
+	if err := fresh.UnmarshalUPER(edited); err != nil {
+		t.Fatalf("edited value %x: %v", edited, err)
+	}
+	asn1VectorAssertPath(t, fresh, "Message.C1.UeInformationResponseR9.RrcTransactionIdentifier", "2")
+	asn1VectorAssertPath(t, fresh, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellR9.RsrpResultR9", "25")
+	asn1VectorAssertPath(t, fresh, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellR9.RsrqResultR9", "21")
+	asn1VectorAssertPath(t, fresh, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellV1250", "null")
+	asn1VectorAssertPath(t, fresh, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.LastServCellRSRQTypeR12", "null")
+	asn1VectorAssertPath(t, fresh, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtPresent_", "null")
+}
+
 func FuzzUPERULDCCHMessage(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("083024342625237d91f0011f1080064a2900491000"))
+	f.Add(asn1VectorHexForFuzz("5a1532a89100099000"))
+	f.Add(asn1VectorHexForFuzz("5a1532a891000990"))
+	f.Add(asn1VectorHexForFuzz("5a1532a8910009"))
 	f.Fuzz(func(t *testing.T, input []byte) {
 		var decoded ULDCCHMessage
 		_ = decoded.UnmarshalUPER(input)

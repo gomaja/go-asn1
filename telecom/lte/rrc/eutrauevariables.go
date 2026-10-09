@@ -571,9 +571,11 @@ func (v *VarConnEstFailReportR11) UnmarshalUPERWithOptions(data []byte, options 
 
 func (v *VarConnEstFailReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = VarConnEstFailReportR11{}
+	toleranceMark_connestfailreportr11 := bb.EnterComponent("ConnEstFailReportR11")
 	if err := v.ConnEstFailReportR11.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ConnEstFailReportR11")
 	}
+	bb.LeaveComponent(toleranceMark_connestfailreportr11)
 	if err := v.PlmnIdentityR11.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PlmnIdentityR11")
 	}
@@ -864,6 +866,7 @@ func (v *VarLogMeasConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.LoggingIntervalR10 = LoggingIntervalR10(val_loggingintervalr10)
 	if opt_targetmbsfnarealistr12 {
+		toleranceMark_targetmbsfnarealistr12 := bb.EnterComponent("TargetMBSFNAreaListR12")
 		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, 0)
 		_, errCollection_targetmbsfnarealistr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_targetmbsfnarealistr12, fragmentLength_targetmbsfnarealistr12 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -872,9 +875,11 @@ func (v *VarLogMeasConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_targetmbsfnarealistr12; i++ {
 				var elem TargetMBSFNAreaR12
+				elementMark := bb.EnterIndex(fragmentOffset_targetmbsfnarealistr12 + i)
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("TargetMBSFNAreaListR12[%d]", fragmentOffset_targetmbsfnarealistr12+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_targetmbsfnarealistr12 = append(tmp_targetmbsfnarealistr12, elem)
 			}
 			return nil
@@ -883,6 +888,7 @@ func (v *VarLogMeasConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_targetmbsfnarealistr12, "TargetMBSFNAreaListR12")
 		}
 		v.TargetMBSFNAreaListR12 = tmp_targetmbsfnarealistr12
+		bb.LeaveComponent(toleranceMark_targetmbsfnarealistr12)
 	}
 	return nil
 }
@@ -1048,6 +1054,7 @@ func (v *VarLogMeasConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.LoggingIntervalR10 = LoggingIntervalR10(val_loggingintervalr10)
 	if opt_targetmbsfnarealistr12 {
+		toleranceMark_targetmbsfnarealistr12 := bb.EnterComponent("TargetMBSFNAreaListR12")
 		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, 0)
 		_, errCollection_targetmbsfnarealistr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_targetmbsfnarealistr12, fragmentLength_targetmbsfnarealistr12 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -1056,9 +1063,11 @@ func (v *VarLogMeasConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_targetmbsfnarealistr12; i++ {
 				var elem TargetMBSFNAreaR12
+				elementMark := bb.EnterIndex(fragmentOffset_targetmbsfnarealistr12 + i)
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("TargetMBSFNAreaListR12[%d]", fragmentOffset_targetmbsfnarealistr12+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_targetmbsfnarealistr12 = append(tmp_targetmbsfnarealistr12, elem)
 			}
 			return nil
@@ -1067,6 +1076,7 @@ func (v *VarLogMeasConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_targetmbsfnarealistr12, "TargetMBSFNAreaListR12")
 		}
 		v.TargetMBSFNAreaListR12 = tmp_targetmbsfnarealistr12
+		bb.LeaveComponent(toleranceMark_targetmbsfnarealistr12)
 	}
 	if opt_btnamelistr15 {
 		tmp_btnamelistr15 := make(BTNameListR15, 0)
@@ -1298,6 +1308,7 @@ func (v *VarLogMeasConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.LoggingIntervalR10 = LoggingIntervalR10(val_loggingintervalr10)
 	if opt_targetmbsfnarealistr12 {
+		toleranceMark_targetmbsfnarealistr12 := bb.EnterComponent("TargetMBSFNAreaListR12")
 		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, 0)
 		_, errCollection_targetmbsfnarealistr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_targetmbsfnarealistr12, fragmentLength_targetmbsfnarealistr12 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -1306,9 +1317,11 @@ func (v *VarLogMeasConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_targetmbsfnarealistr12; i++ {
 				var elem TargetMBSFNAreaR12
+				elementMark := bb.EnterIndex(fragmentOffset_targetmbsfnarealistr12 + i)
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("TargetMBSFNAreaListR12[%d]", fragmentOffset_targetmbsfnarealistr12+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_targetmbsfnarealistr12 = append(tmp_targetmbsfnarealistr12, elem)
 			}
 			return nil
@@ -1317,6 +1330,7 @@ func (v *VarLogMeasConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_targetmbsfnarealistr12, "TargetMBSFNAreaListR12")
 		}
 		v.TargetMBSFNAreaListR12 = tmp_targetmbsfnarealistr12
+		bb.LeaveComponent(toleranceMark_targetmbsfnarealistr12)
 	}
 	if opt_btnamelistr15 {
 		tmp_btnamelistr15 := make(BTNameListR15, 0)
@@ -1462,6 +1476,7 @@ func (v *VarLogMeasReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "AbsoluteTimeInfoR10")
 	}
 	v.AbsoluteTimeInfoR10 = runtime.BitString{Bytes: bsBytes_absolutetimeinfor10, BitLength: bsBitLen_absolutetimeinfor10}
+	toleranceMark_logmeasinfolistr10 := bb.EnterComponent("LogMeasInfoListR10")
 	v.LogMeasInfoListR10 = make(LogMeasInfoList2R10, 0)
 	_, errCollection_logmeasinfolistr10 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4060, HasUpper: true}, false, func(fragmentOffset_logmeasinfolistr10, fragmentLength_logmeasinfolistr10 int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -1470,9 +1485,11 @@ func (v *VarLogMeasReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_logmeasinfolistr10; i++ {
 			var elem LogMeasInfoR10
+			elementMark := bb.EnterIndex(fragmentOffset_logmeasinfolistr10 + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("LogMeasInfoListR10[%d]", fragmentOffset_logmeasinfolistr10+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.LogMeasInfoListR10 = append(v.LogMeasInfoListR10, elem)
 		}
 		return nil
@@ -1480,6 +1497,7 @@ func (v *VarLogMeasReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if errCollection_logmeasinfolistr10 != nil {
 		return runtime.WrapDecodePath(errCollection_logmeasinfolistr10, "LogMeasInfoListR10")
 	}
+	bb.LeaveComponent(toleranceMark_logmeasinfolistr10)
 	return nil
 }
 
@@ -1597,6 +1615,7 @@ func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "AbsoluteTimeInfoR10")
 	}
 	v.AbsoluteTimeInfoR10 = runtime.BitString{Bytes: bsBytes_absolutetimeinfor10, BitLength: bsBitLen_absolutetimeinfor10}
+	toleranceMark_logmeasinfolistr10 := bb.EnterComponent("LogMeasInfoListR10")
 	v.LogMeasInfoListR10 = make(LogMeasInfoList2R10, 0)
 	_, errCollection_logmeasinfolistr10 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4060, HasUpper: true}, false, func(fragmentOffset_logmeasinfolistr10, fragmentLength_logmeasinfolistr10 int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -1605,9 +1624,11 @@ func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_logmeasinfolistr10; i++ {
 			var elem LogMeasInfoR10
+			elementMark := bb.EnterIndex(fragmentOffset_logmeasinfolistr10 + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("LogMeasInfoListR10[%d]", fragmentOffset_logmeasinfolistr10+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.LogMeasInfoListR10 = append(v.LogMeasInfoListR10, elem)
 		}
 		return nil
@@ -1615,6 +1636,7 @@ func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if errCollection_logmeasinfolistr10 != nil {
 		return runtime.WrapDecodePath(errCollection_logmeasinfolistr10, "LogMeasInfoListR10")
 	}
+	bb.LeaveComponent(toleranceMark_logmeasinfolistr10)
 	val_sigloggedmeastyper18, err := per.DecodeEnumerated(bb, 1, false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SigLoggedMeasTypeR18")
@@ -1705,6 +1727,7 @@ func UnmarshalUPERLogMeasInfoList2R10From(bb *per.BitBuffer) (LogMeasInfoList2R1
 }
 
 func unmarshalUPERLogMeasInfoList2R10Into(v *asn1cUPERLogMeasInfoList2R10ListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(LogMeasInfoList2R10, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4060, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -1713,9 +1736,11 @@ func unmarshalUPERLogMeasInfoList2R10Into(v *asn1cUPERLogMeasInfoList2R10ListVal
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem LogMeasInfoR10
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -1723,6 +1748,7 @@ func unmarshalUPERLogMeasInfoList2R10Into(v *asn1cUPERLogMeasInfoList2R10ListVal
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -2092,6 +2118,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasIdListExtV1310 = tmp_measidlistextv1310
 	}
 	if opt_measobjectlist {
+		toleranceMark_measobjectlist := bb.EnterComponent("MeasObjectList")
 		tmp_measobjectlist := make(MeasObjectToAddModList, 0)
 		_, errCollection_measobjectlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measobjectlist, fragmentLength_measobjectlist int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -2100,9 +2127,11 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_measobjectlist; i++ {
 				var elem MeasObjectToAddMod
+				elementMark := bb.EnterIndex(fragmentOffset_measobjectlist + i)
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("MeasObjectList[%d]", fragmentOffset_measobjectlist+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_measobjectlist = append(tmp_measobjectlist, elem)
 			}
 			return nil
@@ -2111,8 +2140,10 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_measobjectlist, "MeasObjectList")
 		}
 		v.MeasObjectList = tmp_measobjectlist
+		bb.LeaveComponent(toleranceMark_measobjectlist)
 	}
 	if opt_measobjectlistextr13 {
+		toleranceMark_measobjectlistextr13 := bb.EnterComponent("MeasObjectListExtR13")
 		tmp_measobjectlistextr13 := make(MeasObjectToAddModListExtR13, 0)
 		_, errCollection_measobjectlistextr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measobjectlistextr13, fragmentLength_measobjectlistextr13 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -2121,9 +2152,11 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_measobjectlistextr13; i++ {
 				var elem MeasObjectToAddModExtR13
+				elementMark := bb.EnterIndex(fragmentOffset_measobjectlistextr13 + i)
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("MeasObjectListExtR13[%d]", fragmentOffset_measobjectlistextr13+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_measobjectlistextr13 = append(tmp_measobjectlistextr13, elem)
 			}
 			return nil
@@ -2132,6 +2165,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_measobjectlistextr13, "MeasObjectListExtR13")
 		}
 		v.MeasObjectListExtR13 = tmp_measobjectlistextr13
+		bb.LeaveComponent(toleranceMark_measobjectlistextr13)
 	}
 	if opt_measobjectlistv9i0 {
 		tmp_measobjectlistv9i0 := make(MeasObjectToAddModListV9e0, 0)
@@ -2155,6 +2189,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasObjectListV9i0 = tmp_measobjectlistv9i0
 	}
 	if opt_reportconfiglist {
+		toleranceMark_reportconfiglist := bb.EnterComponent("ReportConfigList")
 		tmp_reportconfiglist := make(ReportConfigToAddModList, 0)
 		_, errCollection_reportconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_reportconfiglist, fragmentLength_reportconfiglist int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -2163,9 +2198,11 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_reportconfiglist; i++ {
 				var elem ReportConfigToAddMod
+				elementMark := bb.EnterIndex(fragmentOffset_reportconfiglist + i)
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ReportConfigList[%d]", fragmentOffset_reportconfiglist+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_reportconfiglist = append(tmp_reportconfiglist, elem)
 			}
 			return nil
@@ -2174,13 +2211,16 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_reportconfiglist, "ReportConfigList")
 		}
 		v.ReportConfigList = tmp_reportconfiglist
+		bb.LeaveComponent(toleranceMark_reportconfiglist)
 	}
 	if opt_quantityconfig {
+		toleranceMark_quantityconfig := bb.EnterComponent("QuantityConfig")
 		var dec_quantityconfig QuantityConfig
 		if err := dec_quantityconfig.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "QuantityConfig")
 		}
 		v.QuantityConfig = &dec_quantityconfig
+		bb.LeaveComponent(toleranceMark_quantityconfig)
 	}
 	if opt_measscalefactorr12 {
 		val_measscalefactorr12, err := per.DecodeEnumerated(bb, 2, false)
@@ -2278,6 +2318,7 @@ func (v *VarMeasIdleConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_measidlecarrierlisteutrar15 {
+		toleranceMark_measidlecarrierlisteutrar15 := bb.EnterComponent("MeasIdleCarrierListEUTRAR15")
 		tmp_measidlecarrierlisteutrar15 := make(EUTRACarrierListR15, 0)
 		_, errCollection_measidlecarrierlisteutrar15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_measidlecarrierlisteutrar15, fragmentLength_measidlecarrierlisteutrar15 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -2286,9 +2327,11 @@ func (v *VarMeasIdleConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_measidlecarrierlisteutrar15; i++ {
 				var elem MeasIdleCarrierEUTRAR15
+				elementMark := bb.EnterIndex(fragmentOffset_measidlecarrierlisteutrar15 + i)
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("MeasIdleCarrierListEUTRAR15[%d]", fragmentOffset_measidlecarrierlisteutrar15+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_measidlecarrierlisteutrar15 = append(tmp_measidlecarrierlisteutrar15, elem)
 			}
 			return nil
@@ -2297,6 +2340,7 @@ func (v *VarMeasIdleConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_measidlecarrierlisteutrar15, "MeasIdleCarrierListEUTRAR15")
 		}
 		v.MeasIdleCarrierListEUTRAR15 = tmp_measidlecarrierlisteutrar15
+		bb.LeaveComponent(toleranceMark_measidlecarrierlisteutrar15)
 	}
 	val_measidledurationr15, err := per.DecodeEnumerated(bb, 7, false)
 	if err != nil {
@@ -2390,6 +2434,7 @@ func (v *VarMeasIdleConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_measidlecarrierlistnrr16 {
+		toleranceMark_measidlecarrierlistnrr16 := bb.EnterComponent("MeasIdleCarrierListNRR16")
 		tmp_measidlecarrierlistnrr16 := make(NRCarrierListR16, 0)
 		_, errCollection_measidlecarrierlistnrr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_measidlecarrierlistnrr16, fragmentLength_measidlecarrierlistnrr16 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -2398,9 +2443,11 @@ func (v *VarMeasIdleConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_measidlecarrierlistnrr16; i++ {
 				var elem MeasIdleCarrierNRR16
+				elementMark := bb.EnterIndex(fragmentOffset_measidlecarrierlistnrr16 + i)
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("MeasIdleCarrierListNRR16[%d]", fragmentOffset_measidlecarrierlistnrr16+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_measidlecarrierlistnrr16 = append(tmp_measidlecarrierlistnrr16, elem)
 			}
 			return nil
@@ -2409,6 +2456,7 @@ func (v *VarMeasIdleConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_measidlecarrierlistnrr16, "MeasIdleCarrierListNRR16")
 		}
 		v.MeasIdleCarrierListNRR16 = tmp_measidlecarrierlistnrr16
+		bb.LeaveComponent(toleranceMark_measidlecarrierlistnrr16)
 	}
 	if opt_validityarealistr16 {
 		tmp_validityarealistr16 := make(ValidityAreaListR16, 0)
@@ -2483,6 +2531,7 @@ func (v *VarMeasIdleReportR15) UnmarshalUPERWithOptions(data []byte, options per
 
 func (v *VarMeasIdleReportR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = VarMeasIdleReportR15{}
+	toleranceMark_measreportidler15 := bb.EnterComponent("MeasReportIdleR15")
 	v.MeasReportIdleR15 = make(MeasResultListIdleR15, 0)
 	_, errCollection_measreportidler15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_measreportidler15, fragmentLength_measreportidler15 int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -2491,9 +2540,11 @@ func (v *VarMeasIdleReportR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_measreportidler15; i++ {
 			var elem MeasResultIdleR15
+			elementMark := bb.EnterIndex(fragmentOffset_measreportidler15 + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("MeasReportIdleR15[%d]", fragmentOffset_measreportidler15+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.MeasReportIdleR15 = append(v.MeasReportIdleR15, elem)
 		}
 		return nil
@@ -2501,6 +2552,7 @@ func (v *VarMeasIdleReportR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if errCollection_measreportidler15 != nil {
 		return runtime.WrapDecodePath(errCollection_measreportidler15, "MeasReportIdleR15")
 	}
+	bb.LeaveComponent(toleranceMark_measreportidler15)
 	return nil
 }
 
@@ -2588,6 +2640,7 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_measreportidler16 {
+		toleranceMark_measreportidler16 := bb.EnterComponent("MeasReportIdleR16")
 		tmp_measreportidler16 := make(MeasResultListExtIdleR16, 0)
 		_, errCollection_measreportidler16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 5, HasUpper: true}, false, func(fragmentOffset_measreportidler16, fragmentLength_measreportidler16 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1264
@@ -2595,10 +2648,12 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("collection fragment count out of range")
 			}
 			for i_measreportidler16 := int64(0); i_measreportidler16 < fragmentLength_measreportidler16; i_measreportidler16++ {
+				elementMark := bb.EnterIndex(fragmentOffset_measreportidler16 + i_measreportidler16)
 				elem, err := UnmarshalUPERMeasResultIdleListEUTRAR15From(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("MeasReportIdleR16[%d]", fragmentOffset_measreportidler16+i_measreportidler16))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_measreportidler16 = append(tmp_measreportidler16, elem)
 			}
 			return nil
@@ -2607,8 +2662,10 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_measreportidler16, "MeasReportIdleR16")
 		}
 		v.MeasReportIdleR16 = tmp_measreportidler16
+		bb.LeaveComponent(toleranceMark_measreportidler16)
 	}
 	if opt_measreportidlenrr16 {
+		toleranceMark_measreportidlenrr16 := bb.EnterComponent("MeasReportIdleNRR16")
 		tmp_measreportidlenrr16 := make(MeasResultListIdleNRR16, 0)
 		_, errCollection_measreportidlenrr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_measreportidlenrr16, fragmentLength_measreportidlenrr16 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -2617,9 +2674,11 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_measreportidlenrr16; i++ {
 				var elem MeasResultIdleNRR16
+				elementMark := bb.EnterIndex(fragmentOffset_measreportidlenrr16 + i)
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("MeasReportIdleNRR16[%d]", fragmentOffset_measreportidlenrr16+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_measreportidlenrr16 = append(tmp_measreportidlenrr16, elem)
 			}
 			return nil
@@ -2628,6 +2687,7 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_measreportidlenrr16, "MeasReportIdleNRR16")
 		}
 		v.MeasReportIdleNRR16 = tmp_measreportidlenrr16
+		bb.LeaveComponent(toleranceMark_measreportidlenrr16)
 	}
 	return nil
 }
@@ -2714,6 +2774,7 @@ func UnmarshalUPERVarMeasReportListFrom(bb *per.BitBuffer) (VarMeasReportList, e
 }
 
 func unmarshalUPERVarMeasReportListInto(v *asn1cUPERVarMeasReportListListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(VarMeasReportList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -2722,9 +2783,11 @@ func unmarshalUPERVarMeasReportListInto(v *asn1cUPERVarMeasReportListListValue, 
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem VarMeasReport
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -2732,6 +2795,7 @@ func unmarshalUPERVarMeasReportListInto(v *asn1cUPERVarMeasReportListListValue, 
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -2817,6 +2881,7 @@ func UnmarshalUPERVarMeasReportListR12From(bb *per.BitBuffer) (VarMeasReportList
 }
 
 func unmarshalUPERVarMeasReportListR12Into(v *asn1cUPERVarMeasReportListR12ListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(VarMeasReportListR12, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -2825,9 +2890,11 @@ func unmarshalUPERVarMeasReportListR12Into(v *asn1cUPERVarMeasReportListR12ListV
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem VarMeasReport
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -2835,6 +2902,7 @@ func unmarshalUPERVarMeasReportListR12Into(v *asn1cUPERVarMeasReportListR12ListV
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -2976,6 +3044,7 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasIdV1250 = &tmp_measidv1250
 	}
 	if opt_cellstriggeredlist {
+		toleranceMark_cellstriggeredlist := bb.EnterComponent("CellsTriggeredList")
 		tmp_cellstriggeredlist := make(CellsTriggeredList, 0)
 		_, errCollection_cellstriggeredlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cellstriggeredlist, fragmentLength_cellstriggeredlist int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -2984,9 +3053,11 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_cellstriggeredlist; i++ {
 				var elem CellsTriggeredListElem
+				elementMark := bb.EnterIndex(fragmentOffset_cellstriggeredlist + i)
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("CellsTriggeredList[%d]", fragmentOffset_cellstriggeredlist+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_cellstriggeredlist = append(tmp_cellstriggeredlist, elem)
 			}
 			return nil
@@ -2995,6 +3066,7 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_cellstriggeredlist, "CellsTriggeredList")
 		}
 		v.CellsTriggeredList = tmp_cellstriggeredlist
+		bb.LeaveComponent(toleranceMark_cellstriggeredlist)
 	}
 	if opt_csirstriggeredlistr12 {
 		tmp_csirstriggeredlistr12 := make(CSIRSTriggeredListR12, 0)
@@ -3128,6 +3200,7 @@ func UnmarshalUPERCellsTriggeredListFrom(bb *per.BitBuffer) (CellsTriggeredList,
 }
 
 func unmarshalUPERCellsTriggeredListInto(v *asn1cUPERCellsTriggeredListListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(CellsTriggeredList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -3136,9 +3209,11 @@ func unmarshalUPERCellsTriggeredListInto(v *asn1cUPERCellsTriggeredListListValue
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CellsTriggeredListElem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -3146,6 +3221,7 @@ func unmarshalUPERCellsTriggeredListInto(v *asn1cUPERCellsTriggeredListListValue
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -3455,9 +3531,11 @@ func (v *VarRLFReportR10) UnmarshalUPERWithOptions(data []byte, options per.Deco
 
 func (v *VarRLFReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = VarRLFReportR10{}
+	toleranceMark_rlfreportr10 := bb.EnterComponent("RlfReportR10")
 	if err := v.RlfReportR10.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RlfReportR10")
 	}
+	bb.LeaveComponent(toleranceMark_rlfreportr10)
 	if err := v.PlmnIdentityR10.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PlmnIdentityR10")
 	}
@@ -3516,9 +3594,11 @@ func (v *VarRLFReportR11) UnmarshalUPERWithOptions(data []byte, options per.Deco
 
 func (v *VarRLFReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = VarRLFReportR11{}
+	toleranceMark_rlfreportr10 := bb.EnterComponent("RlfReportR10")
 	if err := v.RlfReportR10.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RlfReportR10")
 	}
+	bb.LeaveComponent(toleranceMark_rlfreportr10)
 	v.PlmnIdentityListR11 = make(PLMNIdentityList3R11, 0)
 	_, errCollection_plmnidentitylistr11 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr11, fragmentLength_plmnidentitylistr11 int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -3819,6 +3899,7 @@ func (v *VarWLANMobilityConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_wlanmobilitysetr13 {
+		toleranceMark_wlanmobilitysetr13 := bb.EnterComponent("WlanMobilitySetR13")
 		tmp_wlanmobilitysetr13 := make(WLANIdListR13, 0)
 		_, errCollection_wlanmobilitysetr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_wlanmobilitysetr13, fragmentLength_wlanmobilitysetr13 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -3827,9 +3908,11 @@ func (v *VarWLANMobilityConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_wlanmobilitysetr13; i++ {
 				var elem WLANIdentifiersR12
+				elementMark := bb.EnterIndex(fragmentOffset_wlanmobilitysetr13 + i)
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("WlanMobilitySetR13[%d]", fragmentOffset_wlanmobilitysetr13+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_wlanmobilitysetr13 = append(tmp_wlanmobilitysetr13, elem)
 			}
 			return nil
@@ -3838,6 +3921,7 @@ func (v *VarWLANMobilityConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_wlanmobilitysetr13, "WlanMobilitySetR13")
 		}
 		v.WlanMobilitySetR13 = tmp_wlanmobilitysetr13
+		bb.LeaveComponent(toleranceMark_wlanmobilitysetr13)
 	}
 	if opt_successreportrequested {
 		val_successreportrequested, err := per.DecodeEnumerated(bb, 1, false)
@@ -4181,11 +4265,13 @@ func (v *CellsTriggeredListElem) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		tmp_physcellidcdma2000 := PhysCellIdCDMA2000(val_physcellidcdma2000)
 		v.PhysCellIdCDMA2000 = &tmp_physcellidcdma2000
 	case CellsTriggeredListElemChoiceWlanIdentifiersR13:
+		toleranceMark_wlanidentifiersr13 := bb.EnterComponent("WlanIdentifiersR13")
 		var dec_wlanidentifiersr13 WLANIdentifiersR12
 		if err := dec_wlanidentifiersr13.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "WlanIdentifiersR13")
 		}
 		v.WlanIdentifiersR13 = &dec_wlanidentifiersr13
+		bb.LeaveComponent(toleranceMark_wlanidentifiersr13)
 	case CellsTriggeredListElemChoicePhysCellIdNRR15:
 		var dec_physcellidnrr15 CellsTriggeredListElemPhysCellIdNRR15
 		if err := dec_physcellidnrr15.UnmarshalUPERFrom(bb); err != nil {

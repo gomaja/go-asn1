@@ -229,7 +229,7 @@ func TestToleranceLogConcurrentDecodes(t *testing.T) {
 }
 
 func TestToleranceKindString(t *testing.T) {
-	for kind, want := range map[ToleranceKind]string{ToleratedTrailingBits: "trailing bits", ToleratedContainedBits: "contained bits", 9: "ToleranceKind(9)"} {
+	for kind, want := range map[ToleranceKind]string{ToleratedTrailingBits: "trailing bits", ToleratedContainedBits: "contained bits", ToleratedTruncatedExtension: "truncated extension", 9: "ToleranceKind(9)"} {
 		if got := kind.String(); got != want {
 			t.Fatalf("%d.String() = %q, want %q", kind, got, want)
 		}

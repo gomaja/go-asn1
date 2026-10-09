@@ -22,7 +22,7 @@ type ECIDMeasurementInitiationRequest struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -33,7 +33,7 @@ type ECIDMeasurementInitiationResponse struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -44,7 +44,7 @@ type ECIDMeasurementInitiationFailure struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -55,7 +55,7 @@ type ECIDMeasurementFailureIndication struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -66,7 +66,7 @@ type ECIDMeasurementReport struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -77,7 +77,7 @@ type ECIDMeasurementTerminationCommand struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -88,7 +88,7 @@ type OTDOAInformationRequest struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -104,7 +104,7 @@ type OTDOAInformationTypeItem struct {
 	ExtCount_                int64                      `asn1:"-" json:"-"`
 	ExtPresent_              []bool                     `asn1:"-" json:"-"`
 	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_              per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_              per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_           []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -115,7 +115,7 @@ type OTDOAInformationResponse struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -126,7 +126,7 @@ type OTDOAInformationFailure struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -137,7 +137,7 @@ type UTDOAInformationRequest struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -148,7 +148,7 @@ type UTDOAInformationResponse struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -159,7 +159,7 @@ type UTDOAInformationFailure struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -170,7 +170,7 @@ type UTDOAInformationUpdate struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -181,7 +181,7 @@ type AssistanceInformationControl struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -192,7 +192,7 @@ type AssistanceInformationFeedback struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -203,7 +203,7 @@ type ErrorIndication struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -214,7 +214,7 @@ type PrivateMessage struct {
 	ExtCount_        int64                 `asn1:"-" json:"-"`
 	ExtPresent_      []bool                `asn1:"-" json:"-"`
 	ExtData_         [][]byte              `asn1:"-" json:"-"`
-	PERPadding_      per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_      per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_   []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -224,7 +224,7 @@ func (v *ECIDMeasurementInitiationRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *ECIDMeasurementInitiationRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -282,25 +282,37 @@ func (v *ECIDMeasurementInitiationRequest) MarshalAPERTo(bb *per.BitBuffer) erro
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes ECIDMeasurementInitiationRequest from APER format.
 func (v *ECIDMeasurementInitiationRequest) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ECIDMeasurementInitiationRequest with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ECIDMeasurementInitiationRequest) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ECIDMeasurementInitiationRequest")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementInitiationRequest")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ECIDMeasurementInitiationRequest")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementInitiationRequest")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *ECIDMeasurementInitiationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ECIDMeasurementInitiationRequest{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -324,7 +336,7 @@ func (v *ECIDMeasurementInitiationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -340,7 +352,7 @@ func (v *ECIDMeasurementInitiationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -348,7 +360,11 @@ func (v *ECIDMeasurementInitiationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) 
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -358,7 +374,7 @@ func (v *ECIDMeasurementInitiationResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *ECIDMeasurementInitiationResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -416,25 +432,37 @@ func (v *ECIDMeasurementInitiationResponse) MarshalAPERTo(bb *per.BitBuffer) err
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes ECIDMeasurementInitiationResponse from APER format.
 func (v *ECIDMeasurementInitiationResponse) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ECIDMeasurementInitiationResponse with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ECIDMeasurementInitiationResponse) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ECIDMeasurementInitiationResponse")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementInitiationResponse")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ECIDMeasurementInitiationResponse")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementInitiationResponse")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *ECIDMeasurementInitiationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ECIDMeasurementInitiationResponse{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -458,7 +486,7 @@ func (v *ECIDMeasurementInitiationResponse) UnmarshalAPERFrom(bb *per.BitBuffer)
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -474,7 +502,7 @@ func (v *ECIDMeasurementInitiationResponse) UnmarshalAPERFrom(bb *per.BitBuffer)
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -482,7 +510,11 @@ func (v *ECIDMeasurementInitiationResponse) UnmarshalAPERFrom(bb *per.BitBuffer)
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -492,7 +524,7 @@ func (v *ECIDMeasurementInitiationFailure) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *ECIDMeasurementInitiationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -550,25 +582,37 @@ func (v *ECIDMeasurementInitiationFailure) MarshalAPERTo(bb *per.BitBuffer) erro
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes ECIDMeasurementInitiationFailure from APER format.
 func (v *ECIDMeasurementInitiationFailure) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ECIDMeasurementInitiationFailure with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ECIDMeasurementInitiationFailure) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ECIDMeasurementInitiationFailure")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementInitiationFailure")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ECIDMeasurementInitiationFailure")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementInitiationFailure")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *ECIDMeasurementInitiationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ECIDMeasurementInitiationFailure{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -592,7 +636,7 @@ func (v *ECIDMeasurementInitiationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -608,7 +652,7 @@ func (v *ECIDMeasurementInitiationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -616,7 +660,11 @@ func (v *ECIDMeasurementInitiationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) 
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -626,7 +674,7 @@ func (v *ECIDMeasurementFailureIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *ECIDMeasurementFailureIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -684,25 +732,37 @@ func (v *ECIDMeasurementFailureIndication) MarshalAPERTo(bb *per.BitBuffer) erro
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes ECIDMeasurementFailureIndication from APER format.
 func (v *ECIDMeasurementFailureIndication) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ECIDMeasurementFailureIndication with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ECIDMeasurementFailureIndication) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ECIDMeasurementFailureIndication")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementFailureIndication")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ECIDMeasurementFailureIndication")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementFailureIndication")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *ECIDMeasurementFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ECIDMeasurementFailureIndication{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -726,7 +786,7 @@ func (v *ECIDMeasurementFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -742,7 +802,7 @@ func (v *ECIDMeasurementFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -750,7 +810,11 @@ func (v *ECIDMeasurementFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) 
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -760,7 +824,7 @@ func (v *ECIDMeasurementReport) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *ECIDMeasurementReport) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -818,25 +882,37 @@ func (v *ECIDMeasurementReport) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes ECIDMeasurementReport from APER format.
 func (v *ECIDMeasurementReport) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ECIDMeasurementReport with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ECIDMeasurementReport) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ECIDMeasurementReport")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementReport")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ECIDMeasurementReport")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementReport")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *ECIDMeasurementReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ECIDMeasurementReport{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -860,7 +936,7 @@ func (v *ECIDMeasurementReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -876,7 +952,7 @@ func (v *ECIDMeasurementReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -884,7 +960,11 @@ func (v *ECIDMeasurementReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -894,7 +974,7 @@ func (v *ECIDMeasurementTerminationCommand) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *ECIDMeasurementTerminationCommand) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -952,25 +1032,37 @@ func (v *ECIDMeasurementTerminationCommand) MarshalAPERTo(bb *per.BitBuffer) err
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes ECIDMeasurementTerminationCommand from APER format.
 func (v *ECIDMeasurementTerminationCommand) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ECIDMeasurementTerminationCommand with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ECIDMeasurementTerminationCommand) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ECIDMeasurementTerminationCommand")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementTerminationCommand")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ECIDMeasurementTerminationCommand")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementTerminationCommand")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *ECIDMeasurementTerminationCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ECIDMeasurementTerminationCommand{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -994,7 +1086,7 @@ func (v *ECIDMeasurementTerminationCommand) UnmarshalAPERFrom(bb *per.BitBuffer)
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -1010,7 +1102,7 @@ func (v *ECIDMeasurementTerminationCommand) UnmarshalAPERFrom(bb *per.BitBuffer)
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -1018,7 +1110,11 @@ func (v *ECIDMeasurementTerminationCommand) UnmarshalAPERFrom(bb *per.BitBuffer)
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -1028,7 +1124,7 @@ func (v *OTDOAInformationRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *OTDOAInformationRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -1086,25 +1182,37 @@ func (v *OTDOAInformationRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes OTDOAInformationRequest from APER format.
 func (v *OTDOAInformationRequest) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes OTDOAInformationRequest with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *OTDOAInformationRequest) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "OTDOAInformationRequest")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationRequest")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "OTDOAInformationRequest")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationRequest")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *OTDOAInformationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = OTDOAInformationRequest{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1128,7 +1236,7 @@ func (v *OTDOAInformationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -1144,7 +1252,7 @@ func (v *OTDOAInformationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -1152,7 +1260,11 @@ func (v *OTDOAInformationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -1173,17 +1285,28 @@ func (v *OTDOAInformationTypeComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes OTDOAInformationType from APER format.
 func (v *OTDOAInformationTypeComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes OTDOAInformationType with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *OTDOAInformationTypeComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "OTDOAInformationType")
+	}
 	value, err := UnmarshalAPEROTDOAInformationTypeFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationType")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "OTDOAInformationType")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationType")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -1258,7 +1381,7 @@ func (v *OTDOAInformationTypeItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *OTDOAInformationTypeItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -1325,25 +1448,37 @@ func (v *OTDOAInformationTypeItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes OTDOAInformationTypeItem from APER format.
 func (v *OTDOAInformationTypeItem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes OTDOAInformationTypeItem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *OTDOAInformationTypeItem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "OTDOAInformationTypeItem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationTypeItem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "OTDOAInformationTypeItem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationTypeItem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *OTDOAInformationTypeItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = OTDOAInformationTypeItem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1380,7 +1515,7 @@ func (v *OTDOAInformationTypeItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -1396,7 +1531,7 @@ func (v *OTDOAInformationTypeItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -1404,7 +1539,11 @@ func (v *OTDOAInformationTypeItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -1414,7 +1553,7 @@ func (v *OTDOAInformationResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *OTDOAInformationResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -1472,25 +1611,37 @@ func (v *OTDOAInformationResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes OTDOAInformationResponse from APER format.
 func (v *OTDOAInformationResponse) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes OTDOAInformationResponse with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *OTDOAInformationResponse) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "OTDOAInformationResponse")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationResponse")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "OTDOAInformationResponse")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationResponse")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *OTDOAInformationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = OTDOAInformationResponse{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1514,7 +1665,7 @@ func (v *OTDOAInformationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -1530,7 +1681,7 @@ func (v *OTDOAInformationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -1538,7 +1689,11 @@ func (v *OTDOAInformationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -1548,7 +1703,7 @@ func (v *OTDOAInformationFailure) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *OTDOAInformationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -1606,25 +1761,37 @@ func (v *OTDOAInformationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes OTDOAInformationFailure from APER format.
 func (v *OTDOAInformationFailure) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes OTDOAInformationFailure with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *OTDOAInformationFailure) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "OTDOAInformationFailure")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationFailure")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "OTDOAInformationFailure")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationFailure")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *OTDOAInformationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = OTDOAInformationFailure{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1648,7 +1815,7 @@ func (v *OTDOAInformationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -1664,7 +1831,7 @@ func (v *OTDOAInformationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -1672,7 +1839,11 @@ func (v *OTDOAInformationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -1682,7 +1853,7 @@ func (v *UTDOAInformationRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *UTDOAInformationRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -1740,25 +1911,37 @@ func (v *UTDOAInformationRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes UTDOAInformationRequest from APER format.
 func (v *UTDOAInformationRequest) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes UTDOAInformationRequest with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *UTDOAInformationRequest) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "UTDOAInformationRequest")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UTDOAInformationRequest")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "UTDOAInformationRequest")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "UTDOAInformationRequest")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *UTDOAInformationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = UTDOAInformationRequest{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1782,7 +1965,7 @@ func (v *UTDOAInformationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -1798,7 +1981,7 @@ func (v *UTDOAInformationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -1806,7 +1989,11 @@ func (v *UTDOAInformationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -1816,7 +2003,7 @@ func (v *UTDOAInformationResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *UTDOAInformationResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -1874,25 +2061,37 @@ func (v *UTDOAInformationResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes UTDOAInformationResponse from APER format.
 func (v *UTDOAInformationResponse) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes UTDOAInformationResponse with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *UTDOAInformationResponse) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "UTDOAInformationResponse")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UTDOAInformationResponse")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "UTDOAInformationResponse")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "UTDOAInformationResponse")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *UTDOAInformationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = UTDOAInformationResponse{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1916,7 +2115,7 @@ func (v *UTDOAInformationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -1932,7 +2131,7 @@ func (v *UTDOAInformationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -1940,7 +2139,11 @@ func (v *UTDOAInformationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -1950,7 +2153,7 @@ func (v *UTDOAInformationFailure) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *UTDOAInformationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -2008,25 +2211,37 @@ func (v *UTDOAInformationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes UTDOAInformationFailure from APER format.
 func (v *UTDOAInformationFailure) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes UTDOAInformationFailure with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *UTDOAInformationFailure) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "UTDOAInformationFailure")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UTDOAInformationFailure")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "UTDOAInformationFailure")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "UTDOAInformationFailure")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *UTDOAInformationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = UTDOAInformationFailure{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2050,7 +2265,7 @@ func (v *UTDOAInformationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -2066,7 +2281,7 @@ func (v *UTDOAInformationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -2074,7 +2289,11 @@ func (v *UTDOAInformationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -2084,7 +2303,7 @@ func (v *UTDOAInformationUpdate) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *UTDOAInformationUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -2142,25 +2361,37 @@ func (v *UTDOAInformationUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes UTDOAInformationUpdate from APER format.
 func (v *UTDOAInformationUpdate) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes UTDOAInformationUpdate with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *UTDOAInformationUpdate) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "UTDOAInformationUpdate")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UTDOAInformationUpdate")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "UTDOAInformationUpdate")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "UTDOAInformationUpdate")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *UTDOAInformationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = UTDOAInformationUpdate{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2184,7 +2415,7 @@ func (v *UTDOAInformationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -2200,7 +2431,7 @@ func (v *UTDOAInformationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -2208,7 +2439,11 @@ func (v *UTDOAInformationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -2218,7 +2453,7 @@ func (v *AssistanceInformationControl) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *AssistanceInformationControl) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -2276,25 +2511,37 @@ func (v *AssistanceInformationControl) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes AssistanceInformationControl from APER format.
 func (v *AssistanceInformationControl) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes AssistanceInformationControl with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *AssistanceInformationControl) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "AssistanceInformationControl")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationControl")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "AssistanceInformationControl")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationControl")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *AssistanceInformationControl) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = AssistanceInformationControl{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2318,7 +2565,7 @@ func (v *AssistanceInformationControl) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -2334,7 +2581,7 @@ func (v *AssistanceInformationControl) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -2342,7 +2589,11 @@ func (v *AssistanceInformationControl) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -2352,7 +2603,7 @@ func (v *AssistanceInformationFeedback) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *AssistanceInformationFeedback) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -2410,25 +2661,37 @@ func (v *AssistanceInformationFeedback) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes AssistanceInformationFeedback from APER format.
 func (v *AssistanceInformationFeedback) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes AssistanceInformationFeedback with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *AssistanceInformationFeedback) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "AssistanceInformationFeedback")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationFeedback")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "AssistanceInformationFeedback")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationFeedback")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *AssistanceInformationFeedback) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = AssistanceInformationFeedback{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2452,7 +2715,7 @@ func (v *AssistanceInformationFeedback) UnmarshalAPERFrom(bb *per.BitBuffer) err
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -2468,7 +2731,7 @@ func (v *AssistanceInformationFeedback) UnmarshalAPERFrom(bb *per.BitBuffer) err
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -2476,7 +2739,11 @@ func (v *AssistanceInformationFeedback) UnmarshalAPERFrom(bb *per.BitBuffer) err
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -2486,7 +2753,7 @@ func (v *ErrorIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *ErrorIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -2544,25 +2811,37 @@ func (v *ErrorIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes ErrorIndication from APER format.
 func (v *ErrorIndication) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ErrorIndication with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ErrorIndication) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ErrorIndication")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ErrorIndication")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ErrorIndication")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ErrorIndication")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *ErrorIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ErrorIndication{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2586,7 +2865,7 @@ func (v *ErrorIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -2602,7 +2881,7 @@ func (v *ErrorIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -2610,7 +2889,11 @@ func (v *ErrorIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -2620,7 +2903,7 @@ func (v *PrivateMessage) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *PrivateMessage) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -2678,25 +2961,37 @@ func (v *PrivateMessage) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes PrivateMessage from APER format.
 func (v *PrivateMessage) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes PrivateMessage with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *PrivateMessage) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "PrivateMessage")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PrivateMessage")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "PrivateMessage")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PrivateMessage")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *PrivateMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = PrivateMessage{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2720,7 +3015,7 @@ func (v *PrivateMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(errCollection_privateies, "PrivateIEs")
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -2736,7 +3031,7 @@ func (v *PrivateMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -2744,6 +3039,10 @@ func (v *PrivateMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
