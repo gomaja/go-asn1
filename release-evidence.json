@@ -1761,7 +1761,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -2083,7 +2083,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -2531,7 +2531,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -3355,7 +3355,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -3709,7 +3709,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -4113,7 +4113,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -4479,7 +4479,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -4867,7 +4867,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -5229,7 +5229,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -5607,7 +5607,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -7998,7 +7998,7 @@
     },
     {
       "name": "python3",
-      "tool_version": "3.9.6",
+      "tool_version": "3.14.4",
       "args": [
         "-m",
         "pip",
