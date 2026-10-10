@@ -156,15 +156,25 @@ func (v *LPPAPDU) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes LPPAPDU from APER format.
 func (v *LPPAPDU) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes LPPAPDU with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *LPPAPDU) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "LPPAPDU")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "LPPAPDU")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "LPPAPDU")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "LPPAPDU")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -245,15 +255,25 @@ func (v *InitiatingMessage) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes InitiatingMessage from APER format.
 func (v *InitiatingMessage) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes InitiatingMessage with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *InitiatingMessage) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "InitiatingMessage")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InitiatingMessage")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "InitiatingMessage")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "InitiatingMessage")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -309,15 +329,25 @@ func (v *SuccessfulOutcome) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes SuccessfulOutcome from APER format.
 func (v *SuccessfulOutcome) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes SuccessfulOutcome with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *SuccessfulOutcome) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "SuccessfulOutcome")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SuccessfulOutcome")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "SuccessfulOutcome")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SuccessfulOutcome")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -373,15 +403,25 @@ func (v *UnsuccessfulOutcome) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes UnsuccessfulOutcome from APER format.
 func (v *UnsuccessfulOutcome) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes UnsuccessfulOutcome with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *UnsuccessfulOutcome) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "UnsuccessfulOutcome")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UnsuccessfulOutcome")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "UnsuccessfulOutcome")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "UnsuccessfulOutcome")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 

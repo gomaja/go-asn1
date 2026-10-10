@@ -31557,22 +31557,21 @@ func (v *CancelSessionRequestEs9) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 			return fmt.Errorf("expected tag [%s %d] for cancelSessionResponse, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	decodedTag_cancelsessionresponse, n_cancelsessionresponse, innerData_cancelsessionresponse, err := ber.DecodeTLV(content[offset:], opts...)
+	_, n_cancelsessionresponse, _, err := ber.DecodeTLV(content[offset:], opts...)
 	if err != nil {
 		return fmt.Errorf("decoding cancelSessionResponse: %w", err)
 	}
-	if decodedTag_cancelsessionresponse.Class != tag.ClassContextSpecific || decodedTag_cancelsessionresponse.Number != 1 || decodedTag_cancelsessionresponse.Constructed != true {
-		return fmt.Errorf("decoding cancelSessionResponse: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cancelsessionresponse)
+	if offset < 0 || offset >
+		len(content) || n_cancelsessionresponse < 0 || n_cancelsessionresponse >
+		len(content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
 	}
-	_, innerUsed_cancelsessionresponse, _, innerErr_cancelsessionresponse := ber.DecodeTLV(innerData_cancelsessionresponse, opts...)
-	if innerErr_cancelsessionresponse != nil {
-		return fmt.Errorf("decoding cancelSessionResponse: %w", innerErr_cancelsessionresponse)
+
+	choiceData_cancelsessionresponse, choiceErr_cancelsessionresponse := ber.DecodeDualTaggedChoiceElement(content[offset:offset+n_cancelsessionresponse], tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, tag.Tag{Class: tag.ClassContextSpecific, Number: 65}, true, opts...)
+	if choiceErr_cancelsessionresponse != nil {
+		return fmt.Errorf("decoding cancelSessionResponse: %w", choiceErr_cancelsessionresponse)
 	}
-	if innerUsed_cancelsessionresponse != len(innerData_cancelsessionresponse) {
-		return fmt.Errorf("decoding cancelSessionResponse: %w", ber.ErrExtraData)
-	}
-	// Decode inner value from explicit tag wrapper
-	if unmErr := v.CancelSessionResponse.UnmarshalBER(innerData_cancelsessionresponse, ber.ChildDecodeOptions(opts, "cancelSessionResponse")...); unmErr != nil {
+	if unmErr := v.CancelSessionResponse.UnmarshalBER(choiceData_cancelsessionresponse, ber.ChildDecodeOptions(opts, "cancelSessionResponse")...); unmErr != nil {
 		return fmt.Errorf("decoding cancelSessionResponse: %w", unmErr)
 	}
 	if offset < 0 || offset >

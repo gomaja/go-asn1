@@ -33,7 +33,7 @@ type AssistanceInformation struct {
 	ExtCount_               int64                      `asn1:"-" json:"-"`
 	ExtPresent_             []bool                     `asn1:"-" json:"-"`
 	ExtData_                [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_             per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_             per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_          []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -51,7 +51,7 @@ type AssistanceInformationMetaData struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_        per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -315,7 +315,7 @@ type CriticalityDiagnostics struct {
 	ExtCount_                       int64                        `asn1:"-" json:"-"`
 	ExtPresent_                     []bool                       `asn1:"-" json:"-"`
 	ExtData_                        [][]byte                     `asn1:"-" json:"-"`
-	PERPadding_                     per.CompletePadding          `asn1:"-" json:"-"`
+	PERPadding_                     per.FinalPadding             `asn1:"-" json:"-"`
 	PERExtPadding_                  []per.CompletePadding        `asn1:"-" json:"-"`
 }
 
@@ -364,7 +364,7 @@ type ECIDMeasurementResult struct {
 	ExtCount_                 int64                      `asn1:"-" json:"-"`
 	ExtPresent_               []bool                     `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_               per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_               per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_            []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -377,7 +377,7 @@ type ECGI struct {
 	ExtCount_            int64                      `asn1:"-" json:"-"`
 	ExtPresent_          []bool                     `asn1:"-" json:"-"`
 	ExtData_             [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_          per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_       []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -402,7 +402,7 @@ type EUTRANAccessPointPosition struct {
 	ExtCount_              int64                 `asn1:"-" json:"-"`
 	ExtPresent_            []bool                `asn1:"-" json:"-"`
 	ExtData_               [][]byte              `asn1:"-" json:"-"`
-	PERPadding_            per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_            per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_         []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -421,7 +421,7 @@ type InterRATMeasurementQuantitiesItem struct {
 	ExtCount_                          int64                              `asn1:"-" json:"-"`
 	ExtPresent_                        []bool                             `asn1:"-" json:"-"`
 	ExtData_                           [][]byte                           `asn1:"-" json:"-"`
-	PERPadding_                        per.CompletePadding                `asn1:"-" json:"-"`
+	PERPadding_                        per.FinalPadding                   `asn1:"-" json:"-"`
 	PERExtPadding_                     []per.CompletePadding              `asn1:"-" json:"-"`
 }
 
@@ -560,7 +560,7 @@ type MeasurementQuantitiesItem struct {
 	ExtCount_                  int64                      `asn1:"-" json:"-"`
 	ExtPresent_                []bool                     `asn1:"-" json:"-"`
 	ExtData_                   [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_                per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_                per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_             []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -688,7 +688,7 @@ type NRCGI struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_        per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -699,7 +699,7 @@ type NPRSConfiguration struct {
 	ExtCount_         int64                 `asn1:"-" json:"-"`
 	ExtPresent_       []bool                `asn1:"-" json:"-"`
 	ExtData_          [][]byte              `asn1:"-" json:"-"`
-	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_       per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -762,7 +762,7 @@ type NPRSSubframePartA struct {
 	ExtCount_               int64                    `asn1:"-" json:"-"`
 	ExtPresent_             []bool                   `asn1:"-" json:"-"`
 	ExtData_                [][]byte                 `asn1:"-" json:"-"`
-	PERPadding_             per.CompletePadding      `asn1:"-" json:"-"`
+	PERPadding_             per.FinalPadding         `asn1:"-" json:"-"`
 	PERExtPadding_          []per.CompletePadding    `asn1:"-" json:"-"`
 }
 
@@ -776,7 +776,7 @@ type NPRSSubframePartB struct {
 	ExtCount_               int64                    `asn1:"-" json:"-"`
 	ExtPresent_             []bool                   `asn1:"-" json:"-"`
 	ExtData_                [][]byte                 `asn1:"-" json:"-"`
-	PERPadding_             per.CompletePadding      `asn1:"-" json:"-"`
+	PERPadding_             per.FinalPadding         `asn1:"-" json:"-"`
 	PERExtPadding_          []per.CompletePadding    `asn1:"-" json:"-"`
 }
 
@@ -1701,7 +1701,7 @@ type PRSFrequencyHoppingConfiguration struct {
 	ExtCount_            int64                                         `asn1:"-" json:"-"`
 	ExtPresent_          []bool                                        `asn1:"-" json:"-"`
 	ExtData_             [][]byte                                      `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding                           `asn1:"-" json:"-"`
+	PERPadding_          per.FinalPadding                              `asn1:"-" json:"-"`
 	PERExtPadding_       []per.CompletePadding                         `asn1:"-" json:"-"`
 }
 
@@ -1753,7 +1753,7 @@ type RequestedSRSTransmissionCharacteristics struct {
 	ExtCount_             int64                 `asn1:"-" json:"-"`
 	ExtPresent_           []bool                `asn1:"-" json:"-"`
 	ExtData_              [][]byte              `asn1:"-" json:"-"`
-	PERPadding_           per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_           per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_        []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -1772,7 +1772,7 @@ type ResultRSRPItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_        per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -1791,7 +1791,7 @@ type ResultRSRQItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_        per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -1809,7 +1809,7 @@ type ResultGERANItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_        per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -1828,7 +1828,7 @@ type ResultUTRANItem struct {
 	ExtCount_          int64                          `asn1:"-" json:"-"`
 	ExtPresent_        []bool                         `asn1:"-" json:"-"`
 	ExtData_           [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_        per.CompletePadding            `asn1:"-" json:"-"`
+	PERPadding_        per.FinalPadding               `asn1:"-" json:"-"`
 	PERExtPadding_     []per.CompletePadding          `asn1:"-" json:"-"`
 }
 
@@ -1847,7 +1847,7 @@ type ResultNRItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_        per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -1865,7 +1865,7 @@ type ResultsPerSSBIndexItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_        per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -1901,7 +1901,7 @@ type SRSConfigurationForOneCell struct {
 	ExtCount_               int64                 `asn1:"-" json:"-"`
 	ExtPresent_             []bool                `asn1:"-" json:"-"`
 	ExtData_                [][]byte              `asn1:"-" json:"-"`
-	PERPadding_             per.CompletePadding   `asn1:"-" json:"-"`
+	PERPadding_             per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_          []per.CompletePadding `asn1:"-" json:"-"`
 }
 
@@ -1963,7 +1963,7 @@ type TDDConfiguration struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_        per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -2017,7 +2017,7 @@ type ULConfiguration struct {
 	ExtCount_              int64                       `asn1:"-" json:"-"`
 	ExtPresent_            []bool                      `asn1:"-" json:"-"`
 	ExtData_               [][]byte                    `asn1:"-" json:"-"`
-	PERPadding_            per.CompletePadding         `asn1:"-" json:"-"`
+	PERPadding_            per.FinalPadding            `asn1:"-" json:"-"`
 	PERExtPadding_         []per.CompletePadding       `asn1:"-" json:"-"`
 }
 
@@ -2048,7 +2048,7 @@ type WLANMeasurementQuantitiesItem struct {
 	ExtCount_                      int64                          `asn1:"-" json:"-"`
 	ExtPresent_                    []bool                         `asn1:"-" json:"-"`
 	ExtData_                       [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                    per.CompletePadding            `asn1:"-" json:"-"`
+	PERPadding_                    per.FinalPadding               `asn1:"-" json:"-"`
 	PERExtPadding_                 []per.CompletePadding          `asn1:"-" json:"-"`
 }
 
@@ -2088,7 +2088,7 @@ type WLANMeasurementResultItem struct {
 	ExtCount_             int64                      `asn1:"-" json:"-"`
 	ExtPresent_           []bool                     `asn1:"-" json:"-"`
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_           per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -2158,7 +2158,7 @@ type AddOTDOACellsElem struct {
 	ExtCount_              int64                      `asn1:"-" json:"-"`
 	ExtPresent_            []bool                     `asn1:"-" json:"-"`
 	ExtData_               [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_            per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -2171,7 +2171,7 @@ type AssistanceInformationFailureListElem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_        per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -2185,7 +2185,7 @@ type CriticalityDiagnosticsIEListElem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_        per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -2198,7 +2198,7 @@ type OTDOACellsElem struct {
 	ExtCount_           int64                      `asn1:"-" json:"-"`
 	ExtPresent_         []bool                     `asn1:"-" json:"-"`
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_         per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -2214,7 +2214,7 @@ type PosSIBsElem struct {
 	ExtCount_                     int64                          `asn1:"-" json:"-"`
 	ExtPresent_                   []bool                         `asn1:"-" json:"-"`
 	ExtData_                      [][]byte                       `asn1:"-" json:"-"`
-	PERPadding_                   per.CompletePadding            `asn1:"-" json:"-"`
+	PERPadding_                   per.FinalPadding               `asn1:"-" json:"-"`
 	PERExtPadding_                []per.CompletePadding          `asn1:"-" json:"-"`
 }
 
@@ -2226,7 +2226,7 @@ type PosSIBSegmentsElem struct {
 	ExtCount_                int64                      `asn1:"-" json:"-"`
 	ExtPresent_              []bool                     `asn1:"-" json:"-"`
 	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_              per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_              per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_           []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -2275,7 +2275,7 @@ type SystemInformationElem struct {
 	ExtCount_            int64                      `asn1:"-" json:"-"`
 	ExtPresent_          []bool                     `asn1:"-" json:"-"`
 	ExtData_             [][]byte                   `asn1:"-" json:"-"`
-	PERPadding_          per.CompletePadding        `asn1:"-" json:"-"`
+	PERPadding_          per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_       []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
@@ -2296,17 +2296,28 @@ func (v *AddOTDOACellsComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes AddOTDOACells from APER format.
 func (v *AddOTDOACellsComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes AddOTDOACells with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *AddOTDOACellsComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "AddOTDOACells")
+	}
 	value, err := UnmarshalAPERAddOTDOACellsFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AddOTDOACells")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "AddOTDOACells")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AddOTDOACells")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -2352,6 +2363,7 @@ func UnmarshalAPERAddOTDOACellsFrom(bb *per.BitBuffer) (AddOTDOACells, error) {
 }
 
 func unmarshalAPERAddOTDOACellsInto(v *asn1cAPERAddOTDOACellsListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(AddOTDOACells, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3840, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -2360,9 +2372,11 @@ func unmarshalAPERAddOTDOACellsInto(v *asn1cAPERAddOTDOACellsListValue, bb *per.
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem AddOTDOACellsElem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -2370,6 +2384,7 @@ func unmarshalAPERAddOTDOACellsInto(v *asn1cAPERAddOTDOACellsListValue, bb *per.
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -2390,17 +2405,28 @@ func (v *AddOTDOACellInformationComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes AddOTDOACellInformation from APER format.
 func (v *AddOTDOACellInformationComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes AddOTDOACellInformation with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *AddOTDOACellInformationComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "AddOTDOACellInformation")
+	}
 	value, err := UnmarshalAPERAddOTDOACellInformationFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AddOTDOACellInformation")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "AddOTDOACellInformation")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AddOTDOACellInformation")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -2448,6 +2474,7 @@ func UnmarshalAPERAddOTDOACellInformationFrom(bb *per.BitBuffer) (AddOTDOACellIn
 }
 
 func unmarshalAPERAddOTDOACellInformationInto(v *asn1cAPERAddOTDOACellInformationListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(AddOTDOACellInformation, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -2456,9 +2483,11 @@ func unmarshalAPERAddOTDOACellInformationInto(v *asn1cAPERAddOTDOACellInformatio
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OTDOACellInformationItem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -2466,6 +2495,7 @@ func unmarshalAPERAddOTDOACellInformationInto(v *asn1cAPERAddOTDOACellInformatio
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -2475,7 +2505,7 @@ func (v *AssistanceInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *AssistanceInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -2553,25 +2583,37 @@ func (v *AssistanceInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes AssistanceInformation from APER format.
 func (v *AssistanceInformation) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes AssistanceInformation with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *AssistanceInformation) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "AssistanceInformation")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformation")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "AssistanceInformation")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformation")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *AssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = AssistanceInformation{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2581,6 +2623,7 @@ func (v *AssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_systeminformation := bb.EnterComponent("SystemInformation")
 	v.SystemInformation = make(SystemInformation, 0)
 	_, errCollection_systeminformation := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_systeminformation, fragmentLength_systeminformation int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -2589,9 +2632,11 @@ func (v *AssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_systeminformation; i++ {
 			var elem SystemInformationElem
+			elementMark := bb.EnterIndex(fragmentOffset_systeminformation + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("SystemInformation[%d]", fragmentOffset_systeminformation+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.SystemInformation = append(v.SystemInformation, elem)
 		}
 		return nil
@@ -2599,6 +2644,7 @@ func (v *AssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if errCollection_systeminformation != nil {
 		return runtime.WrapDecodePath(errCollection_systeminformation, "SystemInformation")
 	}
+	bb.LeaveComponent(toleranceMark_systeminformation)
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
@@ -2621,7 +2667,7 @@ func (v *AssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -2637,7 +2683,7 @@ func (v *AssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -2645,7 +2691,11 @@ func (v *AssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -2668,17 +2718,28 @@ func (v *AssistanceInformationFailureListComplete) MarshalAPER() ([]byte, error)
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes AssistanceInformationFailureList from APER format.
 func (v *AssistanceInformationFailureListComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes AssistanceInformationFailureList with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *AssistanceInformationFailureListComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "AssistanceInformationFailureList")
+	}
 	value, err := UnmarshalAPERAssistanceInformationFailureListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationFailureList")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "AssistanceInformationFailureList")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationFailureList")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -2726,6 +2787,7 @@ func UnmarshalAPERAssistanceInformationFailureListFrom(bb *per.BitBuffer) (Assis
 }
 
 func unmarshalAPERAssistanceInformationFailureListInto(v *asn1cAPERAssistanceInformationFailureListListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(AssistanceInformationFailureList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -2734,9 +2796,11 @@ func unmarshalAPERAssistanceInformationFailureListInto(v *asn1cAPERAssistanceInf
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem AssistanceInformationFailureListElem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -2744,6 +2808,7 @@ func unmarshalAPERAssistanceInformationFailureListInto(v *asn1cAPERAssistanceInf
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -2753,7 +2818,7 @@ func (v *AssistanceInformationMetaData) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *AssistanceInformationMetaData) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -2841,25 +2906,37 @@ func (v *AssistanceInformationMetaData) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes AssistanceInformationMetaData from APER format.
 func (v *AssistanceInformationMetaData) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes AssistanceInformationMetaData with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *AssistanceInformationMetaData) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "AssistanceInformationMetaData")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationMetaData")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "AssistanceInformationMetaData")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationMetaData")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *AssistanceInformationMetaData) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = AssistanceInformationMetaData{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2924,7 +3001,7 @@ func (v *AssistanceInformationMetaData) UnmarshalAPERFrom(bb *per.BitBuffer) err
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -2940,7 +3017,7 @@ func (v *AssistanceInformationMetaData) UnmarshalAPERFrom(bb *per.BitBuffer) err
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -2948,7 +3025,11 @@ func (v *AssistanceInformationMetaData) UnmarshalAPERFrom(bb *per.BitBuffer) err
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -3053,15 +3134,25 @@ func (v *BitmapsforNPRS) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes BitmapsforNPRS from APER format.
 func (v *BitmapsforNPRS) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes BitmapsforNPRS with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *BitmapsforNPRS) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "BitmapsforNPRS")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "BitmapsforNPRS")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "BitmapsforNPRS")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "BitmapsforNPRS")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -3216,15 +3307,25 @@ func (v *Cause) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes Cause from APER format.
 func (v *Cause) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes Cause with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *Cause) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "Cause")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Cause")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "Cause")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Cause")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -3287,7 +3388,7 @@ func (v *CriticalityDiagnostics) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *CriticalityDiagnostics) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -3402,25 +3503,37 @@ func (v *CriticalityDiagnostics) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes CriticalityDiagnostics from APER format.
 func (v *CriticalityDiagnostics) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes CriticalityDiagnostics with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *CriticalityDiagnostics) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "CriticalityDiagnostics")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CriticalityDiagnostics")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "CriticalityDiagnostics")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CriticalityDiagnostics")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = CriticalityDiagnostics{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3483,6 +3596,7 @@ func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.LppatransactionID = &tmp_lppatransactionid
 	}
 	if opt_iescriticalitydiagnostics {
+		toleranceMark_iescriticalitydiagnostics := bb.EnterComponent("IEsCriticalityDiagnostics")
 		tmp_iescriticalitydiagnostics := make(CriticalityDiagnosticsIEList, 0)
 		_, errCollection_iescriticalitydiagnostics := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_iescriticalitydiagnostics, fragmentLength_iescriticalitydiagnostics int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -3491,9 +3605,11 @@ func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_iescriticalitydiagnostics; i++ {
 				var elem CriticalityDiagnosticsIEListElem
+				elementMark := bb.EnterIndex(fragmentOffset_iescriticalitydiagnostics + i)
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEsCriticalityDiagnostics[%d]", fragmentOffset_iescriticalitydiagnostics+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_iescriticalitydiagnostics = append(tmp_iescriticalitydiagnostics, elem)
 			}
 			return nil
@@ -3502,6 +3618,7 @@ func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_iescriticalitydiagnostics, "IEsCriticalityDiagnostics")
 		}
 		v.IEsCriticalityDiagnostics = tmp_iescriticalitydiagnostics
+		bb.LeaveComponent(toleranceMark_iescriticalitydiagnostics)
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -3525,7 +3642,7 @@ func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -3541,7 +3658,7 @@ func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -3549,7 +3666,11 @@ func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -3570,17 +3691,28 @@ func (v *CriticalityDiagnosticsIEListComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes CriticalityDiagnosticsIEList from APER format.
 func (v *CriticalityDiagnosticsIEListComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes CriticalityDiagnosticsIEList with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *CriticalityDiagnosticsIEListComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEList")
+	}
 	value, err := UnmarshalAPERCriticalityDiagnosticsIEListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEList")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "CriticalityDiagnosticsIEList")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEList")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -3628,6 +3760,7 @@ func UnmarshalAPERCriticalityDiagnosticsIEListFrom(bb *per.BitBuffer) (Criticali
 }
 
 func unmarshalAPERCriticalityDiagnosticsIEListInto(v *asn1cAPERCriticalityDiagnosticsIEListListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(CriticalityDiagnosticsIEList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -3636,9 +3769,11 @@ func unmarshalAPERCriticalityDiagnosticsIEListInto(v *asn1cAPERCriticalityDiagno
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CriticalityDiagnosticsIEListElem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -3646,6 +3781,7 @@ func unmarshalAPERCriticalityDiagnosticsIEListInto(v *asn1cAPERCriticalityDiagno
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -3655,7 +3791,7 @@ func (v *ECIDMeasurementResult) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *ECIDMeasurementResult) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -3733,25 +3869,37 @@ func (v *ECIDMeasurementResult) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes ECIDMeasurementResult from APER format.
 func (v *ECIDMeasurementResult) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ECIDMeasurementResult with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ECIDMeasurementResult) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ECIDMeasurementResult")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementResult")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ECIDMeasurementResult")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementResult")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *ECIDMeasurementResult) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ECIDMeasurementResult{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3765,22 +3913,27 @@ func (v *ECIDMeasurementResult) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_servingcellid := bb.EnterComponent("ServingCellID")
 	if err := v.ServingCellID.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ServingCellID")
 	}
+	bb.LeaveComponent(toleranceMark_servingcellid)
 	val_servingcelltac, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ServingCellTAC")
 	}
 	v.ServingCellTAC = TAC(val_servingcelltac)
 	if opt_eutranaccesspointposition {
+		toleranceMark_eutranaccesspointposition := bb.EnterComponent("EUTRANAccessPointPosition")
 		var dec_eutranaccesspointposition EUTRANAccessPointPosition
 		if err := dec_eutranaccesspointposition.UnmarshalAPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "EUTRANAccessPointPosition")
 		}
 		v.EUTRANAccessPointPosition = &dec_eutranaccesspointposition
+		bb.LeaveComponent(toleranceMark_eutranaccesspointposition)
 	}
 	if opt_measuredresults {
+		toleranceMark_measuredresults := bb.EnterComponent("MeasuredResults")
 		tmp_measuredresults := make(MeasuredResults, 0)
 		_, errCollection_measuredresults := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_measuredresults, fragmentLength_measuredresults int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -3789,9 +3942,11 @@ func (v *ECIDMeasurementResult) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_measuredresults; i++ {
 				var elem MeasuredResultsValue
+				elementMark := bb.EnterIndex(fragmentOffset_measuredresults + i)
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("MeasuredResults[%d]", fragmentOffset_measuredresults+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_measuredresults = append(tmp_measuredresults, elem)
 			}
 			return nil
@@ -3800,9 +3955,10 @@ func (v *ECIDMeasurementResult) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_measuredresults, "MeasuredResults")
 		}
 		v.MeasuredResults = tmp_measuredresults
+		bb.LeaveComponent(toleranceMark_measuredresults)
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -3818,7 +3974,7 @@ func (v *ECIDMeasurementResult) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -3826,7 +3982,11 @@ func (v *ECIDMeasurementResult) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -3836,7 +3996,7 @@ func (v *ECGI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *ECGI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -3906,25 +4066,37 @@ func (v *ECGI) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes ECGI from APER format.
 func (v *ECGI) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ECGI with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ECGI) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ECGI")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ECGI")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ECGI")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ECGI")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *ECGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ECGI{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3966,7 +4138,7 @@ func (v *ECGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -3982,7 +4154,7 @@ func (v *ECGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -3990,7 +4162,11 @@ func (v *ECGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -4000,7 +4176,7 @@ func (v *EUTRANAccessPointPosition) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *EUTRANAccessPointPosition) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -4074,25 +4250,37 @@ func (v *EUTRANAccessPointPosition) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes EUTRANAccessPointPosition from APER format.
 func (v *EUTRANAccessPointPosition) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes EUTRANAccessPointPosition with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *EUTRANAccessPointPosition) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "EUTRANAccessPointPosition")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "EUTRANAccessPointPosition")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "EUTRANAccessPointPosition")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "EUTRANAccessPointPosition")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *EUTRANAccessPointPosition) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = EUTRANAccessPointPosition{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -4148,7 +4336,7 @@ func (v *EUTRANAccessPointPosition) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.Confidence = val_confidence
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -4164,7 +4352,7 @@ func (v *EUTRANAccessPointPosition) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -4172,7 +4360,11 @@ func (v *EUTRANAccessPointPosition) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -4193,17 +4385,28 @@ func (v *InterRATMeasurementQuantitiesComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes InterRATMeasurementQuantities from APER format.
 func (v *InterRATMeasurementQuantitiesComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes InterRATMeasurementQuantities with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *InterRATMeasurementQuantitiesComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATMeasurementQuantities")
+	}
 	value, err := UnmarshalAPERInterRATMeasurementQuantitiesFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "InterRATMeasurementQuantities")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "InterRATMeasurementQuantities")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "InterRATMeasurementQuantities")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -4278,7 +4481,7 @@ func (v *InterRATMeasurementQuantitiesItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *InterRATMeasurementQuantitiesItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -4345,25 +4548,37 @@ func (v *InterRATMeasurementQuantitiesItem) MarshalAPERTo(bb *per.BitBuffer) err
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes InterRATMeasurementQuantitiesItem from APER format.
 func (v *InterRATMeasurementQuantitiesItem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes InterRATMeasurementQuantitiesItem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *InterRATMeasurementQuantitiesItem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATMeasurementQuantitiesItem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATMeasurementQuantitiesItem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "InterRATMeasurementQuantitiesItem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "InterRATMeasurementQuantitiesItem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *InterRATMeasurementQuantitiesItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = InterRATMeasurementQuantitiesItem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -4400,7 +4615,7 @@ func (v *InterRATMeasurementQuantitiesItem) UnmarshalAPERFrom(bb *per.BitBuffer)
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -4416,7 +4631,7 @@ func (v *InterRATMeasurementQuantitiesItem) UnmarshalAPERFrom(bb *per.BitBuffer)
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -4424,7 +4639,11 @@ func (v *InterRATMeasurementQuantitiesItem) UnmarshalAPERFrom(bb *per.BitBuffer)
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -4445,17 +4664,28 @@ func (v *InterRATMeasurementResultComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes InterRATMeasurementResult from APER format.
 func (v *InterRATMeasurementResultComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes InterRATMeasurementResult with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *InterRATMeasurementResultComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATMeasurementResult")
+	}
 	value, err := UnmarshalAPERInterRATMeasurementResultFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "InterRATMeasurementResult")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "InterRATMeasurementResult")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "InterRATMeasurementResult")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -4503,6 +4733,7 @@ func UnmarshalAPERInterRATMeasurementResultFrom(bb *per.BitBuffer) (InterRATMeas
 }
 
 func unmarshalAPERInterRATMeasurementResultInto(v *asn1cAPERInterRATMeasurementResultListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(InterRATMeasurementResult, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -4511,9 +4742,11 @@ func unmarshalAPERInterRATMeasurementResultInto(v *asn1cAPERInterRATMeasurementR
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem InterRATMeasuredResultsValue
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -4521,6 +4754,7 @@ func unmarshalAPERInterRATMeasurementResultInto(v *asn1cAPERInterRATMeasurementR
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -4642,15 +4876,25 @@ func (v *InterRATMeasuredResultsValue) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes InterRATMeasuredResultsValue from APER format.
 func (v *InterRATMeasuredResultsValue) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes InterRATMeasuredResultsValue with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *InterRATMeasuredResultsValue) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATMeasuredResultsValue")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATMeasuredResultsValue")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "InterRATMeasuredResultsValue")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "InterRATMeasuredResultsValue")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -4721,6 +4965,7 @@ func (v *InterRATMeasuredResultsValue) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case InterRATMeasuredResultsValueChoiceResultGERAN:
+		toleranceMark_resultgeran := bb.EnterComponent("ResultGERAN")
 		tmp_resultgeran := make(ResultGERAN, 0)
 		_, errCollection_resultgeran := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_resultgeran, fragmentLength_resultgeran int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -4729,9 +4974,11 @@ func (v *InterRATMeasuredResultsValue) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			}
 			for i := int64(0); i < fragmentLength_resultgeran; i++ {
 				var elem ResultGERANItem
+				elementMark := bb.EnterIndex(fragmentOffset_resultgeran + i)
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ResultGERAN[%d]", fragmentOffset_resultgeran+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_resultgeran = append(tmp_resultgeran, elem)
 			}
 			return nil
@@ -4740,7 +4987,9 @@ func (v *InterRATMeasuredResultsValue) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(errCollection_resultgeran, "ResultGERAN")
 		}
 		v.ResultGERAN = tmp_resultgeran
+		bb.LeaveComponent(toleranceMark_resultgeran)
 	case InterRATMeasuredResultsValueChoiceResultUTRAN:
+		toleranceMark_resultutran := bb.EnterComponent("ResultUTRAN")
 		tmp_resultutran := make(ResultUTRAN, 0)
 		_, errCollection_resultutran := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_resultutran, fragmentLength_resultutran int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -4749,9 +4998,11 @@ func (v *InterRATMeasuredResultsValue) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			}
 			for i := int64(0); i < fragmentLength_resultutran; i++ {
 				var elem ResultUTRANItem
+				elementMark := bb.EnterIndex(fragmentOffset_resultutran + i)
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ResultUTRAN[%d]", fragmentOffset_resultutran+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_resultutran = append(tmp_resultutran, elem)
 			}
 			return nil
@@ -4760,6 +5011,7 @@ func (v *InterRATMeasuredResultsValue) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(errCollection_resultutran, "ResultUTRAN")
 		}
 		v.ResultUTRAN = tmp_resultutran
+		bb.LeaveComponent(toleranceMark_resultutran)
 	}
 	return nil
 }
@@ -4781,17 +5033,28 @@ func (v *MeasurementQuantitiesComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes MeasurementQuantities from APER format.
 func (v *MeasurementQuantitiesComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes MeasurementQuantities with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *MeasurementQuantitiesComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementQuantities")
+	}
 	value, err := UnmarshalAPERMeasurementQuantitiesFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementQuantities")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "MeasurementQuantities")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementQuantities")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -4866,7 +5129,7 @@ func (v *MeasurementQuantitiesItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *MeasurementQuantitiesItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -4933,25 +5196,37 @@ func (v *MeasurementQuantitiesItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes MeasurementQuantitiesItem from APER format.
 func (v *MeasurementQuantitiesItem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes MeasurementQuantitiesItem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *MeasurementQuantitiesItem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementQuantitiesItem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementQuantitiesItem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "MeasurementQuantitiesItem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementQuantitiesItem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *MeasurementQuantitiesItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = MeasurementQuantitiesItem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -4988,7 +5263,7 @@ func (v *MeasurementQuantitiesItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -5004,7 +5279,7 @@ func (v *MeasurementQuantitiesItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -5012,7 +5287,11 @@ func (v *MeasurementQuantitiesItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -5033,17 +5312,28 @@ func (v *MeasuredResultsComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes MeasuredResults from APER format.
 func (v *MeasuredResultsComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes MeasuredResults with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *MeasuredResultsComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasuredResults")
+	}
 	value, err := UnmarshalAPERMeasuredResultsFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasuredResults")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "MeasuredResults")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasuredResults")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -5091,6 +5381,7 @@ func UnmarshalAPERMeasuredResultsFrom(bb *per.BitBuffer) (MeasuredResults, error
 }
 
 func unmarshalAPERMeasuredResultsInto(v *asn1cAPERMeasuredResultsListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(MeasuredResults, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -5099,9 +5390,11 @@ func unmarshalAPERMeasuredResultsInto(v *asn1cAPERMeasuredResultsListValue, bb *
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem MeasuredResultsValue
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -5109,6 +5402,7 @@ func unmarshalAPERMeasuredResultsInto(v *asn1cAPERMeasuredResultsListValue, bb *
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -5214,15 +5508,25 @@ func (v *MeasuredResultsValue) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes MeasuredResultsValue from APER format.
 func (v *MeasuredResultsValue) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes MeasuredResultsValue with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *MeasuredResultsValue) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasuredResultsValue")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasuredResultsValue")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "MeasuredResultsValue")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasuredResultsValue")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -5273,6 +5577,7 @@ func (v *MeasuredResultsValue) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ValueTimingAdvanceType2 = &val_valuetimingadvancetype2
 	case MeasuredResultsValueChoiceResultRSRP:
+		toleranceMark_resultrsrp := bb.EnterComponent("ResultRSRP")
 		tmp_resultrsrp := make(ResultRSRP, 0)
 		_, errCollection_resultrsrp := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 9, HasUpper: true}, true, func(fragmentOffset_resultrsrp, fragmentLength_resultrsrp int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -5281,9 +5586,11 @@ func (v *MeasuredResultsValue) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_resultrsrp; i++ {
 				var elem ResultRSRPItem
+				elementMark := bb.EnterIndex(fragmentOffset_resultrsrp + i)
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ResultRSRP[%d]", fragmentOffset_resultrsrp+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_resultrsrp = append(tmp_resultrsrp, elem)
 			}
 			return nil
@@ -5292,7 +5599,9 @@ func (v *MeasuredResultsValue) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_resultrsrp, "ResultRSRP")
 		}
 		v.ResultRSRP = tmp_resultrsrp
+		bb.LeaveComponent(toleranceMark_resultrsrp)
 	case MeasuredResultsValueChoiceResultRSRQ:
+		toleranceMark_resultrsrq := bb.EnterComponent("ResultRSRQ")
 		tmp_resultrsrq := make(ResultRSRQ, 0)
 		_, errCollection_resultrsrq := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 9, HasUpper: true}, true, func(fragmentOffset_resultrsrq, fragmentLength_resultrsrq int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -5301,9 +5610,11 @@ func (v *MeasuredResultsValue) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_resultrsrq; i++ {
 				var elem ResultRSRQItem
+				elementMark := bb.EnterIndex(fragmentOffset_resultrsrq + i)
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ResultRSRQ[%d]", fragmentOffset_resultrsrq+i))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_resultrsrq = append(tmp_resultrsrq, elem)
 			}
 			return nil
@@ -5312,6 +5623,7 @@ func (v *MeasuredResultsValue) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_resultrsrq, "ResultRSRQ")
 		}
 		v.ResultRSRQ = tmp_resultrsrq
+		bb.LeaveComponent(toleranceMark_resultrsrq)
 	}
 	return nil
 }
@@ -5333,17 +5645,28 @@ func (v *MBSFNsubframeConfigurationComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes MBSFNsubframeConfiguration from APER format.
 func (v *MBSFNsubframeConfigurationComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes MBSFNsubframeConfiguration with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *MBSFNsubframeConfigurationComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "MBSFNsubframeConfiguration")
+	}
 	value, err := UnmarshalAPERMBSFNsubframeConfigurationFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MBSFNsubframeConfiguration")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "MBSFNsubframeConfiguration")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MBSFNsubframeConfiguration")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -5436,15 +5759,25 @@ func (v *MBSFNsubframeConfigurationValue) MarshalAPERTo(bb *per.BitBuffer) error
 
 // UnmarshalAPER decodes MBSFNsubframeConfigurationValue from APER format.
 func (v *MBSFNsubframeConfigurationValue) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes MBSFNsubframeConfigurationValue with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *MBSFNsubframeConfigurationValue) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "MBSFNsubframeConfigurationValue")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MBSFNsubframeConfigurationValue")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "MBSFNsubframeConfigurationValue")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MBSFNsubframeConfigurationValue")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -5472,7 +5805,7 @@ func (v *NRCGI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *NRCGI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -5542,25 +5875,37 @@ func (v *NRCGI) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes NRCGI from APER format.
 func (v *NRCGI) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes NRCGI with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *NRCGI) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "NRCGI")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NRCGI")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "NRCGI")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRCGI")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *NRCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = NRCGI{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -5602,7 +5947,7 @@ func (v *NRCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -5618,7 +5963,7 @@ func (v *NRCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -5626,7 +5971,11 @@ func (v *NRCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -5636,7 +5985,7 @@ func (v *NPRSConfiguration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *NPRSConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -5697,25 +6046,37 @@ func (v *NPRSConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes NPRSConfiguration from APER format.
 func (v *NPRSConfiguration) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes NPRSConfiguration with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *NPRSConfiguration) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "NPRSConfiguration")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NPRSConfiguration")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "NPRSConfiguration")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NPRSConfiguration")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *NPRSConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = NPRSConfiguration{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -5730,21 +6091,25 @@ func (v *NPRSConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_nprssubframeparta {
+		toleranceMark_nprssubframeparta := bb.EnterComponent("NPRSSubframePartA")
 		var dec_nprssubframeparta NPRSSubframePartA
 		if err := dec_nprssubframeparta.UnmarshalAPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NPRSSubframePartA")
 		}
 		v.NPRSSubframePartA = &dec_nprssubframeparta
+		bb.LeaveComponent(toleranceMark_nprssubframeparta)
 	}
 	if opt_nprssubframepartb {
+		toleranceMark_nprssubframepartb := bb.EnterComponent("NPRSSubframePartB")
 		var dec_nprssubframepartb NPRSSubframePartB
 		if err := dec_nprssubframepartb.UnmarshalAPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NPRSSubframePartB")
 		}
 		v.NPRSSubframePartB = &dec_nprssubframepartb
+		bb.LeaveComponent(toleranceMark_nprssubframepartb)
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -5760,7 +6125,7 @@ func (v *NPRSConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -5768,7 +6133,11 @@ func (v *NPRSConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -5851,15 +6220,25 @@ func (v *NPRSMutingConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes NPRSMutingConfiguration from APER format.
 func (v *NPRSMutingConfiguration) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes NPRSMutingConfiguration with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *NPRSMutingConfiguration) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "NPRSMutingConfiguration")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NPRSMutingConfiguration")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "NPRSMutingConfiguration")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NPRSMutingConfiguration")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -5929,7 +6308,7 @@ func (v *NPRSSubframePartA) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *NPRSSubframePartA) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -5985,25 +6364,37 @@ func (v *NPRSSubframePartA) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes NPRSSubframePartA from APER format.
 func (v *NPRSSubframePartA) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes NPRSSubframePartA with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *NPRSSubframePartA) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "NPRSSubframePartA")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NPRSSubframePartA")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "NPRSSubframePartA")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NPRSSubframePartA")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *NPRSSubframePartA) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = NPRSSubframePartA{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -6024,7 +6415,7 @@ func (v *NPRSSubframePartA) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.NPRSMutingConfiguration = &dec_nprsmutingconfiguration
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -6040,7 +6431,7 @@ func (v *NPRSSubframePartA) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -6048,7 +6439,11 @@ func (v *NPRSSubframePartA) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -6058,7 +6453,7 @@ func (v *NPRSSubframePartB) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *NPRSSubframePartB) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -6162,25 +6557,37 @@ func (v *NPRSSubframePartB) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes NPRSSubframePartB from APER format.
 func (v *NPRSSubframePartB) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes NPRSSubframePartB with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *NPRSSubframePartB) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "NPRSSubframePartB")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NPRSSubframePartB")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "NPRSSubframePartB")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NPRSSubframePartB")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *NPRSSubframePartB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = NPRSSubframePartB{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -6213,7 +6620,7 @@ func (v *NPRSSubframePartB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.NPRSMutingConfiguration = &dec_nprsmutingconfiguration
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -6229,7 +6636,7 @@ func (v *NPRSSubframePartB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		v.PERExtPadding_ = make([]per.CompletePadding, extCount+1)
-		if int64(0) <= extCount && extPresent[0] {
+		if int64(0) <= extCount && extPresent[0] && extAdditions.Received(bb, 0) {
 			extData, err := per.DecodeOpenTypeAligned(bb)
 			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
@@ -6252,7 +6659,7 @@ func (v *NPRSSubframePartB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(1); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -6260,7 +6667,11 @@ func (v *NPRSSubframePartB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -6281,17 +6692,28 @@ func (v *OTDOACellsComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes OTDOACells from APER format.
 func (v *OTDOACellsComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes OTDOACells with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *OTDOACellsComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "OTDOACells")
+	}
 	value, err := UnmarshalAPEROTDOACellsFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOACells")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "OTDOACells")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOACells")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -6337,6 +6759,7 @@ func UnmarshalAPEROTDOACellsFrom(bb *per.BitBuffer) (OTDOACells, error) {
 }
 
 func unmarshalAPEROTDOACellsInto(v *asn1cAPEROTDOACellsListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(OTDOACells, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -6345,9 +6768,11 @@ func unmarshalAPEROTDOACellsInto(v *asn1cAPEROTDOACellsListValue, bb *per.BitBuf
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OTDOACellsElem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -6355,6 +6780,7 @@ func unmarshalAPEROTDOACellsInto(v *asn1cAPEROTDOACellsListValue, bb *per.BitBuf
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -6375,17 +6801,28 @@ func (v *OTDOACellInformationComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes OTDOACellInformation from APER format.
 func (v *OTDOACellInformationComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes OTDOACellInformation with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *OTDOACellInformationComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "OTDOACellInformation")
+	}
 	value, err := UnmarshalAPEROTDOACellInformationFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOACellInformation")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "OTDOACellInformation")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOACellInformation")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -6433,6 +6870,7 @@ func UnmarshalAPEROTDOACellInformationFrom(bb *per.BitBuffer) (OTDOACellInformat
 }
 
 func unmarshalAPEROTDOACellInformationInto(v *asn1cAPEROTDOACellInformationListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(OTDOACellInformation, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -6441,9 +6879,11 @@ func unmarshalAPEROTDOACellInformationInto(v *asn1cAPEROTDOACellInformationListV
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OTDOACellInformationItem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -6451,6 +6891,7 @@ func unmarshalAPEROTDOACellInformationInto(v *asn1cAPEROTDOACellInformationListV
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -6714,15 +7155,25 @@ func (v *OTDOACellInformationItem) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes OTDOACellInformationItem from APER format.
 func (v *OTDOACellInformationItem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes OTDOACellInformationItem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *OTDOACellInformationItem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "OTDOACellInformationItem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OTDOACellInformationItem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "OTDOACellInformationItem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOACellInformationItem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -6925,11 +7376,13 @@ func (v *OTDOACellInformationItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		v.PCI = val_pci
 	case OTDOACellInformationItemChoiceCellId:
+		toleranceMark_cellid := bb.EnterComponent("CellId")
 		var dec_cellid ECGI
 		if err := dec_cellid.UnmarshalAPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CellId")
 		}
 		v.CellId = &dec_cellid
+		bb.LeaveComponent(toleranceMark_cellid)
 	case OTDOACellInformationItemChoiceTAC:
 		val_tac, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 		if err != nil {
@@ -6985,11 +7438,13 @@ func (v *OTDOACellInformationItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		tmp_sfninitialisationtime := runtime.BitString{Bytes: bsBytes_sfninitialisationtime, BitLength: bsBitLen_sfninitialisationtime}
 		v.SFNInitialisationTime = &tmp_sfninitialisationtime
 	case OTDOACellInformationItemChoiceEUTRANAccessPointPosition:
+		toleranceMark_eutranaccesspointposition := bb.EnterComponent("EUTRANAccessPointPosition")
 		var dec_eutranaccesspointposition EUTRANAccessPointPosition
 		if err := dec_eutranaccesspointposition.UnmarshalAPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "EUTRANAccessPointPosition")
 		}
 		v.EUTRANAccessPointPosition = &dec_eutranaccesspointposition
+		bb.LeaveComponent(toleranceMark_eutranaccesspointposition)
 	}
 	return nil
 }
@@ -7011,17 +7466,28 @@ func (v *PosSIBsComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes PosSIBs from APER format.
 func (v *PosSIBsComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes PosSIBs with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *PosSIBsComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "PosSIBs")
+	}
 	value, err := UnmarshalAPERPosSIBsFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PosSIBs")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "PosSIBs")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PosSIBs")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -7067,6 +7533,7 @@ func UnmarshalAPERPosSIBsFrom(bb *per.BitBuffer) (PosSIBs, error) {
 }
 
 func unmarshalAPERPosSIBsInto(v *asn1cAPERPosSIBsListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(PosSIBs, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -7075,9 +7542,11 @@ func unmarshalAPERPosSIBsInto(v *asn1cAPERPosSIBsListValue, bb *per.BitBuffer) e
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem PosSIBsElem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -7085,6 +7554,7 @@ func unmarshalAPERPosSIBsInto(v *asn1cAPERPosSIBsListValue, bb *per.BitBuffer) e
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -7105,17 +7575,28 @@ func (v *PosSIBSegmentsComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes PosSIBSegments from APER format.
 func (v *PosSIBSegmentsComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes PosSIBSegments with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *PosSIBSegmentsComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "PosSIBSegments")
+	}
 	value, err := UnmarshalAPERPosSIBSegmentsFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PosSIBSegments")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "PosSIBSegments")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PosSIBSegments")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -7163,6 +7644,7 @@ func UnmarshalAPERPosSIBSegmentsFrom(bb *per.BitBuffer) (PosSIBSegments, error) 
 }
 
 func unmarshalAPERPosSIBSegmentsInto(v *asn1cAPERPosSIBSegmentsListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(PosSIBSegments, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -7171,9 +7653,11 @@ func unmarshalAPERPosSIBSegmentsInto(v *asn1cAPERPosSIBSegmentsListValue, bb *pe
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem PosSIBSegmentsElem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -7181,6 +7665,7 @@ func unmarshalAPERPosSIBSegmentsInto(v *asn1cAPERPosSIBSegmentsListValue, bb *pe
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -7327,15 +7812,25 @@ func (v *PRSMutingConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes PRSMutingConfiguration from APER format.
 func (v *PRSMutingConfiguration) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes PRSMutingConfiguration with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *PRSMutingConfiguration) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "PRSMutingConfiguration")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PRSMutingConfiguration")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "PRSMutingConfiguration")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PRSMutingConfiguration")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -7470,7 +7965,7 @@ func (v *PRSFrequencyHoppingConfiguration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *PRSFrequencyHoppingConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7551,25 +8046,37 @@ func (v *PRSFrequencyHoppingConfiguration) MarshalAPERTo(bb *per.BitBuffer) erro
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes PRSFrequencyHoppingConfiguration from APER format.
 func (v *PRSFrequencyHoppingConfiguration) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes PRSFrequencyHoppingConfiguration with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *PRSFrequencyHoppingConfiguration) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "PRSFrequencyHoppingConfiguration")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PRSFrequencyHoppingConfiguration")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "PRSFrequencyHoppingConfiguration")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PRSFrequencyHoppingConfiguration")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *PRSFrequencyHoppingConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = PRSFrequencyHoppingConfiguration{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -7624,7 +8131,7 @@ func (v *PRSFrequencyHoppingConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -7640,7 +8147,7 @@ func (v *PRSFrequencyHoppingConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -7648,7 +8155,11 @@ func (v *PRSFrequencyHoppingConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) 
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -7658,7 +8169,7 @@ func (v *RequestedSRSTransmissionCharacteristics) MarshalAPER() ([]byte, error) 
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *RequestedSRSTransmissionCharacteristics) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7708,25 +8219,37 @@ func (v *RequestedSRSTransmissionCharacteristics) MarshalAPERTo(bb *per.BitBuffe
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes RequestedSRSTransmissionCharacteristics from APER format.
 func (v *RequestedSRSTransmissionCharacteristics) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes RequestedSRSTransmissionCharacteristics with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *RequestedSRSTransmissionCharacteristics) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "RequestedSRSTransmissionCharacteristics")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RequestedSRSTransmissionCharacteristics")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "RequestedSRSTransmissionCharacteristics")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "RequestedSRSTransmissionCharacteristics")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *RequestedSRSTransmissionCharacteristics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = RequestedSRSTransmissionCharacteristics{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -7742,7 +8265,7 @@ func (v *RequestedSRSTransmissionCharacteristics) UnmarshalAPERFrom(bb *per.BitB
 	}
 	v.Bandwidth = val_bandwidth
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -7758,7 +8281,7 @@ func (v *RequestedSRSTransmissionCharacteristics) UnmarshalAPERFrom(bb *per.BitB
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -7766,7 +8289,11 @@ func (v *RequestedSRSTransmissionCharacteristics) UnmarshalAPERFrom(bb *per.BitB
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -7787,17 +8314,28 @@ func (v *ResultRSRPComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes ResultRSRP from APER format.
 func (v *ResultRSRPComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ResultRSRP with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ResultRSRPComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ResultRSRP")
+	}
 	value, err := UnmarshalAPERResultRSRPFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultRSRP")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ResultRSRP")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultRSRP")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -7843,6 +8381,7 @@ func UnmarshalAPERResultRSRPFrom(bb *per.BitBuffer) (ResultRSRP, error) {
 }
 
 func unmarshalAPERResultRSRPInto(v *asn1cAPERResultRSRPListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(ResultRSRP, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 9, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -7851,9 +8390,11 @@ func unmarshalAPERResultRSRPInto(v *asn1cAPERResultRSRPListValue, bb *per.BitBuf
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ResultRSRPItem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -7861,6 +8402,7 @@ func unmarshalAPERResultRSRPInto(v *asn1cAPERResultRSRPListValue, bb *per.BitBuf
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -7870,7 +8412,7 @@ func (v *ResultRSRPItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *ResultRSRPItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7951,25 +8493,37 @@ func (v *ResultRSRPItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes ResultRSRPItem from APER format.
 func (v *ResultRSRPItem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ResultRSRPItem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ResultRSRPItem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ResultRSRPItem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResultRSRPItem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ResultRSRPItem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultRSRPItem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *ResultRSRPItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ResultRSRPItem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -7994,11 +8548,13 @@ func (v *ResultRSRPItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.EARFCN = val_earfcn
 	if opt_ecgi {
+		toleranceMark_ecgi := bb.EnterComponent("ECGI")
 		var dec_ecgi ECGI
 		if err := dec_ecgi.UnmarshalAPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "ECGI")
 		}
 		v.ECGI = &dec_ecgi
+		bb.LeaveComponent(toleranceMark_ecgi)
 	}
 	val_valuersrp, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("97"), true)
 	if err != nil {
@@ -8027,7 +8583,7 @@ func (v *ResultRSRPItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -8043,7 +8599,7 @@ func (v *ResultRSRPItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -8051,7 +8607,11 @@ func (v *ResultRSRPItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -8072,17 +8632,28 @@ func (v *ResultRSRQComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes ResultRSRQ from APER format.
 func (v *ResultRSRQComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ResultRSRQ with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ResultRSRQComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ResultRSRQ")
+	}
 	value, err := UnmarshalAPERResultRSRQFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultRSRQ")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ResultRSRQ")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultRSRQ")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -8128,6 +8699,7 @@ func UnmarshalAPERResultRSRQFrom(bb *per.BitBuffer) (ResultRSRQ, error) {
 }
 
 func unmarshalAPERResultRSRQInto(v *asn1cAPERResultRSRQListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(ResultRSRQ, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 9, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -8136,9 +8708,11 @@ func unmarshalAPERResultRSRQInto(v *asn1cAPERResultRSRQListValue, bb *per.BitBuf
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ResultRSRQItem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -8146,6 +8720,7 @@ func unmarshalAPERResultRSRQInto(v *asn1cAPERResultRSRQListValue, bb *per.BitBuf
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -8155,7 +8730,7 @@ func (v *ResultRSRQItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *ResultRSRQItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8236,25 +8811,37 @@ func (v *ResultRSRQItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes ResultRSRQItem from APER format.
 func (v *ResultRSRQItem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ResultRSRQItem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ResultRSRQItem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ResultRSRQItem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResultRSRQItem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ResultRSRQItem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultRSRQItem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *ResultRSRQItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ResultRSRQItem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -8279,11 +8866,13 @@ func (v *ResultRSRQItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.EARFCN = val_earfcn
 	if opt_ecgi {
+		toleranceMark_ecgi := bb.EnterComponent("ECGI")
 		var dec_ecgi ECGI
 		if err := dec_ecgi.UnmarshalAPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "ECGI")
 		}
 		v.ECGI = &dec_ecgi
+		bb.LeaveComponent(toleranceMark_ecgi)
 	}
 	val_valuersrq, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("34"), true)
 	if err != nil {
@@ -8312,7 +8901,7 @@ func (v *ResultRSRQItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -8328,7 +8917,7 @@ func (v *ResultRSRQItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -8336,7 +8925,11 @@ func (v *ResultRSRQItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -8357,17 +8950,28 @@ func (v *ResultGERANComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes ResultGERAN from APER format.
 func (v *ResultGERANComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ResultGERAN with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ResultGERANComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ResultGERAN")
+	}
 	value, err := UnmarshalAPERResultGERANFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultGERAN")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ResultGERAN")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultGERAN")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -8413,6 +9017,7 @@ func UnmarshalAPERResultGERANFrom(bb *per.BitBuffer) (ResultGERAN, error) {
 }
 
 func unmarshalAPERResultGERANInto(v *asn1cAPERResultGERANListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(ResultGERAN, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -8421,9 +9026,11 @@ func unmarshalAPERResultGERANInto(v *asn1cAPERResultGERANListValue, bb *per.BitB
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ResultGERANItem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -8431,6 +9038,7 @@ func unmarshalAPERResultGERANInto(v *asn1cAPERResultGERANListValue, bb *per.BitB
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -8440,7 +9048,7 @@ func (v *ResultGERANItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *ResultGERANItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8513,25 +9121,37 @@ func (v *ResultGERANItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes ResultGERANItem from APER format.
 func (v *ResultGERANItem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ResultGERANItem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ResultGERANItem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ResultGERANItem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResultGERANItem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ResultGERANItem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultGERANItem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *ResultGERANItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ResultGERANItem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -8578,7 +9198,7 @@ func (v *ResultGERANItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -8594,7 +9214,7 @@ func (v *ResultGERANItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -8602,7 +9222,11 @@ func (v *ResultGERANItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -8623,17 +9247,28 @@ func (v *ResultUTRANComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes ResultUTRAN from APER format.
 func (v *ResultUTRANComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ResultUTRAN with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ResultUTRANComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ResultUTRAN")
+	}
 	value, err := UnmarshalAPERResultUTRANFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultUTRAN")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ResultUTRAN")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultUTRAN")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -8679,6 +9314,7 @@ func UnmarshalAPERResultUTRANFrom(bb *per.BitBuffer) (ResultUTRAN, error) {
 }
 
 func unmarshalAPERResultUTRANInto(v *asn1cAPERResultUTRANListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(ResultUTRAN, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -8687,9 +9323,11 @@ func unmarshalAPERResultUTRANInto(v *asn1cAPERResultUTRANListValue, bb *per.BitB
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ResultUTRANItem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -8697,6 +9335,7 @@ func unmarshalAPERResultUTRANInto(v *asn1cAPERResultUTRANListValue, bb *per.BitB
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -8706,7 +9345,7 @@ func (v *ResultUTRANItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *ResultUTRANItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8792,25 +9431,37 @@ func (v *ResultUTRANItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes ResultUTRANItem from APER format.
 func (v *ResultUTRANItem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ResultUTRANItem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ResultUTRANItem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ResultUTRANItem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResultUTRANItem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ResultUTRANItem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultUTRANItem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *ResultUTRANItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ResultUTRANItem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -8872,7 +9523,7 @@ func (v *ResultUTRANItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -8888,7 +9539,7 @@ func (v *ResultUTRANItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -8896,7 +9547,11 @@ func (v *ResultUTRANItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -8917,17 +9572,28 @@ func (v *ResultNRComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes ResultNR from APER format.
 func (v *ResultNRComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ResultNR with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ResultNRComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ResultNR")
+	}
 	value, err := UnmarshalAPERResultNRFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultNR")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ResultNR")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultNR")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -8973,6 +9639,7 @@ func UnmarshalAPERResultNRFrom(bb *per.BitBuffer) (ResultNR, error) {
 }
 
 func unmarshalAPERResultNRInto(v *asn1cAPERResultNRListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(ResultNR, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -8981,9 +9648,11 @@ func unmarshalAPERResultNRInto(v *asn1cAPERResultNRListValue, bb *per.BitBuffer)
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ResultNRItem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -8991,6 +9660,7 @@ func unmarshalAPERResultNRInto(v *asn1cAPERResultNRListValue, bb *per.BitBuffer)
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -9000,7 +9670,7 @@ func (v *ResultNRItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *ResultNRItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9086,25 +9756,37 @@ func (v *ResultNRItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes ResultNRItem from APER format.
 func (v *ResultNRItem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ResultNRItem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ResultNRItem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ResultNRItem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResultNRItem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ResultNRItem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultNRItem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *ResultNRItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ResultNRItem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -9170,7 +9852,7 @@ func (v *ResultNRItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -9186,7 +9868,7 @@ func (v *ResultNRItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -9194,7 +9876,11 @@ func (v *ResultNRItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -9215,17 +9901,28 @@ func (v *ResultsPerSSBIndexListComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes ResultsPerSSBIndexList from APER format.
 func (v *ResultsPerSSBIndexListComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ResultsPerSSBIndexList with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ResultsPerSSBIndexListComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ResultsPerSSBIndexList")
+	}
 	value, err := UnmarshalAPERResultsPerSSBIndexListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultsPerSSBIndexList")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ResultsPerSSBIndexList")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultsPerSSBIndexList")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -9273,6 +9970,7 @@ func UnmarshalAPERResultsPerSSBIndexListFrom(bb *per.BitBuffer) (ResultsPerSSBIn
 }
 
 func unmarshalAPERResultsPerSSBIndexListInto(v *asn1cAPERResultsPerSSBIndexListListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(ResultsPerSSBIndexList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -9281,9 +9979,11 @@ func unmarshalAPERResultsPerSSBIndexListInto(v *asn1cAPERResultsPerSSBIndexListL
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ResultsPerSSBIndexItem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -9291,6 +9991,7 @@ func unmarshalAPERResultsPerSSBIndexListInto(v *asn1cAPERResultsPerSSBIndexListL
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -9300,7 +10001,7 @@ func (v *ResultsPerSSBIndexItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *ResultsPerSSBIndexItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9383,25 +10084,37 @@ func (v *ResultsPerSSBIndexItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes ResultsPerSSBIndexItem from APER format.
 func (v *ResultsPerSSBIndexItem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ResultsPerSSBIndexItem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ResultsPerSSBIndexItem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ResultsPerSSBIndexItem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResultsPerSSBIndexItem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ResultsPerSSBIndexItem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultsPerSSBIndexItem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *ResultsPerSSBIndexItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ResultsPerSSBIndexItem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -9462,7 +10175,7 @@ func (v *ResultsPerSSBIndexItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -9478,7 +10191,7 @@ func (v *ResultsPerSSBIndexItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -9486,7 +10199,11 @@ func (v *ResultsPerSSBIndexItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -9507,17 +10224,28 @@ func (v *SRSConfigurationForAllCellsComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes SRSConfigurationForAllCells from APER format.
 func (v *SRSConfigurationForAllCellsComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes SRSConfigurationForAllCells with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *SRSConfigurationForAllCellsComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRSConfigurationForAllCells")
+	}
 	value, err := UnmarshalAPERSRSConfigurationForAllCellsFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SRSConfigurationForAllCells")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "SRSConfigurationForAllCells")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SRSConfigurationForAllCells")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -9565,6 +10293,7 @@ func UnmarshalAPERSRSConfigurationForAllCellsFrom(bb *per.BitBuffer) (SRSConfigu
 }
 
 func unmarshalAPERSRSConfigurationForAllCellsInto(v *asn1cAPERSRSConfigurationForAllCellsListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(SRSConfigurationForAllCells, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 5, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -9573,9 +10302,11 @@ func unmarshalAPERSRSConfigurationForAllCellsInto(v *asn1cAPERSRSConfigurationFo
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SRSConfigurationForOneCell
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -9583,6 +10314,7 @@ func unmarshalAPERSRSConfigurationForAllCellsInto(v *asn1cAPERSRSConfigurationFo
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -9592,7 +10324,7 @@ func (v *SRSConfigurationForOneCell) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *SRSConfigurationForOneCell) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9695,25 +10427,37 @@ func (v *SRSConfigurationForOneCell) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes SRSConfigurationForOneCell from APER format.
 func (v *SRSConfigurationForOneCell) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes SRSConfigurationForOneCell with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *SRSConfigurationForOneCell) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRSConfigurationForOneCell")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRSConfigurationForOneCell")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "SRSConfigurationForOneCell")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SRSConfigurationForOneCell")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *SRSConfigurationForOneCell) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = SRSConfigurationForOneCell{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -9812,7 +10556,7 @@ func (v *SRSConfigurationForOneCell) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	}
 	v.SfnInitialisationTime = runtime.BitString{Bytes: bsBytes_sfninitialisationtime, BitLength: bsBitLen_sfninitialisationtime}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -9828,7 +10572,7 @@ func (v *SRSConfigurationForOneCell) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -9836,7 +10580,11 @@ func (v *SRSConfigurationForOneCell) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -9883,15 +10631,25 @@ func (v *Subframeallocation) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes Subframeallocation from APER format.
 func (v *Subframeallocation) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes Subframeallocation with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *Subframeallocation) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "Subframeallocation")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Subframeallocation")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "Subframeallocation")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Subframeallocation")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -9942,17 +10700,28 @@ func (v *SystemInformationComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes SystemInformation from APER format.
 func (v *SystemInformationComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes SystemInformation with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *SystemInformationComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "SystemInformation")
+	}
 	value, err := UnmarshalAPERSystemInformationFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SystemInformation")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "SystemInformation")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SystemInformation")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -10000,6 +10769,7 @@ func UnmarshalAPERSystemInformationFrom(bb *per.BitBuffer) (SystemInformation, e
 }
 
 func unmarshalAPERSystemInformationInto(v *asn1cAPERSystemInformationListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(SystemInformation, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -10008,9 +10778,11 @@ func unmarshalAPERSystemInformationInto(v *asn1cAPERSystemInformationListValue, 
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SystemInformationElem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -10018,6 +10790,7 @@ func unmarshalAPERSystemInformationInto(v *asn1cAPERSystemInformationListValue, 
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -10027,7 +10800,7 @@ func (v *TDDConfiguration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *TDDConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10094,25 +10867,37 @@ func (v *TDDConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes TDDConfiguration from APER format.
 func (v *TDDConfiguration) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes TDDConfiguration with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *TDDConfiguration) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "TDDConfiguration")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TDDConfiguration")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "TDDConfiguration")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "TDDConfiguration")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *TDDConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = TDDConfiguration{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -10149,7 +10934,7 @@ func (v *TDDConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -10165,7 +10950,7 @@ func (v *TDDConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -10173,7 +10958,11 @@ func (v *TDDConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -10183,7 +10972,7 @@ func (v *ULConfiguration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *ULConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10267,25 +11056,37 @@ func (v *ULConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes ULConfiguration from APER format.
 func (v *ULConfiguration) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ULConfiguration with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ULConfiguration) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ULConfiguration")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULConfiguration")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ULConfiguration")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ULConfiguration")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *ULConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ULConfiguration{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -10328,6 +11129,7 @@ func (v *ULConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "NumberOfTransmissions")
 	}
 	v.NumberOfTransmissions = val_numberoftransmissions
+	toleranceMark_srsconfiguration := bb.EnterComponent("SrsConfiguration")
 	v.SrsConfiguration = make(SRSConfigurationForAllCells, 0)
 	_, errCollection_srsconfiguration := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 5, HasUpper: true}, true, func(fragmentOffset_srsconfiguration, fragmentLength_srsconfiguration int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -10336,9 +11138,11 @@ func (v *ULConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_srsconfiguration; i++ {
 			var elem SRSConfigurationForOneCell
+			elementMark := bb.EnterIndex(fragmentOffset_srsconfiguration + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("SrsConfiguration[%d]", fragmentOffset_srsconfiguration+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.SrsConfiguration = append(v.SrsConfiguration, elem)
 		}
 		return nil
@@ -10346,8 +11150,9 @@ func (v *ULConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if errCollection_srsconfiguration != nil {
 		return runtime.WrapDecodePath(errCollection_srsconfiguration, "SrsConfiguration")
 	}
+	bb.LeaveComponent(toleranceMark_srsconfiguration)
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -10363,7 +11168,7 @@ func (v *ULConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -10371,7 +11176,11 @@ func (v *ULConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -10392,17 +11201,28 @@ func (v *WLANMeasurementQuantitiesComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes WLANMeasurementQuantities from APER format.
 func (v *WLANMeasurementQuantitiesComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes WLANMeasurementQuantities with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *WLANMeasurementQuantitiesComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "WLANMeasurementQuantities")
+	}
 	value, err := UnmarshalAPERWLANMeasurementQuantitiesFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementQuantities")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "WLANMeasurementQuantities")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementQuantities")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -10477,7 +11297,7 @@ func (v *WLANMeasurementQuantitiesItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *WLANMeasurementQuantitiesItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10544,25 +11364,37 @@ func (v *WLANMeasurementQuantitiesItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes WLANMeasurementQuantitiesItem from APER format.
 func (v *WLANMeasurementQuantitiesItem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes WLANMeasurementQuantitiesItem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *WLANMeasurementQuantitiesItem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "WLANMeasurementQuantitiesItem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementQuantitiesItem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "WLANMeasurementQuantitiesItem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementQuantitiesItem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *WLANMeasurementQuantitiesItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = WLANMeasurementQuantitiesItem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -10599,7 +11431,7 @@ func (v *WLANMeasurementQuantitiesItem) UnmarshalAPERFrom(bb *per.BitBuffer) err
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -10615,7 +11447,7 @@ func (v *WLANMeasurementQuantitiesItem) UnmarshalAPERFrom(bb *per.BitBuffer) err
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -10623,7 +11455,11 @@ func (v *WLANMeasurementQuantitiesItem) UnmarshalAPERFrom(bb *per.BitBuffer) err
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -10644,17 +11480,28 @@ func (v *WLANMeasurementResultComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes WLANMeasurementResult from APER format.
 func (v *WLANMeasurementResultComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes WLANMeasurementResult with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *WLANMeasurementResultComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "WLANMeasurementResult")
+	}
 	value, err := UnmarshalAPERWLANMeasurementResultFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementResult")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "WLANMeasurementResult")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementResult")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -10702,6 +11549,7 @@ func UnmarshalAPERWLANMeasurementResultFrom(bb *per.BitBuffer) (WLANMeasurementR
 }
 
 func unmarshalAPERWLANMeasurementResultInto(v *asn1cAPERWLANMeasurementResultListValue, bb *per.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(WLANMeasurementResult, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -10710,9 +11558,11 @@ func unmarshalAPERWLANMeasurementResultInto(v *asn1cAPERWLANMeasurementResultLis
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem WLANMeasurementResultItem
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.Value = append(v.Value, elem)
 		}
 		return nil
@@ -10720,6 +11570,7 @@ func unmarshalAPERWLANMeasurementResultInto(v *asn1cAPERWLANMeasurementResultLis
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -10729,7 +11580,7 @@ func (v *WLANMeasurementResultItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *WLANMeasurementResultItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10863,25 +11714,37 @@ func (v *WLANMeasurementResultItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes WLANMeasurementResultItem from APER format.
 func (v *WLANMeasurementResultItem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes WLANMeasurementResultItem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *WLANMeasurementResultItem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "WLANMeasurementResultItem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementResultItem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "WLANMeasurementResultItem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementResultItem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *WLANMeasurementResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = WLANMeasurementResultItem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -11015,7 +11878,7 @@ func (v *WLANMeasurementResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -11031,7 +11894,7 @@ func (v *WLANMeasurementResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -11039,7 +11902,11 @@ func (v *WLANMeasurementResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -11060,17 +11927,28 @@ func (v *WLANChannelListComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes WLANChannelList from APER format.
 func (v *WLANChannelListComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes WLANChannelList with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *WLANChannelListComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "WLANChannelList")
+	}
 	value, err := UnmarshalAPERWLANChannelListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANChannelList")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "WLANChannelList")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANChannelList")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -11145,7 +12023,7 @@ func (v *AddOTDOACellsElem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *AddOTDOACellsElem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11223,25 +12101,37 @@ func (v *AddOTDOACellsElem) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes AddOTDOACellsElem from APER format.
 func (v *AddOTDOACellsElem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes AddOTDOACellsElem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *AddOTDOACellsElem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "AddOTDOACellsElem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AddOTDOACellsElem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "AddOTDOACellsElem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AddOTDOACellsElem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *AddOTDOACellsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = AddOTDOACellsElem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -11251,6 +12141,7 @@ func (v *AddOTDOACellsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_addotdoacellinfo := bb.EnterComponent("AddOTDOACellInfo")
 	v.AddOTDOACellInfo = make(AddOTDOACellInformation, 0)
 	_, errCollection_addotdoacellinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_addotdoacellinfo, fragmentLength_addotdoacellinfo int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -11259,9 +12150,11 @@ func (v *AddOTDOACellsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_addotdoacellinfo; i++ {
 			var elem OTDOACellInformationItem
+			elementMark := bb.EnterIndex(fragmentOffset_addotdoacellinfo + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("AddOTDOACellInfo[%d]", fragmentOffset_addotdoacellinfo+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.AddOTDOACellInfo = append(v.AddOTDOACellInfo, elem)
 		}
 		return nil
@@ -11269,6 +12162,7 @@ func (v *AddOTDOACellsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if errCollection_addotdoacellinfo != nil {
 		return runtime.WrapDecodePath(errCollection_addotdoacellinfo, "AddOTDOACellInfo")
 	}
+	bb.LeaveComponent(toleranceMark_addotdoacellinfo)
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
@@ -11291,7 +12185,7 @@ func (v *AddOTDOACellsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -11307,7 +12201,7 @@ func (v *AddOTDOACellsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -11315,7 +12209,11 @@ func (v *AddOTDOACellsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -11325,7 +12223,7 @@ func (v *AssistanceInformationFailureListElem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *AssistanceInformationFailureListElem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11395,25 +12293,37 @@ func (v *AssistanceInformationFailureListElem) MarshalAPERTo(bb *per.BitBuffer) 
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes AssistanceInformationFailureListElem from APER format.
 func (v *AssistanceInformationFailureListElem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes AssistanceInformationFailureListElem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *AssistanceInformationFailureListElem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "AssistanceInformationFailureListElem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationFailureListElem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "AssistanceInformationFailureListElem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationFailureListElem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *AssistanceInformationFailureListElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = AssistanceInformationFailureListElem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -11455,7 +12365,7 @@ func (v *AssistanceInformationFailureListElem) UnmarshalAPERFrom(bb *per.BitBuff
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -11471,7 +12381,7 @@ func (v *AssistanceInformationFailureListElem) UnmarshalAPERFrom(bb *per.BitBuff
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -11479,7 +12389,11 @@ func (v *AssistanceInformationFailureListElem) UnmarshalAPERFrom(bb *per.BitBuff
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -11489,7 +12403,7 @@ func (v *CriticalityDiagnosticsIEListElem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *CriticalityDiagnosticsIEListElem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11562,25 +12476,37 @@ func (v *CriticalityDiagnosticsIEListElem) MarshalAPERTo(bb *per.BitBuffer) erro
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes CriticalityDiagnosticsIEListElem from APER format.
 func (v *CriticalityDiagnosticsIEListElem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes CriticalityDiagnosticsIEListElem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *CriticalityDiagnosticsIEListElem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEListElem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEListElem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "CriticalityDiagnosticsIEListElem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEListElem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *CriticalityDiagnosticsIEListElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = CriticalityDiagnosticsIEListElem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -11627,7 +12553,7 @@ func (v *CriticalityDiagnosticsIEListElem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -11643,7 +12569,7 @@ func (v *CriticalityDiagnosticsIEListElem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -11651,7 +12577,11 @@ func (v *CriticalityDiagnosticsIEListElem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -11661,7 +12591,7 @@ func (v *OTDOACellsElem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *OTDOACellsElem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11739,25 +12669,37 @@ func (v *OTDOACellsElem) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes OTDOACellsElem from APER format.
 func (v *OTDOACellsElem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes OTDOACellsElem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *OTDOACellsElem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "OTDOACellsElem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OTDOACellsElem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "OTDOACellsElem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOACellsElem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *OTDOACellsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = OTDOACellsElem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -11767,6 +12709,7 @@ func (v *OTDOACellsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_otdoacellinfo := bb.EnterComponent("OTDOACellInfo")
 	v.OTDOACellInfo = make(OTDOACellInformation, 0)
 	_, errCollection_otdoacellinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_otdoacellinfo, fragmentLength_otdoacellinfo int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -11775,9 +12718,11 @@ func (v *OTDOACellsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_otdoacellinfo; i++ {
 			var elem OTDOACellInformationItem
+			elementMark := bb.EnterIndex(fragmentOffset_otdoacellinfo + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("OTDOACellInfo[%d]", fragmentOffset_otdoacellinfo+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.OTDOACellInfo = append(v.OTDOACellInfo, elem)
 		}
 		return nil
@@ -11785,6 +12730,7 @@ func (v *OTDOACellsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if errCollection_otdoacellinfo != nil {
 		return runtime.WrapDecodePath(errCollection_otdoacellinfo, "OTDOACellInfo")
 	}
+	bb.LeaveComponent(toleranceMark_otdoacellinfo)
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
@@ -11807,7 +12753,7 @@ func (v *OTDOACellsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -11823,7 +12769,7 @@ func (v *OTDOACellsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -11831,7 +12777,11 @@ func (v *OTDOACellsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -11841,7 +12791,7 @@ func (v *PosSIBsElem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *PosSIBsElem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11938,25 +12888,37 @@ func (v *PosSIBsElem) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes PosSIBsElem from APER format.
 func (v *PosSIBsElem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes PosSIBsElem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *PosSIBsElem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "PosSIBsElem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PosSIBsElem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "PosSIBsElem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PosSIBsElem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *PosSIBsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = PosSIBsElem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -11979,6 +12941,7 @@ func (v *PosSIBsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "PosSIBType")
 	}
 	v.PosSIBType = PosSIBType(val_possibtype)
+	toleranceMark_possibsegments := bb.EnterComponent("PosSIBSegments")
 	v.PosSIBSegments = make(PosSIBSegments, 0)
 	_, errCollection_possibsegments := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_possibsegments, fragmentLength_possibsegments int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -11987,9 +12950,11 @@ func (v *PosSIBsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_possibsegments; i++ {
 			var elem PosSIBSegmentsElem
+			elementMark := bb.EnterIndex(fragmentOffset_possibsegments + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("PosSIBSegments[%d]", fragmentOffset_possibsegments+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.PosSIBSegments = append(v.PosSIBSegments, elem)
 		}
 		return nil
@@ -11997,12 +12962,15 @@ func (v *PosSIBsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if errCollection_possibsegments != nil {
 		return runtime.WrapDecodePath(errCollection_possibsegments, "PosSIBSegments")
 	}
+	bb.LeaveComponent(toleranceMark_possibsegments)
 	if opt_assistanceinformationmetadata {
+		toleranceMark_assistanceinformationmetadata := bb.EnterComponent("AssistanceInformationMetaData")
 		var dec_assistanceinformationmetadata AssistanceInformationMetaData
 		if err := dec_assistanceinformationmetadata.UnmarshalAPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "AssistanceInformationMetaData")
 		}
 		v.AssistanceInformationMetaData = &dec_assistanceinformationmetadata
+		bb.LeaveComponent(toleranceMark_assistanceinformationmetadata)
 	}
 	if opt_broadcastpriority {
 		val_broadcastpriority, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("16"), true)
@@ -12033,7 +13001,7 @@ func (v *PosSIBsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -12049,7 +13017,7 @@ func (v *PosSIBsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -12057,7 +13025,11 @@ func (v *PosSIBsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -12067,7 +13039,7 @@ func (v *PosSIBSegmentsElem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *PosSIBSegmentsElem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12134,25 +13106,37 @@ func (v *PosSIBSegmentsElem) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes PosSIBSegmentsElem from APER format.
 func (v *PosSIBSegmentsElem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes PosSIBSegmentsElem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *PosSIBSegmentsElem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "PosSIBSegmentsElem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PosSIBSegmentsElem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "PosSIBSegmentsElem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PosSIBSegmentsElem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *PosSIBSegmentsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = PosSIBSegmentsElem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -12189,7 +13173,7 @@ func (v *PosSIBSegmentsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -12205,7 +13189,7 @@ func (v *PosSIBSegmentsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -12213,7 +13197,11 @@ func (v *PosSIBSegmentsElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -12236,17 +13224,28 @@ func (v *PRSFrequencyHoppingConfigurationBandPositionsComplete) MarshalAPER() ([
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes PRSFrequencyHoppingConfigurationBandPositions from APER format.
 func (v *PRSFrequencyHoppingConfigurationBandPositionsComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes PRSFrequencyHoppingConfigurationBandPositions with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *PRSFrequencyHoppingConfigurationBandPositionsComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "PRSFrequencyHoppingConfigurationBandPositions")
+	}
 	value, err := UnmarshalAPERPRSFrequencyHoppingConfigurationBandPositionsFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PRSFrequencyHoppingConfigurationBandPositions")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "PRSFrequencyHoppingConfigurationBandPositions")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PRSFrequencyHoppingConfigurationBandPositions")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -12352,15 +13351,25 @@ func (v *ResultUTRANItemPhysCellIDUTRAN) MarshalAPERTo(bb *per.BitBuffer) error 
 
 // UnmarshalAPER decodes ResultUTRANItemPhysCellIDUTRAN from APER format.
 func (v *ResultUTRANItemPhysCellIDUTRAN) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ResultUTRANItemPhysCellIDUTRAN with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ResultUTRANItemPhysCellIDUTRAN) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ResultUTRANItemPhysCellIDUTRAN")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResultUTRANItemPhysCellIDUTRAN")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ResultUTRANItemPhysCellIDUTRAN")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ResultUTRANItemPhysCellIDUTRAN")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -12398,7 +13407,7 @@ func (v *SystemInformationElem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytesWithPadding(v.PERPadding_)
+	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
 func (v *SystemInformationElem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12479,25 +13488,37 @@ func (v *SystemInformationElem) MarshalAPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
 // UnmarshalAPER decodes SystemInformationElem from APER format.
 func (v *SystemInformationElem) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes SystemInformationElem with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *SystemInformationElem) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "SystemInformationElem")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SystemInformationElem")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "SystemInformationElem")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SystemInformationElem")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *SystemInformationElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = SystemInformationElem{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -12512,6 +13533,7 @@ func (v *SystemInformationElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "BroadcastPeriodicity")
 	}
 	v.BroadcastPeriodicity = BroadcastPeriodicity(val_broadcastperiodicity)
+	toleranceMark_possibs := bb.EnterComponent("PosSIBs")
 	v.PosSIBs = make(PosSIBs, 0)
 	_, errCollection_possibs := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_possibs, fragmentLength_possibs int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
@@ -12520,9 +13542,11 @@ func (v *SystemInformationElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_possibs; i++ {
 			var elem PosSIBsElem
+			elementMark := bb.EnterIndex(fragmentOffset_possibs + i)
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("PosSIBs[%d]", fragmentOffset_possibs+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.PosSIBs = append(v.PosSIBs, elem)
 		}
 		return nil
@@ -12530,6 +13554,7 @@ func (v *SystemInformationElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if errCollection_possibs != nil {
 		return runtime.WrapDecodePath(errCollection_possibs, "PosSIBs")
 	}
+	bb.LeaveComponent(toleranceMark_possibs)
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
@@ -12552,7 +13577,7 @@ func (v *SystemInformationElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -12568,7 +13593,7 @@ func (v *SystemInformationElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -12576,6 +13601,10 @@ func (v *SystemInformationElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }

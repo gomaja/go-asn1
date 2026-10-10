@@ -23,6 +23,14 @@ const (
 	// 11.1.3.2 forbids them; TS 36.331 V19.4.0 8.1 requires RRC decoders to
 	// accept them.
 	ToleratedContainedBits
+	// ToleratedTruncatedExtension is an extension addition, or extension
+	// addition group, of a SEQUENCE or SET whose open type the end of the
+	// outermost input cut short, after the extension bitmap was read in full.
+	// X.691 (02/2021) 19.9 encodes each present addition as an open type,
+	// whose length determinant gives the length of its contents (11.2.1,
+	// 11.9.3.8), so a shorter input is an error. TruncatedExtensionTolerance
+	// accepts it (go-asn1#114), for receivers of PDUs cut in transmission.
+	ToleratedTruncatedExtension
 )
 
 func (kind ToleranceKind) String() string {
@@ -31,6 +39,8 @@ func (kind ToleranceKind) String() string {
 		return "trailing bits"
 	case ToleratedContainedBits:
 		return "contained bits"
+	case ToleratedTruncatedExtension:
+		return "truncated extension"
 	default:
 		return "ToleranceKind(" + strconv.Itoa(int(kind)) + ")"
 	}
@@ -45,10 +55,23 @@ type Tolerance struct {
 	// Offset is the position of the first accepted bit within the enclosing
 	// complete encoding: the top-level input or the OCTET STRING contents for
 	// ToleratedTrailingBits, the BIT STRING contents for
-	// ToleratedContainedBits.
+	// ToleratedContainedBits, and the top-level input for
+	// ToleratedTruncatedExtension, where it is the first bit of the cut
+	// addition's open type: its length determinant, or in the ALIGNED variant
+	// the padding before it.
 	Offset int
-	// Bits holds the accepted bits, MSB first.
+	// Bits holds the accepted bits, MSB first. For ToleratedTruncatedExtension
+	// they are the received part of the cut open type, from Offset to the end
+	// of the input.
 	Bits TrailingBits
+	// Missing is, for ToleratedTruncatedExtension, the number of bits that
+	// the cut open type lacks: the length its length determinant declares
+	// minus the bits that arrived. It is -1 when the input ends inside a
+	// length determinant, whose declared length is then unknown. For a
+	// fragmented open type (X.691 (02/2021) 11.9.3.8) it counts the missing
+	// bits of the fragment that was cut; fragments after it are unknown. It
+	// is zero for the other kinds.
+	Missing int
 }
 
 // ToleranceLog collects the tolerances applied by PER decodes. A zero value
@@ -97,6 +120,9 @@ type decodeTrace struct {
 	// deferrals together with pending.
 	deferred  []pendingDeferral
 	deferrals *DeferralLog
+	// truncated is DecodeOptions.TruncatedExtensionTolerance (see
+	// BitBuffer.outermost).
+	truncated *ToleranceLog
 }
 
 // pathSegment is a component name, or a list index when name is empty.
@@ -169,7 +195,7 @@ func (bb *BitBuffer) commitRecords(root string) {
 			record := &trace.pending[i]
 			record.Path = qualifyPath(root, record.Path)
 		}
-		bb.tolerance.append(trace.pending)
+		bb.publishTolerances(trace.pending)
 		trace.pending = nil
 	}
 	if len(trace.deferred) != 0 {
@@ -185,6 +211,36 @@ func (bb *BitBuffer) commitRecords(root string) {
 		}
 		trace.deferrals.append(records)
 		trace.deferred = nil
+	}
+}
+
+// publishTolerances appends records to the log of the option that accepted
+// each: TruncatedExtensionTolerance for ToleratedTruncatedExtension,
+// TrailingBitsTolerance for the others. Records for one log are appended
+// together, in decode order.
+func (bb *BitBuffer) publishTolerances(records []Tolerance) {
+	truncated := bb.trace.truncated
+	if truncated == nil || truncated == bb.tolerance {
+		if bb.tolerance != nil {
+			bb.tolerance.append(records)
+		} else {
+			truncated.append(records)
+		}
+		return
+	}
+	var cuts, others []Tolerance
+	for _, record := range records {
+		if record.Kind == ToleratedTruncatedExtension {
+			cuts = append(cuts, record)
+		} else {
+			others = append(others, record)
+		}
+	}
+	if len(others) != 0 {
+		bb.tolerance.append(others)
+	}
+	if len(cuts) != 0 {
+		truncated.append(cuts)
 	}
 }
 
@@ -379,6 +435,9 @@ type finalBits struct {
 	// or list of them, when it was received with a length other than the one
 	// X.691 (02/2021) 16.2 and 16.3 give a new value (KeptBitStrings).
 	kept []KeptBits
+	// truncated is set on a decoded SEQUENCE or SET whose extension addition
+	// TruncatedExtensionTolerance accepted cut by the end of the input.
+	truncated *truncatedExtension
 }
 
 // keepTrailing retains bits accepted after the value encoding in the first

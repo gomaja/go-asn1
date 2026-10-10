@@ -93,12 +93,12 @@ func (f FinalPadding) WithKeptBitStrings(kept []KeptBits) FinalPadding {
 	return FinalPadding{bits: &merged}
 }
 
-// WithRecords returns f together with the explicit DEFAULT components and
-// the kept BIT STRING lengths recorded in decoded. A top-level or contained
-// decode uses it to keep, next to the final bits it captured, what the value
-// recorded while it was decoded.
+// WithRecords returns f together with the explicit DEFAULT components, the
+// kept BIT STRING lengths and the truncated extension addition recorded in
+// decoded. A top-level or contained decode uses it to keep, next to the final
+// bits it captured, what the value recorded while it was decoded.
 func (f FinalPadding) WithRecords(decoded FinalPadding) FinalPadding {
-	if decoded.bits == nil || decoded.bits.explicitDefaults == 0 && len(decoded.bits.kept) == 0 {
+	if decoded.bits == nil || decoded.bits.explicitDefaults == 0 && len(decoded.bits.kept) == 0 && decoded.bits.truncated == nil {
 		return f
 	}
 	if f.bits == nil {
@@ -107,5 +107,6 @@ func (f FinalPadding) WithRecords(decoded FinalPadding) FinalPadding {
 	merged := *f.bits
 	merged.explicitDefaults = decoded.bits.explicitDefaults
 	merged.kept = decoded.bits.kept
+	merged.truncated = decoded.bits.truncated
 	return FinalPadding{bits: &merged}
 }

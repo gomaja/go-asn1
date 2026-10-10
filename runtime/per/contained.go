@@ -26,8 +26,9 @@ import (
 // stay fail-closed in each mode. A deferred value keeps its exact raw bits and
 // re-encodes to them while unchanged (see Deferred).
 //
-// The modes apply to generated UPER decoders. Generated APER decoders take no
-// options and always decode contained values eagerly.
+// The modes apply to generated UPER decoders. Generated APER decoders always
+// decode contained values eagerly, and their UnmarshalAPERWithOptions rejects
+// the other modes (see BitBuffer.SetDecodeOptionsAligned).
 type ContainedDecoding uint8
 
 const (
@@ -154,6 +155,10 @@ func (d *Deferred) BitBuffer(options DecodeOptions) (*BitBuffer, error) {
 		return nil, err
 	}
 	bb.SetDecodeOptions(options)
+	// The contents arrived with the BIT STRING's full length, so an extension
+	// addition they cut short is not a cut input: it stays an error under
+	// TruncatedExtensionTolerance.
+	bb.outermost = false
 	return bb, nil
 }
 

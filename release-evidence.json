@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "0e7b1c3cc7e58c5fb65ae9c20aef22fec3c9cf4d",
-  "target_base_commit": "4531d6d0b5f944d42ae75b972612de6510bf6742",
+  "compiler_commit": "611b4cbd9dc28853092f1afc82dcc6d57b12d68f",
+  "target_base_commit": "c249c3cd9e0aac7a5980989538f47211d7b4c962",
   "inputs": {
     "sha256": "e1b6b11253768644540c66c6cfb593a3601b246b2741e993a062e8effd8d2c09",
     "files": [
@@ -30,7 +30,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "0e7b1c3cc7e58c5fb65ae9c20aef22fec3c9cf4d",
+          "commit": "611b4cbd9dc28853092f1afc82dcc6d57b12d68f",
           "dirty": false
         },
         "frontend": {
@@ -1591,7 +1591,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "-trimpath",
@@ -1605,7 +1605,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "./..."
@@ -1615,7 +1615,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "run",
               "./cmd/asn1c",
@@ -1637,7 +1637,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "test",
               "./...",
@@ -1648,7 +1648,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "vet",
               "./..."
@@ -1761,7 +1761,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -1834,7 +1834,7 @@
               },
               {
                 "name": "go",
-                "tool_version": "go1.25.13",
+                "tool_version": "go1.26.9",
                 "args": [
                   "build",
                   "-trimpath",
@@ -1872,7 +1872,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "0e7b1c3cc7e58c5fb65ae9c20aef22fec3c9cf4d",
+          "commit": "611b4cbd9dc28853092f1afc82dcc6d57b12d68f",
           "dirty": false
         },
         "frontend": {
@@ -1936,13 +1936,13 @@
           },
           {
             "path": "lpp/lppbroadcastdefinitions.go",
-            "sha256": "8357009530d54a76f88879b3cc3255e668d11cf93f85b7ef886e90c88c326782",
-            "size_bytes": 49448
+            "sha256": "402b506019c32efb2f73d91e06cc62772c55fde4e9e351bcea9c06020e676d59",
+            "size_bytes": 53784
           },
           {
             "path": "lpp/lpppdudefinitions.go",
-            "sha256": "85b7ee46f186df0cb7a042c9ac8cd290dacd06aca767b73462840d967262e269",
-            "size_bytes": 8461289
+            "sha256": "b6b515b7f604a9a8abe1ab6bc40dfe184047102ddfa4154479b71c69a923a652",
+            "size_bytes": 8824589
           },
           {
             "path": "lpp/per_helpers.go",
@@ -1977,7 +1977,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "-trimpath",
@@ -1991,7 +1991,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "-trimpath",
@@ -2005,7 +2005,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "./..."
@@ -2015,7 +2015,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "run",
               "./cmd/asn1c",
@@ -2037,7 +2037,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "test",
               "./...",
@@ -2048,7 +2048,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "vet",
               "./..."
@@ -2083,7 +2083,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -2167,7 +2167,7 @@
               },
               {
                 "name": "go",
-                "tool_version": "go1.25.13",
+                "tool_version": "go1.26.9",
                 "args": [
                   "build",
                   "-trimpath",
@@ -2212,7 +2212,7 @@
               },
               {
                 "name": "go",
-                "tool_version": "go1.25.13",
+                "tool_version": "go1.26.9",
                 "args": [
                   "build",
                   "-trimpath",
@@ -2250,7 +2250,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "0e7b1c3cc7e58c5fb65ae9c20aef22fec3c9cf4d",
+          "commit": "611b4cbd9dc28853092f1afc82dcc6d57b12d68f",
           "dirty": false
         },
         "frontend": {
@@ -2359,8 +2359,8 @@
           },
           {
             "path": "lppa/lppacommondatatypes.go",
-            "sha256": "85bec684d7a46148364dbf2718376e6042cd9a3d49e5825d774a8264f5024437",
-            "size_bytes": 5759
+            "sha256": "7bfc348ff2e9a134997d11febcec8afb0f29e4bd6505a2264ba823b22438caf2",
+            "size_bytes": 6243
           },
           {
             "path": "lppa/lppaconstants.go",
@@ -2369,23 +2369,23 @@
           },
           {
             "path": "lppa/lppacontainers.go",
-            "sha256": "692bebe308ceaaf87f8704f77c58774a0825060f0ca96f6f3743eaea79032a4e",
-            "size_bytes": 39031
+            "sha256": "40b649589bcb397e0ad2ba7f648fd40ac949b81cbd98d29991900fee98dd6ef5",
+            "size_bytes": 45243
           },
           {
             "path": "lppa/lppaies.go",
-            "sha256": "f76bd4124b858210be1d00e98903806c63359d94e9f02ccfc0294484d8be6c76",
-            "size_bytes": 524761
+            "sha256": "5b5287b70c9ca32bea67f981a506d1e5a107fd854d95fee9a19e03d67d1d227e",
+            "size_bytes": 578875
           },
           {
             "path": "lppa/lppapducontents.go",
-            "sha256": "b88adffda94c70e5f323c159fd3226cab13bf3ed3aef2b453c5bfe82a522ce6b",
-            "size_bytes": 116599
+            "sha256": "b26ee0f49ab45201a874a2b5a630a22d0ae80fee26e2e714e9d23faf65186a44",
+            "size_bytes": 132637
           },
           {
             "path": "lppa/lppapdudescriptions.go",
-            "sha256": "61ce2cdc78717f608d027fd0d038f14f1b0e0944286eadffc3a92031ef435027",
-            "size_bytes": 15039
+            "sha256": "5701fc63bdb69750beea53a266e6238300630c4e7b7a82d2badbc47ef682d50e",
+            "size_bytes": 17039
           },
           {
             "path": "lppa/per_helpers.go",
@@ -2420,7 +2420,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "-trimpath",
@@ -2434,7 +2434,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "-trimpath",
@@ -2448,7 +2448,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "./..."
@@ -2458,7 +2458,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "run",
               "./cmd/asn1c",
@@ -2480,7 +2480,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "test",
               "./...",
@@ -2491,7 +2491,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "vet",
               "./..."
@@ -2531,7 +2531,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -2615,7 +2615,7 @@
               },
               {
                 "name": "go",
-                "tool_version": "go1.25.13",
+                "tool_version": "go1.26.9",
                 "args": [
                   "build",
                   "-trimpath",
@@ -2660,7 +2660,7 @@
               },
               {
                 "name": "go",
-                "tool_version": "go1.25.13",
+                "tool_version": "go1.26.9",
                 "args": [
                   "build",
                   "-trimpath",
@@ -2698,7 +2698,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "0e7b1c3cc7e58c5fb65ae9c20aef22fec3c9cf4d",
+          "commit": "611b4cbd9dc28853092f1afc82dcc6d57b12d68f",
           "dirty": false
         },
         "frontend": {
@@ -3182,8 +3182,8 @@
         "outputs": [
           {
             "path": "rrc/asn1_wire_vectors_test.go",
-            "sha256": "1940170138ce4945da3ed88edb02143e4aa4fca3089c12833644e8759855f5a6",
-            "size_bytes": 9316
+            "sha256": "d2070005a49e3b0b68a50e3a1a5a3478c16eab655696acff74a275e5ca6729d0",
+            "size_bytes": 20167
           },
           {
             "path": "rrc/doc.go",
@@ -3192,38 +3192,38 @@
           },
           {
             "path": "rrc/eutrainternodedefinitions.go",
-            "sha256": "5212d0493847f60cf9ae54bd0db79d8c6467bec92c98a7c20b1d1ab7f0cce27e",
-            "size_bytes": 569609
+            "sha256": "cbbed4770b3da6fd7a61b4c4c81e50806883177263d60e212f6bb7468505b235",
+            "size_bytes": 580206
           },
           {
             "path": "rrc/eutrarrcdefinitions.go",
-            "sha256": "61c1a4af9c7d33a20fe3dcd41ff105c364e39a4bc9be10726cdaa5247963a88a",
-            "size_bytes": 18412292
+            "sha256": "2bff1411d62edec81363f30bbf90340e6e05cba6b5bdb140bbd277366ec40533",
+            "size_bytes": 18638718
           },
           {
             "path": "rrc/eutrasidelinkpreconf.go",
-            "sha256": "4712fde0a6a8f720ab8857fb2c675aefed3cc35c56ea450fcec0169ab3bee24a",
-            "size_bytes": 262708
+            "sha256": "d8d0aa23bb6a0d567a8b9bd4b0eabc41b778b9945536ba67356e385724e99c6b",
+            "size_bytes": 270224
           },
           {
             "path": "rrc/eutrauevariables.go",
-            "sha256": "dd0664125b8a726350f0a8fb24f52e1ca92a6a9cf74c53adcfd4a4c2b18d29f4",
-            "size_bytes": 206410
+            "sha256": "14c8df765e257961e307801ce507ecf639e1dac3d77c304a648e72d68d93aa7d",
+            "size_bytes": 211433
           },
           {
             "path": "rrc/nbiotinternodedefinitions.go",
-            "sha256": "b30bf7b311761e8dfcff9528faa3cd6d704460f8f04cc42bc22c3f9ebed4cbfb",
-            "size_bytes": 144340
+            "sha256": "22dab991f5d0f3dc99f67aa9e6bf401f6946a515f9fea842d7743cbb8d2f2779",
+            "size_bytes": 146467
           },
           {
             "path": "rrc/nbiotrrcdefinitions.go",
-            "sha256": "8542180da0c8ea30a283aec59eec2164eb3a8945a7019406ccefcc8020c63701",
-            "size_bytes": 3127784
+            "sha256": "4806ff859b8124aff00b18b7d4d59300869bdd9f418118dc4d2af6749e88f03e",
+            "size_bytes": 3171625
           },
           {
             "path": "rrc/nbiotuevariables.go",
-            "sha256": "d90e14e61652973f700e152719fb94514932749fc6098fbc35349dfba28f31f9",
-            "size_bytes": 22087
+            "sha256": "f9e729d913bad08436993dd1450fcf8830318861f02784dca3d5c4e2ffcfc0fe",
+            "size_bytes": 22430
           },
           {
             "path": "rrc/pc5rrcdefinitions.go",
@@ -3257,7 +3257,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "-trimpath",
@@ -3271,7 +3271,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "./..."
@@ -3281,7 +3281,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "run",
               "./cmd/asn1c",
@@ -3303,7 +3303,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "test",
               "./...",
@@ -3314,7 +3314,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "vet",
               "./..."
@@ -3355,7 +3355,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -3428,7 +3428,7 @@
               },
               {
                 "name": "go",
-                "tool_version": "go1.25.13",
+                "tool_version": "go1.26.9",
                 "args": [
                   "build",
                   "-trimpath",
@@ -3466,7 +3466,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "0e7b1c3cc7e58c5fb65ae9c20aef22fec3c9cf4d",
+          "commit": "611b4cbd9dc28853092f1afc82dcc6d57b12d68f",
           "dirty": false
         },
         "frontend": {
@@ -3610,7 +3610,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "-trimpath",
@@ -3624,7 +3624,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "./..."
@@ -3634,7 +3634,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "run",
               "./cmd/asn1c",
@@ -3660,7 +3660,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "test",
               "./...",
@@ -3671,7 +3671,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "vet",
               "./..."
@@ -3709,7 +3709,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -3780,7 +3780,7 @@
               },
               {
                 "name": "go",
-                "tool_version": "go1.25.13",
+                "tool_version": "go1.26.9",
                 "args": [
                   "build",
                   "-trimpath",
@@ -3818,7 +3818,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "0e7b1c3cc7e58c5fb65ae9c20aef22fec3c9cf4d",
+          "commit": "611b4cbd9dc28853092f1afc82dcc6d57b12d68f",
           "dirty": false
         },
         "frontend": {
@@ -3960,8 +3960,8 @@
           },
           {
             "path": "s1ap/s1apcommondatatypes.go",
-            "sha256": "6ccecdd6f31084ffd432f9fb1c97e56af912705a0340da7381e997eeb3ee9185",
-            "size_bytes": 5459
+            "sha256": "96bb1a40e66cd249ac6f768efaa08a5470cba817b94b0a3acd4beaa371ee260f",
+            "size_bytes": 5943
           },
           {
             "path": "s1ap/s1apconstants.go",
@@ -3970,28 +3970,28 @@
           },
           {
             "path": "s1ap/s1apcontainers.go",
-            "sha256": "9abd741302c3ecf85cc919e67251608f508b1f5afd3632e1c653d4b2b18aa38e",
-            "size_bytes": 39005
+            "sha256": "be45b638c1a91a1051ac55fe5306f3b539d8fd592027bf808450410dc4f3f19f",
+            "size_bytes": 45217
           },
           {
             "path": "s1ap/s1apies.go",
-            "sha256": "e1b612bb1a808e027babc542295f6883a2fad5088b9579ff5349fae680f200f1",
-            "size_bytes": 1853227
+            "sha256": "011e8d7115e93b16508752cd08f66756859207af44d7bb8ad056e4a6bfa1a618",
+            "size_bytes": 2063048
           },
           {
             "path": "s1ap/s1appducontents.go",
-            "sha256": "608ac1edd8263733517587db263174b8478aaa38017243126730b44e8e323201",
-            "size_bytes": 918949
+            "sha256": "4bea7ce2e1602bf6f0d4e5f8b4f18f72fce77f45ac4790f8dfadb3621ffe72f5",
+            "size_bytes": 1039774
           },
           {
             "path": "s1ap/s1appdudescriptions.go",
-            "sha256": "6aa3dde40f80b2480f55033815691ff5cb6c173c49f164c37a229c8aefcc5d05",
-            "size_bytes": 13518
+            "sha256": "66c1903cfb42ad082b6e970167e6b19892773835bfd2301b84eab66d77411f83",
+            "size_bytes": 15518
           },
           {
             "path": "s1ap/sontransferies.go",
-            "sha256": "2ceb58093138f86fcf093a74ac9f6973a24c079a507ccc2e5403e4d2868354ea",
-            "size_bytes": 213682
+            "sha256": "a0c8fbd22ea3a0f75152c5172b5a0b09227fdaa38ad061d47d2b15bcbd840073",
+            "size_bytes": 240808
           }
         ],
         "standards": [
@@ -4015,7 +4015,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "-trimpath",
@@ -4029,7 +4029,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "./..."
@@ -4039,7 +4039,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "run",
               "./cmd/asn1c",
@@ -4061,7 +4061,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "test",
               "./...",
@@ -4072,7 +4072,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "vet",
               "./..."
@@ -4113,7 +4113,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -4186,7 +4186,7 @@
               },
               {
                 "name": "go",
-                "tool_version": "go1.25.13",
+                "tool_version": "go1.26.9",
                 "args": [
                   "build",
                   "-trimpath",
@@ -4224,7 +4224,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "0e7b1c3cc7e58c5fb65ae9c20aef22fec3c9cf4d",
+          "commit": "611b4cbd9dc28853092f1afc82dcc6d57b12d68f",
           "dirty": false
         },
         "frontend": {
@@ -4352,8 +4352,8 @@
           },
           {
             "path": "sgp22/rspdefinitions.go",
-            "sha256": "5c09741cd53e3fa56f65e5ea3254280510d6efbd5f0ac5bd53e8c850eb33bce0",
-            "size_bytes": 1558016
+            "sha256": "aa9625eecaf35ef722b3cdc3a2c22ed374bad97e96ec8afc241810fab515027d",
+            "size_bytes": 1557768
           }
         ],
         "standards": [
@@ -4387,7 +4387,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "-trimpath",
@@ -4401,7 +4401,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "./..."
@@ -4411,7 +4411,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "run",
               "./cmd/asn1c",
@@ -4433,7 +4433,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "test",
               "./...",
@@ -4444,7 +4444,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "vet",
               "./..."
@@ -4479,7 +4479,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -4550,7 +4550,7 @@
               },
               {
                 "name": "go",
-                "tool_version": "go1.25.13",
+                "tool_version": "go1.26.9",
                 "args": [
                   "build",
                   "-trimpath",
@@ -4588,7 +4588,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "0e7b1c3cc7e58c5fb65ae9c20aef22fec3c9cf4d",
+          "commit": "611b4cbd9dc28853092f1afc82dcc6d57b12d68f",
           "dirty": false
         },
         "frontend": {
@@ -4734,13 +4734,13 @@
           },
           {
             "path": "sgp32/rspdefinitions.go",
-            "sha256": "5f90369e23eda1bed5770c827a23a3fb41b9a15a0761d9d69cb4dae3a9a743b3",
-            "size_bytes": 1558016
+            "sha256": "cd000141f199bb0fbe67d5e6b5a621f5f99ed95d0363fb1e1a3cc91403d9c880",
+            "size_bytes": 1557768
           },
           {
             "path": "sgp32/sgp32definitions.go",
-            "sha256": "b8b30cbed6bf5a8373c4beaad624e5d536f1d6b4a56a2d0a95541657217934a2",
-            "size_bytes": 1978779
+            "sha256": "18e2d886bb2b75f04e4ff257dd407bce7b9513bc34d3d8d0bd76b3b3df3b3a2e",
+            "size_bytes": 1978531
           }
         ],
         "standards": [
@@ -4774,7 +4774,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "-trimpath",
@@ -4788,7 +4788,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "./..."
@@ -4798,7 +4798,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "run",
               "./cmd/asn1c",
@@ -4820,7 +4820,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "test",
               "./...",
@@ -4831,7 +4831,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "vet",
               "./..."
@@ -4867,7 +4867,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -4938,7 +4938,7 @@
               },
               {
                 "name": "go",
-                "tool_version": "go1.25.13",
+                "tool_version": "go1.26.9",
                 "args": [
                   "build",
                   "-trimpath",
@@ -4976,7 +4976,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "0e7b1c3cc7e58c5fb65ae9c20aef22fec3c9cf4d",
+          "commit": "611b4cbd9dc28853092f1afc82dcc6d57b12d68f",
           "dirty": false
         },
         "frontend": {
@@ -5135,7 +5135,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "-trimpath",
@@ -5149,7 +5149,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "./..."
@@ -5159,7 +5159,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "run",
               "./cmd/asn1c",
@@ -5181,7 +5181,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "test",
               "./...",
@@ -5192,7 +5192,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "vet",
               "./..."
@@ -5229,7 +5229,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -5302,7 +5302,7 @@
               },
               {
                 "name": "go",
-                "tool_version": "go1.25.13",
+                "tool_version": "go1.26.9",
                 "args": [
                   "build",
                   "-trimpath",
@@ -5340,7 +5340,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "0e7b1c3cc7e58c5fb65ae9c20aef22fec3c9cf4d",
+          "commit": "611b4cbd9dc28853092f1afc82dcc6d57b12d68f",
           "dirty": false
         },
         "frontend": {
@@ -5459,8 +5459,8 @@
           },
           {
             "path": "x2ap/x2apcommondatatypes.go",
-            "sha256": "9db6505fb1e95e6b39dc47b79e7b742fcababc4b7e7d7eb07298ae2683e257f5",
-            "size_bytes": 5651
+            "sha256": "0e8a0d07a3c24b1d91ee6ae0ae9175750ba64b9fb9aec1fd62ef706aface30fd",
+            "size_bytes": 6135
           },
           {
             "path": "x2ap/x2apconstants.go",
@@ -5469,23 +5469,23 @@
           },
           {
             "path": "x2ap/x2apcontainers.go",
-            "sha256": "cae9fdf47f6e5c9cc8b12fa9b72854b08ade86856afb26f0a40d0e3c33bb5885",
-            "size_bytes": 39031
+            "sha256": "0aeff23c69477b0836a23cbeceda063cedd1c9b89870d9833ec90c96a41bc1e6",
+            "size_bytes": 45243
           },
           {
             "path": "x2ap/x2apies.go",
-            "sha256": "861ed485aa58358cab91871a61e5e255c5100395540dec1d865f8f65258bf97d",
-            "size_bytes": 2287051
+            "sha256": "def85a5d12cdf825cc5b6119cb906bbeb5fc3019facc91d96b687c1a6ba3f5fc",
+            "size_bytes": 2547130
           },
           {
             "path": "x2ap/x2appducontents.go",
-            "sha256": "73ab9d9b15f897fa1197ce677cf7dd19f5001ec41225bf0c4442dbbb45a0da42",
-            "size_bytes": 2192804
+            "sha256": "deb0b31bcec9df4e7506948a2f307ec91f30db285e04818656f8a8cffcebbccd",
+            "size_bytes": 2483276
           },
           {
             "path": "x2ap/x2appdudescriptions.go",
-            "sha256": "db8f3a9de5b18c1cd33b2d33c99a48a497ae3cce86e03f29b77ca8fa6169c959",
-            "size_bytes": 13518
+            "sha256": "994ad9a9385ee93a7b29c7baeb7103265a79ccafe7c44de2f64eec1c2ea5df7d",
+            "size_bytes": 15518
           }
         ],
         "standards": [
@@ -5509,7 +5509,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "-trimpath",
@@ -5523,7 +5523,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "build",
               "./..."
@@ -5533,7 +5533,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "run",
               "./cmd/asn1c",
@@ -5555,7 +5555,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "test",
               "./...",
@@ -5566,7 +5566,7 @@
           },
           {
             "name": "go",
-            "tool_version": "go1.25.13",
+            "tool_version": "go1.26.9",
             "args": [
               "vet",
               "./..."
@@ -5607,7 +5607,7 @@
           },
           {
             "name": "python3",
-            "tool_version": "3.9.6",
+            "tool_version": "3.14.4",
             "args": [
               "extractor/extract.py",
               "--source-plan",
@@ -5680,7 +5680,7 @@
               },
               {
                 "name": "go",
-                "tool_version": "go1.25.13",
+                "tool_version": "go1.26.9",
                 "args": [
                   "build",
                   "-trimpath",
@@ -5711,7 +5711,7 @@
     }
   ],
   "outputs": {
-    "sha256": "bcabf912ef5e43367d6a6ae111e065e80c9cc46c7f61f3947d2e55dc3cf49cd6",
+    "sha256": "0ef22358bd4ccdbfc23ec4b74d081bd5e8da44b4e364db14ebfb989688be6b1a",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
@@ -5752,8 +5752,8 @@
       {
         "path": "runtime/ber/collection_tag.go",
         "mode": "0644",
-        "sha256": "02c415e5a70812636cdd8cc2603b9610fb3c9be1134c4ba0481fdab2e0ac44f2",
-        "size_bytes": 1795
+        "sha256": "5b9170d70acd7dad07b439fc2b29a1cf9daa204181f1cd5429017c2ca5f3594b",
+        "size_bytes": 3836
       },
       {
         "path": "runtime/ber/collection_tag_test.go",
@@ -5808,6 +5808,12 @@
         "mode": "0644",
         "sha256": "4bde9bd21fa5af11f1729b28fcafa1742b014463b13a6c992a054be61372ceb0",
         "size_bytes": 940
+      },
+      {
+        "path": "runtime/ber/dual_tagged_choice_test.go",
+        "mode": "0644",
+        "sha256": "f43ef7fe4462808b82fad29c8d027b54995febe8245450f628a1870754bedf59",
+        "size_bytes": 1903
       },
       {
         "path": "runtime/ber/encoder.go",
@@ -6070,8 +6076,8 @@
       {
         "path": "runtime/per/bitbuffer.go",
         "mode": "0644",
-        "sha256": "92fc7d9f19a178936f608fd42241366dc4ffe6c5a4c4e02eb7cf6200bae7e30b",
-        "size_bytes": 18525
+        "sha256": "163f93fad1121f48d27d6d587756437f2bc70179bef2b50ff3b20b49616a4e84",
+        "size_bytes": 21414
       },
       {
         "path": "runtime/per/bitbuffer_arithmetic_test.go",
@@ -6106,8 +6112,8 @@
       {
         "path": "runtime/per/contained.go",
         "mode": "0644",
-        "sha256": "6ec88a15253b6eac03727b9fa2888ae7b26292a379c4d2eefd04f5ea552f1bdb",
-        "size_bytes": 14139
+        "sha256": "5708cae1e263bbc8cd78da4b2e116681832d30c2560d0669ec1351733d71ced1",
+        "size_bytes": 14425
       },
       {
         "path": "runtime/per/contained_test.go",
@@ -6130,8 +6136,8 @@
       {
         "path": "runtime/per/explicit_default.go",
         "mode": "0644",
-        "sha256": "7407bb07cdc7363405e3357f463f530a1178a162d39a8bd598a09c37f8e4947b",
-        "size_bytes": 4378
+        "sha256": "ac6119e53a496ce335f6380e52d64614ae183c4567f20bf5908ffd183e4de6b9",
+        "size_bytes": 4488
       },
       {
         "path": "runtime/per/explicit_default_test.go",
@@ -6292,14 +6298,26 @@
       {
         "path": "runtime/per/tolerance.go",
         "mode": "0644",
-        "sha256": "85af36a95dd05761ff578a20e14b823ede3c80ab3f375e01878ec8990a714690",
-        "size_bytes": 19045
+        "sha256": "15b0ffcc86169ce98ecb61efd962bcea3db6b66c5ff70c063b5cf1858ca308ba",
+        "size_bytes": 21566
       },
       {
         "path": "runtime/per/tolerance_test.go",
         "mode": "0644",
-        "sha256": "906e5bebc79ef0b684597b23b350a923f27aa8f924171e90143e746751d762cb",
-        "size_bytes": 20396
+        "sha256": "8990798a486cb68c73c15d35e1bd754b6e1324aef6a6e8325f9962c8607450e1",
+        "size_bytes": 20448
+      },
+      {
+        "path": "runtime/per/truncated.go",
+        "mode": "0644",
+        "sha256": "5f7e03c3c3e3dbcebb387c38fcae03ecbe136df7e862728051eddffd82648634",
+        "size_bytes": 10621
+      },
+      {
+        "path": "runtime/per/truncated_test.go",
+        "mode": "0644",
+        "sha256": "fa0bb933bf1cc01bf1a92f862f00fce0496b59c0ac1414be2ce4aeaa7057ba08",
+        "size_bytes": 23934
       },
       {
         "path": "runtime/per/uper.go",
@@ -6394,8 +6412,8 @@
       {
         "path": "telecom/esim/sgp22/rspdefinitions.go",
         "mode": "0644",
-        "sha256": "5c09741cd53e3fa56f65e5ea3254280510d6efbd5f0ac5bd53e8c850eb33bce0",
-        "size_bytes": 1558016
+        "sha256": "aa9625eecaf35ef722b3cdc3a2c22ed374bad97e96ec8afc241810fab515027d",
+        "size_bytes": 1557768
       },
       {
         "path": "telecom/esim/sgp32/asn1_wire_vectors_test.go",
@@ -6424,14 +6442,14 @@
       {
         "path": "telecom/esim/sgp32/rspdefinitions.go",
         "mode": "0644",
-        "sha256": "5f90369e23eda1bed5770c827a23a3fb41b9a15a0761d9d69cb4dae3a9a743b3",
-        "size_bytes": 1558016
+        "sha256": "cd000141f199bb0fbe67d5e6b5a621f5f99ed95d0363fb1e1a3cc91403d9c880",
+        "size_bytes": 1557768
       },
       {
         "path": "telecom/esim/sgp32/sgp32definitions.go",
         "mode": "0644",
-        "sha256": "b8b30cbed6bf5a8373c4beaad624e5d536f1d6b4a56a2d0a95541657217934a2",
-        "size_bytes": 1978779
+        "sha256": "18e2d886bb2b75f04e4ff257dd407bce7b9513bc34d3d8d0bd76b3b3df3b3a2e",
+        "size_bytes": 1978531
       },
       {
         "path": "telecom/esim/sgp32/sgp32definitions_test.go",
@@ -6454,14 +6472,14 @@
       {
         "path": "telecom/lte/lpp/lppbroadcastdefinitions.go",
         "mode": "0644",
-        "sha256": "8357009530d54a76f88879b3cc3255e668d11cf93f85b7ef886e90c88c326782",
-        "size_bytes": 49448
+        "sha256": "402b506019c32efb2f73d91e06cc62772c55fde4e9e351bcea9c06020e676d59",
+        "size_bytes": 53784
       },
       {
         "path": "telecom/lte/lpp/lpppdudefinitions.go",
         "mode": "0644",
-        "sha256": "85b7ee46f186df0cb7a042c9ac8cd290dacd06aca767b73462840d967262e269",
-        "size_bytes": 8461289
+        "sha256": "b6b515b7f604a9a8abe1ab6bc40dfe184047102ddfa4154479b71c69a923a652",
+        "size_bytes": 8824589
       },
       {
         "path": "telecom/lte/lpp/per_helpers.go",
@@ -6490,8 +6508,8 @@
       {
         "path": "telecom/lte/lppa/lppacommondatatypes.go",
         "mode": "0644",
-        "sha256": "85bec684d7a46148364dbf2718376e6042cd9a3d49e5825d774a8264f5024437",
-        "size_bytes": 5759
+        "sha256": "7bfc348ff2e9a134997d11febcec8afb0f29e4bd6505a2264ba823b22438caf2",
+        "size_bytes": 6243
       },
       {
         "path": "telecom/lte/lppa/lppaconstants.go",
@@ -6502,26 +6520,26 @@
       {
         "path": "telecom/lte/lppa/lppacontainers.go",
         "mode": "0644",
-        "sha256": "692bebe308ceaaf87f8704f77c58774a0825060f0ca96f6f3743eaea79032a4e",
-        "size_bytes": 39031
+        "sha256": "40b649589bcb397e0ad2ba7f648fd40ac949b81cbd98d29991900fee98dd6ef5",
+        "size_bytes": 45243
       },
       {
         "path": "telecom/lte/lppa/lppaies.go",
         "mode": "0644",
-        "sha256": "f76bd4124b858210be1d00e98903806c63359d94e9f02ccfc0294484d8be6c76",
-        "size_bytes": 524761
+        "sha256": "5b5287b70c9ca32bea67f981a506d1e5a107fd854d95fee9a19e03d67d1d227e",
+        "size_bytes": 578875
       },
       {
         "path": "telecom/lte/lppa/lppapducontents.go",
         "mode": "0644",
-        "sha256": "b88adffda94c70e5f323c159fd3226cab13bf3ed3aef2b453c5bfe82a522ce6b",
-        "size_bytes": 116599
+        "sha256": "b26ee0f49ab45201a874a2b5a630a22d0ae80fee26e2e714e9d23faf65186a44",
+        "size_bytes": 132637
       },
       {
         "path": "telecom/lte/lppa/lppapdudescriptions.go",
         "mode": "0644",
-        "sha256": "61ce2cdc78717f608d027fd0d038f14f1b0e0944286eadffc3a92031ef435027",
-        "size_bytes": 15039
+        "sha256": "5701fc63bdb69750beea53a266e6238300630c4e7b7a82d2badbc47ef682d50e",
+        "size_bytes": 17039
       },
       {
         "path": "telecom/lte/lppa/per_helpers.go",
@@ -6532,8 +6550,8 @@
       {
         "path": "telecom/lte/rrc/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "1940170138ce4945da3ed88edb02143e4aa4fca3089c12833644e8759855f5a6",
-        "size_bytes": 9316
+        "sha256": "d2070005a49e3b0b68a50e3a1a5a3478c16eab655696acff74a275e5ca6729d0",
+        "size_bytes": 20167
       },
       {
         "path": "telecom/lte/rrc/choice_overflow_test.go",
@@ -6550,44 +6568,44 @@
       {
         "path": "telecom/lte/rrc/eutrainternodedefinitions.go",
         "mode": "0644",
-        "sha256": "5212d0493847f60cf9ae54bd0db79d8c6467bec92c98a7c20b1d1ab7f0cce27e",
-        "size_bytes": 569609
+        "sha256": "cbbed4770b3da6fd7a61b4c4c81e50806883177263d60e212f6bb7468505b235",
+        "size_bytes": 580206
       },
       {
         "path": "telecom/lte/rrc/eutrarrcdefinitions.go",
         "mode": "0644",
-        "sha256": "61c1a4af9c7d33a20fe3dcd41ff105c364e39a4bc9be10726cdaa5247963a88a",
-        "size_bytes": 18412292
+        "sha256": "2bff1411d62edec81363f30bbf90340e6e05cba6b5bdb140bbd277366ec40533",
+        "size_bytes": 18638718
       },
       {
         "path": "telecom/lte/rrc/eutrasidelinkpreconf.go",
         "mode": "0644",
-        "sha256": "4712fde0a6a8f720ab8857fb2c675aefed3cc35c56ea450fcec0169ab3bee24a",
-        "size_bytes": 262708
+        "sha256": "d8d0aa23bb6a0d567a8b9bd4b0eabc41b778b9945536ba67356e385724e99c6b",
+        "size_bytes": 270224
       },
       {
         "path": "telecom/lte/rrc/eutrauevariables.go",
         "mode": "0644",
-        "sha256": "dd0664125b8a726350f0a8fb24f52e1ca92a6a9cf74c53adcfd4a4c2b18d29f4",
-        "size_bytes": 206410
+        "sha256": "14c8df765e257961e307801ce507ecf639e1dac3d77c304a648e72d68d93aa7d",
+        "size_bytes": 211433
       },
       {
         "path": "telecom/lte/rrc/nbiotinternodedefinitions.go",
         "mode": "0644",
-        "sha256": "b30bf7b311761e8dfcff9528faa3cd6d704460f8f04cc42bc22c3f9ebed4cbfb",
-        "size_bytes": 144340
+        "sha256": "22dab991f5d0f3dc99f67aa9e6bf401f6946a515f9fea842d7743cbb8d2f2779",
+        "size_bytes": 146467
       },
       {
         "path": "telecom/lte/rrc/nbiotrrcdefinitions.go",
         "mode": "0644",
-        "sha256": "8542180da0c8ea30a283aec59eec2164eb3a8945a7019406ccefcc8020c63701",
-        "size_bytes": 3127784
+        "sha256": "4806ff859b8124aff00b18b7d4d59300869bdd9f418118dc4d2af6749e88f03e",
+        "size_bytes": 3171625
       },
       {
         "path": "telecom/lte/rrc/nbiotuevariables.go",
         "mode": "0644",
-        "sha256": "d90e14e61652973f700e152719fb94514932749fc6098fbc35349dfba28f31f9",
-        "size_bytes": 22087
+        "sha256": "f9e729d913bad08436993dd1450fcf8830318861f02784dca3d5c4e2ffcfc0fe",
+        "size_bytes": 22430
       },
       {
         "path": "telecom/lte/rrc/package_api_test.go",
@@ -6640,8 +6658,8 @@
       {
         "path": "telecom/lte/s1ap/s1apcommondatatypes.go",
         "mode": "0644",
-        "sha256": "6ccecdd6f31084ffd432f9fb1c97e56af912705a0340da7381e997eeb3ee9185",
-        "size_bytes": 5459
+        "sha256": "96bb1a40e66cd249ac6f768efaa08a5470cba817b94b0a3acd4beaa371ee260f",
+        "size_bytes": 5943
       },
       {
         "path": "telecom/lte/s1ap/s1apconstants.go",
@@ -6652,32 +6670,32 @@
       {
         "path": "telecom/lte/s1ap/s1apcontainers.go",
         "mode": "0644",
-        "sha256": "9abd741302c3ecf85cc919e67251608f508b1f5afd3632e1c653d4b2b18aa38e",
-        "size_bytes": 39005
+        "sha256": "be45b638c1a91a1051ac55fe5306f3b539d8fd592027bf808450410dc4f3f19f",
+        "size_bytes": 45217
       },
       {
         "path": "telecom/lte/s1ap/s1apies.go",
         "mode": "0644",
-        "sha256": "e1b612bb1a808e027babc542295f6883a2fad5088b9579ff5349fae680f200f1",
-        "size_bytes": 1853227
+        "sha256": "011e8d7115e93b16508752cd08f66756859207af44d7bb8ad056e4a6bfa1a618",
+        "size_bytes": 2063048
       },
       {
         "path": "telecom/lte/s1ap/s1appducontents.go",
         "mode": "0644",
-        "sha256": "608ac1edd8263733517587db263174b8478aaa38017243126730b44e8e323201",
-        "size_bytes": 918949
+        "sha256": "4bea7ce2e1602bf6f0d4e5f8b4f18f72fce77f45ac4790f8dfadb3621ffe72f5",
+        "size_bytes": 1039774
       },
       {
         "path": "telecom/lte/s1ap/s1appdudescriptions.go",
         "mode": "0644",
-        "sha256": "6aa3dde40f80b2480f55033815691ff5cb6c173c49f164c37a229c8aefcc5d05",
-        "size_bytes": 13518
+        "sha256": "66c1903cfb42ad082b6e970167e6b19892773835bfd2301b84eab66d77411f83",
+        "size_bytes": 15518
       },
       {
         "path": "telecom/lte/s1ap/sontransferies.go",
         "mode": "0644",
-        "sha256": "2ceb58093138f86fcf093a74ac9f6973a24c079a507ccc2e5403e4d2868354ea",
-        "size_bytes": 213682
+        "sha256": "a0c8fbd22ea3a0f75152c5172b5a0b09227fdaa38ad061d47d2b15bcbd840073",
+        "size_bytes": 240808
       },
       {
         "path": "telecom/lte/x2ap/asn1_contract_vectors_test.go",
@@ -6712,8 +6730,8 @@
       {
         "path": "telecom/lte/x2ap/x2apcommondatatypes.go",
         "mode": "0644",
-        "sha256": "9db6505fb1e95e6b39dc47b79e7b742fcababc4b7e7d7eb07298ae2683e257f5",
-        "size_bytes": 5651
+        "sha256": "0e8a0d07a3c24b1d91ee6ae0ae9175750ba64b9fb9aec1fd62ef706aface30fd",
+        "size_bytes": 6135
       },
       {
         "path": "telecom/lte/x2ap/x2apconstants.go",
@@ -6724,26 +6742,26 @@
       {
         "path": "telecom/lte/x2ap/x2apcontainers.go",
         "mode": "0644",
-        "sha256": "cae9fdf47f6e5c9cc8b12fa9b72854b08ade86856afb26f0a40d0e3c33bb5885",
-        "size_bytes": 39031
+        "sha256": "0aeff23c69477b0836a23cbeceda063cedd1c9b89870d9833ec90c96a41bc1e6",
+        "size_bytes": 45243
       },
       {
         "path": "telecom/lte/x2ap/x2apies.go",
         "mode": "0644",
-        "sha256": "861ed485aa58358cab91871a61e5e255c5100395540dec1d865f8f65258bf97d",
-        "size_bytes": 2287051
+        "sha256": "def85a5d12cdf825cc5b6119cb906bbeb5fc3019facc91d96b687c1a6ba3f5fc",
+        "size_bytes": 2547130
       },
       {
         "path": "telecom/lte/x2ap/x2appducontents.go",
         "mode": "0644",
-        "sha256": "73ab9d9b15f897fa1197ce677cf7dd19f5001ec41225bf0c4442dbbb45a0da42",
-        "size_bytes": 2192804
+        "sha256": "deb0b31bcec9df4e7506948a2f307ec91f30db285e04818656f8a8cffcebbccd",
+        "size_bytes": 2483276
       },
       {
         "path": "telecom/lte/x2ap/x2appdudescriptions.go",
         "mode": "0644",
-        "sha256": "db8f3a9de5b18c1cd33b2d33c99a48a497ae3cce86e03f29b77ca8fa6169c959",
-        "size_bytes": 13518
+        "sha256": "994ad9a9385ee93a7b29c7baeb7103265a79ccafe7c44de2f64eec1c2ea5df7d",
+        "size_bytes": 15518
       },
       {
         "path": "telecom/ss7/gsm_map/asn1_contract_vectors_test.go",
@@ -7356,7 +7374,7 @@
   "validation": [
     {
       "name": "go",
-      "tool_version": "go1.25.13",
+      "tool_version": "go1.26.9",
       "args": [
         "build",
         "./..."
@@ -7366,7 +7384,7 @@
     },
     {
       "name": "go",
-      "tool_version": "go1.25.13",
+      "tool_version": "go1.26.9",
       "args": [
         "test",
         "-race",
@@ -7378,7 +7396,7 @@
     },
     {
       "name": "go",
-      "tool_version": "go1.25.13",
+      "tool_version": "go1.26.9",
       "args": [
         "test",
         "./...",
@@ -7389,7 +7407,7 @@
     },
     {
       "name": "go",
-      "tool_version": "go1.25.13",
+      "tool_version": "go1.26.9",
       "args": [
         "vet",
         "./..."
@@ -7418,6 +7436,7 @@
         "$STAGE/runtime/ber/decoder.go",
         "$STAGE/runtime/ber/depth_overflow_test.go",
         "$STAGE/runtime/ber/der_real_cost_test.go",
+        "$STAGE/runtime/ber/dual_tagged_choice_test.go",
         "$STAGE/runtime/ber/encoder.go",
         "$STAGE/runtime/ber/encoder_limit_test.go",
         "$STAGE/runtime/ber/encoder_test_helpers_test.go",
@@ -7500,6 +7519,8 @@
         "$STAGE/runtime/per/time_test.go",
         "$STAGE/runtime/per/tolerance.go",
         "$STAGE/runtime/per/tolerance_test.go",
+        "$STAGE/runtime/per/truncated.go",
+        "$STAGE/runtime/per/truncated_test.go",
         "$STAGE/runtime/per/uper.go",
         "$STAGE/runtime/per/uper_test.go",
         "$STAGE/runtime/per_choice.go",
@@ -7711,6 +7732,7 @@
         "$STAGE/runtime/ber/decoder.go",
         "$STAGE/runtime/ber/depth_overflow_test.go",
         "$STAGE/runtime/ber/der_real_cost_test.go",
+        "$STAGE/runtime/ber/dual_tagged_choice_test.go",
         "$STAGE/runtime/ber/encoder.go",
         "$STAGE/runtime/ber/encoder_limit_test.go",
         "$STAGE/runtime/ber/encoder_test_helpers_test.go",
@@ -7793,6 +7815,8 @@
         "$STAGE/runtime/per/time_test.go",
         "$STAGE/runtime/per/tolerance.go",
         "$STAGE/runtime/per/tolerance_test.go",
+        "$STAGE/runtime/per/truncated.go",
+        "$STAGE/runtime/per/truncated_test.go",
         "$STAGE/runtime/per/uper.go",
         "$STAGE/runtime/per/uper_test.go",
         "$STAGE/runtime/per_choice.go",
@@ -7974,7 +7998,7 @@
     },
     {
       "name": "python3",
-      "tool_version": "3.9.6",
+      "tool_version": "3.14.4",
       "args": [
         "-m",
         "pip",

@@ -186,6 +186,7 @@ func (v *AssistanceDataSIBelementR15) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
@@ -205,12 +206,13 @@ func (v *AssistanceDataSIBelementR15) UnmarshalUPERWithOptions(data []byte, opti
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceDataSIBelementR15")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *AssistanceDataSIBelementR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = AssistanceDataSIBelementR15{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -247,18 +249,22 @@ func (v *AssistanceDataSIBelementR15) UnmarshalUPERFrom(bb *per.BitBuffer) error
 		v.ExpirationTimeR15 = &val_expirationtimer15
 	}
 	if opt_cipheringkeydatar15 {
+		toleranceMark_cipheringkeydatar15 := bb.EnterComponent("CipheringKeyDataR15")
 		var dec_cipheringkeydatar15 CipheringKeyDataR15
 		if err := dec_cipheringkeydatar15.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "CipheringKeyDataR15")
 		}
 		v.CipheringKeyDataR15 = &dec_cipheringkeydatar15
+		bb.LeaveComponent(toleranceMark_cipheringkeydatar15)
 	}
 	if opt_segmentationinfor15 {
+		toleranceMark_segmentationinfor15 := bb.EnterComponent("SegmentationInfoR15")
 		var dec_segmentationinfor15 SegmentationInfoR15
 		if err := dec_segmentationinfor15.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "SegmentationInfoR15")
 		}
 		v.SegmentationInfoR15 = &dec_segmentationinfor15
+		bb.LeaveComponent(toleranceMark_segmentationinfor15)
 	}
 	val_assistancedataelementr15, err := per.DecodeOctetStringExt(bb, 0, 0, false, false)
 	if err != nil {
@@ -266,7 +272,7 @@ func (v *AssistanceDataSIBelementR15) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	}
 	v.AssistanceDataElementR15 = val_assistancedataelementr15
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -282,7 +288,7 @@ func (v *AssistanceDataSIBelementR15) UnmarshalUPERFrom(bb *per.BitBuffer) error
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -290,7 +296,11 @@ func (v *AssistanceDataSIBelementR15) UnmarshalUPERFrom(bb *per.BitBuffer) error
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -350,6 +360,7 @@ func (v *CipheringKeyDataR15) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
@@ -369,12 +380,13 @@ func (v *CipheringKeyDataR15) UnmarshalUPERWithOptions(data []byte, options per.
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CipheringKeyDataR15")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *CipheringKeyDataR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = CipheringKeyDataR15{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -390,7 +402,7 @@ func (v *CipheringKeyDataR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.D0R15 = runtime.BitString{Bytes: bsBytes_d0r15, BitLength: bsBitLen_d0r15}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -406,7 +418,7 @@ func (v *CipheringKeyDataR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -414,7 +426,11 @@ func (v *CipheringKeyDataR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -477,6 +493,7 @@ func (v *SegmentationInfoR15) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
@@ -496,12 +513,13 @@ func (v *SegmentationInfoR15) UnmarshalUPERWithOptions(data []byte, options per.
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SegmentationInfoR15")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *SegmentationInfoR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = SegmentationInfoR15{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -522,7 +540,7 @@ func (v *SegmentationInfoR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.AssistanceDataSegmentNumberR15 = val_assistancedatasegmentnumberr15
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -538,7 +556,7 @@ func (v *SegmentationInfoR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -546,7 +564,11 @@ func (v *SegmentationInfoR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -617,6 +639,7 @@ func (v *OTDOAUEAssistedR15) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
@@ -636,19 +659,23 @@ func (v *OTDOAUEAssistedR15) UnmarshalUPERWithOptions(data []byte, options per.D
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAUEAssistedR15")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *OTDOAUEAssistedR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = OTDOAUEAssistedR15{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
+	toleranceMark_otdoareferencecellinfor15 := bb.EnterComponent("OtdoaReferenceCellInfoR15")
 	if err := v.OtdoaReferenceCellInfoR15.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OtdoaReferenceCellInfoR15")
 	}
+	bb.LeaveComponent(toleranceMark_otdoareferencecellinfor15)
+	toleranceMark_otdoaneighbourcellinfor15 := bb.EnterComponent("OtdoaNeighbourCellInfoR15")
 	v.OtdoaNeighbourCellInfoR15 = make(OTDOANeighbourCellInfoList, 0)
 	_, errCollection_otdoaneighbourcellinfor15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_otdoaneighbourcellinfor15, fragmentLength_otdoaneighbourcellinfor15 int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1264
@@ -656,10 +683,12 @@ func (v *OTDOAUEAssistedR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("collection fragment count out of range")
 		}
 		for i_otdoaneighbourcellinfor15 := int64(0); i_otdoaneighbourcellinfor15 < fragmentLength_otdoaneighbourcellinfor15; i_otdoaneighbourcellinfor15++ {
+			elementMark := bb.EnterIndex(fragmentOffset_otdoaneighbourcellinfor15 + i_otdoaneighbourcellinfor15)
 			elem, err := UnmarshalUPEROTDOANeighbourFreqInfoFrom(bb)
 			if err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("OtdoaNeighbourCellInfoR15[%d]", fragmentOffset_otdoaneighbourcellinfor15+i_otdoaneighbourcellinfor15))
 			}
+			bb.LeaveComponent(elementMark)
 			v.OtdoaNeighbourCellInfoR15 = append(v.OtdoaNeighbourCellInfoR15, elem)
 		}
 		return nil
@@ -667,8 +696,9 @@ func (v *OTDOAUEAssistedR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if errCollection_otdoaneighbourcellinfor15 != nil {
 		return runtime.WrapDecodePath(errCollection_otdoaneighbourcellinfor15, "OtdoaNeighbourCellInfoR15")
 	}
+	bb.LeaveComponent(toleranceMark_otdoaneighbourcellinfor15)
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -684,7 +714,7 @@ func (v *OTDOAUEAssistedR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -692,7 +722,11 @@ func (v *OTDOAUEAssistedR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -780,6 +814,7 @@ func (v *NRUEBTRPLocationDataR16) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
@@ -799,12 +834,13 @@ func (v *NRUEBTRPLocationDataR16) UnmarshalUPERWithOptions(data []byte, options 
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRUEBTRPLocationDataR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *NRUEBTRPLocationDataR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = NRUEBTRPLocationDataR16{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -814,6 +850,7 @@ func (v *NRUEBTRPLocationDataR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_nrtrplocationinfor16 := bb.EnterComponent("NrTrpLocationInfoR16")
 	v.NrTrpLocationInfoR16 = make(NRTRPLocationInfoR16, 0)
 	_, errCollection_nrtrplocationinfor16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_nrtrplocationinfor16, fragmentLength_nrtrplocationinfor16 int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -822,9 +859,11 @@ func (v *NRUEBTRPLocationDataR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_nrtrplocationinfor16; i++ {
 			var elem NRTRPLocationInfoPerFreqLayerR16
+			elementMark := bb.EnterIndex(fragmentOffset_nrtrplocationinfor16 + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("NrTrpLocationInfoR16[%d]", fragmentOffset_nrtrplocationinfor16+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.NrTrpLocationInfoR16 = append(v.NrTrpLocationInfoR16, elem)
 		}
 		return nil
@@ -832,7 +871,9 @@ func (v *NRUEBTRPLocationDataR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if errCollection_nrtrplocationinfor16 != nil {
 		return runtime.WrapDecodePath(errCollection_nrtrplocationinfor16, "NrTrpLocationInfoR16")
 	}
+	bb.LeaveComponent(toleranceMark_nrtrplocationinfor16)
 	if opt_nrdlprsbeaminfor16 {
+		toleranceMark_nrdlprsbeaminfor16 := bb.EnterComponent("NrDlPrsBeamInfoR16")
 		tmp_nrdlprsbeaminfor16 := make(NRDLPRSBeamInfoR16, 0)
 		_, errCollection_nrdlprsbeaminfor16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_nrdlprsbeaminfor16, fragmentLength_nrdlprsbeaminfor16 int64) error {
 			// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1264
@@ -840,10 +881,12 @@ func (v *NRUEBTRPLocationDataR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return fmt.Errorf("collection fragment count out of range")
 			}
 			for i_nrdlprsbeaminfor16 := int64(0); i_nrdlprsbeaminfor16 < fragmentLength_nrdlprsbeaminfor16; i_nrdlprsbeaminfor16++ {
+				elementMark := bb.EnterIndex(fragmentOffset_nrdlprsbeaminfor16 + i_nrdlprsbeaminfor16)
 				elem, err := UnmarshalUPERNRDLPRSBeamInfoPerFreqLayerR16From(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("NrDlPrsBeamInfoR16[%d]", fragmentOffset_nrdlprsbeaminfor16+i_nrdlprsbeaminfor16))
 				}
+				bb.LeaveComponent(elementMark)
 				tmp_nrdlprsbeaminfor16 = append(tmp_nrdlprsbeaminfor16, elem)
 			}
 			return nil
@@ -852,9 +895,10 @@ func (v *NRUEBTRPLocationDataR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_nrdlprsbeaminfor16, "NrDlPrsBeamInfoR16")
 		}
 		v.NrDlPrsBeamInfoR16 = tmp_nrdlprsbeaminfor16
+		bb.LeaveComponent(toleranceMark_nrdlprsbeaminfor16)
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -870,7 +914,7 @@ func (v *NRUEBTRPLocationDataR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -878,7 +922,11 @@ func (v *NRUEBTRPLocationDataR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -935,6 +983,7 @@ func (v *NRUEBTRPRTDInfoR16) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
@@ -954,21 +1003,24 @@ func (v *NRUEBTRPRTDInfoR16) UnmarshalUPERWithOptions(data []byte, options per.D
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRUEBTRPRTDInfoR16")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *NRUEBTRPRTDInfoR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = NRUEBTRPRTDInfoR16{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
+	toleranceMark_nrrtdinfor16 := bb.EnterComponent("NrRtdInfoR16")
 	if err := v.NrRtdInfoR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NrRtdInfoR16")
 	}
+	bb.LeaveComponent(toleranceMark_nrrtdinfor16)
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -984,7 +1036,7 @@ func (v *NRUEBTRPRTDInfoR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -992,7 +1044,11 @@ func (v *NRUEBTRPRTDInfoR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }
 
@@ -1079,6 +1135,7 @@ func (v *NRIntegrityParametersR18) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 	}
+	per.AppendTruncatedExtension(bb, v.PERPadding_)
 	return nil
 }
 
@@ -1098,12 +1155,13 @@ func (v *NRIntegrityParametersR18) UnmarshalUPERWithOptions(data []byte, options
 	if err != nil {
 		return runtime.WrapDecodePath(err, "NRIntegrityParametersR18")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.WithRecords(v.PERPadding_)
 	return nil
 }
 
 func (v *NRIntegrityParametersR18) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = NRIntegrityParametersR18{}
+	extAdditions := per.BeginExtensionAdditions(bb)
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1126,35 +1184,43 @@ func (v *NRIntegrityParametersR18) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_nrintegrityparameterstrplocationinfor18 {
+		toleranceMark_nrintegrityparameterstrplocationinfor18 := bb.EnterComponent("NrIntegrityParametersTRPLocationInfoR18")
 		var dec_nrintegrityparameterstrplocationinfor18 NRIntegrityParametersTRPLocationInfoR18
 		if err := dec_nrintegrityparameterstrplocationinfor18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrIntegrityParametersTRPLocationInfoR18")
 		}
 		v.NrIntegrityParametersTRPLocationInfoR18 = &dec_nrintegrityparameterstrplocationinfor18
+		bb.LeaveComponent(toleranceMark_nrintegrityparameterstrplocationinfor18)
 	}
 	if opt_nrintegrityparametersdlprsbeaminfor18 {
+		toleranceMark_nrintegrityparametersdlprsbeaminfor18 := bb.EnterComponent("NrIntegrityParametersDLPRSBeamInfoR18")
 		var dec_nrintegrityparametersdlprsbeaminfor18 NRIntegrityParametersDLPRSBeamInfoR18
 		if err := dec_nrintegrityparametersdlprsbeaminfor18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrIntegrityParametersDLPRSBeamInfoR18")
 		}
 		v.NrIntegrityParametersDLPRSBeamInfoR18 = &dec_nrintegrityparametersdlprsbeaminfor18
+		bb.LeaveComponent(toleranceMark_nrintegrityparametersdlprsbeaminfor18)
 	}
 	if opt_nrintegrityparametersrtdinfor18 {
+		toleranceMark_nrintegrityparametersrtdinfor18 := bb.EnterComponent("NrIntegrityParametersRTDInfoR18")
 		var dec_nrintegrityparametersrtdinfor18 NRIntegrityParametersRTDInfoR18
 		if err := dec_nrintegrityparametersrtdinfor18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrIntegrityParametersRTDInfoR18")
 		}
 		v.NrIntegrityParametersRTDInfoR18 = &dec_nrintegrityparametersrtdinfor18
+		bb.LeaveComponent(toleranceMark_nrintegrityparametersrtdinfor18)
 	}
 	if opt_nrintegrityparameterstrpbeamantennainfor18 {
+		toleranceMark_nrintegrityparameterstrpbeamantennainfor18 := bb.EnterComponent("NrIntegrityParametersTRPBeamAntennaInfoR18")
 		var dec_nrintegrityparameterstrpbeamantennainfor18 NRIntegrityParametersTRPBeamAntennaInfoR18
 		if err := dec_nrintegrityparameterstrpbeamantennainfor18.UnmarshalUPERFrom(bb); err != nil {
 			return runtime.WrapDecodePath(err, "NrIntegrityParametersTRPBeamAntennaInfoR18")
 		}
 		v.NrIntegrityParametersTRPBeamAntennaInfoR18 = &dec_nrintegrityparameterstrpbeamantennainfor18
+		bb.LeaveComponent(toleranceMark_nrintegrityparameterstrpbeamantennainfor18)
 	}
 	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
+		extCount, extPresent, err := extAdditions.DecodeBitmap(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
@@ -1170,7 +1236,7 @@ func (v *NRIntegrityParametersR18) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
+			if extPresent[i] && extAdditions.Received(bb, i) {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
@@ -1178,6 +1244,10 @@ func (v *NRIntegrityParametersR18) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.ExtData_[i] = data
 			}
 		}
+		if extAdditions.Emptied() {
+			v.ExtCount_, v.ExtPresent_, v.ExtData_, v.PERExtPadding_ = 0, nil, nil, nil
+		}
 	}
+	v.PERPadding_ = extAdditions.Record(v.PERPadding_)
 	return nil
 }

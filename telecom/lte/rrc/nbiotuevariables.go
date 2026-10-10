@@ -110,6 +110,7 @@ func (v *VarANRMeasConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "AnrQualityThresholdR16")
 	}
 	v.AnrQualityThresholdR16 = NRSRPRangeNBR14(val_anrqualitythresholdr16)
+	toleranceMark_anrcarrierlistr16 := bb.EnterComponent("AnrCarrierListR16")
 	v.AnrCarrierListR16 = make(ANRCarrierListNBR16, 0)
 	_, errCollection_anrcarrierlistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_anrcarrierlistr16, fragmentLength_anrcarrierlistr16 int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
@@ -118,9 +119,11 @@ func (v *VarANRMeasConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_anrcarrierlistr16; i++ {
 			var elem ANRCarrierNBR16
+			elementMark := bb.EnterIndex(fragmentOffset_anrcarrierlistr16 + i)
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("AnrCarrierListR16[%d]", fragmentOffset_anrcarrierlistr16+i))
 			}
+			bb.LeaveComponent(elementMark)
 			v.AnrCarrierListR16 = append(v.AnrCarrierListR16, elem)
 		}
 		return nil
@@ -128,6 +131,7 @@ func (v *VarANRMeasConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if errCollection_anrcarrierlistr16 != nil {
 		return runtime.WrapDecodePath(errCollection_anrcarrierlistr16, "AnrCarrierListR16")
 	}
+	bb.LeaveComponent(toleranceMark_anrcarrierlistr16)
 	return nil
 }
 
@@ -305,9 +309,11 @@ func (v *VarRLFReportNBR16) UnmarshalUPERWithOptions(data []byte, options per.De
 
 func (v *VarRLFReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = VarRLFReportNBR16{}
+	toleranceMark_rlfreportr16 := bb.EnterComponent("RlfReportR16")
 	if err := v.RlfReportR16.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RlfReportR16")
 	}
+	bb.LeaveComponent(toleranceMark_rlfreportr16)
 	v.PlmnIdentityListR16 = make(PLMNIdentityList3R11, 0)
 	_, errCollection_plmnidentitylistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr16, fragmentLength_plmnidentitylistr16 int64) error {
 		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208

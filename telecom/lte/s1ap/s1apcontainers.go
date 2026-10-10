@@ -98,17 +98,28 @@ func (v *ProtocolIEContainerComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes ProtocolIEContainer from APER format.
 func (v *ProtocolIEContainerComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ProtocolIEContainer with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolIEContainerComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEContainer")
+	}
 	value, err := UnmarshalAPERProtocolIEContainerFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainer")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ProtocolIEContainer")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainer")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -201,15 +212,25 @@ func (v *ProtocolIESingleContainer) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes ProtocolIESingleContainer from APER format.
 func (v *ProtocolIESingleContainer) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ProtocolIESingleContainer with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolIESingleContainer) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIESingleContainer")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIESingleContainer")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ProtocolIESingleContainer")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIESingleContainer")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -257,15 +278,25 @@ func (v *ProtocolIEField) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes ProtocolIEField from APER format.
 func (v *ProtocolIEField) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ProtocolIEField with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolIEField) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEField")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEField")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ProtocolIEField")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEField")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -306,17 +337,28 @@ func (v *ProtocolIEContainerPairComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes ProtocolIEContainerPair from APER format.
 func (v *ProtocolIEContainerPairComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ProtocolIEContainerPair with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolIEContainerPairComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEContainerPair")
+	}
 	value, err := UnmarshalAPERProtocolIEContainerPairFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainerPair")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ProtocolIEContainerPair")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainerPair")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -415,15 +457,25 @@ func (v *ProtocolIEFieldPair) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes ProtocolIEFieldPair from APER format.
 func (v *ProtocolIEFieldPair) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ProtocolIEFieldPair with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolIEFieldPair) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEFieldPair")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEFieldPair")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ProtocolIEFieldPair")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEFieldPair")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -474,17 +526,28 @@ func (v *ProtocolIEContainerListComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes ProtocolIEContainerList from APER format.
 func (v *ProtocolIEContainerListComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ProtocolIEContainerList with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolIEContainerListComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEContainerList")
+	}
 	value, err := UnmarshalAPERProtocolIEContainerListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainerList")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ProtocolIEContainerList")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainerList")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -570,17 +633,28 @@ func (v *ProtocolIEContainerPairListComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes ProtocolIEContainerPairList from APER format.
 func (v *ProtocolIEContainerPairListComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ProtocolIEContainerPairList with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolIEContainerPairListComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEContainerPairList")
+	}
 	value, err := UnmarshalAPERProtocolIEContainerPairListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainerPairList")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ProtocolIEContainerPairList")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainerPairList")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -666,17 +740,28 @@ func (v *ProtocolExtensionContainerComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes ProtocolExtensionContainer from APER format.
 func (v *ProtocolExtensionContainerComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ProtocolExtensionContainer with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolExtensionContainerComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolExtensionContainer")
+	}
 	value, err := UnmarshalAPERProtocolExtensionContainerFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolExtensionContainer")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ProtocolExtensionContainer")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolExtensionContainer")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -769,15 +854,25 @@ func (v *ProtocolExtensionField) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes ProtocolExtensionField from APER format.
 func (v *ProtocolExtensionField) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes ProtocolExtensionField with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolExtensionField) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolExtensionField")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolExtensionField")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "ProtocolExtensionField")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolExtensionField")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
@@ -818,17 +913,28 @@ func (v *PrivateIEContainerComplete) MarshalAPER() ([]byte, error) {
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
+// UnmarshalAPER decodes PrivateIEContainer from APER format.
 func (v *PrivateIEContainerComplete) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes PrivateIEContainer with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *PrivateIEContainerComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "PrivateIEContainer")
+	}
 	value, err := UnmarshalAPERPrivateIEContainerFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEContainer")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "PrivateIEContainer")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEContainer")
 	}
-	v.Value, v.PERPadding_ = value, padding
+	v.Value, v.PERPadding_ = value, padding.Padding()
 	return nil
 }
 
@@ -921,15 +1027,25 @@ func (v *PrivateIEField) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes PrivateIEField from APER format.
 func (v *PrivateIEField) UnmarshalAPER(data []byte) error {
+	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+}
+
+// UnmarshalAPERWithOptions decodes PrivateIEField with explicit receiver options:
+// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// per.BitBuffer.SetDecodeOptionsAligned).
+func (v *PrivateIEField) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
 	bb := per.NewBitBufferFromBytes(data)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "PrivateIEField")
+	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEField")
 	}
-	padding, err := per.CaptureFinalPadding(bb)
+	padding, err := per.CaptureFinalBits(bb, "PrivateIEField")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEField")
 	}
-	v.PERPadding_ = padding
+	v.PERPadding_ = padding.Padding()
 	return nil
 }
 
