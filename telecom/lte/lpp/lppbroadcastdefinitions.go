@@ -678,7 +678,7 @@ func (v *OTDOAUEAssistedR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	toleranceMark_otdoaneighbourcellinfor15 := bb.EnterComponent("OtdoaNeighbourCellInfoR15")
 	v.OtdoaNeighbourCellInfoR15 = make(OTDOANeighbourCellInfoList, 0)
 	_, errCollection_otdoaneighbourcellinfor15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_otdoaneighbourcellinfor15, fragmentLength_otdoaneighbourcellinfor15 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1264
+		// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1258
 		if fragmentOffset_otdoaneighbourcellinfor15 < 0 || fragmentLength_otdoaneighbourcellinfor15 < 0 || fragmentLength_otdoaneighbourcellinfor15 > int64(^uint(0)>>1) || fragmentOffset_otdoaneighbourcellinfor15 > int64(^uint(0)>>1)-fragmentLength_otdoaneighbourcellinfor15 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -853,7 +853,7 @@ func (v *NRUEBTRPLocationDataR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	toleranceMark_nrtrplocationinfor16 := bb.EnterComponent("NrTrpLocationInfoR16")
 	v.NrTrpLocationInfoR16 = make(NRTRPLocationInfoR16, 0)
 	_, errCollection_nrtrplocationinfor16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_nrtrplocationinfor16, fragmentLength_nrtrplocationinfor16 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1208
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
 		if fragmentOffset_nrtrplocationinfor16 < 0 || fragmentLength_nrtrplocationinfor16 < 0 || fragmentLength_nrtrplocationinfor16 > int64(^uint(0)>>1) || fragmentOffset_nrtrplocationinfor16 > int64(^uint(0)>>1)-fragmentLength_nrtrplocationinfor16 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -876,7 +876,7 @@ func (v *NRUEBTRPLocationDataR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		toleranceMark_nrdlprsbeaminfor16 := bb.EnterComponent("NrDlPrsBeamInfoR16")
 		tmp_nrdlprsbeaminfor16 := make(NRDLPRSBeamInfoR16, 0)
 		_, errCollection_nrdlprsbeaminfor16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_nrdlprsbeaminfor16, fragmentLength_nrdlprsbeaminfor16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1264
+			// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1258
 			if fragmentOffset_nrdlprsbeaminfor16 < 0 || fragmentLength_nrdlprsbeaminfor16 < 0 || fragmentLength_nrdlprsbeaminfor16 > int64(^uint(0)>>1) || fragmentOffset_nrdlprsbeaminfor16 > int64(^uint(0)>>1)-fragmentLength_nrdlprsbeaminfor16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}

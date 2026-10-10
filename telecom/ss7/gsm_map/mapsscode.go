@@ -3,6 +3,8 @@
 package gsm_map
 
 import (
+	"fmt"
+
 	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/ber"
 	"github.com/gomaja/go-asn1/runtime/tag"
@@ -236,3 +238,105 @@ const (
 
 // SSCode represents the ASN.1 type SS-Code (OCTET_STRING).
 type SSCode = []byte
+
+// MarshalBERSSCode encodes a typed standalone SSCode, preserving unchanged received BER.
+func MarshalBERSSCode(value *BERValue[SSCode], opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	if value == nil {
+		return nil, fmt.Errorf("%w: required SSCode is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERSSCode(value, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, value.berOriginal_, value.berSnapshot_, opts), nil
+}
+func marshalBERSSCode(value *BERValue[SSCode], opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	v := &struct{ Value SSCode }{Value: value.Value}
+	_ = v
+	var children []byte
+	if len(v.Value) < 1 || len(v.Value) > 1 {
+		if constraintErr := ber.CheckEncodedLength(opts, "SS-Code", "SIZE (1)", len(v.Value)); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_value, encodeErr_enc_value := ber.EncodeOctetString([]byte(v.Value))
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("encoding SS-Code: %w", encodeErr_enc_value)
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// MarshalDERSSCode encodes a typed standalone SSCode using DER.
+func MarshalDERSSCode(value *BERValue[SSCode]) ([]byte, error) {
+	if value == nil {
+		return nil, fmt.Errorf("%w: required SSCode is nil", ber.ErrInvalidValue)
+	}
+	v := &struct{ Value SSCode }{Value: value.Value}
+	_ = v
+	var children []byte
+	if len(v.Value) < 1 || len(v.Value) > 1 {
+		if constraintErr := ber.CheckEncodedLength(nil, "SS-Code", "SIZE (1)", len(v.Value)); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_value, encodeErr_enc_value := ber.EncodeOctetString([]byte(v.Value))
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("encoding SS-Code: %w", encodeErr_enc_value)
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// UnmarshalBERSSCode decodes one complete typed standalone SSCode from BER/DER.
+func UnmarshalBERSSCode(data []byte, opts ...ber.DecodeOption) (returnValue *BERValue[SSCode], returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	opts = ber.TrackBERForm(opts)
+	if err := ber.ValidateBERElement(data, opts...); err != nil {
+		return nil, err
+	}
+	v := &struct{ Value SSCode }{}
+	decode := func() error {
+		content := data
+		offset := 0
+		val_value, n, err := ber.DecodeOctetString(content[offset:], opts...)
+		if err != nil {
+			return fmt.Errorf("decoding SS-Code: %w", err)
+		}
+		v.Value = SSCode(val_value)
+		if offset > len(content) || n < 0 || n > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
+		offset += n
+		if len(v.Value) < 1 || len(v.Value) > 1 {
+			if constraintErr := ber.CheckDecodedLength(opts, "SS-Code", "SIZE (1)", len(v.Value)); constraintErr != nil {
+				return constraintErr
+			}
+		}
+		if offset != len(content) {
+			return ber.ErrExtraData
+		}
+		return nil
+	}
+	if err := decode(); err != nil {
+		return nil, err
+	}
+	decoded := &BERValue[SSCode]{Value: v.Value}
+	if ber.BERNeedsPreservation(opts) {
+		var reports ber.ViolationLog
+		snapshot, err := marshalBERSSCode(decoded, ber.WithConstraintTolerance(&reports))
+		if err != nil {
+			return nil, err
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
+}
