@@ -1071,9 +1071,18 @@ func (v *ExternalSignalInfo6) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "ExternalSignalInfo6", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "ExternalSignalInfo6", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -1286,9 +1295,18 @@ func (v *ExtExternalSignalInfo6) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "ExtExternalSignalInfo6", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "ExtExternalSignalInfo6", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -1501,9 +1519,18 @@ func (v *AccessNetworkSignalInfo6) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "AccessNetworkSignalInfo6", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "AccessNetworkSignalInfo6", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -2348,9 +2375,18 @@ func (v *NAEAPreferredCI6) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "NAEAPreferredCI6", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "NAEAPreferredCI6", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -2763,9 +2799,18 @@ func (v *LCSClientExternalID6) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSClientExternalID6", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSClientExternalID6", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -3461,9 +3506,18 @@ func (v *EMLPPInfo6) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "EMLPPInfo6", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "EMLPPInfo6", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -3863,9 +3917,18 @@ func (v *MCSSInfo6) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "MCSSInfo6", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "MCSSInfo6", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {

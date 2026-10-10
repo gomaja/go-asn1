@@ -319,9 +319,18 @@ func (v *ExtensionDataTypesExtensionContainer) UnmarshalBER(data []byte, opts ..
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "ExtensionDataTypesExtensionContainer", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "ExtensionDataTypesExtensionContainer", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -579,9 +588,18 @@ func (v *ExtensionDataTypesSLRArgExtensionContainer) UnmarshalBER(data []byte, o
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "ExtensionDataTypesSLRArgExtensionContainer", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "ExtensionDataTypesSLRArgExtensionContainer", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -1089,9 +1107,18 @@ func (v *ExtensionDataTypesSLRArgPCSExtensions) UnmarshalBER(data []byte, opts .
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "ExtensionDataTypesSLRArgPCSExtensions", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "ExtensionDataTypesSLRArgPCSExtensions", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {

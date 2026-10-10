@@ -777,7 +777,7 @@ type SingleRelativeResult struct {
 	RelatedUEInfoIndef_ bool                         `asn1:"-" json:"-"`
 	RelativeLocation    *RelativeLocationCoordinates `asn1:"tag:1,context,implicit,optional" json:"RelativeLocation,omitempty"`
 	RangeDirection      *RangeDirection              `asn1:"tag:2,context,implicit,optional" json:"RangeDirection,omitempty"`
-	RelativeVelocity    *LCSVelocityEstimate         `asn1:"tag:3,context,implicit,optional" json:"RelativeVelocity,omitempty"`
+	RelativeVelocity    *RelVelocityEstimate         `asn1:"tag:3,context,implicit,optional" json:"RelativeVelocity,omitempty"`
 	ExtCount_           int64                        `asn1:"-" json:"-"`
 	ExtPresent_         []bool                       `asn1:"-" json:"-"`
 	ExtData_            [][]byte                     `asn1:"-" json:"-"`
@@ -899,6 +899,71 @@ type AzimuthResult = int64
 
 // ElevationResult represents the ASN.1 type ElevationResult (INTEGER).
 type ElevationResult = int64
+
+// RelVelocityEstimate represents the ASN.1 type RelVelocityEstimate (SEQUENCE).
+type RelVelocityEstimate struct {
+	RVelocity            *RadialVelocity             `asn1:"tag:0,context,implicit,optional" json:"RVelocity,omitempty"`
+	RUncertainty         *Uncertainty                `asn1:"tag:1,context,implicit,optional" json:"RUncertainty,omitempty"`
+	ATransverseVelocity  *AngularVelocity            `asn1:"tag:2,context,implicit,optional" json:"ATransverseVelocity,omitempty"`
+	AVelocityUncertainty *AngularVelocityUncertainty `asn1:"tag:3,context,implicit,optional" json:"AVelocityUncertainty,omitempty"`
+	ETransverseVelocity  *AngularVelocity            `asn1:"tag:4,context,implicit,optional" json:"ETransverseVelocity,omitempty"`
+	EVelocityUncertainty *AngularVelocityUncertainty `asn1:"tag:5,context,implicit,optional" json:"EVelocityUncertainty,omitempty"`
+	UnitsRVelocity       *UnitsLinearVelocity        `asn1:"tag:6,context,implicit,optional" json:"UnitsRVelocity,omitempty"`
+	UnitsAVelocity       *UnitsAngularVelocity       `asn1:"tag:7,context,implicit,optional" json:"UnitsAVelocity,omitempty"`
+	UnitsEVelocity       *UnitsAngularVelocity       `asn1:"tag:8,context,implicit,optional" json:"UnitsEVelocity,omitempty"`
+	ExtCount_            int64                       `asn1:"-" json:"-"`
+	ExtPresent_          []bool                      `asn1:"-" json:"-"`
+	ExtData_             [][]byte                    `asn1:"-" json:"-"`
+	berOriginal_         []byte                      `asn1:"-" json:"-"`
+	berSnapshot_         []byte                      `asn1:"-" json:"-"`
+}
+
+// RadialVelocity represents the ASN.1 type RadialVelocity (INTEGER).
+type RadialVelocity = int64
+
+// AngularVelocity represents the ASN.1 type AngularVelocity (INTEGER).
+type AngularVelocity = int64
+
+// AngularVelocityUncertainty represents the ASN.1 type AngularVelocityUncertainty (INTEGER).
+type AngularVelocityUncertainty = int64
+
+// UnitsLinearVelocity represents the ASN.1 ENUMERATED type UnitsLinearVelocity.
+type UnitsLinearVelocity int64
+
+const (
+	UnitsLinearVelocityMpers  UnitsLinearVelocity = 0
+	UnitsLinearVelocityCmpers UnitsLinearVelocity = 1
+)
+
+func (v UnitsLinearVelocity) String() string {
+	switch v {
+	case UnitsLinearVelocityMpers:
+		return "mpers"
+	case UnitsLinearVelocityCmpers:
+		return "cmpers"
+	default:
+		return "unknown"
+	}
+}
+
+// UnitsAngularVelocity represents the ASN.1 ENUMERATED type UnitsAngularVelocity.
+type UnitsAngularVelocity int64
+
+const (
+	UnitsAngularVelocityDegpersec1  UnitsAngularVelocity = 0
+	UnitsAngularVelocityDegpersec01 UnitsAngularVelocity = 1
+)
+
+func (v UnitsAngularVelocity) String() string {
+	switch v {
+	case UnitsAngularVelocityDegpersec1:
+		return "degpersec1"
+	case UnitsAngularVelocityDegpersec01:
+		return "degpersec01"
+	default:
+		return "unknown"
+	}
+}
 
 // LCSAreaEventReportArg represents the ASN.1 type LCS-AreaEventReportArg (SEQUENCE).
 type LCSAreaEventReportArg struct {
@@ -1187,6 +1252,8 @@ type LCSEventReportArg struct {
 	MultiplePositioningProtocolPDUsIndef_ bool                             `asn1:"-" json:"-"`
 	TerminationCause                      *DataTypesTerminationCause       `asn1:"tag:7,context,implicit,optional" json:"TerminationCause,omitempty"`
 	UserPlaneEventReportStat              *LCSUserPlaneEventReportStat     `asn1:"tag:8,context,implicit,optional" json:"UserPlaneEventReportStat,omitempty"`
+	ReferenceNumber                       *LCSLCSReferenceNumber           `asn1:"tag:9,context,implicit,optional" json:"ReferenceNumber,omitempty"`
+	HGmlcAddress                          *CommonDataTypesGSNAddress       `asn1:"tag:10,context,implicit,optional" json:"HGmlcAddress,omitempty"`
 	ExtCount_                             int64                            `asn1:"-" json:"-"`
 	ExtPresent_                           []bool                           `asn1:"-" json:"-"`
 	ExtData_                              [][]byte                         `asn1:"-" json:"-"`
@@ -1312,13 +1379,15 @@ type LCSEventReportRes struct {
 
 // LCSCancelDeferredLocationArg represents the ASN.1 type LCS-CancelDeferredLocationArg (SEQUENCE).
 type LCSCancelDeferredLocationArg struct {
-	ReferenceNumberExt LCSReferenceNumberExt `asn1:"tag:0,context,implicit"`
-	HGmlcCallBackUri   string                `asn1:"tag:2,context,implicit"`
-	ExtCount_          int64                 `asn1:"-" json:"-"`
-	ExtPresent_        []bool                `asn1:"-" json:"-"`
-	ExtData_           [][]byte              `asn1:"-" json:"-"`
-	berOriginal_       []byte                `asn1:"-" json:"-"`
-	berSnapshot_       []byte                `asn1:"-" json:"-"`
+	ReferenceNumberExt LCSReferenceNumberExt      `asn1:"tag:0,context,implicit"`
+	HGmlcCallBackUri   string                     `asn1:"tag:2,context,implicit"`
+	ReferenceNumber    *LCSLCSReferenceNumber     `asn1:"tag:3,context,implicit,optional" json:"ReferenceNumber,omitempty"`
+	HGmlcAddress       *CommonDataTypesGSNAddress `asn1:"tag:4,context,implicit,optional" json:"HGmlcAddress,omitempty"`
+	ExtCount_          int64                      `asn1:"-" json:"-"`
+	ExtPresent_        []bool                     `asn1:"-" json:"-"`
+	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	berOriginal_       []byte                     `asn1:"-" json:"-"`
+	berSnapshot_       []byte                     `asn1:"-" json:"-"`
 }
 
 // LCSLocationPrivacySettingArg represents the ASN.1 type LCS-LocationPrivacySettingArg (SEQUENCE).
@@ -1457,13 +1526,16 @@ type LCSPruDisassociationArg struct {
 type SLMTLRType int64
 
 const (
-	SLMTLRTypeRangingSidelink SLMTLRType = 0
+	SLMTLRTypeRangingSidelink                  SLMTLRType = 0
+	SLMTLRTypePeriodictriggeredrangingSidelink SLMTLRType = 1
 )
 
 func (v SLMTLRType) String() string {
 	switch v {
 	case SLMTLRTypeRangingSidelink:
 		return "rangingSidelink"
+	case SLMTLRTypePeriodictriggeredrangingSidelink:
+		return "periodictriggeredrangingSidelink"
 	default:
 		return "unknown"
 	}
@@ -1471,17 +1543,25 @@ func (v SLMTLRType) String() string {
 
 // LCSSLMTLRArg represents the ASN.1 type LCS-SLMTLRArg (SEQUENCE).
 type LCSSLMTLRArg struct {
-	SlmtlrType          SLMTLRType             `asn1:"tag:0,context,implicit"`
-	SupportedGADShapes  *LCSSupportedGADShapes `asn1:"tag:1,context,implicit,optional" json:"SupportedGADShapes,omitempty"`
-	RelatedUEInfo       *RelatedUEInfo         `asn1:"tag:2,context,implicit,optional" json:"RelatedUEInfo,omitempty"`
-	RelatedUEInfoIndef_ bool                   `asn1:"-" json:"-"`
-	LocatedUEselect     *LocatedUEselect       `asn1:"tag:3,context,implicit,optional" json:"LocatedUEselect,omitempty"`
-	CoordinateID        *CoordinateID          `asn1:"tag:4,context,implicit,optional" json:"CoordinateID,omitempty"`
-	ExtCount_           int64                  `asn1:"-" json:"-"`
-	ExtPresent_         []bool                 `asn1:"-" json:"-"`
-	ExtData_            [][]byte               `asn1:"-" json:"-"`
-	berOriginal_        []byte                 `asn1:"-" json:"-"`
-	berSnapshot_        []byte                 `asn1:"-" json:"-"`
+	SlmtlrType                SLMTLRType                 `asn1:"tag:0,context,implicit"`
+	SupportedGADShapes        *LCSSupportedGADShapes     `asn1:"tag:1,context,implicit,optional" json:"SupportedGADShapes,omitempty"`
+	RelatedUEInfo             *RelatedUEInfo             `asn1:"tag:2,context,implicit,optional" json:"RelatedUEInfo,omitempty"`
+	RelatedUEInfoIndef_       bool                       `asn1:"-" json:"-"`
+	LocatedUEselect           *LocatedUEselect           `asn1:"tag:3,context,implicit,optional" json:"LocatedUEselect,omitempty"`
+	CoordinateID              *CoordinateID              `asn1:"tag:4,context,implicit,optional" json:"CoordinateID,omitempty"`
+	LcsQoS                    *LCSLCSQoS                 `asn1:"tag:5,context,implicit,optional" json:"LcsQoS,omitempty"`
+	RequestedRangingResult    *PreferredRangingResult    `asn1:"tag:6,context,implicit,optional" json:"RequestedRangingResult,omitempty"`
+	ReferenceNumber           *LCSLCSReferenceNumber     `asn1:"tag:7,context,implicit,optional" json:"ReferenceNumber,omitempty"`
+	HGmlcAddress              *CommonDataTypesGSNAddress `asn1:"tag:8,context,implicit,optional" json:"HGmlcAddress,omitempty"`
+	PeriodicLocation          *PeriodicLocation          `asn1:"tag:9,context,implicit,optional" json:"PeriodicLocation,omitempty"`
+	AreaEventReporting        *AreaEventReporting        `asn1:"tag:10,context,implicit,optional" json:"AreaEventReporting,omitempty"`
+	MotionEventReporting      *MotionEventReporting      `asn1:"tag:11,context,implicit,optional" json:"MotionEventReporting,omitempty"`
+	DeferredRoutingIdentifier []byte                     `asn1:"tag:12,context,implicit,optional" json:"DeferredRoutingIdentifier,omitzero"`
+	ExtCount_                 int64                      `asn1:"-" json:"-"`
+	ExtPresent_               []bool                     `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+	berOriginal_              []byte                     `asn1:"-" json:"-"`
+	berSnapshot_              []byte                     `asn1:"-" json:"-"`
 }
 
 // LocatedUEselect represents the ASN.1 ENUMERATED type LocatedUEselect.
@@ -1592,6 +1672,108 @@ type LCSULRSPPTransportArg struct {
 type LCSULRSPPTransportRes struct {
 	berOriginal_ []byte `asn1:"-" json:"-"`
 	berSnapshot_ []byte `asn1:"-" json:"-"`
+}
+
+// MarshalBERSSUserData encodes a typed standalone SSUserData, preserving unchanged received BER.
+func MarshalBERSSUserData(value *BERValue[SSUserData], opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	if value == nil {
+		return nil, fmt.Errorf("%w: required SSUserData is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := marshalBERSSUserData(value, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, value.berOriginal_, value.berSnapshot_, opts), nil
+}
+func marshalBERSSUserData(value *BERValue[SSUserData], opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	v := &struct{ Value SSUserData }{Value: value.Value}
+	_ = v
+	var children []byte
+	if len([]rune(v.Value)) < 1 || len([]rune(v.Value)) > 200 {
+		if constraintErr := ber.CheckEncodedLength(opts, "SS-UserData", "SIZE (1..200)", len([]rune(v.Value))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_value, stringErr := ber.EncodeStringTagChecked(22, string(v.Value))
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding SS-UserData: %w", stringErr)
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// MarshalDERSSUserData encodes a typed standalone SSUserData using DER.
+func MarshalDERSSUserData(value *BERValue[SSUserData]) ([]byte, error) {
+	if value == nil {
+		return nil, fmt.Errorf("%w: required SSUserData is nil", ber.ErrInvalidValue)
+	}
+	v := &struct{ Value SSUserData }{Value: value.Value}
+	_ = v
+	var children []byte
+	if len([]rune(v.Value)) < 1 || len([]rune(v.Value)) > 200 {
+		if constraintErr := ber.CheckEncodedLength(nil, "SS-UserData", "SIZE (1..200)", len([]rune(v.Value))); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_value, stringErr := ber.EncodeStringTagChecked(22, string(v.Value))
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding SS-UserData: %w", stringErr)
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// UnmarshalBERSSUserData decodes one complete typed standalone SSUserData from BER/DER.
+func UnmarshalBERSSUserData(data []byte, opts ...ber.DecodeOption) (returnValue *BERValue[SSUserData], returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	opts = ber.TrackBERForm(opts)
+	if err := ber.ValidateBERElement(data, opts...); err != nil {
+		return nil, err
+	}
+	v := &struct{ Value SSUserData }{}
+	decode := func() error {
+		content := data
+		offset := 0
+		val_value, n, err := ber.DecodeString(content[offset:], 22, opts...)
+		if err != nil {
+			return fmt.Errorf("decoding SS-UserData: %w", err)
+		}
+		v.Value = val_value
+		if offset > len(content) || n < 0 || n > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
+		offset += n
+		if len([]rune(v.Value)) < 1 || len([]rune(v.Value)) > 200 {
+			if constraintErr := ber.CheckDecodedLength(opts, "SS-UserData", "SIZE (1..200)", len([]rune(v.Value))); constraintErr != nil {
+				return constraintErr
+			}
+		}
+		if offset != len(content) {
+			return ber.ErrExtraData
+		}
+		return nil
+	}
+	if err := decode(); err != nil {
+		return nil, err
+	}
+	decoded := &BERValue[SSUserData]{Value: v.Value}
+	if ber.BERNeedsPreservation(opts) {
+		var reports ber.ViolationLog
+		snapshot, err := marshalBERSSUserData(decoded, ber.WithConstraintTolerance(&reports))
+		if err != nil {
+			return nil, err
+		}
+		decoded.berOriginal_ = append([]byte(nil), data...)
+		decoded.berSnapshot_ = snapshot
+	}
+	return decoded, nil
 }
 
 // MarshalBER encodes NotifySSArg to BER format.
@@ -2428,9 +2610,18 @@ func (v *NotifySSArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "NotifySSArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "NotifySSArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -3182,9 +3373,18 @@ func (v *ChargingInformation) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "ChargingInformation", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "ChargingInformation", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -3440,9 +3640,18 @@ func (v *ForwardCUGInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "ForwardCUGInfoArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "ForwardCUGInfoArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -3669,9 +3878,18 @@ func (v *ECTIndicator) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "ECTIndicator", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "ECTIndicator", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -3842,9 +4060,18 @@ func (v *NameIndicator) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "NameIndicator", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "NameIndicator", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -4820,9 +5047,18 @@ func (v *RemotePartyNumber) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "RemotePartyNumber", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "RemotePartyNumber", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -5172,9 +5408,18 @@ func (v *CallDeflectionArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "CallDeflectionArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "CallDeflectionArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -5504,7 +5749,7 @@ func (v *LocationNotificationArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if bitStringErr := ber.ValidateBitStringLength(v.DeferredLocationExt.Bytes, v.DeferredLocationExt.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "deferredLocationExt", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.DeferredLocationExt.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5528,7 +5773,7 @@ func (v *LocationNotificationArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if bitStringErr := ber.ValidateBitStringLength(v.RangingSlExt.Bytes, v.RangingSlExt.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "rangingSlExt", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.RangingSlExt.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5653,7 +5898,7 @@ func (v *LocationNotificationArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.DeferredLocationExt.Bytes, v.DeferredLocationExt.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "deferredLocationExt", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.DeferredLocationExt.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5680,7 +5925,7 @@ func (v *LocationNotificationArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.RangingSlExt.Bytes, v.RangingSlExt.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "rangingSlExt", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.RangingSlExt.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6031,9 +6276,18 @@ func (v *LocationNotificationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LocationNotificationArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LocationNotificationArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -6287,9 +6541,18 @@ func (v *LocationNotificationRes) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LocationNotificationRes", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LocationNotificationRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -6415,7 +6678,7 @@ func (v *LCSMOLRArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedGADShapes.Bytes, v.SupportedGADShapes.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedGADShapes", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.SupportedGADShapes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6658,7 +6921,7 @@ func (v *LCSMOLRArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.LocationInfo.Bytes, v.LocationInfo.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "locationInfo", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.LocationInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6800,7 +7063,7 @@ func (v *LCSMOLRArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedGADShapes.Bytes, v.SupportedGADShapes.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedGADShapes", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.SupportedGADShapes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7031,7 +7294,7 @@ func (v *LCSMOLRArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.LocationInfo.Bytes, v.LocationInfo.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "locationInfo", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.LocationInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7890,9 +8153,18 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSMOLRArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSMOLRArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -8680,9 +8952,18 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSMOLRRes", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSMOLRRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -8758,7 +9039,7 @@ func (v *LCSAreaEventRequestArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	if bitStringErr := ber.ValidateBitStringLength(v.DeferredLocationEventType.Bytes, v.DeferredLocationEventType.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "deferredLocationEventType", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 	if v.DeferredLocationEventType.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -8842,7 +9123,7 @@ func (v *LCSAreaEventRequestArg) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.DeferredLocationEventType.Bytes, v.DeferredLocationEventType.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "deferredLocationEventType", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 	if v.DeferredLocationEventType.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -9151,7 +9432,7 @@ func (v *LCSSLMOLRArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedGADShapes.Bytes, v.SupportedGADShapes.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedGADShapes", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.SupportedGADShapes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -9348,7 +9629,7 @@ func (v *LCSSLMOLRArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedGADShapes.Bytes, v.SupportedGADShapes.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedGADShapes", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.SupportedGADShapes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -9861,9 +10142,18 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSSLMOLRArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSSLMOLRArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -10252,9 +10542,18 @@ func (v *PreferredRangingResult) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "PreferredRangingResult", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "PreferredRangingResult", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -10571,9 +10870,18 @@ func (v *RangingUEInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "RangingUEInfo", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "RangingUEInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -11041,9 +11349,18 @@ func (v *LCSSLMOLRRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSSLMOLRRes", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSSLMOLRRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -11254,14 +11571,9 @@ func (v *SingleRelativeResult) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_rangedirection...)
 	}
 	if v.RelativeVelocity != nil {
-		if len(*v.RelativeVelocity) < 4 || len(*v.RelativeVelocity) > 7 {
-			if constraintErr := ber.CheckEncodedLength(opts, "relativeVelocity", "SIZE (4..7)", len(*v.RelativeVelocity)); constraintErr != nil {
-				return nil, constraintErr
-			}
-		}
-		enc_relativevelocity, encodeErr_enc_relativevelocity := ber.EncodeOctetString([]byte(*v.RelativeVelocity))
-		if encodeErr_enc_relativevelocity != nil {
-			return nil, fmt.Errorf("encoding relativeVelocity: %w", encodeErr_enc_relativevelocity)
+		enc_relativevelocity, err := v.RelativeVelocity.MarshalBER(ber.ChildEncodeOptions(opts, "relativeVelocity")...)
+		if err != nil {
+			return nil, fmt.Errorf("encoding relativeVelocity: %w", err)
 		}
 		retagged_enc_relativevelocity, tagErr_enc_relativevelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_relativevelocity)
 		if tagErr_enc_relativevelocity != nil {
@@ -11331,14 +11643,9 @@ func (v *SingleRelativeResult) MarshalDER() ([]byte, error) {
 		children = append(children, enc_rangedirection...)
 	}
 	if v.RelativeVelocity != nil {
-		if len(*v.RelativeVelocity) < 4 || len(*v.RelativeVelocity) > 7 {
-			if constraintErr := ber.CheckEncodedLength(nil, "relativeVelocity", "SIZE (4..7)", len(*v.RelativeVelocity)); constraintErr != nil {
-				return nil, constraintErr
-			}
-		}
-		enc_relativevelocity, encodeErr_enc_relativevelocity := ber.EncodeOctetString([]byte(*v.RelativeVelocity))
-		if encodeErr_enc_relativevelocity != nil {
-			return nil, fmt.Errorf("encoding relativeVelocity: %w", encodeErr_enc_relativevelocity)
+		enc_relativevelocity, err := v.RelativeVelocity.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding relativeVelocity: %w", err)
 		}
 		retagged_enc_relativevelocity, tagErr_enc_relativevelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_relativevelocity)
 		if tagErr_enc_relativevelocity != nil {
@@ -11511,15 +11818,18 @@ func (v *SingleRelativeResult) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if err != nil {
 					return fmt.Errorf("decoding relativeVelocity: %w", err)
 				}
-				if decodedTag_relativevelocity.Class != tag.ClassContextSpecific || decodedTag_relativevelocity.Number != 3 {
+				if decodedTag_relativevelocity.Class != tag.ClassContextSpecific || decodedTag_relativevelocity.Number != 3 || decodedTag_relativevelocity.Constructed != true {
 					return fmt.Errorf("decoding relativeVelocity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_relativevelocity)
 				}
-				decVal_relativevelocity, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_relativevelocity.Constructed, rawVal_relativevelocity, opts...)
-				if octetErr != nil {
-					return fmt.Errorf("decoding relativeVelocity: %w", octetErr)
+				reconstructed_relativevelocity, reconstructionErr_relativevelocity := ber.EncodeSequence(rawVal_relativevelocity)
+				if reconstructionErr_relativevelocity != nil {
+					return fmt.Errorf("decoding relativeVelocity: %w", reconstructionErr_relativevelocity)
 				}
-				tmp_relativevelocity := LCSVelocityEstimate(decVal_relativevelocity)
-				v.RelativeVelocity = &tmp_relativevelocity
+				var dec_relativevelocity RelVelocityEstimate
+				if unmErr := dec_relativevelocity.UnmarshalBER(reconstructed_relativevelocity, ber.ChildDecodeOptions(opts, "relativeVelocity")...); unmErr != nil {
+					return fmt.Errorf("decoding relativeVelocity: %w", unmErr)
+				}
+				v.RelativeVelocity = &dec_relativevelocity
 				if offset < 0 || offset >
 					len(content) || n_relativevelocity < 0 || n_relativevelocity >
 					len(content[offset:]) {
@@ -11527,11 +11837,6 @@ func (v *SingleRelativeResult) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 
 				offset += n_relativevelocity
-				if len(*v.RelativeVelocity) < 4 || len(*v.RelativeVelocity) > 7 {
-					if constraintErr := ber.CheckDecodedLength(opts, "relativeVelocity", "SIZE (4..7)", len(*v.RelativeVelocity)); constraintErr != nil {
-						return constraintErr
-					}
-				}
 			}
 		}
 	}
@@ -11539,9 +11844,18 @@ func (v *SingleRelativeResult) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "SingleRelativeResult", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "SingleRelativeResult", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -11760,9 +12074,18 @@ func (v *RelativeLocationCoordinates) UnmarshalBER(data []byte, opts ...ber.Deco
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "RelativeLocationCoordinates", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "RelativeLocationCoordinates", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -12211,9 +12534,18 @@ func (v *Relative2DLocationWithUncertaintyEllipse) UnmarshalBER(data []byte, opt
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "Relative2DLocationWithUncertaintyEllipse", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "Relative2DLocationWithUncertaintyEllipse", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -12774,9 +13106,18 @@ func (v *Relative3DLocationWithUncertaintyEllipsoid) UnmarshalBER(data []byte, o
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "Relative3DLocationWithUncertaintyEllipsoid", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "Relative3DLocationWithUncertaintyEllipsoid", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -13047,9 +13388,18 @@ func (v *RangeDirection) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "RangeDirection", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "RangeDirection", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -13332,9 +13682,18 @@ func (v *Range) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr e
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "Range", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "Range", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -13617,9 +13976,18 @@ func (v *Azimuth) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "Azimuth", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "Azimuth", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -13902,9 +14270,637 @@ func (v *Elevation) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "Elevation", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "Elevation", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
+		}
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
+		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
+		v.ExtPresent_ = append(v.ExtPresent_, true)
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
+		offset += nExt_
+	}
+	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes RelVelocityEstimate to BER format.
+func (v *RelVelocityEstimate) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	opts, commitReports := ber.StageEncodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	if v == nil {
+		return nil, fmt.Errorf("%w: RelVelocityEstimate receiver is nil", ber.ErrInvalidValue)
+	}
+	encoded, err := v.marshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+}
+func (v *RelVelocityEstimate) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	var children []byte
+	if v.RVelocity != nil {
+		if !(int64(*v.RVelocity) >= -2048 && int64(*v.RVelocity) <= 2047) {
+			if constraintErr := ber.CheckEncodedValue(opts, "rVelocity", "(-2048..2047)", fmt.Sprint(int64(*v.RVelocity))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_rvelocity := ber.EncodeInteger(int64(*v.RVelocity))
+		retagged_enc_rvelocity, tagErr_enc_rvelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_rvelocity)
+		if tagErr_enc_rvelocity != nil {
+			return nil, fmt.Errorf("encoding rVelocity: %w", tagErr_enc_rvelocity)
+		}
+		enc_rvelocity = retagged_enc_rvelocity
+		children = append(children, enc_rvelocity...)
+	}
+	if v.RUncertainty != nil {
+		if !(int64(*v.RUncertainty) >= 0 && int64(*v.RUncertainty) <= 255) {
+			if constraintErr := ber.CheckEncodedValue(opts, "rUncertainty", "(0..255)", fmt.Sprint(int64(*v.RUncertainty))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_runcertainty := ber.EncodeInteger(int64(*v.RUncertainty))
+		retagged_enc_runcertainty, tagErr_enc_runcertainty := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_runcertainty)
+		if tagErr_enc_runcertainty != nil {
+			return nil, fmt.Errorf("encoding rUncertainty: %w", tagErr_enc_runcertainty)
+		}
+		enc_runcertainty = retagged_enc_runcertainty
+		children = append(children, enc_runcertainty...)
+	}
+	if v.ATransverseVelocity != nil {
+		if !(int64(*v.ATransverseVelocity) >= -1024 && int64(*v.ATransverseVelocity) <= 1023) {
+			if constraintErr := ber.CheckEncodedValue(opts, "aTransverseVelocity", "(-1024..1023)", fmt.Sprint(int64(*v.ATransverseVelocity))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_atransversevelocity := ber.EncodeInteger(int64(*v.ATransverseVelocity))
+		retagged_enc_atransversevelocity, tagErr_enc_atransversevelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_atransversevelocity)
+		if tagErr_enc_atransversevelocity != nil {
+			return nil, fmt.Errorf("encoding aTransverseVelocity: %w", tagErr_enc_atransversevelocity)
+		}
+		enc_atransversevelocity = retagged_enc_atransversevelocity
+		children = append(children, enc_atransversevelocity...)
+	}
+	if v.AVelocityUncertainty != nil {
+		if !(int64(*v.AVelocityUncertainty) >= 0 && int64(*v.AVelocityUncertainty) <= 255) {
+			if constraintErr := ber.CheckEncodedValue(opts, "aVelocityUncertainty", "(0..255)", fmt.Sprint(int64(*v.AVelocityUncertainty))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_avelocityuncertainty := ber.EncodeInteger(int64(*v.AVelocityUncertainty))
+		retagged_enc_avelocityuncertainty, tagErr_enc_avelocityuncertainty := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_avelocityuncertainty)
+		if tagErr_enc_avelocityuncertainty != nil {
+			return nil, fmt.Errorf("encoding aVelocityUncertainty: %w", tagErr_enc_avelocityuncertainty)
+		}
+		enc_avelocityuncertainty = retagged_enc_avelocityuncertainty
+		children = append(children, enc_avelocityuncertainty...)
+	}
+	if v.ETransverseVelocity != nil {
+		if !(int64(*v.ETransverseVelocity) >= -1024 && int64(*v.ETransverseVelocity) <= 1023) {
+			if constraintErr := ber.CheckEncodedValue(opts, "eTransverseVelocity", "(-1024..1023)", fmt.Sprint(int64(*v.ETransverseVelocity))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_etransversevelocity := ber.EncodeInteger(int64(*v.ETransverseVelocity))
+		retagged_enc_etransversevelocity, tagErr_enc_etransversevelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_etransversevelocity)
+		if tagErr_enc_etransversevelocity != nil {
+			return nil, fmt.Errorf("encoding eTransverseVelocity: %w", tagErr_enc_etransversevelocity)
+		}
+		enc_etransversevelocity = retagged_enc_etransversevelocity
+		children = append(children, enc_etransversevelocity...)
+	}
+	if v.EVelocityUncertainty != nil {
+		if !(int64(*v.EVelocityUncertainty) >= 0 && int64(*v.EVelocityUncertainty) <= 255) {
+			if constraintErr := ber.CheckEncodedValue(opts, "eVelocityUncertainty", "(0..255)", fmt.Sprint(int64(*v.EVelocityUncertainty))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_evelocityuncertainty := ber.EncodeInteger(int64(*v.EVelocityUncertainty))
+		retagged_enc_evelocityuncertainty, tagErr_enc_evelocityuncertainty := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_evelocityuncertainty)
+		if tagErr_enc_evelocityuncertainty != nil {
+			return nil, fmt.Errorf("encoding eVelocityUncertainty: %w", tagErr_enc_evelocityuncertainty)
+		}
+		enc_evelocityuncertainty = retagged_enc_evelocityuncertainty
+		children = append(children, enc_evelocityuncertainty...)
+	}
+	if v.UnitsRVelocity != nil {
+		enc_unitsrvelocity := ber.EncodeEnumerated(int64(*v.UnitsRVelocity))
+		retagged_enc_unitsrvelocity, tagErr_enc_unitsrvelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_unitsrvelocity)
+		if tagErr_enc_unitsrvelocity != nil {
+			return nil, fmt.Errorf("encoding unitsRVelocity: %w", tagErr_enc_unitsrvelocity)
+		}
+		enc_unitsrvelocity = retagged_enc_unitsrvelocity
+		children = append(children, enc_unitsrvelocity...)
+	}
+	if v.UnitsAVelocity != nil {
+		enc_unitsavelocity := ber.EncodeEnumerated(int64(*v.UnitsAVelocity))
+		retagged_enc_unitsavelocity, tagErr_enc_unitsavelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_unitsavelocity)
+		if tagErr_enc_unitsavelocity != nil {
+			return nil, fmt.Errorf("encoding unitsAVelocity: %w", tagErr_enc_unitsavelocity)
+		}
+		enc_unitsavelocity = retagged_enc_unitsavelocity
+		children = append(children, enc_unitsavelocity...)
+	}
+	if v.UnitsEVelocity != nil {
+		enc_unitsevelocity := ber.EncodeEnumerated(int64(*v.UnitsEVelocity))
+		retagged_enc_unitsevelocity, tagErr_enc_unitsevelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_unitsevelocity)
+		if tagErr_enc_unitsevelocity != nil {
+			return nil, fmt.Errorf("encoding unitsEVelocity: %w", tagErr_enc_unitsevelocity)
+		}
+		enc_unitsevelocity = retagged_enc_unitsevelocity
+		children = append(children, enc_unitsevelocity...)
+	}
+	for i, ext := range v.ExtData_ {
+		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
+		}
+		if n != len(ext) {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		children = append(children, ext...)
+	}
+	return ber.EncodeSequence(children)
+}
+
+// MarshalDER encodes RelVelocityEstimate to DER format.
+func (v *RelVelocityEstimate) MarshalDER() ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: RelVelocityEstimate receiver is nil", ber.ErrInvalidValue)
+	}
+	var children []byte
+	if v.RVelocity != nil {
+		if !(int64(*v.RVelocity) >= -2048 && int64(*v.RVelocity) <= 2047) {
+			if constraintErr := ber.CheckEncodedValue(nil, "rVelocity", "(-2048..2047)", fmt.Sprint(int64(*v.RVelocity))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_rvelocity := ber.EncodeInteger(int64(*v.RVelocity))
+		retagged_enc_rvelocity, tagErr_enc_rvelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_rvelocity)
+		if tagErr_enc_rvelocity != nil {
+			return nil, fmt.Errorf("encoding rVelocity: %w", tagErr_enc_rvelocity)
+		}
+		enc_rvelocity = retagged_enc_rvelocity
+		children = append(children, enc_rvelocity...)
+	}
+	if v.RUncertainty != nil {
+		if !(int64(*v.RUncertainty) >= 0 && int64(*v.RUncertainty) <= 255) {
+			if constraintErr := ber.CheckEncodedValue(nil, "rUncertainty", "(0..255)", fmt.Sprint(int64(*v.RUncertainty))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_runcertainty := ber.EncodeInteger(int64(*v.RUncertainty))
+		retagged_enc_runcertainty, tagErr_enc_runcertainty := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_runcertainty)
+		if tagErr_enc_runcertainty != nil {
+			return nil, fmt.Errorf("encoding rUncertainty: %w", tagErr_enc_runcertainty)
+		}
+		enc_runcertainty = retagged_enc_runcertainty
+		children = append(children, enc_runcertainty...)
+	}
+	if v.ATransverseVelocity != nil {
+		if !(int64(*v.ATransverseVelocity) >= -1024 && int64(*v.ATransverseVelocity) <= 1023) {
+			if constraintErr := ber.CheckEncodedValue(nil, "aTransverseVelocity", "(-1024..1023)", fmt.Sprint(int64(*v.ATransverseVelocity))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_atransversevelocity := ber.EncodeInteger(int64(*v.ATransverseVelocity))
+		retagged_enc_atransversevelocity, tagErr_enc_atransversevelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_atransversevelocity)
+		if tagErr_enc_atransversevelocity != nil {
+			return nil, fmt.Errorf("encoding aTransverseVelocity: %w", tagErr_enc_atransversevelocity)
+		}
+		enc_atransversevelocity = retagged_enc_atransversevelocity
+		children = append(children, enc_atransversevelocity...)
+	}
+	if v.AVelocityUncertainty != nil {
+		if !(int64(*v.AVelocityUncertainty) >= 0 && int64(*v.AVelocityUncertainty) <= 255) {
+			if constraintErr := ber.CheckEncodedValue(nil, "aVelocityUncertainty", "(0..255)", fmt.Sprint(int64(*v.AVelocityUncertainty))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_avelocityuncertainty := ber.EncodeInteger(int64(*v.AVelocityUncertainty))
+		retagged_enc_avelocityuncertainty, tagErr_enc_avelocityuncertainty := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_avelocityuncertainty)
+		if tagErr_enc_avelocityuncertainty != nil {
+			return nil, fmt.Errorf("encoding aVelocityUncertainty: %w", tagErr_enc_avelocityuncertainty)
+		}
+		enc_avelocityuncertainty = retagged_enc_avelocityuncertainty
+		children = append(children, enc_avelocityuncertainty...)
+	}
+	if v.ETransverseVelocity != nil {
+		if !(int64(*v.ETransverseVelocity) >= -1024 && int64(*v.ETransverseVelocity) <= 1023) {
+			if constraintErr := ber.CheckEncodedValue(nil, "eTransverseVelocity", "(-1024..1023)", fmt.Sprint(int64(*v.ETransverseVelocity))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_etransversevelocity := ber.EncodeInteger(int64(*v.ETransverseVelocity))
+		retagged_enc_etransversevelocity, tagErr_enc_etransversevelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_etransversevelocity)
+		if tagErr_enc_etransversevelocity != nil {
+			return nil, fmt.Errorf("encoding eTransverseVelocity: %w", tagErr_enc_etransversevelocity)
+		}
+		enc_etransversevelocity = retagged_enc_etransversevelocity
+		children = append(children, enc_etransversevelocity...)
+	}
+	if v.EVelocityUncertainty != nil {
+		if !(int64(*v.EVelocityUncertainty) >= 0 && int64(*v.EVelocityUncertainty) <= 255) {
+			if constraintErr := ber.CheckEncodedValue(nil, "eVelocityUncertainty", "(0..255)", fmt.Sprint(int64(*v.EVelocityUncertainty))); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_evelocityuncertainty := ber.EncodeInteger(int64(*v.EVelocityUncertainty))
+		retagged_enc_evelocityuncertainty, tagErr_enc_evelocityuncertainty := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_evelocityuncertainty)
+		if tagErr_enc_evelocityuncertainty != nil {
+			return nil, fmt.Errorf("encoding eVelocityUncertainty: %w", tagErr_enc_evelocityuncertainty)
+		}
+		enc_evelocityuncertainty = retagged_enc_evelocityuncertainty
+		children = append(children, enc_evelocityuncertainty...)
+	}
+	if v.UnitsRVelocity != nil {
+		enc_unitsrvelocity := ber.EncodeEnumerated(int64(*v.UnitsRVelocity))
+		retagged_enc_unitsrvelocity, tagErr_enc_unitsrvelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_unitsrvelocity)
+		if tagErr_enc_unitsrvelocity != nil {
+			return nil, fmt.Errorf("encoding unitsRVelocity: %w", tagErr_enc_unitsrvelocity)
+		}
+		enc_unitsrvelocity = retagged_enc_unitsrvelocity
+		children = append(children, enc_unitsrvelocity...)
+	}
+	if v.UnitsAVelocity != nil {
+		enc_unitsavelocity := ber.EncodeEnumerated(int64(*v.UnitsAVelocity))
+		retagged_enc_unitsavelocity, tagErr_enc_unitsavelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_unitsavelocity)
+		if tagErr_enc_unitsavelocity != nil {
+			return nil, fmt.Errorf("encoding unitsAVelocity: %w", tagErr_enc_unitsavelocity)
+		}
+		enc_unitsavelocity = retagged_enc_unitsavelocity
+		children = append(children, enc_unitsavelocity...)
+	}
+	if v.UnitsEVelocity != nil {
+		enc_unitsevelocity := ber.EncodeEnumerated(int64(*v.UnitsEVelocity))
+		retagged_enc_unitsevelocity, tagErr_enc_unitsevelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_unitsevelocity)
+		if tagErr_enc_unitsevelocity != nil {
+			return nil, fmt.Errorf("encoding unitsEVelocity: %w", tagErr_enc_unitsevelocity)
+		}
+		enc_unitsevelocity = retagged_enc_unitsevelocity
+		children = append(children, enc_unitsevelocity...)
+	}
+	for i, ext := range v.ExtData_ {
+		if err := ber.ValidateDEREncodedElement(ext); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		children = append(children, ext...)
+	}
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
+	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RelVelocityEstimate as DER: %w", err)
+	}
+	return encoded, nil
+}
+
+// UnmarshalBER decodes RelVelocityEstimate from BER/DER format.
+func (v *RelVelocityEstimate) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if v == nil {
+		return fmt.Errorf("%w: RelVelocityEstimate destination is nil", ber.ErrInvalidValue)
+	}
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	opts = ber.TrackBERForm(opts)
+	if err := ber.ValidateBERElement(data, opts...); err != nil {
+		return err
+	}
+	*v = RelVelocityEstimate{}
+	defer func() {
+		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
+			return
+		}
+		var snapshotReports ber.ViolationLog
+		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
+		if snapshotErr != nil {
+			returnErr = snapshotErr
+			return
+		}
+		v.berOriginal_ = append([]byte(nil), data...)
+		v.berSnapshot_ = snapshot
+	}()
+	content, total, err := ber.DecodeSequenceContent(data, opts...)
+	if err != nil {
+		return fmt.Errorf("decoding RelVelocityEstimate SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "RelVelocityEstimate", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode rVelocity
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+				decodedTag_rvelocity, n_rvelocity, rawVal_rvelocity, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding rVelocity: %w", err)
+				}
+				if decodedTag_rvelocity.Class != tag.ClassContextSpecific || decodedTag_rvelocity.Number != 0 || decodedTag_rvelocity.Constructed != false {
+					return fmt.Errorf("decoding rVelocity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rvelocity)
+				}
+				decVal_rvelocity, intErr := ber.DecodeIntegerValue(rawVal_rvelocity)
+				if intErr != nil {
+					return fmt.Errorf("decoding rVelocity: %w", intErr)
+				}
+				tmp_rvelocity := RadialVelocity(decVal_rvelocity)
+				v.RVelocity = &tmp_rvelocity
+				if offset > len(content) || n_rvelocity < 0 || n_rvelocity > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_rvelocity
+				if !(int64(*v.RVelocity) >= -2048 && int64(*v.RVelocity) <= 2047) {
+					if constraintErr := ber.CheckDecodedValue(opts, "rVelocity", "(-2048..2047)", fmt.Sprint(int64(*v.RVelocity))); constraintErr != nil {
+						return constraintErr
+					}
+				}
+			}
+		}
+	}
+	// Decode rUncertainty
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+				decodedTag_runcertainty, n_runcertainty, rawVal_runcertainty, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding rUncertainty: %w", err)
+				}
+				if decodedTag_runcertainty.Class != tag.ClassContextSpecific || decodedTag_runcertainty.Number != 1 || decodedTag_runcertainty.Constructed != false {
+					return fmt.Errorf("decoding rUncertainty: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_runcertainty)
+				}
+				decVal_runcertainty, intErr := ber.DecodeIntegerValue(rawVal_runcertainty)
+				if intErr != nil {
+					return fmt.Errorf("decoding rUncertainty: %w", intErr)
+				}
+				tmp_runcertainty := Uncertainty(decVal_runcertainty)
+				v.RUncertainty = &tmp_runcertainty
+				if offset < 0 || offset >
+					len(content) || n_runcertainty < 0 || n_runcertainty > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_runcertainty
+				if !(int64(*v.RUncertainty) >= 0 && int64(*v.RUncertainty) <= 255) {
+					if constraintErr := ber.CheckDecodedValue(opts, "rUncertainty", "(0..255)", fmt.Sprint(int64(*v.RUncertainty))); constraintErr != nil {
+						return constraintErr
+					}
+				}
+			}
+		}
+	}
+	// Decode aTransverseVelocity
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
+				decodedTag_atransversevelocity, n_atransversevelocity, rawVal_atransversevelocity, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding aTransverseVelocity: %w", err)
+				}
+				if decodedTag_atransversevelocity.Class != tag.ClassContextSpecific || decodedTag_atransversevelocity.Number != 2 || decodedTag_atransversevelocity.Constructed != false {
+					return fmt.Errorf("decoding aTransverseVelocity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_atransversevelocity)
+				}
+				decVal_atransversevelocity, intErr := ber.DecodeIntegerValue(rawVal_atransversevelocity)
+				if intErr != nil {
+					return fmt.Errorf("decoding aTransverseVelocity: %w", intErr)
+				}
+				tmp_atransversevelocity := AngularVelocity(decVal_atransversevelocity)
+				v.ATransverseVelocity = &tmp_atransversevelocity
+				if offset < 0 || offset >
+					len(content) || n_atransversevelocity < 0 || n_atransversevelocity >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_atransversevelocity
+				if !(int64(*v.ATransverseVelocity) >= -1024 && int64(*v.ATransverseVelocity) <= 1023) {
+					if constraintErr := ber.CheckDecodedValue(opts, "aTransverseVelocity", "(-1024..1023)", fmt.Sprint(int64(*v.ATransverseVelocity))); constraintErr != nil {
+						return constraintErr
+					}
+				}
+			}
+		}
+	}
+	// Decode aVelocityUncertainty
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
+				decodedTag_avelocityuncertainty, n_avelocityuncertainty, rawVal_avelocityuncertainty, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding aVelocityUncertainty: %w", err)
+				}
+				if decodedTag_avelocityuncertainty.Class != tag.ClassContextSpecific || decodedTag_avelocityuncertainty.Number != 3 || decodedTag_avelocityuncertainty.Constructed != false {
+					return fmt.Errorf("decoding aVelocityUncertainty: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_avelocityuncertainty)
+				}
+				decVal_avelocityuncertainty, intErr := ber.DecodeIntegerValue(rawVal_avelocityuncertainty)
+				if intErr != nil {
+					return fmt.Errorf("decoding aVelocityUncertainty: %w", intErr)
+				}
+				tmp_avelocityuncertainty := AngularVelocityUncertainty(decVal_avelocityuncertainty)
+				v.AVelocityUncertainty = &tmp_avelocityuncertainty
+				if offset < 0 || offset >
+					len(content) || n_avelocityuncertainty < 0 || n_avelocityuncertainty >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_avelocityuncertainty
+				if !(int64(*v.AVelocityUncertainty) >= 0 && int64(*v.AVelocityUncertainty) <= 255) {
+					if constraintErr := ber.CheckDecodedValue(opts, "aVelocityUncertainty", "(0..255)", fmt.Sprint(int64(*v.AVelocityUncertainty))); constraintErr != nil {
+						return constraintErr
+					}
+				}
+			}
+		}
+	}
+	// Decode eTransverseVelocity
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
+				decodedTag_etransversevelocity, n_etransversevelocity, rawVal_etransversevelocity, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding eTransverseVelocity: %w", err)
+				}
+				if decodedTag_etransversevelocity.Class != tag.ClassContextSpecific || decodedTag_etransversevelocity.Number != 4 || decodedTag_etransversevelocity.Constructed != false {
+					return fmt.Errorf("decoding eTransverseVelocity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_etransversevelocity)
+				}
+				decVal_etransversevelocity, intErr := ber.DecodeIntegerValue(rawVal_etransversevelocity)
+				if intErr != nil {
+					return fmt.Errorf("decoding eTransverseVelocity: %w", intErr)
+				}
+				tmp_etransversevelocity := AngularVelocity(decVal_etransversevelocity)
+				v.ETransverseVelocity = &tmp_etransversevelocity
+				if offset < 0 || offset >
+					len(content) || n_etransversevelocity < 0 || n_etransversevelocity >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_etransversevelocity
+				if !(int64(*v.ETransverseVelocity) >= -1024 && int64(*v.ETransverseVelocity) <= 1023) {
+					if constraintErr := ber.CheckDecodedValue(opts, "eTransverseVelocity", "(-1024..1023)", fmt.Sprint(int64(*v.ETransverseVelocity))); constraintErr != nil {
+						return constraintErr
+					}
+				}
+			}
+		}
+	}
+	// Decode eVelocityUncertainty
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
+				decodedTag_evelocityuncertainty, n_evelocityuncertainty, rawVal_evelocityuncertainty, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding eVelocityUncertainty: %w", err)
+				}
+				if decodedTag_evelocityuncertainty.Class != tag.ClassContextSpecific || decodedTag_evelocityuncertainty.Number != 5 || decodedTag_evelocityuncertainty.Constructed != false {
+					return fmt.Errorf("decoding eVelocityUncertainty: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_evelocityuncertainty)
+				}
+				decVal_evelocityuncertainty, intErr := ber.DecodeIntegerValue(rawVal_evelocityuncertainty)
+				if intErr != nil {
+					return fmt.Errorf("decoding eVelocityUncertainty: %w", intErr)
+				}
+				tmp_evelocityuncertainty := AngularVelocityUncertainty(decVal_evelocityuncertainty)
+				v.EVelocityUncertainty = &tmp_evelocityuncertainty
+				if offset < 0 || offset >
+					len(content) || n_evelocityuncertainty < 0 || n_evelocityuncertainty >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_evelocityuncertainty
+				if !(int64(*v.EVelocityUncertainty) >= 0 && int64(*v.EVelocityUncertainty) <= 255) {
+					if constraintErr := ber.CheckDecodedValue(opts, "eVelocityUncertainty", "(0..255)", fmt.Sprint(int64(*v.EVelocityUncertainty))); constraintErr != nil {
+						return constraintErr
+					}
+				}
+			}
+		}
+	}
+	// Decode unitsRVelocity
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
+				decodedTag_unitsrvelocity, n_unitsrvelocity, rawVal_unitsrvelocity, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding unitsRVelocity: %w", err)
+				}
+				if decodedTag_unitsrvelocity.Class != tag.ClassContextSpecific || decodedTag_unitsrvelocity.Number != 6 || decodedTag_unitsrvelocity.Constructed != false {
+					return fmt.Errorf("decoding unitsRVelocity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_unitsrvelocity)
+				}
+				decVal_unitsrvelocity, intErr := ber.DecodeEnumeratedValue(rawVal_unitsrvelocity)
+				if intErr != nil {
+					return fmt.Errorf("decoding unitsRVelocity: %w", intErr)
+				}
+				tmp_unitsrvelocity := UnitsLinearVelocity(decVal_unitsrvelocity)
+				v.UnitsRVelocity = &tmp_unitsrvelocity
+				if offset < 0 || offset >
+					len(content) || n_unitsrvelocity < 0 || n_unitsrvelocity > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_unitsrvelocity
+			}
+		}
+	}
+	// Decode unitsAVelocity
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
+				decodedTag_unitsavelocity, n_unitsavelocity, rawVal_unitsavelocity, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding unitsAVelocity: %w", err)
+				}
+				if decodedTag_unitsavelocity.Class != tag.ClassContextSpecific || decodedTag_unitsavelocity.Number != 7 || decodedTag_unitsavelocity.Constructed != false {
+					return fmt.Errorf("decoding unitsAVelocity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_unitsavelocity)
+				}
+				decVal_unitsavelocity, intErr := ber.DecodeEnumeratedValue(rawVal_unitsavelocity)
+				if intErr != nil {
+					return fmt.Errorf("decoding unitsAVelocity: %w", intErr)
+				}
+				tmp_unitsavelocity := UnitsAngularVelocity(decVal_unitsavelocity)
+				v.UnitsAVelocity = &tmp_unitsavelocity
+				if offset < 0 || offset >
+					len(content) || n_unitsavelocity < 0 || n_unitsavelocity > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_unitsavelocity
+			}
+		}
+	}
+	// Decode unitsEVelocity
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
+				decodedTag_unitsevelocity, n_unitsevelocity, rawVal_unitsevelocity, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding unitsEVelocity: %w", err)
+				}
+				if decodedTag_unitsevelocity.Class != tag.ClassContextSpecific || decodedTag_unitsevelocity.Number != 8 || decodedTag_unitsevelocity.Constructed != false {
+					return fmt.Errorf("decoding unitsEVelocity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_unitsevelocity)
+				}
+				decVal_unitsevelocity, intErr := ber.DecodeEnumeratedValue(rawVal_unitsevelocity)
+				if intErr != nil {
+					return fmt.Errorf("decoding unitsEVelocity: %w", intErr)
+				}
+				tmp_unitsevelocity := UnitsAngularVelocity(decVal_unitsevelocity)
+				v.UnitsEVelocity = &tmp_unitsevelocity
+				if offset < 0 || offset >
+					len(content) || n_unitsevelocity < 0 || n_unitsevelocity > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_unitsevelocity
+			}
+		}
+	}
+	v.ExtCount_ = 0
+	v.ExtPresent_ = v.ExtPresent_[:0]
+	v.ExtData_ = v.ExtData_[:0]
+	for offset < len(content) {
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		if extErr_ != nil {
+			return &ber.DecodeError{Offset: offset, TypeName: "RelVelocityEstimate", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "RelVelocityEstimate", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -14860,9 +15856,18 @@ func (v *LCSPeriodicLocationRequestArg) UnmarshalBER(data []byte, opts ...ber.De
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSPeriodicLocationRequestArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSPeriodicLocationRequestArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -15014,9 +16019,18 @@ func (v *LCSPeriodicLocationRequestRes) UnmarshalBER(data []byte, opts ...ber.De
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSPeriodicLocationRequestRes", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSPeriodicLocationRequestRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -15385,9 +16399,18 @@ func (v *LCSLocationUpdateArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSLocationUpdateArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSLocationUpdateArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -15541,9 +16564,18 @@ func (v *LCSLocationUpdateRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSLocationUpdateRes", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSLocationUpdateRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -15780,9 +16812,18 @@ func (v *LCSPeriodicLocationCancellationArg) UnmarshalBER(data []byte, opts ...b
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSPeriodicLocationCancellationArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSPeriodicLocationCancellationArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -15948,7 +16989,7 @@ func (v *LCSPeriodicTriggeredInvokeArg) marshalBER(opts ...ber.EncodeOption) ([]
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedGADShapes.Bytes, v.SupportedGADShapes.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedGADShapes", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.SupportedGADShapes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15984,7 +17025,7 @@ func (v *LCSPeriodicTriggeredInvokeArg) marshalBER(opts ...ber.EncodeOption) ([]
 		if bitStringErr := ber.ValidateBitStringLength(v.ReportingAccessTypes.Bytes, v.ReportingAccessTypes.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "reportingAccessTypes", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.ReportingAccessTypes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -16287,7 +17328,7 @@ func (v *LCSPeriodicTriggeredInvokeArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedGADShapes.Bytes, v.SupportedGADShapes.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedGADShapes", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.SupportedGADShapes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -16326,7 +17367,7 @@ func (v *LCSPeriodicTriggeredInvokeArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ReportingAccessTypes.Bytes, v.ReportingAccessTypes.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "reportingAccessTypes", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.ReportingAccessTypes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -17155,9 +18196,18 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte, opts ...ber.De
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSPeriodicTriggeredInvokeArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSPeriodicTriggeredInvokeArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -17363,7 +18413,7 @@ func (v *AreaEventReporting) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	if bitStringErr := ber.ValidateBitStringLength(v.DeferredLocationEventType.Bytes, v.DeferredLocationEventType.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "deferredLocationEventType", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 	if v.DeferredLocationEventType.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -17484,7 +18534,7 @@ func (v *AreaEventReporting) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.LocationInfo.Bytes, v.LocationInfo.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "locationInfo", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.LocationInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -17529,7 +18579,7 @@ func (v *AreaEventReporting) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.DeferredLocationEventType.Bytes, v.DeferredLocationEventType.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "deferredLocationEventType", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 	if v.DeferredLocationEventType.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -17638,7 +18688,7 @@ func (v *AreaEventReporting) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.LocationInfo.Bytes, v.LocationInfo.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "locationInfo", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.LocationInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -17988,9 +19038,18 @@ func (v *AreaEventReporting) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "AreaEventReporting", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "AreaEventReporting", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -18512,7 +19571,7 @@ func (v *MotionEventReporting) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if bitStringErr := ber.ValidateBitStringLength(v.LocationInfo.Bytes, v.LocationInfo.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "locationInfo", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.LocationInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -18635,7 +19694,7 @@ func (v *MotionEventReporting) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.LocationInfo.Bytes, v.LocationInfo.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "locationInfo", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.LocationInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -18928,9 +19987,18 @@ func (v *MotionEventReporting) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "MotionEventReporting", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "MotionEventReporting", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -19121,7 +20189,7 @@ func (v *LCSEventReportArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		if bitStringErr := ber.ValidateBitStringLength(v.LocationInfo.Bytes, v.LocationInfo.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "locationInfo", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.LocationInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -19145,7 +20213,7 @@ func (v *LCSEventReportArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedGADShapes.Bytes, v.SupportedGADShapes.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedGADShapes", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.SupportedGADShapes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -19227,6 +20295,40 @@ func (v *LCSEventReportArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		enc_userplaneeventreportstat = retagged_enc_userplaneeventreportstat
 		children = append(children, enc_userplaneeventreportstat...)
 	}
+	if v.ReferenceNumber != nil {
+		if len(*v.ReferenceNumber) < 1 || len(*v.ReferenceNumber) > 1 {
+			if constraintErr := ber.CheckEncodedLength(opts, "referenceNumber", "SIZE (1)", len(*v.ReferenceNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_referencenumber, encodeErr_enc_referencenumber := ber.EncodeOctetString([]byte(*v.ReferenceNumber))
+		if encodeErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", encodeErr_enc_referencenumber)
+		}
+		retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_referencenumber)
+		if tagErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+		}
+		enc_referencenumber = retagged_enc_referencenumber
+		children = append(children, enc_referencenumber...)
+	}
+	if v.HGmlcAddress != nil {
+		if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+			if constraintErr := ber.CheckEncodedLength(opts, "h-gmlc-address", "SIZE (5..17)", len(*v.HGmlcAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_hgmlcaddress, encodeErr_enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
+		if encodeErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", encodeErr_enc_hgmlcaddress)
+		}
+		retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, enc_hgmlcaddress)
+		if tagErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+		}
+		enc_hgmlcaddress = retagged_enc_hgmlcaddress
+		children = append(children, enc_hgmlcaddress...)
+	}
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -19290,7 +20392,7 @@ func (v *LCSEventReportArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.LocationInfo.Bytes, v.LocationInfo.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "locationInfo", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.LocationInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -19317,7 +20419,7 @@ func (v *LCSEventReportArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedGADShapes.Bytes, v.SupportedGADShapes.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedGADShapes", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.SupportedGADShapes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -19383,6 +20485,40 @@ func (v *LCSEventReportArg) MarshalDER() ([]byte, error) {
 		}
 		enc_userplaneeventreportstat = retagged_enc_userplaneeventreportstat
 		children = append(children, enc_userplaneeventreportstat...)
+	}
+	if v.ReferenceNumber != nil {
+		if len(*v.ReferenceNumber) < 1 || len(*v.ReferenceNumber) > 1 {
+			if constraintErr := ber.CheckEncodedLength(nil, "referenceNumber", "SIZE (1)", len(*v.ReferenceNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_referencenumber, encodeErr_enc_referencenumber := ber.EncodeOctetString([]byte(*v.ReferenceNumber))
+		if encodeErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", encodeErr_enc_referencenumber)
+		}
+		retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_referencenumber)
+		if tagErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+		}
+		enc_referencenumber = retagged_enc_referencenumber
+		children = append(children, enc_referencenumber...)
+	}
+	if v.HGmlcAddress != nil {
+		if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+			if constraintErr := ber.CheckEncodedLength(nil, "h-gmlc-address", "SIZE (5..17)", len(*v.HGmlcAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_hgmlcaddress, encodeErr_enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
+		if encodeErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", encodeErr_enc_hgmlcaddress)
+		}
+		retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, enc_hgmlcaddress)
+		if tagErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+		}
+		enc_hgmlcaddress = retagged_enc_hgmlcaddress
+		children = append(children, enc_hgmlcaddress...)
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
@@ -19734,13 +20870,87 @@ func (v *LCSEventReportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 			}
 		}
 	}
+	// Decode referenceNumber
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
+				decodedTag_referencenumber, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding referenceNumber: %w", err)
+				}
+				if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 9 {
+					return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
+				}
+				decVal_referencenumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_referencenumber.Constructed, rawVal_referencenumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding referenceNumber: %w", octetErr)
+				}
+				tmp_referencenumber := LCSLCSReferenceNumber(decVal_referencenumber)
+				v.ReferenceNumber = &tmp_referencenumber
+				if offset < 0 || offset >
+					len(content) || n_referencenumber < 0 || n_referencenumber >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_referencenumber
+				if len(*v.ReferenceNumber) < 1 || len(*v.ReferenceNumber) > 1 {
+					if constraintErr := ber.CheckDecodedLength(opts, "referenceNumber", "SIZE (1)", len(*v.ReferenceNumber)); constraintErr != nil {
+						return constraintErr
+					}
+				}
+			}
+		}
+	}
+	// Decode h-gmlc-address
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
+				decodedTag_hgmlcaddress, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding h-gmlc-address: %w", err)
+				}
+				if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 10 {
+					return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
+				}
+				decVal_hgmlcaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_hgmlcaddress.Constructed, rawVal_hgmlcaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding h-gmlc-address: %w", octetErr)
+				}
+				tmp_hgmlcaddress := CommonDataTypesGSNAddress(decVal_hgmlcaddress)
+				v.HGmlcAddress = &tmp_hgmlcaddress
+				if offset < 0 || offset >
+					len(content) || n_hgmlcaddress < 0 || n_hgmlcaddress > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_hgmlcaddress
+				if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+					if constraintErr := ber.CheckDecodedLength(opts, "h-gmlc-address", "SIZE (5..17)", len(*v.HGmlcAddress)); constraintErr != nil {
+						return constraintErr
+					}
+				}
+			}
+		}
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSEventReportArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSEventReportArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -19970,9 +21180,18 @@ func (v *ControlPlaneCIoT5GSOptimisation) UnmarshalBER(data []byte, opts ...ber.
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "ControlPlaneCIoT5GSOptimisation", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "ControlPlaneCIoT5GSOptimisation", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -20960,9 +22179,18 @@ func (v *LCSEventReportRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSEventReportRes", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSEventReportRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -21025,6 +22253,40 @@ func (v *LCSCancelDeferredLocationArg) marshalBER(opts ...ber.EncodeOption) ([]b
 	}
 	enc_hgmlccallbackuri = retagged_enc_hgmlccallbackuri
 	children = append(children, enc_hgmlccallbackuri...)
+	if v.ReferenceNumber != nil {
+		if len(*v.ReferenceNumber) < 1 || len(*v.ReferenceNumber) > 1 {
+			if constraintErr := ber.CheckEncodedLength(opts, "referenceNumber", "SIZE (1)", len(*v.ReferenceNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_referencenumber, encodeErr_enc_referencenumber := ber.EncodeOctetString([]byte(*v.ReferenceNumber))
+		if encodeErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", encodeErr_enc_referencenumber)
+		}
+		retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_referencenumber)
+		if tagErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+		}
+		enc_referencenumber = retagged_enc_referencenumber
+		children = append(children, enc_referencenumber...)
+	}
+	if v.HGmlcAddress != nil {
+		if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+			if constraintErr := ber.CheckEncodedLength(opts, "h-gmlc-address", "SIZE (5..17)", len(*v.HGmlcAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_hgmlcaddress, encodeErr_enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
+		if encodeErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", encodeErr_enc_hgmlcaddress)
+		}
+		retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_hgmlcaddress)
+		if tagErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+		}
+		enc_hgmlcaddress = retagged_enc_hgmlcaddress
+		children = append(children, enc_hgmlcaddress...)
+	}
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -21069,6 +22331,40 @@ func (v *LCSCancelDeferredLocationArg) MarshalDER() ([]byte, error) {
 	}
 	enc_hgmlccallbackuri = retagged_enc_hgmlccallbackuri
 	children = append(children, enc_hgmlccallbackuri...)
+	if v.ReferenceNumber != nil {
+		if len(*v.ReferenceNumber) < 1 || len(*v.ReferenceNumber) > 1 {
+			if constraintErr := ber.CheckEncodedLength(nil, "referenceNumber", "SIZE (1)", len(*v.ReferenceNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_referencenumber, encodeErr_enc_referencenumber := ber.EncodeOctetString([]byte(*v.ReferenceNumber))
+		if encodeErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", encodeErr_enc_referencenumber)
+		}
+		retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_referencenumber)
+		if tagErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+		}
+		enc_referencenumber = retagged_enc_referencenumber
+		children = append(children, enc_referencenumber...)
+	}
+	if v.HGmlcAddress != nil {
+		if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+			if constraintErr := ber.CheckEncodedLength(nil, "h-gmlc-address", "SIZE (5..17)", len(*v.HGmlcAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_hgmlcaddress, encodeErr_enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
+		if encodeErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", encodeErr_enc_hgmlcaddress)
+		}
+		retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_hgmlcaddress)
+		if tagErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+		}
+		enc_hgmlcaddress = retagged_enc_hgmlcaddress
+		children = append(children, enc_hgmlcaddress...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
@@ -21176,13 +22472,86 @@ func (v *LCSCancelDeferredLocationArg) UnmarshalBER(data []byte, opts ...ber.Dec
 	}
 
 	offset += n_hgmlccallbackuri
+	// Decode referenceNumber
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
+				decodedTag_referencenumber, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding referenceNumber: %w", err)
+				}
+				if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 3 {
+					return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
+				}
+				decVal_referencenumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_referencenumber.Constructed, rawVal_referencenumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding referenceNumber: %w", octetErr)
+				}
+				tmp_referencenumber := LCSLCSReferenceNumber(decVal_referencenumber)
+				v.ReferenceNumber = &tmp_referencenumber
+				if offset < 0 || offset >
+					len(content) || n_referencenumber < 0 || n_referencenumber > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_referencenumber
+				if len(*v.ReferenceNumber) < 1 || len(*v.ReferenceNumber) > 1 {
+					if constraintErr := ber.CheckDecodedLength(opts, "referenceNumber", "SIZE (1)", len(*v.ReferenceNumber)); constraintErr != nil {
+						return constraintErr
+					}
+				}
+			}
+		}
+	}
+	// Decode h-gmlc-address
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
+				decodedTag_hgmlcaddress, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding h-gmlc-address: %w", err)
+				}
+				if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 4 {
+					return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
+				}
+				decVal_hgmlcaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_hgmlcaddress.Constructed, rawVal_hgmlcaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding h-gmlc-address: %w", octetErr)
+				}
+				tmp_hgmlcaddress := CommonDataTypesGSNAddress(decVal_hgmlcaddress)
+				v.HGmlcAddress = &tmp_hgmlcaddress
+				if offset < 0 || offset >
+					len(content) || n_hgmlcaddress < 0 || n_hgmlcaddress > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_hgmlcaddress
+				if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+					if constraintErr := ber.CheckDecodedLength(opts, "h-gmlc-address", "SIZE (5..17)", len(*v.HGmlcAddress)); constraintErr != nil {
+						return constraintErr
+					}
+				}
+			}
+		}
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSCancelDeferredLocationArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSCancelDeferredLocationArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -21498,9 +22867,18 @@ func (v *LCSLocationPrivacySettingArg) UnmarshalBER(data []byte, opts ...ber.Dec
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSLocationPrivacySettingArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSLocationPrivacySettingArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -21741,9 +23119,18 @@ func (v *LCSValidTimePeriod) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSValidTimePeriod", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSValidTimePeriod", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -22053,9 +23440,18 @@ func (v *LCSPruAssociationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSPruAssociationArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSPruAssociationArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -22116,7 +23512,7 @@ func (v *LCSPruAssociationRes) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if bitStringErr := ber.ValidateBitStringLength(v.UpdateTrigger.Bytes, v.UpdateTrigger.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "updateTrigger", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.UpdateTrigger.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -22176,7 +23572,7 @@ func (v *LCSPruAssociationRes) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.UpdateTrigger.Bytes, v.UpdateTrigger.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "updateTrigger", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.UpdateTrigger.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -22313,9 +23709,18 @@ func (v *LCSPruAssociationRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSPruAssociationRes", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSPruAssociationRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -22530,9 +23935,18 @@ func (v *LCSPruDisassociationArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSPruDisassociationArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSPruDisassociationArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -22586,7 +24000,7 @@ func (v *LCSSLMTLRArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedGADShapes.Bytes, v.SupportedGADShapes.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedGADShapes", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.SupportedGADShapes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -22656,6 +24070,112 @@ func (v *LCSSLMTLRArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_coordinateid = retagged_enc_coordinateid
 		children = append(children, enc_coordinateid...)
 	}
+	if v.LcsQoS != nil {
+		enc_lcsqos, err := v.LcsQoS.MarshalBER(ber.ChildEncodeOptions(opts, "lcs-QoS")...)
+		if err != nil {
+			return nil, fmt.Errorf("encoding lcs-QoS: %w", err)
+		}
+		retagged_enc_lcsqos, tagErr_enc_lcsqos := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_lcsqos)
+		if tagErr_enc_lcsqos != nil {
+			return nil, fmt.Errorf("encoding lcs-QoS: %w", tagErr_enc_lcsqos)
+		}
+		enc_lcsqos = retagged_enc_lcsqos
+		children = append(children, enc_lcsqos...)
+	}
+	if v.RequestedRangingResult != nil {
+		enc_requestedrangingresult, err := v.RequestedRangingResult.MarshalBER(ber.ChildEncodeOptions(opts, "requestedRangingResult")...)
+		if err != nil {
+			return nil, fmt.Errorf("encoding requestedRangingResult: %w", err)
+		}
+		retagged_enc_requestedrangingresult, tagErr_enc_requestedrangingresult := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_requestedrangingresult)
+		if tagErr_enc_requestedrangingresult != nil {
+			return nil, fmt.Errorf("encoding requestedRangingResult: %w", tagErr_enc_requestedrangingresult)
+		}
+		enc_requestedrangingresult = retagged_enc_requestedrangingresult
+		children = append(children, enc_requestedrangingresult...)
+	}
+	if v.ReferenceNumber != nil {
+		if len(*v.ReferenceNumber) < 1 || len(*v.ReferenceNumber) > 1 {
+			if constraintErr := ber.CheckEncodedLength(opts, "referenceNumber", "SIZE (1)", len(*v.ReferenceNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_referencenumber, encodeErr_enc_referencenumber := ber.EncodeOctetString([]byte(*v.ReferenceNumber))
+		if encodeErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", encodeErr_enc_referencenumber)
+		}
+		retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_referencenumber)
+		if tagErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+		}
+		enc_referencenumber = retagged_enc_referencenumber
+		children = append(children, enc_referencenumber...)
+	}
+	if v.HGmlcAddress != nil {
+		if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+			if constraintErr := ber.CheckEncodedLength(opts, "h-gmlc-address", "SIZE (5..17)", len(*v.HGmlcAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_hgmlcaddress, encodeErr_enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
+		if encodeErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", encodeErr_enc_hgmlcaddress)
+		}
+		retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_hgmlcaddress)
+		if tagErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+		}
+		enc_hgmlcaddress = retagged_enc_hgmlcaddress
+		children = append(children, enc_hgmlcaddress...)
+	}
+	if v.PeriodicLocation != nil {
+		enc_periodiclocation, err := v.PeriodicLocation.MarshalBER(ber.ChildEncodeOptions(opts, "periodicLocation")...)
+		if err != nil {
+			return nil, fmt.Errorf("encoding periodicLocation: %w", err)
+		}
+		retagged_enc_periodiclocation, tagErr_enc_periodiclocation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_periodiclocation)
+		if tagErr_enc_periodiclocation != nil {
+			return nil, fmt.Errorf("encoding periodicLocation: %w", tagErr_enc_periodiclocation)
+		}
+		enc_periodiclocation = retagged_enc_periodiclocation
+		children = append(children, enc_periodiclocation...)
+	}
+	if v.AreaEventReporting != nil {
+		enc_areaeventreporting, err := v.AreaEventReporting.MarshalBER(ber.ChildEncodeOptions(opts, "areaEventReporting")...)
+		if err != nil {
+			return nil, fmt.Errorf("encoding areaEventReporting: %w", err)
+		}
+		retagged_enc_areaeventreporting, tagErr_enc_areaeventreporting := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, enc_areaeventreporting)
+		if tagErr_enc_areaeventreporting != nil {
+			return nil, fmt.Errorf("encoding areaEventReporting: %w", tagErr_enc_areaeventreporting)
+		}
+		enc_areaeventreporting = retagged_enc_areaeventreporting
+		children = append(children, enc_areaeventreporting...)
+	}
+	if v.MotionEventReporting != nil {
+		enc_motioneventreporting, err := v.MotionEventReporting.MarshalBER(ber.ChildEncodeOptions(opts, "motionEventReporting")...)
+		if err != nil {
+			return nil, fmt.Errorf("encoding motionEventReporting: %w", err)
+		}
+		retagged_enc_motioneventreporting, tagErr_enc_motioneventreporting := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, enc_motioneventreporting)
+		if tagErr_enc_motioneventreporting != nil {
+			return nil, fmt.Errorf("encoding motionEventReporting: %w", tagErr_enc_motioneventreporting)
+		}
+		enc_motioneventreporting = retagged_enc_motioneventreporting
+		children = append(children, enc_motioneventreporting...)
+	}
+	if v.DeferredRoutingIdentifier != nil {
+		enc_deferredroutingidentifier, encodeErr_enc_deferredroutingidentifier := ber.EncodeOctetString(v.DeferredRoutingIdentifier)
+		if encodeErr_enc_deferredroutingidentifier != nil {
+			return nil, fmt.Errorf("encoding deferredRoutingIdentifier: %w", encodeErr_enc_deferredroutingidentifier)
+		}
+		retagged_enc_deferredroutingidentifier, tagErr_enc_deferredroutingidentifier := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, enc_deferredroutingidentifier)
+		if tagErr_enc_deferredroutingidentifier != nil {
+			return nil, fmt.Errorf("encoding deferredRoutingIdentifier: %w", tagErr_enc_deferredroutingidentifier)
+		}
+		enc_deferredroutingidentifier = retagged_enc_deferredroutingidentifier
+		children = append(children, enc_deferredroutingidentifier...)
+	}
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -22694,7 +24214,7 @@ func (v *LCSSLMTLRArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedGADShapes.Bytes, v.SupportedGADShapes.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedGADShapes", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:550
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
 		if v.SupportedGADShapes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -22748,6 +24268,112 @@ func (v *LCSSLMTLRArg) MarshalDER() ([]byte, error) {
 		}
 		enc_coordinateid = retagged_enc_coordinateid
 		children = append(children, enc_coordinateid...)
+	}
+	if v.LcsQoS != nil {
+		enc_lcsqos, err := v.LcsQoS.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding lcs-QoS: %w", err)
+		}
+		retagged_enc_lcsqos, tagErr_enc_lcsqos := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_lcsqos)
+		if tagErr_enc_lcsqos != nil {
+			return nil, fmt.Errorf("encoding lcs-QoS: %w", tagErr_enc_lcsqos)
+		}
+		enc_lcsqos = retagged_enc_lcsqos
+		children = append(children, enc_lcsqos...)
+	}
+	if v.RequestedRangingResult != nil {
+		enc_requestedrangingresult, err := v.RequestedRangingResult.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding requestedRangingResult: %w", err)
+		}
+		retagged_enc_requestedrangingresult, tagErr_enc_requestedrangingresult := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_requestedrangingresult)
+		if tagErr_enc_requestedrangingresult != nil {
+			return nil, fmt.Errorf("encoding requestedRangingResult: %w", tagErr_enc_requestedrangingresult)
+		}
+		enc_requestedrangingresult = retagged_enc_requestedrangingresult
+		children = append(children, enc_requestedrangingresult...)
+	}
+	if v.ReferenceNumber != nil {
+		if len(*v.ReferenceNumber) < 1 || len(*v.ReferenceNumber) > 1 {
+			if constraintErr := ber.CheckEncodedLength(nil, "referenceNumber", "SIZE (1)", len(*v.ReferenceNumber)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_referencenumber, encodeErr_enc_referencenumber := ber.EncodeOctetString([]byte(*v.ReferenceNumber))
+		if encodeErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", encodeErr_enc_referencenumber)
+		}
+		retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_referencenumber)
+		if tagErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+		}
+		enc_referencenumber = retagged_enc_referencenumber
+		children = append(children, enc_referencenumber...)
+	}
+	if v.HGmlcAddress != nil {
+		if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+			if constraintErr := ber.CheckEncodedLength(nil, "h-gmlc-address", "SIZE (5..17)", len(*v.HGmlcAddress)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
+		enc_hgmlcaddress, encodeErr_enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
+		if encodeErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", encodeErr_enc_hgmlcaddress)
+		}
+		retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_hgmlcaddress)
+		if tagErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+		}
+		enc_hgmlcaddress = retagged_enc_hgmlcaddress
+		children = append(children, enc_hgmlcaddress...)
+	}
+	if v.PeriodicLocation != nil {
+		enc_periodiclocation, err := v.PeriodicLocation.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding periodicLocation: %w", err)
+		}
+		retagged_enc_periodiclocation, tagErr_enc_periodiclocation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_periodiclocation)
+		if tagErr_enc_periodiclocation != nil {
+			return nil, fmt.Errorf("encoding periodicLocation: %w", tagErr_enc_periodiclocation)
+		}
+		enc_periodiclocation = retagged_enc_periodiclocation
+		children = append(children, enc_periodiclocation...)
+	}
+	if v.AreaEventReporting != nil {
+		enc_areaeventreporting, err := v.AreaEventReporting.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding areaEventReporting: %w", err)
+		}
+		retagged_enc_areaeventreporting, tagErr_enc_areaeventreporting := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, enc_areaeventreporting)
+		if tagErr_enc_areaeventreporting != nil {
+			return nil, fmt.Errorf("encoding areaEventReporting: %w", tagErr_enc_areaeventreporting)
+		}
+		enc_areaeventreporting = retagged_enc_areaeventreporting
+		children = append(children, enc_areaeventreporting...)
+	}
+	if v.MotionEventReporting != nil {
+		enc_motioneventreporting, err := v.MotionEventReporting.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding motionEventReporting: %w", err)
+		}
+		retagged_enc_motioneventreporting, tagErr_enc_motioneventreporting := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, enc_motioneventreporting)
+		if tagErr_enc_motioneventreporting != nil {
+			return nil, fmt.Errorf("encoding motionEventReporting: %w", tagErr_enc_motioneventreporting)
+		}
+		enc_motioneventreporting = retagged_enc_motioneventreporting
+		children = append(children, enc_motioneventreporting...)
+	}
+	if v.DeferredRoutingIdentifier != nil {
+		enc_deferredroutingidentifier, encodeErr_enc_deferredroutingidentifier := ber.EncodeOctetString(v.DeferredRoutingIdentifier)
+		if encodeErr_enc_deferredroutingidentifier != nil {
+			return nil, fmt.Errorf("encoding deferredRoutingIdentifier: %w", encodeErr_enc_deferredroutingidentifier)
+		}
+		retagged_enc_deferredroutingidentifier, tagErr_enc_deferredroutingidentifier := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, enc_deferredroutingidentifier)
+		if tagErr_enc_deferredroutingidentifier != nil {
+			return nil, fmt.Errorf("encoding deferredRoutingIdentifier: %w", tagErr_enc_deferredroutingidentifier)
+		}
+		enc_deferredroutingidentifier = retagged_enc_deferredroutingidentifier
+		children = append(children, enc_deferredroutingidentifier...)
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
@@ -22971,13 +24597,270 @@ func (v *LCSSLMTLRArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 			}
 		}
 	}
+	// Decode lcs-QoS
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
+				decodedTag_lcsqos, n_lcsqos, rawVal_lcsqos, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding lcs-QoS: %w", err)
+				}
+				if decodedTag_lcsqos.Class != tag.ClassContextSpecific || decodedTag_lcsqos.Number != 5 || decodedTag_lcsqos.Constructed != true {
+					return fmt.Errorf("decoding lcs-QoS: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsqos)
+				}
+				reconstructed_lcsqos, reconstructionErr_lcsqos := ber.EncodeSequence(rawVal_lcsqos)
+				if reconstructionErr_lcsqos != nil {
+					return fmt.Errorf("decoding lcs-QoS: %w", reconstructionErr_lcsqos)
+				}
+				var dec_lcsqos LCSLCSQoS
+				if unmErr := dec_lcsqos.UnmarshalBER(reconstructed_lcsqos, ber.ChildDecodeOptions(opts, "lcs-QoS")...); unmErr != nil {
+					return fmt.Errorf("decoding lcs-QoS: %w", unmErr)
+				}
+				v.LcsQoS = &dec_lcsqos
+				if offset < 0 || offset >
+					len(content) || n_lcsqos < 0 || n_lcsqos > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_lcsqos
+			}
+		}
+	}
+	// Decode requestedRangingResult
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
+				decodedTag_requestedrangingresult, n_requestedrangingresult, rawVal_requestedrangingresult, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding requestedRangingResult: %w", err)
+				}
+				if decodedTag_requestedrangingresult.Class != tag.ClassContextSpecific || decodedTag_requestedrangingresult.Number != 6 || decodedTag_requestedrangingresult.Constructed != true {
+					return fmt.Errorf("decoding requestedRangingResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_requestedrangingresult)
+				}
+				reconstructed_requestedrangingresult, reconstructionErr_requestedrangingresult := ber.EncodeSequence(rawVal_requestedrangingresult)
+				if reconstructionErr_requestedrangingresult != nil {
+					return fmt.Errorf("decoding requestedRangingResult: %w", reconstructionErr_requestedrangingresult)
+				}
+				var dec_requestedrangingresult PreferredRangingResult
+				if unmErr := dec_requestedrangingresult.UnmarshalBER(reconstructed_requestedrangingresult, ber.ChildDecodeOptions(opts, "requestedRangingResult")...); unmErr != nil {
+					return fmt.Errorf("decoding requestedRangingResult: %w", unmErr)
+				}
+				v.RequestedRangingResult = &dec_requestedrangingresult
+				if offset < 0 || offset >
+					len(content) || n_requestedrangingresult < 0 || n_requestedrangingresult >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_requestedrangingresult
+			}
+		}
+	}
+	// Decode referenceNumber
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
+				decodedTag_referencenumber, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding referenceNumber: %w", err)
+				}
+				if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 7 {
+					return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
+				}
+				decVal_referencenumber, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_referencenumber.Constructed, rawVal_referencenumber, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding referenceNumber: %w", octetErr)
+				}
+				tmp_referencenumber := LCSLCSReferenceNumber(decVal_referencenumber)
+				v.ReferenceNumber = &tmp_referencenumber
+				if offset < 0 || offset >
+					len(content) || n_referencenumber < 0 || n_referencenumber >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_referencenumber
+				if len(*v.ReferenceNumber) < 1 || len(*v.ReferenceNumber) > 1 {
+					if constraintErr := ber.CheckDecodedLength(opts, "referenceNumber", "SIZE (1)", len(*v.ReferenceNumber)); constraintErr != nil {
+						return constraintErr
+					}
+				}
+			}
+		}
+	}
+	// Decode h-gmlc-address
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
+				decodedTag_hgmlcaddress, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding h-gmlc-address: %w", err)
+				}
+				if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 8 {
+					return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
+				}
+				decVal_hgmlcaddress, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_hgmlcaddress.Constructed, rawVal_hgmlcaddress, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding h-gmlc-address: %w", octetErr)
+				}
+				tmp_hgmlcaddress := CommonDataTypesGSNAddress(decVal_hgmlcaddress)
+				v.HGmlcAddress = &tmp_hgmlcaddress
+				if offset < 0 || offset >
+					len(content) || n_hgmlcaddress < 0 || n_hgmlcaddress >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_hgmlcaddress
+				if len(*v.HGmlcAddress) < 5 || len(*v.HGmlcAddress) > 17 {
+					if constraintErr := ber.CheckDecodedLength(opts, "h-gmlc-address", "SIZE (5..17)", len(*v.HGmlcAddress)); constraintErr != nil {
+						return constraintErr
+					}
+				}
+			}
+		}
+	}
+	// Decode periodicLocation
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
+				decodedTag_periodiclocation, n_periodiclocation, rawVal_periodiclocation, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding periodicLocation: %w", err)
+				}
+				if decodedTag_periodiclocation.Class != tag.ClassContextSpecific || decodedTag_periodiclocation.Number != 9 || decodedTag_periodiclocation.Constructed != true {
+					return fmt.Errorf("decoding periodicLocation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_periodiclocation)
+				}
+				reconstructed_periodiclocation, reconstructionErr_periodiclocation := ber.EncodeSequence(rawVal_periodiclocation)
+				if reconstructionErr_periodiclocation != nil {
+					return fmt.Errorf("decoding periodicLocation: %w", reconstructionErr_periodiclocation)
+				}
+				var dec_periodiclocation PeriodicLocation
+				if unmErr := dec_periodiclocation.UnmarshalBER(reconstructed_periodiclocation, ber.ChildDecodeOptions(opts, "periodicLocation")...); unmErr != nil {
+					return fmt.Errorf("decoding periodicLocation: %w", unmErr)
+				}
+				v.PeriodicLocation = &dec_periodiclocation
+				if offset < 0 || offset >
+					len(content) || n_periodiclocation < 0 || n_periodiclocation >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_periodiclocation
+			}
+		}
+	}
+	// Decode areaEventReporting
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
+				decodedTag_areaeventreporting, n_areaeventreporting, rawVal_areaeventreporting, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding areaEventReporting: %w", err)
+				}
+				if decodedTag_areaeventreporting.Class != tag.ClassContextSpecific || decodedTag_areaeventreporting.Number != 10 || decodedTag_areaeventreporting.Constructed != true {
+					return fmt.Errorf("decoding areaEventReporting: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_areaeventreporting)
+				}
+				reconstructed_areaeventreporting, reconstructionErr_areaeventreporting := ber.EncodeSequence(rawVal_areaeventreporting)
+				if reconstructionErr_areaeventreporting != nil {
+					return fmt.Errorf("decoding areaEventReporting: %w", reconstructionErr_areaeventreporting)
+				}
+				var dec_areaeventreporting AreaEventReporting
+				if unmErr := dec_areaeventreporting.UnmarshalBER(reconstructed_areaeventreporting, ber.ChildDecodeOptions(opts, "areaEventReporting")...); unmErr != nil {
+					return fmt.Errorf("decoding areaEventReporting: %w", unmErr)
+				}
+				v.AreaEventReporting = &dec_areaeventreporting
+				if offset < 0 || offset >
+					len(content) || n_areaeventreporting < 0 || n_areaeventreporting >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_areaeventreporting
+			}
+		}
+	}
+	// Decode motionEventReporting
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
+				decodedTag_motioneventreporting, n_motioneventreporting, rawVal_motioneventreporting, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding motionEventReporting: %w", err)
+				}
+				if decodedTag_motioneventreporting.Class != tag.ClassContextSpecific || decodedTag_motioneventreporting.Number != 11 || decodedTag_motioneventreporting.Constructed != true {
+					return fmt.Errorf("decoding motionEventReporting: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_motioneventreporting)
+				}
+				reconstructed_motioneventreporting, reconstructionErr_motioneventreporting := ber.EncodeSequence(rawVal_motioneventreporting)
+				if reconstructionErr_motioneventreporting != nil {
+					return fmt.Errorf("decoding motionEventReporting: %w", reconstructionErr_motioneventreporting)
+				}
+				var dec_motioneventreporting MotionEventReporting
+				if unmErr := dec_motioneventreporting.UnmarshalBER(reconstructed_motioneventreporting, ber.ChildDecodeOptions(opts, "motionEventReporting")...); unmErr != nil {
+					return fmt.Errorf("decoding motionEventReporting: %w", unmErr)
+				}
+				v.MotionEventReporting = &dec_motioneventreporting
+				if offset < 0 || offset >
+					len(content) || n_motioneventreporting < 0 || n_motioneventreporting >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_motioneventreporting
+			}
+		}
+	}
+	// Decode deferredRoutingIdentifier
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
+				decodedTag_deferredroutingidentifier, n_deferredroutingidentifier, rawVal_deferredroutingidentifier, err := ber.DecodeTLV(content[offset:], opts...)
+				if err != nil {
+					return fmt.Errorf("decoding deferredRoutingIdentifier: %w", err)
+				}
+				if decodedTag_deferredroutingidentifier.Class != tag.ClassContextSpecific || decodedTag_deferredroutingidentifier.Number != 12 {
+					return fmt.Errorf("decoding deferredRoutingIdentifier: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_deferredroutingidentifier)
+				}
+				decVal_deferredroutingidentifier, octetErr := ber.DecodeImplicitOctetStringValue(decodedTag_deferredroutingidentifier.Constructed, rawVal_deferredroutingidentifier, opts...)
+				if octetErr != nil {
+					return fmt.Errorf("decoding deferredRoutingIdentifier: %w", octetErr)
+				}
+				tmp_deferredroutingidentifier := decVal_deferredroutingidentifier
+				v.DeferredRoutingIdentifier = tmp_deferredroutingidentifier
+				if offset < 0 || offset >
+					len(content) || n_deferredroutingidentifier < 0 || n_deferredroutingidentifier >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				offset += n_deferredroutingidentifier
+			}
+		}
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSSLMTLRArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSSLMTLRArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -23281,9 +25164,18 @@ func (v *LCSSLMTLRRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSSLMTLRRes", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSSLMTLRRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -23984,9 +25876,18 @@ func (v *LCSDLRSPPTransportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSDLRSPPTransportArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSDLRSPPTransportArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
@@ -24264,9 +26165,18 @@ func (v *LCSULRSPPTransportArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
+		peekTag, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "LCSULRSPPTransportArg", Cause: extErr_}
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
+		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if !ber.ConstraintToleranceEnabled(opts) {
+				return &ber.DecodeError{Offset: offset, TypeName: "LCSULRSPPTransportArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
+			}
+			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+				return orderErr_
+			}
 		}
 		if offset < 0 || offset >
 			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {

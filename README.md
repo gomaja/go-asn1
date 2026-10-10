@@ -93,12 +93,12 @@ extension form is rejected on decode (§§16.6, 17.3).
 ### BER constraints and trace tolerance
 
 BER decoding and encoding enforce resolved INTEGER, ENUMERATED, REAL, and
-`SIZE` constraints by default. Constraint failures return
-`*ber.ConstraintError`. For trace inspection, an explicit tolerance option
-admits representable out-of-constraint values and records each field path,
-constraint, and observed value or length. Pass the option to both decode and
-encode when preserving such a value. DER remains strict (ITU-T X.680
-(02/2021) §§49–51; X.690 (02/2021) §§8.1.3, 8.7).
+`SIZE` constraints and `FROM` permitted alphabets by default. Constraint
+failures return `*ber.ConstraintError`. For trace inspection, an explicit
+tolerance option admits representable out-of-constraint values and records
+each field path, constraint, and observed value or length. Pass the option
+to both decode and encode when preserving such a value. DER remains strict
+(ITU-T X.680 (02/2021) §§49–51; X.690 (02/2021) §§8.1.3, 8.7).
 
 ```go
 package main
@@ -146,6 +146,17 @@ INTEGER in a generated `uint64` field or a value wider than a generated
 raw bytes. Source value `EXCEPT` and collection-element unions that the
 frontend cannot resolve remain fail closed (ITU-T X.680 (02/2021) §§49.7,
 50–51).
+
+A permitted alphabet (X.680 (02/2021) §51.7) is checked wherever its type is
+used: in a SEQUENCE or SET component, a CHOICE alternative, a SEQUENCE OF or
+SET OF element and a standalone value. In the release packages it applies to
+GSM MAP `Password ::= NumericString (FROM ("0"|"1"|...|"9")) (SIZE (4))`
+(3GPP TS 29.002 V19.1.0 §17.7.4) in each MAP version. Earlier releases
+checked only its size, so a strict decode of a value whose `Password` is,
+for example, `" 000"` now fails with `*ber.ConstraintError`. The tolerance option admits
+it and records the constraint `FROM permitted alphabet` with the first
+character outside the alphabet, quoted, as the observed value (`' '`). An
+unchanged value then re-encodes as received.
 
 #### Preserved BER forms and DER
 
@@ -220,6 +231,73 @@ Constraint tolerance does not admit invalid encodings. Both modes reject:
   one complete encoding (X.690 §8.14.3). Earlier releases accepted and
   dropped them, for example after the application-context-name of a TCAP
   `AARQ-apdu`.
+
+#### Unknown SEQUENCE extensions
+
+An extensible SEQUENCE keeps the TLVs that follow its known components in
+`ExtData_` and re-encodes them as received. The first of them cannot carry
+the tag of a component in the trailing run of OPTIONAL or DEFAULT components
+of the known type, taking the root and the known additions in textual order:
+ITU-T X.680 (02/2021) §§25.6.1, 25.6.3 and 52.7.3 NOTE b) keep an unknown
+addition distinct from those tags. Such a TLV is a known component sent out
+of order or twice (X.690 (02/2021) §§8.9.2, 8.9.3), and strict decoding now
+rejects it with `ber.ErrInvalidTag`; earlier releases kept it silently as an
+unknown extension. For example, every root component of TS 24.080
+`NotifySS-Arg` is OPTIONAL, so `3006840100810100` (`ss-Status [4]` before
+`ss-Code [1]`) and `3006810100810101` (`ss-Code` twice) are rejected, while
+`3006810100840100` decodes. The tolerance option admits the TLV and records
+it under a path ending in `ExtData_[0]`, with the constraint
+`SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)` and the tag, for
+example `[CONTEXT 1 PRIMITIVE]`, as the observed value; the value re-encodes
+as received.
+
+The check applies to the first unknown TLV only, and only to that trailing
+run. Additions may reuse the tag of a mandatory component, and any tag may
+follow an unknown addition, so a value from a newer version still decodes
+with an older type. The older MAP `SMMTForwardSMArg`, which ends at
+`correlationID [1]`, accepts TS 29.002 V19.1.0 `MT-ForwardSM-Arg` values with
+`maximumRetransmissionTime [2]`, `smsGmscAddress [3]` or
+`smsGmscDiameterAddress [4]`.
+
+#### Standalone operation and error values
+
+Types in `telecom/ss7/gsm_map` that are used directly as an operation
+argument or result, or as an error parameter (ITU-T X.880 (07/1994)
+§§8.2.2, 8.2.5, 8.3.2), and that are not a SEQUENCE, SET or CHOICE have
+standalone functions:
+`UnmarshalBER<Type>`, `MarshalBER<Type>` and `MarshalDER<Type>`. They cover
+`ISDNAddressString` and `IMSI` (`sendIMSI`), `SSCode` and `Password`
+(`registerPassword`), `GuidanceInfo` (`getPassword`), `SSUserData`
+(`processUnstructuredSS-Data`), `SSStatus` (`ss-ErrorStatus`) and
+`PWRegistrationFailureCause` (`pw-RegistrationFailure`), plus `SSStatus3`
+and `PWRegistrationFailureCause3` from the package's second `MAP-Errors`
+module. Earlier releases generated these types only as Go aliases or named
+scalars, with no codec. `processUnstructuredSS-Data`, using the `SSUserData`
+role, is an SS-Operations operation defined by TS 24.080 V19.4.0 §4.2.
+
+The functions take the package's `BERValue[T]` holder: `Value` is the typed
+value, and private fields keep a received non-canonical encoding for
+byte-exact replay until `Value` changes. They check the same tag,
+constraints, permitted alphabet and options as a component of that type, and
+`MarshalDER<Type>` writes the canonical form.
+
+```go
+package main
+
+import (
+    "github.com/gomaja/go-asn1/telecom/ss7/gsm_map"
+)
+
+// Decodes the getPassword result 120430303030 ("0000") and builds a new one.
+func passwordResult(wire []byte) (string, []byte, error) {
+    decoded, err := gsm_map.UnmarshalBERPassword(wire)
+    if err != nil {
+        return "", nil, err
+    }
+    fresh, err := gsm_map.MarshalDERPassword(&gsm_map.BERValue[gsm_map.Password]{Value: "1234"})
+    return decoded.Value, fresh, err
+}
+```
 
 #### Time values
 
@@ -754,6 +832,15 @@ V19.4.0 archive (`36331-j40.zip`).
 S1AP and X2AP likewise use the official TS 36.413 V19.2.0 and TS 36.423
 V19.1.0 archives (`36413-j20.zip` and `36423-j10.zip`).
 
+The elements of `SystemInfoListGERAN` are `OCTET STRING (SIZE (1..23))`
+(TS 36.331 V19.4.0 §6.3.4), so UPER writes each element length as a 5-bit
+constrained whole number (X.691 (02/2021) §§17.8, 11.9.4.1). This applies
+to the named list, the `si` and `psi` alternatives of `SI-OrPSI-GERAN` and
+`CellInfoGERAN-r9.systemInformation-r9`. Earlier releases used an
+unconstrained 8-bit length: `[01]` encoded as `001010` instead of `000080`,
+and the DL-DCCH message `184080000000` decoded `si` as one empty element
+instead of `[00]`.
+
 #### `telecom/nr/` — 3GPP NR (5G)
 
 | Package | Spec | Interface | Encoding | Status |
@@ -783,6 +870,13 @@ V19.1.0 archives (`36413-j20.zip` and `36423-j10.zip`).
 Compiling `telecom/umts/rrc` needs about 4 GB in one Go compiler process.
 On small CI runners, set `GOFLAGS=-p=2` or lower to limit concurrent builds.
 
+The elements of `IntraFreqMeasQuantity-TDD-sib3List`, used by the TDD
+branch of `SysInfoType3-v770ext-IEs.deferredMeasurementControlReadingSupport`,
+are a two-value ENUMERATED (TS 25.331 V19.0.1 §11.3). Earlier releases
+generated an enumeration root count of 0, so the list could neither be
+encoded nor decoded; a SIB3 carrying it, such as `848d159cc081063bd511e0`,
+was rejected and now decodes `[timeslotISCP, primaryCCPCH-RSCP]`.
+
 #### `telecom/gsm/` — 2G
 
 | Package | Spec | Interface | Status |
@@ -807,6 +901,23 @@ On small CI runners, set `GOFLAGS=-p=2` or lower to limit concurrent builds.
 | `ss7/q932_ros` | Q.932 ROS | DSS1 (facility IE) | BER | planned |
 | `ss7/qsig` | QSIG | QSIG (PBX ↔ PBX) | BER | planned |
 | `ss7/lnpdqp` | LNPDQP | NPDB (number portability query) | BER | planned |
+
+##### GSM supplementary services
+
+The `telecom/ss7/gsm_map` supplementary-service types follow 3GPP TS 24.080
+V19.4.0 §4.4.2. `SingleRelativeResult.RelativeVelocity` is now a
+`*RelVelocityEstimate` sequence with optional signed radial and angular
+velocities, uncertainties and unit enumerations. Its BER field uses the
+constructed context tag `[3]`; old primitive OCTET STRING velocity encodings
+are rejected. A constructed legacy string may be retained as an unknown
+extension, with no typed velocity values. Values omitting that field retain
+their encoding.
+
+`LCSEventReportArg` and `LCSCancelDeferredLocationArg` gain optional reference
+number and GMLC address fields. `LCSSLMTLRArg` gains eight optional fields
+for QoS, ranging results, references, addresses and deferred reporting.
+`SLMTLRTypePeriodictriggeredrangingSidelink` names enumeration value 1.
+`RangingSLPPList` remains constrained to 1..63 elements; 64 is rejected.
 
 #### `telecom/esim/` — eSIM Provisioning
 

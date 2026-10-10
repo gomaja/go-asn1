@@ -169,7 +169,7 @@ func UnmarshalAPERProtocolIEContainerFrom(bb *per.BitBuffer) (ProtocolIEContaine
 func unmarshalAPERProtocolIEContainerInto(v *asn1cAPERProtocolIEContainerListValue, bb *per.BitBuffer) error {
 	v.Value = make(ProtocolIEContainer, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1187
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -408,7 +408,7 @@ func UnmarshalAPERProtocolIEContainerPairFrom(bb *per.BitBuffer) (ProtocolIECont
 func unmarshalAPERProtocolIEContainerPairInto(v *asn1cAPERProtocolIEContainerPairListValue, bb *per.BitBuffer) error {
 	v.Value = make(ProtocolIEContainerPair, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1187
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -597,7 +597,7 @@ func UnmarshalAPERProtocolIEContainerListFrom(bb *per.BitBuffer) (ProtocolIECont
 func unmarshalAPERProtocolIEContainerListInto(v *asn1cAPERProtocolIEContainerListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ProtocolIEContainerList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1244
+		// arithmetic pattern APER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1238
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -704,7 +704,7 @@ func UnmarshalAPERProtocolIEContainerPairListFrom(bb *per.BitBuffer) (ProtocolIE
 func unmarshalAPERProtocolIEContainerPairListInto(v *asn1cAPERProtocolIEContainerPairListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ProtocolIEContainerPairList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1244
+		// arithmetic pattern APER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1238
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -811,7 +811,7 @@ func UnmarshalAPERProtocolExtensionContainerFrom(bb *per.BitBuffer) (ProtocolExt
 func unmarshalAPERProtocolExtensionContainerInto(v *asn1cAPERProtocolExtensionContainerListValue, bb *per.BitBuffer) error {
 	v.Value = make(ProtocolExtensionContainer, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1187
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -984,7 +984,7 @@ func UnmarshalAPERPrivateIEContainerFrom(bb *per.BitBuffer) (PrivateIEContainer,
 func unmarshalAPERPrivateIEContainerInto(v *asn1cAPERPrivateIEContainerListValue, bb *per.BitBuffer) error {
 	v.Value = make(PrivateIEContainer, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1187
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
