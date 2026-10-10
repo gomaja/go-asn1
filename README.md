@@ -151,9 +151,9 @@ A permitted alphabet (X.680 (02/2021) §51.7) is checked wherever its type is
 used: in a SEQUENCE or SET component, a CHOICE alternative, a SEQUENCE OF or
 SET OF element and a standalone value. In the release packages it applies to
 GSM MAP `Password ::= NumericString (FROM ("0"|"1"|...|"9")) (SIZE (4))`
-(3GPP TS 29.002 §17.7.4) in each MAP version. Earlier releases checked only
-its size, so a strict decode of a value whose `Password` is, for example,
-`" 000"` now fails with `*ber.ConstraintError`. The tolerance option admits
+(3GPP TS 29.002 V19.1.0 §17.7.4) in each MAP version. Earlier releases
+checked only its size, so a strict decode of a value whose `Password` is,
+for example, `" 000"` now fails with `*ber.ConstraintError`. The tolerance option admits
 it and records the constraint `FROM permitted alphabet` with the first
 character outside the alphabet, quoted, as the observed value (`' '`). An
 unchanged value then re-encodes as received.
@@ -261,9 +261,10 @@ with an older type. The older MAP `SMMTForwardSMArg`, which ends at
 
 #### Standalone operation and error values
 
-GSM MAP types that are used directly as an operation argument or result, or
-as an error parameter (ITU-T X.880 (07/1994) §§8.2.2, 8.2.5, 8.3.2), and
-that are not a SEQUENCE, SET or CHOICE have standalone functions:
+Types in `telecom/ss7/gsm_map` that are used directly as an operation
+argument or result, or as an error parameter (ITU-T X.880 (07/1994)
+§§8.2.2, 8.2.5, 8.3.2), and that are not a SEQUENCE, SET or CHOICE have
+standalone functions:
 `UnmarshalBER<Type>`, `MarshalBER<Type>` and `MarshalDER<Type>`. They cover
 `ISDNAddressString` and `IMSI` (`sendIMSI`), `SSCode` and `Password`
 (`registerPassword`), `GuidanceInfo` (`getPassword`), `SSUserData`
@@ -271,7 +272,8 @@ that are not a SEQUENCE, SET or CHOICE have standalone functions:
 `PWRegistrationFailureCause` (`pw-RegistrationFailure`), plus `SSStatus3`
 and `PWRegistrationFailureCause3` from the package's second `MAP-Errors`
 module. Earlier releases generated these types only as Go aliases or named
-scalars, with no codec.
+scalars, with no codec. `processUnstructuredSS-Data`, using the `SSUserData`
+role, is an SS-Operations operation defined by TS 24.080 V19.4.0 §4.2.
 
 The functions take the package's `BERValue[T]` holder: `Value` is the typed
 value, and private fields keep a received non-canonical encoding for

@@ -7,6 +7,8 @@ import (
 	"testing"
 
 	"github.com/gomaja/go-asn1/runtime/ber"
+	"github.com/gomaja/go-asn1/telecom/esim/sgp22"
+	"github.com/gomaja/go-asn1/telecom/esim/sgp32"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map"
 )
 
@@ -55,21 +57,83 @@ func TestNotifySSArgComponentOrder(t *testing.T) {
 	}
 }
 
+// DeviceInfo (SGP.22 V2.7 Annex H) and EimConfigurationData (SGP.32 V1.3
+// Annex C, SGP32Definitions) are extensible SEQUENCEs with trailing OPTIONAL
+// components. Repeating a known optional tag is not an unknown addition
+// (X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b; X.690 (02/2021)
+// §§8.9.2–8.9.3). Each package must reject it strictly, record the exact
+// first-tail violation under tolerance, retain the TLV and replay the input.
+func TestSGPFirstExtensionTailComponentOrder(t *testing.T) {
+	for _, c := range []struct {
+		name, valid, invalid, tail, observed string
+		fresh                                func() berValue
+		extensions                           func(berValue) [][]byte
+	}{
+		{
+			"SGP.22 DeviceInfo", "3012800401020304a100820821436587092143f5",
+			"301c800401020304a100820821436587092143f5820865872143098765f1", "820865872143098765f1", "[CONTEXT 2 PRIMITIVE]",
+			func() berValue { return &sgp22.DeviceInfo{} },
+			func(v berValue) [][]byte { return v.(*sgp22.DeviceInfo).ExtData_ },
+		},
+		{
+			"SGP.32 EimConfigurationData", "300d800365696d8106612e74657374",
+			"3015800365696d8106612e746573748106622e74657374", "8106622e74657374", "[CONTEXT 1 PRIMITIVE]",
+			func() berValue { return &sgp32.EimConfigurationData{} },
+			func(v berValue) [][]byte { return v.(*sgp32.EimConfigurationData).ExtData_ },
+		},
+	} {
+		t.Run(c.name, func(t *testing.T) {
+			valid := mustHex(t, c.valid)
+			value := c.fresh()
+			if err := value.UnmarshalBER(valid); err != nil || len(c.extensions(value)) != 0 {
+				t.Fatalf("valid value: %v, extensions %x", err, c.extensions(value))
+			}
+			replaysExactly(t, "valid", value, valid)
+			wire := mustHex(t, c.invalid)
+			if err := c.fresh().UnmarshalBER(wire); !errors.Is(err, ber.ErrInvalidTag) {
+				t.Fatalf("strict decode: %v", err)
+			}
+			var log ber.ViolationLog
+			value = c.fresh()
+			if err := value.UnmarshalBER(wire, ber.WithConstraintTolerance(&log)); err != nil {
+				t.Fatalf("tolerant decode: %v", err)
+			}
+			want := []ber.ConstraintViolation{{
+				Path:          "ExtData_[0]",
+				Constraint:    "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)",
+				ObservedValue: c.observed,
+			}}
+			if got := log.Snapshot(); !reflect.DeepEqual(got, want) {
+				t.Fatalf("violations = %+v, want %+v", got, want)
+			}
+			if got := c.extensions(value); !reflect.DeepEqual(got, [][]byte{mustHex(t, c.tail)}) {
+				t.Fatalf("extensions = %x, want %s", got, c.tail)
+			}
+			if replay, err := value.MarshalBER(); err != nil || !bytes.Equal(replay, wire) {
+				t.Fatalf("tolerant replay = %x, %v; want %x", replay, err, wire)
+			}
+		})
+	}
+}
+
 // TS 29.002 V19.1.0 §17.7.6 adds maximumRetransmissionTime [2],
 // smsGmscAddress [3] and smsGmscDiameterAddress [4] to MT-ForwardSM-Arg. The
 // older SMMTForwardSMArg ends at correlationID [1]; the additions reuse
 // mandatory component tags or follow its trailing OPTIONAL run, so it accepts
 // them as unknown additions. pycrate 0.7.11 decodes each value with the
 // current type and re-encodes it unchanged.
+// All address digits use Ofcom's drama mobile range +44 7700 900000..900999:
+// service centre 900000, TP-OA 900001 and SMS GMSC 900002
+// (https://www.ofcom.org.uk/phones-and-broadband/phone-numbers/numbers-for-drama).
 func TestNewerMTForwardSMArgOnOlderType(t *testing.T) {
 	for _, c := range []struct {
 		name, hex string
 		knownIP   bool
 	}{
-		{"maximumRetransmissionTime", "3033800821436587092143f58407914477581000000418040b914477850100f000006201012143650005e8329bfd0682040000003c", false},
-		{"smsGmscAddress", "3035800821436587092143f58407914477581000000418040b914477850100f000006201012143650005e8329bfd068306914477581000", false},
-		{"smsGmscDiameterAddress", "304e800821436587092143f58407914477581000000418040b914477850100f000006201012143650005e8329bfd06a41f8010676d73632e6578616d706c652e6f7267810b6578616d706c652e6f7267", false},
-		{"smsOverIP-OnlyIndicator then maximumRetransmissionTime", "3035800821436587092143f58407914477581000000418040b914477850100f000006201012143650005e8329bfd06800082040000003c", true},
+		{"maximumRetransmissionTime", "3033800821436587092143f58407914477000900000418040c9144770009001000006201012143650005e8329bfd0682040000003c", false},
+		{"smsGmscAddress", "3036800821436587092143f58407914477000900000418040c9144770009001000006201012143650005e8329bfd06830791447700090020", false},
+		{"smsGmscDiameterAddress", "304e800821436587092143f58407914477000900000418040c9144770009001000006201012143650005e8329bfd06a41f8010676d73632e6578616d706c652e6f7267810b6578616d706c652e6f7267", false},
+		{"smsOverIP-OnlyIndicator then maximumRetransmissionTime", "3035800821436587092143f58407914477000900000418040c9144770009001000006201012143650005e8329bfd06800082040000003c", true},
 	} {
 		wire := mustHex(t, c.hex)
 		for _, tolerant := range []bool{false, true} {
