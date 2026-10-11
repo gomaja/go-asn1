@@ -662,7 +662,7 @@ func (v *Unidirectional) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, constraintErr
 		}
 	}
-	enc_components, err := MarshalBERComponentPortion(v.Components, ber.ChildEncodeOptions(opts, "components")...)
+	enc_components, err := MarshalBERComponentPortion(v.Components, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "components"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding components: %w", err)
 	}
@@ -806,7 +806,7 @@ func (v *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 			v.ComponentsIndef_ = true
 		}
 	}
-	dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components, ber.ChildDecodeOptions(opts, "components")...)
+	dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "components"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding components: %w", unmErr)
 	}
@@ -875,7 +875,7 @@ func (v *Begin) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_components, err := MarshalBERComponentPortion(v.Components, ber.ChildEncodeOptions(opts, "components")...)
+		enc_components, err := MarshalBERComponentPortion(v.Components, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "components"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding components: %w", err)
 		}
@@ -1065,7 +1065,7 @@ func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr e
 						v.ComponentsIndef_ = true
 					}
 				}
-				dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components, ber.ChildDecodeOptions(opts, "components")...)
+				dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "components"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding components: %w", unmErr)
 				}
@@ -1137,7 +1137,7 @@ func (v *End) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_components, err := MarshalBERComponentPortion(v.Components, ber.ChildEncodeOptions(opts, "components")...)
+		enc_components, err := MarshalBERComponentPortion(v.Components, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "components"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding components: %w", err)
 		}
@@ -1327,7 +1327,7 @@ func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr err
 						v.ComponentsIndef_ = true
 					}
 				}
-				dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components, ber.ChildDecodeOptions(opts, "components")...)
+				dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "components"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding components: %w", unmErr)
 				}
@@ -1414,7 +1414,7 @@ func (v *Continue) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_components, err := MarshalBERComponentPortion(v.Components, ber.ChildEncodeOptions(opts, "components")...)
+		enc_components, err := MarshalBERComponentPortion(v.Components, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "components"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding components: %w", err)
 		}
@@ -1651,7 +1651,7 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 						v.ComponentsIndef_ = true
 					}
 				}
-				dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components, ber.ChildDecodeOptions(opts, "components")...)
+				dec_components, unmErr := UnmarshalBERComponentPortion(tlv_components, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "components"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding components: %w", unmErr)
 				}
@@ -1942,7 +1942,7 @@ func MarshalBERComponentPortion(collection *ComponentPortion, opts ...ber.Encode
 func marshalBERComponentPortion(collection *ComponentPortion, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 {
-		if constraintErr := ber.CheckEncodedLength(opts, "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1964,7 +1964,7 @@ func MarshalDERComponentPortion(collection *ComponentPortion) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 {
-		if constraintErr := ber.CheckEncodedLength(nil, "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2030,7 +2030,7 @@ func UnmarshalBERComponentPortion(data []byte, opts ...ber.DecodeOption) (return
 		offset += n
 	}
 	if len(result) < 1 {
-		if constraintErr := ber.CheckDecodedLength(opts, "ComponentPortion", "SIZE (1..MAX)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "ComponentPortion", "SIZE (1..MAX)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}

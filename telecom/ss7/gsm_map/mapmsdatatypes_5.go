@@ -4685,7 +4685,7 @@ func (v *UpdateLocationArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 				return nil, constraintErr
 			}
 		}
-		enc_pagingarea, err := MarshalBERPagingArea4(v.PagingArea, ber.ChildEncodeOptions(opts, "pagingArea")...)
+		enc_pagingarea, err := MarshalBERPagingArea4(v.PagingArea, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "pagingArea"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding pagingArea: %w", err)
 		}
@@ -4730,12 +4730,18 @@ func (v *UpdateLocationArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_restorationindicator...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -4914,6 +4920,16 @@ func (v *UpdateLocationArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -5266,7 +5282,7 @@ func (v *UpdateLocationArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if reconstructionErr_pagingarea != nil {
 					return fmt.Errorf("decoding pagingArea: %w", reconstructionErr_pagingarea)
 				}
-				dec_pagingarea, unmErr := UnmarshalBERPagingArea4(reconstructed_pagingarea, ber.ChildDecodeOptions(opts, "pagingArea")...)
+				dec_pagingarea, unmErr := UnmarshalBERPagingArea4(reconstructed_pagingarea, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "pagingArea"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding pagingArea: %w", unmErr)
 				}
@@ -5410,7 +5426,7 @@ func (v *VLRCapability5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5482,7 +5498,7 @@ func (v *VLRCapability5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedLCSCapabilitySets.Bytes, v.SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedLCS-CapabilitySets", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5506,7 +5522,7 @@ func (v *VLRCapability5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5530,7 +5546,7 @@ func (v *VLRCapability5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedRATTypesIndicator.Bytes, v.SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedRAT-TypesIndicator", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5564,12 +5580,18 @@ func (v *VLRCapability5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_mtroamingforwardingsupported...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -5594,7 +5616,7 @@ func (v *VLRCapability5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5669,7 +5691,7 @@ func (v *VLRCapability5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedLCSCapabilitySets.Bytes, v.SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedLCS-CapabilitySets", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5696,7 +5718,7 @@ func (v *VLRCapability5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5723,7 +5745,7 @@ func (v *VLRCapability5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedRATTypesIndicator.Bytes, v.SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedRAT-TypesIndicator", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5759,6 +5781,16 @@ func (v *VLRCapability5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -6383,12 +6415,18 @@ func (v *UpdateLocationRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_pagingareacapability...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -6439,6 +6477,16 @@ func (v *UpdateLocationRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -6663,12 +6711,18 @@ func (v *ADDInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_skipsubscriberdataupdate...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -6708,6 +6762,16 @@ func (v *ADDInfo5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -6865,7 +6929,7 @@ func MarshalBERPagingArea4(collection *PagingArea4, opts ...ber.EncodeOption) (r
 func marshalBERPagingArea4(collection *PagingArea4, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(opts, "PagingArea4", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "PagingArea", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -6887,7 +6951,7 @@ func MarshalDERPagingArea4(collection *PagingArea4) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(nil, "PagingArea4", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "PagingArea", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -6945,7 +7009,7 @@ func UnmarshalBERPagingArea4(data []byte, opts ...ber.DecodeOption) (returnValue
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 5 {
-		if constraintErr := ber.CheckDecodedLength(opts, "PagingArea4", "SIZE (1..5)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "PagingArea", "SIZE (1..5)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -7243,12 +7307,18 @@ func (v *CancelLocationArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_newlmsi...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 10)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -7368,6 +7438,16 @@ func (v *CancelLocationArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 10)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -7743,12 +7823,18 @@ func (v *CancelLocationRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -7771,6 +7857,16 @@ func (v *CancelLocationRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -7959,12 +8055,18 @@ func (v *PurgeMSArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -8041,6 +8143,16 @@ func (v *PurgeMSArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -8307,12 +8419,18 @@ func (v *PurgeMSRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_freezemtmsi...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -8362,6 +8480,16 @@ func (v *PurgeMSRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -8695,12 +8823,18 @@ func (v *SendIdentificationArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_newlmsi...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -8842,6 +8976,16 @@ func (v *SendIdentificationArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -9270,12 +9414,18 @@ func (v *SendIdentificationRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -9336,6 +9486,16 @@ func (v *SendIdentificationRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -9565,7 +9725,7 @@ func (v *AuthenticationSetList5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	switch v.Choice {
 	case AuthenticationSetList5ChoiceTripletList:
-		enc_0, err := MarshalBERTripletList5(v.TripletList, ber.ChildEncodeOptions(opts, "tripletList")...)
+		enc_0, err := MarshalBERTripletList5(v.TripletList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "tripletList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding tripletList: %w", err)
 		}
@@ -9581,7 +9741,7 @@ func (v *AuthenticationSetList5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case AuthenticationSetList5ChoiceQuintupletList:
-		enc_1, err := MarshalBERQuintupletList5(v.QuintupletList, ber.ChildEncodeOptions(opts, "quintupletList")...)
+		enc_1, err := MarshalBERQuintupletList5(v.QuintupletList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "quintupletList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding quintupletList: %w", err)
 		}
@@ -9708,7 +9868,7 @@ func (v *AuthenticationSetList5) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		if reconstructionErr != nil {
 			return reconstructionErr
 		}
-		dec, unmErr := UnmarshalBERTripletList5(reconstructed, ber.ChildDecodeOptions(opts, "tripletList")...)
+		dec, unmErr := UnmarshalBERTripletList5(reconstructed, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "tripletList"))...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding tripletList: %w", unmErr)
 		}
@@ -9728,7 +9888,7 @@ func (v *AuthenticationSetList5) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		if reconstructionErr != nil {
 			return reconstructionErr
 		}
-		dec, unmErr := UnmarshalBERQuintupletList5(reconstructed, ber.ChildDecodeOptions(opts, "quintupletList")...)
+		dec, unmErr := UnmarshalBERQuintupletList5(reconstructed, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "quintupletList"))...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding quintupletList: %w", unmErr)
 		}
@@ -9763,7 +9923,7 @@ func MarshalBERTripletList5(collection *TripletList5, opts ...ber.EncodeOption) 
 func marshalBERTripletList5(collection *TripletList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(opts, "TripletList5", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "TripletList", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9785,7 +9945,7 @@ func MarshalDERTripletList5(collection *TripletList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(nil, "TripletList5", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "TripletList", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9843,7 +10003,7 @@ func UnmarshalBERTripletList5(data []byte, opts ...ber.DecodeOption) (returnValu
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 5 {
-		if constraintErr := ber.CheckDecodedLength(opts, "TripletList5", "SIZE (1..5)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "TripletList", "SIZE (1..5)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9879,7 +10039,7 @@ func MarshalBERQuintupletList5(collection *QuintupletList5, opts ...ber.EncodeOp
 func marshalBERQuintupletList5(collection *QuintupletList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(opts, "QuintupletList5", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "QuintupletList", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9901,7 +10061,7 @@ func MarshalDERQuintupletList5(collection *QuintupletList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(nil, "QuintupletList5", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "QuintupletList", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9959,7 +10119,7 @@ func UnmarshalBERQuintupletList5(data []byte, opts ...ber.DecodeOption) (returnV
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 5 {
-		if constraintErr := ber.CheckDecodedLength(opts, "QuintupletList5", "SIZE (1..5)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "QuintupletList", "SIZE (1..5)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -11232,12 +11392,18 @@ func (v *AuthenticationFailureReportArg5) marshalBER(opts ...ber.EncodeOption) (
 		children = append(children, enc_sgsnnumber...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 10) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -11341,6 +11507,16 @@ func (v *AuthenticationFailureReportArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 10) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -11655,12 +11831,18 @@ func (v *AuthenticationFailureReportRes5) marshalBER(opts ...ber.EncodeOption) (
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -11683,6 +11865,16 @@ func (v *AuthenticationFailureReportRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -12006,12 +12198,18 @@ func (v *UpdateGprsLocationArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_uesrvcccapability...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -12223,6 +12421,16 @@ func (v *UpdateGprsLocationArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -12851,7 +13059,7 @@ func (v *EPSInfo4) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.IsrInformation.Bytes, v.IsrInformation.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "isr-Information", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2545
+		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2567
 		if v.IsrInformation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -13095,12 +13303,18 @@ func (v *PDNGWUpdate4) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -13171,6 +13385,16 @@ func (v *PDNGWUpdate4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -13444,7 +13668,7 @@ func (v *SGSNCapability5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -13468,7 +13692,7 @@ func (v *SGSNCapability5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedLCSCapabilitySets.Bytes, v.SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedLCS-CapabilitySets", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -13492,7 +13716,7 @@ func (v *SGSNCapability5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -13525,7 +13749,7 @@ func (v *SGSNCapability5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedRATTypesIndicator.Bytes, v.SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedRAT-TypesIndicator", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -13549,7 +13773,7 @@ func (v *SGSNCapability5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedFeatures.Bytes, v.SupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedFeatures", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -13588,12 +13812,18 @@ func (v *SGSNCapability5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_homogeneoussupportofimsvoiceoverpssessions...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -13657,7 +13887,7 @@ func (v *SGSNCapability5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -13684,7 +13914,7 @@ func (v *SGSNCapability5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedLCSCapabilitySets.Bytes, v.SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedLCS-CapabilitySets", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -13711,7 +13941,7 @@ func (v *SGSNCapability5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -13747,7 +13977,7 @@ func (v *SGSNCapability5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedRATTypesIndicator.Bytes, v.SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedRAT-TypesIndicator", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -13774,7 +14004,7 @@ func (v *SGSNCapability5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedFeatures.Bytes, v.SupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedFeatures", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -13810,6 +14040,16 @@ func (v *SGSNCapability5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -14330,12 +14570,18 @@ func (v *UpdateGprsLocationRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_sgsnmmeseparationsupported...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -14386,6 +14632,16 @@ func (v *UpdateGprsLocationRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -14697,7 +14953,7 @@ func (v *ForwardAccessSignallingArg5) marshalBER(opts ...ber.EncodeOption) ([]by
 				return nil, constraintErr
 			}
 		}
-		enc_radioresourcelist, err := MarshalBERRadioResourceList5(v.RadioResourceList, ber.ChildEncodeOptions(opts, "radioResourceList")...)
+		enc_radioresourcelist, err := MarshalBERRadioResourceList5(v.RadioResourceList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "radioResourceList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding radioResourceList: %w", err)
 		}
@@ -14763,7 +15019,7 @@ func (v *ForwardAccessSignallingArg5) marshalBER(opts ...ber.EncodeOption) ([]by
 				return nil, constraintErr
 			}
 		}
-		enc_bssmapservicehandoverlist, err := MarshalBERBSSMAPServiceHandoverList5(v.BssmapServiceHandoverList, ber.ChildEncodeOptions(opts, "bssmap-ServiceHandoverList")...)
+		enc_bssmapservicehandoverlist, err := MarshalBERBSSMAPServiceHandoverList5(v.BssmapServiceHandoverList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "bssmap-ServiceHandoverList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding bssmap-ServiceHandoverList: %w", err)
 		}
@@ -14903,12 +15159,18 @@ func (v *ForwardAccessSignallingArg5) marshalBER(opts ...ber.EncodeOption) ([]by
 		children = append(children, enc_aoipselectedcodectarget...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -15211,6 +15473,16 @@ func (v *ForwardAccessSignallingArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -15522,7 +15794,7 @@ func (v *ForwardAccessSignallingArg5) UnmarshalBER(data []byte, opts ...ber.Deco
 				if reconstructionErr_radioresourcelist != nil {
 					return fmt.Errorf("decoding radioResourceList: %w", reconstructionErr_radioresourcelist)
 				}
-				dec_radioresourcelist, unmErr := UnmarshalBERRadioResourceList5(reconstructed_radioresourcelist, ber.ChildDecodeOptions(opts, "radioResourceList")...)
+				dec_radioresourcelist, unmErr := UnmarshalBERRadioResourceList5(reconstructed_radioresourcelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "radioResourceList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding radioResourceList: %w", unmErr)
 				}
@@ -15635,7 +15907,7 @@ func (v *ForwardAccessSignallingArg5) UnmarshalBER(data []byte, opts ...ber.Deco
 				if reconstructionErr_bssmapservicehandoverlist != nil {
 					return fmt.Errorf("decoding bssmap-ServiceHandoverList: %w", reconstructionErr_bssmapservicehandoverlist)
 				}
-				dec_bssmapservicehandoverlist, unmErr := UnmarshalBERBSSMAPServiceHandoverList5(reconstructed_bssmapservicehandoverlist, ber.ChildDecodeOptions(opts, "bssmap-ServiceHandoverList")...)
+				dec_bssmapservicehandoverlist, unmErr := UnmarshalBERBSSMAPServiceHandoverList5(reconstructed_bssmapservicehandoverlist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "bssmap-ServiceHandoverList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding bssmap-ServiceHandoverList: %w", unmErr)
 				}
@@ -16015,12 +16287,18 @@ func (v *AllowedUMTSAlgorithms5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -16082,6 +16360,16 @@ func (v *AllowedUMTSAlgorithms5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -16439,7 +16727,7 @@ func (v *PrepareHOArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_radioresourcelist, err := MarshalBERRadioResourceList5(v.RadioResourceList, ber.ChildEncodeOptions(opts, "radioResourceList")...)
+		enc_radioresourcelist, err := MarshalBERRadioResourceList5(v.RadioResourceList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "radioResourceList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding radioResourceList: %w", err)
 		}
@@ -16531,7 +16819,7 @@ func (v *PrepareHOArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_bssmapservicehandoverlist, err := MarshalBERBSSMAPServiceHandoverList5(v.BssmapServiceHandoverList, ber.ChildEncodeOptions(opts, "bssmap-ServiceHandoverList")...)
+		enc_bssmapservicehandoverlist, err := MarshalBERBSSMAPServiceHandoverList5(v.BssmapServiceHandoverList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "bssmap-ServiceHandoverList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding bssmap-ServiceHandoverList: %w", err)
 		}
@@ -16705,7 +16993,7 @@ func (v *PrepareHOArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_regionalsubscriptiondata, err := MarshalBERZoneCodeList5(v.RegionalSubscriptionData, ber.ChildEncodeOptions(opts, "regionalSubscriptionData")...)
+		enc_regionalsubscriptiondata, err := MarshalBERZoneCodeList5(v.RegionalSubscriptionData, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "regionalSubscriptionData"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding regionalSubscriptionData: %w", err)
 		}
@@ -16757,7 +17045,7 @@ func (v *PrepareHOArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.LclsNegotiation.Bytes, v.LclsNegotiation.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "lcls-Negotiation", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.LclsNegotiation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -16773,12 +17061,18 @@ func (v *PrepareHOArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_lclsnegotiation...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 29) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 28) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 27) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 26) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 25) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -17229,7 +17523,7 @@ func (v *PrepareHOArg5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.LclsNegotiation.Bytes, v.LclsNegotiation.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "lcls-Negotiation", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.LclsNegotiation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -17247,6 +17541,16 @@ func (v *PrepareHOArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 29) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 28) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 27) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 26) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 25) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -17651,7 +17955,7 @@ func (v *PrepareHOArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 				if reconstructionErr_radioresourcelist != nil {
 					return fmt.Errorf("decoding radioResourceList: %w", reconstructionErr_radioresourcelist)
 				}
-				dec_radioresourcelist, unmErr := UnmarshalBERRadioResourceList5(reconstructed_radioresourcelist, ber.ChildDecodeOptions(opts, "radioResourceList")...)
+				dec_radioresourcelist, unmErr := UnmarshalBERRadioResourceList5(reconstructed_radioresourcelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "radioResourceList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding radioResourceList: %w", unmErr)
 				}
@@ -17828,7 +18132,7 @@ func (v *PrepareHOArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 				if reconstructionErr_bssmapservicehandoverlist != nil {
 					return fmt.Errorf("decoding bssmap-ServiceHandoverList: %w", reconstructionErr_bssmapservicehandoverlist)
 				}
-				dec_bssmapservicehandoverlist, unmErr := UnmarshalBERBSSMAPServiceHandoverList5(reconstructed_bssmapservicehandoverlist, ber.ChildDecodeOptions(opts, "bssmap-ServiceHandoverList")...)
+				dec_bssmapservicehandoverlist, unmErr := UnmarshalBERBSSMAPServiceHandoverList5(reconstructed_bssmapservicehandoverlist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "bssmap-ServiceHandoverList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding bssmap-ServiceHandoverList: %w", unmErr)
 				}
@@ -18189,7 +18493,7 @@ func (v *PrepareHOArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 				if reconstructionErr_regionalsubscriptiondata != nil {
 					return fmt.Errorf("decoding regionalSubscriptionData: %w", reconstructionErr_regionalsubscriptiondata)
 				}
-				dec_regionalsubscriptiondata, unmErr := UnmarshalBERZoneCodeList5(reconstructed_regionalsubscriptiondata, ber.ChildDecodeOptions(opts, "regionalSubscriptionData")...)
+				dec_regionalsubscriptiondata, unmErr := UnmarshalBERZoneCodeList5(reconstructed_regionalsubscriptiondata, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "regionalSubscriptionData"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding regionalSubscriptionData: %w", unmErr)
 				}
@@ -18345,7 +18649,7 @@ func MarshalBERBSSMAPServiceHandoverList5(collection *BSSMAPServiceHandoverList5
 func marshalBERBSSMAPServiceHandoverList5(collection *BSSMAPServiceHandoverList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 7 {
-		if constraintErr := ber.CheckEncodedLength(opts, "BSSMAPServiceHandoverList5", "SIZE (1..7)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "BSSMAP-ServiceHandoverList", "SIZE (1..7)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -18367,7 +18671,7 @@ func MarshalDERBSSMAPServiceHandoverList5(collection *BSSMAPServiceHandoverList5
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 7 {
-		if constraintErr := ber.CheckEncodedLength(nil, "BSSMAPServiceHandoverList5", "SIZE (1..7)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "BSSMAP-ServiceHandoverList", "SIZE (1..7)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -18425,7 +18729,7 @@ func UnmarshalBERBSSMAPServiceHandoverList5(data []byte, opts ...ber.DecodeOptio
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 7 {
-		if constraintErr := ber.CheckDecodedLength(opts, "BSSMAPServiceHandoverList5", "SIZE (1..7)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "BSSMAP-ServiceHandoverList", "SIZE (1..7)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -18646,7 +18950,7 @@ func MarshalBERRadioResourceList5(collection *RadioResourceList5, opts ...ber.En
 func marshalBERRadioResourceList5(collection *RadioResourceList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 7 {
-		if constraintErr := ber.CheckEncodedLength(opts, "RadioResourceList5", "SIZE (1..7)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "RadioResourceList", "SIZE (1..7)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -18668,7 +18972,7 @@ func MarshalDERRadioResourceList5(collection *RadioResourceList5) ([]byte, error
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 7 {
-		if constraintErr := ber.CheckEncodedLength(nil, "RadioResourceList5", "SIZE (1..7)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "RadioResourceList", "SIZE (1..7)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -18726,7 +19030,7 @@ func UnmarshalBERRadioResourceList5(data []byte, opts ...ber.DecodeOption) (retu
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 7 {
-		if constraintErr := ber.CheckDecodedLength(opts, "RadioResourceList5", "SIZE (1..7)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "RadioResourceList", "SIZE (1..7)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -18974,7 +19278,7 @@ func (v *PrepareHORes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_relocationnumberlist, err := MarshalBERRelocationNumberList5(v.RelocationNumberList, ber.ChildEncodeOptions(opts, "relocationNumberList")...)
+		enc_relocationnumberlist, err := MarshalBERRelocationNumberList5(v.RelocationNumberList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "relocationNumberList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding relocationNumberList: %w", err)
 		}
@@ -19125,12 +19429,18 @@ func (v *PrepareHORes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_aoipavailablecodecslistmap...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -19310,6 +19620,16 @@ func (v *PrepareHORes5) MarshalDER() ([]byte, error) {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		children = append(children, ext...)
 	}
 	encoded, setErr := ber.EncodeSequence(children)
@@ -19416,7 +19736,7 @@ func (v *PrepareHORes5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 				if reconstructionErr_relocationnumberlist != nil {
 					return fmt.Errorf("decoding relocationNumberList: %w", reconstructionErr_relocationnumberlist)
 				}
-				dec_relocationnumberlist, unmErr := UnmarshalBERRelocationNumberList5(reconstructed_relocationnumberlist, ber.ChildDecodeOptions(opts, "relocationNumberList")...)
+				dec_relocationnumberlist, unmErr := UnmarshalBERRelocationNumberList5(reconstructed_relocationnumberlist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "relocationNumberList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding relocationNumberList: %w", unmErr)
 				}
@@ -19850,12 +20170,18 @@ func (v *SelectedUMTSAlgorithms5) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -19917,6 +20243,16 @@ func (v *SelectedUMTSAlgorithms5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -20147,12 +20483,18 @@ func (v *ChosenRadioResourceInformation5) marshalBER(opts ...ber.EncodeOption) (
 		children = append(children, enc_chosenspeechversion...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -20202,6 +20544,16 @@ func (v *ChosenRadioResourceInformation5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -20483,12 +20835,18 @@ func (v *PrepareSubsequentHOArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		children = append(children, enc_rabconfigurationindicator...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -20622,6 +20980,16 @@ func (v *PrepareSubsequentHOArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -20998,12 +21366,18 @@ func (v *PrepareSubsequentHORes5) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -21036,6 +21410,16 @@ func (v *PrepareSubsequentHORes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -21326,12 +21710,18 @@ func (v *ProcessAccessSignallingArg5) marshalBER(opts ...ber.EncodeOption) ([]by
 		children = append(children, enc_aoipavailablecodecslistmap...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -21477,6 +21867,16 @@ func (v *ProcessAccessSignallingArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -22036,12 +22436,18 @@ func (v *AoIPCodecsList4) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -22203,6 +22609,16 @@ func (v *AoIPCodecsList4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -22625,12 +23041,18 @@ func (v *SupportedCodecsList5) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -22682,6 +23104,16 @@ func (v *SupportedCodecsList5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -23018,12 +23450,18 @@ func (v *CodecList5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -23185,6 +23623,16 @@ func (v *CodecList5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -23588,12 +24036,18 @@ func (v *SendEndSignalArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -23626,6 +24080,16 @@ func (v *SendEndSignalArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -23798,12 +24262,18 @@ func (v *SendEndSignalRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -23831,6 +24301,16 @@ func (v *SendEndSignalRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -23960,7 +24440,7 @@ func MarshalBERRelocationNumberList5(collection *RelocationNumberList5, opts ...
 func marshalBERRelocationNumberList5(collection *RelocationNumberList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 7 {
-		if constraintErr := ber.CheckEncodedLength(opts, "RelocationNumberList5", "SIZE (1..7)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "RelocationNumberList", "SIZE (1..7)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -23982,7 +24462,7 @@ func MarshalDERRelocationNumberList5(collection *RelocationNumberList5) ([]byte,
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 7 {
-		if constraintErr := ber.CheckEncodedLength(nil, "RelocationNumberList5", "SIZE (1..7)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "RelocationNumberList", "SIZE (1..7)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -24040,7 +24520,7 @@ func UnmarshalBERRelocationNumberList5(data []byte, opts ...ber.DecodeOption) (r
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 7 {
-		if constraintErr := ber.CheckDecodedLength(opts, "RelocationNumberList5", "SIZE (1..7)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "RelocationNumberList", "SIZE (1..7)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -24379,12 +24859,18 @@ func (v *SendAuthenticationInfoArg5) marshalBER(opts ...ber.EncodeOption) ([]byt
 		children = append(children, enc_additionalvectorsareforeps...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -24503,6 +24989,16 @@ func (v *SendAuthenticationInfoArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -25091,7 +25587,7 @@ func (v *SendAuthenticationInfoRes5) marshalBER(opts ...ber.EncodeOption) ([]byt
 				return nil, constraintErr
 			}
 		}
-		enc_epsauthenticationsetlist, err := MarshalBEREPSAuthenticationSetList4(v.EpsAuthenticationSetList, ber.ChildEncodeOptions(opts, "eps-AuthenticationSetList")...)
+		enc_epsauthenticationsetlist, err := MarshalBEREPSAuthenticationSetList4(v.EpsAuthenticationSetList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "eps-AuthenticationSetList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding eps-AuthenticationSetList: %w", err)
 		}
@@ -25118,12 +25614,18 @@ func (v *SendAuthenticationInfoRes5) marshalBER(opts ...ber.EncodeOption) ([]byt
 		children = append(children, enc_epsauthenticationsetlist...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -25170,6 +25672,16 @@ func (v *SendAuthenticationInfoRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -25299,7 +25811,7 @@ func (v *SendAuthenticationInfoRes5) UnmarshalBER(data []byte, opts ...ber.Decod
 				if reconstructionErr_epsauthenticationsetlist != nil {
 					return fmt.Errorf("decoding eps-AuthenticationSetList: %w", reconstructionErr_epsauthenticationsetlist)
 				}
-				dec_epsauthenticationsetlist, unmErr := UnmarshalBEREPSAuthenticationSetList4(reconstructed_epsauthenticationsetlist, ber.ChildDecodeOptions(opts, "eps-AuthenticationSetList")...)
+				dec_epsauthenticationsetlist, unmErr := UnmarshalBEREPSAuthenticationSetList4(reconstructed_epsauthenticationsetlist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "eps-AuthenticationSetList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding eps-AuthenticationSetList: %w", unmErr)
 				}
@@ -25384,7 +25896,7 @@ func MarshalBEREPSAuthenticationSetList4(collection *EPSAuthenticationSetList4, 
 func marshalBEREPSAuthenticationSetList4(collection *EPSAuthenticationSetList4, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(opts, "EPSAuthenticationSetList4", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "EPS-AuthenticationSetList", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -25406,7 +25918,7 @@ func MarshalDEREPSAuthenticationSetList4(collection *EPSAuthenticationSetList4) 
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(nil, "EPSAuthenticationSetList4", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "EPS-AuthenticationSetList", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -25464,7 +25976,7 @@ func UnmarshalBEREPSAuthenticationSetList4(data []byte, opts ...ber.DecodeOption
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 5 {
-		if constraintErr := ber.CheckDecodedLength(opts, "EPSAuthenticationSetList4", "SIZE (1..5)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "EPS-AuthenticationSetList", "SIZE (1..5)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -25547,12 +26059,18 @@ func (v *EPCAV4) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -25615,6 +26133,16 @@ func (v *EPCAV4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -25842,7 +26370,7 @@ func (v *CheckIMEIArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(v.RequestedEquipmentInfo.Bytes, v.RequestedEquipmentInfo.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "requestedEquipmentInfo", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 	if v.RequestedEquipmentInfo.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -25859,12 +26387,18 @@ func (v *CheckIMEIArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -25898,7 +26432,7 @@ func (v *CheckIMEIArg5) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.RequestedEquipmentInfo.Bytes, v.RequestedEquipmentInfo.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "requestedEquipmentInfo", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 	if v.RequestedEquipmentInfo.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -25917,6 +26451,16 @@ func (v *CheckIMEIArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -26120,12 +26664,18 @@ func (v *CheckIMEIRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 10)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -26169,6 +26719,16 @@ func (v *CheckIMEIRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 10)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -26361,7 +26921,7 @@ func (v *UESBIIu5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.UesbiIuA.Bytes, v.UesbiIuA.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "uesbi-IuA", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.UesbiIuA.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -26385,7 +26945,7 @@ func (v *UESBIIu5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.UesbiIuB.Bytes, v.UesbiIuB.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "uesbi-IuB", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.UesbiIuB.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -26401,12 +26961,18 @@ func (v *UESBIIu5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_uesbiiub...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -26431,7 +26997,7 @@ func (v *UESBIIu5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.UesbiIuA.Bytes, v.UesbiIuA.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "uesbi-IuA", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.UesbiIuA.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -26458,7 +27024,7 @@ func (v *UESBIIu5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.UesbiIuB.Bytes, v.UesbiIuB.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "uesbi-IuB", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.UesbiIuB.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -26476,6 +27042,16 @@ func (v *UESBIIu5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -26722,7 +27298,7 @@ func (v *InsertSubscriberDataArg5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 				return nil, constraintErr
 			}
 		}
-		enc_bearerservicelist, err := MarshalBERBearerServiceList5(v.BearerServiceList, ber.ChildEncodeOptions(opts, "bearerServiceList")...)
+		enc_bearerservicelist, err := MarshalBERBearerServiceList5(v.BearerServiceList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "bearerServiceList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding bearerServiceList: %w", err)
 		}
@@ -26754,7 +27330,7 @@ func (v *InsertSubscriberDataArg5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 				return nil, constraintErr
 			}
 		}
-		enc_teleservicelist, err := MarshalBERTeleserviceList5(v.TeleserviceList, ber.ChildEncodeOptions(opts, "teleserviceList")...)
+		enc_teleservicelist, err := MarshalBERTeleserviceList5(v.TeleserviceList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "teleserviceList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding teleserviceList: %w", err)
 		}
@@ -26786,7 +27362,7 @@ func (v *InsertSubscriberDataArg5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 				return nil, constraintErr
 			}
 		}
-		enc_provisionedss, err := MarshalBERExtSSInfoList5(v.ProvisionedSS, ber.ChildEncodeOptions(opts, "provisionedSS")...)
+		enc_provisionedss, err := MarshalBERExtSSInfoList5(v.ProvisionedSS, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "provisionedSS"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding provisionedSS: %w", err)
 		}
@@ -26839,7 +27415,7 @@ func (v *InsertSubscriberDataArg5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 				return nil, constraintErr
 			}
 		}
-		enc_regionalsubscriptiondata, err := MarshalBERZoneCodeList5(v.RegionalSubscriptionData, ber.ChildEncodeOptions(opts, "regionalSubscriptionData")...)
+		enc_regionalsubscriptiondata, err := MarshalBERZoneCodeList5(v.RegionalSubscriptionData, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "regionalSubscriptionData"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding regionalSubscriptionData: %w", err)
 		}
@@ -26871,7 +27447,7 @@ func (v *InsertSubscriberDataArg5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 				return nil, constraintErr
 			}
 		}
-		enc_vbssubscriptiondata, err := MarshalBERVBSDataList5(v.VbsSubscriptionData, ber.ChildEncodeOptions(opts, "vbsSubscriptionData")...)
+		enc_vbssubscriptiondata, err := MarshalBERVBSDataList5(v.VbsSubscriptionData, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "vbsSubscriptionData"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vbsSubscriptionData: %w", err)
 		}
@@ -26903,7 +27479,7 @@ func (v *InsertSubscriberDataArg5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 				return nil, constraintErr
 			}
 		}
-		enc_vgcssubscriptiondata, err := MarshalBERVGCSDataList5(v.VgcsSubscriptionData, ber.ChildEncodeOptions(opts, "vgcsSubscriptionData")...)
+		enc_vgcssubscriptiondata, err := MarshalBERVGCSDataList5(v.VgcsSubscriptionData, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "vgcsSubscriptionData"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vgcsSubscriptionData: %w", err)
 		}
@@ -27126,7 +27702,7 @@ func (v *InsertSubscriberDataArg5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		if bitStringErr := ber.ValidateBitStringLength(v.AccessRestrictionData.Bytes, v.AccessRestrictionData.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "accessRestrictionData", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.AccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -27173,7 +27749,7 @@ func (v *InsertSubscriberDataArg5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 				return nil, constraintErr
 			}
 		}
-		enc_csgsubscriptiondatalist, err := MarshalBERCSGSubscriptionDataList4(v.CsgSubscriptionDataList, ber.ChildEncodeOptions(opts, "csg-SubscriptionDataList")...)
+		enc_csgsubscriptiondatalist, err := MarshalBERCSGSubscriptionDataList4(v.CsgSubscriptionDataList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "csg-SubscriptionDataList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding csg-SubscriptionDataList: %w", err)
 		}
@@ -27299,12 +27875,18 @@ func (v *InsertSubscriberDataArg5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_subscribedperiodiclautimer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 39) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 38) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 37) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 36) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 35) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 34) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 33) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 32) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 31) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 29) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 28) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 27) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 26) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 25) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 24) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -27710,7 +28292,7 @@ func (v *InsertSubscriberDataArg5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.AccessRestrictionData.Bytes, v.AccessRestrictionData.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "accessRestrictionData", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.AccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -27860,6 +28442,16 @@ func (v *InsertSubscriberDataArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 39) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 38) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 37) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 36) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 35) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 34) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 33) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 32) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 31) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 29) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 28) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 27) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 26) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 25) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 24) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -28055,7 +28647,7 @@ func (v *InsertSubscriberDataArg5) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if reconstructionErr_bearerservicelist != nil {
 					return fmt.Errorf("decoding bearerServiceList: %w", reconstructionErr_bearerservicelist)
 				}
-				dec_bearerservicelist, unmErr := UnmarshalBERBearerServiceList5(reconstructed_bearerservicelist, ber.ChildDecodeOptions(opts, "bearerServiceList")...)
+				dec_bearerservicelist, unmErr := UnmarshalBERBearerServiceList5(reconstructed_bearerservicelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "bearerServiceList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding bearerServiceList: %w", unmErr)
 				}
@@ -28103,7 +28695,7 @@ func (v *InsertSubscriberDataArg5) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if reconstructionErr_teleservicelist != nil {
 					return fmt.Errorf("decoding teleserviceList: %w", reconstructionErr_teleservicelist)
 				}
-				dec_teleservicelist, unmErr := UnmarshalBERTeleserviceList5(reconstructed_teleservicelist, ber.ChildDecodeOptions(opts, "teleserviceList")...)
+				dec_teleservicelist, unmErr := UnmarshalBERTeleserviceList5(reconstructed_teleservicelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "teleserviceList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding teleserviceList: %w", unmErr)
 				}
@@ -28151,7 +28743,7 @@ func (v *InsertSubscriberDataArg5) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if reconstructionErr_provisionedss != nil {
 					return fmt.Errorf("decoding provisionedSS: %w", reconstructionErr_provisionedss)
 				}
-				dec_provisionedss, unmErr := UnmarshalBERExtSSInfoList5(reconstructed_provisionedss, ber.ChildDecodeOptions(opts, "provisionedSS")...)
+				dec_provisionedss, unmErr := UnmarshalBERExtSSInfoList5(reconstructed_provisionedss, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "provisionedSS"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding provisionedSS: %w", unmErr)
 				}
@@ -28254,7 +28846,7 @@ func (v *InsertSubscriberDataArg5) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if reconstructionErr_regionalsubscriptiondata != nil {
 					return fmt.Errorf("decoding regionalSubscriptionData: %w", reconstructionErr_regionalsubscriptiondata)
 				}
-				dec_regionalsubscriptiondata, unmErr := UnmarshalBERZoneCodeList5(reconstructed_regionalsubscriptiondata, ber.ChildDecodeOptions(opts, "regionalSubscriptionData")...)
+				dec_regionalsubscriptiondata, unmErr := UnmarshalBERZoneCodeList5(reconstructed_regionalsubscriptiondata, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "regionalSubscriptionData"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding regionalSubscriptionData: %w", unmErr)
 				}
@@ -28302,7 +28894,7 @@ func (v *InsertSubscriberDataArg5) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if reconstructionErr_vbssubscriptiondata != nil {
 					return fmt.Errorf("decoding vbsSubscriptionData: %w", reconstructionErr_vbssubscriptiondata)
 				}
-				dec_vbssubscriptiondata, unmErr := UnmarshalBERVBSDataList5(reconstructed_vbssubscriptiondata, ber.ChildDecodeOptions(opts, "vbsSubscriptionData")...)
+				dec_vbssubscriptiondata, unmErr := UnmarshalBERVBSDataList5(reconstructed_vbssubscriptiondata, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "vbsSubscriptionData"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding vbsSubscriptionData: %w", unmErr)
 				}
@@ -28350,7 +28942,7 @@ func (v *InsertSubscriberDataArg5) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if reconstructionErr_vgcssubscriptiondata != nil {
 					return fmt.Errorf("decoding vgcsSubscriptionData: %w", reconstructionErr_vgcssubscriptiondata)
 				}
-				dec_vgcssubscriptiondata, unmErr := UnmarshalBERVGCSDataList5(reconstructed_vgcssubscriptiondata, ber.ChildDecodeOptions(opts, "vgcsSubscriptionData")...)
+				dec_vgcssubscriptiondata, unmErr := UnmarshalBERVGCSDataList5(reconstructed_vgcssubscriptiondata, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "vgcsSubscriptionData"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding vgcsSubscriptionData: %w", unmErr)
 				}
@@ -28954,7 +29546,7 @@ func (v *InsertSubscriberDataArg5) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if reconstructionErr_csgsubscriptiondatalist != nil {
 					return fmt.Errorf("decoding csg-SubscriptionDataList: %w", reconstructionErr_csgsubscriptiondatalist)
 				}
-				dec_csgsubscriptiondatalist, unmErr := UnmarshalBERCSGSubscriptionDataList4(reconstructed_csgsubscriptiondatalist, ber.ChildDecodeOptions(opts, "csg-SubscriptionDataList")...)
+				dec_csgsubscriptiondatalist, unmErr := UnmarshalBERCSGSubscriptionDataList4(reconstructed_csgsubscriptiondatalist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "csg-SubscriptionDataList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding csg-SubscriptionDataList: %w", unmErr)
 				}
@@ -29257,7 +29849,7 @@ func MarshalBERCSGSubscriptionDataList4(collection *CSGSubscriptionDataList4, op
 func marshalBERCSGSubscriptionDataList4(collection *CSGSubscriptionDataList4, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(opts, "CSGSubscriptionDataList4", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "CSG-SubscriptionDataList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -29279,7 +29871,7 @@ func MarshalDERCSGSubscriptionDataList4(collection *CSGSubscriptionDataList4) ([
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(nil, "CSGSubscriptionDataList4", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "CSG-SubscriptionDataList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -29337,7 +29929,7 @@ func UnmarshalBERCSGSubscriptionDataList4(data []byte, opts ...ber.DecodeOption)
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 50 {
-		if constraintErr := ber.CheckDecodedLength(opts, "CSGSubscriptionDataList4", "SIZE (1..50)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "CSG-SubscriptionDataList", "SIZE (1..50)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -29380,7 +29972,7 @@ func (v *CSGSubscriptionData4) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	if bitStringErr := ber.ValidateBitStringLength(v.CsgId.Bytes, v.CsgId.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "csg-Id", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 	if v.CsgId.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -29414,7 +30006,7 @@ func (v *CSGSubscriptionData4) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 				return nil, constraintErr
 			}
 		}
-		enc_lipaallowedapnlist, err := MarshalBERLIPAAllowedAPNList4(v.LipaAllowedAPNList, ber.ChildEncodeOptions(opts, "lipa-AllowedAPNList")...)
+		enc_lipaallowedapnlist, err := MarshalBERLIPAAllowedAPNList4(v.LipaAllowedAPNList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "lipa-AllowedAPNList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding lipa-AllowedAPNList: %w", err)
 		}
@@ -29441,12 +30033,18 @@ func (v *CSGSubscriptionData4) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_lipaallowedapnlist...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -29470,7 +30068,7 @@ func (v *CSGSubscriptionData4) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.CsgId.Bytes, v.CsgId.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "csg-Id", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 	if v.CsgId.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -29518,6 +30116,16 @@ func (v *CSGSubscriptionData4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -29660,7 +30268,7 @@ func (v *CSGSubscriptionData4) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if reconstructionErr_lipaallowedapnlist != nil {
 					return fmt.Errorf("decoding lipa-AllowedAPNList: %w", reconstructionErr_lipaallowedapnlist)
 				}
-				dec_lipaallowedapnlist, unmErr := UnmarshalBERLIPAAllowedAPNList4(reconstructed_lipaallowedapnlist, ber.ChildDecodeOptions(opts, "lipa-AllowedAPNList")...)
+				dec_lipaallowedapnlist, unmErr := UnmarshalBERLIPAAllowedAPNList4(reconstructed_lipaallowedapnlist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "lipa-AllowedAPNList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding lipa-AllowedAPNList: %w", unmErr)
 				}
@@ -29745,7 +30353,7 @@ func MarshalBERLIPAAllowedAPNList4(collection *LIPAAllowedAPNList4, opts ...ber.
 func marshalBERLIPAAllowedAPNList4(collection *LIPAAllowedAPNList4, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(opts, "LIPAAllowedAPNList4", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "LIPA-AllowedAPNList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -29772,7 +30380,7 @@ func MarshalDERLIPAAllowedAPNList4(collection *LIPAAllowedAPNList4) ([]byte, err
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(nil, "LIPAAllowedAPNList4", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "LIPA-AllowedAPNList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -29836,7 +30444,7 @@ func UnmarshalBERLIPAAllowedAPNList4(data []byte, opts ...ber.DecodeOption) (ret
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 50 {
-		if constraintErr := ber.CheckDecodedLength(opts, "LIPAAllowedAPNList4", "SIZE (1..50)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "LIPA-AllowedAPNList", "SIZE (1..50)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -29979,12 +30587,18 @@ func (v *EPSSubscriptionData4) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_mpsepspriority...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -30107,6 +30721,16 @@ func (v *EPSSubscriptionData4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -30468,7 +31092,7 @@ func (v *APNConfigurationProfile4) marshalBER(opts ...ber.EncodeOption) ([]byte,
 			return nil, constraintErr
 		}
 	}
-	enc_epsdatalist, err := MarshalBEREPSDataList4(v.EpsDataList, ber.ChildEncodeOptions(opts, "epsDataList")...)
+	enc_epsdatalist, err := MarshalBEREPSDataList4(v.EpsDataList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "epsDataList"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding epsDataList: %w", err)
 	}
@@ -30506,12 +31130,18 @@ func (v *APNConfigurationProfile4) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -30568,6 +31198,16 @@ func (v *APNConfigurationProfile4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -30673,7 +31313,7 @@ func (v *APNConfigurationProfile4) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if reconstructionErr_epsdatalist != nil {
 		return fmt.Errorf("decoding epsDataList: %w", reconstructionErr_epsdatalist)
 	}
-	dec_epsdatalist, unmErr := UnmarshalBEREPSDataList4(reconstructed_epsdatalist, ber.ChildDecodeOptions(opts, "epsDataList")...)
+	dec_epsdatalist, unmErr := UnmarshalBEREPSDataList4(reconstructed_epsdatalist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "epsDataList"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding epsDataList: %w", unmErr)
 	}
@@ -30785,7 +31425,7 @@ func MarshalBEREPSDataList4(collection *EPSDataList4, opts ...ber.EncodeOption) 
 func marshalBEREPSDataList4(collection *EPSDataList4, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(opts, "EPSDataList4", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "EPS-DataList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -30807,7 +31447,7 @@ func MarshalDEREPSDataList4(collection *EPSDataList4) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(nil, "EPSDataList4", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "EPS-DataList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -30865,7 +31505,7 @@ func UnmarshalBEREPSDataList4(data []byte, opts ...ber.DecodeOption) (returnValu
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 50 {
-		if constraintErr := ber.CheckDecodedLength(opts, "EPSDataList4", "SIZE (1..50)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "EPS-DataList", "SIZE (1..50)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -31039,7 +31679,7 @@ func (v *APNConfiguration4) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 				return nil, constraintErr
 			}
 		}
-		enc_specificapninfolist, err := MarshalBERSpecificAPNInfoList4(v.SpecificAPNInfoList, ber.ChildEncodeOptions(opts, "specificAPNInfoList")...)
+		enc_specificapninfolist, err := MarshalBERSpecificAPNInfoList4(v.SpecificAPNInfoList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "specificAPNInfoList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding specificAPNInfoList: %w", err)
 		}
@@ -31140,12 +31780,18 @@ func (v *APNConfiguration4) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		children = append(children, enc_lipapermission...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -31385,6 +32031,16 @@ func (v *APNConfiguration4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -31758,7 +32414,7 @@ func (v *APNConfiguration4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 				if reconstructionErr_specificapninfolist != nil {
 					return fmt.Errorf("decoding specificAPNInfoList: %w", reconstructionErr_specificapninfolist)
 				}
-				dec_specificapninfolist, unmErr := UnmarshalBERSpecificAPNInfoList4(reconstructed_specificapninfolist, ber.ChildDecodeOptions(opts, "specificAPNInfoList")...)
+				dec_specificapninfolist, unmErr := UnmarshalBERSpecificAPNInfoList4(reconstructed_specificapninfolist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "specificAPNInfoList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding specificAPNInfoList: %w", unmErr)
 				}
@@ -32040,12 +32696,18 @@ func (v *EPSQoSSubscribed4) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -32095,6 +32757,16 @@ func (v *EPSQoSSubscribed4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -32325,12 +32997,18 @@ func (v *AMBR4) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -32384,6 +33062,16 @@ func (v *AMBR4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -32570,7 +33258,7 @@ func MarshalBERSpecificAPNInfoList4(collection *SpecificAPNInfoList4, opts ...be
 func marshalBERSpecificAPNInfoList4(collection *SpecificAPNInfoList4, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(opts, "SpecificAPNInfoList4", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "SpecificAPNInfoList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -32592,7 +33280,7 @@ func MarshalDERSpecificAPNInfoList4(collection *SpecificAPNInfoList4) ([]byte, e
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(nil, "SpecificAPNInfoList4", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "SpecificAPNInfoList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -32650,7 +33338,7 @@ func UnmarshalBERSpecificAPNInfoList4(data []byte, opts ...ber.DecodeOption) (re
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 50 {
-		if constraintErr := ber.CheckDecodedLength(opts, "SpecificAPNInfoList4", "SIZE (1..50)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "SpecificAPNInfoList", "SIZE (1..50)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -32723,12 +33411,18 @@ func (v *SpecificAPNInfo4) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -32781,6 +33475,16 @@ func (v *SpecificAPNInfo4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -33026,12 +33730,18 @@ func (v *AllocationRetentionPriority4) marshalBER(opts ...ber.EncodeOption) ([]b
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -33090,6 +33800,16 @@ func (v *AllocationRetentionPriority4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -33375,12 +34095,18 @@ func (v *PDNGWIdentity4) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -33459,6 +34185,16 @@ func (v *PDNGWIdentity4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -33691,7 +34427,7 @@ func (v *LCSInformation5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_gmlclist, err := MarshalBERGMLCList5(v.GmlcList, ber.ChildEncodeOptions(opts, "gmlc-List")...)
+		enc_gmlclist, err := MarshalBERGMLCList5(v.GmlcList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "gmlc-List"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding gmlc-List: %w", err)
 		}
@@ -33723,7 +34459,7 @@ func (v *LCSInformation5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_lcsprivacyexceptionlist, err := MarshalBERLCSPrivacyExceptionList5(v.LcsPrivacyExceptionList, ber.ChildEncodeOptions(opts, "lcs-PrivacyExceptionList")...)
+		enc_lcsprivacyexceptionlist, err := MarshalBERLCSPrivacyExceptionList5(v.LcsPrivacyExceptionList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "lcs-PrivacyExceptionList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding lcs-PrivacyExceptionList: %w", err)
 		}
@@ -33755,7 +34491,7 @@ func (v *LCSInformation5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_molrlist, err := MarshalBERMOLRList5(v.MolrList, ber.ChildEncodeOptions(opts, "molr-List")...)
+		enc_molrlist, err := MarshalBERMOLRList5(v.MolrList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "molr-List"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding molr-List: %w", err)
 		}
@@ -33787,7 +34523,7 @@ func (v *LCSInformation5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_addlcsprivacyexceptionlist, err := MarshalBERLCSPrivacyExceptionList5(v.AddLcsPrivacyExceptionList, ber.ChildEncodeOptions(opts, "add-lcs-PrivacyExceptionList")...)
+		enc_addlcsprivacyexceptionlist, err := MarshalBERLCSPrivacyExceptionList5(v.AddLcsPrivacyExceptionList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "add-lcs-PrivacyExceptionList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding add-lcs-PrivacyExceptionList: %w", err)
 		}
@@ -33814,12 +34550,18 @@ func (v *LCSInformation5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_addlcsprivacyexceptionlist...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -33904,6 +34646,16 @@ func (v *LCSInformation5) MarshalDER() ([]byte, error) {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		children = append(children, ext...)
 	}
 	encoded, setErr := ber.EncodeSequence(children)
@@ -33966,7 +34718,7 @@ func (v *LCSInformation5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 				if reconstructionErr_gmlclist != nil {
 					return fmt.Errorf("decoding gmlc-List: %w", reconstructionErr_gmlclist)
 				}
-				dec_gmlclist, unmErr := UnmarshalBERGMLCList5(reconstructed_gmlclist, ber.ChildDecodeOptions(opts, "gmlc-List")...)
+				dec_gmlclist, unmErr := UnmarshalBERGMLCList5(reconstructed_gmlclist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "gmlc-List"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding gmlc-List: %w", unmErr)
 				}
@@ -34011,7 +34763,7 @@ func (v *LCSInformation5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 				if reconstructionErr_lcsprivacyexceptionlist != nil {
 					return fmt.Errorf("decoding lcs-PrivacyExceptionList: %w", reconstructionErr_lcsprivacyexceptionlist)
 				}
-				dec_lcsprivacyexceptionlist, unmErr := UnmarshalBERLCSPrivacyExceptionList5(reconstructed_lcsprivacyexceptionlist, ber.ChildDecodeOptions(opts, "lcs-PrivacyExceptionList")...)
+				dec_lcsprivacyexceptionlist, unmErr := UnmarshalBERLCSPrivacyExceptionList5(reconstructed_lcsprivacyexceptionlist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "lcs-PrivacyExceptionList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding lcs-PrivacyExceptionList: %w", unmErr)
 				}
@@ -34059,7 +34811,7 @@ func (v *LCSInformation5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 				if reconstructionErr_molrlist != nil {
 					return fmt.Errorf("decoding molr-List: %w", reconstructionErr_molrlist)
 				}
-				dec_molrlist, unmErr := UnmarshalBERMOLRList5(reconstructed_molrlist, ber.ChildDecodeOptions(opts, "molr-List")...)
+				dec_molrlist, unmErr := UnmarshalBERMOLRList5(reconstructed_molrlist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "molr-List"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding molr-List: %w", unmErr)
 				}
@@ -34106,7 +34858,7 @@ func (v *LCSInformation5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 				if reconstructionErr_addlcsprivacyexceptionlist != nil {
 					return fmt.Errorf("decoding add-lcs-PrivacyExceptionList: %w", reconstructionErr_addlcsprivacyexceptionlist)
 				}
-				dec_addlcsprivacyexceptionlist, unmErr := UnmarshalBERLCSPrivacyExceptionList5(reconstructed_addlcsprivacyexceptionlist, ber.ChildDecodeOptions(opts, "add-lcs-PrivacyExceptionList")...)
+				dec_addlcsprivacyexceptionlist, unmErr := UnmarshalBERLCSPrivacyExceptionList5(reconstructed_addlcsprivacyexceptionlist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "add-lcs-PrivacyExceptionList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding add-lcs-PrivacyExceptionList: %w", unmErr)
 				}
@@ -34191,7 +34943,7 @@ func MarshalBERGMLCList5(collection *GMLCList5, opts ...ber.EncodeOption) (retur
 func marshalBERGMLCList5(collection *GMLCList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(opts, "GMLCList5", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "GMLC-List", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -34223,7 +34975,7 @@ func MarshalDERGMLCList5(collection *GMLCList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(nil, "GMLCList5", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "GMLC-List", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -34297,7 +35049,7 @@ func UnmarshalBERGMLCList5(data []byte, opts ...ber.DecodeOption) (returnValue *
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 5 {
-		if constraintErr := ber.CheckDecodedLength(opts, "GMLCList5", "SIZE (1..5)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "GMLC-List", "SIZE (1..5)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -34333,7 +35085,7 @@ func MarshalBERGPRSDataList5(collection *GPRSDataList5, opts ...ber.EncodeOption
 func marshalBERGPRSDataList5(collection *GPRSDataList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(opts, "GPRSDataList5", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "GPRSDataList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -34355,7 +35107,7 @@ func MarshalDERGPRSDataList5(collection *GPRSDataList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(nil, "GPRSDataList5", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "GPRSDataList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -34413,7 +35165,7 @@ func UnmarshalBERGPRSDataList5(data []byte, opts ...ber.DecodeOption) (returnVal
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 50 {
-		if constraintErr := ber.CheckDecodedLength(opts, "GPRSDataList5", "SIZE (1..50)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "GPRSDataList", "SIZE (1..50)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -34715,12 +35467,18 @@ func (v *PDPContext5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_lipapermission...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -35002,6 +35760,16 @@ func (v *PDPContext5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -35677,7 +36445,7 @@ func (v *GPRSSubscriptionData5) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 			return nil, constraintErr
 		}
 	}
-	enc_gprsdatalist, err := MarshalBERGPRSDataList5(v.GprsDataList, ber.ChildEncodeOptions(opts, "gprsDataList")...)
+	enc_gprsdatalist, err := MarshalBERGPRSDataList5(v.GprsDataList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "gprsDataList"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding gprsDataList: %w", err)
 	}
@@ -35732,12 +36500,18 @@ func (v *GPRSSubscriptionData5) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		children = append(children, enc_apnoireplacement...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -35804,6 +36578,16 @@ func (v *GPRSSubscriptionData5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -35889,7 +36673,7 @@ func (v *GPRSSubscriptionData5) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if reconstructionErr_gprsdatalist != nil {
 		return fmt.Errorf("decoding gprsDataList: %w", reconstructionErr_gprsdatalist)
 	}
-	dec_gprsdatalist, unmErr := UnmarshalBERGPRSDataList5(reconstructed_gprsdatalist, ber.ChildDecodeOptions(opts, "gprsDataList")...)
+	dec_gprsdatalist, unmErr := UnmarshalBERGPRSDataList5(reconstructed_gprsdatalist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "gprsDataList"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding gprsDataList: %w", unmErr)
 	}
@@ -36087,7 +36871,7 @@ func (v *SGSNCAMELSubscriptionInfo5) marshalBER(opts ...ber.EncodeOption) ([]byt
 				return nil, constraintErr
 			}
 		}
-		enc_mtsmscameltdpcriterialist, err := MarshalBERMTSmsCAMELTDPCriteriaList5(v.MtSmsCAMELTDPCriteriaList, ber.ChildEncodeOptions(opts, "mt-smsCAMELTDP-CriteriaList")...)
+		enc_mtsmscameltdpcriterialist, err := MarshalBERMTSmsCAMELTDPCriteriaList5(v.MtSmsCAMELTDPCriteriaList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "mt-smsCAMELTDP-CriteriaList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding mt-smsCAMELTDP-CriteriaList: %w", err)
 		}
@@ -36126,12 +36910,18 @@ func (v *SGSNCAMELSubscriptionInfo5) marshalBER(opts ...ber.EncodeOption) ([]byt
 		children = append(children, enc_mgcsi...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -36224,6 +37014,16 @@ func (v *SGSNCAMELSubscriptionInfo5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -36407,7 +37207,7 @@ func (v *SGSNCAMELSubscriptionInfo5) UnmarshalBER(data []byte, opts ...ber.Decod
 				if reconstructionErr_mtsmscameltdpcriterialist != nil {
 					return fmt.Errorf("decoding mt-smsCAMELTDP-CriteriaList: %w", reconstructionErr_mtsmscameltdpcriterialist)
 				}
-				dec_mtsmscameltdpcriterialist, unmErr := UnmarshalBERMTSmsCAMELTDPCriteriaList5(reconstructed_mtsmscameltdpcriterialist, ber.ChildDecodeOptions(opts, "mt-smsCAMELTDP-CriteriaList")...)
+				dec_mtsmscameltdpcriterialist, unmErr := UnmarshalBERMTSmsCAMELTDPCriteriaList5(reconstructed_mtsmscameltdpcriterialist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "mt-smsCAMELTDP-CriteriaList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding mt-smsCAMELTDP-CriteriaList: %w", unmErr)
 				}
@@ -36527,7 +37327,7 @@ func (v *GPRSCSI5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_gprscameltdpdatalist, err := MarshalBERGPRSCamelTDPDataList5(v.GprsCamelTDPDataList, ber.ChildEncodeOptions(opts, "gprs-CamelTDPDataList")...)
+		enc_gprscameltdpdatalist, err := MarshalBERGPRSCamelTDPDataList5(v.GprsCamelTDPDataList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "gprs-CamelTDPDataList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding gprs-CamelTDPDataList: %w", err)
 		}
@@ -36598,12 +37398,18 @@ func (v *GPRSCSI5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_csiactive...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -36681,6 +37487,16 @@ func (v *GPRSCSI5) MarshalDER() ([]byte, error) {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		children = append(children, ext...)
 	}
 	encoded, setErr := ber.EncodeSequence(children)
@@ -36743,7 +37559,7 @@ func (v *GPRSCSI5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 				if reconstructionErr_gprscameltdpdatalist != nil {
 					return fmt.Errorf("decoding gprs-CamelTDPDataList: %w", reconstructionErr_gprscameltdpdatalist)
 				}
-				dec_gprscameltdpdatalist, unmErr := UnmarshalBERGPRSCamelTDPDataList5(reconstructed_gprscameltdpdatalist, ber.ChildDecodeOptions(opts, "gprs-CamelTDPDataList")...)
+				dec_gprscameltdpdatalist, unmErr := UnmarshalBERGPRSCamelTDPDataList5(reconstructed_gprscameltdpdatalist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "gprs-CamelTDPDataList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding gprs-CamelTDPDataList: %w", unmErr)
 				}
@@ -36942,7 +37758,7 @@ func MarshalBERGPRSCamelTDPDataList5(collection *GPRSCamelTDPDataList5, opts ...
 func marshalBERGPRSCamelTDPDataList5(collection *GPRSCamelTDPDataList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(opts, "GPRSCamelTDPDataList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "GPRS-CamelTDPDataList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -36964,7 +37780,7 @@ func MarshalDERGPRSCamelTDPDataList5(collection *GPRSCamelTDPDataList5) ([]byte,
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(nil, "GPRSCamelTDPDataList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "GPRS-CamelTDPDataList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -37022,7 +37838,7 @@ func UnmarshalBERGPRSCamelTDPDataList5(data []byte, opts ...ber.DecodeOption) (r
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 10 {
-		if constraintErr := ber.CheckDecodedLength(opts, "GPRSCamelTDPDataList5", "SIZE (1..10)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "GPRS-CamelTDPDataList", "SIZE (1..10)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -37116,12 +37932,18 @@ func (v *GPRSCamelTDPData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -37195,6 +38017,16 @@ func (v *GPRSCamelTDPData5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -37450,7 +38282,7 @@ func MarshalBERLSADataList5(collection *LSADataList5, opts ...ber.EncodeOption) 
 func marshalBERLSADataList5(collection *LSADataList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 20 {
-		if constraintErr := ber.CheckEncodedLength(opts, "LSADataList5", "SIZE (1..20)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "LSADataList", "SIZE (1..20)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -37472,7 +38304,7 @@ func MarshalDERLSADataList5(collection *LSADataList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 20 {
-		if constraintErr := ber.CheckEncodedLength(nil, "LSADataList5", "SIZE (1..20)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "LSADataList", "SIZE (1..20)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -37530,7 +38362,7 @@ func UnmarshalBERLSADataList5(data []byte, opts ...ber.DecodeOption) (returnValu
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 20 {
-		if constraintErr := ber.CheckDecodedLength(opts, "LSADataList5", "SIZE (1..20)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "LSADataList", "SIZE (1..20)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -37617,12 +38449,18 @@ func (v *LSAData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -37689,6 +38527,16 @@ func (v *LSAData5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -37933,7 +38781,7 @@ func (v *LSAInformation5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_lsadatalist, err := MarshalBERLSADataList5(v.LsaDataList, ber.ChildEncodeOptions(opts, "lsaDataList")...)
+		enc_lsadatalist, err := MarshalBERLSADataList5(v.LsaDataList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "lsaDataList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding lsaDataList: %w", err)
 		}
@@ -37972,12 +38820,18 @@ func (v *LSAInformation5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -38040,6 +38894,16 @@ func (v *LSAInformation5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -38154,7 +39018,7 @@ func (v *LSAInformation5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 				if reconstructionErr_lsadatalist != nil {
 					return fmt.Errorf("decoding lsaDataList: %w", reconstructionErr_lsadatalist)
 				}
-				dec_lsadatalist, unmErr := UnmarshalBERLSADataList5(reconstructed_lsadatalist, ber.ChildDecodeOptions(opts, "lsaDataList")...)
+				dec_lsadatalist, unmErr := UnmarshalBERLSADataList5(reconstructed_lsadatalist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "lsaDataList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding lsaDataList: %w", unmErr)
 				}
@@ -38327,7 +39191,7 @@ func (v *SubscriberData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_bearerservicelist, err := MarshalBERBearerServiceList5(v.BearerServiceList, ber.ChildEncodeOptions(opts, "bearerServiceList")...)
+		enc_bearerservicelist, err := MarshalBERBearerServiceList5(v.BearerServiceList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "bearerServiceList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding bearerServiceList: %w", err)
 		}
@@ -38359,7 +39223,7 @@ func (v *SubscriberData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_teleservicelist, err := MarshalBERTeleserviceList5(v.TeleserviceList, ber.ChildEncodeOptions(opts, "teleserviceList")...)
+		enc_teleservicelist, err := MarshalBERTeleserviceList5(v.TeleserviceList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "teleserviceList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding teleserviceList: %w", err)
 		}
@@ -38391,7 +39255,7 @@ func (v *SubscriberData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_provisionedss, err := MarshalBERExtSSInfoList5(v.ProvisionedSS, ber.ChildEncodeOptions(opts, "provisionedSS")...)
+		enc_provisionedss, err := MarshalBERExtSSInfoList5(v.ProvisionedSS, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "provisionedSS"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding provisionedSS: %w", err)
 		}
@@ -38444,7 +39308,7 @@ func (v *SubscriberData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_regionalsubscriptiondata, err := MarshalBERZoneCodeList5(v.RegionalSubscriptionData, ber.ChildEncodeOptions(opts, "regionalSubscriptionData")...)
+		enc_regionalsubscriptiondata, err := MarshalBERZoneCodeList5(v.RegionalSubscriptionData, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "regionalSubscriptionData"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding regionalSubscriptionData: %w", err)
 		}
@@ -38476,7 +39340,7 @@ func (v *SubscriberData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_vbssubscriptiondata, err := MarshalBERVBSDataList5(v.VbsSubscriptionData, ber.ChildEncodeOptions(opts, "vbsSubscriptionData")...)
+		enc_vbssubscriptiondata, err := MarshalBERVBSDataList5(v.VbsSubscriptionData, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "vbsSubscriptionData"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vbsSubscriptionData: %w", err)
 		}
@@ -38508,7 +39372,7 @@ func (v *SubscriberData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_vgcssubscriptiondata, err := MarshalBERVGCSDataList5(v.VgcsSubscriptionData, ber.ChildEncodeOptions(opts, "vgcsSubscriptionData")...)
+		enc_vgcssubscriptiondata, err := MarshalBERVGCSDataList5(v.VgcsSubscriptionData, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "vgcsSubscriptionData"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vgcsSubscriptionData: %w", err)
 		}
@@ -38904,7 +39768,7 @@ func (v *SubscriberData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 				if reconstructionErr_bearerservicelist != nil {
 					return fmt.Errorf("decoding bearerServiceList: %w", reconstructionErr_bearerservicelist)
 				}
-				dec_bearerservicelist, unmErr := UnmarshalBERBearerServiceList5(reconstructed_bearerservicelist, ber.ChildDecodeOptions(opts, "bearerServiceList")...)
+				dec_bearerservicelist, unmErr := UnmarshalBERBearerServiceList5(reconstructed_bearerservicelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "bearerServiceList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding bearerServiceList: %w", unmErr)
 				}
@@ -38952,7 +39816,7 @@ func (v *SubscriberData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 				if reconstructionErr_teleservicelist != nil {
 					return fmt.Errorf("decoding teleserviceList: %w", reconstructionErr_teleservicelist)
 				}
-				dec_teleservicelist, unmErr := UnmarshalBERTeleserviceList5(reconstructed_teleservicelist, ber.ChildDecodeOptions(opts, "teleserviceList")...)
+				dec_teleservicelist, unmErr := UnmarshalBERTeleserviceList5(reconstructed_teleservicelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "teleserviceList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding teleserviceList: %w", unmErr)
 				}
@@ -39000,7 +39864,7 @@ func (v *SubscriberData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 				if reconstructionErr_provisionedss != nil {
 					return fmt.Errorf("decoding provisionedSS: %w", reconstructionErr_provisionedss)
 				}
-				dec_provisionedss, unmErr := UnmarshalBERExtSSInfoList5(reconstructed_provisionedss, ber.ChildDecodeOptions(opts, "provisionedSS")...)
+				dec_provisionedss, unmErr := UnmarshalBERExtSSInfoList5(reconstructed_provisionedss, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "provisionedSS"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding provisionedSS: %w", unmErr)
 				}
@@ -39104,7 +39968,7 @@ func (v *SubscriberData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 				if reconstructionErr_regionalsubscriptiondata != nil {
 					return fmt.Errorf("decoding regionalSubscriptionData: %w", reconstructionErr_regionalsubscriptiondata)
 				}
-				dec_regionalsubscriptiondata, unmErr := UnmarshalBERZoneCodeList5(reconstructed_regionalsubscriptiondata, ber.ChildDecodeOptions(opts, "regionalSubscriptionData")...)
+				dec_regionalsubscriptiondata, unmErr := UnmarshalBERZoneCodeList5(reconstructed_regionalsubscriptiondata, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "regionalSubscriptionData"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding regionalSubscriptionData: %w", unmErr)
 				}
@@ -39152,7 +40016,7 @@ func (v *SubscriberData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 				if reconstructionErr_vbssubscriptiondata != nil {
 					return fmt.Errorf("decoding vbsSubscriptionData: %w", reconstructionErr_vbssubscriptiondata)
 				}
-				dec_vbssubscriptiondata, unmErr := UnmarshalBERVBSDataList5(reconstructed_vbssubscriptiondata, ber.ChildDecodeOptions(opts, "vbsSubscriptionData")...)
+				dec_vbssubscriptiondata, unmErr := UnmarshalBERVBSDataList5(reconstructed_vbssubscriptiondata, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "vbsSubscriptionData"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding vbsSubscriptionData: %w", unmErr)
 				}
@@ -39200,7 +40064,7 @@ func (v *SubscriberData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 				if reconstructionErr_vgcssubscriptiondata != nil {
 					return fmt.Errorf("decoding vgcsSubscriptionData: %w", reconstructionErr_vgcssubscriptiondata)
 				}
-				dec_vgcssubscriptiondata, unmErr := UnmarshalBERVGCSDataList5(reconstructed_vgcssubscriptiondata, ber.ChildDecodeOptions(opts, "vgcsSubscriptionData")...)
+				dec_vgcssubscriptiondata, unmErr := UnmarshalBERVGCSDataList5(reconstructed_vgcssubscriptiondata, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "vgcsSubscriptionData"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding vgcsSubscriptionData: %w", unmErr)
 				}
@@ -39287,7 +40151,7 @@ func MarshalBERBearerServiceList5(collection *BearerServiceList5, opts ...ber.En
 func marshalBERBearerServiceList5(collection *BearerServiceList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(opts, "BearerServiceList5", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "BearerServiceList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -39314,7 +40178,7 @@ func MarshalDERBearerServiceList5(collection *BearerServiceList5) ([]byte, error
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(nil, "BearerServiceList5", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "BearerServiceList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -39378,7 +40242,7 @@ func UnmarshalBERBearerServiceList5(data []byte, opts ...ber.DecodeOption) (retu
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 50 {
-		if constraintErr := ber.CheckDecodedLength(opts, "BearerServiceList5", "SIZE (1..50)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "BearerServiceList", "SIZE (1..50)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -39414,7 +40278,7 @@ func MarshalBERTeleserviceList5(collection *TeleserviceList5, opts ...ber.Encode
 func marshalBERTeleserviceList5(collection *TeleserviceList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 20 {
-		if constraintErr := ber.CheckEncodedLength(opts, "TeleserviceList5", "SIZE (1..20)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "TeleserviceList", "SIZE (1..20)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -39441,7 +40305,7 @@ func MarshalDERTeleserviceList5(collection *TeleserviceList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 20 {
-		if constraintErr := ber.CheckEncodedLength(nil, "TeleserviceList5", "SIZE (1..20)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "TeleserviceList", "SIZE (1..20)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -39505,7 +40369,7 @@ func UnmarshalBERTeleserviceList5(data []byte, opts ...ber.DecodeOption) (return
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 20 {
-		if constraintErr := ber.CheckDecodedLength(opts, "TeleserviceList5", "SIZE (1..20)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "TeleserviceList", "SIZE (1..20)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -39548,7 +40412,7 @@ func (v *ODBData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(v.OdbGeneralData.Bytes, v.OdbGeneralData.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "odb-GeneralData", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 	if v.OdbGeneralData.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -39566,7 +40430,7 @@ func (v *ODBData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.OdbHPLMNData.Bytes, v.OdbHPLMNData.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "odb-HPLMN-Data", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.OdbHPLMNData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -39584,12 +40448,18 @@ func (v *ODBData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 3)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -39613,7 +40483,7 @@ func (v *ODBData5) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.OdbGeneralData.Bytes, v.OdbGeneralData.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "odb-GeneralData", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 	if v.OdbGeneralData.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -39634,7 +40504,7 @@ func (v *ODBData5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OdbHPLMNData.Bytes, v.OdbHPLMNData.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "odb-HPLMN-Data", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.OdbHPLMNData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -39654,6 +40524,16 @@ func (v *ODBData5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 3)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -39839,7 +40719,7 @@ func MarshalBERExtSSInfoList5(collection *ExtSSInfoList5, opts ...ber.EncodeOpti
 func marshalBERExtSSInfoList5(collection *ExtSSInfoList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 30 {
-		if constraintErr := ber.CheckEncodedLength(opts, "ExtSSInfoList5", "SIZE (1..30)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "Ext-SS-InfoList", "SIZE (1..30)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -39861,7 +40741,7 @@ func MarshalDERExtSSInfoList5(collection *ExtSSInfoList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 30 {
-		if constraintErr := ber.CheckEncodedLength(nil, "ExtSSInfoList5", "SIZE (1..30)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "Ext-SS-InfoList", "SIZE (1..30)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -39919,7 +40799,7 @@ func UnmarshalBERExtSSInfoList5(data []byte, opts ...ber.DecodeOption) (returnVa
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 30 {
-		if constraintErr := ber.CheckDecodedLength(opts, "ExtSSInfoList5", "SIZE (1..30)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "Ext-SS-InfoList", "SIZE (1..30)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -40290,7 +41170,7 @@ func (v *ExtForwInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, constraintErr
 		}
 	}
-	enc_forwardingfeaturelist, err := MarshalBERExtForwFeatureList5(v.ForwardingFeatureList, ber.ChildEncodeOptions(opts, "forwardingFeatureList")...)
+	enc_forwardingfeaturelist, err := MarshalBERExtForwFeatureList5(v.ForwardingFeatureList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "forwardingFeatureList"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding forwardingFeatureList: %w", err)
 	}
@@ -40308,12 +41188,18 @@ func (v *ExtForwInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -40364,6 +41250,16 @@ func (v *ExtForwInfo5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -40452,7 +41348,7 @@ func (v *ExtForwInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 			v.ForwardingFeatureListIndef_ = true
 		}
 	}
-	dec_forwardingfeaturelist, unmErr := UnmarshalBERExtForwFeatureList5(tlv_forwardingfeaturelist, ber.ChildDecodeOptions(opts, "forwardingFeatureList")...)
+	dec_forwardingfeaturelist, unmErr := UnmarshalBERExtForwFeatureList5(tlv_forwardingfeaturelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "forwardingFeatureList"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding forwardingFeatureList: %w", unmErr)
 	}
@@ -40554,7 +41450,7 @@ func MarshalBERExtForwFeatureList5(collection *ExtForwFeatureList5, opts ...ber.
 func marshalBERExtForwFeatureList5(collection *ExtForwFeatureList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := ber.CheckEncodedLength(opts, "ExtForwFeatureList5", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "Ext-ForwFeatureList", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -40576,7 +41472,7 @@ func MarshalDERExtForwFeatureList5(collection *ExtForwFeatureList5) ([]byte, err
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := ber.CheckEncodedLength(nil, "ExtForwFeatureList5", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "Ext-ForwFeatureList", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -40634,7 +41530,7 @@ func UnmarshalBERExtForwFeatureList5(data []byte, opts ...ber.DecodeOption) (ret
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 32 {
-		if constraintErr := ber.CheckDecodedLength(opts, "ExtForwFeatureList5", "SIZE (1..32)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "Ext-ForwFeatureList", "SIZE (1..32)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -40796,12 +41692,18 @@ func (v *ExtForwFeature5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_longforwardedtonumber...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -40943,6 +41845,16 @@ func (v *ExtForwFeature5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -41325,7 +42237,7 @@ func (v *ExtCallBarInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, constraintErr
 		}
 	}
-	enc_callbarringfeaturelist, err := MarshalBERExtCallBarFeatureList5(v.CallBarringFeatureList, ber.ChildEncodeOptions(opts, "callBarringFeatureList")...)
+	enc_callbarringfeaturelist, err := MarshalBERExtCallBarFeatureList5(v.CallBarringFeatureList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "callBarringFeatureList"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding callBarringFeatureList: %w", err)
 	}
@@ -41338,12 +42250,18 @@ func (v *ExtCallBarInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -41389,6 +42307,16 @@ func (v *ExtCallBarInfo5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -41477,7 +42405,7 @@ func (v *ExtCallBarInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 			v.CallBarringFeatureListIndef_ = true
 		}
 	}
-	dec_callbarringfeaturelist, unmErr := UnmarshalBERExtCallBarFeatureList5(tlv_callbarringfeaturelist, ber.ChildDecodeOptions(opts, "callBarringFeatureList")...)
+	dec_callbarringfeaturelist, unmErr := UnmarshalBERExtCallBarFeatureList5(tlv_callbarringfeaturelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "callBarringFeatureList"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding callBarringFeatureList: %w", unmErr)
 	}
@@ -41579,7 +42507,7 @@ func MarshalBERExtCallBarFeatureList5(collection *ExtCallBarFeatureList5, opts .
 func marshalBERExtCallBarFeatureList5(collection *ExtCallBarFeatureList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := ber.CheckEncodedLength(opts, "ExtCallBarFeatureList5", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "Ext-CallBarFeatureList", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -41601,7 +42529,7 @@ func MarshalDERExtCallBarFeatureList5(collection *ExtCallBarFeatureList5) ([]byt
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := ber.CheckEncodedLength(nil, "ExtCallBarFeatureList5", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "Ext-CallBarFeatureList", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -41659,7 +42587,7 @@ func UnmarshalBERExtCallBarFeatureList5(data []byte, opts ...ber.DecodeOption) (
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 32 {
-		if constraintErr := ber.CheckDecodedLength(opts, "ExtCallBarFeatureList5", "SIZE (1..32)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "Ext-CallBarFeatureList", "SIZE (1..32)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -41724,12 +42652,18 @@ func (v *ExtCallBarringFeature5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -41774,6 +42708,16 @@ func (v *ExtCallBarringFeature5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -41971,7 +42915,7 @@ func (v *CUGInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, constraintErr
 		}
 	}
-	enc_cugsubscriptionlist, err := MarshalBERCUGSubscriptionList5(v.CugSubscriptionList, ber.ChildEncodeOptions(opts, "cug-SubscriptionList")...)
+	enc_cugsubscriptionlist, err := MarshalBERCUGSubscriptionList5(v.CugSubscriptionList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "cug-SubscriptionList"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding cug-SubscriptionList: %w", err)
 	}
@@ -41982,7 +42926,7 @@ func (v *CUGInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_cugfeaturelist, err := MarshalBERCUGFeatureList5(v.CugFeatureList, ber.ChildEncodeOptions(opts, "cug-FeatureList")...)
+		enc_cugfeaturelist, err := MarshalBERCUGFeatureList5(v.CugFeatureList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "cug-FeatureList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding cug-FeatureList: %w", err)
 		}
@@ -42001,12 +42945,18 @@ func (v *CUGInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -42059,6 +43009,16 @@ func (v *CUGInfo5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -42127,7 +43087,7 @@ func (v *CUGInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 			v.CugSubscriptionListIndef_ = true
 		}
 	}
-	dec_cugsubscriptionlist, unmErr := UnmarshalBERCUGSubscriptionList5(tlv_cugsubscriptionlist, ber.ChildDecodeOptions(opts, "cug-SubscriptionList")...)
+	dec_cugsubscriptionlist, unmErr := UnmarshalBERCUGSubscriptionList5(tlv_cugsubscriptionlist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "cug-SubscriptionList"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding cug-SubscriptionList: %w", unmErr)
 	}
@@ -42167,7 +43127,7 @@ func (v *CUGInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 						v.CugFeatureListIndef_ = true
 					}
 				}
-				dec_cugfeaturelist, unmErr := UnmarshalBERCUGFeatureList5(tlv_cugfeaturelist, ber.ChildDecodeOptions(opts, "cug-FeatureList")...)
+				dec_cugfeaturelist, unmErr := UnmarshalBERCUGFeatureList5(tlv_cugfeaturelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "cug-FeatureList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding cug-FeatureList: %w", unmErr)
 				}
@@ -42272,7 +43232,7 @@ func MarshalBERCUGSubscriptionList5(collection *CUGSubscriptionList5, opts ...be
 func marshalBERCUGSubscriptionList5(collection *CUGSubscriptionList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(opts, "CUGSubscriptionList5", "SIZE (0..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "CUG-SubscriptionList", "SIZE (0..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -42294,7 +43254,7 @@ func MarshalDERCUGSubscriptionList5(collection *CUGSubscriptionList5) ([]byte, e
 	}
 	list := collection.Values
 	if len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(nil, "CUGSubscriptionList5", "SIZE (0..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "CUG-SubscriptionList", "SIZE (0..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -42352,7 +43312,7 @@ func UnmarshalBERCUGSubscriptionList5(data []byte, opts ...ber.DecodeOption) (re
 		offset += n
 	}
 	if len(result) > 10 {
-		if constraintErr := ber.CheckDecodedLength(opts, "CUGSubscriptionList5", "SIZE (0..10)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "CUG-SubscriptionList", "SIZE (0..10)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -42417,7 +43377,7 @@ func (v *CUGSubscription5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 				return nil, constraintErr
 			}
 		}
-		enc_basicservicegrouplist, err := MarshalBERExtBasicServiceGroupList5(v.BasicServiceGroupList, ber.ChildEncodeOptions(opts, "basicServiceGroupList")...)
+		enc_basicservicegrouplist, err := MarshalBERExtBasicServiceGroupList5(v.BasicServiceGroupList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "basicServiceGroupList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceGroupList: %w", err)
 		}
@@ -42436,12 +43396,18 @@ func (v *CUGSubscription5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -42505,6 +43471,16 @@ func (v *CUGSubscription5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -42634,7 +43610,7 @@ func (v *CUGSubscription5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 						v.BasicServiceGroupListIndef_ = true
 					}
 				}
-				dec_basicservicegrouplist, unmErr := UnmarshalBERExtBasicServiceGroupList5(tlv_basicservicegrouplist, ber.ChildDecodeOptions(opts, "basicServiceGroupList")...)
+				dec_basicservicegrouplist, unmErr := UnmarshalBERExtBasicServiceGroupList5(tlv_basicservicegrouplist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "basicServiceGroupList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding basicServiceGroupList: %w", unmErr)
 				}
@@ -42739,7 +43715,7 @@ func MarshalBERCUGFeatureList5(collection *CUGFeatureList5, opts ...ber.EncodeOp
 func marshalBERCUGFeatureList5(collection *CUGFeatureList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := ber.CheckEncodedLength(opts, "CUGFeatureList5", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "CUG-FeatureList", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -42761,7 +43737,7 @@ func MarshalDERCUGFeatureList5(collection *CUGFeatureList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := ber.CheckEncodedLength(nil, "CUGFeatureList5", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "CUG-FeatureList", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -42819,7 +43795,7 @@ func UnmarshalBERCUGFeatureList5(data []byte, opts ...ber.DecodeOption) (returnV
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 32 {
-		if constraintErr := ber.CheckDecodedLength(opts, "CUGFeatureList5", "SIZE (1..32)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "CUG-FeatureList", "SIZE (1..32)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -42855,7 +43831,7 @@ func MarshalBERExtBasicServiceGroupList5(collection *ExtBasicServiceGroupList5, 
 func marshalBERExtBasicServiceGroupList5(collection *ExtBasicServiceGroupList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := ber.CheckEncodedLength(opts, "ExtBasicServiceGroupList5", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "Ext-BasicServiceGroupList", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -42877,7 +43853,7 @@ func MarshalDERExtBasicServiceGroupList5(collection *ExtBasicServiceGroupList5) 
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := ber.CheckEncodedLength(nil, "ExtBasicServiceGroupList5", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "Ext-BasicServiceGroupList", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -42935,7 +43911,7 @@ func UnmarshalBERExtBasicServiceGroupList5(data []byte, opts ...ber.DecodeOption
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 32 {
-		if constraintErr := ber.CheckDecodedLength(opts, "ExtBasicServiceGroupList5", "SIZE (1..32)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "Ext-BasicServiceGroupList", "SIZE (1..32)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -43004,12 +43980,18 @@ func (v *CUGFeature5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -43058,6 +44040,16 @@ func (v *CUGFeature5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -43298,7 +44290,7 @@ func (v *ExtSSData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_basicservicegrouplist, err := MarshalBERExtBasicServiceGroupList5(v.BasicServiceGroupList, ber.ChildEncodeOptions(opts, "basicServiceGroupList")...)
+		enc_basicservicegrouplist, err := MarshalBERExtBasicServiceGroupList5(v.BasicServiceGroupList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "basicServiceGroupList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceGroupList: %w", err)
 		}
@@ -43317,12 +44309,18 @@ func (v *ExtSSData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -43394,6 +44392,16 @@ func (v *ExtSSData5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -43547,7 +44555,7 @@ func (v *ExtSSData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 						v.BasicServiceGroupListIndef_ = true
 					}
 				}
-				dec_basicservicegrouplist, unmErr := UnmarshalBERExtBasicServiceGroupList5(tlv_basicservicegrouplist, ber.ChildDecodeOptions(opts, "basicServiceGroupList")...)
+				dec_basicservicegrouplist, unmErr := UnmarshalBERExtBasicServiceGroupList5(tlv_basicservicegrouplist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "basicServiceGroupList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding basicServiceGroupList: %w", unmErr)
 				}
@@ -43652,7 +44660,7 @@ func MarshalBERLCSPrivacyExceptionList5(collection *LCSPrivacyExceptionList5, op
 func marshalBERLCSPrivacyExceptionList5(collection *LCSPrivacyExceptionList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 4 {
-		if constraintErr := ber.CheckEncodedLength(opts, "LCSPrivacyExceptionList5", "SIZE (1..4)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "LCS-PrivacyExceptionList", "SIZE (1..4)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -43674,7 +44682,7 @@ func MarshalDERLCSPrivacyExceptionList5(collection *LCSPrivacyExceptionList5) ([
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 4 {
-		if constraintErr := ber.CheckEncodedLength(nil, "LCSPrivacyExceptionList5", "SIZE (1..4)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "LCS-PrivacyExceptionList", "SIZE (1..4)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -43732,7 +44740,7 @@ func UnmarshalBERLCSPrivacyExceptionList5(data []byte, opts ...ber.DecodeOption)
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 4 {
-		if constraintErr := ber.CheckDecodedLength(opts, "LCSPrivacyExceptionList5", "SIZE (1..4)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "LCS-PrivacyExceptionList", "SIZE (1..4)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -43802,7 +44810,7 @@ func (v *LCSPrivacyClass5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 				return nil, constraintErr
 			}
 		}
-		enc_externalclientlist, err := MarshalBERExternalClientList5(v.ExternalClientList, ber.ChildEncodeOptions(opts, "externalClientList")...)
+		enc_externalclientlist, err := MarshalBERExternalClientList5(v.ExternalClientList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "externalClientList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding externalClientList: %w", err)
 		}
@@ -43834,7 +44842,7 @@ func (v *LCSPrivacyClass5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 				return nil, constraintErr
 			}
 		}
-		enc_plmnclientlist, err := MarshalBERPLMNClientList5(v.PlmnClientList, ber.ChildEncodeOptions(opts, "plmnClientList")...)
+		enc_plmnclientlist, err := MarshalBERPLMNClientList5(v.PlmnClientList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "plmnClientList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding plmnClientList: %w", err)
 		}
@@ -43878,7 +44886,7 @@ func (v *LCSPrivacyClass5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 				return nil, constraintErr
 			}
 		}
-		enc_extexternalclientlist, err := MarshalBERExtExternalClientList5(v.ExtExternalClientList, ber.ChildEncodeOptions(opts, "ext-externalClientList")...)
+		enc_extexternalclientlist, err := MarshalBERExtExternalClientList5(v.ExtExternalClientList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "ext-externalClientList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ext-externalClientList: %w", err)
 		}
@@ -43910,7 +44918,7 @@ func (v *LCSPrivacyClass5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 				return nil, constraintErr
 			}
 		}
-		enc_servicetypelist, err := MarshalBERServiceTypeList5(v.ServiceTypeList, ber.ChildEncodeOptions(opts, "serviceTypeList")...)
+		enc_servicetypelist, err := MarshalBERServiceTypeList5(v.ServiceTypeList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "serviceTypeList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding serviceTypeList: %w", err)
 		}
@@ -43937,12 +44945,18 @@ func (v *LCSPrivacyClass5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_servicetypelist...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -44067,6 +45081,16 @@ func (v *LCSPrivacyClass5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -44197,7 +45221,7 @@ func (v *LCSPrivacyClass5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if reconstructionErr_externalclientlist != nil {
 					return fmt.Errorf("decoding externalClientList: %w", reconstructionErr_externalclientlist)
 				}
-				dec_externalclientlist, unmErr := UnmarshalBERExternalClientList5(reconstructed_externalclientlist, ber.ChildDecodeOptions(opts, "externalClientList")...)
+				dec_externalclientlist, unmErr := UnmarshalBERExternalClientList5(reconstructed_externalclientlist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "externalClientList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding externalClientList: %w", unmErr)
 				}
@@ -44245,7 +45269,7 @@ func (v *LCSPrivacyClass5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if reconstructionErr_plmnclientlist != nil {
 					return fmt.Errorf("decoding plmnClientList: %w", reconstructionErr_plmnclientlist)
 				}
-				dec_plmnclientlist, unmErr := UnmarshalBERPLMNClientList5(reconstructed_plmnclientlist, ber.ChildDecodeOptions(opts, "plmnClientList")...)
+				dec_plmnclientlist, unmErr := UnmarshalBERPLMNClientList5(reconstructed_plmnclientlist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "plmnClientList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding plmnClientList: %w", unmErr)
 				}
@@ -44324,7 +45348,7 @@ func (v *LCSPrivacyClass5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if reconstructionErr_extexternalclientlist != nil {
 					return fmt.Errorf("decoding ext-externalClientList: %w", reconstructionErr_extexternalclientlist)
 				}
-				dec_extexternalclientlist, unmErr := UnmarshalBERExtExternalClientList5(reconstructed_extexternalclientlist, ber.ChildDecodeOptions(opts, "ext-externalClientList")...)
+				dec_extexternalclientlist, unmErr := UnmarshalBERExtExternalClientList5(reconstructed_extexternalclientlist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "ext-externalClientList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding ext-externalClientList: %w", unmErr)
 				}
@@ -44372,7 +45396,7 @@ func (v *LCSPrivacyClass5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if reconstructionErr_servicetypelist != nil {
 					return fmt.Errorf("decoding serviceTypeList: %w", reconstructionErr_servicetypelist)
 				}
-				dec_servicetypelist, unmErr := UnmarshalBERServiceTypeList5(reconstructed_servicetypelist, ber.ChildDecodeOptions(opts, "serviceTypeList")...)
+				dec_servicetypelist, unmErr := UnmarshalBERServiceTypeList5(reconstructed_servicetypelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "serviceTypeList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding serviceTypeList: %w", unmErr)
 				}
@@ -44457,7 +45481,7 @@ func MarshalBERExternalClientList5(collection *ExternalClientList5, opts ...ber.
 func marshalBERExternalClientList5(collection *ExternalClientList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(opts, "ExternalClientList5", "SIZE (0..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "ExternalClientList", "SIZE (0..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -44479,7 +45503,7 @@ func MarshalDERExternalClientList5(collection *ExternalClientList5) ([]byte, err
 	}
 	list := collection.Values
 	if len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(nil, "ExternalClientList5", "SIZE (0..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "ExternalClientList", "SIZE (0..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -44537,7 +45561,7 @@ func UnmarshalBERExternalClientList5(data []byte, opts ...ber.DecodeOption) (ret
 		offset += n
 	}
 	if len(result) > 5 {
-		if constraintErr := ber.CheckDecodedLength(opts, "ExternalClientList5", "SIZE (0..5)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "ExternalClientList", "SIZE (0..5)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -44573,7 +45597,7 @@ func MarshalBERPLMNClientList5(collection *PLMNClientList5, opts ...ber.EncodeOp
 func marshalBERPLMNClientList5(collection *PLMNClientList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(opts, "PLMNClientList5", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "PLMNClientList", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -44591,7 +45615,7 @@ func MarshalDERPLMNClientList5(collection *PLMNClientList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(nil, "PLMNClientList5", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "PLMNClientList", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -44641,7 +45665,7 @@ func UnmarshalBERPLMNClientList5(data []byte, opts ...ber.DecodeOption) (returnV
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 5 {
-		if constraintErr := ber.CheckDecodedLength(opts, "PLMNClientList5", "SIZE (1..5)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "PLMNClientList", "SIZE (1..5)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -44677,7 +45701,7 @@ func MarshalBERExtExternalClientList5(collection *ExtExternalClientList5, opts .
 func marshalBERExtExternalClientList5(collection *ExtExternalClientList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 35 {
-		if constraintErr := ber.CheckEncodedLength(opts, "ExtExternalClientList5", "SIZE (1..35)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "Ext-ExternalClientList", "SIZE (1..35)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -44699,7 +45723,7 @@ func MarshalDERExtExternalClientList5(collection *ExtExternalClientList5) ([]byt
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 35 {
-		if constraintErr := ber.CheckEncodedLength(nil, "ExtExternalClientList5", "SIZE (1..35)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "Ext-ExternalClientList", "SIZE (1..35)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -44757,7 +45781,7 @@ func UnmarshalBERExtExternalClientList5(data []byte, opts ...ber.DecodeOption) (
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 35 {
-		if constraintErr := ber.CheckDecodedLength(opts, "ExtExternalClientList5", "SIZE (1..35)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "Ext-ExternalClientList", "SIZE (1..35)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -44828,12 +45852,18 @@ func (v *ExternalClient5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -44884,6 +45914,16 @@ func (v *ExternalClient5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -45092,7 +46132,7 @@ func MarshalBERServiceTypeList5(collection *ServiceTypeList5, opts ...ber.Encode
 func marshalBERServiceTypeList5(collection *ServiceTypeList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := ber.CheckEncodedLength(opts, "ServiceTypeList5", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "ServiceTypeList", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -45114,7 +46154,7 @@ func MarshalDERServiceTypeList5(collection *ServiceTypeList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := ber.CheckEncodedLength(nil, "ServiceTypeList5", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "ServiceTypeList", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -45172,7 +46212,7 @@ func UnmarshalBERServiceTypeList5(data []byte, opts ...ber.DecodeOption) (return
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 32 {
-		if constraintErr := ber.CheckDecodedLength(opts, "ServiceTypeList5", "SIZE (1..32)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "ServiceTypeList", "SIZE (1..32)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -45245,12 +46285,18 @@ func (v *ServiceType5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -45303,6 +46349,16 @@ func (v *ServiceType5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -45509,7 +46565,7 @@ func MarshalBERMOLRList5(collection *MOLRList5, opts ...ber.EncodeOption) (retur
 func marshalBERMOLRList5(collection *MOLRList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 3 {
-		if constraintErr := ber.CheckEncodedLength(opts, "MOLRList5", "SIZE (1..3)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "MOLR-List", "SIZE (1..3)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -45531,7 +46587,7 @@ func MarshalDERMOLRList5(collection *MOLRList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 3 {
-		if constraintErr := ber.CheckEncodedLength(nil, "MOLRList5", "SIZE (1..3)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "MOLR-List", "SIZE (1..3)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -45589,7 +46645,7 @@ func UnmarshalBERMOLRList5(data []byte, opts ...ber.DecodeOption) (returnValue *
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 3 {
-		if constraintErr := ber.CheckDecodedLength(opts, "MOLRList5", "SIZE (1..3)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "MOLR-List", "SIZE (1..3)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -45657,12 +46713,18 @@ func (v *MOLRClass5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -45710,6 +46772,16 @@ func (v *MOLRClass5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -45880,7 +46952,7 @@ func MarshalBERZoneCodeList5(collection *ZoneCodeList5, opts ...ber.EncodeOption
 func marshalBERZoneCodeList5(collection *ZoneCodeList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(opts, "ZoneCodeList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "ZoneCodeList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -45907,7 +46979,7 @@ func MarshalDERZoneCodeList5(collection *ZoneCodeList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(nil, "ZoneCodeList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "ZoneCodeList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -45971,7 +47043,7 @@ func UnmarshalBERZoneCodeList5(data []byte, opts ...ber.DecodeOption) (returnVal
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 10 {
-		if constraintErr := ber.CheckDecodedLength(opts, "ZoneCodeList5", "SIZE (1..10)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "ZoneCodeList", "SIZE (1..10)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -46012,7 +47084,7 @@ func (v *InsertSubscriberDataRes5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 				return nil, constraintErr
 			}
 		}
-		enc_teleservicelist, err := MarshalBERTeleserviceList5(v.TeleserviceList, ber.ChildEncodeOptions(opts, "teleserviceList")...)
+		enc_teleservicelist, err := MarshalBERTeleserviceList5(v.TeleserviceList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "teleserviceList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding teleserviceList: %w", err)
 		}
@@ -46044,7 +47116,7 @@ func (v *InsertSubscriberDataRes5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 				return nil, constraintErr
 			}
 		}
-		enc_bearerservicelist, err := MarshalBERBearerServiceList5(v.BearerServiceList, ber.ChildEncodeOptions(opts, "bearerServiceList")...)
+		enc_bearerservicelist, err := MarshalBERBearerServiceList5(v.BearerServiceList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "bearerServiceList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding bearerServiceList: %w", err)
 		}
@@ -46076,7 +47148,7 @@ func (v *InsertSubscriberDataRes5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 				return nil, constraintErr
 			}
 		}
-		enc_sslist, err := MarshalBERSSList5(v.SsList, ber.ChildEncodeOptions(opts, "ss-List")...)
+		enc_sslist, err := MarshalBERSSList5(v.SsList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "ss-List"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ss-List: %w", err)
 		}
@@ -46111,7 +47183,7 @@ func (v *InsertSubscriberDataRes5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		if bitStringErr := ber.ValidateBitStringLength(v.OdbGeneralData.Bytes, v.OdbGeneralData.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "odb-GeneralData", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.OdbGeneralData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -46149,7 +47221,7 @@ func (v *InsertSubscriberDataRes5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -46185,7 +47257,7 @@ func (v *InsertSubscriberDataRes5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -46209,7 +47281,7 @@ func (v *InsertSubscriberDataRes5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedFeatures.Bytes, v.SupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedFeatures", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -46225,12 +47297,18 @@ func (v *InsertSubscriberDataRes5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_supportedfeatures...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -46306,7 +47384,7 @@ func (v *InsertSubscriberDataRes5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OdbGeneralData.Bytes, v.OdbGeneralData.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "odb-GeneralData", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.OdbGeneralData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -46347,7 +47425,7 @@ func (v *InsertSubscriberDataRes5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedCamelPhases.Bytes, v.SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedCamelPhases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -46386,7 +47464,7 @@ func (v *InsertSubscriberDataRes5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4CSIs.Bytes, v.OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIs", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -46413,7 +47491,7 @@ func (v *InsertSubscriberDataRes5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedFeatures.Bytes, v.SupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedFeatures", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -46431,6 +47509,16 @@ func (v *InsertSubscriberDataRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -46494,7 +47582,7 @@ func (v *InsertSubscriberDataRes5) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if reconstructionErr_teleservicelist != nil {
 					return fmt.Errorf("decoding teleserviceList: %w", reconstructionErr_teleservicelist)
 				}
-				dec_teleservicelist, unmErr := UnmarshalBERTeleserviceList5(reconstructed_teleservicelist, ber.ChildDecodeOptions(opts, "teleserviceList")...)
+				dec_teleservicelist, unmErr := UnmarshalBERTeleserviceList5(reconstructed_teleservicelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "teleserviceList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding teleserviceList: %w", unmErr)
 				}
@@ -46539,7 +47627,7 @@ func (v *InsertSubscriberDataRes5) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if reconstructionErr_bearerservicelist != nil {
 					return fmt.Errorf("decoding bearerServiceList: %w", reconstructionErr_bearerservicelist)
 				}
-				dec_bearerservicelist, unmErr := UnmarshalBERBearerServiceList5(reconstructed_bearerservicelist, ber.ChildDecodeOptions(opts, "bearerServiceList")...)
+				dec_bearerservicelist, unmErr := UnmarshalBERBearerServiceList5(reconstructed_bearerservicelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "bearerServiceList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding bearerServiceList: %w", unmErr)
 				}
@@ -46587,7 +47675,7 @@ func (v *InsertSubscriberDataRes5) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if reconstructionErr_sslist != nil {
 					return fmt.Errorf("decoding ss-List: %w", reconstructionErr_sslist)
 				}
-				dec_sslist, unmErr := UnmarshalBERSSList5(reconstructed_sslist, ber.ChildDecodeOptions(opts, "ss-List")...)
+				dec_sslist, unmErr := UnmarshalBERSSList5(reconstructed_sslist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "ss-List"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding ss-List: %w", unmErr)
 				}
@@ -46906,7 +47994,7 @@ func (v *DeleteSubscriberDataArg5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 				return nil, constraintErr
 			}
 		}
-		enc_basicservicelist, err := MarshalBERBasicServiceList5(v.BasicServiceList, ber.ChildEncodeOptions(opts, "basicServiceList")...)
+		enc_basicservicelist, err := MarshalBERBasicServiceList5(v.BasicServiceList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "basicServiceList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceList: %w", err)
 		}
@@ -46938,7 +48026,7 @@ func (v *DeleteSubscriberDataArg5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 				return nil, constraintErr
 			}
 		}
-		enc_sslist, err := MarshalBERSSList5(v.SsList, ber.ChildEncodeOptions(opts, "ss-List")...)
+		enc_sslist, err := MarshalBERSSList5(v.SsList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "ss-List"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ss-List: %w", err)
 		}
@@ -47093,7 +48181,7 @@ func (v *DeleteSubscriberDataArg5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		if bitStringErr := ber.ValidateBitStringLength(v.SpecificCSIWithdraw.Bytes, v.SpecificCSIWithdraw.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "specificCSI-Withdraw", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SpecificCSIWithdraw.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -47159,12 +48247,18 @@ func (v *DeleteSubscriberDataArg5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_csgsubscriptiondeleted...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -47358,7 +48452,7 @@ func (v *DeleteSubscriberDataArg5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SpecificCSIWithdraw.Bytes, v.SpecificCSIWithdraw.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "specificCSI-Withdraw", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SpecificCSIWithdraw.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -47426,6 +48520,16 @@ func (v *DeleteSubscriberDataArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -47520,7 +48624,7 @@ func (v *DeleteSubscriberDataArg5) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if reconstructionErr_basicservicelist != nil {
 					return fmt.Errorf("decoding basicServiceList: %w", reconstructionErr_basicservicelist)
 				}
-				dec_basicservicelist, unmErr := UnmarshalBERBasicServiceList5(reconstructed_basicservicelist, ber.ChildDecodeOptions(opts, "basicServiceList")...)
+				dec_basicservicelist, unmErr := UnmarshalBERBasicServiceList5(reconstructed_basicservicelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "basicServiceList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding basicServiceList: %w", unmErr)
 				}
@@ -47567,7 +48671,7 @@ func (v *DeleteSubscriberDataArg5) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if reconstructionErr_sslist != nil {
 					return fmt.Errorf("decoding ss-List: %w", reconstructionErr_sslist)
 				}
-				dec_sslist, unmErr := UnmarshalBERSSList5(reconstructed_sslist, ber.ChildDecodeOptions(opts, "ss-List")...)
+				dec_sslist, unmErr := UnmarshalBERSSList5(reconstructed_sslist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "ss-List"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding ss-List: %w", unmErr)
 				}
@@ -48145,7 +49249,7 @@ func (v *GPRSSubscriptionDataWithdraw5) marshalBER(opts ...ber.EncodeOption) ([]
 		enc_0 := ber.EncodeNull()
 		return enc_0, nil
 	case GPRSSubscriptionDataWithdraw5ChoiceContextIdList:
-		enc_1, err := MarshalBERContextIdList5(v.ContextIdList, ber.ChildEncodeOptions(opts, "contextIdList")...)
+		enc_1, err := MarshalBERContextIdList5(v.ContextIdList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "contextIdList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding contextIdList: %w", err)
 		}
@@ -48241,7 +49345,7 @@ func (v *GPRSSubscriptionDataWithdraw5) UnmarshalBER(data []byte, opts ...ber.De
 		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 && peekTag.Constructed == true {
 		v.Choice = GPRSSubscriptionDataWithdraw5ChoiceContextIdList
-		dec, unmErr := UnmarshalBERContextIdList5(choiceData, ber.ChildDecodeOptions(opts, "contextIdList")...)
+		dec, unmErr := UnmarshalBERContextIdList5(choiceData, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "contextIdList"))...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding contextIdList: %w", unmErr)
 		}
@@ -48279,7 +49383,7 @@ func (v *EPSSubscriptionDataWithdraw4) marshalBER(opts ...ber.EncodeOption) ([]b
 		enc_0 := ber.EncodeNull()
 		return enc_0, nil
 	case EPSSubscriptionDataWithdraw4ChoiceContextIdList:
-		enc_1, err := MarshalBERContextIdList5(v.ContextIdList, ber.ChildEncodeOptions(opts, "contextIdList")...)
+		enc_1, err := MarshalBERContextIdList5(v.ContextIdList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "contextIdList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding contextIdList: %w", err)
 		}
@@ -48375,7 +49479,7 @@ func (v *EPSSubscriptionDataWithdraw4) UnmarshalBER(data []byte, opts ...ber.Dec
 		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 && peekTag.Constructed == true {
 		v.Choice = EPSSubscriptionDataWithdraw4ChoiceContextIdList
-		dec, unmErr := UnmarshalBERContextIdList5(choiceData, ber.ChildDecodeOptions(opts, "contextIdList")...)
+		dec, unmErr := UnmarshalBERContextIdList5(choiceData, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "contextIdList"))...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding contextIdList: %w", unmErr)
 		}
@@ -48410,7 +49514,7 @@ func MarshalBERContextIdList5(collection *ContextIdList5, opts ...ber.EncodeOpti
 func marshalBERContextIdList5(collection *ContextIdList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(opts, "ContextIdList5", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "ContextIdList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -48433,7 +49537,7 @@ func MarshalDERContextIdList5(collection *ContextIdList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(nil, "ContextIdList5", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "ContextIdList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -48493,7 +49597,7 @@ func UnmarshalBERContextIdList5(data []byte, opts ...ber.DecodeOption) (returnVa
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 50 {
-		if constraintErr := ber.CheckDecodedLength(opts, "ContextIdList5", "SIZE (1..50)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "ContextIdList", "SIZE (1..50)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -48532,7 +49636,7 @@ func (v *LSAInformationWithdraw5) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		enc_0 := ber.EncodeNull()
 		return enc_0, nil
 	case LSAInformationWithdraw5ChoiceLsaIdentityList:
-		enc_1, err := MarshalBERLSAIdentityList5(v.LsaIdentityList, ber.ChildEncodeOptions(opts, "lsaIdentityList")...)
+		enc_1, err := MarshalBERLSAIdentityList5(v.LsaIdentityList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "lsaIdentityList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding lsaIdentityList: %w", err)
 		}
@@ -48628,7 +49732,7 @@ func (v *LSAInformationWithdraw5) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 && peekTag.Constructed == true {
 		v.Choice = LSAInformationWithdraw5ChoiceLsaIdentityList
-		dec, unmErr := UnmarshalBERLSAIdentityList5(choiceData, ber.ChildDecodeOptions(opts, "lsaIdentityList")...)
+		dec, unmErr := UnmarshalBERLSAIdentityList5(choiceData, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "lsaIdentityList"))...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding lsaIdentityList: %w", unmErr)
 		}
@@ -48663,7 +49767,7 @@ func MarshalBERLSAIdentityList5(collection *LSAIdentityList5, opts ...ber.Encode
 func marshalBERLSAIdentityList5(collection *LSAIdentityList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 20 {
-		if constraintErr := ber.CheckEncodedLength(opts, "LSAIdentityList5", "SIZE (1..20)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "LSAIdentityList", "SIZE (1..20)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -48690,7 +49794,7 @@ func MarshalDERLSAIdentityList5(collection *LSAIdentityList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 20 {
-		if constraintErr := ber.CheckEncodedLength(nil, "LSAIdentityList5", "SIZE (1..20)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "LSAIdentityList", "SIZE (1..20)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -48754,7 +49858,7 @@ func UnmarshalBERLSAIdentityList5(data []byte, opts ...ber.DecodeOption) (return
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 20 {
-		if constraintErr := ber.CheckDecodedLength(opts, "LSAIdentityList5", "SIZE (1..20)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "LSAIdentityList", "SIZE (1..20)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -48790,7 +49894,7 @@ func MarshalBERBasicServiceList5(collection *BasicServiceList5, opts ...ber.Enco
 func marshalBERBasicServiceList5(collection *BasicServiceList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 70 {
-		if constraintErr := ber.CheckEncodedLength(opts, "BasicServiceList5", "SIZE (1..70)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "BasicServiceList", "SIZE (1..70)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -48812,7 +49916,7 @@ func MarshalDERBasicServiceList5(collection *BasicServiceList5) ([]byte, error) 
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 70 {
-		if constraintErr := ber.CheckEncodedLength(nil, "BasicServiceList5", "SIZE (1..70)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "BasicServiceList", "SIZE (1..70)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -48870,7 +49974,7 @@ func UnmarshalBERBasicServiceList5(data []byte, opts ...ber.DecodeOption) (retur
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 70 {
-		if constraintErr := ber.CheckDecodedLength(opts, "BasicServiceList5", "SIZE (1..70)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "BasicServiceList", "SIZE (1..70)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -48927,12 +50031,18 @@ func (v *DeleteSubscriberDataRes5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -48969,6 +50079,16 @@ func (v *DeleteSubscriberDataRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -49173,7 +50293,7 @@ func (v *VlrCamelSubscriptionInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte
 				return nil, constraintErr
 			}
 		}
-		enc_obcsmcameltdpcriterialist, err := MarshalBEROBcsmCamelTDPCriteriaList5(v.OBcsmCamelTDPCriteriaList, ber.ChildEncodeOptions(opts, "o-BcsmCamelTDP-CriteriaList")...)
+		enc_obcsmcameltdpcriterialist, err := MarshalBEROBcsmCamelTDPCriteriaList5(v.OBcsmCamelTDPCriteriaList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "o-BcsmCamelTDP-CriteriaList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding o-BcsmCamelTDP-CriteriaList: %w", err)
 		}
@@ -49250,7 +50370,7 @@ func (v *VlrCamelSubscriptionInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte
 				return nil, constraintErr
 			}
 		}
-		enc_tbcsmcameltdpcriterialist, err := MarshalBERTBCSMCAMELTDPCriteriaList5(v.TBCSMCAMELTDPCriteriaList, ber.ChildEncodeOptions(opts, "t-BCSM-CAMEL-TDP-CriteriaList")...)
+		enc_tbcsmcameltdpcriterialist, err := MarshalBERTBCSMCAMELTDPCriteriaList5(v.TBCSMCAMELTDPCriteriaList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "t-BCSM-CAMEL-TDP-CriteriaList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding t-BCSM-CAMEL-TDP-CriteriaList: %w", err)
 		}
@@ -49306,7 +50426,7 @@ func (v *VlrCamelSubscriptionInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte
 				return nil, constraintErr
 			}
 		}
-		enc_mtsmscameltdpcriterialist, err := MarshalBERMTSmsCAMELTDPCriteriaList5(v.MtSmsCAMELTDPCriteriaList, ber.ChildEncodeOptions(opts, "mt-smsCAMELTDP-CriteriaList")...)
+		enc_mtsmscameltdpcriterialist, err := MarshalBERMTSmsCAMELTDPCriteriaList5(v.MtSmsCAMELTDPCriteriaList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "mt-smsCAMELTDP-CriteriaList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding mt-smsCAMELTDP-CriteriaList: %w", err)
 		}
@@ -49333,12 +50453,18 @@ func (v *VlrCamelSubscriptionInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_mtsmscameltdpcriterialist...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -49511,6 +50637,16 @@ func (v *VlrCamelSubscriptionInfo5) MarshalDER() ([]byte, error) {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		children = append(children, ext...)
 	}
 	encoded, setErr := ber.EncodeSequence(children)
@@ -49663,7 +50799,7 @@ func (v *VlrCamelSubscriptionInfo5) UnmarshalBER(data []byte, opts ...ber.Decode
 				if reconstructionErr_obcsmcameltdpcriterialist != nil {
 					return fmt.Errorf("decoding o-BcsmCamelTDP-CriteriaList: %w", reconstructionErr_obcsmcameltdpcriterialist)
 				}
-				dec_obcsmcameltdpcriterialist, unmErr := UnmarshalBEROBcsmCamelTDPCriteriaList5(reconstructed_obcsmcameltdpcriterialist, ber.ChildDecodeOptions(opts, "o-BcsmCamelTDP-CriteriaList")...)
+				dec_obcsmcameltdpcriterialist, unmErr := UnmarshalBEROBcsmCamelTDPCriteriaList5(reconstructed_obcsmcameltdpcriterialist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "o-BcsmCamelTDP-CriteriaList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding o-BcsmCamelTDP-CriteriaList: %w", unmErr)
 				}
@@ -49826,7 +50962,7 @@ func (v *VlrCamelSubscriptionInfo5) UnmarshalBER(data []byte, opts ...ber.Decode
 				if reconstructionErr_tbcsmcameltdpcriterialist != nil {
 					return fmt.Errorf("decoding t-BCSM-CAMEL-TDP-CriteriaList: %w", reconstructionErr_tbcsmcameltdpcriterialist)
 				}
-				dec_tbcsmcameltdpcriterialist, unmErr := UnmarshalBERTBCSMCAMELTDPCriteriaList5(reconstructed_tbcsmcameltdpcriterialist, ber.ChildDecodeOptions(opts, "t-BCSM-CAMEL-TDP-CriteriaList")...)
+				dec_tbcsmcameltdpcriterialist, unmErr := UnmarshalBERTBCSMCAMELTDPCriteriaList5(reconstructed_tbcsmcameltdpcriterialist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "t-BCSM-CAMEL-TDP-CriteriaList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding t-BCSM-CAMEL-TDP-CriteriaList: %w", unmErr)
 				}
@@ -49934,7 +51070,7 @@ func (v *VlrCamelSubscriptionInfo5) UnmarshalBER(data []byte, opts ...ber.Decode
 				if reconstructionErr_mtsmscameltdpcriterialist != nil {
 					return fmt.Errorf("decoding mt-smsCAMELTDP-CriteriaList: %w", reconstructionErr_mtsmscameltdpcriterialist)
 				}
-				dec_mtsmscameltdpcriterialist, unmErr := UnmarshalBERMTSmsCAMELTDPCriteriaList5(reconstructed_mtsmscameltdpcriterialist, ber.ChildDecodeOptions(opts, "mt-smsCAMELTDP-CriteriaList")...)
+				dec_mtsmscameltdpcriterialist, unmErr := UnmarshalBERMTSmsCAMELTDPCriteriaList5(reconstructed_mtsmscameltdpcriterialist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "mt-smsCAMELTDP-CriteriaList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding mt-smsCAMELTDP-CriteriaList: %w", unmErr)
 				}
@@ -50019,7 +51155,7 @@ func MarshalBERMTSmsCAMELTDPCriteriaList5(collection *MTSmsCAMELTDPCriteriaList5
 func marshalBERMTSmsCAMELTDPCriteriaList5(collection *MTSmsCAMELTDPCriteriaList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(opts, "MTSmsCAMELTDPCriteriaList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "MT-smsCAMELTDP-CriteriaList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -50041,7 +51177,7 @@ func MarshalDERMTSmsCAMELTDPCriteriaList5(collection *MTSmsCAMELTDPCriteriaList5
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(nil, "MTSmsCAMELTDPCriteriaList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "MT-smsCAMELTDP-CriteriaList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -50099,7 +51235,7 @@ func UnmarshalBERMTSmsCAMELTDPCriteriaList5(data []byte, opts ...ber.DecodeOptio
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 10 {
-		if constraintErr := ber.CheckDecodedLength(opts, "MTSmsCAMELTDPCriteriaList5", "SIZE (1..10)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "MT-smsCAMELTDP-CriteriaList", "SIZE (1..10)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -50142,7 +51278,7 @@ func (v *MTSmsCAMELTDPCriteria5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 				return nil, constraintErr
 			}
 		}
-		enc_tpdutypecriterion, err := MarshalBERTPDUTypeCriterion5(v.TpduTypeCriterion, ber.ChildEncodeOptions(opts, "tpdu-TypeCriterion")...)
+		enc_tpdutypecriterion, err := MarshalBERTPDUTypeCriterion5(v.TpduTypeCriterion, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "tpdu-TypeCriterion"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding tpdu-TypeCriterion: %w", err)
 		}
@@ -50169,12 +51305,18 @@ func (v *MTSmsCAMELTDPCriteria5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_tpdutypecriterion...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -50209,6 +51351,16 @@ func (v *MTSmsCAMELTDPCriteria5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -50286,7 +51438,7 @@ func (v *MTSmsCAMELTDPCriteria5) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if reconstructionErr_tpdutypecriterion != nil {
 					return fmt.Errorf("decoding tpdu-TypeCriterion: %w", reconstructionErr_tpdutypecriterion)
 				}
-				dec_tpdutypecriterion, unmErr := UnmarshalBERTPDUTypeCriterion5(reconstructed_tpdutypecriterion, ber.ChildDecodeOptions(opts, "tpdu-TypeCriterion")...)
+				dec_tpdutypecriterion, unmErr := UnmarshalBERTPDUTypeCriterion5(reconstructed_tpdutypecriterion, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "tpdu-TypeCriterion"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding tpdu-TypeCriterion: %w", unmErr)
 				}
@@ -50371,7 +51523,7 @@ func MarshalBERTPDUTypeCriterion5(collection *TPDUTypeCriterion5, opts ...ber.En
 func marshalBERTPDUTypeCriterion5(collection *TPDUTypeCriterion5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(opts, "TPDUTypeCriterion5", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "TPDU-TypeCriterion", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -50389,7 +51541,7 @@ func MarshalDERTPDUTypeCriterion5(collection *TPDUTypeCriterion5) ([]byte, error
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(nil, "TPDUTypeCriterion5", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "TPDU-TypeCriterion", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -50439,7 +51591,7 @@ func UnmarshalBERTPDUTypeCriterion5(data []byte, opts ...ber.DecodeOption) (retu
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 5 {
-		if constraintErr := ber.CheckDecodedLength(opts, "TPDUTypeCriterion5", "SIZE (1..5)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "TPDU-TypeCriterion", "SIZE (1..5)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -50480,7 +51632,7 @@ func (v *DCSI5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_dpanalysedinfocriterialist, err := MarshalBERDPAnalysedInfoCriteriaList5(v.DpAnalysedInfoCriteriaList, ber.ChildEncodeOptions(opts, "dp-AnalysedInfoCriteriaList")...)
+		enc_dpanalysedinfocriterialist, err := MarshalBERDPAnalysedInfoCriteriaList5(v.DpAnalysedInfoCriteriaList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "dp-AnalysedInfoCriteriaList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding dp-AnalysedInfoCriteriaList: %w", err)
 		}
@@ -50551,12 +51703,18 @@ func (v *DCSI5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_csiactive...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -50634,6 +51792,16 @@ func (v *DCSI5) MarshalDER() ([]byte, error) {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		children = append(children, ext...)
 	}
 	encoded, setErr := ber.EncodeSequence(children)
@@ -50696,7 +51864,7 @@ func (v *DCSI5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr e
 				if reconstructionErr_dpanalysedinfocriterialist != nil {
 					return fmt.Errorf("decoding dp-AnalysedInfoCriteriaList: %w", reconstructionErr_dpanalysedinfocriterialist)
 				}
-				dec_dpanalysedinfocriterialist, unmErr := UnmarshalBERDPAnalysedInfoCriteriaList5(reconstructed_dpanalysedinfocriterialist, ber.ChildDecodeOptions(opts, "dp-AnalysedInfoCriteriaList")...)
+				dec_dpanalysedinfocriterialist, unmErr := UnmarshalBERDPAnalysedInfoCriteriaList5(reconstructed_dpanalysedinfocriterialist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "dp-AnalysedInfoCriteriaList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding dp-AnalysedInfoCriteriaList: %w", unmErr)
 				}
@@ -50895,7 +52063,7 @@ func MarshalBERDPAnalysedInfoCriteriaList5(collection *DPAnalysedInfoCriteriaLis
 func marshalBERDPAnalysedInfoCriteriaList5(collection *DPAnalysedInfoCriteriaList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(opts, "DPAnalysedInfoCriteriaList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "DP-AnalysedInfoCriteriaList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -50917,7 +52085,7 @@ func MarshalDERDPAnalysedInfoCriteriaList5(collection *DPAnalysedInfoCriteriaLis
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(nil, "DPAnalysedInfoCriteriaList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "DP-AnalysedInfoCriteriaList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -50975,7 +52143,7 @@ func UnmarshalBERDPAnalysedInfoCriteriaList5(data []byte, opts ...ber.DecodeOpti
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 10 {
-		if constraintErr := ber.CheckDecodedLength(opts, "DPAnalysedInfoCriteriaList5", "SIZE (1..10)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "DP-AnalysedInfoCriteriaList", "SIZE (1..10)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -51057,12 +52225,18 @@ func (v *DPAnalysedInfoCriterium5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -51124,6 +52298,16 @@ func (v *DPAnalysedInfoCriterium5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -51369,12 +52553,18 @@ func (v *SSCSI5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_csiactive...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -51420,6 +52610,16 @@ func (v *SSCSI5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -51631,7 +52831,7 @@ func (v *SSCamelData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, constraintErr
 		}
 	}
-	enc_sseventlist, err := MarshalBERSSEventList5(v.SsEventList, ber.ChildEncodeOptions(opts, "ss-EventList")...)
+	enc_sseventlist, err := MarshalBERSSEventList5(v.SsEventList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "ss-EventList"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding ss-EventList: %w", err)
 	}
@@ -51664,12 +52864,18 @@ func (v *SSCamelData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -51725,6 +52931,16 @@ func (v *SSCamelData5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -51792,7 +53008,7 @@ func (v *SSCamelData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 			v.SsEventListIndef_ = true
 		}
 	}
-	dec_sseventlist, unmErr := UnmarshalBERSSEventList5(tlv_sseventlist, ber.ChildDecodeOptions(opts, "ss-EventList")...)
+	dec_sseventlist, unmErr := UnmarshalBERSSEventList5(tlv_sseventlist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "ss-EventList"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding ss-EventList: %w", unmErr)
 	}
@@ -51917,7 +53133,7 @@ func MarshalBERSSEventList5(collection *SSEventList5, opts ...ber.EncodeOption) 
 func marshalBERSSEventList5(collection *SSEventList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(opts, "SSEventList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "SS-EventList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -51944,7 +53160,7 @@ func MarshalDERSSEventList5(collection *SSEventList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(nil, "SSEventList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "SS-EventList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -52008,7 +53224,7 @@ func UnmarshalBERSSEventList5(data []byte, opts ...ber.DecodeOption) (returnValu
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 10 {
-		if constraintErr := ber.CheckDecodedLength(opts, "SSEventList5", "SIZE (1..10)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "SS-EventList", "SIZE (1..10)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -52051,7 +53267,7 @@ func (v *OCSI5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, constraintErr
 		}
 	}
-	enc_obcsmcameltdpdatalist, err := MarshalBEROBcsmCamelTDPDataList5(v.OBcsmCamelTDPDataList, ber.ChildEncodeOptions(opts, "o-BcsmCamelTDPDataList")...)
+	enc_obcsmcameltdpdatalist, err := MarshalBEROBcsmCamelTDPDataList5(v.OBcsmCamelTDPDataList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "o-BcsmCamelTDPDataList"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding o-BcsmCamelTDPDataList: %w", err)
 	}
@@ -52096,12 +53312,18 @@ func (v *OCSI5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_csiactive...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -52170,6 +53392,16 @@ func (v *OCSI5) MarshalDER() ([]byte, error) {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		children = append(children, ext...)
 	}
 	encoded, setErr := ber.EncodeSequence(children)
@@ -52237,7 +53469,7 @@ func (v *OCSI5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr e
 			v.OBcsmCamelTDPDataListIndef_ = true
 		}
 	}
-	dec_obcsmcameltdpdatalist, unmErr := UnmarshalBEROBcsmCamelTDPDataList5(tlv_obcsmcameltdpdatalist, ber.ChildDecodeOptions(opts, "o-BcsmCamelTDPDataList")...)
+	dec_obcsmcameltdpdatalist, unmErr := UnmarshalBEROBcsmCamelTDPDataList5(tlv_obcsmcameltdpdatalist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "o-BcsmCamelTDPDataList"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding o-BcsmCamelTDPDataList: %w", unmErr)
 	}
@@ -52423,7 +53655,7 @@ func MarshalBEROBcsmCamelTDPDataList5(collection *OBcsmCamelTDPDataList5, opts .
 func marshalBEROBcsmCamelTDPDataList5(collection *OBcsmCamelTDPDataList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(opts, "OBcsmCamelTDPDataList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "O-BcsmCamelTDPDataList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -52445,7 +53677,7 @@ func MarshalDEROBcsmCamelTDPDataList5(collection *OBcsmCamelTDPDataList5) ([]byt
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(nil, "OBcsmCamelTDPDataList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "O-BcsmCamelTDPDataList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -52503,7 +53735,7 @@ func UnmarshalBEROBcsmCamelTDPDataList5(data []byte, opts ...ber.DecodeOption) (
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 10 {
-		if constraintErr := ber.CheckDecodedLength(opts, "OBcsmCamelTDPDataList5", "SIZE (1..10)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "O-BcsmCamelTDPDataList", "SIZE (1..10)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -52587,12 +53819,18 @@ func (v *OBcsmCamelTDPData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -52656,6 +53894,16 @@ func (v *OBcsmCamelTDPData5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -52886,7 +54134,7 @@ func MarshalBEROBcsmCamelTDPCriteriaList5(collection *OBcsmCamelTDPCriteriaList5
 func marshalBEROBcsmCamelTDPCriteriaList5(collection *OBcsmCamelTDPCriteriaList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(opts, "OBcsmCamelTDPCriteriaList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "O-BcsmCamelTDPCriteriaList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -52908,7 +54156,7 @@ func MarshalDEROBcsmCamelTDPCriteriaList5(collection *OBcsmCamelTDPCriteriaList5
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(nil, "OBcsmCamelTDPCriteriaList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "O-BcsmCamelTDPCriteriaList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -52966,7 +54214,7 @@ func UnmarshalBEROBcsmCamelTDPCriteriaList5(data []byte, opts ...ber.DecodeOptio
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 10 {
-		if constraintErr := ber.CheckDecodedLength(opts, "OBcsmCamelTDPCriteriaList5", "SIZE (1..10)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "O-BcsmCamelTDPCriteriaList", "SIZE (1..10)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -53002,7 +54250,7 @@ func MarshalBERTBCSMCAMELTDPCriteriaList5(collection *TBCSMCAMELTDPCriteriaList5
 func marshalBERTBCSMCAMELTDPCriteriaList5(collection *TBCSMCAMELTDPCriteriaList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(opts, "TBCSMCAMELTDPCriteriaList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "T-BCSM-CAMEL-TDP-CriteriaList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -53024,7 +54272,7 @@ func MarshalDERTBCSMCAMELTDPCriteriaList5(collection *TBCSMCAMELTDPCriteriaList5
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(nil, "TBCSMCAMELTDPCriteriaList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "T-BCSM-CAMEL-TDP-CriteriaList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -53082,7 +54330,7 @@ func UnmarshalBERTBCSMCAMELTDPCriteriaList5(data []byte, opts ...ber.DecodeOptio
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 10 {
-		if constraintErr := ber.CheckDecodedLength(opts, "TBCSMCAMELTDPCriteriaList5", "SIZE (1..10)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "T-BCSM-CAMEL-TDP-CriteriaList", "SIZE (1..10)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -53137,7 +54385,7 @@ func (v *OBcsmCamelTDPCriteria5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 				return nil, constraintErr
 			}
 		}
-		enc_basicservicecriteria, err := MarshalBERBasicServiceCriteria5(v.BasicServiceCriteria, ber.ChildEncodeOptions(opts, "basicServiceCriteria")...)
+		enc_basicservicecriteria, err := MarshalBERBasicServiceCriteria5(v.BasicServiceCriteria, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "basicServiceCriteria"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceCriteria: %w", err)
 		}
@@ -53183,7 +54431,7 @@ func (v *OBcsmCamelTDPCriteria5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 				return nil, constraintErr
 			}
 		}
-		enc_ocausevaluecriteria, err := MarshalBEROCauseValueCriteria5(v.OCauseValueCriteria, ber.ChildEncodeOptions(opts, "o-CauseValueCriteria")...)
+		enc_ocausevaluecriteria, err := MarshalBEROCauseValueCriteria5(v.OCauseValueCriteria, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "o-CauseValueCriteria"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding o-CauseValueCriteria: %w", err)
 		}
@@ -53222,12 +54470,18 @@ func (v *OBcsmCamelTDPCriteria5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -53317,6 +54571,16 @@ func (v *OBcsmCamelTDPCriteria5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -53425,7 +54689,7 @@ func (v *OBcsmCamelTDPCriteria5) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if reconstructionErr_basicservicecriteria != nil {
 					return fmt.Errorf("decoding basicServiceCriteria: %w", reconstructionErr_basicservicecriteria)
 				}
-				dec_basicservicecriteria, unmErr := UnmarshalBERBasicServiceCriteria5(reconstructed_basicservicecriteria, ber.ChildDecodeOptions(opts, "basicServiceCriteria")...)
+				dec_basicservicecriteria, unmErr := UnmarshalBERBasicServiceCriteria5(reconstructed_basicservicecriteria, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "basicServiceCriteria"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding basicServiceCriteria: %w", unmErr)
 				}
@@ -53506,7 +54770,7 @@ func (v *OBcsmCamelTDPCriteria5) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if reconstructionErr_ocausevaluecriteria != nil {
 					return fmt.Errorf("decoding o-CauseValueCriteria: %w", reconstructionErr_ocausevaluecriteria)
 				}
-				dec_ocausevaluecriteria, unmErr := UnmarshalBEROCauseValueCriteria5(reconstructed_ocausevaluecriteria, ber.ChildDecodeOptions(opts, "o-CauseValueCriteria")...)
+				dec_ocausevaluecriteria, unmErr := UnmarshalBEROCauseValueCriteria5(reconstructed_ocausevaluecriteria, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "o-CauseValueCriteria"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding o-CauseValueCriteria: %w", unmErr)
 				}
@@ -53629,7 +54893,7 @@ func (v *TBCSMCAMELTDPCriteria5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 				return nil, constraintErr
 			}
 		}
-		enc_basicservicecriteria, err := MarshalBERBasicServiceCriteria5(v.BasicServiceCriteria, ber.ChildEncodeOptions(opts, "basicServiceCriteria")...)
+		enc_basicservicecriteria, err := MarshalBERBasicServiceCriteria5(v.BasicServiceCriteria, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "basicServiceCriteria"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceCriteria: %w", err)
 		}
@@ -53661,7 +54925,7 @@ func (v *TBCSMCAMELTDPCriteria5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 				return nil, constraintErr
 			}
 		}
-		enc_tcausevaluecriteria, err := MarshalBERTCauseValueCriteria5(v.TCauseValueCriteria, ber.ChildEncodeOptions(opts, "t-CauseValueCriteria")...)
+		enc_tcausevaluecriteria, err := MarshalBERTCauseValueCriteria5(v.TCauseValueCriteria, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "t-CauseValueCriteria"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding t-CauseValueCriteria: %w", err)
 		}
@@ -53688,12 +54952,18 @@ func (v *TBCSMCAMELTDPCriteria5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_tcausevaluecriteria...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -53745,6 +55015,16 @@ func (v *TBCSMCAMELTDPCriteria5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -53822,7 +55102,7 @@ func (v *TBCSMCAMELTDPCriteria5) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if reconstructionErr_basicservicecriteria != nil {
 					return fmt.Errorf("decoding basicServiceCriteria: %w", reconstructionErr_basicservicecriteria)
 				}
-				dec_basicservicecriteria, unmErr := UnmarshalBERBasicServiceCriteria5(reconstructed_basicservicecriteria, ber.ChildDecodeOptions(opts, "basicServiceCriteria")...)
+				dec_basicservicecriteria, unmErr := UnmarshalBERBasicServiceCriteria5(reconstructed_basicservicecriteria, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "basicServiceCriteria"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding basicServiceCriteria: %w", unmErr)
 				}
@@ -53870,7 +55150,7 @@ func (v *TBCSMCAMELTDPCriteria5) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if reconstructionErr_tcausevaluecriteria != nil {
 					return fmt.Errorf("decoding t-CauseValueCriteria: %w", reconstructionErr_tcausevaluecriteria)
 				}
-				dec_tcausevaluecriteria, unmErr := UnmarshalBERTCauseValueCriteria5(reconstructed_tcausevaluecriteria, ber.ChildDecodeOptions(opts, "t-CauseValueCriteria")...)
+				dec_tcausevaluecriteria, unmErr := UnmarshalBERTCauseValueCriteria5(reconstructed_tcausevaluecriteria, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "t-CauseValueCriteria"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding t-CauseValueCriteria: %w", unmErr)
 				}
@@ -53972,7 +55252,7 @@ func (v *DestinationNumberCriteria5) marshalBER(opts ...ber.EncodeOption) ([]byt
 				return nil, constraintErr
 			}
 		}
-		enc_destinationnumberlist, err := MarshalBERDestinationNumberList5(v.DestinationNumberList, ber.ChildEncodeOptions(opts, "destinationNumberList")...)
+		enc_destinationnumberlist, err := MarshalBERDestinationNumberList5(v.DestinationNumberList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "destinationNumberList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding destinationNumberList: %w", err)
 		}
@@ -54004,7 +55284,7 @@ func (v *DestinationNumberCriteria5) marshalBER(opts ...ber.EncodeOption) ([]byt
 				return nil, constraintErr
 			}
 		}
-		enc_destinationnumberlengthlist, err := MarshalBERDestinationNumberLengthList5(v.DestinationNumberLengthList, ber.ChildEncodeOptions(opts, "destinationNumberLengthList")...)
+		enc_destinationnumberlengthlist, err := MarshalBERDestinationNumberLengthList5(v.DestinationNumberLengthList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "destinationNumberLengthList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding destinationNumberLengthList: %w", err)
 		}
@@ -54031,12 +55311,18 @@ func (v *DestinationNumberCriteria5) marshalBER(opts ...ber.EncodeOption) ([]byt
 		children = append(children, enc_destinationnumberlengthlist...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -54098,6 +55384,16 @@ func (v *DestinationNumberCriteria5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -54192,7 +55488,7 @@ func (v *DestinationNumberCriteria5) UnmarshalBER(data []byte, opts ...ber.Decod
 				if reconstructionErr_destinationnumberlist != nil {
 					return fmt.Errorf("decoding destinationNumberList: %w", reconstructionErr_destinationnumberlist)
 				}
-				dec_destinationnumberlist, unmErr := UnmarshalBERDestinationNumberList5(reconstructed_destinationnumberlist, ber.ChildDecodeOptions(opts, "destinationNumberList")...)
+				dec_destinationnumberlist, unmErr := UnmarshalBERDestinationNumberList5(reconstructed_destinationnumberlist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "destinationNumberList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding destinationNumberList: %w", unmErr)
 				}
@@ -54240,7 +55536,7 @@ func (v *DestinationNumberCriteria5) UnmarshalBER(data []byte, opts ...ber.Decod
 				if reconstructionErr_destinationnumberlengthlist != nil {
 					return fmt.Errorf("decoding destinationNumberLengthList: %w", reconstructionErr_destinationnumberlengthlist)
 				}
-				dec_destinationnumberlengthlist, unmErr := UnmarshalBERDestinationNumberLengthList5(reconstructed_destinationnumberlengthlist, ber.ChildDecodeOptions(opts, "destinationNumberLengthList")...)
+				dec_destinationnumberlengthlist, unmErr := UnmarshalBERDestinationNumberLengthList5(reconstructed_destinationnumberlengthlist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "destinationNumberLengthList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding destinationNumberLengthList: %w", unmErr)
 				}
@@ -54325,7 +55621,7 @@ func MarshalBERDestinationNumberList5(collection *DestinationNumberList5, opts .
 func marshalBERDestinationNumberList5(collection *DestinationNumberList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(opts, "DestinationNumberList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "DestinationNumberList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -54357,7 +55653,7 @@ func MarshalDERDestinationNumberList5(collection *DestinationNumberList5) ([]byt
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(nil, "DestinationNumberList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "DestinationNumberList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -54431,7 +55727,7 @@ func UnmarshalBERDestinationNumberList5(data []byte, opts ...ber.DecodeOption) (
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 10 {
-		if constraintErr := ber.CheckDecodedLength(opts, "DestinationNumberList5", "SIZE (1..10)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "DestinationNumberList", "SIZE (1..10)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -54467,7 +55763,7 @@ func MarshalBERDestinationNumberLengthList5(collection *DestinationNumberLengthL
 func marshalBERDestinationNumberLengthList5(collection *DestinationNumberLengthList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 3 {
-		if constraintErr := ber.CheckEncodedLength(opts, "DestinationNumberLengthList5", "SIZE (1..3)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "DestinationNumberLengthList", "SIZE (1..3)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -54490,7 +55786,7 @@ func MarshalDERDestinationNumberLengthList5(collection *DestinationNumberLengthL
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 3 {
-		if constraintErr := ber.CheckEncodedLength(nil, "DestinationNumberLengthList5", "SIZE (1..3)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "DestinationNumberLengthList", "SIZE (1..3)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -54550,7 +55846,7 @@ func UnmarshalBERDestinationNumberLengthList5(data []byte, opts ...ber.DecodeOpt
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 3 {
-		if constraintErr := ber.CheckDecodedLength(opts, "DestinationNumberLengthList5", "SIZE (1..3)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "DestinationNumberLengthList", "SIZE (1..3)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -54586,7 +55882,7 @@ func MarshalBERBasicServiceCriteria5(collection *BasicServiceCriteria5, opts ...
 func marshalBERBasicServiceCriteria5(collection *BasicServiceCriteria5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(opts, "BasicServiceCriteria5", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "BasicServiceCriteria", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -54608,7 +55904,7 @@ func MarshalDERBasicServiceCriteria5(collection *BasicServiceCriteria5) ([]byte,
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(nil, "BasicServiceCriteria5", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "BasicServiceCriteria", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -54666,7 +55962,7 @@ func UnmarshalBERBasicServiceCriteria5(data []byte, opts ...ber.DecodeOption) (r
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 5 {
-		if constraintErr := ber.CheckDecodedLength(opts, "BasicServiceCriteria5", "SIZE (1..5)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "BasicServiceCriteria", "SIZE (1..5)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -54702,7 +55998,7 @@ func MarshalBEROCauseValueCriteria5(collection *OCauseValueCriteria5, opts ...be
 func marshalBEROCauseValueCriteria5(collection *OCauseValueCriteria5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(opts, "OCauseValueCriteria5", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "O-CauseValueCriteria", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -54729,7 +56025,7 @@ func MarshalDEROCauseValueCriteria5(collection *OCauseValueCriteria5) ([]byte, e
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(nil, "OCauseValueCriteria5", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "O-CauseValueCriteria", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -54793,7 +56089,7 @@ func UnmarshalBEROCauseValueCriteria5(data []byte, opts ...ber.DecodeOption) (re
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 5 {
-		if constraintErr := ber.CheckDecodedLength(opts, "OCauseValueCriteria5", "SIZE (1..5)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "O-CauseValueCriteria", "SIZE (1..5)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -54829,7 +56125,7 @@ func MarshalBERTCauseValueCriteria5(collection *TCauseValueCriteria5, opts ...be
 func marshalBERTCauseValueCriteria5(collection *TCauseValueCriteria5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(opts, "TCauseValueCriteria5", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "T-CauseValueCriteria", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -54856,7 +56152,7 @@ func MarshalDERTCauseValueCriteria5(collection *TCauseValueCriteria5) ([]byte, e
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedLength(nil, "TCauseValueCriteria5", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "T-CauseValueCriteria", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -54920,7 +56216,7 @@ func UnmarshalBERTCauseValueCriteria5(data []byte, opts ...ber.DecodeOption) (re
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 5 {
-		if constraintErr := ber.CheckDecodedLength(opts, "TCauseValueCriteria5", "SIZE (1..5)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "T-CauseValueCriteria", "SIZE (1..5)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -54961,7 +56257,7 @@ func (v *SMSCSI5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_smscameltdpdatalist, err := MarshalBERSMSCAMELTDPDataList5(v.SmsCAMELTDPDataList, ber.ChildEncodeOptions(opts, "sms-CAMEL-TDP-DataList")...)
+		enc_smscameltdpdatalist, err := MarshalBERSMSCAMELTDPDataList5(v.SmsCAMELTDPDataList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "sms-CAMEL-TDP-DataList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding sms-CAMEL-TDP-DataList: %w", err)
 		}
@@ -55032,12 +56328,18 @@ func (v *SMSCSI5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_csiactive...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -55115,6 +56417,16 @@ func (v *SMSCSI5) MarshalDER() ([]byte, error) {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		children = append(children, ext...)
 	}
 	encoded, setErr := ber.EncodeSequence(children)
@@ -55177,7 +56489,7 @@ func (v *SMSCSI5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr
 				if reconstructionErr_smscameltdpdatalist != nil {
 					return fmt.Errorf("decoding sms-CAMEL-TDP-DataList: %w", reconstructionErr_smscameltdpdatalist)
 				}
-				dec_smscameltdpdatalist, unmErr := UnmarshalBERSMSCAMELTDPDataList5(reconstructed_smscameltdpdatalist, ber.ChildDecodeOptions(opts, "sms-CAMEL-TDP-DataList")...)
+				dec_smscameltdpdatalist, unmErr := UnmarshalBERSMSCAMELTDPDataList5(reconstructed_smscameltdpdatalist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "sms-CAMEL-TDP-DataList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding sms-CAMEL-TDP-DataList: %w", unmErr)
 				}
@@ -55376,7 +56688,7 @@ func MarshalBERSMSCAMELTDPDataList5(collection *SMSCAMELTDPDataList5, opts ...be
 func marshalBERSMSCAMELTDPDataList5(collection *SMSCAMELTDPDataList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(opts, "SMSCAMELTDPDataList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "SMS-CAMEL-TDP-DataList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -55398,7 +56710,7 @@ func MarshalDERSMSCAMELTDPDataList5(collection *SMSCAMELTDPDataList5) ([]byte, e
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(nil, "SMSCAMELTDPDataList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "SMS-CAMEL-TDP-DataList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -55456,7 +56768,7 @@ func UnmarshalBERSMSCAMELTDPDataList5(data []byte, opts ...ber.DecodeOption) (re
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 10 {
-		if constraintErr := ber.CheckDecodedLength(opts, "SMSCAMELTDPDataList5", "SIZE (1..10)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "SMS-CAMEL-TDP-DataList", "SIZE (1..10)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -55550,12 +56862,18 @@ func (v *SMSCAMELTDPData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -55629,6 +56947,16 @@ func (v *SMSCAMELTDPData5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -55892,7 +57220,7 @@ func (v *MCSI5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, constraintErr
 		}
 	}
-	enc_mobilitytriggers, err := MarshalBERMobilityTriggers5(v.MobilityTriggers, ber.ChildEncodeOptions(opts, "mobilityTriggers")...)
+	enc_mobilitytriggers, err := MarshalBERMobilityTriggers5(v.MobilityTriggers, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "mobilityTriggers"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding mobilityTriggers: %w", err)
 	}
@@ -55955,12 +57283,18 @@ func (v *MCSI5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_csiactive...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -56047,6 +57381,16 @@ func (v *MCSI5) MarshalDER() ([]byte, error) {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		children = append(children, ext...)
 	}
 	encoded, setErr := ber.EncodeSequence(children)
@@ -56114,7 +57458,7 @@ func (v *MCSI5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr e
 			v.MobilityTriggersIndef_ = true
 		}
 	}
-	dec_mobilitytriggers, unmErr := UnmarshalBERMobilityTriggers5(tlv_mobilitytriggers, ber.ChildDecodeOptions(opts, "mobilityTriggers")...)
+	dec_mobilitytriggers, unmErr := UnmarshalBERMobilityTriggers5(tlv_mobilitytriggers, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "mobilityTriggers"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding mobilityTriggers: %w", unmErr)
 	}
@@ -56332,7 +57676,7 @@ func (v *MGCSI5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, constraintErr
 		}
 	}
-	enc_mobilitytriggers, err := MarshalBERMobilityTriggers5(v.MobilityTriggers, ber.ChildEncodeOptions(opts, "mobilityTriggers")...)
+	enc_mobilitytriggers, err := MarshalBERMobilityTriggers5(v.MobilityTriggers, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "mobilityTriggers"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding mobilityTriggers: %w", err)
 	}
@@ -56395,12 +57739,18 @@ func (v *MGCSI5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_csiactive...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -56487,6 +57837,16 @@ func (v *MGCSI5) MarshalDER() ([]byte, error) {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		children = append(children, ext...)
 	}
 	encoded, setErr := ber.EncodeSequence(children)
@@ -56554,7 +57914,7 @@ func (v *MGCSI5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 			v.MobilityTriggersIndef_ = true
 		}
 	}
-	dec_mobilitytriggers, unmErr := UnmarshalBERMobilityTriggers5(tlv_mobilitytriggers, ber.ChildDecodeOptions(opts, "mobilityTriggers")...)
+	dec_mobilitytriggers, unmErr := UnmarshalBERMobilityTriggers5(tlv_mobilitytriggers, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "mobilityTriggers"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding mobilityTriggers: %w", unmErr)
 	}
@@ -56765,7 +58125,7 @@ func MarshalBERMobilityTriggers5(collection *MobilityTriggers5, opts ...ber.Enco
 func marshalBERMobilityTriggers5(collection *MobilityTriggers5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(opts, "MobilityTriggers5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "MobilityTriggers", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -56792,7 +58152,7 @@ func MarshalDERMobilityTriggers5(collection *MobilityTriggers5) ([]byte, error) 
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(nil, "MobilityTriggers5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "MobilityTriggers", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -56856,7 +58216,7 @@ func UnmarshalBERMobilityTriggers5(data []byte, opts ...ber.DecodeOption) (retur
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 10 {
-		if constraintErr := ber.CheckDecodedLength(opts, "MobilityTriggers5", "SIZE (1..10)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "MobilityTriggers", "SIZE (1..10)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -56899,7 +58259,7 @@ func (v *TCSI5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, constraintErr
 		}
 	}
-	enc_tbcsmcameltdpdatalist, err := MarshalBERTBcsmCamelTDPDataList5(v.TBcsmCamelTDPDataList, ber.ChildEncodeOptions(opts, "t-BcsmCamelTDPDataList")...)
+	enc_tbcsmcameltdpdatalist, err := MarshalBERTBcsmCamelTDPDataList5(v.TBcsmCamelTDPDataList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "t-BcsmCamelTDPDataList"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding t-BcsmCamelTDPDataList: %w", err)
 	}
@@ -56944,12 +58304,18 @@ func (v *TCSI5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_csiactive...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -57018,6 +58384,16 @@ func (v *TCSI5) MarshalDER() ([]byte, error) {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		children = append(children, ext...)
 	}
 	encoded, setErr := ber.EncodeSequence(children)
@@ -57085,7 +58461,7 @@ func (v *TCSI5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr e
 			v.TBcsmCamelTDPDataListIndef_ = true
 		}
 	}
-	dec_tbcsmcameltdpdatalist, unmErr := UnmarshalBERTBcsmCamelTDPDataList5(tlv_tbcsmcameltdpdatalist, ber.ChildDecodeOptions(opts, "t-BcsmCamelTDPDataList")...)
+	dec_tbcsmcameltdpdatalist, unmErr := UnmarshalBERTBcsmCamelTDPDataList5(tlv_tbcsmcameltdpdatalist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "t-BcsmCamelTDPDataList"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding t-BcsmCamelTDPDataList: %w", unmErr)
 	}
@@ -57271,7 +58647,7 @@ func MarshalBERTBcsmCamelTDPDataList5(collection *TBcsmCamelTDPDataList5, opts .
 func marshalBERTBcsmCamelTDPDataList5(collection *TBcsmCamelTDPDataList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(opts, "TBcsmCamelTDPDataList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "T-BcsmCamelTDPDataList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -57293,7 +58669,7 @@ func MarshalDERTBcsmCamelTDPDataList5(collection *TBcsmCamelTDPDataList5) ([]byt
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 10 {
-		if constraintErr := ber.CheckEncodedLength(nil, "TBcsmCamelTDPDataList5", "SIZE (1..10)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "T-BcsmCamelTDPDataList", "SIZE (1..10)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -57351,7 +58727,7 @@ func UnmarshalBERTBcsmCamelTDPDataList5(data []byte, opts ...ber.DecodeOption) (
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 10 {
-		if constraintErr := ber.CheckDecodedLength(opts, "TBcsmCamelTDPDataList5", "SIZE (1..10)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "T-BcsmCamelTDPDataList", "SIZE (1..10)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -57435,12 +58811,18 @@ func (v *TBcsmCamelTDPData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -57504,6 +58886,16 @@ func (v *TBcsmCamelTDPData5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -57798,12 +59190,18 @@ func (v *SendRoutingInfoForGprsArg5) marshalBER(opts ...ber.EncodeOption) ([]byt
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -57883,6 +59281,16 @@ func (v *SendRoutingInfoForGprsArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -58172,12 +59580,18 @@ func (v *SendRoutingInfoForGprsRes5) marshalBER(opts ...ber.EncodeOption) ([]byt
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -58251,6 +59665,16 @@ func (v *SendRoutingInfoForGprsRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -58542,12 +59966,18 @@ func (v *FailureReportArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -58627,6 +60057,16 @@ func (v *FailureReportArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -58887,12 +60327,18 @@ func (v *FailureReportRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -58937,6 +60383,16 @@ func (v *FailureReportRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -59158,12 +60614,18 @@ func (v *NoteMsPresentForGprsArg5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -59238,6 +60700,16 @@ func (v *NoteMsPresentForGprsArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -59476,12 +60948,18 @@ func (v *NoteMsPresentForGprsRes5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -59509,6 +60987,16 @@ func (v *NoteMsPresentForGprsRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -59658,19 +61146,25 @@ func (v *ResetArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_hlrlist, err := MarshalBERHLRList5(v.HlrList, ber.ChildEncodeOptions(opts, "hlr-List")...)
+		enc_hlrlist, err := MarshalBERHLRList5(v.HlrList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "hlr-List"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding hlr-List: %w", err)
 		}
 		children = append(children, enc_hlrlist...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -59713,6 +61207,16 @@ func (v *ResetArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -59806,7 +61310,7 @@ func (v *ResetArg5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 						v.HlrListIndef_ = true
 					}
 				}
-				dec_hlrlist, unmErr := UnmarshalBERHLRList5(tlv_hlrlist, ber.ChildDecodeOptions(opts, "hlr-List")...)
+				dec_hlrlist, unmErr := UnmarshalBERHLRList5(tlv_hlrlist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "hlr-List"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding hlr-List: %w", unmErr)
 				}
@@ -59929,12 +61433,18 @@ func (v *RestoreDataArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_restorationindicator...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -60000,6 +61510,16 @@ func (v *RestoreDataArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -60258,12 +61778,18 @@ func (v *RestoreDataRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -60305,6 +61831,16 @@ func (v *RestoreDataRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -60479,7 +62015,7 @@ func MarshalBERVBSDataList5(collection *VBSDataList5, opts ...ber.EncodeOption) 
 func marshalBERVBSDataList5(collection *VBSDataList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(opts, "VBSDataList5", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "VBSDataList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -60501,7 +62037,7 @@ func MarshalDERVBSDataList5(collection *VBSDataList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(nil, "VBSDataList5", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "VBSDataList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -60559,7 +62095,7 @@ func UnmarshalBERVBSDataList5(data []byte, opts ...ber.DecodeOption) (returnValu
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 50 {
-		if constraintErr := ber.CheckDecodedLength(opts, "VBSDataList5", "SIZE (1..50)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "VBSDataList", "SIZE (1..50)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -60595,7 +62131,7 @@ func MarshalBERVGCSDataList5(collection *VGCSDataList5, opts ...ber.EncodeOption
 func marshalBERVGCSDataList5(collection *VGCSDataList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(opts, "VGCSDataList5", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "VGCSDataList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -60617,7 +62153,7 @@ func MarshalDERVGCSDataList5(collection *VGCSDataList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(nil, "VGCSDataList5", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "VGCSDataList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -60675,7 +62211,7 @@ func UnmarshalBERVGCSDataList5(data []byte, opts ...ber.DecodeOption) (returnVal
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 50 {
-		if constraintErr := ber.CheckDecodedLength(opts, "VGCSDataList5", "SIZE (1..50)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "VGCSDataList", "SIZE (1..50)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -60736,7 +62272,7 @@ func (v *VoiceGroupCallData5) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		if bitStringErr := ber.ValidateBitStringLength(v.AdditionalSubscriptions.Bytes, v.AdditionalSubscriptions.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "additionalSubscriptions", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.AdditionalSubscriptions.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -60755,7 +62291,7 @@ func (v *VoiceGroupCallData5) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		if bitStringErr := ber.ValidateBitStringLength(v.AdditionalInfo.Bytes, v.AdditionalInfo.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "additionalInfo", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -60788,12 +62324,18 @@ func (v *VoiceGroupCallData5) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		children = append(children, enc_longgroupid...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 3) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -60835,7 +62377,7 @@ func (v *VoiceGroupCallData5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.AdditionalSubscriptions.Bytes, v.AdditionalSubscriptions.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "additionalSubscriptions", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.AdditionalSubscriptions.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -60857,7 +62399,7 @@ func (v *VoiceGroupCallData5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.AdditionalInfo.Bytes, v.AdditionalInfo.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "additionalInfo", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -60892,6 +62434,16 @@ func (v *VoiceGroupCallData5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 3) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -61178,12 +62730,18 @@ func (v *VoiceBroadcastData5) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		children = append(children, enc_longgroupid...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -61237,6 +62795,16 @@ func (v *VoiceBroadcastData5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -61506,12 +63074,18 @@ func (v *ProvideSubscriberInfoArg5) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_callpriority...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -61595,6 +63169,16 @@ func (v *ProvideSubscriberInfoArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -61862,12 +63446,18 @@ func (v *ProvideSubscriberInfoRes5) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -61895,6 +63485,16 @@ func (v *ProvideSubscriberInfoRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -62235,12 +63835,18 @@ func (v *SubscriberInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_locationinformationeps...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -62444,6 +64050,16 @@ func (v *SubscriberInfo5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -63065,12 +64681,18 @@ func (v *MNPInfoRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -63163,6 +64785,16 @@ func (v *MNPInfoRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -63719,7 +65351,7 @@ func (v *RequestedInfo6) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.RequestedNodes.Bytes, v.RequestedNodes.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "requestedNodes", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.RequestedNodes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -63744,12 +65376,18 @@ func (v *RequestedInfo6) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_servingnodeindication...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -63858,7 +65496,7 @@ func (v *RequestedInfo6) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.RequestedNodes.Bytes, v.RequestedNodes.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "requestedNodes", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.RequestedNodes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -63885,6 +65523,16 @@ func (v *RequestedInfo6) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -64475,12 +66123,18 @@ func (v *LocationInformation5) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_usercsginformation...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -64685,6 +66339,16 @@ func (v *LocationInformation5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -65313,12 +66977,18 @@ func (v *LocationInformationEPS4) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		children = append(children, enc_mmename...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -65454,6 +67124,16 @@ func (v *LocationInformationEPS4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -65967,12 +67647,18 @@ func (v *LocationInformationGPRS5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_usercsginformation...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -66148,6 +67834,16 @@ func (v *LocationInformationGPRS5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -66604,7 +68300,7 @@ func (v *UserCSGInformation4) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 	if bitStringErr := ber.ValidateBitStringLength(v.CsgId.Bytes, v.CsgId.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "csg-Id", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 	if v.CsgId.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -66665,12 +68361,18 @@ func (v *UserCSGInformation4) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		children = append(children, enc_cmi...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -66694,7 +68396,7 @@ func (v *UserCSGInformation4) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.CsgId.Bytes, v.CsgId.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "csg-Id", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 	if v.CsgId.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -66757,6 +68459,16 @@ func (v *UserCSGInformation4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -67183,7 +68895,7 @@ func (v *PSSubscriberState5) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		enc_3 = retagged_enc_3
 		return enc_3, nil
 	case PSSubscriberState5ChoicePsPDPActiveNotReachableForPaging:
-		enc_4, err := MarshalBERPDPContextInfoList5(v.PsPDPActiveNotReachableForPaging, ber.ChildEncodeOptions(opts, "ps-PDP-ActiveNotReachableForPaging")...)
+		enc_4, err := MarshalBERPDPContextInfoList5(v.PsPDPActiveNotReachableForPaging, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "ps-PDP-ActiveNotReachableForPaging"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ps-PDP-ActiveNotReachableForPaging: %w", err)
 		}
@@ -67199,7 +68911,7 @@ func (v *PSSubscriberState5) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		enc_4 = retagged_enc_4
 		return enc_4, nil
 	case PSSubscriberState5ChoicePsPDPActiveReachableForPaging:
-		enc_5, err := MarshalBERPDPContextInfoList5(v.PsPDPActiveReachableForPaging, ber.ChildEncodeOptions(opts, "ps-PDP-ActiveReachableForPaging")...)
+		enc_5, err := MarshalBERPDPContextInfoList5(v.PsPDPActiveReachableForPaging, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "ps-PDP-ActiveReachableForPaging"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding ps-PDP-ActiveReachableForPaging: %w", err)
 		}
@@ -67377,7 +69089,7 @@ func (v *PSSubscriberState5) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		if reconstructionErr != nil {
 			return reconstructionErr
 		}
-		dec, unmErr := UnmarshalBERPDPContextInfoList5(reconstructed, ber.ChildDecodeOptions(opts, "ps-PDP-ActiveNotReachableForPaging")...)
+		dec, unmErr := UnmarshalBERPDPContextInfoList5(reconstructed, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "ps-PDP-ActiveNotReachableForPaging"))...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding ps-PDP-ActiveNotReachableForPaging: %w", unmErr)
 		}
@@ -67397,7 +69109,7 @@ func (v *PSSubscriberState5) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		if reconstructionErr != nil {
 			return reconstructionErr
 		}
-		dec, unmErr := UnmarshalBERPDPContextInfoList5(reconstructed, ber.ChildDecodeOptions(opts, "ps-PDP-ActiveReachableForPaging")...)
+		dec, unmErr := UnmarshalBERPDPContextInfoList5(reconstructed, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "ps-PDP-ActiveReachableForPaging"))...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding ps-PDP-ActiveReachableForPaging: %w", unmErr)
 		}
@@ -67445,7 +69157,7 @@ func MarshalBERPDPContextInfoList5(collection *PDPContextInfoList5, opts ...ber.
 func marshalBERPDPContextInfoList5(collection *PDPContextInfoList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(opts, "PDPContextInfoList5", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "PDP-ContextInfoList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -67467,7 +69179,7 @@ func MarshalDERPDPContextInfoList5(collection *PDPContextInfoList5) ([]byte, err
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(nil, "PDPContextInfoList5", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "PDP-ContextInfoList", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -67525,7 +69237,7 @@ func UnmarshalBERPDPContextInfoList5(data []byte, opts ...ber.DecodeOption) (ret
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 50 {
-		if constraintErr := ber.CheckDecodedLength(opts, "PDPContextInfoList5", "SIZE (1..50)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "PDP-ContextInfoList", "SIZE (1..50)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -68031,12 +69743,18 @@ func (v *PDPContextInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extpdpaddress...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 29) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 28) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 27) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 26) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 25) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -68522,6 +70240,16 @@ func (v *PDPContextInfo5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 29) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 28) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 27) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 26) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 25) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -69613,12 +71341,18 @@ func (v *AnyTimeInterrogationArg5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -69688,6 +71422,16 @@ func (v *AnyTimeInterrogationArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -69929,12 +71673,18 @@ func (v *AnyTimeInterrogationRes5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -69962,6 +71712,16 @@ func (v *AnyTimeInterrogationRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -70177,12 +71937,18 @@ func (v *AnyTimeSubscriptionInterrogationArg5) marshalBER(opts ...ber.EncodeOpti
 		children = append(children, enc_longftnsupported...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -70261,6 +72027,16 @@ func (v *AnyTimeSubscriptionInterrogationArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -70571,7 +72347,7 @@ func (v *AnyTimeSubscriptionInterrogationRes5) marshalBER(opts ...ber.EncodeOpti
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedVLRCAMELPhases.Bytes, v.SupportedVLRCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedVLR-CAMEL-Phases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedVLRCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -70595,7 +72371,7 @@ func (v *AnyTimeSubscriptionInterrogationRes5) marshalBER(opts ...ber.EncodeOpti
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedSGSNCAMELPhases.Bytes, v.SupportedSGSNCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedSGSN-CAMEL-Phases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedSGSNCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -70631,7 +72407,7 @@ func (v *AnyTimeSubscriptionInterrogationRes5) marshalBER(opts ...ber.EncodeOpti
 		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIsInVLR.Bytes, v.OfferedCamel4CSIsInVLR.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIsInVLR", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.OfferedCamel4CSIsInVLR.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -70655,7 +72431,7 @@ func (v *AnyTimeSubscriptionInterrogationRes5) marshalBER(opts ...ber.EncodeOpti
 		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4CSIsInSGSN.Bytes, v.OfferedCamel4CSIsInSGSN.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIsInSGSN", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.OfferedCamel4CSIsInSGSN.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -70676,7 +72452,7 @@ func (v *AnyTimeSubscriptionInterrogationRes5) marshalBER(opts ...ber.EncodeOpti
 				return nil, constraintErr
 			}
 		}
-		enc_msisdnbslist, err := MarshalBERMSISDNBSList5(v.MsisdnBSList, ber.ChildEncodeOptions(opts, "msisdn-BS-List")...)
+		enc_msisdnbslist, err := MarshalBERMSISDNBSList5(v.MsisdnBSList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "msisdn-BS-List"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding msisdn-BS-List: %w", err)
 		}
@@ -70708,7 +72484,7 @@ func (v *AnyTimeSubscriptionInterrogationRes5) marshalBER(opts ...ber.EncodeOpti
 				return nil, constraintErr
 			}
 		}
-		enc_csgsubscriptiondatalist, err := MarshalBERCSGSubscriptionDataList4(v.CsgSubscriptionDataList, ber.ChildEncodeOptions(opts, "csg-SubscriptionDataList")...)
+		enc_csgsubscriptiondatalist, err := MarshalBERCSGSubscriptionDataList4(v.CsgSubscriptionDataList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "csg-SubscriptionDataList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding csg-SubscriptionDataList: %w", err)
 		}
@@ -70795,12 +72571,18 @@ func (v *AnyTimeSubscriptionInterrogationRes5) marshalBER(opts ...ber.EncodeOpti
 		children = append(children, enc_ectdata...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -70873,7 +72655,7 @@ func (v *AnyTimeSubscriptionInterrogationRes5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedVLRCAMELPhases.Bytes, v.SupportedVLRCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedVLR-CAMEL-Phases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedVLRCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -70900,7 +72682,7 @@ func (v *AnyTimeSubscriptionInterrogationRes5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedSGSNCAMELPhases.Bytes, v.SupportedSGSNCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedSGSN-CAMEL-Phases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedSGSNCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -70939,7 +72721,7 @@ func (v *AnyTimeSubscriptionInterrogationRes5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4CSIsInVLR.Bytes, v.OfferedCamel4CSIsInVLR.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIsInVLR", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.OfferedCamel4CSIsInVLR.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -70966,7 +72748,7 @@ func (v *AnyTimeSubscriptionInterrogationRes5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4CSIsInSGSN.Bytes, v.OfferedCamel4CSIsInSGSN.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4CSIsInSGSN", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.OfferedCamel4CSIsInSGSN.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -71078,6 +72860,16 @@ func (v *AnyTimeSubscriptionInterrogationRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -71442,7 +73234,7 @@ func (v *AnyTimeSubscriptionInterrogationRes5) UnmarshalBER(data []byte, opts ..
 				if reconstructionErr_msisdnbslist != nil {
 					return fmt.Errorf("decoding msisdn-BS-List: %w", reconstructionErr_msisdnbslist)
 				}
-				dec_msisdnbslist, unmErr := UnmarshalBERMSISDNBSList5(reconstructed_msisdnbslist, ber.ChildDecodeOptions(opts, "msisdn-BS-List")...)
+				dec_msisdnbslist, unmErr := UnmarshalBERMSISDNBSList5(reconstructed_msisdnbslist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "msisdn-BS-List"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding msisdn-BS-List: %w", unmErr)
 				}
@@ -71489,7 +73281,7 @@ func (v *AnyTimeSubscriptionInterrogationRes5) UnmarshalBER(data []byte, opts ..
 				if reconstructionErr_csgsubscriptiondatalist != nil {
 					return fmt.Errorf("decoding csg-SubscriptionDataList: %w", reconstructionErr_csgsubscriptiondatalist)
 				}
-				dec_csgsubscriptiondatalist, unmErr := UnmarshalBERCSGSubscriptionDataList4(reconstructed_csgsubscriptiondatalist, ber.ChildDecodeOptions(opts, "csg-SubscriptionDataList")...)
+				dec_csgsubscriptiondatalist, unmErr := UnmarshalBERCSGSubscriptionDataList4(reconstructed_csgsubscriptiondatalist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "csg-SubscriptionDataList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding csg-SubscriptionDataList: %w", unmErr)
 				}
@@ -71731,7 +73523,7 @@ func (v *CallWaitingData4) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 			return nil, constraintErr
 		}
 	}
-	enc_cwfeaturelist, err := MarshalBERExtCwFeatureList4(v.CwFeatureList, ber.ChildEncodeOptions(opts, "cwFeatureList")...)
+	enc_cwfeaturelist, err := MarshalBERExtCwFeatureList4(v.CwFeatureList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "cwFeatureList"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding cwFeatureList: %w", err)
 	}
@@ -71766,12 +73558,18 @@ func (v *CallWaitingData4) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_notificationtocse...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -71814,6 +73612,16 @@ func (v *CallWaitingData4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -71881,7 +73689,7 @@ func (v *CallWaitingData4) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if reconstructionErr_cwfeaturelist != nil {
 		return fmt.Errorf("decoding cwFeatureList: %w", reconstructionErr_cwfeaturelist)
 	}
-	dec_cwfeaturelist, unmErr := UnmarshalBERExtCwFeatureList4(reconstructed_cwfeaturelist, ber.ChildDecodeOptions(opts, "cwFeatureList")...)
+	dec_cwfeaturelist, unmErr := UnmarshalBERExtCwFeatureList4(reconstructed_cwfeaturelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "cwFeatureList"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding cwFeatureList: %w", unmErr)
 	}
@@ -71986,7 +73794,7 @@ func MarshalBERExtCwFeatureList4(collection *ExtCwFeatureList4, opts ...ber.Enco
 func marshalBERExtCwFeatureList4(collection *ExtCwFeatureList4, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := ber.CheckEncodedLength(opts, "ExtCwFeatureList4", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "Ext-CwFeatureList", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -72008,7 +73816,7 @@ func MarshalDERExtCwFeatureList4(collection *ExtCwFeatureList4) ([]byte, error) 
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := ber.CheckEncodedLength(nil, "ExtCwFeatureList4", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "Ext-CwFeatureList", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -72066,7 +73874,7 @@ func UnmarshalBERExtCwFeatureList4(data []byte, opts ...ber.DecodeOption) (retur
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 32 {
-		if constraintErr := ber.CheckDecodedLength(opts, "ExtCwFeatureList4", "SIZE (1..32)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "Ext-CwFeatureList", "SIZE (1..32)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -72368,12 +74176,18 @@ func (v *ClipData4) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_notificationtocse...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -72425,6 +74239,16 @@ func (v *ClipData4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -72653,12 +74477,18 @@ func (v *ClirData4) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_notificationtocse...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -72712,6 +74542,16 @@ func (v *ClirData4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -72926,12 +74766,18 @@ func (v *CallHoldData4) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_notificationtocse...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -72971,6 +74817,16 @@ func (v *CallHoldData4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -73152,12 +75008,18 @@ func (v *EctData4) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_notificationtocse...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -73197,6 +75059,16 @@ func (v *EctData4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -73491,12 +75363,18 @@ func (v *RequestedSubscriptionInfo5) marshalBER(opts ...ber.EncodeOption) ([]byt
 		children = append(children, enc_ectinfo...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -73649,6 +75527,16 @@ func (v *RequestedSubscriptionInfo5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -74123,7 +76011,7 @@ func MarshalBERMSISDNBSList5(collection *MSISDNBSList5, opts ...ber.EncodeOption
 func marshalBERMSISDNBSList5(collection *MSISDNBSList5, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(opts, "MSISDNBSList5", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "MSISDN-BS-List", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -74145,7 +76033,7 @@ func MarshalDERMSISDNBSList5(collection *MSISDNBSList5) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedLength(nil, "MSISDNBSList5", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "MSISDN-BS-List", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -74203,7 +76091,7 @@ func UnmarshalBERMSISDNBSList5(data []byte, opts ...ber.DecodeOption) (returnVal
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 50 {
-		if constraintErr := ber.CheckDecodedLength(opts, "MSISDNBSList5", "SIZE (1..50)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "MSISDN-BS-List", "SIZE (1..50)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -74259,7 +76147,7 @@ func (v *MSISDNBS5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_basicservicelist, err := MarshalBERBasicServiceList5(v.BasicServiceList, ber.ChildEncodeOptions(opts, "basicServiceList")...)
+		enc_basicservicelist, err := MarshalBERBasicServiceList5(v.BasicServiceList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "basicServiceList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicServiceList: %w", err)
 		}
@@ -74298,12 +76186,18 @@ func (v *MSISDNBS5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -74363,6 +76257,16 @@ func (v *MSISDNBS5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -74450,7 +76354,7 @@ func (v *MSISDNBS5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 				if reconstructionErr_basicservicelist != nil {
 					return fmt.Errorf("decoding basicServiceList: %w", reconstructionErr_basicservicelist)
 				}
-				dec_basicservicelist, unmErr := UnmarshalBERBasicServiceList5(reconstructed_basicservicelist, ber.ChildDecodeOptions(opts, "basicServiceList")...)
+				dec_basicservicelist, unmErr := UnmarshalBERBasicServiceList5(reconstructed_basicservicelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "basicServiceList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding basicServiceList: %w", unmErr)
 				}
@@ -74573,7 +76477,7 @@ func (v *CallForwardingData5) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 			return nil, constraintErr
 		}
 	}
-	enc_forwardingfeaturelist, err := MarshalBERExtForwFeatureList5(v.ForwardingFeatureList, ber.ChildEncodeOptions(opts, "forwardingFeatureList")...)
+	enc_forwardingfeaturelist, err := MarshalBERExtForwFeatureList5(v.ForwardingFeatureList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "forwardingFeatureList"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding forwardingFeatureList: %w", err)
 	}
@@ -74595,12 +76499,18 @@ func (v *CallForwardingData5) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -74645,6 +76555,16 @@ func (v *CallForwardingData5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -74712,7 +76632,7 @@ func (v *CallForwardingData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 			v.ForwardingFeatureListIndef_ = true
 		}
 	}
-	dec_forwardingfeaturelist, unmErr := UnmarshalBERExtForwFeatureList5(tlv_forwardingfeaturelist, ber.ChildDecodeOptions(opts, "forwardingFeatureList")...)
+	dec_forwardingfeaturelist, unmErr := UnmarshalBERExtForwFeatureList5(tlv_forwardingfeaturelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "forwardingFeatureList"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding forwardingFeatureList: %w", unmErr)
 	}
@@ -74838,22 +76758,22 @@ func (v *CallBarringData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 			return nil, constraintErr
 		}
 	}
-	enc_callbarringfeaturelist, err := MarshalBERExtCallBarFeatureList5(v.CallBarringFeatureList, ber.ChildEncodeOptions(opts, "callBarringFeatureList")...)
+	enc_callbarringfeaturelist, err := MarshalBERExtCallBarFeatureList5(v.CallBarringFeatureList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "callBarringFeatureList"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding callBarringFeatureList: %w", err)
 	}
 	children = append(children, enc_callbarringfeaturelist...)
 	if v.Password != nil {
-		for _, character := range *v.Password {
-			if !(character >= '0' && character <= '9') {
-				if constraintErr := ber.CheckEncodedValue(opts, "password", "FROM permitted alphabet", fmt.Sprintf("%q", character)); constraintErr != nil {
+		for _, character := range []byte(*v.Password) {
+			if !(((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) && (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "password", "FROM permitted alphabet", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
 					return nil, constraintErr
 				}
 				break
 			}
 		}
-		if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
-			if constraintErr := ber.CheckEncodedLength(opts, "password", "SIZE (4)", len([]rune(*v.Password))); constraintErr != nil {
+		if len(*v.Password) < 4 || len(*v.Password) > 4 {
+			if constraintErr := ber.CheckEncodedLength(opts, "password", "SIZE (4)", len(*v.Password)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -74884,12 +76804,18 @@ func (v *CallBarringData5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 18)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -74916,16 +76842,16 @@ func (v *CallBarringData5) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_callbarringfeaturelist...)
 	if v.Password != nil {
-		for _, character := range *v.Password {
-			if !(character >= '0' && character <= '9') {
-				if constraintErr := ber.CheckEncodedValue(nil, "password", "FROM permitted alphabet", fmt.Sprintf("%q", character)); constraintErr != nil {
+		for _, character := range []byte(*v.Password) {
+			if !(((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) && (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(nil, "password", "FROM permitted alphabet", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
 					return nil, constraintErr
 				}
 				break
 			}
 		}
-		if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
-			if constraintErr := ber.CheckEncodedLength(nil, "password", "SIZE (4)", len([]rune(*v.Password))); constraintErr != nil {
+		if len(*v.Password) < 4 || len(*v.Password) > 4 {
+			if constraintErr := ber.CheckEncodedLength(nil, "password", "SIZE (4)", len(*v.Password)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -74958,6 +76884,16 @@ func (v *CallBarringData5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 18)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -75026,7 +76962,7 @@ func (v *CallBarringData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 			v.CallBarringFeatureListIndef_ = true
 		}
 	}
-	dec_callbarringfeaturelist, unmErr := UnmarshalBERExtCallBarFeatureList5(tlv_callbarringfeaturelist, ber.ChildDecodeOptions(opts, "callBarringFeatureList")...)
+	dec_callbarringfeaturelist, unmErr := UnmarshalBERExtCallBarFeatureList5(tlv_callbarringfeaturelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "callBarringFeatureList"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding callBarringFeatureList: %w", unmErr)
 	}
@@ -75058,16 +76994,16 @@ func (v *CallBarringData5) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				}
 
 				offset += n
-				for _, character := range *v.Password {
-					if !(character >= '0' && character <= '9') {
-						if constraintErr := ber.CheckDecodedValue(opts, "password", "FROM permitted alphabet", fmt.Sprintf("%q", character)); constraintErr != nil {
+				for _, character := range []byte(*v.Password) {
+					if !(((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) && (character >= '0' && character <= '9')) {
+						if constraintErr := ber.CheckDecodedValue(opts, "password", "FROM permitted alphabet", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
 							return constraintErr
 						}
 						break
 					}
 				}
-				if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
-					if constraintErr := ber.CheckDecodedLength(opts, "password", "SIZE (4)", len([]rune(*v.Password))); constraintErr != nil {
+				if len(*v.Password) < 4 || len(*v.Password) > 4 {
+					if constraintErr := ber.CheckDecodedLength(opts, "password", "SIZE (4)", len(*v.Password)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -75219,12 +77155,18 @@ func (v *ODBInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -75256,6 +77198,16 @@ func (v *ODBInfo5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -75444,7 +77396,7 @@ func (v *CAMELSubscriptionInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 				return nil, constraintErr
 			}
 		}
-		enc_obcsmcameltdpcriterialist, err := MarshalBEROBcsmCamelTDPCriteriaList5(v.OBcsmCamelTDPCriteriaList, ber.ChildEncodeOptions(opts, "o-BcsmCamelTDP-CriteriaList")...)
+		enc_obcsmcameltdpcriterialist, err := MarshalBEROBcsmCamelTDPCriteriaList5(v.OBcsmCamelTDPCriteriaList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "o-BcsmCamelTDP-CriteriaList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding o-BcsmCamelTDP-CriteriaList: %w", err)
 		}
@@ -75500,7 +77452,7 @@ func (v *CAMELSubscriptionInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 				return nil, constraintErr
 			}
 		}
-		enc_tbcsmcameltdpcriterialist, err := MarshalBERTBCSMCAMELTDPCriteriaList5(v.TBCSMCAMELTDPCriteriaList, ber.ChildEncodeOptions(opts, "t-BCSM-CAMEL-TDP-CriteriaList")...)
+		enc_tbcsmcameltdpcriterialist, err := MarshalBERTBCSMCAMELTDPCriteriaList5(v.TBCSMCAMELTDPCriteriaList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "t-BCSM-CAMEL-TDP-CriteriaList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding t-BCSM-CAMEL-TDP-CriteriaList: %w", err)
 		}
@@ -75544,7 +77496,7 @@ func (v *CAMELSubscriptionInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 				return nil, constraintErr
 			}
 		}
-		enc_vtbcsmcameltdpcriterialist, err := MarshalBERTBCSMCAMELTDPCriteriaList5(v.VtBCSMCAMELTDPCriteriaList, ber.ChildEncodeOptions(opts, "vt-BCSM-CAMEL-TDP-CriteriaList")...)
+		enc_vtbcsmcameltdpcriterialist, err := MarshalBERTBCSMCAMELTDPCriteriaList5(v.VtBCSMCAMELTDPCriteriaList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "vt-BCSM-CAMEL-TDP-CriteriaList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vt-BCSM-CAMEL-TDP-CriteriaList: %w", err)
 		}
@@ -75657,7 +77609,7 @@ func (v *CAMELSubscriptionInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		if bitStringErr := ber.ValidateBitStringLength(v.SpecificCSIDeletedList.Bytes, v.SpecificCSIDeletedList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "specificCSIDeletedList", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SpecificCSIDeletedList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -75690,7 +77642,7 @@ func (v *CAMELSubscriptionInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 				return nil, constraintErr
 			}
 		}
-		enc_mtsmscameltdpcriterialist, err := MarshalBERMTSmsCAMELTDPCriteriaList5(v.MtSmsCAMELTDPCriteriaList, ber.ChildEncodeOptions(opts, "mt-smsCAMELTDP-CriteriaList")...)
+		enc_mtsmscameltdpcriterialist, err := MarshalBERMTSmsCAMELTDPCriteriaList5(v.MtSmsCAMELTDPCriteriaList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "mt-smsCAMELTDP-CriteriaList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding mt-smsCAMELTDP-CriteriaList: %w", err)
 		}
@@ -75746,7 +77698,7 @@ func (v *CAMELSubscriptionInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 				return nil, constraintErr
 			}
 		}
-		enc_oimbcsmcameltdpcriterialist, err := MarshalBEROBcsmCamelTDPCriteriaList5(v.OIMBcsmCamelTDPCriteriaList, ber.ChildEncodeOptions(opts, "o-IM-BcsmCamelTDP-CriteriaList")...)
+		enc_oimbcsmcameltdpcriterialist, err := MarshalBEROBcsmCamelTDPCriteriaList5(v.OIMBcsmCamelTDPCriteriaList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "o-IM-BcsmCamelTDP-CriteriaList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding o-IM-BcsmCamelTDP-CriteriaList: %w", err)
 		}
@@ -75802,7 +77754,7 @@ func (v *CAMELSubscriptionInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 				return nil, constraintErr
 			}
 		}
-		enc_vtimbcsmcameltdpcriterialist, err := MarshalBERTBCSMCAMELTDPCriteriaList5(v.VtIMBCSMCAMELTDPCriteriaList, ber.ChildEncodeOptions(opts, "vt-IM-BCSM-CAMEL-TDP-CriteriaList")...)
+		enc_vtimbcsmcameltdpcriterialist, err := MarshalBERTBCSMCAMELTDPCriteriaList5(v.VtIMBCSMCAMELTDPCriteriaList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "vt-IM-BCSM-CAMEL-TDP-CriteriaList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding vt-IM-BCSM-CAMEL-TDP-CriteriaList: %w", err)
 		}
@@ -75829,12 +77781,18 @@ func (v *CAMELSubscriptionInfo5) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_vtimbcsmcameltdpcriterialist...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -76036,7 +77994,7 @@ func (v *CAMELSubscriptionInfo5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SpecificCSIDeletedList.Bytes, v.SpecificCSIDeletedList.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "specificCSIDeletedList", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SpecificCSIDeletedList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -76166,6 +78124,16 @@ func (v *CAMELSubscriptionInfo5) MarshalDER() ([]byte, error) {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		children = append(children, ext...)
 	}
 	encoded, setErr := ber.EncodeSequence(children)
@@ -76257,7 +78225,7 @@ func (v *CAMELSubscriptionInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if reconstructionErr_obcsmcameltdpcriterialist != nil {
 					return fmt.Errorf("decoding o-BcsmCamelTDP-CriteriaList: %w", reconstructionErr_obcsmcameltdpcriterialist)
 				}
-				dec_obcsmcameltdpcriterialist, unmErr := UnmarshalBEROBcsmCamelTDPCriteriaList5(reconstructed_obcsmcameltdpcriterialist, ber.ChildDecodeOptions(opts, "o-BcsmCamelTDP-CriteriaList")...)
+				dec_obcsmcameltdpcriterialist, unmErr := UnmarshalBEROBcsmCamelTDPCriteriaList5(reconstructed_obcsmcameltdpcriterialist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "o-BcsmCamelTDP-CriteriaList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding o-BcsmCamelTDP-CriteriaList: %w", unmErr)
 				}
@@ -76365,7 +78333,7 @@ func (v *CAMELSubscriptionInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if reconstructionErr_tbcsmcameltdpcriterialist != nil {
 					return fmt.Errorf("decoding t-BCSM-CAMEL-TDP-CriteriaList: %w", reconstructionErr_tbcsmcameltdpcriterialist)
 				}
-				dec_tbcsmcameltdpcriterialist, unmErr := UnmarshalBERTBCSMCAMELTDPCriteriaList5(reconstructed_tbcsmcameltdpcriterialist, ber.ChildDecodeOptions(opts, "t-BCSM-CAMEL-TDP-CriteriaList")...)
+				dec_tbcsmcameltdpcriterialist, unmErr := UnmarshalBERTBCSMCAMELTDPCriteriaList5(reconstructed_tbcsmcameltdpcriterialist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "t-BCSM-CAMEL-TDP-CriteriaList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding t-BCSM-CAMEL-TDP-CriteriaList: %w", unmErr)
 				}
@@ -76443,7 +78411,7 @@ func (v *CAMELSubscriptionInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if reconstructionErr_vtbcsmcameltdpcriterialist != nil {
 					return fmt.Errorf("decoding vt-BCSM-CAMEL-TDP-CriteriaList: %w", reconstructionErr_vtbcsmcameltdpcriterialist)
 				}
-				dec_vtbcsmcameltdpcriterialist, unmErr := UnmarshalBERTBCSMCAMELTDPCriteriaList5(reconstructed_vtbcsmcameltdpcriterialist, ber.ChildDecodeOptions(opts, "vt-BCSM-CAMEL-TDP-CriteriaList")...)
+				dec_vtbcsmcameltdpcriterialist, unmErr := UnmarshalBERTBCSMCAMELTDPCriteriaList5(reconstructed_vtbcsmcameltdpcriterialist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "vt-BCSM-CAMEL-TDP-CriteriaList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding vt-BCSM-CAMEL-TDP-CriteriaList: %w", unmErr)
 				}
@@ -76761,7 +78729,7 @@ func (v *CAMELSubscriptionInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if reconstructionErr_mtsmscameltdpcriterialist != nil {
 					return fmt.Errorf("decoding mt-smsCAMELTDP-CriteriaList: %w", reconstructionErr_mtsmscameltdpcriterialist)
 				}
-				dec_mtsmscameltdpcriterialist, unmErr := UnmarshalBERMTSmsCAMELTDPCriteriaList5(reconstructed_mtsmscameltdpcriterialist, ber.ChildDecodeOptions(opts, "mt-smsCAMELTDP-CriteriaList")...)
+				dec_mtsmscameltdpcriterialist, unmErr := UnmarshalBERMTSmsCAMELTDPCriteriaList5(reconstructed_mtsmscameltdpcriterialist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "mt-smsCAMELTDP-CriteriaList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding mt-smsCAMELTDP-CriteriaList: %w", unmErr)
 				}
@@ -76869,7 +78837,7 @@ func (v *CAMELSubscriptionInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if reconstructionErr_oimbcsmcameltdpcriterialist != nil {
 					return fmt.Errorf("decoding o-IM-BcsmCamelTDP-CriteriaList: %w", reconstructionErr_oimbcsmcameltdpcriterialist)
 				}
-				dec_oimbcsmcameltdpcriterialist, unmErr := UnmarshalBEROBcsmCamelTDPCriteriaList5(reconstructed_oimbcsmcameltdpcriterialist, ber.ChildDecodeOptions(opts, "o-IM-BcsmCamelTDP-CriteriaList")...)
+				dec_oimbcsmcameltdpcriterialist, unmErr := UnmarshalBEROBcsmCamelTDPCriteriaList5(reconstructed_oimbcsmcameltdpcriterialist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "o-IM-BcsmCamelTDP-CriteriaList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding o-IM-BcsmCamelTDP-CriteriaList: %w", unmErr)
 				}
@@ -76977,7 +78945,7 @@ func (v *CAMELSubscriptionInfo5) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if reconstructionErr_vtimbcsmcameltdpcriterialist != nil {
 					return fmt.Errorf("decoding vt-IM-BCSM-CAMEL-TDP-CriteriaList: %w", reconstructionErr_vtimbcsmcameltdpcriterialist)
 				}
-				dec_vtimbcsmcameltdpcriterialist, unmErr := UnmarshalBERTBCSMCAMELTDPCriteriaList5(reconstructed_vtimbcsmcameltdpcriterialist, ber.ChildDecodeOptions(opts, "vt-IM-BCSM-CAMEL-TDP-CriteriaList")...)
+				dec_vtimbcsmcameltdpcriterialist, unmErr := UnmarshalBERTBCSMCAMELTDPCriteriaList5(reconstructed_vtimbcsmcameltdpcriterialist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "vt-IM-BCSM-CAMEL-TDP-CriteriaList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding vt-IM-BCSM-CAMEL-TDP-CriteriaList: %w", unmErr)
 				}
@@ -77183,7 +79151,7 @@ func (v *AnyTimeModificationArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if bitStringErr := ber.ValidateBitStringLength(v.ActivationRequestForUEReachability.Bytes, v.ActivationRequestForUEReachability.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "activationRequestForUE-reachability", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.ActivationRequestForUEReachability.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -77271,12 +79239,18 @@ func (v *AnyTimeModificationArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		children = append(children, enc_modificationrequestforectdata...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -77414,7 +79388,7 @@ func (v *AnyTimeModificationArg5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ActivationRequestForUEReachability.Bytes, v.ActivationRequestForUEReachability.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "activationRequestForUE-reachability", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.ActivationRequestForUEReachability.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -77504,6 +79478,16 @@ func (v *AnyTimeModificationArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -78165,12 +80149,18 @@ func (v *ModificationRequestForCWInfo4) marshalBER(opts ...ber.EncodeOption) ([]
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -78243,6 +80233,16 @@ func (v *ModificationRequestForCWInfo4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -78514,12 +80514,18 @@ func (v *ModificationRequestForCHInfo4) marshalBER(opts ...ber.EncodeOption) ([]
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -78578,6 +80584,16 @@ func (v *ModificationRequestForCHInfo4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -78815,12 +80831,18 @@ func (v *ModificationRequestForECTInfo4) marshalBER(opts ...ber.EncodeOption) ([
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -78879,6 +80901,16 @@ func (v *ModificationRequestForECTInfo4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -79131,12 +81163,18 @@ func (v *ModificationRequestForCLIRInfo4) marshalBER(opts ...ber.EncodeOption) (
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -79209,6 +81247,16 @@ func (v *ModificationRequestForCLIRInfo4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -79492,12 +81540,18 @@ func (v *ModificationRequestForCLIPInfo4) marshalBER(opts ...ber.EncodeOption) (
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -79570,6 +81624,16 @@ func (v *ModificationRequestForCLIPInfo4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -79822,12 +81886,18 @@ func (v *ModificationRequestForCSG4) marshalBER(opts ...ber.EncodeOption) ([]byt
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -79869,6 +81939,16 @@ func (v *ModificationRequestForCSG4) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -80159,12 +82239,18 @@ func (v *AnyTimeModificationRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		children = append(children, enc_servicecentreaddress...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -80307,6 +82393,16 @@ func (v *AnyTimeModificationRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -80835,12 +82931,18 @@ func (v *ModificationRequestForCFInfo5) marshalBER(opts ...ber.EncodeOption) ([]
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -80976,6 +83078,16 @@ func (v *ModificationRequestForCFInfo5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -81380,16 +83492,16 @@ func (v *ModificationRequestForCBInfo5) marshalBER(opts ...ber.EncodeOption) ([]
 		children = append(children, enc_ssstatus...)
 	}
 	if v.Password != nil {
-		for _, character := range *v.Password {
-			if !(character >= '0' && character <= '9') {
-				if constraintErr := ber.CheckEncodedValue(opts, "password", "FROM permitted alphabet", fmt.Sprintf("%q", character)); constraintErr != nil {
+		for _, character := range []byte(*v.Password) {
+			if !(((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) && (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "password", "FROM permitted alphabet", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
 					return nil, constraintErr
 				}
 				break
 			}
 		}
-		if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
-			if constraintErr := ber.CheckEncodedLength(opts, "password", "SIZE (4)", len([]rune(*v.Password))); constraintErr != nil {
+		if len(*v.Password) < 4 || len(*v.Password) > 4 {
+			if constraintErr := ber.CheckEncodedLength(opts, "password", "SIZE (4)", len(*v.Password)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -81445,12 +83557,18 @@ func (v *ModificationRequestForCBInfo5) marshalBER(opts ...ber.EncodeOption) ([]
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -81510,16 +83628,16 @@ func (v *ModificationRequestForCBInfo5) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ssstatus...)
 	}
 	if v.Password != nil {
-		for _, character := range *v.Password {
-			if !(character >= '0' && character <= '9') {
-				if constraintErr := ber.CheckEncodedValue(nil, "password", "FROM permitted alphabet", fmt.Sprintf("%q", character)); constraintErr != nil {
+		for _, character := range []byte(*v.Password) {
+			if !(((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) && (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(nil, "password", "FROM permitted alphabet", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
 					return nil, constraintErr
 				}
 				break
 			}
 		}
-		if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
-			if constraintErr := ber.CheckEncodedLength(nil, "password", "SIZE (4)", len([]rune(*v.Password))); constraintErr != nil {
+		if len(*v.Password) < 4 || len(*v.Password) > 4 {
+			if constraintErr := ber.CheckEncodedLength(nil, "password", "SIZE (4)", len(*v.Password)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -81577,6 +83695,16 @@ func (v *ModificationRequestForCBInfo5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -81743,16 +83871,16 @@ func (v *ModificationRequestForCBInfo5) UnmarshalBER(data []byte, opts ...ber.De
 				}
 
 				offset += n_password
-				for _, character := range *v.Password {
-					if !(character >= '0' && character <= '9') {
-						if constraintErr := ber.CheckDecodedValue(opts, "password", "FROM permitted alphabet", fmt.Sprintf("%q", character)); constraintErr != nil {
+				for _, character := range []byte(*v.Password) {
+					if !(((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) && (character >= '0' && character <= '9')) {
+						if constraintErr := ber.CheckDecodedValue(opts, "password", "FROM permitted alphabet", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
 							return constraintErr
 						}
 						break
 					}
 				}
-				if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
-					if constraintErr := ber.CheckDecodedLength(opts, "password", "SIZE (4)", len([]rune(*v.Password))); constraintErr != nil {
+				if len(*v.Password) < 4 || len(*v.Password) > 4 {
+					if constraintErr := ber.CheckDecodedLength(opts, "password", "SIZE (4)", len(*v.Password)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -81947,12 +84075,18 @@ func (v *ModificationRequestForODBData5) marshalBER(opts ...ber.EncodeOption) ([
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -82006,6 +84140,16 @@ func (v *ModificationRequestForODBData5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -82260,12 +84404,18 @@ func (v *ModificationRequestForCSI5) marshalBER(opts ...ber.EncodeOption) ([]byt
 		children = append(children, enc_additionalrequestedcamelsubscriptioninfo...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -82342,6 +84492,16 @@ func (v *ModificationRequestForCSI5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -82624,12 +84784,18 @@ func (v *ModificationRequestForIPSMGWData5) marshalBER(opts ...ber.EncodeOption)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -82671,6 +84837,16 @@ func (v *ModificationRequestForIPSMGWData5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -82929,7 +85105,7 @@ func (v *NoteSubscriberDataModifiedArg5) marshalBER(opts ...ber.EncodeOption) ([
 		if bitStringErr := ber.ValidateBitStringLength(v.UeReachable.Bytes, v.UeReachable.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ue-reachable", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.UeReachable.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -82950,7 +85126,7 @@ func (v *NoteSubscriberDataModifiedArg5) marshalBER(opts ...ber.EncodeOption) ([
 				return nil, constraintErr
 			}
 		}
-		enc_csgsubscriptiondatalist, err := MarshalBERCSGSubscriptionDataList4(v.CsgSubscriptionDataList, ber.ChildEncodeOptions(opts, "csg-SubscriptionDataList")...)
+		enc_csgsubscriptiondatalist, err := MarshalBERCSGSubscriptionDataList4(v.CsgSubscriptionDataList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "csg-SubscriptionDataList"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding csg-SubscriptionDataList: %w", err)
 		}
@@ -83037,12 +85213,18 @@ func (v *NoteSubscriberDataModifiedArg5) marshalBER(opts ...ber.EncodeOption) ([
 		children = append(children, enc_ectdata...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -83156,7 +85338,7 @@ func (v *NoteSubscriberDataModifiedArg5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.UeReachable.Bytes, v.UeReachable.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "ue-reachable", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.UeReachable.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -83251,6 +85433,16 @@ func (v *NoteSubscriberDataModifiedArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -83575,7 +85767,7 @@ func (v *NoteSubscriberDataModifiedArg5) UnmarshalBER(data []byte, opts ...ber.D
 				if reconstructionErr_csgsubscriptiondatalist != nil {
 					return fmt.Errorf("decoding csg-SubscriptionDataList: %w", reconstructionErr_csgsubscriptiondatalist)
 				}
-				dec_csgsubscriptiondatalist, unmErr := UnmarshalBERCSGSubscriptionDataList4(reconstructed_csgsubscriptiondatalist, ber.ChildDecodeOptions(opts, "csg-SubscriptionDataList")...)
+				dec_csgsubscriptiondatalist, unmErr := UnmarshalBERCSGSubscriptionDataList4(reconstructed_csgsubscriptiondatalist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "csg-SubscriptionDataList"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding csg-SubscriptionDataList: %w", unmErr)
 				}
@@ -83817,12 +86009,18 @@ func (v *NoteSubscriberDataModifiedRes5) marshalBER(opts ...ber.EncodeOption) ([
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -83845,6 +86043,16 @@ func (v *NoteSubscriberDataModifiedRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -84049,7 +86257,7 @@ func (v *NoteMMEventArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SupportedCAMELPhases.Bytes, v.SupportedCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedCAMELPhases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -84097,7 +86305,7 @@ func (v *NoteMMEventArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.OfferedCamel4Functionalities.Bytes, v.OfferedCamel4Functionalities.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4Functionalities", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.OfferedCamel4Functionalities.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -84113,12 +86321,18 @@ func (v *NoteMMEventArg5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_offeredcamel4functionalities...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -84212,7 +86426,7 @@ func (v *NoteMMEventArg5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SupportedCAMELPhases.Bytes, v.SupportedCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "supportedCAMELPhases", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SupportedCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -84263,7 +86477,7 @@ func (v *NoteMMEventArg5) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.OfferedCamel4Functionalities.Bytes, v.OfferedCamel4Functionalities.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "offeredCamel4Functionalities", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.OfferedCamel4Functionalities.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -84281,6 +86495,16 @@ func (v *NoteMMEventArg5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -84677,12 +86901,18 @@ func (v *NoteMMEventRes5) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -84705,6 +86935,16 @@ func (v *NoteMMEventRes5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -85034,7 +87274,7 @@ func (v *ExtForwardingInfoForCSE5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 			return nil, constraintErr
 		}
 	}
-	enc_forwardingfeaturelist, err := MarshalBERExtForwFeatureList5(v.ForwardingFeatureList, ber.ChildEncodeOptions(opts, "forwardingFeatureList")...)
+	enc_forwardingfeaturelist, err := MarshalBERExtForwFeatureList5(v.ForwardingFeatureList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "forwardingFeatureList"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding forwardingFeatureList: %w", err)
 	}
@@ -85081,12 +87321,18 @@ func (v *ExtForwardingInfoForCSE5) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -85156,6 +87402,16 @@ func (v *ExtForwardingInfoForCSE5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -85254,7 +87510,7 @@ func (v *ExtForwardingInfoForCSE5) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if reconstructionErr_forwardingfeaturelist != nil {
 		return fmt.Errorf("decoding forwardingFeatureList: %w", reconstructionErr_forwardingfeaturelist)
 	}
-	dec_forwardingfeaturelist, unmErr := UnmarshalBERExtForwFeatureList5(reconstructed_forwardingfeaturelist, ber.ChildDecodeOptions(opts, "forwardingFeatureList")...)
+	dec_forwardingfeaturelist, unmErr := UnmarshalBERExtForwFeatureList5(reconstructed_forwardingfeaturelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "forwardingFeatureList"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding forwardingFeatureList: %w", unmErr)
 	}
@@ -85415,7 +87671,7 @@ func (v *ExtCallBarringInfoForCSE5) marshalBER(opts ...ber.EncodeOption) ([]byte
 			return nil, constraintErr
 		}
 	}
-	enc_callbarringfeaturelist, err := MarshalBERExtCallBarFeatureList5(v.CallBarringFeatureList, ber.ChildEncodeOptions(opts, "callBarringFeatureList")...)
+	enc_callbarringfeaturelist, err := MarshalBERExtCallBarFeatureList5(v.CallBarringFeatureList, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "callBarringFeatureList"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding callBarringFeatureList: %w", err)
 	}
@@ -85441,16 +87697,16 @@ func (v *ExtCallBarringInfoForCSE5) marshalBER(opts ...ber.EncodeOption) ([]byte
 	}
 	children = append(children, enc_callbarringfeaturelist...)
 	if v.Password != nil {
-		for _, character := range *v.Password {
-			if !(character >= '0' && character <= '9') {
-				if constraintErr := ber.CheckEncodedValue(opts, "password", "FROM permitted alphabet", fmt.Sprintf("%q", character)); constraintErr != nil {
+		for _, character := range []byte(*v.Password) {
+			if !(((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) && (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "password", "FROM permitted alphabet", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
 					return nil, constraintErr
 				}
 				break
 			}
 		}
-		if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
-			if constraintErr := ber.CheckEncodedLength(opts, "password", "SIZE (4)", len([]rune(*v.Password))); constraintErr != nil {
+		if len(*v.Password) < 4 || len(*v.Password) > 4 {
+			if constraintErr := ber.CheckEncodedLength(opts, "password", "SIZE (4)", len(*v.Password)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -85501,12 +87757,18 @@ func (v *ExtCallBarringInfoForCSE5) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
+		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
 		}
 		if n != len(ext) {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, ber.ErrExtraData)
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -85553,16 +87815,16 @@ func (v *ExtCallBarringInfoForCSE5) MarshalDER() ([]byte, error) {
 	enc_callbarringfeaturelist = retagged_enc_callbarringfeaturelist
 	children = append(children, enc_callbarringfeaturelist...)
 	if v.Password != nil {
-		for _, character := range *v.Password {
-			if !(character >= '0' && character <= '9') {
-				if constraintErr := ber.CheckEncodedValue(nil, "password", "FROM permitted alphabet", fmt.Sprintf("%q", character)); constraintErr != nil {
+		for _, character := range []byte(*v.Password) {
+			if !(((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) && (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(nil, "password", "FROM permitted alphabet", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
 					return nil, constraintErr
 				}
 				break
 			}
 		}
-		if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
-			if constraintErr := ber.CheckEncodedLength(nil, "password", "SIZE (4)", len([]rune(*v.Password))); constraintErr != nil {
+		if len(*v.Password) < 4 || len(*v.Password) > 4 {
+			if constraintErr := ber.CheckEncodedLength(nil, "password", "SIZE (4)", len(*v.Password)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -85615,6 +87877,16 @@ func (v *ExtCallBarringInfoForCSE5) MarshalDER() ([]byte, error) {
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
+		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
+		if extErr != nil {
+			return nil, extErr
+		}
+		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
+		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
+			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		children = append(children, ext...)
 	}
@@ -85713,7 +87985,7 @@ func (v *ExtCallBarringInfoForCSE5) UnmarshalBER(data []byte, opts ...ber.Decode
 	if reconstructionErr_callbarringfeaturelist != nil {
 		return fmt.Errorf("decoding callBarringFeatureList: %w", reconstructionErr_callbarringfeaturelist)
 	}
-	dec_callbarringfeaturelist, unmErr := UnmarshalBERExtCallBarFeatureList5(reconstructed_callbarringfeaturelist, ber.ChildDecodeOptions(opts, "callBarringFeatureList")...)
+	dec_callbarringfeaturelist, unmErr := UnmarshalBERExtCallBarFeatureList5(reconstructed_callbarringfeaturelist, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "callBarringFeatureList"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding callBarringFeatureList: %w", unmErr)
 	}
@@ -85764,16 +88036,16 @@ func (v *ExtCallBarringInfoForCSE5) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_password
-				for _, character := range *v.Password {
-					if !(character >= '0' && character <= '9') {
-						if constraintErr := ber.CheckDecodedValue(opts, "password", "FROM permitted alphabet", fmt.Sprintf("%q", character)); constraintErr != nil {
+				for _, character := range []byte(*v.Password) {
+					if !(((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) && (character >= '0' && character <= '9')) {
+						if constraintErr := ber.CheckDecodedValue(opts, "password", "FROM permitted alphabet", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
 							return constraintErr
 						}
 						break
 					}
 				}
-				if len([]rune(*v.Password)) < 4 || len([]rune(*v.Password)) > 4 {
-					if constraintErr := ber.CheckDecodedLength(opts, "password", "SIZE (4)", len([]rune(*v.Password))); constraintErr != nil {
+				if len(*v.Password) < 4 || len(*v.Password) > 4 {
+					if constraintErr := ber.CheckDecodedLength(opts, "password", "SIZE (4)", len(*v.Password)); constraintErr != nil {
 						return constraintErr
 					}
 				}

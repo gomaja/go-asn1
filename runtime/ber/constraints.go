@@ -33,9 +33,10 @@ func (e *ConstraintError) Error() string {
 type EncodeOption interface{ applyEncode(*encodeConfig) error }
 
 type encodeConfig struct {
-	tolerant   bool
-	violations *ViolationLog
-	path       string
+	tolerant              bool
+	violations            *ViolationLog
+	path                  string
+	collectionSizeChecked bool
 }
 
 // ToleranceOption is the single opt-in policy shared by generated BER
@@ -219,7 +220,11 @@ func checkDecodedConstraint(options []DecodeOption, violation ConstraintViolatio
 		return err
 	}
 	if config.path != "" {
-		violation.Path = strings.Join([]string{config.path, violation.Path}, ".")
+		if violation.Path == "" {
+			violation.Path = config.path
+		} else {
+			violation.Path = strings.Join([]string{config.path, violation.Path}, ".")
+		}
 	}
 	if !config.tolerant {
 		return &ConstraintError{violation}
@@ -245,7 +250,11 @@ func checkEncodedConstraint(options []EncodeOption, violation ConstraintViolatio
 		return err
 	}
 	if config.path != "" {
-		violation.Path = strings.Join([]string{config.path, violation.Path}, ".")
+		if violation.Path == "" {
+			violation.Path = config.path
+		} else {
+			violation.Path = strings.Join([]string{config.path, violation.Path}, ".")
+		}
 	}
 	if config.tolerant {
 		config.violations.append(violation)
@@ -257,6 +266,7 @@ func checkEncodedConstraint(options []EncodeOption, violation ConstraintViolatio
 type constraintPathOption string
 
 func (option constraintPathOption) applyDecode(config *decodeConfig) error {
+	config.collectionSizeChecked = false
 	if strings.Contains(string(option), ".") || option == "" {
 		return fmt.Errorf("%w: invalid BER constraint path component", ErrInvalidValue)
 	}
@@ -269,6 +279,7 @@ func (option constraintPathOption) applyDecode(config *decodeConfig) error {
 }
 
 func (option constraintPathOption) applyEncode(config *encodeConfig) error {
+	config.collectionSizeChecked = false
 	if strings.Contains(string(option), ".") || option == "" {
 		return fmt.Errorf("%w: invalid BER constraint path component", ErrInvalidValue)
 	}
@@ -410,4 +421,60 @@ func PreserveEncodedBER(encoded, original, snapshot []byte, options []EncodeOpti
 		return append([]byte(nil), original...)
 	}
 	return encoded
+}
+
+// A component checks its complete inherited and local SIZE constraints. The
+// child collection omits only its own outer SIZE checks, retaining all element
+// validation. X.680 (02/2021) §§51.5.3–51.5.4, 51.8.4.
+// A new Child*Options path resets this flag so nested elements check their SIZE.
+type parentCollectionSizeOption struct{}
+
+func (parentCollectionSizeOption) applyDecode(config *decodeConfig) error {
+	config.collectionSizeChecked = true
+	return nil
+}
+func (parentCollectionSizeOption) applyEncode(config *encodeConfig) error {
+	config.collectionSizeChecked = true
+	return nil
+}
+
+// ParentCollectionSizeDecodeOptions marks a child whose parent checks its SIZE.
+func ParentCollectionSizeDecodeOptions(options []DecodeOption) []DecodeOption {
+	return append(append([]DecodeOption(nil), options...), parentCollectionSizeOption{})
+}
+
+// ParentCollectionSizeEncodeOptions marks a child whose parent checks its SIZE.
+func ParentCollectionSizeEncodeOptions(options []EncodeOption) []EncodeOption {
+	return append(append([]EncodeOption(nil), options...), parentCollectionSizeOption{})
+}
+
+// CheckDecodedCollectionLength reports a standalone assignment name only at
+// the root. Nested collections use the existing ASN.1 component/element path.
+func CheckDecodedCollectionLength(options []DecodeOption, assignment, constraint string, observed int) error {
+	config, err := decodeOptions(options)
+	if err != nil {
+		return err
+	}
+	if config.collectionSizeChecked {
+		return nil
+	}
+	if config.path != "" {
+		assignment = ""
+	}
+	return CheckDecodedLength(options, assignment, constraint, observed)
+}
+
+// CheckEncodedCollectionLength is the encoder counterpart.
+func CheckEncodedCollectionLength(options []EncodeOption, assignment, constraint string, observed int) error {
+	config, err := encodeOptions(options)
+	if err != nil {
+		return err
+	}
+	if config.collectionSizeChecked {
+		return nil
+	}
+	if config.path != "" {
+		assignment = ""
+	}
+	return CheckEncodedLength(options, assignment, constraint, observed)
 }

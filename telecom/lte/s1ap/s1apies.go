@@ -37263,7 +37263,7 @@ func (v *SynchronisationInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.AggressoreCGIList != nil {
-		if err := per.EncodeCollection(bb, int64(len(v.AggressoreCGIList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_aggressorecgilist, fragmentLength_aggressorecgilist int64) error {
+		if err := per.EncodeCollection(bb, int64(len(v.AggressoreCGIList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_aggressorecgilist, fragmentLength_aggressorecgilist int64) error {
 			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
 			if fragmentOffset_aggressorecgilist < 0 || fragmentOffset_aggressorecgilist > int64(len(v.AggressoreCGIList)) || fragmentLength_aggressorecgilist < 0 || fragmentLength_aggressorecgilist > int64(len(v.AggressoreCGIList[fragmentOffset_aggressorecgilist:])) {
 				return fmt.Errorf("collection fragment outside value")
@@ -37401,7 +37401,7 @@ func (v *SynchronisationInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_aggressorecgilist {
 		toleranceMark_aggressorecgilist := bb.EnterComponent("AggressoreCGIList")
 		tmp_aggressorecgilist := make(IEsECGIList, 0)
-		_, errCollection_aggressorecgilist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_aggressorecgilist, fragmentLength_aggressorecgilist int64) error {
+		_, errCollection_aggressorecgilist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_aggressorecgilist, fragmentLength_aggressorecgilist int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1187
 			if fragmentOffset_aggressorecgilist < 0 || fragmentLength_aggressorecgilist < 0 || fragmentLength_aggressorecgilist > int64(^uint(0)>>1) || fragmentOffset_aggressorecgilist > int64(^uint(0)>>1)-fragmentLength_aggressorecgilist {
 				return fmt.Errorf("collection fragment count out of range")

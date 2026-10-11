@@ -34,11 +34,12 @@ type decodeOptionFunc func(*decodeConfig) error
 func (option decodeOptionFunc) applyDecode(config *decodeConfig) error { return option(config) }
 
 type decodeConfig struct {
-	limits     DecodeLimits
-	tolerant   bool
-	violations *ViolationLog
-	path       string
-	form       *berFormState
+	limits                DecodeLimits
+	tolerant              bool
+	violations            *ViolationLog
+	path                  string
+	form                  *berFormState
+	collectionSizeChecked bool
 }
 
 // WithDecodeLimits overrides the nonzero limit fields. Supply the same option
