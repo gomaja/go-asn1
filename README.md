@@ -155,8 +155,20 @@ GSM MAP `Password ::= NumericString (FROM ("0"|"1"|...|"9")) (SIZE (4))`
 checked only its size, so a strict decode of a value whose `Password` is,
 for example, `" 000"` now fails with `*ber.ConstraintError`. The tolerance option admits
 it and records the constraint `FROM permitted alphabet` with the first
-character outside the alphabet, quoted, as the observed value (`' '`). An
-unchanged value then re-encodes as received.
+outside octet in hexadecimal as the observed value (`0x20`). An unchanged
+value re-encodes as received with the tolerance option.
+
+For IA5String, VisibleString, PrintableString and NumericString, `SIZE`
+counts octets: each character occupies one octet (X.690 (02/2021) §8.23.5,
+Table 3; X.680 (02/2021) §51.5.4). Their character repertoires are enforced
+on decode and encode (X.680 (02/2021) §41, Tables 8–10). Strict BER decode
+and BER/DER encode reject an outside octet; tolerant BER records its `0xNN`
+value and retains it for tolerant replay. UTF8String keeps its code-point
+SIZE checks.
+
+A named SEQUENCE OF or SET OF component produces one record per violated
+SIZE constraint. Its path uses the ASN.1 component identifiers, such as
+`rangingSLPPList` or `areaEventReporting.areaList`, without a Go type suffix.
 
 #### Preserved BER forms and DER
 
@@ -248,12 +260,22 @@ unknown extension. For example, every root component of TS 24.080
 `3006810100840100` decodes. The tolerance option admits the TLV and records
 it under a path ending in `ExtData_[0]`, with the constraint
 `SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)` and the tag, for
-example `[CONTEXT 1 PRIMITIVE]`, as the observed value; the value re-encodes
-as received.
+example `[CONTEXT 1 PRIMITIVE]`, as the observed value. BER and DER encoders
+also refuse a first unknown extension TLV carrying a tag from that trailing
+OPTIONAL/DEFAULT run, even when the known component is absent. Tolerant BER
+encoding records the violation instead. A value decoded with a tolerated
+first-extension violation re-encodes as received only with the tolerance
+option; strict encoding rejects it.
 
-The check applies to the first unknown TLV only, and only to that trailing
-run. Additions may reuse the tag of a mandatory component, and any tag may
-follow an unknown addition, so a value from a newer version still decodes
+For an extensible SET, every unknown extension entry must have a tag distinct
+from every known component (X.680 (02/2021) §§27.3, 52.7.1–52.7.3). Strict
+BER and DER encoders refuse a collision at any index, including a tag for an
+absent component. Tolerant BER encoding records each collision at its
+`ExtData_[i]` path.
+
+The SEQUENCE check applies to the first unknown TLV only, and only to that
+trailing run. Additions may reuse the tag of a mandatory component, and any
+tag may follow an unknown addition, so a value from a newer version still decodes
 with an older type. The older MAP `SMMTForwardSMArg`, which ends at
 `correlationID [1]`, accepts TS 29.002 V19.1.0 `MT-ForwardSM-Arg` values with
 `maximumRetransmissionTime [2]`, `smsGmscAddress [3]` or

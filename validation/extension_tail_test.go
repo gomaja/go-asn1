@@ -51,7 +51,7 @@ func TestNotifySSArgComponentOrder(t *testing.T) {
 		if len(value.ExtData_) != 1 || !bytes.Equal(value.ExtData_[0], mustHex(t, c.tail)) {
 			t.Fatalf("%s kept %x", c.hex, value.ExtData_)
 		}
-		if replay, err := value.MarshalBER(); err != nil || !bytes.Equal(replay, wire) {
+		if replay, err := value.MarshalBER(ber.WithConstraintTolerance(&log)); err != nil || !bytes.Equal(replay, wire) {
 			t.Fatalf("%s replay = %x, %v", c.hex, replay, err)
 		}
 	}
@@ -109,7 +109,7 @@ func TestSGPFirstExtensionTailComponentOrder(t *testing.T) {
 			if got := c.extensions(value); !reflect.DeepEqual(got, [][]byte{mustHex(t, c.tail)}) {
 				t.Fatalf("extensions = %x, want %s", got, c.tail)
 			}
-			if replay, err := value.MarshalBER(); err != nil || !bytes.Equal(replay, wire) {
+			if replay, err := value.MarshalBER(ber.WithConstraintTolerance(&log)); err != nil || !bytes.Equal(replay, wire) {
 				t.Fatalf("tolerant replay = %x, %v; want %x", replay, err, wire)
 			}
 		})

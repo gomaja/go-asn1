@@ -1078,7 +1078,7 @@ func (v *AARQApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1106,7 +1106,7 @@ func (v *AARQApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	children = append(children, enc_applicationcontextname...)
 	if v.UserInformation != nil {
-		enc_userinformation, err := MarshalBERAARQApduUserInformation(v.UserInformation, ber.ChildEncodeOptions(opts, "user-information")...)
+		enc_userinformation, err := MarshalBERAARQApduUserInformation(v.UserInformation, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "user-information"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding user-information: %w", err)
 		}
@@ -1148,7 +1148,7 @@ func (v *AARQApdu) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1323,7 +1323,7 @@ func (v *AARQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 				if reconstructionErr_userinformation != nil {
 					return fmt.Errorf("decoding user-information: %w", reconstructionErr_userinformation)
 				}
-				dec_userinformation, unmErr := UnmarshalBERAARQApduUserInformation(reconstructed_userinformation, ber.ChildDecodeOptions(opts, "user-information")...)
+				dec_userinformation, unmErr := UnmarshalBERAARQApduUserInformation(reconstructed_userinformation, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "user-information"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding user-information: %w", unmErr)
 				}
@@ -1377,7 +1377,7 @@ func (v *AAREApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1429,7 +1429,7 @@ func (v *AAREApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	children = append(children, enc_resultsourcediagnostic...)
 	if v.UserInformation != nil {
-		enc_userinformation, err := MarshalBERAAREApduUserInformation(v.UserInformation, ber.ChildEncodeOptions(opts, "user-information")...)
+		enc_userinformation, err := MarshalBERAAREApduUserInformation(v.UserInformation, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "user-information"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding user-information: %w", err)
 		}
@@ -1471,7 +1471,7 @@ func (v *AAREApdu) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "protocol-version", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.ProtocolVersion.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1743,7 +1743,7 @@ func (v *AAREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 				if reconstructionErr_userinformation != nil {
 					return fmt.Errorf("decoding user-information: %w", reconstructionErr_userinformation)
 				}
-				dec_userinformation, unmErr := UnmarshalBERAAREApduUserInformation(reconstructed_userinformation, ber.ChildDecodeOptions(opts, "user-information")...)
+				dec_userinformation, unmErr := UnmarshalBERAAREApduUserInformation(reconstructed_userinformation, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "user-information"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding user-information: %w", unmErr)
 				}
@@ -1806,7 +1806,7 @@ func (v *RLRQApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_reason...)
 	}
 	if v.UserInformation != nil {
-		enc_userinformation, err := MarshalBERRLRQApduUserInformation(v.UserInformation, ber.ChildEncodeOptions(opts, "user-information")...)
+		enc_userinformation, err := MarshalBERRLRQApduUserInformation(v.UserInformation, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "user-information"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding user-information: %w", err)
 		}
@@ -1962,7 +1962,7 @@ func (v *RLRQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 				if reconstructionErr_userinformation != nil {
 					return fmt.Errorf("decoding user-information: %w", reconstructionErr_userinformation)
 				}
-				dec_userinformation, unmErr := UnmarshalBERRLRQApduUserInformation(reconstructed_userinformation, ber.ChildDecodeOptions(opts, "user-information")...)
+				dec_userinformation, unmErr := UnmarshalBERRLRQApduUserInformation(reconstructed_userinformation, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "user-information"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding user-information: %w", unmErr)
 				}
@@ -2025,7 +2025,7 @@ func (v *RLREApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_reason...)
 	}
 	if v.UserInformation != nil {
-		enc_userinformation, err := MarshalBERRLREApduUserInformation(v.UserInformation, ber.ChildEncodeOptions(opts, "user-information")...)
+		enc_userinformation, err := MarshalBERRLREApduUserInformation(v.UserInformation, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "user-information"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding user-information: %w", err)
 		}
@@ -2181,7 +2181,7 @@ func (v *RLREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 				if reconstructionErr_userinformation != nil {
 					return fmt.Errorf("decoding user-information: %w", reconstructionErr_userinformation)
 				}
-				dec_userinformation, unmErr := UnmarshalBERRLREApduUserInformation(reconstructed_userinformation, ber.ChildDecodeOptions(opts, "user-information")...)
+				dec_userinformation, unmErr := UnmarshalBERRLREApduUserInformation(reconstructed_userinformation, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "user-information"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding user-information: %w", unmErr)
 				}
@@ -2242,7 +2242,7 @@ func (v *ABRTApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	enc_abortsource = retagged_enc_abortsource
 	children = append(children, enc_abortsource...)
 	if v.UserInformation != nil {
-		enc_userinformation, err := MarshalBERABRTApduUserInformation(v.UserInformation, ber.ChildEncodeOptions(opts, "user-information")...)
+		enc_userinformation, err := MarshalBERABRTApduUserInformation(v.UserInformation, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "user-information"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding user-information: %w", err)
 		}
@@ -2397,7 +2397,7 @@ func (v *ABRTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 				if reconstructionErr_userinformation != nil {
 					return fmt.Errorf("decoding user-information: %w", reconstructionErr_userinformation)
 				}
-				dec_userinformation, unmErr := UnmarshalBERABRTApduUserInformation(reconstructed_userinformation, ber.ChildDecodeOptions(opts, "user-information")...)
+				dec_userinformation, unmErr := UnmarshalBERABRTApduUserInformation(reconstructed_userinformation, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "user-information"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding user-information: %w", unmErr)
 				}

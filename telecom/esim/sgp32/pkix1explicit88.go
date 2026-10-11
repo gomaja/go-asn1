@@ -1660,7 +1660,7 @@ func (v *Attribute) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if v.Values == nil {
 		return nil, fmt.Errorf("encoding values: %w: required collection is nil", ber.ErrInvalidValue)
 	}
-	enc_values, err := MarshalBERAttributeValues(v.Values, ber.ChildEncodeOptions(opts, "values")...)
+	enc_values, err := MarshalBERAttributeValues(v.Values, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "values"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding values: %w", err)
 	}
@@ -1766,7 +1766,7 @@ func (v *Attribute) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 			v.ValuesIndef_ = true
 		}
 	}
-	dec_values, unmErr := UnmarshalBERAttributeValues(tlv_values, ber.ChildDecodeOptions(opts, "values")...)
+	dec_values, unmErr := UnmarshalBERAttributeValues(tlv_values, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "values"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding values: %w", unmErr)
 	}
@@ -1947,8 +1947,16 @@ func (v *X520name) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
 		}
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 32768 {
-			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..32768)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 32768 {
+			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..32768)", len(*v.PrintableString)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2076,8 +2084,16 @@ func (v *X520name) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 32768 {
-			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..32768)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 32768 {
+			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..32768)", len(*v.PrintableString)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2163,8 +2179,16 @@ func (v *X520CommonName) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
 		}
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 64 {
-			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..64)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 64 {
+			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..64)", len(*v.PrintableString)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2292,8 +2316,16 @@ func (v *X520CommonName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 64 {
-			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..64)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 64 {
+			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..64)", len(*v.PrintableString)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2379,8 +2411,16 @@ func (v *X520LocalityName) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
 		}
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 128 {
-			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..128)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 128 {
+			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..128)", len(*v.PrintableString)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2508,8 +2548,16 @@ func (v *X520LocalityName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 128 {
-			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..128)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 128 {
+			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..128)", len(*v.PrintableString)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2595,8 +2643,16 @@ func (v *X520StateOrProvinceName) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
 		}
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 128 {
-			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..128)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 128 {
+			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..128)", len(*v.PrintableString)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2724,8 +2780,16 @@ func (v *X520StateOrProvinceName) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 128 {
-			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..128)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 128 {
+			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..128)", len(*v.PrintableString)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2811,8 +2875,16 @@ func (v *X520OrganizationName) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
 		}
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 64 {
-			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..64)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 64 {
+			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..64)", len(*v.PrintableString)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2940,8 +3012,16 @@ func (v *X520OrganizationName) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 64 {
-			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..64)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 64 {
+			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..64)", len(*v.PrintableString)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3027,8 +3107,16 @@ func (v *X520OrganizationalUnitName) marshalBER(opts ...ber.EncodeOption) ([]byt
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
 		}
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 64 {
-			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..64)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 64 {
+			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..64)", len(*v.PrintableString)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3156,8 +3244,16 @@ func (v *X520OrganizationalUnitName) UnmarshalBER(data []byte, opts ...ber.Decod
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 64 {
-			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..64)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 64 {
+			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..64)", len(*v.PrintableString)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3243,8 +3339,16 @@ func (v *X520Title) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
 		}
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 64 {
-			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..64)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 64 {
+			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..64)", len(*v.PrintableString)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3372,8 +3476,16 @@ func (v *X520Title) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 64 {
-			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..64)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 64 {
+			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..64)", len(*v.PrintableString)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3459,8 +3571,16 @@ func (v *X520Pseudonym) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
 		}
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 128 {
-			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..128)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 128 {
+			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..128)", len(*v.PrintableString)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3588,8 +3708,16 @@ func (v *X520Pseudonym) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 128 {
-			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..128)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 128 {
+			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..128)", len(*v.PrintableString)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3654,7 +3782,7 @@ func (v *Name) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	switch v.Choice {
 	case NameChoiceRdnSequence:
-		enc_0, err := MarshalBERRDNSequence(v.RdnSequence, ber.ChildEncodeOptions(opts, "rdnSequence")...)
+		enc_0, err := MarshalBERRDNSequence(v.RdnSequence, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "rdnSequence"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding rdnSequence: %w", err)
 		}
@@ -3734,7 +3862,7 @@ func (v *Name) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr er
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 && peekTag.Constructed == true {
 		v.Choice = NameChoiceRdnSequence
-		dec, unmErr := UnmarshalBERRDNSequence(choiceData, ber.ChildDecodeOptions(opts, "rdnSequence")...)
+		dec, unmErr := UnmarshalBERRDNSequence(choiceData, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "rdnSequence"))...)
 		if unmErr != nil {
 			return fmt.Errorf("decoding rdnSequence: %w", unmErr)
 		}
@@ -3865,7 +3993,7 @@ func MarshalBERRelativeDistinguishedName(collection *RelativeDistinguishedName, 
 func marshalBERRelativeDistinguishedName(collection *RelativeDistinguishedName, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 {
-		if constraintErr := ber.CheckEncodedLength(opts, "RelativeDistinguishedName", "SIZE (1..MAX)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "RelativeDistinguishedName", "SIZE (1..MAX)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3887,7 +4015,7 @@ func MarshalDERRelativeDistinguishedName(collection *RelativeDistinguishedName) 
 	}
 	list := collection.Values
 	if len(list) < 1 {
-		if constraintErr := ber.CheckEncodedLength(nil, "RelativeDistinguishedName", "SIZE (1..MAX)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "RelativeDistinguishedName", "SIZE (1..MAX)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3948,7 +4076,7 @@ func UnmarshalBERRelativeDistinguishedName(data []byte, opts ...ber.DecodeOption
 		offset += n
 	}
 	if len(result) < 1 {
-		if constraintErr := ber.CheckDecodedLength(opts, "RelativeDistinguishedName", "SIZE (1..MAX)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "RelativeDistinguishedName", "SIZE (1..MAX)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4005,8 +4133,16 @@ func (v *DirectoryString) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printableString: %w", stringErr)
 		}
-		if len([]rune(*v.PrintableString)) < 1 {
-			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..MAX)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 {
+			if constraintErr := ber.CheckEncodedLength(opts, "printableString", "SIZE (1..MAX)", len(*v.PrintableString)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4134,8 +4270,16 @@ func (v *DirectoryString) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 			return fmt.Errorf("decoding printableString: %w", strErr)
 		}
 		v.PrintableString = &decVal
-		if len([]rune(*v.PrintableString)) < 1 {
-			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..MAX)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "printableString", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 {
+			if constraintErr := ber.CheckDecodedLength(opts, "printableString", "SIZE (1..MAX)", len(*v.PrintableString)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4212,7 +4356,7 @@ func (v *Certificate) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(v.Signature.Bytes, v.Signature.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "signature", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 	if v.Signature.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -4246,7 +4390,7 @@ func (v *Certificate) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.Signature.Bytes, v.Signature.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "signature", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 	if v.Signature.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -4438,7 +4582,7 @@ func (v *TBSCertificate) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.IssuerUniqueID.Bytes, v.IssuerUniqueID.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "issuerUniqueID", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.IssuerUniqueID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4457,7 +4601,7 @@ func (v *TBSCertificate) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SubjectUniqueID.Bytes, v.SubjectUniqueID.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "subjectUniqueID", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SubjectUniqueID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4478,7 +4622,7 @@ func (v *TBSCertificate) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_extensions, err := MarshalBERExtensions(v.Extensions, ber.ChildEncodeOptions(opts, "extensions")...)
+		enc_extensions, err := MarshalBERExtensions(v.Extensions, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "extensions"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extensions: %w", err)
 		}
@@ -4556,7 +4700,7 @@ func (v *TBSCertificate) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.IssuerUniqueID.Bytes, v.IssuerUniqueID.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "issuerUniqueID", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.IssuerUniqueID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4578,7 +4722,7 @@ func (v *TBSCertificate) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SubjectUniqueID.Bytes, v.SubjectUniqueID.BitLength); bitStringErr != nil {
 			return nil, fmt.Errorf("encoding %s: %w", "subjectUniqueID", bitStringErr)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 		if v.SubjectUniqueID.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -4909,7 +5053,7 @@ func (v *TBSCertificate) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 					return fmt.Errorf("decoding extensions: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
-				dec_extensions, unmErr := UnmarshalBERExtensions(innerData_extensions, ber.ChildDecodeOptions(opts, "extensions")...)
+				dec_extensions, unmErr := UnmarshalBERExtensions(innerData_extensions, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "extensions"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding extensions: %w", unmErr)
 				}
@@ -5245,7 +5389,7 @@ func (v *SubjectPublicKeyInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	if bitStringErr := ber.ValidateBitStringLength(v.SubjectPublicKey.Bytes, v.SubjectPublicKey.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "subjectPublicKey", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 	if v.SubjectPublicKey.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -5274,7 +5418,7 @@ func (v *SubjectPublicKeyInfo) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.SubjectPublicKey.Bytes, v.SubjectPublicKey.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "subjectPublicKey", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 	if v.SubjectPublicKey.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -5391,7 +5535,7 @@ func MarshalBERExtensions(collection *Extensions, opts ...ber.EncodeOption) (ret
 func marshalBERExtensions(collection *Extensions, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 {
-		if constraintErr := ber.CheckEncodedLength(opts, "Extensions", "SIZE (1..MAX)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "Extensions", "SIZE (1..MAX)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5413,7 +5557,7 @@ func MarshalDERExtensions(collection *Extensions) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 {
-		if constraintErr := ber.CheckEncodedLength(nil, "Extensions", "SIZE (1..MAX)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "Extensions", "SIZE (1..MAX)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5471,7 +5615,7 @@ func UnmarshalBERExtensions(data []byte, opts ...ber.DecodeOption) (returnValue 
 		offset += n
 	}
 	if len(result) < 1 {
-		if constraintErr := ber.CheckDecodedLength(opts, "Extensions", "SIZE (1..MAX)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "Extensions", "SIZE (1..MAX)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5679,7 +5823,7 @@ func (v *CertificateList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(v.Signature.Bytes, v.Signature.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "signature", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 	if v.Signature.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -5713,7 +5857,7 @@ func (v *CertificateList) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateDERBitString(v.Signature.Bytes, v.Signature.BitLength); bitStringErr != nil {
 		return nil, fmt.Errorf("encoding %s: %w", "signature", bitStringErr)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:626
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:648
 	if v.Signature.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -5884,7 +6028,7 @@ func (v *TBSCertList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_nextupdate...)
 	}
 	if v.RevokedCertificates != nil {
-		enc_revokedcertificates, err := MarshalBERTBSCertListRevokedCertificates(v.RevokedCertificates, ber.ChildEncodeOptions(opts, "revokedCertificates")...)
+		enc_revokedcertificates, err := MarshalBERTBSCertListRevokedCertificates(v.RevokedCertificates, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "revokedCertificates"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding revokedCertificates: %w", err)
 		}
@@ -5896,7 +6040,7 @@ func (v *TBSCertList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_crlextensions, err := MarshalBERExtensions(v.CrlExtensions, ber.ChildEncodeOptions(opts, "crlExtensions")...)
+		enc_crlextensions, err := MarshalBERExtensions(v.CrlExtensions, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "crlExtensions"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding crlExtensions: %w", err)
 		}
@@ -6160,7 +6304,7 @@ func (v *TBSCertList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 						v.RevokedCertificatesIndef_ = true
 					}
 				}
-				dec_revokedcertificates, unmErr := UnmarshalBERTBSCertListRevokedCertificates(tlv_revokedcertificates, ber.ChildDecodeOptions(opts, "revokedCertificates")...)
+				dec_revokedcertificates, unmErr := UnmarshalBERTBSCertListRevokedCertificates(tlv_revokedcertificates, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "revokedCertificates"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding revokedCertificates: %w", unmErr)
 				}
@@ -6196,7 +6340,7 @@ func (v *TBSCertList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 					return fmt.Errorf("decoding crlExtensions: %w", ber.ErrExtraData)
 				}
 				// Decode inner value from explicit tag wrapper
-				dec_crlextensions, unmErr := UnmarshalBERExtensions(innerData_crlextensions, ber.ChildDecodeOptions(opts, "crlExtensions")...)
+				dec_crlextensions, unmErr := UnmarshalBERExtensions(innerData_crlextensions, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "crlExtensions"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding crlExtensions: %w", unmErr)
 				}
@@ -6379,7 +6523,7 @@ func (v *ORAddress) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_builtindomaindefinedattributes, err := MarshalBERBuiltInDomainDefinedAttributes(v.BuiltInDomainDefinedAttributes, ber.ChildEncodeOptions(opts, "built-in-domain-defined-attributes")...)
+		enc_builtindomaindefinedattributes, err := MarshalBERBuiltInDomainDefinedAttributes(v.BuiltInDomainDefinedAttributes, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "built-in-domain-defined-attributes"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding built-in-domain-defined-attributes: %w", err)
 		}
@@ -6391,7 +6535,7 @@ func (v *ORAddress) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 				return nil, constraintErr
 			}
 		}
-		enc_extensionattributes, err := MarshalBERExtensionAttributes(v.ExtensionAttributes, ber.ChildEncodeOptions(opts, "extension-attributes")...)
+		enc_extensionattributes, err := MarshalBERExtensionAttributes(v.ExtensionAttributes, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "extension-attributes"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding extension-attributes: %w", err)
 		}
@@ -6525,7 +6669,7 @@ func (v *ORAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 						v.BuiltInDomainDefinedAttributesIndef_ = true
 					}
 				}
-				dec_builtindomaindefinedattributes, unmErr := UnmarshalBERBuiltInDomainDefinedAttributes(tlv_builtindomaindefinedattributes, ber.ChildDecodeOptions(opts, "built-in-domain-defined-attributes")...)
+				dec_builtindomaindefinedattributes, unmErr := UnmarshalBERBuiltInDomainDefinedAttributes(tlv_builtindomaindefinedattributes, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "built-in-domain-defined-attributes"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding built-in-domain-defined-attributes: %w", unmErr)
 				}
@@ -6569,7 +6713,7 @@ func (v *ORAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 						v.ExtensionAttributesIndef_ = true
 					}
 				}
-				dec_extensionattributes, unmErr := UnmarshalBERExtensionAttributes(tlv_extensionattributes, ber.ChildDecodeOptions(opts, "extension-attributes")...)
+				dec_extensionattributes, unmErr := UnmarshalBERExtensionAttributes(tlv_extensionattributes, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "extension-attributes"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding extension-attributes: %w", unmErr)
 				}
@@ -6628,8 +6772,16 @@ func (v *BuiltInStandardAttributes) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_administrationdomainname...)
 	}
 	if v.NetworkAddress != nil {
-		if len([]rune(*v.NetworkAddress)) < 1 || len([]rune(*v.NetworkAddress)) > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "network-address", "SIZE (1..16)", len([]rune(*v.NetworkAddress))); constraintErr != nil {
+		for _, character := range []byte(*v.NetworkAddress) {
+			if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "network-address", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.NetworkAddress) < 1 || len(*v.NetworkAddress) > 16 {
+			if constraintErr := ber.CheckEncodedLength(opts, "network-address", "SIZE (1..16)", len(*v.NetworkAddress)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6645,8 +6797,16 @@ func (v *BuiltInStandardAttributes) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_networkaddress...)
 	}
 	if v.TerminalIdentifier != nil {
-		if len([]rune(*v.TerminalIdentifier)) < 1 || len([]rune(*v.TerminalIdentifier)) > 24 {
-			if constraintErr := ber.CheckEncodedLength(opts, "terminal-identifier", "SIZE (1..24)", len([]rune(*v.TerminalIdentifier))); constraintErr != nil {
+		for _, character := range []byte(*v.TerminalIdentifier) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "terminal-identifier", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.TerminalIdentifier) < 1 || len(*v.TerminalIdentifier) > 24 {
+			if constraintErr := ber.CheckEncodedLength(opts, "terminal-identifier", "SIZE (1..24)", len(*v.TerminalIdentifier)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6676,8 +6836,16 @@ func (v *BuiltInStandardAttributes) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_privatedomainname...)
 	}
 	if v.OrganizationName != nil {
-		if len([]rune(*v.OrganizationName)) < 1 || len([]rune(*v.OrganizationName)) > 64 {
-			if constraintErr := ber.CheckEncodedLength(opts, "organization-name", "SIZE (1..64)", len([]rune(*v.OrganizationName))); constraintErr != nil {
+		for _, character := range []byte(*v.OrganizationName) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "organization-name", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.OrganizationName) < 1 || len(*v.OrganizationName) > 64 {
+			if constraintErr := ber.CheckEncodedLength(opts, "organization-name", "SIZE (1..64)", len(*v.OrganizationName)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6693,8 +6861,16 @@ func (v *BuiltInStandardAttributes) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_organizationname...)
 	}
 	if v.NumericUserIdentifier != nil {
-		if len([]rune(*v.NumericUserIdentifier)) < 1 || len([]rune(*v.NumericUserIdentifier)) > 32 {
-			if constraintErr := ber.CheckEncodedLength(opts, "numeric-user-identifier", "SIZE (1..32)", len([]rune(*v.NumericUserIdentifier))); constraintErr != nil {
+		for _, character := range []byte(*v.NumericUserIdentifier) {
+			if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "numeric-user-identifier", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.NumericUserIdentifier) < 1 || len(*v.NumericUserIdentifier) > 32 {
+			if constraintErr := ber.CheckEncodedLength(opts, "numeric-user-identifier", "SIZE (1..32)", len(*v.NumericUserIdentifier)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6727,7 +6903,7 @@ func (v *BuiltInStandardAttributes) marshalBER(opts ...ber.EncodeOption) ([]byte
 				return nil, constraintErr
 			}
 		}
-		enc_organizationalunitnames, err := MarshalBEROrganizationalUnitNames(v.OrganizationalUnitNames, ber.ChildEncodeOptions(opts, "organizational-unit-names")...)
+		enc_organizationalunitnames, err := MarshalBEROrganizationalUnitNames(v.OrganizationalUnitNames, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "organizational-unit-names"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding organizational-unit-names: %w", err)
 		}
@@ -6777,8 +6953,16 @@ func (v *BuiltInStandardAttributes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_administrationdomainname...)
 	}
 	if v.NetworkAddress != nil {
-		if len([]rune(*v.NetworkAddress)) < 1 || len([]rune(*v.NetworkAddress)) > 16 {
-			if constraintErr := ber.CheckEncodedLength(nil, "network-address", "SIZE (1..16)", len([]rune(*v.NetworkAddress))); constraintErr != nil {
+		for _, character := range []byte(*v.NetworkAddress) {
+			if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(nil, "network-address", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.NetworkAddress) < 1 || len(*v.NetworkAddress) > 16 {
+			if constraintErr := ber.CheckEncodedLength(nil, "network-address", "SIZE (1..16)", len(*v.NetworkAddress)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6794,8 +6978,16 @@ func (v *BuiltInStandardAttributes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_networkaddress...)
 	}
 	if v.TerminalIdentifier != nil {
-		if len([]rune(*v.TerminalIdentifier)) < 1 || len([]rune(*v.TerminalIdentifier)) > 24 {
-			if constraintErr := ber.CheckEncodedLength(nil, "terminal-identifier", "SIZE (1..24)", len([]rune(*v.TerminalIdentifier))); constraintErr != nil {
+		for _, character := range []byte(*v.TerminalIdentifier) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(nil, "terminal-identifier", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.TerminalIdentifier) < 1 || len(*v.TerminalIdentifier) > 24 {
+			if constraintErr := ber.CheckEncodedLength(nil, "terminal-identifier", "SIZE (1..24)", len(*v.TerminalIdentifier)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6825,8 +7017,16 @@ func (v *BuiltInStandardAttributes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_privatedomainname...)
 	}
 	if v.OrganizationName != nil {
-		if len([]rune(*v.OrganizationName)) < 1 || len([]rune(*v.OrganizationName)) > 64 {
-			if constraintErr := ber.CheckEncodedLength(nil, "organization-name", "SIZE (1..64)", len([]rune(*v.OrganizationName))); constraintErr != nil {
+		for _, character := range []byte(*v.OrganizationName) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(nil, "organization-name", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.OrganizationName) < 1 || len(*v.OrganizationName) > 64 {
+			if constraintErr := ber.CheckEncodedLength(nil, "organization-name", "SIZE (1..64)", len(*v.OrganizationName)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6842,8 +7042,16 @@ func (v *BuiltInStandardAttributes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_organizationname...)
 	}
 	if v.NumericUserIdentifier != nil {
-		if len([]rune(*v.NumericUserIdentifier)) < 1 || len([]rune(*v.NumericUserIdentifier)) > 32 {
-			if constraintErr := ber.CheckEncodedLength(nil, "numeric-user-identifier", "SIZE (1..32)", len([]rune(*v.NumericUserIdentifier))); constraintErr != nil {
+		for _, character := range []byte(*v.NumericUserIdentifier) {
+			if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(nil, "numeric-user-identifier", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.NumericUserIdentifier) < 1 || len(*v.NumericUserIdentifier) > 32 {
+			if constraintErr := ber.CheckEncodedLength(nil, "numeric-user-identifier", "SIZE (1..32)", len(*v.NumericUserIdentifier)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7011,8 +7219,16 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_networkaddress
-				if len([]rune(*v.NetworkAddress)) < 1 || len([]rune(*v.NetworkAddress)) > 16 {
-					if constraintErr := ber.CheckDecodedLength(opts, "network-address", "SIZE (1..16)", len([]rune(*v.NetworkAddress))); constraintErr != nil {
+				for _, character := range []byte(*v.NetworkAddress) {
+					if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+						if constraintErr := ber.CheckDecodedValue(opts, "network-address", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+							return constraintErr
+						}
+						break
+					}
+				}
+				if len(*v.NetworkAddress) < 1 || len(*v.NetworkAddress) > 16 {
+					if constraintErr := ber.CheckDecodedLength(opts, "network-address", "SIZE (1..16)", len(*v.NetworkAddress)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7043,8 +7259,16 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_terminalidentifier
-				if len([]rune(*v.TerminalIdentifier)) < 1 || len([]rune(*v.TerminalIdentifier)) > 24 {
-					if constraintErr := ber.CheckDecodedLength(opts, "terminal-identifier", "SIZE (1..24)", len([]rune(*v.TerminalIdentifier))); constraintErr != nil {
+				for _, character := range []byte(*v.TerminalIdentifier) {
+					if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+						if constraintErr := ber.CheckDecodedValue(opts, "terminal-identifier", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+							return constraintErr
+						}
+						break
+					}
+				}
+				if len(*v.TerminalIdentifier) < 1 || len(*v.TerminalIdentifier) > 24 {
+					if constraintErr := ber.CheckDecodedLength(opts, "terminal-identifier", "SIZE (1..24)", len(*v.TerminalIdentifier)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7108,8 +7332,16 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_organizationname
-				if len([]rune(*v.OrganizationName)) < 1 || len([]rune(*v.OrganizationName)) > 64 {
-					if constraintErr := ber.CheckDecodedLength(opts, "organization-name", "SIZE (1..64)", len([]rune(*v.OrganizationName))); constraintErr != nil {
+				for _, character := range []byte(*v.OrganizationName) {
+					if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+						if constraintErr := ber.CheckDecodedValue(opts, "organization-name", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+							return constraintErr
+						}
+						break
+					}
+				}
+				if len(*v.OrganizationName) < 1 || len(*v.OrganizationName) > 64 {
+					if constraintErr := ber.CheckDecodedLength(opts, "organization-name", "SIZE (1..64)", len(*v.OrganizationName)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7140,8 +7372,16 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte, opts ...ber.Decode
 				}
 
 				offset += n_numericuseridentifier
-				if len([]rune(*v.NumericUserIdentifier)) < 1 || len([]rune(*v.NumericUserIdentifier)) > 32 {
-					if constraintErr := ber.CheckDecodedLength(opts, "numeric-user-identifier", "SIZE (1..32)", len([]rune(*v.NumericUserIdentifier))); constraintErr != nil {
+				for _, character := range []byte(*v.NumericUserIdentifier) {
+					if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+						if constraintErr := ber.CheckDecodedValue(opts, "numeric-user-identifier", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+							return constraintErr
+						}
+						break
+					}
+				}
+				if len(*v.NumericUserIdentifier) < 1 || len(*v.NumericUserIdentifier) > 32 {
+					if constraintErr := ber.CheckDecodedLength(opts, "numeric-user-identifier", "SIZE (1..32)", len(*v.NumericUserIdentifier)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7195,7 +7435,7 @@ func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte, opts ...ber.Decode
 				if reconstructionErr_organizationalunitnames != nil {
 					return fmt.Errorf("decoding organizational-unit-names: %w", reconstructionErr_organizationalunitnames)
 				}
-				dec_organizationalunitnames, unmErr := UnmarshalBEROrganizationalUnitNames(reconstructed_organizationalunitnames, ber.ChildDecodeOptions(opts, "organizational-unit-names")...)
+				dec_organizationalunitnames, unmErr := UnmarshalBEROrganizationalUnitNames(reconstructed_organizationalunitnames, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "organizational-unit-names"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding organizational-unit-names: %w", unmErr)
 				}
@@ -7258,8 +7498,16 @@ func (v *CountryName) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding x121-dcc-code: %w", stringErr)
 		}
-		if len([]rune(*v.X121DccCode)) < 3 || len([]rune(*v.X121DccCode)) > 3 {
-			if constraintErr := ber.CheckEncodedLength(opts, "x121-dcc-code", "SIZE (3)", len([]rune(*v.X121DccCode))); constraintErr != nil {
+		for _, character := range []byte(*v.X121DccCode) {
+			if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "x121-dcc-code", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.X121DccCode) < 3 || len(*v.X121DccCode) > 3 {
+			if constraintErr := ber.CheckEncodedLength(opts, "x121-dcc-code", "SIZE (3)", len(*v.X121DccCode)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7279,8 +7527,16 @@ func (v *CountryName) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding iso-3166-alpha2-code: %w", stringErr)
 		}
-		if len([]rune(*v.Iso3166Alpha2Code)) < 2 || len([]rune(*v.Iso3166Alpha2Code)) > 2 {
-			if constraintErr := ber.CheckEncodedLength(opts, "iso-3166-alpha2-code", "SIZE (2)", len([]rune(*v.Iso3166Alpha2Code))); constraintErr != nil {
+		for _, character := range []byte(*v.Iso3166Alpha2Code) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "iso-3166-alpha2-code", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.Iso3166Alpha2Code) < 2 || len(*v.Iso3166Alpha2Code) > 2 {
+			if constraintErr := ber.CheckEncodedLength(opts, "iso-3166-alpha2-code", "SIZE (2)", len(*v.Iso3166Alpha2Code)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7374,8 +7630,16 @@ func (v *CountryName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 			return fmt.Errorf("decoding x121-dcc-code: %w", strErr)
 		}
 		v.X121DccCode = &decVal
-		if len([]rune(*v.X121DccCode)) < 3 || len([]rune(*v.X121DccCode)) > 3 {
-			if constraintErr := ber.CheckDecodedLength(opts, "x121-dcc-code", "SIZE (3)", len([]rune(*v.X121DccCode))); constraintErr != nil {
+		for _, character := range []byte(*v.X121DccCode) {
+			if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "x121-dcc-code", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.X121DccCode) < 3 || len(*v.X121DccCode) > 3 {
+			if constraintErr := ber.CheckDecodedLength(opts, "x121-dcc-code", "SIZE (3)", len(*v.X121DccCode)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -7386,8 +7650,16 @@ func (v *CountryName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 			return fmt.Errorf("decoding iso-3166-alpha2-code: %w", strErr)
 		}
 		v.Iso3166Alpha2Code = &decVal
-		if len([]rune(*v.Iso3166Alpha2Code)) < 2 || len([]rune(*v.Iso3166Alpha2Code)) > 2 {
-			if constraintErr := ber.CheckDecodedLength(opts, "iso-3166-alpha2-code", "SIZE (2)", len([]rune(*v.Iso3166Alpha2Code))); constraintErr != nil {
+		for _, character := range []byte(*v.Iso3166Alpha2Code) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "iso-3166-alpha2-code", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.Iso3166Alpha2Code) < 2 || len(*v.Iso3166Alpha2Code) > 2 {
+			if constraintErr := ber.CheckDecodedLength(opts, "iso-3166-alpha2-code", "SIZE (2)", len(*v.Iso3166Alpha2Code)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -7423,8 +7695,16 @@ func (v *AdministrationDomainName) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding numeric: %w", stringErr)
 		}
-		if len([]rune(*v.Numeric)) > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "numeric", "SIZE (0..16)", len([]rune(*v.Numeric))); constraintErr != nil {
+		for _, character := range []byte(*v.Numeric) {
+			if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "numeric", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.Numeric) > 16 {
+			if constraintErr := ber.CheckEncodedLength(opts, "numeric", "SIZE (0..16)", len(*v.Numeric)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7444,8 +7724,16 @@ func (v *AdministrationDomainName) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printable: %w", stringErr)
 		}
-		if len([]rune(*v.Printable)) > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "printable", "SIZE (0..16)", len([]rune(*v.Printable))); constraintErr != nil {
+		for _, character := range []byte(*v.Printable) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "printable", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.Printable) > 16 {
+			if constraintErr := ber.CheckEncodedLength(opts, "printable", "SIZE (0..16)", len(*v.Printable)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7539,8 +7827,16 @@ func (v *AdministrationDomainName) UnmarshalBER(data []byte, opts ...ber.DecodeO
 			return fmt.Errorf("decoding numeric: %w", strErr)
 		}
 		v.Numeric = &decVal
-		if len([]rune(*v.Numeric)) > 16 {
-			if constraintErr := ber.CheckDecodedLength(opts, "numeric", "SIZE (0..16)", len([]rune(*v.Numeric))); constraintErr != nil {
+		for _, character := range []byte(*v.Numeric) {
+			if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "numeric", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.Numeric) > 16 {
+			if constraintErr := ber.CheckDecodedLength(opts, "numeric", "SIZE (0..16)", len(*v.Numeric)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -7551,8 +7847,16 @@ func (v *AdministrationDomainName) UnmarshalBER(data []byte, opts ...ber.DecodeO
 			return fmt.Errorf("decoding printable: %w", strErr)
 		}
 		v.Printable = &decVal
-		if len([]rune(*v.Printable)) > 16 {
-			if constraintErr := ber.CheckDecodedLength(opts, "printable", "SIZE (0..16)", len([]rune(*v.Printable))); constraintErr != nil {
+		for _, character := range []byte(*v.Printable) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "printable", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.Printable) > 16 {
+			if constraintErr := ber.CheckDecodedLength(opts, "printable", "SIZE (0..16)", len(*v.Printable)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -7588,8 +7892,16 @@ func (v *PrivateDomainName) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding numeric: %w", stringErr)
 		}
-		if len([]rune(*v.Numeric)) < 1 || len([]rune(*v.Numeric)) > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "numeric", "SIZE (1..16)", len([]rune(*v.Numeric))); constraintErr != nil {
+		for _, character := range []byte(*v.Numeric) {
+			if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "numeric", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.Numeric) < 1 || len(*v.Numeric) > 16 {
+			if constraintErr := ber.CheckEncodedLength(opts, "numeric", "SIZE (1..16)", len(*v.Numeric)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7602,8 +7914,16 @@ func (v *PrivateDomainName) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printable: %w", stringErr)
 		}
-		if len([]rune(*v.Printable)) < 1 || len([]rune(*v.Printable)) > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "printable", "SIZE (1..16)", len([]rune(*v.Printable))); constraintErr != nil {
+		for _, character := range []byte(*v.Printable) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "printable", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.Printable) < 1 || len(*v.Printable) > 16 {
+			if constraintErr := ber.CheckEncodedLength(opts, "printable", "SIZE (1..16)", len(*v.Printable)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7677,8 +7997,16 @@ func (v *PrivateDomainName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 			return fmt.Errorf("decoding numeric: %w", strErr)
 		}
 		v.Numeric = &decVal
-		if len([]rune(*v.Numeric)) < 1 || len([]rune(*v.Numeric)) > 16 {
-			if constraintErr := ber.CheckDecodedLength(opts, "numeric", "SIZE (1..16)", len([]rune(*v.Numeric))); constraintErr != nil {
+		for _, character := range []byte(*v.Numeric) {
+			if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "numeric", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.Numeric) < 1 || len(*v.Numeric) > 16 {
+			if constraintErr := ber.CheckDecodedLength(opts, "numeric", "SIZE (1..16)", len(*v.Numeric)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -7689,8 +8017,16 @@ func (v *PrivateDomainName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 			return fmt.Errorf("decoding printable: %w", strErr)
 		}
 		v.Printable = &decVal
-		if len([]rune(*v.Printable)) < 1 || len([]rune(*v.Printable)) > 16 {
-			if constraintErr := ber.CheckDecodedLength(opts, "printable", "SIZE (1..16)", len([]rune(*v.Printable))); constraintErr != nil {
+		for _, character := range []byte(*v.Printable) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "printable", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.Printable) < 1 || len(*v.Printable) > 16 {
+			if constraintErr := ber.CheckDecodedLength(opts, "printable", "SIZE (1..16)", len(*v.Printable)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -7718,8 +8054,16 @@ func (v *PersonalName) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		return nil, err
 	}
 	var children []byte
-	if len([]rune(v.Surname)) < 1 || len([]rune(v.Surname)) > 40 {
-		if constraintErr := ber.CheckEncodedLength(opts, "surname", "SIZE (1..40)", len([]rune(v.Surname))); constraintErr != nil {
+	for _, character := range []byte(v.Surname) {
+		if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+			if constraintErr := ber.CheckEncodedValue(opts, "surname", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+				return nil, constraintErr
+			}
+			break
+		}
+	}
+	if len(v.Surname) < 1 || len(v.Surname) > 40 {
+		if constraintErr := ber.CheckEncodedLength(opts, "surname", "SIZE (1..40)", len(v.Surname)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -7734,8 +8078,16 @@ func (v *PersonalName) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	enc_surname = retagged_enc_surname
 	children = append(children, enc_surname...)
 	if v.GivenName != nil {
-		if len([]rune(*v.GivenName)) < 1 || len([]rune(*v.GivenName)) > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "given-name", "SIZE (1..16)", len([]rune(*v.GivenName))); constraintErr != nil {
+		for _, character := range []byte(*v.GivenName) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "given-name", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.GivenName) < 1 || len(*v.GivenName) > 16 {
+			if constraintErr := ber.CheckEncodedLength(opts, "given-name", "SIZE (1..16)", len(*v.GivenName)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7751,8 +8103,16 @@ func (v *PersonalName) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_givenname...)
 	}
 	if v.Initials != nil {
-		if len([]rune(*v.Initials)) < 1 || len([]rune(*v.Initials)) > 5 {
-			if constraintErr := ber.CheckEncodedLength(opts, "initials", "SIZE (1..5)", len([]rune(*v.Initials))); constraintErr != nil {
+		for _, character := range []byte(*v.Initials) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "initials", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.Initials) < 1 || len(*v.Initials) > 5 {
+			if constraintErr := ber.CheckEncodedLength(opts, "initials", "SIZE (1..5)", len(*v.Initials)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7768,8 +8128,16 @@ func (v *PersonalName) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_initials...)
 	}
 	if v.GenerationQualifier != nil {
-		if len([]rune(*v.GenerationQualifier)) < 1 || len([]rune(*v.GenerationQualifier)) > 3 {
-			if constraintErr := ber.CheckEncodedLength(opts, "generation-qualifier", "SIZE (1..3)", len([]rune(*v.GenerationQualifier))); constraintErr != nil {
+		for _, character := range []byte(*v.GenerationQualifier) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "generation-qualifier", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.GenerationQualifier) < 1 || len(*v.GenerationQualifier) > 3 {
+			if constraintErr := ber.CheckEncodedLength(opts, "generation-qualifier", "SIZE (1..3)", len(*v.GenerationQualifier)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7793,8 +8161,16 @@ func (v *PersonalName) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("%w: PersonalName receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
-	if len([]rune(v.Surname)) < 1 || len([]rune(v.Surname)) > 40 {
-		if constraintErr := ber.CheckEncodedLength(nil, "surname", "SIZE (1..40)", len([]rune(v.Surname))); constraintErr != nil {
+	for _, character := range []byte(v.Surname) {
+		if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+			if constraintErr := ber.CheckEncodedValue(nil, "surname", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+				return nil, constraintErr
+			}
+			break
+		}
+	}
+	if len(v.Surname) < 1 || len(v.Surname) > 40 {
+		if constraintErr := ber.CheckEncodedLength(nil, "surname", "SIZE (1..40)", len(v.Surname)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -7809,8 +8185,16 @@ func (v *PersonalName) MarshalDER() ([]byte, error) {
 	enc_surname = retagged_enc_surname
 	children = append(children, enc_surname...)
 	if v.GivenName != nil {
-		if len([]rune(*v.GivenName)) < 1 || len([]rune(*v.GivenName)) > 16 {
-			if constraintErr := ber.CheckEncodedLength(nil, "given-name", "SIZE (1..16)", len([]rune(*v.GivenName))); constraintErr != nil {
+		for _, character := range []byte(*v.GivenName) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(nil, "given-name", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.GivenName) < 1 || len(*v.GivenName) > 16 {
+			if constraintErr := ber.CheckEncodedLength(nil, "given-name", "SIZE (1..16)", len(*v.GivenName)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7826,8 +8210,16 @@ func (v *PersonalName) MarshalDER() ([]byte, error) {
 		children = append(children, enc_givenname...)
 	}
 	if v.Initials != nil {
-		if len([]rune(*v.Initials)) < 1 || len([]rune(*v.Initials)) > 5 {
-			if constraintErr := ber.CheckEncodedLength(nil, "initials", "SIZE (1..5)", len([]rune(*v.Initials))); constraintErr != nil {
+		for _, character := range []byte(*v.Initials) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(nil, "initials", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.Initials) < 1 || len(*v.Initials) > 5 {
+			if constraintErr := ber.CheckEncodedLength(nil, "initials", "SIZE (1..5)", len(*v.Initials)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7843,8 +8235,16 @@ func (v *PersonalName) MarshalDER() ([]byte, error) {
 		children = append(children, enc_initials...)
 	}
 	if v.GenerationQualifier != nil {
-		if len([]rune(*v.GenerationQualifier)) < 1 || len([]rune(*v.GenerationQualifier)) > 3 {
-			if constraintErr := ber.CheckEncodedLength(nil, "generation-qualifier", "SIZE (1..3)", len([]rune(*v.GenerationQualifier))); constraintErr != nil {
+		for _, character := range []byte(*v.GenerationQualifier) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(nil, "generation-qualifier", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.GenerationQualifier) < 1 || len(*v.GenerationQualifier) > 3 {
+			if constraintErr := ber.CheckEncodedLength(nil, "generation-qualifier", "SIZE (1..3)", len(*v.GenerationQualifier)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7953,8 +8353,16 @@ func (v *PersonalName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 			}
 
 			offset += n_surname
-			if len([]rune(v.Surname)) < 1 || len([]rune(v.Surname)) > 40 {
-				if constraintErr := ber.CheckDecodedLength(opts, "surname", "SIZE (1..40)", len([]rune(v.Surname))); constraintErr != nil {
+			for _, character := range []byte(v.Surname) {
+				if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+					if constraintErr := ber.CheckDecodedValue(opts, "surname", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+						return constraintErr
+					}
+					break
+				}
+			}
+			if len(v.Surname) < 1 || len(v.Surname) > 40 {
+				if constraintErr := ber.CheckDecodedLength(opts, "surname", "SIZE (1..40)", len(v.Surname)); constraintErr != nil {
 					return constraintErr
 				}
 			}
@@ -7982,8 +8390,16 @@ func (v *PersonalName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 			}
 
 			offset += n_givenname
-			if len([]rune(*v.GivenName)) < 1 || len([]rune(*v.GivenName)) > 16 {
-				if constraintErr := ber.CheckDecodedLength(opts, "given-name", "SIZE (1..16)", len([]rune(*v.GivenName))); constraintErr != nil {
+			for _, character := range []byte(*v.GivenName) {
+				if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+					if constraintErr := ber.CheckDecodedValue(opts, "given-name", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+						return constraintErr
+					}
+					break
+				}
+			}
+			if len(*v.GivenName) < 1 || len(*v.GivenName) > 16 {
+				if constraintErr := ber.CheckDecodedLength(opts, "given-name", "SIZE (1..16)", len(*v.GivenName)); constraintErr != nil {
 					return constraintErr
 				}
 			}
@@ -8010,8 +8426,16 @@ func (v *PersonalName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 			}
 
 			offset += n_initials
-			if len([]rune(*v.Initials)) < 1 || len([]rune(*v.Initials)) > 5 {
-				if constraintErr := ber.CheckDecodedLength(opts, "initials", "SIZE (1..5)", len([]rune(*v.Initials))); constraintErr != nil {
+			for _, character := range []byte(*v.Initials) {
+				if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+					if constraintErr := ber.CheckDecodedValue(opts, "initials", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+						return constraintErr
+					}
+					break
+				}
+			}
+			if len(*v.Initials) < 1 || len(*v.Initials) > 5 {
+				if constraintErr := ber.CheckDecodedLength(opts, "initials", "SIZE (1..5)", len(*v.Initials)); constraintErr != nil {
 					return constraintErr
 				}
 			}
@@ -8039,8 +8463,16 @@ func (v *PersonalName) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 			}
 
 			offset += n_generationqualifier
-			if len([]rune(*v.GenerationQualifier)) < 1 || len([]rune(*v.GenerationQualifier)) > 3 {
-				if constraintErr := ber.CheckDecodedLength(opts, "generation-qualifier", "SIZE (1..3)", len([]rune(*v.GenerationQualifier))); constraintErr != nil {
+			for _, character := range []byte(*v.GenerationQualifier) {
+				if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+					if constraintErr := ber.CheckDecodedValue(opts, "generation-qualifier", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+						return constraintErr
+					}
+					break
+				}
+			}
+			if len(*v.GenerationQualifier) < 1 || len(*v.GenerationQualifier) > 3 {
+				if constraintErr := ber.CheckDecodedLength(opts, "generation-qualifier", "SIZE (1..3)", len(*v.GenerationQualifier)); constraintErr != nil {
 					return constraintErr
 				}
 			}
@@ -8074,14 +8506,22 @@ func MarshalBEROrganizationalUnitNames(collection *OrganizationalUnitNames, opts
 func marshalBEROrganizationalUnitNames(collection *OrganizationalUnitNames, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 4 {
-		if constraintErr := ber.CheckEncodedLength(opts, "OrganizationalUnitNames", "SIZE (1..4)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "OrganizationalUnitNames", "SIZE (1..4)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	var children []byte
 	for elemIndex, elem := range list {
-		if len([]rune(elem)) < 1 || len([]rune(elem)) > 32 {
-			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..32)", len([]rune(elem))); constraintErr != nil {
+		for _, character := range []byte(elem) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, fmt.Sprintf("element[%d]", elemIndex), "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(elem) < 1 || len(elem) > 32 {
+			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..32)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8101,14 +8541,22 @@ func MarshalDEROrganizationalUnitNames(collection *OrganizationalUnitNames) ([]b
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 4 {
-		if constraintErr := ber.CheckEncodedLength(nil, "OrganizationalUnitNames", "SIZE (1..4)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "OrganizationalUnitNames", "SIZE (1..4)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	var children []byte
 	for elemIndex, elem := range list {
-		if len([]rune(elem)) < 1 || len([]rune(elem)) > 32 {
-			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..32)", len([]rune(elem))); constraintErr != nil {
+		for _, character := range []byte(elem) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(nil, fmt.Sprintf("element[%d]", elemIndex), "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(elem) < 1 || len(elem) > 32 {
+			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..32)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8151,8 +8599,16 @@ func UnmarshalBEROrganizationalUnitNames(data []byte, opts ...ber.DecodeOption) 
 		if strErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", strErr)
 		}
-		if len([]rune(val)) < 1 || len([]rune(val)) > 32 {
-			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (1..32)", len([]rune(val))); constraintErr != nil {
+		for _, character := range []byte(val) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckDecodedValue(opts, fmt.Sprintf("element[%d]", len(result)), "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(val) < 1 || len(val) > 32 {
+			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (1..32)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8165,7 +8621,7 @@ func UnmarshalBEROrganizationalUnitNames(data []byte, opts ...ber.DecodeOption) 
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 4 {
-		if constraintErr := ber.CheckDecodedLength(opts, "OrganizationalUnitNames", "SIZE (1..4)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "OrganizationalUnitNames", "SIZE (1..4)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8201,7 +8657,7 @@ func MarshalBERBuiltInDomainDefinedAttributes(collection *BuiltInDomainDefinedAt
 func marshalBERBuiltInDomainDefinedAttributes(collection *BuiltInDomainDefinedAttributes, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 4 {
-		if constraintErr := ber.CheckEncodedLength(opts, "BuiltInDomainDefinedAttributes", "SIZE (1..4)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "BuiltInDomainDefinedAttributes", "SIZE (1..4)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8223,7 +8679,7 @@ func MarshalDERBuiltInDomainDefinedAttributes(collection *BuiltInDomainDefinedAt
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 4 {
-		if constraintErr := ber.CheckEncodedLength(nil, "BuiltInDomainDefinedAttributes", "SIZE (1..4)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "BuiltInDomainDefinedAttributes", "SIZE (1..4)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8281,7 +8737,7 @@ func UnmarshalBERBuiltInDomainDefinedAttributes(data []byte, opts ...ber.DecodeO
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 4 {
-		if constraintErr := ber.CheckDecodedLength(opts, "BuiltInDomainDefinedAttributes", "SIZE (1..4)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "BuiltInDomainDefinedAttributes", "SIZE (1..4)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8316,8 +8772,16 @@ func (v *BuiltInDomainDefinedAttribute) marshalBER(opts ...ber.EncodeOption) ([]
 		return nil, err
 	}
 	var children []byte
-	if len([]rune(v.Type)) < 1 || len([]rune(v.Type)) > 8 {
-		if constraintErr := ber.CheckEncodedLength(opts, "type", "SIZE (1..8)", len([]rune(v.Type))); constraintErr != nil {
+	for _, character := range []byte(v.Type) {
+		if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+			if constraintErr := ber.CheckEncodedValue(opts, "type", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+				return nil, constraintErr
+			}
+			break
+		}
+	}
+	if len(v.Type) < 1 || len(v.Type) > 8 {
+		if constraintErr := ber.CheckEncodedLength(opts, "type", "SIZE (1..8)", len(v.Type)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8326,8 +8790,16 @@ func (v *BuiltInDomainDefinedAttribute) marshalBER(opts ...ber.EncodeOption) ([]
 		return nil, fmt.Errorf("encoding type: %w", stringErr)
 	}
 	children = append(children, enc_type...)
-	if len([]rune(v.Value)) < 1 || len([]rune(v.Value)) > 128 {
-		if constraintErr := ber.CheckEncodedLength(opts, "value", "SIZE (1..128)", len([]rune(v.Value))); constraintErr != nil {
+	for _, character := range []byte(v.Value) {
+		if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+			if constraintErr := ber.CheckEncodedValue(opts, "value", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+				return nil, constraintErr
+			}
+			break
+		}
+	}
+	if len(v.Value) < 1 || len(v.Value) > 128 {
+		if constraintErr := ber.CheckEncodedLength(opts, "value", "SIZE (1..128)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8345,8 +8817,16 @@ func (v *BuiltInDomainDefinedAttribute) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("%w: BuiltInDomainDefinedAttribute receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
-	if len([]rune(v.Type)) < 1 || len([]rune(v.Type)) > 8 {
-		if constraintErr := ber.CheckEncodedLength(nil, "type", "SIZE (1..8)", len([]rune(v.Type))); constraintErr != nil {
+	for _, character := range []byte(v.Type) {
+		if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+			if constraintErr := ber.CheckEncodedValue(nil, "type", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+				return nil, constraintErr
+			}
+			break
+		}
+	}
+	if len(v.Type) < 1 || len(v.Type) > 8 {
+		if constraintErr := ber.CheckEncodedLength(nil, "type", "SIZE (1..8)", len(v.Type)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8355,8 +8835,16 @@ func (v *BuiltInDomainDefinedAttribute) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding type: %w", stringErr)
 	}
 	children = append(children, enc_type...)
-	if len([]rune(v.Value)) < 1 || len([]rune(v.Value)) > 128 {
-		if constraintErr := ber.CheckEncodedLength(nil, "value", "SIZE (1..128)", len([]rune(v.Value))); constraintErr != nil {
+	for _, character := range []byte(v.Value) {
+		if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+			if constraintErr := ber.CheckEncodedValue(nil, "value", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+				return nil, constraintErr
+			}
+			break
+		}
+	}
+	if len(v.Value) < 1 || len(v.Value) > 128 {
+		if constraintErr := ber.CheckEncodedLength(nil, "value", "SIZE (1..128)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8422,8 +8910,16 @@ func (v *BuiltInDomainDefinedAttribute) UnmarshalBER(data []byte, opts ...ber.De
 	}
 
 	offset += n
-	if len([]rune(v.Type)) < 1 || len([]rune(v.Type)) > 8 {
-		if constraintErr := ber.CheckDecodedLength(opts, "type", "SIZE (1..8)", len([]rune(v.Type))); constraintErr != nil {
+	for _, character := range []byte(v.Type) {
+		if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+			if constraintErr := ber.CheckDecodedValue(opts, "type", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+				return constraintErr
+			}
+			break
+		}
+	}
+	if len(v.Type) < 1 || len(v.Type) > 8 {
+		if constraintErr := ber.CheckDecodedLength(opts, "type", "SIZE (1..8)", len(v.Type)); constraintErr != nil {
 			return constraintErr
 		}
 	}
@@ -8442,8 +8938,16 @@ func (v *BuiltInDomainDefinedAttribute) UnmarshalBER(data []byte, opts ...ber.De
 	}
 
 	offset += n
-	if len([]rune(v.Value)) < 1 || len([]rune(v.Value)) > 128 {
-		if constraintErr := ber.CheckDecodedLength(opts, "value", "SIZE (1..128)", len([]rune(v.Value))); constraintErr != nil {
+	for _, character := range []byte(v.Value) {
+		if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+			if constraintErr := ber.CheckDecodedValue(opts, "value", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+				return constraintErr
+			}
+			break
+		}
+	}
+	if len(v.Value) < 1 || len(v.Value) > 128 {
+		if constraintErr := ber.CheckDecodedLength(opts, "value", "SIZE (1..128)", len(v.Value)); constraintErr != nil {
 			return constraintErr
 		}
 	}
@@ -8472,7 +8976,7 @@ func MarshalBERExtensionAttributes(collection *ExtensionAttributes, opts ...ber.
 func marshalBERExtensionAttributes(collection *ExtensionAttributes, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 256 {
-		if constraintErr := ber.CheckEncodedLength(opts, "ExtensionAttributes", "SIZE (1..256)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "ExtensionAttributes", "SIZE (1..256)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8494,7 +8998,7 @@ func MarshalDERExtensionAttributes(collection *ExtensionAttributes) ([]byte, err
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 256 {
-		if constraintErr := ber.CheckEncodedLength(nil, "ExtensionAttributes", "SIZE (1..256)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "ExtensionAttributes", "SIZE (1..256)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8555,7 +9059,7 @@ func UnmarshalBERExtensionAttributes(data []byte, opts ...ber.DecodeOption) (ret
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 256 {
-		if constraintErr := ber.CheckDecodedLength(opts, "ExtensionAttributes", "SIZE (1..256)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "ExtensionAttributes", "SIZE (1..256)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9127,7 +9631,7 @@ func MarshalBERTeletexOrganizationalUnitNames(collection *TeletexOrganizationalU
 func marshalBERTeletexOrganizationalUnitNames(collection *TeletexOrganizationalUnitNames, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 4 {
-		if constraintErr := ber.CheckEncodedLength(opts, "TeletexOrganizationalUnitNames", "SIZE (1..4)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "TeletexOrganizationalUnitNames", "SIZE (1..4)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9154,7 +9658,7 @@ func MarshalDERTeletexOrganizationalUnitNames(collection *TeletexOrganizationalU
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 4 {
-		if constraintErr := ber.CheckEncodedLength(nil, "TeletexOrganizationalUnitNames", "SIZE (1..4)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "TeletexOrganizationalUnitNames", "SIZE (1..4)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9218,7 +9722,7 @@ func UnmarshalBERTeletexOrganizationalUnitNames(data []byte, opts ...ber.DecodeO
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 4 {
-		if constraintErr := ber.CheckDecodedLength(opts, "TeletexOrganizationalUnitNames", "SIZE (1..4)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "TeletexOrganizationalUnitNames", "SIZE (1..4)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9261,8 +9765,16 @@ func (v *PhysicalDeliveryCountryName) marshalBER(opts ...ber.EncodeOption) ([]by
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding x121-dcc-code: %w", stringErr)
 		}
-		if len([]rune(*v.X121DccCode)) < 3 || len([]rune(*v.X121DccCode)) > 3 {
-			if constraintErr := ber.CheckEncodedLength(opts, "x121-dcc-code", "SIZE (3)", len([]rune(*v.X121DccCode))); constraintErr != nil {
+		for _, character := range []byte(*v.X121DccCode) {
+			if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "x121-dcc-code", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.X121DccCode) < 3 || len(*v.X121DccCode) > 3 {
+			if constraintErr := ber.CheckEncodedLength(opts, "x121-dcc-code", "SIZE (3)", len(*v.X121DccCode)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9275,8 +9787,16 @@ func (v *PhysicalDeliveryCountryName) marshalBER(opts ...ber.EncodeOption) ([]by
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding iso-3166-alpha2-code: %w", stringErr)
 		}
-		if len([]rune(*v.Iso3166Alpha2Code)) < 2 || len([]rune(*v.Iso3166Alpha2Code)) > 2 {
-			if constraintErr := ber.CheckEncodedLength(opts, "iso-3166-alpha2-code", "SIZE (2)", len([]rune(*v.Iso3166Alpha2Code))); constraintErr != nil {
+		for _, character := range []byte(*v.Iso3166Alpha2Code) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "iso-3166-alpha2-code", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.Iso3166Alpha2Code) < 2 || len(*v.Iso3166Alpha2Code) > 2 {
+			if constraintErr := ber.CheckEncodedLength(opts, "iso-3166-alpha2-code", "SIZE (2)", len(*v.Iso3166Alpha2Code)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9350,8 +9870,16 @@ func (v *PhysicalDeliveryCountryName) UnmarshalBER(data []byte, opts ...ber.Deco
 			return fmt.Errorf("decoding x121-dcc-code: %w", strErr)
 		}
 		v.X121DccCode = &decVal
-		if len([]rune(*v.X121DccCode)) < 3 || len([]rune(*v.X121DccCode)) > 3 {
-			if constraintErr := ber.CheckDecodedLength(opts, "x121-dcc-code", "SIZE (3)", len([]rune(*v.X121DccCode))); constraintErr != nil {
+		for _, character := range []byte(*v.X121DccCode) {
+			if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "x121-dcc-code", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.X121DccCode) < 3 || len(*v.X121DccCode) > 3 {
+			if constraintErr := ber.CheckDecodedLength(opts, "x121-dcc-code", "SIZE (3)", len(*v.X121DccCode)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -9362,8 +9890,16 @@ func (v *PhysicalDeliveryCountryName) UnmarshalBER(data []byte, opts ...ber.Deco
 			return fmt.Errorf("decoding iso-3166-alpha2-code: %w", strErr)
 		}
 		v.Iso3166Alpha2Code = &decVal
-		if len([]rune(*v.Iso3166Alpha2Code)) < 2 || len([]rune(*v.Iso3166Alpha2Code)) > 2 {
-			if constraintErr := ber.CheckDecodedLength(opts, "iso-3166-alpha2-code", "SIZE (2)", len([]rune(*v.Iso3166Alpha2Code))); constraintErr != nil {
+		for _, character := range []byte(*v.Iso3166Alpha2Code) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "iso-3166-alpha2-code", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.Iso3166Alpha2Code) < 2 || len(*v.Iso3166Alpha2Code) > 2 {
+			if constraintErr := ber.CheckDecodedLength(opts, "iso-3166-alpha2-code", "SIZE (2)", len(*v.Iso3166Alpha2Code)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -9399,8 +9935,16 @@ func (v *PostalCode) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding numeric-code: %w", stringErr)
 		}
-		if len([]rune(*v.NumericCode)) < 1 || len([]rune(*v.NumericCode)) > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "numeric-code", "SIZE (1..16)", len([]rune(*v.NumericCode))); constraintErr != nil {
+		for _, character := range []byte(*v.NumericCode) {
+			if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "numeric-code", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.NumericCode) < 1 || len(*v.NumericCode) > 16 {
+			if constraintErr := ber.CheckEncodedLength(opts, "numeric-code", "SIZE (1..16)", len(*v.NumericCode)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9413,8 +9957,16 @@ func (v *PostalCode) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if stringErr != nil {
 			return nil, fmt.Errorf("encoding printable-code: %w", stringErr)
 		}
-		if len([]rune(*v.PrintableCode)) < 1 || len([]rune(*v.PrintableCode)) > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "printable-code", "SIZE (1..16)", len([]rune(*v.PrintableCode))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableCode) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "printable-code", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableCode) < 1 || len(*v.PrintableCode) > 16 {
+			if constraintErr := ber.CheckEncodedLength(opts, "printable-code", "SIZE (1..16)", len(*v.PrintableCode)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9488,8 +10040,16 @@ func (v *PostalCode) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 			return fmt.Errorf("decoding numeric-code: %w", strErr)
 		}
 		v.NumericCode = &decVal
-		if len([]rune(*v.NumericCode)) < 1 || len([]rune(*v.NumericCode)) > 16 {
-			if constraintErr := ber.CheckDecodedLength(opts, "numeric-code", "SIZE (1..16)", len([]rune(*v.NumericCode))); constraintErr != nil {
+		for _, character := range []byte(*v.NumericCode) {
+			if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "numeric-code", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.NumericCode) < 1 || len(*v.NumericCode) > 16 {
+			if constraintErr := ber.CheckDecodedLength(opts, "numeric-code", "SIZE (1..16)", len(*v.NumericCode)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -9500,8 +10060,16 @@ func (v *PostalCode) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (return
 			return fmt.Errorf("decoding printable-code: %w", strErr)
 		}
 		v.PrintableCode = &decVal
-		if len([]rune(*v.PrintableCode)) < 1 || len([]rune(*v.PrintableCode)) > 16 {
-			if constraintErr := ber.CheckDecodedLength(opts, "printable-code", "SIZE (1..16)", len([]rune(*v.PrintableCode))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableCode) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckDecodedValue(opts, "printable-code", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableCode) < 1 || len(*v.PrintableCode) > 16 {
+			if constraintErr := ber.CheckDecodedLength(opts, "printable-code", "SIZE (1..16)", len(*v.PrintableCode)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -9535,7 +10103,7 @@ func (v *UnformattedPostalAddress) marshalBER(opts ...ber.EncodeOption) ([]byte,
 				return nil, constraintErr
 			}
 		}
-		enc_printableaddress, err := MarshalBERUnformattedPostalAddressPrintableAddress(v.PrintableAddress, ber.ChildEncodeOptions(opts, "printable-address")...)
+		enc_printableaddress, err := MarshalBERUnformattedPostalAddressPrintableAddress(v.PrintableAddress, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "printable-address"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding printable-address: %w", err)
 		}
@@ -9672,7 +10240,7 @@ func (v *UnformattedPostalAddress) UnmarshalBER(data []byte, opts ...ber.DecodeO
 					v.PrintableAddressIndef_ = true
 				}
 			}
-			dec_printableaddress, unmErr := UnmarshalBERUnformattedPostalAddressPrintableAddress(tlv_printableaddress, ber.ChildDecodeOptions(opts, "printable-address")...)
+			dec_printableaddress, unmErr := UnmarshalBERUnformattedPostalAddressPrintableAddress(tlv_printableaddress, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "printable-address"))...)
 			if unmErr != nil {
 				return fmt.Errorf("decoding printable-address: %w", unmErr)
 			}
@@ -9736,8 +10304,16 @@ func (v *PDSParameter) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if v.PrintableString != nil {
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 30 {
-			if constraintErr := ber.CheckEncodedLength(opts, "printable-string", "SIZE (1..30)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "printable-string", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 30 {
+			if constraintErr := ber.CheckEncodedLength(opts, "printable-string", "SIZE (1..30)", len(*v.PrintableString)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9769,8 +10345,16 @@ func (v *PDSParameter) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if v.PrintableString != nil {
-		if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 30 {
-			if constraintErr := ber.CheckEncodedLength(nil, "printable-string", "SIZE (1..30)", len([]rune(*v.PrintableString))); constraintErr != nil {
+		for _, character := range []byte(*v.PrintableString) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(nil, "printable-string", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 30 {
+			if constraintErr := ber.CheckEncodedLength(nil, "printable-string", "SIZE (1..30)", len(*v.PrintableString)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9871,8 +10455,16 @@ func (v *PDSParameter) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 			}
 
 			offset += n
-			if len([]rune(*v.PrintableString)) < 1 || len([]rune(*v.PrintableString)) > 30 {
-				if constraintErr := ber.CheckDecodedLength(opts, "printable-string", "SIZE (1..30)", len([]rune(*v.PrintableString))); constraintErr != nil {
+			for _, character := range []byte(*v.PrintableString) {
+				if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+					if constraintErr := ber.CheckDecodedValue(opts, "printable-string", "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+						return constraintErr
+					}
+					break
+				}
+			}
+			if len(*v.PrintableString) < 1 || len(*v.PrintableString) > 30 {
+				if constraintErr := ber.CheckDecodedLength(opts, "printable-string", "SIZE (1..30)", len(*v.PrintableString)); constraintErr != nil {
 					return constraintErr
 				}
 			}
@@ -10135,7 +10727,7 @@ func (v *PresentationAddress) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 			return nil, constraintErr
 		}
 	}
-	enc_naddresses, err := MarshalBERPresentationAddressNAddresses(v.NAddresses, ber.ChildEncodeOptions(opts, "nAddresses")...)
+	enc_naddresses, err := MarshalBERPresentationAddressNAddresses(v.NAddresses, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "nAddresses"))...)
 	if err != nil {
 		return nil, fmt.Errorf("encoding nAddresses: %w", err)
 	}
@@ -10390,7 +10982,7 @@ func (v *PresentationAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		return fmt.Errorf("decoding nAddresses: %w", ber.ErrExtraData)
 	}
 	// Decode inner value from explicit tag wrapper
-	dec_naddresses, unmErr := UnmarshalBERPresentationAddressNAddresses(innerData_naddresses, ber.ChildDecodeOptions(opts, "nAddresses")...)
+	dec_naddresses, unmErr := UnmarshalBERPresentationAddressNAddresses(innerData_naddresses, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "nAddresses"))...)
 	if unmErr != nil {
 		return fmt.Errorf("decoding nAddresses: %w", unmErr)
 	}
@@ -10431,7 +11023,7 @@ func MarshalBERTeletexDomainDefinedAttributes(collection *TeletexDomainDefinedAt
 func marshalBERTeletexDomainDefinedAttributes(collection *TeletexDomainDefinedAttributes, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 4 {
-		if constraintErr := ber.CheckEncodedLength(opts, "TeletexDomainDefinedAttributes", "SIZE (1..4)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "TeletexDomainDefinedAttributes", "SIZE (1..4)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -10453,7 +11045,7 @@ func MarshalDERTeletexDomainDefinedAttributes(collection *TeletexDomainDefinedAt
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 4 {
-		if constraintErr := ber.CheckEncodedLength(nil, "TeletexDomainDefinedAttributes", "SIZE (1..4)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "TeletexDomainDefinedAttributes", "SIZE (1..4)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -10511,7 +11103,7 @@ func UnmarshalBERTeletexDomainDefinedAttributes(data []byte, opts ...ber.DecodeO
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 4 {
-		if constraintErr := ber.CheckDecodedLength(opts, "TeletexDomainDefinedAttributes", "SIZE (1..4)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "TeletexDomainDefinedAttributes", "SIZE (1..4)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -10815,7 +11407,7 @@ func (v *TBSCertListRevokedCertificatesElem) marshalBER(opts ...ber.EncodeOption
 				return nil, constraintErr
 			}
 		}
-		enc_crlentryextensions, err := MarshalBERExtensions(v.CrlEntryExtensions, ber.ChildEncodeOptions(opts, "crlEntryExtensions")...)
+		enc_crlentryextensions, err := MarshalBERExtensions(v.CrlEntryExtensions, ber.ParentCollectionSizeEncodeOptions(ber.ChildEncodeOptions(opts, "crlEntryExtensions"))...)
 		if err != nil {
 			return nil, fmt.Errorf("encoding crlEntryExtensions: %w", err)
 		}
@@ -10958,7 +11550,7 @@ func (v *TBSCertListRevokedCertificatesElem) UnmarshalBER(data []byte, opts ...b
 						v.CrlEntryExtensionsIndef_ = true
 					}
 				}
-				dec_crlentryextensions, unmErr := UnmarshalBERExtensions(tlv_crlentryextensions, ber.ChildDecodeOptions(opts, "crlEntryExtensions")...)
+				dec_crlentryextensions, unmErr := UnmarshalBERExtensions(tlv_crlentryextensions, ber.ParentCollectionSizeDecodeOptions(ber.ChildDecodeOptions(opts, "crlEntryExtensions"))...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding crlEntryExtensions: %w", unmErr)
 				}
@@ -11103,14 +11695,22 @@ func MarshalBERUnformattedPostalAddressPrintableAddress(collection *UnformattedP
 func marshalBERUnformattedPostalAddressPrintableAddress(collection *UnformattedPostalAddressPrintableAddress, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 6 {
-		if constraintErr := ber.CheckEncodedLength(opts, "UnformattedPostalAddressPrintableAddress", "SIZE (1..6)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "UnformattedPostalAddress-printable-address", "SIZE (1..6)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	var children []byte
 	for elemIndex, elem := range list {
-		if len([]rune(elem)) < 1 || len([]rune(elem)) > 30 {
-			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..30)", len([]rune(elem))); constraintErr != nil {
+		for _, character := range []byte(elem) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(opts, fmt.Sprintf("element[%d]", elemIndex), "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(elem) < 1 || len(elem) > 30 {
+			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..30)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11130,14 +11730,22 @@ func MarshalDERUnformattedPostalAddressPrintableAddress(collection *UnformattedP
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 6 {
-		if constraintErr := ber.CheckEncodedLength(nil, "UnformattedPostalAddressPrintableAddress", "SIZE (1..6)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "UnformattedPostalAddress-printable-address", "SIZE (1..6)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	var children []byte
 	for elemIndex, elem := range list {
-		if len([]rune(elem)) < 1 || len([]rune(elem)) > 30 {
-			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..30)", len([]rune(elem))); constraintErr != nil {
+		for _, character := range []byte(elem) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckEncodedValue(nil, fmt.Sprintf("element[%d]", elemIndex), "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(elem) < 1 || len(elem) > 30 {
+			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..30)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11180,8 +11788,16 @@ func UnmarshalBERUnformattedPostalAddressPrintableAddress(data []byte, opts ...b
 		if strErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", strErr)
 		}
-		if len([]rune(val)) < 1 || len([]rune(val)) > 30 {
-			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (1..30)", len([]rune(val))); constraintErr != nil {
+		for _, character := range []byte(val) {
+			if !((character >= ' ' && character <= ' ') || (character >= '\'' && character <= ')') || (character >= '+' && character <= ':') || (character >= '=' && character <= '=') || (character >= '?' && character <= '?') || (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z')) {
+				if constraintErr := ber.CheckDecodedValue(opts, fmt.Sprintf("element[%d]", len(result)), "PrintableString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(val) < 1 || len(val) > 30 {
+			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (1..30)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11194,7 +11810,7 @@ func UnmarshalBERUnformattedPostalAddressPrintableAddress(data []byte, opts ...b
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 6 {
-		if constraintErr := ber.CheckDecodedLength(opts, "UnformattedPostalAddressPrintableAddress", "SIZE (1..6)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "UnformattedPostalAddress-printable-address", "SIZE (1..6)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -11229,8 +11845,16 @@ func (v *ExtendedNetworkAddressE1634Address) marshalBER(opts ...ber.EncodeOption
 		return nil, err
 	}
 	var children []byte
-	if len([]rune(v.Number)) < 1 || len([]rune(v.Number)) > 15 {
-		if constraintErr := ber.CheckEncodedLength(opts, "number", "SIZE (1..15)", len([]rune(v.Number))); constraintErr != nil {
+	for _, character := range []byte(v.Number) {
+		if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+			if constraintErr := ber.CheckEncodedValue(opts, "number", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+				return nil, constraintErr
+			}
+			break
+		}
+	}
+	if len(v.Number) < 1 || len(v.Number) > 15 {
+		if constraintErr := ber.CheckEncodedLength(opts, "number", "SIZE (1..15)", len(v.Number)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -11245,8 +11869,16 @@ func (v *ExtendedNetworkAddressE1634Address) marshalBER(opts ...ber.EncodeOption
 	enc_number = retagged_enc_number
 	children = append(children, enc_number...)
 	if v.SubAddress != nil {
-		if len([]rune(*v.SubAddress)) < 1 || len([]rune(*v.SubAddress)) > 40 {
-			if constraintErr := ber.CheckEncodedLength(opts, "sub-address", "SIZE (1..40)", len([]rune(*v.SubAddress))); constraintErr != nil {
+		for _, character := range []byte(*v.SubAddress) {
+			if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(opts, "sub-address", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.SubAddress) < 1 || len(*v.SubAddress) > 40 {
+			if constraintErr := ber.CheckEncodedLength(opts, "sub-address", "SIZE (1..40)", len(*v.SubAddress)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11270,8 +11902,16 @@ func (v *ExtendedNetworkAddressE1634Address) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("%w: ExtendedNetworkAddressE1634Address receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
-	if len([]rune(v.Number)) < 1 || len([]rune(v.Number)) > 15 {
-		if constraintErr := ber.CheckEncodedLength(nil, "number", "SIZE (1..15)", len([]rune(v.Number))); constraintErr != nil {
+	for _, character := range []byte(v.Number) {
+		if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+			if constraintErr := ber.CheckEncodedValue(nil, "number", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+				return nil, constraintErr
+			}
+			break
+		}
+	}
+	if len(v.Number) < 1 || len(v.Number) > 15 {
+		if constraintErr := ber.CheckEncodedLength(nil, "number", "SIZE (1..15)", len(v.Number)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -11286,8 +11926,16 @@ func (v *ExtendedNetworkAddressE1634Address) MarshalDER() ([]byte, error) {
 	enc_number = retagged_enc_number
 	children = append(children, enc_number...)
 	if v.SubAddress != nil {
-		if len([]rune(*v.SubAddress)) < 1 || len([]rune(*v.SubAddress)) > 40 {
-			if constraintErr := ber.CheckEncodedLength(nil, "sub-address", "SIZE (1..40)", len([]rune(*v.SubAddress))); constraintErr != nil {
+		for _, character := range []byte(*v.SubAddress) {
+			if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+				if constraintErr := ber.CheckEncodedValue(nil, "sub-address", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+					return nil, constraintErr
+				}
+				break
+			}
+		}
+		if len(*v.SubAddress) < 1 || len(*v.SubAddress) > 40 {
+			if constraintErr := ber.CheckEncodedLength(nil, "sub-address", "SIZE (1..40)", len(*v.SubAddress)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11371,8 +12019,16 @@ func (v *ExtendedNetworkAddressE1634Address) UnmarshalBER(data []byte, opts ...b
 	}
 
 	offset += n_number
-	if len([]rune(v.Number)) < 1 || len([]rune(v.Number)) > 15 {
-		if constraintErr := ber.CheckDecodedLength(opts, "number", "SIZE (1..15)", len([]rune(v.Number))); constraintErr != nil {
+	for _, character := range []byte(v.Number) {
+		if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+			if constraintErr := ber.CheckDecodedValue(opts, "number", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+				return constraintErr
+			}
+			break
+		}
+	}
+	if len(v.Number) < 1 || len(v.Number) > 15 {
+		if constraintErr := ber.CheckDecodedLength(opts, "number", "SIZE (1..15)", len(v.Number)); constraintErr != nil {
 			return constraintErr
 		}
 	}
@@ -11399,8 +12055,16 @@ func (v *ExtendedNetworkAddressE1634Address) UnmarshalBER(data []byte, opts ...b
 				}
 
 				offset += n_subaddress
-				if len([]rune(*v.SubAddress)) < 1 || len([]rune(*v.SubAddress)) > 40 {
-					if constraintErr := ber.CheckDecodedLength(opts, "sub-address", "SIZE (1..40)", len([]rune(*v.SubAddress))); constraintErr != nil {
+				for _, character := range []byte(*v.SubAddress) {
+					if !((character >= ' ' && character <= ' ') || (character >= '0' && character <= '9')) {
+						if constraintErr := ber.CheckDecodedValue(opts, "sub-address", "NumericString character repertoire (X.680 (02/2021) §41)", fmt.Sprintf("0x%02X", character)); constraintErr != nil {
+							return constraintErr
+						}
+						break
+					}
+				}
+				if len(*v.SubAddress) < 1 || len(*v.SubAddress) > 40 {
+					if constraintErr := ber.CheckDecodedLength(opts, "sub-address", "SIZE (1..40)", len(*v.SubAddress)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -11432,7 +12096,7 @@ func MarshalBERPresentationAddressNAddresses(collection *PresentationAddressNAdd
 func marshalBERPresentationAddressNAddresses(collection *PresentationAddressNAddresses, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 {
-		if constraintErr := ber.CheckEncodedLength(opts, "PresentationAddressNAddresses", "SIZE (1..MAX)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(opts, "PresentationAddress-nAddresses", "SIZE (1..MAX)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -11454,7 +12118,7 @@ func MarshalDERPresentationAddressNAddresses(collection *PresentationAddressNAdd
 	}
 	list := collection.Values
 	if len(list) < 1 {
-		if constraintErr := ber.CheckEncodedLength(nil, "PresentationAddressNAddresses", "SIZE (1..MAX)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(nil, "PresentationAddress-nAddresses", "SIZE (1..MAX)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -11511,7 +12175,7 @@ func UnmarshalBERPresentationAddressNAddresses(data []byte, opts ...ber.DecodeOp
 		offset += n
 	}
 	if len(result) < 1 {
-		if constraintErr := ber.CheckDecodedLength(opts, "PresentationAddressNAddresses", "SIZE (1..MAX)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(opts, "PresentationAddress-nAddresses", "SIZE (1..MAX)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}

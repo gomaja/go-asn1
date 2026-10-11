@@ -149,8 +149,8 @@ func TestMAPRoleTypeConstraints(t *testing.T) {
 		hex, value, constraint, observed string
 		length                           *int
 	}{
-		{"120420303030", " 000", "FROM permitted alphabet", "' '", nil},
-		{"120430303041", "000A", "FROM permitted alphabet", "'A'", nil},
+		{"120420303030", " 000", "FROM permitted alphabet", "0x20", nil},
+		{"120430303041", "000A", "FROM permitted alphabet", "0x41", nil},
 		{"1203303030", "000", "SIZE (4)", "", &shortSize},
 		{"12053030303030", "00000", "SIZE (4)", "", &longSize},
 	} {
@@ -249,7 +249,7 @@ func TestPasswordAlphabetInComposite(t *testing.T) {
 	if err := tolerant.UnmarshalBER(invalid, ber.WithConstraintTolerance(&log)); err != nil {
 		t.Fatal(err)
 	}
-	want := []ber.ConstraintViolation{{Path: "password", Constraint: "FROM permitted alphabet", ObservedValue: "' '"}}
+	want := []ber.ConstraintViolation{{Path: "password", Constraint: "FROM permitted alphabet", ObservedValue: "0x20"}}
 	if got := log.Snapshot(); !reflect.DeepEqual(got, want) {
 		t.Fatalf("violations = %+v, want %+v", got, want)
 	}
