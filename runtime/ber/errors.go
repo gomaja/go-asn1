@@ -38,3 +38,28 @@ func (e *DecodeError) Error() string {
 func (e *DecodeError) Unwrap() error {
 	return e.Cause
 }
+
+// ElementError locates a whole-tree BER validation failure without changing
+// its diagnostic text or cause. Offset is the failing TLV's identifier offset
+// relative to the input passed to ValidateBERElement. ChildIndexes are
+// zero-based child positions, from the root's children to the failing TLV;
+// the root itself has an empty ancestry. EOC markers are not children.
+// A missing EOC or invalid concatenated string locates its enclosing TLV.
+// Generated codecs can translate these positions to ASN.1 component names
+// and collection indexes. This diagnostic API imposes no new wire rules.
+type ElementError struct {
+	offset       int
+	childIndexes []int
+	cause        error
+}
+
+func (e *ElementError) Error() string { return e.cause.Error() }
+func (e *ElementError) Unwrap() error { return e.cause }
+
+// Offset returns the identifier offset of the failing TLV.
+func (e *ElementError) Offset() int { return e.offset }
+
+// ChildIndexes returns an independent copy of the failing TLV's ancestry.
+func (e *ElementError) ChildIndexes() []int {
+	return append([]int(nil), e.childIndexes...)
+}

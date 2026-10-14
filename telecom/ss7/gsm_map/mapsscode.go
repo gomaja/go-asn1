@@ -266,7 +266,7 @@ func marshalBERSSCode(value *BERValue[SSCode], opts ...ber.EncodeOption) ([]byte
 	}
 	enc_value, encodeErr_enc_value := ber.EncodeOctetString([]byte(v.Value))
 	if encodeErr_enc_value != nil {
-		return nil, fmt.Errorf("encoding SS-Code: %w", encodeErr_enc_value)
+		return nil, fmt.Errorf("%s: %w", "encoding SS-Code", qualifyBERError(encodeErr_enc_value, "", "encoding", false))
 	}
 	children = append(children, enc_value...)
 	return children, nil
@@ -287,7 +287,7 @@ func MarshalDERSSCode(value *BERValue[SSCode]) ([]byte, error) {
 	}
 	enc_value, encodeErr_enc_value := ber.EncodeOctetString([]byte(v.Value))
 	if encodeErr_enc_value != nil {
-		return nil, fmt.Errorf("encoding SS-Code: %w", encodeErr_enc_value)
+		return nil, fmt.Errorf("%s: %w", "encoding SS-Code", qualifyBERError(encodeErr_enc_value, "", "encoding", true))
 	}
 	children = append(children, enc_value...)
 	return children, nil
@@ -299,15 +299,19 @@ func UnmarshalBERSSCode(data []byte, opts ...ber.DecodeOption) (returnValue *BER
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return nil, err
+		return nil, ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+			_, probeErr := UnmarshalBERSSCode(data, probeOpts...)
+			return probeErr
+		})
 	}
 	v := &struct{ Value SSCode }{}
 	decode := func() error {
 		content := data
 		offset := 0
+		ber.MarkPreflightTarget(opts, "SS-Code", content[offset:])
 		val_value, n, err := ber.DecodeOctetString(content[offset:], opts...)
 		if err != nil {
-			return fmt.Errorf("decoding SS-Code: %w", err)
+			return fmt.Errorf("%s: %w", "decoding SS-Code", qualifyBERError(err, "", "decoding", false))
 		}
 		v.Value = SSCode(val_value)
 		if offset > len(content) || n < 0 || n > len(content[offset:]) {

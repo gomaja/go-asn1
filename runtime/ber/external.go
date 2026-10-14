@@ -27,6 +27,9 @@ func DecodeExternal(data []byte, options ...DecodeOption) (runtime.External, int
 
 // DecodeExternalValue decodes the contents of an implicitly tagged EXTERNAL.
 func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.External, error) {
+	if err := ValidateDecodeOptions(options...); err != nil {
+		return runtime.External{}, err
+	}
 	var result runtime.External
 	offset := 0
 	if offset < len(value) {
@@ -39,7 +42,7 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 			if err != nil {
 				return result, err
 			}
-			result.DirectReference = runtime.ObjectIdentifier(oid)
+			result.DirectReference = oid
 			if n <= 0 || n > len(value)-offset {
 				return result, ErrInvalidLength
 			}
@@ -82,7 +85,7 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 	}
 	// X.690 (02/2021) §8.18.4 Table 2 and X.680 (02/2021) §37.5:
 	// every permitted EXTERNAL identification has a direct or indirect reference.
-	if result.DirectReference == nil && result.IndirectReference == nil {
+	if result.DirectReference.IsZero() && result.IndirectReference == nil {
 		return result, fmt.Errorf("%w: EXTERNAL identification requires a direct or indirect reference", ErrInvalidValue)
 	}
 	if offset >= len(value) {
@@ -116,22 +119,14 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 		result.Encoding = runtime.ExternalSingleASN1Type
 		result.SingleASN1Type = runtime.RawValue{Bytes: append([]byte(nil), choice...)}
 	case 1:
-		reconstructed, err := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagOctetString, Constructed: t.Constructed}, choice)
-		if err != nil {
-			return result, err
-		}
-		octets, _, err := DecodeOctetString(reconstructed, options...)
+		octets, err := DecodeImplicitOctetStringValue(t.Constructed, choice, options...)
 		if err != nil {
 			return result, err
 		}
 		result.Encoding = runtime.ExternalOctetAligned
 		result.OctetAligned = append([]byte(nil), octets...)
 	case 2:
-		reconstructed, err := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBitString, Constructed: t.Constructed}, choice)
-		if err != nil {
-			return result, err
-		}
-		bits, unused, _, err := DecodeBitString(reconstructed, options...)
+		bits, unused, err := DecodeImplicitBitStringValue(t.Constructed, choice, options...)
 		if err != nil {
 			return result, err
 		}
@@ -147,26 +142,34 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 	return result, nil
 }
 
-// EncodeExternal writes a typed EXTERNAL value using BER (X.690 §8.18.1).
-func EncodeExternal(value runtime.External) ([]byte, error) { return encodeExternal(value, false) }
+// EncodeExternal writes a typed EXTERNAL value using BER (X.690 (02/2021)
+// §8.18.1). WithoutBERReplay rebuilds typed alternatives and refuses the
+// opaque single-ASN1-type alternative (§8.18.9). Default replay is unchanged.
+func EncodeExternal(value runtime.External, options ...EncodeOption) ([]byte, error) {
+	return encodeExternal(value, false, options...)
+}
 
 // EncodeExternalDER writes a typed EXTERNAL value using DER (X.690 §§10–11).
 func EncodeExternalDER(value runtime.External) ([]byte, error) { return encodeExternal(value, true) }
 
-func encodeExternal(value runtime.External, der bool) ([]byte, error) {
+func encodeExternal(value runtime.External, der bool, options ...EncodeOption) ([]byte, error) {
+	config, err := encodeOptions(options)
+	if err != nil {
+		return nil, err
+	}
 	// Check before returning preserved BER too, so a changed value cannot evade
 	// the required identification (X.690 §8.18.4 Table 2; X.680 §37.5).
-	if value.DirectReference == nil && value.IndirectReference == nil {
+	if value.DirectReference.IsZero() && value.IndirectReference == nil {
 		return nil, fmt.Errorf("%w: EXTERNAL identification requires a direct or indirect reference", ErrInvalidValue)
 	}
-	if !der {
+	if !der && !config.noReplay {
 		if original := value.UnchangedBER(); original != nil {
 			return original, nil
 		}
 	}
 	var children []byte
-	if value.DirectReference != nil {
-		oid, err := EncodeObjectIdentifierChecked([]uint64(value.DirectReference))
+	if !value.DirectReference.IsZero() {
+		oid, err := EncodeObjectIdentifierChecked(value.DirectReference)
 		if err != nil {
 			return nil, err
 		}
@@ -188,6 +191,9 @@ func encodeExternal(value runtime.External, der bool) ([]byte, error) {
 	}
 	switch value.Encoding {
 	case runtime.ExternalSingleASN1Type:
+		if err := CheckBEROpaqueReplay(options...); err != nil {
+			return nil, err
+		}
 		inner := value.SingleASN1Type.Bytes
 		if err := ValidateBERElement(inner, encodingStructureOption(inner)); err != nil {
 			return nil, err

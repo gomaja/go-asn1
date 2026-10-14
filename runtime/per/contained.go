@@ -154,7 +154,9 @@ func (d *Deferred) BitBuffer(options DecodeOptions) (*BitBuffer, error) {
 	if err != nil {
 		return nil, err
 	}
-	bb.SetDecodeOptions(options)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return nil, err
+	}
 	// The contents arrived with the BIT STRING's full length, so an extension
 	// addition they cut short is not a cut input: it stays an error under
 	// TruncatedExtensionTolerance.
@@ -168,6 +170,9 @@ func (d *Deferred) BitBuffer(options DecodeOptions) (*BitBuffer, error) {
 // records, qualified by root, as CaptureFinalBits does. Store the returned
 // FinalPadding in the host's <Field>PERPadding_ with the decoded value.
 func CaptureDeferredBits(bb *BitBuffer, root string) (FinalPadding, error) {
+	if err := bb.checkRecoveryBits(0); err != nil {
+		return FinalPadding{}, err
+	}
 	if err := bb.checkContainedDecoding(); err != nil {
 		return FinalPadding{}, err
 	}
@@ -269,9 +274,11 @@ func (bb *BitBuffer) EnterContained() ContainedSite {
 // DeferAll it is kept raw without a decode.
 func (site ContainedSite) Decodes() bool { return site.mode != DeferAll }
 
-// DefersErrors reports whether a contained value that fails to decode is
-// kept raw instead of failing the decode.
-func (site ContainedSite) DefersErrors() bool { return site.mode == DeferOnError }
+// DefersErrors reports whether a contained error may be kept raw. Resource
+// limits are fatal even under DeferOnError.
+func (site ContainedSite) DefersErrors(err error) bool {
+	return !errors.Is(err, ErrResourceLimit) && site.mode == DeferOnError && (site.trace == nil || site.trace.work == nil || site.trace.work.err == nil)
+}
 
 // DeferOctets keeps the contents of an OCTET STRING (CONTAINING ...) raw,
 // with the decode error, or nil under DeferAll. Store the result in the

@@ -279,8 +279,8 @@ func TestValidateDERLargeCanonicalOID(t *testing.T) {
 		}
 	}
 	large, _ := hex.DecodeString("060b2a82808080808080808000")
-	if _, _, err := DecodeObjectIdentifier(large); !errors.Is(err, ErrInvalidValue) {
-		t.Fatalf("typed uint64 OID decode error = %v, want explicit range error", err)
+	if oid, _, err := DecodeObjectIdentifier(large); err != nil || oid.String() != "1.2.18446744073709551616" {
+		t.Fatalf("large OID decode error = %v", err)
 	}
 	for _, wire := range []string{"06028000", "060181", "0d028000", "0d0181"} {
 		data, _ := hex.DecodeString(wire)
@@ -592,7 +592,7 @@ func TestEncodeDecodeOID(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			encoded := mustEncode(t)(EncodeObjectIdentifier(tc.oid))
+			encoded := mustEncode(t)(EncodeObjectIdentifier(runtime.MustObjectIdentifierFromArcs(tc.oid...)))
 			expected, _ := hex.DecodeString(tc.hex)
 			if !bytes.Equal(encoded, expected) {
 				t.Errorf("encode: got %x, want %s", encoded, tc.hex)
@@ -605,12 +605,16 @@ func TestEncodeDecodeOID(t *testing.T) {
 			if consumed != len(encoded) {
 				t.Errorf("consumed: got %d, want %d", consumed, len(encoded))
 			}
-			if len(decoded) != len(tc.oid) {
-				t.Fatalf("len: got %d, want %d", len(decoded), len(tc.oid))
+			decodedArcs, ok := decoded.Arcs()
+			if !ok {
+				t.Fatal("arc range")
 			}
-			for i := range decoded {
-				if decoded[i] != tc.oid[i] {
-					t.Errorf("arc[%d]: got %d, want %d", i, decoded[i], tc.oid[i])
+			if len(decodedArcs) != len(tc.oid) {
+				t.Fatalf("len: got %d, want %d", len(decodedArcs), len(tc.oid))
+			}
+			for i := range decodedArcs {
+				if decodedArcs[i] != tc.oid[i] {
+					t.Errorf("arc[%d]: got %d, want %d", i, decodedArcs[i], tc.oid[i])
 				}
 			}
 		})

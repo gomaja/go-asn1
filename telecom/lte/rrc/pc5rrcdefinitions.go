@@ -80,8 +80,11 @@ func (v *SBCCHSLBCHMessage) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SBCCHSLBCHMessage with explicit receiver options.
 func (v *SBCCHSLBCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessage")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessage")
 	}
@@ -94,6 +97,10 @@ func (v *SBCCHSLBCHMessage) UnmarshalUPERWithOptions(data []byte, options per.De
 }
 
 func (v *SBCCHSLBCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SBCCHSLBCHMessage{}
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
@@ -124,8 +131,11 @@ func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SBCCHSLBCHMessageV2XR14 with explicit receiver options.
 func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessageV2XR14")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessageV2XR14")
 	}
@@ -138,6 +148,10 @@ func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPERWithOptions(data []byte, options 
 }
 
 func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SBCCHSLBCHMessageV2XR14{}
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
@@ -183,8 +197,11 @@ func (v *MasterInformationBlockSL) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MasterInformationBlockSL with explicit receiver options.
 func (v *MasterInformationBlockSL) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MasterInformationBlockSL")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MasterInformationBlockSL")
 	}
@@ -197,6 +214,10 @@ func (v *MasterInformationBlockSL) UnmarshalUPERWithOptions(data []byte, options
 }
 
 func (v *MasterInformationBlockSL) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MasterInformationBlockSL{}
 	val_slbandwidthr12, err := per.DecodeEnumerated(bb, 6, false)
 	if err != nil {
@@ -267,8 +288,11 @@ func (v *MasterInformationBlockSLV2XR14) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MasterInformationBlockSLV2XR14 with explicit receiver options.
 func (v *MasterInformationBlockSLV2XR14) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MasterInformationBlockSLV2XR14")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MasterInformationBlockSLV2XR14")
 	}
@@ -281,6 +305,10 @@ func (v *MasterInformationBlockSLV2XR14) UnmarshalUPERWithOptions(data []byte, o
 }
 
 func (v *MasterInformationBlockSLV2XR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MasterInformationBlockSLV2XR14{}
 	val_slbandwidthr14, err := per.DecodeEnumerated(bb, 6, false)
 	if err != nil {

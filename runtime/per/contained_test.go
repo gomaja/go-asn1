@@ -23,19 +23,25 @@ func TestContainedDecodingNames(t *testing.T) {
 // Only a decode that tolerates or defers pays for a trace.
 func TestStrictEagerDecodeHasNoTrace(t *testing.T) {
 	bb := NewBitBufferFromBytes([]byte{0})
-	bb.SetDecodeOptions(DecodeOptions{Deferrals: &DeferralLog{}})
+	if err := bb.SetDecodeOptions(DecodeOptions{Deferrals: &DeferralLog{}}); err != nil {
+		t.Fatal(err)
+	}
 	if bb.trace != nil {
 		t.Fatal("an Eager decode without tolerance allocated a trace")
 	}
-	bb.SetDecodeOptions(DecodeOptions{ContainedDecoding: DeferAll, Deferrals: &DeferralLog{}})
+	if err := bb.SetDecodeOptions(DecodeOptions{ContainedDecoding: DeferAll, Deferrals: &DeferralLog{}}); err != nil {
+		t.Fatal(err)
+	}
 	if bb.trace == nil {
 		t.Fatal("a deferring decode has no trace for its record paths")
 	}
-	if site := bb.EnterContained(); site.Decodes() || site.DefersErrors() {
+	if site := bb.EnterContained(); site.Decodes() || site.DefersErrors(nil) {
 		t.Fatalf("DeferAll site = %+v", site)
 	}
-	bb.SetDecodeOptions(DecodeOptions{})
-	if site := bb.EnterContained(); !site.Decodes() || site.DefersErrors() || site.trace != nil {
+	if err := bb.SetDecodeOptions(DecodeOptions{}); err != nil {
+		t.Fatal(err)
+	}
+	if site := bb.EnterContained(); !site.Decodes() || site.DefersErrors(nil) || site.trace != nil {
 		t.Fatalf("Eager site = %+v", site)
 	}
 }
@@ -46,7 +52,9 @@ func TestDeferralRollsBackAbandonedDecode(t *testing.T) {
 	var tolerances ToleranceLog
 	var deferrals DeferralLog
 	bb := NewBitBufferFromBytes([]byte{0xa0})
-	bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &tolerances, ContainedDecoding: DeferOnError, Deferrals: &deferrals})
+	if err := bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &tolerances, ContainedDecoding: DeferOnError, Deferrals: &deferrals}); err != nil {
+		t.Fatal(err)
+	}
 	mark := bb.EnterIndex(3)
 	field := bb.EnterComponent("Field")
 	site := bb.EnterContained()
@@ -109,7 +117,9 @@ func TestDeferralRollsBackAbandonedDecode(t *testing.T) {
 func TestDeferWithoutError(t *testing.T) {
 	var deferrals DeferralLog
 	bb := NewBitBufferFromBytes([]byte{0})
-	bb.SetDecodeOptions(DecodeOptions{ContainedDecoding: DeferAll, Deferrals: &deferrals})
+	if err := bb.SetDecodeOptions(DecodeOptions{ContainedDecoding: DeferAll, Deferrals: &deferrals}); err != nil {
+		t.Fatal(err)
+	}
 	bb.EnterComponent("Bits")
 	d := bb.EnterContained().DeferBits([]byte{0xe0}, 3, nil).Deferred()
 	if d.Err() != nil || d.BitLength() != 3 || d.Kind() != BitStringContainer {
@@ -134,12 +144,16 @@ func TestContainedDecodingRequiresLog(t *testing.T) {
 		{ContainedDecoding: 7, Deferrals: &DeferralLog{}},
 	} {
 		bb := NewBitBufferFromBytes([]byte{0})
-		bb.SetDecodeOptions(options)
+		if err := bb.SetDecodeOptions(options); err != nil {
+			t.Fatal(err)
+		}
 		if _, err := CaptureFinalBits(bb, "Root"); !errors.Is(err, ErrInvalidValue) {
 			t.Errorf("%+v: %v", options, err)
 		}
 		bits, _ := NewBitBufferFromBits([]byte{0}, 1)
-		bits.SetDecodeOptions(options)
+		if err := bits.SetDecodeOptions(options); err != nil {
+			t.Fatal(err)
+		}
 		if _, err := CaptureDeferredBits(bits, "Root"); !errors.Is(err, ErrInvalidValue) {
 			t.Errorf("deferred bits %+v: %v", options, err)
 		}

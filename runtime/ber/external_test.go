@@ -42,7 +42,7 @@ func TestExternalAlternatives(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			if n != len(wire) || got.Encoding != tc.encoding || !got.DirectReference.Equal(runtime.ObjectIdentifier{1, 3, 6, 1, 4}) || got.IndirectReference.Cmp(big.NewInt(5)) != 0 || got.DataValueDescriptor == nil || *got.DataValueDescriptor != "ABC" {
+			if n != len(wire) || got.Encoding != tc.encoding || !got.DirectReference.Equal(runtime.MustObjectIdentifierFromArcs(1, 3, 6, 1, 4)) || got.IndirectReference.Cmp(big.NewInt(5)) != 0 || got.DataValueDescriptor == nil || *got.DataValueDescriptor != "ABC" {
 				t.Fatalf("decoded=%+v consumed=%d", got, n)
 			}
 			encoded, err := EncodeExternal(got)

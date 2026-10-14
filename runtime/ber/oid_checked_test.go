@@ -6,95 +6,73 @@ import (
 	"math"
 	"reflect"
 	"testing"
+
+	"github.com/gomaja/go-asn1/runtime"
 )
 
 func TestEncodeOIDValueCheckedValidatesRootArcs(t *testing.T) {
-	t.Parallel()
-
-	valid := []struct {
-		oid  []uint64
+	for _, test := range []struct {
+		arcs []uint64
 		want []byte
 	}{
-		{oid: []uint64{0, 0}, want: []byte{0x00}},
-		{oid: []uint64{1, 39}, want: []byte{0x4f}},
-		{oid: []uint64{2, 999, 3}, want: []byte{0x88, 0x37, 0x03}},
-	}
-	for _, test := range valid {
-		encoded, err := EncodeOIDValueChecked(test.oid)
+		{[]uint64{0, 0}, []byte{0}}, {[]uint64{1, 39}, []byte{0x4f}}, {[]uint64{2, 999, 3}, []byte{0x88, 0x37, 3}},
+		{[]uint64{2, math.MaxUint64}, []byte{0x82, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x4f}},
+	} {
+		oid, err := runtime.ObjectIdentifierFromArcs(test.arcs...)
 		if err != nil {
-			t.Fatalf("EncodeOIDValueChecked(%v) error = %v", test.oid, err)
+			t.Fatal(err)
 		}
-		if !bytes.Equal(encoded, test.want) {
-			t.Fatalf("EncodeOIDValueChecked(%v) = %x, want %x", test.oid, encoded, test.want)
+		encoded, err := EncodeOIDValueChecked(oid)
+		if err != nil || !bytes.Equal(encoded, test.want) {
+			t.Fatalf("%v: %x %v", test.arcs, encoded, err)
 		}
 		decoded, err := DecodeOIDValue(encoded)
 		if err != nil {
-			t.Fatalf("DecodeOIDValue(%x) error = %v", encoded, err)
+			t.Fatal(err)
 		}
-		if !reflect.DeepEqual(decoded, test.oid) {
-			t.Fatalf("DecodeOIDValue(%x) = %v, want %v", encoded, decoded, test.oid)
+		arcs, ok := decoded.Arcs()
+		if !ok || !reflect.DeepEqual(arcs, test.arcs) {
+			t.Fatalf("%v %v", arcs, ok)
 		}
 	}
-
-	invalid := [][]uint64{
-		nil,
-		{1},
-		{3, 0},
-		{0, 40},
-		{1, 40},
-		{2, math.MaxUint64},
+	for _, arcs := range [][]uint64{nil, {1}, {3, 0}, {0, 40}, {1, 40}} {
+		if _, err := runtime.ObjectIdentifierFromArcs(arcs...); err == nil {
+			t.Fatalf("accepted %v", arcs)
+		}
 	}
-	for _, oid := range invalid {
-		if encoded, err := EncodeOIDValueChecked(oid); err == nil || encoded != nil {
-			t.Fatalf("EncodeOIDValueChecked(%v) = %x, %v, want rejection", oid, encoded, err)
-		}
-		if encoded := EncodeOIDValue(oid); encoded != nil {
-			t.Fatalf("EncodeOIDValue(%v) = %x, want nil", oid, encoded)
-		}
+	if _, err := EncodeOIDValueChecked(runtime.ObjectIdentifier{}); err == nil {
+		t.Fatal("accepted zero")
+	}
+	if EncodeOIDValue(runtime.ObjectIdentifier{}) != nil {
+		t.Fatal("accepted zero")
 	}
 }
-
 func TestRelativeOIDUsesEveryArcAsASubidentifier(t *testing.T) {
-	t.Parallel()
-
-	oid := []uint64{8571, 3, 2}
-	want := []byte{0xc2, 0x7b, 0x03, 0x02}
+	oid := runtime.MustRelativeObjectIdentifierFromArcs(8571, 3, 2)
 	encoded, err := EncodeRelativeOIDValueChecked(oid)
-	if err != nil {
-		t.Fatalf("EncodeRelativeOIDValueChecked() error = %v", err)
-	}
-	if !bytes.Equal(encoded, want) {
-		t.Fatalf("EncodeRelativeOIDValueChecked() = %x, want %x", encoded, want)
+	if err != nil || !bytes.Equal(encoded, []byte{0xc2, 0x7b, 3, 2}) {
+		t.Fatalf("%x %v", encoded, err)
 	}
 	decoded, err := DecodeRelativeOIDValue(encoded)
-	if err != nil {
-		t.Fatalf("DecodeRelativeOIDValue() error = %v", err)
+	if err != nil || decoded != oid {
+		t.Fatalf("%v %v", decoded, err)
 	}
-	if !reflect.DeepEqual(decoded, oid) {
-		t.Fatalf("DecodeRelativeOIDValue() = %v, want %v", decoded, oid)
-	}
-	if encoded, err := EncodeRelativeOIDValueChecked(nil); err == nil || encoded != nil {
-		t.Fatalf("EncodeRelativeOIDValueChecked(nil) = %x, %v, want rejection", encoded, err)
+	if _, err := EncodeRelativeOIDValueChecked(runtime.RelativeObjectIdentifier{}); err == nil {
+		t.Fatal("accepted zero")
 	}
 }
-
-func TestOIDDecoderRejectsNonCanonicalOrOverflowingSubidentifiers(t *testing.T) {
-	t.Parallel()
-
-	for _, value := range [][]byte{
-		{0x80, 0x00},
-		{0x81, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x00},
-	} {
-		if decoded, err := DecodeOIDValue(value); err == nil || decoded != nil {
-			t.Fatalf("DecodeOIDValue(%x) = %v, %v, want rejection", value, decoded, err)
+func TestOIDDecoderRejectsNonCanonicalSubidentifiers(t *testing.T) {
+	for _, value := range [][]byte{nil, {0x80, 0}, {0x2a, 0x80, 0}, {0x81}, {0x2a, 0x81}} {
+		if decoded, err := DecodeOIDValue(value); err == nil || !decoded.IsZero() {
+			t.Fatalf("accepted %x", value)
+		}
+		if decoded, err := DecodeRelativeOIDValue(value); err == nil || !decoded.IsZero() {
+			t.Fatalf("accepted relative %x", value)
 		}
 	}
 }
-
 func TestOIDDecoderClassifiesLoneContinuationAsTruncated(t *testing.T) {
-	t.Parallel()
-
 	if _, err := DecodeOIDValue([]byte{0x2a, 0x80}); !errors.Is(err, ErrTruncated) {
-		t.Fatalf("DecodeOIDValue() error = %v, want %v", err, ErrTruncated)
+		t.Fatal(err)
 	}
 }

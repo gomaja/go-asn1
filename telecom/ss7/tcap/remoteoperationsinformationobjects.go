@@ -27,10 +27,10 @@ const (
 // Code represents the ASN.1 CHOICE type Code.
 type Code struct {
 	Choice       int
-	berOriginal_ []byte                   `json:"-"`
-	berSnapshot_ []byte                   `json:"-"`
-	Local        *big.Int                 `json:"Local,omitempty"`
-	Global       runtime.ObjectIdentifier `json:"Global,omitzero"`
+	berOriginal_ []byte                    `json:"-"`
+	berSnapshot_ []byte                    `json:"-"`
+	Local        *big.Int                  `json:"Local,omitempty"`
+	Global       *runtime.ObjectIdentifier `json:"Global,omitempty"`
 }
 
 // NewCodeLocal creates a Code with the local alternative.
@@ -45,7 +45,7 @@ func NewCodeLocal(v *big.Int) Code {
 func NewCodeGlobal(v runtime.ObjectIdentifier) Code {
 	return Code{
 		Choice: CodeChoiceGlobal,
-		Global: v,
+		Global: &v,
 	}
 }
 
@@ -76,13 +76,16 @@ func (v *Code) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Local)
 		if encodeErr_enc_0 != nil {
-			return nil, fmt.Errorf("encoding local: %w", encodeErr_enc_0)
+			return nil, qualifyBERError(encodeErr_enc_0, "local", "encoding", false)
 		}
 		return enc_0, nil
 	case CodeChoiceGlobal:
-		enc_1, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(v.Global))
+		if v.Global == nil {
+			return nil, fmt.Errorf("%w: choice Code: global is nil", ber.ErrInvalidValue)
+		}
+		enc_1, oidErr := ber.EncodeObjectIdentifierChecked(*v.Global)
 		if oidErr != nil {
-			return nil, fmt.Errorf("encoding global: %w", oidErr)
+			return nil, qualifyBERError(oidErr, "global", "encoding", false)
 		}
 		return enc_1, nil
 	default:
@@ -100,7 +103,13 @@ func (v *Code) MarshalDER() ([]byte, error) {
 		return nil, err
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("encoding Code as DER: %w", err)
+		switch v.Choice {
+		case CodeChoiceLocal:
+			return nil, qualifyBERError(err, "local", "encoding", true)
+		case CodeChoiceGlobal:
+			return nil, qualifyBERError(err, "global", "encoding", true)
+		}
+		return nil, fmt.Errorf("%s: %w", "encoding Code as DER", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -127,7 +136,10 @@ func (v *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr er
 		v.berSnapshot_ = snapshot
 	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return err
+		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+			var probe Code
+			return probe.UnmarshalBER(data, probeOpts...)
+		})
 	}
 	*v = Code{}
 	if len(data) == 0 {
@@ -141,7 +153,7 @@ func (v *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr er
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding Code CHOICE: %w", tlvErr)
+		return fmt.Errorf("%s: %w", "decoding Code CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "Code", Cause: ber.ErrExtraData}
@@ -149,19 +161,21 @@ func (v *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr er
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 && peekTag.Constructed == false {
 		v.Choice = CodeChoiceLocal
+		ber.MarkPreflightTarget(opts, "local", choiceData)
 		decVal, _, intErr := ber.DecodeBigInt(choiceData, opts...)
 		if intErr != nil {
-			return fmt.Errorf("decoding local: %w", intErr)
+			return qualifyBERError(intErr, "local", "decoding", false)
 		}
 		v.Local = decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 6 && peekTag.Constructed == false {
 		v.Choice = CodeChoiceGlobal
+		ber.MarkPreflightTarget(opts, "global", choiceData)
 		decVal, _, oidErr := ber.DecodeObjectIdentifier(choiceData, opts...)
 		if oidErr != nil {
-			return fmt.Errorf("decoding global: %w", oidErr)
+			return qualifyBERError(oidErr, "global", "decoding", false)
 		}
-		tmp := runtime.ObjectIdentifier(decVal)
-		v.Global = tmp
+		tmp := decVal
+		v.Global = &tmp
 	} else {
 		return fmt.Errorf("unknown tag %s for Code CHOICE", peekTag)
 	}

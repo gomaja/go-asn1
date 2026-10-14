@@ -4,10 +4,11 @@ import (
 	"bytes"
 	"errors"
 	"math"
-	"reflect"
 	"strconv"
 	"strings"
 	"testing"
+
+	"github.com/gomaja/go-asn1/runtime"
 )
 
 func TestBitLengthValidationDoesNotOverflow(t *testing.T) {
@@ -224,61 +225,40 @@ func TestLengthDelimitedWideStringRejectsOutOfRangeRuneBeforeMutation(t *testing
 
 func TestFragmentedObjectIdentifiersRoundTrip(t *testing.T) {
 	for _, aligned := range []bool{false, true} {
-		relative := make([]uint64, perFragmentUnit)
-		absolute := make([]uint64, perFragmentUnit+2)
-		absolute[0], absolute[1] = 1, 2
-		for _, tc := range []struct {
-			name   string
-			value  []uint64
-			encode func(*BitBuffer, []uint64) error
-			decode func(*BitBuffer) ([]uint64, error)
-		}{
-			{
-				name:  "object-identifier",
-				value: absolute,
-				encode: func(bb *BitBuffer, value []uint64) error {
-					if aligned {
-						return EncodeObjectIdentifierAligned(bb, value)
-					}
-					return EncodeObjectIdentifier(bb, value)
-				},
-				decode: func(bb *BitBuffer) ([]uint64, error) {
-					if aligned {
-						return DecodeObjectIdentifierAligned(bb)
-					}
-					return DecodeObjectIdentifier(bb)
-				},
-			},
-			{
-				name:  "relative-oid",
-				value: relative,
-				encode: func(bb *BitBuffer, value []uint64) error {
-					if aligned {
-						return EncodeRelativeObjectIdentifierAligned(bb, value)
-					}
-					return EncodeRelativeObjectIdentifier(bb, value)
-				},
-				decode: func(bb *BitBuffer) ([]uint64, error) {
-					if aligned {
-						return DecodeRelativeObjectIdentifierAligned(bb)
-					}
-					return DecodeRelativeObjectIdentifier(bb)
-				},
-			},
-		} {
-			t.Run(map[bool]string{false: "uper", true: "aper"}[aligned]+"/"+tc.name, func(t *testing.T) {
-				bb := NewBitBuffer()
-				if err := tc.encode(bb, tc.value); err != nil {
+		for _, relative := range []bool{false, true} {
+			contents := strings.Repeat("\x00", perFragmentUnit+1)
+			bb := NewBitBuffer()
+			if relative {
+				v := runtime.MustRelativeObjectIdentifierFromEncoded(contents)
+				enc := EncodeRelativeObjectIdentifier
+				dec := DecodeRelativeObjectIdentifier
+				if aligned {
+					enc = EncodeRelativeObjectIdentifierAligned
+					dec = DecodeRelativeObjectIdentifierAligned
+				}
+				if err := enc(bb, v); err != nil {
 					t.Fatal(err)
 				}
-				got, err := tc.decode(NewBitBufferFromBytes(bb.Bytes()))
-				if err != nil {
+				got, err := dec(NewBitBufferFromBytes(bb.Bytes()))
+				if err != nil || got != v {
+					t.Fatalf("relative: %v", err)
+				}
+			} else {
+				v := runtime.MustObjectIdentifierFromEncoded(contents)
+				enc := EncodeObjectIdentifier
+				dec := DecodeObjectIdentifier
+				if aligned {
+					enc = EncodeObjectIdentifierAligned
+					dec = DecodeObjectIdentifierAligned
+				}
+				if err := enc(bb, v); err != nil {
 					t.Fatal(err)
 				}
-				if !reflect.DeepEqual(got, tc.value) {
-					t.Fatalf("round trip arc count = %d, want %d", len(got), len(tc.value))
+				got, err := dec(NewBitBufferFromBytes(bb.Bytes()))
+				if err != nil || got != v {
+					t.Fatalf("absolute: %v", err)
 				}
-			})
+			}
 		}
 	}
 }

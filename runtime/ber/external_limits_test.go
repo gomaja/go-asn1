@@ -10,7 +10,7 @@ import (
 
 func TestExternalRaisedLimitReachesIndirectBigInteger(t *testing.T) {
 	integer := append([]byte{1}, bytes.Repeat([]byte{0}, 16<<20)...)
-	children := append(mustEncode(t)(EncodeObjectIdentifier([]uint64{1, 2})), mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagInteger}, integer))...)
+	children := append(mustEncode(t)(EncodeObjectIdentifier(runtime.MustObjectIdentifierFromArcs(1, 2))), mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagInteger}, integer))...)
 	children = append(children, mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, []byte{'A'}))...)
 	wire := mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagExternal, Constructed: true}, children))
 	if _, _, err := DecodeExternal(wire); err == nil {
@@ -24,7 +24,7 @@ func TestExternalRaisedLimitReachesIndirectBigInteger(t *testing.T) {
 
 func TestExternalEditedRawChildDoesNotUseDecodeLimit(t *testing.T) {
 	inner := mustEncode(t)(EncodeOctetString(bytes.Repeat([]byte{'A'}, (16<<20)+1)))
-	value := runtime.External{DirectReference: runtime.ObjectIdentifier{1, 2}, Encoding: runtime.ExternalSingleASN1Type, SingleASN1Type: runtime.RawValue{Bytes: inner}}
+	value := runtime.External{DirectReference: runtime.MustObjectIdentifierFromArcs(1, 2), Encoding: runtime.ExternalSingleASN1Type, SingleASN1Type: runtime.RawValue{Bytes: inner}}
 	wire, err := EncodeExternal(value)
 	if err != nil {
 		t.Fatalf("encode caller value: %v", err)
@@ -52,7 +52,7 @@ func TestExternalDEREncodeValidatesBeyondDecodeDepth(t *testing.T) {
 	for range 129 {
 		inner = mustEncode(t)(EncodeSequence(inner))
 	}
-	value := runtime.External{DirectReference: runtime.ObjectIdentifier{1, 2}, Encoding: runtime.ExternalSingleASN1Type, SingleASN1Type: runtime.RawValue{Bytes: inner}}
+	value := runtime.External{DirectReference: runtime.MustObjectIdentifierFromArcs(1, 2), Encoding: runtime.ExternalSingleASN1Type, SingleASN1Type: runtime.RawValue{Bytes: inner}}
 	if _, err := EncodeExternalDER(value); err != nil {
 		t.Fatalf("encode canonical deep child: %v", err)
 	}
@@ -61,7 +61,7 @@ func TestExternalDEREncodeValidatesBeyondDecodeDepth(t *testing.T) {
 func TestExternalDEREncodeValidatesBeyondDecodeWorkLimit(t *testing.T) {
 	// X.690 (02/2021) §8.18 has no size ceiling for EXTERNAL.
 	inner := mustEncode(t)(EncodeOctetString(bytes.Repeat([]byte{'A'}, (16<<20)+1)))
-	value := runtime.External{DirectReference: runtime.ObjectIdentifier{1, 2}, Encoding: runtime.ExternalSingleASN1Type, SingleASN1Type: runtime.RawValue{Bytes: inner}}
+	value := runtime.External{DirectReference: runtime.MustObjectIdentifierFromArcs(1, 2), Encoding: runtime.ExternalSingleASN1Type, SingleASN1Type: runtime.RawValue{Bytes: inner}}
 	wire, err := EncodeExternalDER(value)
 	if err != nil {
 		t.Fatalf("encode canonical large child: %v", err)

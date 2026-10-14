@@ -139,7 +139,9 @@ func decodeTop(data []byte, leadBits int, aligned bool, options DecodeOptions) (
 			return nil, err
 		}
 	} else {
-		bb.SetDecodeOptions(options)
+		if err := bb.SetDecodeOptions(options); err != nil {
+			return nil, err
+		}
 	}
 	h, err := decodeHolder(bb, leadBits, aligned)
 	if err != nil {
@@ -313,7 +315,9 @@ func TestTruncatedExtensionOnlyAtTheEndOfTheOutermostInput(t *testing.T) {
 	cut := full[:len(full)-3]
 	// Nested: the same bytes carried in an open type that arrived in full.
 	outer := NewBitBufferFromBytes(append([]byte{}, cut...))
-	outer.SetDecodeOptions(options)
+	if err := outer.SetDecodeOptions(options); err != nil {
+		t.Fatal(err)
+	}
 	nested := NewBitBufferFromBytes(cut)
 	nested.InheritDecodeOptions(outer)
 	if _, err := decodeHolder(nested, 2, false); !errors.Is(err, ErrTruncated) {
@@ -340,7 +344,9 @@ func TestTruncatedExtensionOnlyAtTheEndOfTheOutermostInput(t *testing.T) {
 // An invalid length determinant is reported, not taken for a cut.
 func TestTruncatedExtensionInvalidDeterminantIsAnError(t *testing.T) {
 	bb := NewBitBufferFromBytes([]byte{0x80, 0x05}) // non-minimal two-octet length 5
-	bb.SetDecodeOptions(DecodeOptions{TruncatedExtensionTolerance: &ToleranceLog{}})
+	if err := bb.SetDecodeOptions(DecodeOptions{TruncatedExtensionTolerance: &ToleranceLog{}}); err != nil {
+		t.Fatal(err)
+	}
 	if missing, cut := openTypeCut(*bb, false); cut || missing != 0 {
 		t.Fatalf("non-minimal determinant read as a cut: %d %v", missing, cut)
 	}
@@ -400,7 +406,9 @@ func TestTruncatedExtensionLogRouting(t *testing.T) {
 		t.Fatalf("shared %+v, trailing %+v, truncated %+v", shared.Snapshot(), trailing.Snapshot(), truncated.Snapshot())
 	}
 	bb := NewBitBufferFromBytes(nil)
-	bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &trailing, TruncatedExtensionTolerance: &truncated})
+	if err := bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &trailing, TruncatedExtensionTolerance: &truncated}); err != nil {
+		t.Fatal(err)
+	}
 	bb.publishTolerances([]Tolerance{{Kind: ToleratedTrailingBits}, {Kind: ToleratedTruncatedExtension}, {Kind: ToleratedContainedBits}})
 	if got := trailing.Snapshot(); len(got) != 2 || got[0].Kind != ToleratedTrailingBits || got[1].Kind != ToleratedContainedBits {
 		t.Fatalf("trailing log %+v", got)
@@ -499,20 +507,23 @@ func anyTrue(values []bool) bool {
 	return false
 }
 
-// The outermost flag fits the padding of BitBuffer, which stays 64 bytes on
-// 64-bit hosts, and is never inherited by a nested buffer.
+// The outermost flag is never inherited by a nested buffer.
 func TestOutermostFlagIsNotInherited(t *testing.T) {
 	if size := unsafe.Sizeof(BitBuffer{}); unsafe.Sizeof(uintptr(0)) == 8 && size != 64 {
 		t.Fatalf("BitBuffer is %d bytes", size)
 	}
 	top := NewBitBufferFromBytes([]byte{0})
-	top.SetDecodeOptions(DecodeOptions{TruncatedExtensionTolerance: &ToleranceLog{}})
+	if err := top.SetDecodeOptions(DecodeOptions{TruncatedExtensionTolerance: &ToleranceLog{}}); err != nil {
+		t.Fatal(err)
+	}
 	nested := NewBitBufferFromBytes([]byte{0})
 	nested.InheritDecodeOptions(top)
 	if !top.outermost || nested.outermost {
 		t.Fatalf("outermost: top %v, nested %v", top.outermost, nested.outermost)
 	}
-	top.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &ToleranceLog{}})
+	if err := top.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &ToleranceLog{}}); err != nil {
+		t.Fatal(err)
+	}
 	if top.outermost {
 		t.Fatal("TrailingBitsTolerance marked the input outermost")
 	}
@@ -539,7 +550,7 @@ func TestTruncatedExtensionCutRecordComparesEverySegment(t *testing.T) {
 	// bits 12 to 16, addition 2 of 4 cut at bit 30; the expected encoding
 	// clears bitmap bits 14 and 15.
 	kept := ExtensionAdditions{start: 3, root: 5, bitmap: 12, end: 16, present: []bool{true, false, true, true}}
-	record, err := kept.cutRecord(input, 48, 2, 30, true)
+	record, err := kept.cutRecord(NewBitBufferFromBytes(input), input, 2, 30, true)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -569,7 +580,7 @@ func TestTruncatedExtensionCutRecordComparesEverySegment(t *testing.T) {
 	// emptied: the extension bit at 3 is cleared, and the value ends with its
 	// root at bit 9.
 	emptied := ExtensionAdditions{start: 3, root: 9, bitmap: 12, end: 16, present: []bool{false, true, false, false}}
-	record, err = emptied.cutRecord(input, 48, 1, 20, false)
+	record, err = emptied.cutRecord(NewBitBufferFromBytes(input), input, 1, 20, false)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -591,10 +602,10 @@ func TestTruncatedExtensionCutRecordComparesEverySegment(t *testing.T) {
 		t.Fatalf("replay = %x (%d bits)", bb.CompleteBytes(), bb.BitsWritten())
 	}
 	// Inconsistent positions are refused rather than recorded.
-	if _, err := kept.cutRecord(input, 48, 2, 15, true); !errors.Is(err, ErrInvalidValue) {
+	if _, err := kept.cutRecord(NewBitBufferFromBytes(input), input, 2, 15, true); !errors.Is(err, ErrInvalidValue) {
 		t.Fatalf("a cut before the bitmap end = %v", err)
 	}
-	if _, err := (&ExtensionAdditions{start: 6, root: 5}).cutRecord(input, 48, 0, 20, false); !errors.Is(err, ErrInvalidValue) {
+	if _, err := (&ExtensionAdditions{start: 6, root: 5}).cutRecord(NewBitBufferFromBytes(input), input, 0, 20, false); !errors.Is(err, ErrInvalidValue) {
 		t.Fatalf("a root ending before the extension bit = %v", err)
 	}
 }

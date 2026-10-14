@@ -250,13 +250,13 @@ func EncodeNull() []byte {
 }
 
 // EncodeObjectIdentifier encodes an OID per X.690 (02/2021) §8.19.
-func EncodeObjectIdentifier(oid []uint64) ([]byte, error) {
+func EncodeObjectIdentifier(oid runtime.ObjectIdentifier) ([]byte, error) {
 	return EncodeObjectIdentifierChecked(oid)
 }
 
 // EncodeObjectIdentifierChecked encodes a validated OID per X.690
 // (02/2021) section 8.19.4.
-func EncodeObjectIdentifierChecked(oid []uint64) ([]byte, error) {
+func EncodeObjectIdentifierChecked(oid runtime.ObjectIdentifier) ([]byte, error) {
 	value, err := EncodeOIDValueChecked(oid)
 	if err != nil {
 		return nil, err
@@ -266,28 +266,12 @@ func EncodeObjectIdentifierChecked(oid []uint64) ([]byte, error) {
 
 // EncodeRelativeObjectIdentifierChecked encodes a validated RELATIVE-OID per
 // X.690 (02/2021) section 8.20.
-func EncodeRelativeObjectIdentifierChecked(oid []uint64) ([]byte, error) {
+func EncodeRelativeObjectIdentifierChecked(oid runtime.RelativeObjectIdentifier) ([]byte, error) {
 	value, err := EncodeRelativeOIDValueChecked(oid)
 	if err != nil {
 		return nil, err
 	}
 	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagRelativeOID}, value)
-}
-
-func encodeBase128(v uint64) []byte {
-	if v == 0 {
-		return []byte{0x00}
-	}
-	var buf []byte
-	for v > 0 {
-		buf = append([]byte{byte(v & 0x7F)}, buf...)
-		v >>= 7
-	}
-	for i := 0; i < len(buf)-1; {
-		buf[i] |= 0x80
-		i++
-	}
-	return buf
 }
 
 // EncodeEnumerated encodes an enumerated value per X.690 section 8.4.
@@ -310,10 +294,19 @@ func EncodeReal(value runtime.Real) ([]byte, error) {
 
 // EncodeBERReal replays a valid received REAL only when the unchanged value
 // cannot be encoded in DER (X.690 (02/2021) §§8.5.7.4, 11.3.1).
-func EncodeBERReal(value runtime.Real) ([]byte, error) {
+// WithoutBERReplay refuses that saved form because it has no typed DER
+// representation; a representable value is encoded from its current fields.
+func EncodeBERReal(value runtime.Real, options ...EncodeOption) ([]byte, error) {
+	config, err := encodeOptions(options)
+	if err != nil {
+		return nil, err
+	}
 	encoded, err := EncodeReal(value)
 	if err == nil {
 		return encoded, nil
+	}
+	if config.noReplay {
+		return nil, err
 	}
 	contents, ok := value.BERContents()
 	if !ok {
@@ -752,7 +745,7 @@ func encodeBitStringValueWithLimit(bytes []byte, unusedBits, limit int) ([]byte,
 
 // EncodeOIDValue returns the raw value bytes for an OID. Invalid values return
 // nil; generated code and PER use EncodeOIDValueChecked to retain the error.
-func EncodeOIDValue(oid []uint64) []byte {
+func EncodeOIDValue(oid runtime.ObjectIdentifier) []byte {
 	encoded, err := EncodeOIDValueChecked(oid)
 	if err != nil {
 		return nil
@@ -760,41 +753,21 @@ func EncodeOIDValue(oid []uint64) []byte {
 	return encoded
 }
 
-// EncodeOIDValueChecked returns the X.690 section 8.19 contents octets after
-// validating the first two arcs and their packed uint64 representation.
-func EncodeOIDValueChecked(oid []uint64) ([]byte, error) {
-	if len(oid) < 2 {
-		return nil, fmt.Errorf("object identifier needs at least 2 arcs, got %d", len(oid))
+// EncodeOIDValueChecked returns validated X.690 (02/2021) §8.19 contents.
+// Construction guarantees canonical encoding; the absent zero value is rejected.
+func EncodeOIDValueChecked(oid runtime.ObjectIdentifier) ([]byte, error) {
+	if oid.IsZero() {
+		return nil, runtime.ErrInvalidOID
 	}
-	if oid[0] > 2 {
-		return nil, fmt.Errorf("object identifier first arc %d exceeds 2", oid[0])
-	}
-	if oid[0] < 2 && oid[1] > 39 {
-		return nil, fmt.Errorf("object identifier second arc %d exceeds 39 under first arc %d", oid[1], oid[0])
-	}
-	if oid[0] == 2 && oid[1] > math.MaxUint64-80 {
-		return nil, fmt.Errorf("object identifier first subidentifier overflows uint64")
-	}
-	var buf []byte
-	first := oid[0]*40 + oid[1]
-	buf = append(buf, encodeBase128(first)...)
-	for _, arc := range oid[2:] {
-		buf = append(buf, encodeBase128(arc)...)
-	}
-	return buf, nil
+	return oid.Bytes(), nil
 }
 
-// EncodeRelativeOIDValueChecked returns the X.690 section 8.20 contents
-// octets. X.680 (02/2021) section 33.3 requires at least one arc.
-func EncodeRelativeOIDValueChecked(oid []uint64) ([]byte, error) {
-	if len(oid) == 0 {
-		return nil, fmt.Errorf("relative object identifier needs at least 1 arc")
+// EncodeRelativeOIDValueChecked returns X.690 (02/2021) §8.20 contents.
+func EncodeRelativeOIDValueChecked(oid runtime.RelativeObjectIdentifier) ([]byte, error) {
+	if oid.IsZero() {
+		return nil, runtime.ErrInvalidOID
 	}
-	var value []byte
-	for _, arc := range oid {
-		value = append(value, encodeBase128(arc)...)
-	}
-	return value, nil
+	return oid.Bytes(), nil
 }
 
 // EncodeStringValue returns the raw value bytes for a string.

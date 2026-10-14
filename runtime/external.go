@@ -18,7 +18,8 @@ const (
 // SingleASN1Type is an open value: its complete inner TLV remains raw until
 // the direct or indirect reference identifies a schema for it.
 type External struct {
-	DirectReference     ObjectIdentifier
+	// X.690 (02/2021) §8.18.1: an absent direct-reference is OPTIONAL.
+	DirectReference     ObjectIdentifier `json:"DirectReference,omitzero"`
 	IndirectReference   *big.Int
 	DataValueDescriptor *string
 	Encoding            ExternalEncoding
@@ -32,7 +33,6 @@ type External struct {
 func (e External) fieldsCopy() External {
 	e.originalBER = nil
 	e.originalFields = nil
-	e.DirectReference = append(ObjectIdentifier(nil), e.DirectReference...)
 	if e.IndirectReference != nil {
 		e.IndirectReference = new(big.Int).Set(e.IndirectReference)
 	}
