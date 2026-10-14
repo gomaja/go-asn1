@@ -184,7 +184,7 @@ func TestSGPFirstExtensionTailEncoding(t *testing.T) {
 // All address digits use Ofcom's drama mobile range +44 7700 900000..900999:
 // service centre 900000, TP-OA 900001 and SMS GMSC 900002
 // (https://www.ofcom.org.uk/phones-and-broadband/phone-numbers/numbers-for-drama).
-func TestNewerMTForwardSMArgOnOlderType(t *testing.T) {
+func TestMTForwardSMArgSyntheticFutureAdditions(t *testing.T) {
 	for _, c := range []struct {
 		name, hex string
 		knownIP   bool
@@ -238,7 +238,7 @@ func TestNewerMTForwardSMArgOnOlderType(t *testing.T) {
 // [12] is retained as five TLVs: only the first unknown tag is checked
 // (X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b). The current official
 // type replaces the removed Wireshark version-13 validation target.
-func TestNewerRequestedInfoOnOlderType(t *testing.T) {
+func TestRequestedInfoSyntheticFutureAdditions(t *testing.T) {
 	text := "301b8000810083008401008600850087008d008800890207808a008c00"
 	wire := mustHex(t, text)
 	var current gsm_map.RequestedInfo

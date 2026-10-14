@@ -327,9 +327,11 @@ Package placement follows each definitive module identity, including its
 assigned identifier, rather than its unqualified module name (ITU-T X.680
 (02/2021) §13.16). The 24 TS 29.002 modules and three TS 24.080 modules stay
 in the root; the three ROS modules share `gsm_map/ros`. Each version-21 MAP
-module and the ETR 091 module has its own dependency package. Package names
-use the source collection and lowercased module name with punctuation
-replaced by underscores. Version 21 denotes the MAP module OID version,
+module and the ETR 091 module has its own dependency package. The shared ROS
+package is named `ros`; version-21 MAP package names use `v21_` followed by
+the lowercased module name with punctuation replaced by underscores, and
+the ETR 091 package is named `etr091_mobiledomaindefinitions`.
+Version 21 denotes the MAP module OID version,
 not the 3GPP release number. The 89 SS-DataTypes fields imported from MAP use
 concrete types from `v21_*`: SS-DataTypes assigns version-21 identifiers in
 its IMPORTS clause, so the current version-22 types cannot replace them
@@ -345,14 +347,26 @@ moves to `etr091_mobiledomaindefinitions`. Current root `MAPOperationCode`,
 `MAPErrorCode`, `SSOperationCode` and `SSErrorCode` remain separate,
 source-derived catalogues.
 
-Modules sourced only from Wireshark are removed: historical MAP versions
-10, 11, 13 and 15; vendor `EricssonMAP` and `NokiaMAP-Extensions`; and the
-dissector-only `DummyMAP`. Their types and codecs are absent, including
-`RequestedInfo6` and `SMMTForwardSMArg`. The local code helpers
+Removed modules are the Wireshark-only `DummyMAP`, `EricssonMAP` and
+`NokiaMAP-Extensions`, and the historical MAP versions 10, 11, 13 and 15
+that only those modules imported. Version 10 came from 3GPP TS 29.002
+V7.4.0; versions 11, 13 and 15 came from Wireshark snapshots. Their root
+types and codecs are absent, including `gsm_map.RequestedInfo6` and the
+version-15 `gsm_map.SMMTForwardSMArg`. The local code helpers
 `LocalErrorCode`, `LocalOperationCode` and their `String` methods are not
 emitted. There are no aliases or compatibility wrappers. Use an official
 module with the identity required by the protocol; a similarly named
 current type is not a blanket substitute for a removed historical type.
+
+Four removed root type spellings are reused for version-21 declarations in
+dependency packages. These are different definitive module identities:
+
+| Spelling | Flat package at `d77484b` | Current declaration |
+| --- | --- | --- |
+| `SMMTForwardSMArg` | `gsm_map.SMMTForwardSMArg`: MAP-SM-DataTypes version 15, `MT-ForwardSM-Arg`, with its last known field `CorrelationID` | `v21_map_sm_datatypes.SMMTForwardSMArg`: MAP-SM-DataTypes version 21, `MT-ForwardSM-Arg`, also with `MaximumRetransmissionTime`, `SmsGmscAddress` and `SmsGmscDiameterAddress` |
+| `SSSSCode` | `gsm_map.SSSSCode`: MAP-SS-Code version 11, `SS-Code` | `v21_map_ss_code.SSSSCode`: MAP-SS-Code version 21, `SS-Code` |
+| `SSSSStatus` | `gsm_map.SSSSStatus`: MAP-SS-DataTypes version 11, `SS-Status` | `v21_map_ss_datatypes.SSSSStatus`: MAP-SS-DataTypes version 21, `SS-Status` |
+| `ERPWRegistrationFailureCause` | `gsm_map.ERPWRegistrationFailureCause`: MAP-ER-DataTypes version 11, `PW-RegistrationFailureCause` | `v21_map_er_datatypes.ERPWRegistrationFailureCause`: MAP-ER-DataTypes version 21, `PW-RegistrationFailureCause` |
 
 **Changed meaning under an unchanged root spelling:** `gsm_map.LocationInfo`
 was DummyMAP's CHOICE; it is now SS-DataTypes' BIT STRING. The same official
@@ -447,6 +461,47 @@ rejects it with `runtime.ErrTimeNotSet`.
 - **JSON** and text carry the exact lexical string, for example
   `"NotBefore":"19920722132100.30"`; an unset required field is `""`.
   RFC 3339 input is rejected with `runtime.ErrTimeSyntax`.
+
+### ObjectIdentifier migration
+
+`runtime.ObjectIdentifier` changed from `[]uint64` to an immutable value.
+Replace slice literals with constructors from [runtime/oid.go](runtime/oid.go):
+`ObjectIdentifierFromArcs`, `ParseObjectIdentifier` (dotted decimals), or
+`ObjectIdentifierFromEncoded` (encoded contents). Each returns a value and
+an error; `MustObjectIdentifierFromArcs`, `MustObjectIdentifier` and
+`MustObjectIdentifierFromEncoded` panic on invalid input.
+
+With `github.com/gomaja/go-asn1/runtime` imported, replace the old
+construction with the second line:
+
+```go
+// Before: oid := runtime.ObjectIdentifier{1, 3, 6, 1, 4, 1}
+oid := runtime.MustObjectIdentifierFromArcs(1, 3, 6, 1, 4, 1)
+```
+
+Mandatory OID components and `runtime.External.DirectReference` hold a
+`runtime.ObjectIdentifier` value; `IsZero()` reports an absent direct
+reference. OPTIONAL OID components and OID CHOICE alternatives now hold
+`*runtime.ObjectIdentifier`, nil when absent, with JSON `omitempty` instead
+of `omitzero`. They include `PrivateIEID.Global` in S1AP, X2AP and LPPa,
+`Code.Global` in `tcap` and `gsm_map/ros`,
+`MAPRefuseInfo.AlternativeApplicationContext` in `gsm_map`,
+`GeneralName.RegisteredID` and `GroupOfDeviceManufacturerOid` in SGP.22 and
+SGP.32, and `DefaultSmdpOid` in SGP.32. Construct a CHOICE alternative with
+its generated constructor, such as `NewPrivateIEIDGlobal(oid)` or
+`NewCodeGlobal(oid)`.
+Replace slice indexing or mutation with construction of a new value;
+`Arcs()` returns an independent `[]uint64` and a success flag, and `BigArcs()`
+returns independently owned arbitrary-precision arcs. `Encoded()` returns
+immutable contents, `Bytes()` returns a copy, and `Equal` or `==` compares values.
+
+JSON changed from a number array such as `[1,3,6,1,4,1]` to the
+dotted-decimal string `"1.3.6.1.4.1"`; `UnmarshalJSON` accepts only strings.
+`MarshalJSON` and `MarshalText` on the zero value return `runtime.ErrInvalidOID`.
+Use `IsZero()` to check an absent identifier; `String()` and `StringChecked()`
+return empty text for it. For large valid identifiers, decimal conversion
+can exceed the limits in `runtime/oid.go`: use `StringChecked()` to receive
+the error rather than `String()`, which panics on that limit.
 
 ### UPER trace tolerance
 
