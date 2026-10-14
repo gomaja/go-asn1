@@ -3,6 +3,7 @@ package ber
 import (
 	"bytes"
 	"encoding/binary"
+	"errors"
 	"fmt"
 	"math"
 	"math/big"
@@ -13,6 +14,7 @@ import (
 )
 
 type berWorkBudget struct {
+	stringSource    *byte
 	elements, bytes int
 	limits          DecodeLimits
 	// form is the caller's BER form marker, recorded for every segment.
@@ -151,6 +153,12 @@ func decodeTLV(data []byte, limits DecodeLimits, form *berFormState) (tag.Tag, i
 		return tag.Tag{}, 0, nil, err
 	}
 
+	// X.690 (02/2021) §8.1.5: EOC terminates indefinite contents;
+	// it is never a value returned by this prefix decoder.
+	if t.Class == tag.ClassUniversal && t.Number == 0 {
+		return tag.Tag{}, 0, nil, fmt.Errorf("%w: standalone BER end-of-contents", ErrInvalidTag)
+	}
+
 	length, indefinite, lenLen, err := DecodeLength(data[tagLen:])
 	if err != nil {
 		return tag.Tag{}, 0, nil, err
@@ -197,8 +205,14 @@ func decodeTLV(data []byte, limits DecodeLimits, form *berFormState) (tag.Tag, i
 				return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER scan element limit exceeded", ErrResourceLimit)
 			}
 			elements++
-			_, innerTagLen, err := DecodeTag(data[pos:])
+			innerTag, innerTagLen, err := DecodeTag(data[pos:])
 			if err != nil {
+				return tag.Tag{}, 0, nil, err
+			}
+			if innerTag.Class == tag.ClassUniversal && innerTag.Number == 0 {
+				return tag.Tag{}, 0, nil, fmt.Errorf("%w: malformed BER end-of-contents", ErrInvalidTag)
+			}
+			if err := checkUniversalForm(innerTag); err != nil {
 				return tag.Tag{}, 0, nil, err
 			}
 			if innerTagLen < 0 || innerTagLen > len(data)-pos {
@@ -213,6 +227,9 @@ func decodeTLV(data []byte, limits DecodeLimits, form *berFormState) (tag.Tag, i
 			}
 			start := pos + innerTagLen + innerLenLen
 			if innerIndef {
+				if !innerTag.Constructed {
+					return tag.Tag{}, 0, nil, fmt.Errorf("%w: indefinite length used with primitive tag %s", ErrInvalidLength, innerTag)
+				}
 				if depth >= limits.MaxDepth {
 					return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 				}
@@ -561,7 +578,7 @@ func validateDEREmbeddedPDV(value []byte) error {
 }
 
 // validateBase128Subidentifiers checks only X.690 (02/2021) §§8.19–8.20
-// syntax. DER has no uint64 arc bound; typed []uint64 decoding does.
+// syntax. Neither DER validation nor typed OID decoding limits arc width.
 func validateBase128Subidentifiers(value []byte) error {
 	if len(value) == 0 {
 		return fmt.Errorf("empty subidentifier list")
@@ -597,7 +614,7 @@ func validateDERExternal(value []byte) error {
 	if err != nil {
 		return err
 	}
-	choice, _, err := DecodeTag(children[len(children)-1])
+	choice, _, choiceContents, err := DecodeTLV(children[len(children)-1], encodingStructureOption(children[len(children)-1]))
 	if err != nil {
 		return err
 	}
@@ -605,6 +622,11 @@ func validateDERExternal(value []byte) error {
 		return fmt.Errorf("EXTERNAL DER encoding choice must be primitive")
 	}
 	if decoded.Encoding == runtime.ExternalArbitrary {
+		// Inspect the received implicit contents before normalization; a typed
+		// value no longer carries nonzero unused wire bits (X.690 §11.2.1).
+		if err := validateDERUniversalValue(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBitString}, choiceContents); err != nil {
+			return err
+		}
 		bits := decoded.Arbitrary
 		if bits.BitLength < 0 {
 			return fmt.Errorf("%w: invalid EXTERNAL arbitrary bit length", ErrInvalidValue)
@@ -781,24 +803,12 @@ func DecodeBitString(data []byte, options ...DecodeOption) ([]byte, int, int, er
 }
 
 func decodeBitStringBounded(data []byte, depth int, budget *berWorkBudget) ([]byte, int, int, error) {
-	if depth > budget.limits.MaxDepth {
-		return nil, 0, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
-	}
-	t, total, value, err := decodeTLV(data, budget.limits, budget.form)
-	if err != nil {
-		return nil, 0, 0, err
-	}
-	if err := budget.charge(total); err != nil {
-		return nil, 0, 0, err
-	}
-	if t.Class != tag.ClassUniversal || t.Number != tag.TagBitString {
-		return nil, 0, 0, fmt.Errorf("%w: expected BIT STRING tag, got %s", ErrInvalidTag, t)
-	}
-	decoded, unusedBits, err := decodeBitStringValueBounded(t.Constructed, value, depth, budget)
-	return decoded, unusedBits, total, err
+	var result []byte
+	total, unused, err := decodeStringSegments(data, tag.TagBitString, depth, budget, &result)
+	return result, unused, total, err
 }
 
-// DecodeOctetString decodes an octet string from raw TLV bytes.
+// DecodeOctetString decodes a primitive or segmented OCTET STRING.
 func DecodeOctetString(data []byte, options ...DecodeOption) ([]byte, int, error) {
 	budget, err := newBERWorkBudget(options)
 	if err != nil {
@@ -808,39 +818,125 @@ func DecodeOctetString(data []byte, options ...DecodeOption) ([]byte, int, error
 }
 
 func decodeOctetStringBounded(data []byte, depth int, budget *berWorkBudget) ([]byte, int, error) {
+	var result []byte
+	total, _, err := decodeStringSegments(data, tag.TagOctetString, depth, budget, &result)
+	return result, total, err
+}
+
+// decodeStringSegments reads each header and primitive segment once, writing
+// every leaf directly into one destination. X.690 (02/2021) §§8.6.4.1,
+// 8.7.3.2, 8.23.3: only the last BIT STRING segment may have unused bits;
+// restricted character string fragments retain universal OCTET STRING tags.
+func decodeStringSegments(data []byte, expectedTag, depth int, budget *berWorkBudget, result *[]byte) (int, int, error) {
 	if depth > budget.limits.MaxDepth {
-		return nil, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
+		return 0, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 	}
-	t, total, value, err := decodeTLV(data, budget.limits, budget.form)
+	t, tagLen, err := DecodeTag(data)
 	if err != nil {
-		return nil, 0, err
+		return 0, 0, err
 	}
-	if err := budget.charge(total); err != nil {
-		return nil, 0, err
+	if t.Class != tag.ClassUniversal || t.Number != expectedTag {
+		return 0, 0, fmt.Errorf("%w: expected universal string tag %d, got %s", ErrInvalidTag, expectedTag, t)
 	}
-	if t.Class != tag.ClassUniversal || t.Number != tag.TagOctetString {
-		return nil, 0, fmt.Errorf("%w: expected OCTET STRING tag, got %s", ErrInvalidTag, t)
+	length, indefinite, lenLen, err := DecodeLength(data[tagLen:])
+	if err != nil {
+		return 0, 0, err
 	}
-	// Handle constructed form (BER allows it).
-	if t.Constructed {
-		result := []byte{} // zero segments: present empty, X.690 (02/2021) 8.7.3 (go-asn1#91)
-		for offset := 0; offset < len(value); {
-			if depth >= budget.limits.MaxDepth {
-				return nil, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
-			}
-			childVal, consumed, err := decodeOctetStringBounded(value[offset:], depth+1, budget)
-			if err != nil {
-				return nil, 0, err
-			}
-			if consumed <= 0 || consumed > len(value)-offset {
-				return nil, 0, ErrInvalidLength
-			}
-			result = append(result, childVal...)
-			offset += consumed
+	if lenLen > len(data)-tagLen {
+		return 0, 0, ErrTruncated
+	}
+	header := tagLen + lenLen
+	if depth == 0 && header < len(data) {
+		budget.stringSource = &data[header]
+	}
+	if indefinite && !t.Constructed {
+		return 0, 0, fmt.Errorf("%w: indefinite length used with primitive tag %s", ErrInvalidLength, t)
+	}
+	end := len(data)
+	if !indefinite {
+		if length > len(data)-header {
+			return 0, 0, ErrTruncated
 		}
-		return result, total, nil
+		end = header + length
 	}
-	return value, total, nil
+	if err := budget.charge(header); err != nil {
+		return 0, 0, err
+	}
+	var contents []byte
+	if !indefinite {
+		contents = data[header:end]
+	}
+	markBERForm(budget.form, t, data[tagLen:header], indefinite, contents)
+	unused := 0
+	if t.Constructed {
+		if *result == nil {
+			*result = []byte{} // present empty, X.690 §§8.6.3, 8.7.3
+		}
+		pos := header
+		childTag := tag.TagOctetString
+		if expectedTag == tag.TagBitString {
+			childTag = tag.TagBitString
+		}
+		for {
+			if indefinite && end-pos >= 2 && data[pos] == 0 && data[pos+1] == 0 {
+				pos += 2
+				break
+			}
+			if pos == end {
+				if indefinite {
+					return 0, 0, ErrTruncated
+				}
+				break
+			}
+			if unused != 0 {
+				return 0, 0, fmt.Errorf("%w: non-final BIT STRING segment has unused bits", ErrInvalidValue)
+			}
+			if depth >= budget.limits.MaxDepth {
+				return 0, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
+			}
+			n, childUnused, err := decodeStringSegments(data[pos:end], childTag, depth+1, budget, result)
+			if err != nil {
+				return 0, 0, err
+			}
+			if n <= 0 || n > end-pos {
+				return 0, 0, ErrInvalidLength
+			}
+			pos += n
+			unused = childUnused
+		}
+		end = pos
+	} else {
+		if expectedTag == tag.TagBitString {
+			if err := validatePrimitiveBitStringContents(contents); err != nil {
+				return 0, 0, err
+			}
+			unused = int(contents[0])
+			contents = contents[1:]
+		}
+		// Bound the destination before append, even for an indefinite parent.
+		if len(contents) > budget.limits.MaxWork-len(*result) {
+			return 0, 0, fmt.Errorf("%w: BER string destination limit exceeded", ErrResourceLimit)
+		}
+		if depth == 0 {
+			*result = contents // clean primitive values retain the borrowed fast path
+			if unused != 0 && len(contents) != 0 && contents[len(contents)-1]&byte((1<<unused)-1) != 0 {
+				*result = bytes.Clone(contents)
+			}
+		} else {
+			*result = append(*result, contents...)
+		}
+		if unused != 0 && len(contents) != 0 && contents[len(contents)-1]&byte((1<<unused)-1) != 0 {
+			(*result)[len(*result)-1] &= byte(0xff << unused)
+		}
+	}
+	// Retain the conservative subtree work budget: changing traversal must
+	// not weaken the limits callers already rely on for nested input.
+	work := end - header
+	if work > budget.limits.MaxWork-budget.bytes {
+		return 0, 0, fmt.Errorf("%w: BER total-work limit exceeded", ErrResourceLimit)
+	}
+	budget.bytes += work
+	return end, unused, nil
 }
 
 // DecodeNull decodes a NULL from raw TLV bytes.
@@ -862,93 +958,35 @@ func DecodeNull(data []byte, options ...DecodeOption) (int, error) {
 }
 
 // DecodeObjectIdentifier decodes an OID from raw TLV bytes.
-func DecodeObjectIdentifier(data []byte, options ...DecodeOption) ([]uint64, int, error) {
+func DecodeObjectIdentifier(data []byte, options ...DecodeOption) (runtime.ObjectIdentifier, int, error) {
 	t, total, value, err := DecodeTLV(data, options...)
 	if err != nil {
-		return nil, 0, err
+		return runtime.ObjectIdentifier{}, 0, err
 	}
-	if t.Class != tag.ClassUniversal || t.Number != tag.TagObjectID {
-		return nil, 0, fmt.Errorf("%w: expected OBJECT IDENTIFIER tag, got %s", ErrInvalidTag, t)
+	if t.Class != tag.ClassUniversal || t.Number != tag.TagObjectID || t.Constructed {
+		return runtime.ObjectIdentifier{}, 0, fmt.Errorf("%w: expected primitive OBJECT IDENTIFIER, got %s", ErrInvalidTag, t)
 	}
-	if t.Constructed {
-		return nil, 0, fmt.Errorf("%w: OBJECT IDENTIFIER must be primitive", ErrInvalidTag)
-	}
-	if len(value) == 0 {
-		return nil, 0, fmt.Errorf("%w: OBJECT IDENTIFIER content must contain at least one subidentifier", ErrInvalidValue)
-	}
-
-	// Decode first two components.
-	firstVal, offset, err := decodeBase128(value, 0)
+	oid, err := DecodeOIDValue(value)
 	if err != nil {
-		return nil, 0, fmt.Errorf("decoding OID first subidentifier: %w", err)
+		return runtime.ObjectIdentifier{}, 0, err
 	}
-	var oid []uint64
-	if firstVal < 80 {
-		oid = append(oid, firstVal/40, firstVal%40)
-	} else {
-		oid = append(oid, 2, firstVal-80)
-	}
-
-	// Decode remaining components.
-	for offset < len(value) {
-		v, newOffset, err := decodeBase128(value, offset)
-		if err != nil {
-			return nil, 0, fmt.Errorf("decoding OID subidentifier: %w", err)
-		}
-		oid = append(oid, v)
-		offset = newOffset
-	}
-
 	return oid, total, nil
 }
 
-// DecodeRelativeObjectIdentifier decodes a RELATIVE-OID per X.690
-// (02/2021) section 8.20.
-func DecodeRelativeObjectIdentifier(data []byte, options ...DecodeOption) ([]uint64, int, error) {
+// DecodeRelativeObjectIdentifier decodes X.690 (02/2021) §8.20.
+func DecodeRelativeObjectIdentifier(data []byte, options ...DecodeOption) (runtime.RelativeObjectIdentifier, int, error) {
 	t, total, value, err := DecodeTLV(data, options...)
 	if err != nil {
-		return nil, 0, err
+		return runtime.RelativeObjectIdentifier{}, 0, err
 	}
-	if t.Class != tag.ClassUniversal || t.Number != tag.TagRelativeOID {
-		return nil, 0, fmt.Errorf("%w: expected RELATIVE-OID tag, got %s", ErrInvalidTag, t)
-	}
-	if t.Constructed {
-		return nil, 0, fmt.Errorf("%w: RELATIVE-OID must be primitive", ErrInvalidTag)
+	if t.Class != tag.ClassUniversal || t.Number != tag.TagRelativeOID || t.Constructed {
+		return runtime.RelativeObjectIdentifier{}, 0, fmt.Errorf("%w: expected primitive RELATIVE-OID, got %s", ErrInvalidTag, t)
 	}
 	oid, err := DecodeRelativeOIDValue(value)
 	if err != nil {
-		return nil, 0, err
+		return runtime.RelativeObjectIdentifier{}, 0, err
 	}
 	return oid, total, nil
-}
-
-func decodeBase128(data []byte, offset int) (uint64, int, error) {
-	var v uint64
-	start := offset
-	if offset < 0 || offset > len(data) {
-		return 0, offset, fmt.Errorf("%w: base-128 offset outside input", ErrInvalidValue)
-	}
-	first := true
-	for offset < len(data) {
-		b := data[offset]
-		offset++
-		if first && b == 0x80 && offset < len(data) {
-			return 0, offset, fmt.Errorf("%w: non-minimal base-128 subidentifier", ErrInvalidValue)
-		}
-		first = false
-		bits := uint64(b & 0x7f)
-		if v > math.MaxUint64>>7 || v == math.MaxUint64>>7 && bits > math.MaxUint64&0x7f {
-			return 0, offset, fmt.Errorf("%w: base-128 subidentifier overflows uint64", ErrInvalidValue)
-		}
-		v = (v << 7) | bits
-		if b&0x80 == 0 {
-			return v, offset, nil
-		}
-	}
-	if offset == start {
-		return 0, offset, fmt.Errorf("%w: empty base-128 encoding", ErrInvalidValue)
-	}
-	return 0, offset, fmt.Errorf("%w: truncated base-128 encoding", ErrTruncated)
 }
 
 // DecodeEnumerated decodes an ENUMERATED value from raw TLV bytes.
@@ -997,43 +1035,17 @@ func DecodeReal(data []byte, options ...DecodeOption) (runtime.Real, int, error)
 // DecodeString decodes a string type (UTF8, IA5, PrintableString, etc.) from raw TLV bytes.
 // The caller provides the expected tag number.
 func DecodeString(data []byte, expectedTag int, options ...DecodeOption) (string, int, error) {
-	t, total, value, err := DecodeTLV(data, options...)
+	budget, err := newBERWorkBudget(options)
 	if err != nil {
 		return "", 0, err
 	}
-	if t.Class != tag.ClassUniversal || t.Number != expectedTag {
-		return "", 0, fmt.Errorf("%w: expected tag %d, got %s", ErrInvalidTag, expectedTag, t)
-	}
-	if t.Constructed {
-		// X.690 (02/2021) 8.23.3 defines a restricted character string as
-		// an implicitly tagged OCTET STRING, so constructed values contain
-		// OCTET STRING fragments rather than repetitions of the outer tag.
-		var encoded []byte
-		for offset := 0; offset < len(value); {
-			part, consumed, err := DecodeOctetString(value[offset:], options...)
-			if err != nil {
-				return "", 0, fmt.Errorf("decoding constructed string component: %w", err)
-			}
-			if consumed <= 0 {
-				return "", 0, fmt.Errorf("%w: constructed string component consumed no input", ErrInvalidValue)
-			}
-			if consumed > len(value)-offset {
-				return "", 0, ErrInvalidLength
-			}
-			encoded = append(encoded, part...)
-			offset += consumed
-		}
-		decoded, err := DecodeStringValueTag(expectedTag, encoded)
-		if err != nil {
-			return "", 0, err
-		}
-		return decoded, total, nil
-	}
-	decoded, err := DecodeStringValueTag(expectedTag, value)
+	var encoded []byte
+	total, _, err := decodeStringSegments(data, expectedTag, 0, &budget, &encoded)
 	if err != nil {
 		return "", 0, err
 	}
-	return decoded, total, nil
+	decoded, err := decodeStringValueTagOptions(expectedTag, encoded, budget.stringSource, options)
+	return decoded, total, err
 }
 
 // DecodeUTCTime decodes a UTCTime value from raw TLV bytes. Any
@@ -1167,21 +1179,40 @@ func DecodeImplicitBitStringValue(constructed bool, value []byte, options ...Dec
 // (02/2021) §§8.7.3.2, 8.14.4).
 func DecodeImplicitOctetStringValue(constructed bool, value []byte, options ...DecodeOption) ([]byte, error) {
 	if !constructed {
+		if err := ValidateDecodeOptions(options...); err != nil {
+			return nil, err
+		}
 		return value, nil
 	}
 	MarkBERNonCanonical(options)
-	reconstructed, err := EncodeConstructed(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagOctetString}, value)
+	budget, err := newBERWorkBudget(options)
 	if err != nil {
 		return nil, err
 	}
-	decoded, total, err := DecodeOctetString(reconstructed, options...)
-	if err != nil {
+	return decodeStringContents(value, tag.TagOctetString, &budget)
+}
+
+// decodeStringContents handles an implicit constructor without allocating
+// a synthetic outer TLV. Its segments share both destination and work budget.
+func decodeStringContents(value []byte, segmentTag int, budget *berWorkBudget) ([]byte, error) {
+	if err := budget.charge(len(value)); err != nil {
 		return nil, err
 	}
-	if total != len(reconstructed) {
-		return nil, ErrExtraData
+	result := []byte{}
+	for offset := 0; offset < len(value); {
+		n, unused, err := decodeStringSegments(value[offset:], segmentTag, 1, budget, &result)
+		if err != nil {
+			return nil, err
+		}
+		if n <= 0 || n > len(value)-offset {
+			return nil, ErrInvalidLength
+		}
+		offset += n
+		if offset < len(value) && unused != 0 {
+			return nil, fmt.Errorf("%w: non-final BIT STRING segment has unused bits", ErrInvalidValue)
+		}
 	}
-	return decoded, nil
+	return result, nil
 }
 
 func decodeBitStringValue(constructed bool, value []byte, options ...DecodeOption) ([]byte, int, error) {
@@ -1189,55 +1220,77 @@ func decodeBitStringValue(constructed bool, value []byte, options ...DecodeOptio
 	if err != nil {
 		return nil, 0, err
 	}
+	if !constructed {
+		if err := budget.charge(len(value)); err != nil {
+			return nil, 0, err
+		}
+		decoded, unused, err := decodePrimitiveBitStringValue(value)
+		if err == nil && unused != 0 && len(value) > 1 && value[len(value)-1]&byte((1<<unused)-1) != 0 {
+			MarkBERNonCanonical(options)
+		}
+		return decoded, unused, err
+	}
 	if err := budget.charge(len(value)); err != nil {
 		return nil, 0, err
 	}
-	return decodeBitStringValueBounded(constructed, value, 0, &budget)
+	return decodeBitStringValueBounded(true, value, 0, &budget)
 }
 
 func decodeBitStringValueBounded(constructed bool, value []byte, depth int, budget *berWorkBudget) ([]byte, int, error) {
 	if !constructed {
 		return decodePrimitiveBitStringValue(value)
 	}
-	result := []byte{} // zero segments: present empty, X.690 (02/2021) 8.6.3 (go-asn1#91)
-	unusedBits := 0
-	for index, offset := 0, 0; offset < len(value); {
+	result := []byte{}
+	unused := 0
+	for offset := 0; offset < len(value); {
 		if depth >= budget.limits.MaxDepth {
 			return nil, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 		}
-		segment, segmentUnused, consumed, err := decodeBitStringBounded(value[offset:], depth+1, budget)
+		n, childUnused, err := decodeStringSegments(value[offset:], tag.TagBitString, depth+1, budget, &result)
 		if err != nil {
-			return nil, 0, fmt.Errorf("decoding constructed BIT STRING segment %d: %w", index, err)
+			return nil, 0, err
 		}
-		if consumed <= 0 || consumed > len(value)-offset {
+		if n <= 0 || n > len(value)-offset {
 			return nil, 0, ErrInvalidLength
 		}
-		if offset+consumed < len(value) && segmentUnused != 0 {
-			return nil, 0, fmt.Errorf("%w: BIT STRING segment %d has %d unused bits before the final segment", ErrInvalidValue, index, segmentUnused)
+		offset += n
+		if offset < len(value) && childUnused != 0 {
+			return nil, 0, fmt.Errorf("%w: non-final BIT STRING segment has unused bits", ErrInvalidValue)
 		}
-		result = append(result, segment...)
-		unusedBits = segmentUnused
-		offset += consumed
-		if index >= math.MaxInt {
-			return nil, 0, fmt.Errorf("%w: BIT STRING segment count exceeds host int", ErrResourceLimit)
-		}
-		index++
+		unused = childUnused
 	}
-	return result, unusedBits, nil
+	return result, unused, nil
 }
 
 func decodePrimitiveBitStringValue(value []byte) ([]byte, int, error) {
+	if err := validatePrimitiveBitStringContents(value); err != nil {
+		return nil, 0, err
+	}
+	decoded, unused := value[1:], int(value[0])
+	// X.690 (02/2021) §§8.6.2.1–8.6.2.2: unused positions are
+	// not part of the abstract value. BER accepts their received bits;
+	// copy before clearing them so the wire bytes remain available for replay.
+	if unused != 0 && len(decoded) != 0 && decoded[len(decoded)-1]&byte((1<<unused)-1) != 0 {
+		decoded = bytes.Clone(decoded)
+		decoded[len(decoded)-1] &= byte(0xff << unused)
+	}
+	return decoded, unused, nil
+}
+
+// X.690 (02/2021) §§8.6.2.2–8.6.2.3: padding is not subject to DER's
+// zero-bit rule, but the count and empty-value shape are mandatory in BER.
+func validatePrimitiveBitStringContents(value []byte) error {
 	if len(value) == 0 {
-		return nil, 0, fmt.Errorf("%w: empty BIT STRING value", ErrInvalidValue)
+		return fmt.Errorf("%w: empty BIT STRING value", ErrInvalidValue)
 	}
 	unusedBits := int(value[0])
 	if unusedBits > 7 {
-		return nil, 0, fmt.Errorf("%w: BIT STRING unused bits %d out of range (0-7)", ErrInvalidValue, unusedBits)
+		return fmt.Errorf("%w: BIT STRING unused bits %d out of range (0-7)", ErrInvalidValue, unusedBits)
 	}
 	if len(value) == 1 && unusedBits != 0 {
-		return nil, 0, fmt.Errorf("%w: BIT STRING unused bits %d with no content bytes", ErrInvalidValue, unusedBits)
+		return fmt.Errorf("%w: BIT STRING unused bits %d with no content bytes", ErrInvalidValue, unusedBits)
 	}
-	return value[1:], unusedBits, nil
+	return nil
 }
 
 // DecodeStringValue returns raw value bytes as a string.
@@ -1250,6 +1303,11 @@ func DecodeStringValue(value []byte) string {
 // 8.23.8 require four-octet UniversalString and two-octet BMPString forms.
 func DecodeStringValueTag(tagNum int, value []byte) (string, error) {
 	switch tagNum {
+	case tag.TagUTF8String:
+		if err := checkDecodedUTF8String(value, nil, nil); err != nil {
+			return "", err
+		}
+		return string(value), nil
 	case tag.TagBMPString:
 		if len(value)%2 != 0 {
 			return "", fmt.Errorf("%w: BMPString content length %d is not divisible by 2", ErrInvalidValue, len(value))
@@ -1296,22 +1354,26 @@ func DecodeStringValueTag(tagNum int, value []byte) (string, error) {
 // DecodeImplicitStringValue decodes the contents of an implicitly tagged
 // restricted character string while preserving BER's primitive or constructed form.
 func DecodeImplicitStringValue(tagNum int, constructed bool, value []byte, options ...DecodeOption) (string, error) {
+	var source *byte
+	if len(value) != 0 {
+		source = &value[0]
+	}
 	if !constructed {
-		return DecodeStringValueTag(tagNum, value)
+		if err := ValidateDecodeOptions(options...); err != nil {
+			return "", err
+		}
+		return decodeStringValueTagOptions(tagNum, value, source, options)
 	}
 	MarkBERNonCanonical(options)
-	reconstructed, err := EncodeConstructed(tag.Tag{Class: tag.ClassUniversal, Number: tagNum}, value)
+	budget, err := newBERWorkBudget(options)
 	if err != nil {
 		return "", err
 	}
-	decoded, total, err := DecodeString(reconstructed, tagNum, options...)
+	encoded, err := decodeStringContents(value, tag.TagOctetString, &budget)
 	if err != nil {
 		return "", err
 	}
-	if total != len(reconstructed) {
-		return "", ErrExtraData
-	}
-	return decoded, nil
+	return decodeStringValueTagOptions(tagNum, encoded, source, options)
 }
 
 // DecodeImplicitUTCTimeValue decodes primitive or constructed implicitly
@@ -1628,46 +1690,25 @@ func decimalDigits(value string) bool {
 }
 
 // DecodeOIDValue decodes an OID from raw value bytes.
-func DecodeOIDValue(value []byte) ([]uint64, error) {
-	if len(value) == 0 {
-		return nil, fmt.Errorf("%w: empty OID value", ErrInvalidValue)
-	}
-	result := make([]uint64, 0, 8)
-	first, offset, err := decodeBase128(value, 0)
-	if err != nil {
-		return nil, fmt.Errorf("decoding OID first subidentifier: %w", err)
-	}
-	if first >= 80 {
-		result = append(result, 2, first-80)
-	} else {
-		result = append(result, first/40, first%40)
-	}
-	for offset < len(value) {
-		v, consumed, err := decodeBase128(value, offset)
-		if err != nil {
-			return nil, fmt.Errorf("decoding OID subidentifier: %w", err)
-		}
-		result = append(result, v)
-		offset = consumed
-	}
-	return result, nil
+func DecodeOIDValue(value []byte) (runtime.ObjectIdentifier, error) {
+	oid, err := runtime.ObjectIdentifierFromEncoded(string(value))
+	return oid, oidDecodeError(err)
 }
 
-// DecodeRelativeOIDValue decodes X.690 section 8.20 contents octets.
-func DecodeRelativeOIDValue(value []byte) ([]uint64, error) {
-	if len(value) == 0 {
-		return nil, fmt.Errorf("%w: empty RELATIVE-OID value", ErrInvalidValue)
+// DecodeRelativeOIDValue decodes canonical X.690 (02/2021) §8.20 contents.
+func DecodeRelativeOIDValue(value []byte) (runtime.RelativeObjectIdentifier, error) {
+	oid, err := runtime.RelativeObjectIdentifierFromEncoded(string(value))
+	return oid, oidDecodeError(err)
+}
+
+func oidDecodeError(err error) error {
+	if err == nil {
+		return nil
 	}
-	oid := make([]uint64, 0, 4)
-	for offset := 0; offset < len(value); {
-		arc, next, err := decodeBase128(value, offset)
-		if err != nil {
-			return nil, fmt.Errorf("decoding RELATIVE-OID subidentifier: %w", err)
-		}
-		oid = append(oid, arc)
-		offset = next
+	if errors.Is(err, runtime.ErrTruncatedOID) {
+		return fmt.Errorf("%w: %v", ErrTruncated, err)
 	}
-	return oid, nil
+	return fmt.Errorf("%w: %v", ErrInvalidValue, err)
 }
 
 // SkipTLV skips one complete TLV in data and returns the number of bytes consumed.

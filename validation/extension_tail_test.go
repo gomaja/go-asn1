@@ -45,9 +45,7 @@ func TestNotifySSArgComponentOrder(t *testing.T) {
 			Constraint:    "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)",
 			ObservedValue: "[CONTEXT 1 PRIMITIVE]",
 		}}
-		if got := log.Snapshot(); !reflect.DeepEqual(got, want) {
-			t.Fatalf("%s violations = %+v", c.hex, got)
-		}
+		requireViolations(t, &log, want...)
 		if len(value.ExtData_) != 1 || !bytes.Equal(value.ExtData_[0], mustHex(t, c.tail)) {
 			t.Fatalf("%s kept %x", c.hex, value.ExtData_)
 		}
@@ -103,9 +101,7 @@ func TestSGPFirstExtensionTailComponentOrder(t *testing.T) {
 				Constraint:    "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)",
 				ObservedValue: c.observed,
 			}}
-			if got := log.Snapshot(); !reflect.DeepEqual(got, want) {
-				t.Fatalf("violations = %+v, want %+v", got, want)
-			}
+			requireViolations(t, &log, want...)
 			if got := c.extensions(value); !reflect.DeepEqual(got, [][]byte{mustHex(t, c.tail)}) {
 				t.Fatalf("extensions = %x, want %s", got, c.tail)
 			}
@@ -116,16 +112,79 @@ func TestSGPFirstExtensionTailComponentOrder(t *testing.T) {
 	}
 }
 
-// TS 29.002 V19.1.0 §17.7.6 adds maximumRetransmissionTime [2],
-// smsGmscAddress [3] and smsGmscDiameterAddress [4] to MT-ForwardSM-Arg. The
-// older SMMTForwardSMArg ends at correlationID [1]; the additions reuse
-// mandatory component tags or follow its trailing OPTIONAL run, so it accepts
-// them as unknown additions. pycrate 0.7.11 decodes each value with the
-// current type and re-encodes it unchanged.
+// DeviceInfo (SGP.22 V2.7 Annex H) and EimConfigurationData (SGP.32 V1.3
+// Annex C) have trailing OPTIONAL components. The first unknown extension
+// cannot reuse a known component tag (ITU-T X.680 (02/2021) §§25.6.1,
+// 25.6.3, 52.7.3 NOTE b; X.690 (02/2021) §§8.9.2–8.9.3).
+func TestSGPFirstExtensionTailEncoding(t *testing.T) {
+	for _, c := range []struct {
+		name, valid, colliding, noncolliding, invalid, observed string
+		fresh                                                   func() berValue
+		extensions                                              func(berValue) *[][]byte
+	}{
+		{
+			name:         "SGP.22 DeviceInfo",
+			valid:        "3012800401020304a100820821436587092143f5",
+			colliding:    "820865872143098765f1",
+			noncolliding: "8300",
+			invalid:      "301c800401020304a100820821436587092143f5820865872143098765f1",
+			observed:     "[CONTEXT 2 PRIMITIVE]",
+			fresh:        func() berValue { return &sgp22.DeviceInfo{} },
+			extensions:   func(v berValue) *[][]byte { return &v.(*sgp22.DeviceInfo).ExtData_ },
+		},
+		{
+			name:         "SGP.32 EimConfigurationData",
+			valid:        "300d800365696d8106612e74657374",
+			colliding:    "8106622e74657374",
+			noncolliding: "8b00",
+			invalid:      "3015800365696d8106612e746573748106622e74657374",
+			observed:     "[CONTEXT 1 PRIMITIVE]",
+			fresh:        func() berValue { return &sgp32.EimConfigurationData{} },
+			extensions:   func(v berValue) *[][]byte { return &v.(*sgp32.EimConfigurationData).ExtData_ },
+		},
+	} {
+		t.Run(c.name, func(t *testing.T) {
+			value := c.fresh()
+			if err := value.UnmarshalBER(mustHex(t, c.valid)); err != nil {
+				t.Fatal(err)
+			}
+			*c.extensions(value) = [][]byte{mustHex(t, c.colliding)}
+			want := ber.ConstraintViolation{Path: "ExtData_[0]", Constraint: "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", ObservedValue: c.observed}
+			_, err := value.MarshalBER()
+			requireConstraint(t, err, want)
+			_, err = value.MarshalDER()
+			requireConstraint(t, err, want)
+			var log ber.ViolationLog
+			wire, err := value.MarshalBER(ber.WithConstraintTolerance(&log))
+			if err != nil || !bytes.Equal(wire, mustHex(t, c.invalid)) {
+				t.Fatalf("tolerant BER = %x, %v", wire, err)
+			}
+			requireViolations(t, &log, want)
+			control := c.fresh()
+			if err := control.UnmarshalBER(mustHex(t, c.valid)); err != nil {
+				t.Fatal(err)
+			}
+			*c.extensions(control) = [][]byte{mustHex(t, c.noncolliding)}
+			if _, err := control.MarshalBER(); err != nil {
+				t.Fatalf("noncolliding BER: %v", err)
+			}
+			if _, err := control.MarshalDER(); err != nil {
+				t.Fatalf("noncolliding DER: %v", err)
+			}
+		})
+	}
+}
+
+// TS 29.002 V19.1.0 §17.7.6 MT-ForwardSM-Arg has mandatory SM-RP-DA,
+// SM-RP-OA and SM-RP-UI followed by OPTIONAL components. An unknown [5]
+// can reuse a mandatory CHOICE alternative's tag, and a known optional tag
+// can follow that unknown addition (X.680 (02/2021) §§25.6.1, 25.6.3,
+// 52.7.3 NOTE b). Historical Wireshark-only types are no longer emitted;
+// the current official type exercises the same extension-tail boundary.
 // All address digits use Ofcom's drama mobile range +44 7700 900000..900999:
 // service centre 900000, TP-OA 900001 and SMS GMSC 900002
 // (https://www.ofcom.org.uk/phones-and-broadband/phone-numbers/numbers-for-drama).
-func TestNewerMTForwardSMArgOnOlderType(t *testing.T) {
+func TestMTForwardSMArgSyntheticFutureAdditions(t *testing.T) {
 	for _, c := range []struct {
 		name, hex string
 		knownIP   bool
@@ -142,49 +201,116 @@ func TestNewerMTForwardSMArgOnOlderType(t *testing.T) {
 			if tolerant {
 				options = append(options, ber.WithConstraintTolerance(&log))
 			}
-			var older gsm_map.SMMTForwardSMArg
-			if err := older.UnmarshalBER(wire, options...); err != nil {
+			var current gsm_map.MTForwardSMArg
+			if err := current.UnmarshalBER(wire, options...); err != nil {
 				t.Fatalf("%s: %v", c.name, err)
 			}
-			if len(log.Snapshot()) != 0 || len(older.ExtData_) != 1 || (older.SmsOverIPOnlyIndicator != nil) != c.knownIP ||
-				older.SmRPDA.Imsi == nil || older.SmRPOA.ServiceCentreAddressOA == nil || len(older.SmRPUI) != 24 {
-				t.Fatalf("%s: %+v, %+v", c.name, older, log.Snapshot())
+			if len(log.Snapshot()) != 0 || len(current.ExtData_) != 0 || (current.SmsOverIPOnlyIndicator != nil) != c.knownIP ||
+				current.SmRPDA.Imsi == nil || current.SmRPOA.ServiceCentreAddressOA == nil || len(current.SmRPUI) != 24 {
+				t.Fatalf("%s: %+v, %+v", c.name, current, log.Snapshot())
 			}
-			replaysExactly(t, c.name, &older, wire)
+			replaysExactly(t, c.name, &current, wire)
+		}
+	}
+	// [5] is a mandatory CHOICE alternative, outside the trailing OPTIONAL
+	// run. The following [0] remains opaque rather than becoming a typed field.
+	wire := mustHex(t, "3031800821436587092143f58407914477000900000418040c9144770009001000006201012143650005e8329bfd0685008000")
+	for _, tolerant := range []bool{false, true} {
+		var log ber.ViolationLog
+		var options []ber.DecodeOption
+		if tolerant {
+			options = append(options, ber.WithConstraintTolerance(&log))
 		}
 		var current gsm_map.MTForwardSMArg
-		if err := current.UnmarshalBER(wire); err != nil || len(current.ExtData_) != 0 {
-			t.Fatalf("%s current type: %v, %+v", c.name, err, current)
+		if err := current.UnmarshalBER(wire, options...); err != nil {
+			t.Fatal(err)
 		}
-		replaysExactly(t, c.name, &current, wire)
+		if len(log.Snapshot()) != 0 || current.SmsOverIPOnlyIndicator != nil || len(current.ExtData_) != 2 ||
+			!bytes.Equal(current.ExtData_[0], mustHex(t, "8500")) || !bytes.Equal(current.ExtData_[1], mustHex(t, "8000")) {
+			t.Fatalf("extension tail = %+v, %+v", current, log.Snapshot())
+		}
+		replaysExactly(t, "MTForwardSMArg unknown then optional", &current, wire)
 	}
 }
 
-// TS 29.002 V19.1.0 §17.7.1 RequestedInfo inserts
-// locationInformationEPS-Supported [11] before t-adsData [8]. The older
-// RequestedInfo6 does not know [11], so its first unknown TLV is [11], and
-// the [8], [9] and [10] that follow it are kept with it: only the first
-// unknown TLV is checked, because the unknown addition before them can be
-// mandatory. pycrate 0.7.11 decodes the value with the current type and
-// re-encodes it unchanged.
-func TestNewerRequestedInfoOnOlderType(t *testing.T) {
-	text := "301b8000810083008401008600850087008b008800890207808a008c00"
+// TS 29.002 V19.1.0 §17.7.1 RequestedInfo ends at localTimeZoneRequest
+// [12]. A synthetic future addition [13] followed by [8], [9], [10] and
+// [12] is retained as five TLVs: only the first unknown tag is checked
+// (X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b). The current official
+// type replaces the removed Wireshark version-13 validation target.
+func TestRequestedInfoSyntheticFutureAdditions(t *testing.T) {
+	text := "301b8000810083008401008600850087008d008800890207808a008c00"
 	wire := mustHex(t, text)
-	var older gsm_map.RequestedInfo6
-	if err := older.UnmarshalBER(wire); err != nil {
+	var current gsm_map.RequestedInfo
+	if err := current.UnmarshalBER(wire); err != nil {
 		t.Fatal(err)
 	}
-	if older.MnpRequestedInfo == nil || older.TAdsData != nil || len(older.ExtData_) != 5 ||
-		!bytes.Equal(older.ExtData_[0], mustHex(t, "8b00")) || !bytes.Equal(older.ExtData_[1], mustHex(t, "8800")) {
-		t.Fatalf("older type = %+v", older)
+	if current.MnpRequestedInfo == nil || current.TAdsData != nil || len(current.ExtData_) != 5 ||
+		!bytes.Equal(current.ExtData_[0], mustHex(t, "8d00")) || !bytes.Equal(current.ExtData_[1], mustHex(t, "8800")) {
+		t.Fatalf("current type = %+v", current)
 	}
-	replaysExactly(t, "RequestedInfo6", &older, wire)
+	replaysExactly(t, "RequestedInfo future addition", &current, wire)
+	// The original current-version input still populates its typed additions.
+	known := mustHex(t, "301b8000810083008401008600850087008b008800890207808a008c00")
+	var typed gsm_map.RequestedInfo
+	if err := typed.UnmarshalBER(known); err != nil || len(typed.ExtData_) != 0 || typed.TAdsData == nil {
+		t.Fatalf("typed current value: %v, %+v", err, typed)
+	}
+	replaysExactly(t, "RequestedInfo", &typed, known)
+}
 
-	var current gsm_map.RequestedInfo
-	if err := current.UnmarshalBER(wire); err != nil || len(current.ExtData_) != 0 || current.TAdsData == nil {
-		t.Fatalf("current type: %v, %+v", err, current)
+// The same current MAP types must refuse a first tail tag from their
+// trailing OPTIONAL run; explicit tolerance records one violation and
+// preserves the exact bytes (X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3
+// NOTE b; X.690 (02/2021) §§8.9.2–8.9.3).
+func TestCurrentMAPFirstExtensionTail(t *testing.T) {
+	for _, c := range []struct {
+		name, valid, tail, invalid, control, observed string
+		fresh                                         func() berValue
+		extensions                                    func(berValue) *[][]byte
+	}{
+		{"MTForwardSMArg", "302d800821436587092143f58407914477000900000418040c9144770009001000006201012143650005e8329bfd06", "8000", "3031800821436587092143f58407914477000900000418040c9144770009001000006201012143650005e8329bfd0680008000", "8500", "[CONTEXT 0 PRIMITIVE]",
+			func() berValue { return &gsm_map.MTForwardSMArg{} }, func(v berValue) *[][]byte { return &v.(*gsm_map.MTForwardSMArg).ExtData_ }},
+		{"RequestedInfo", "30028800", "8800", "300488008800", "8d00", "[CONTEXT 8 PRIMITIVE]",
+			func() berValue { return &gsm_map.RequestedInfo{} }, func(v berValue) *[][]byte { return &v.(*gsm_map.RequestedInfo).ExtData_ }},
+	} {
+		t.Run(c.name, func(t *testing.T) {
+			wire := mustHex(t, c.invalid)
+			if err := c.fresh().UnmarshalBER(wire); !errors.Is(err, ber.ErrInvalidTag) {
+				t.Fatalf("strict decode: %v", err)
+			}
+			want := ber.ConstraintViolation{Path: "ExtData_[0]", Constraint: "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", ObservedValue: c.observed}
+			var log ber.ViolationLog
+			value := c.fresh()
+			if err := value.UnmarshalBER(wire, ber.WithConstraintTolerance(&log)); err != nil {
+				t.Fatal(err)
+			}
+			requireViolations(t, &log, want)
+			if got := *c.extensions(value); len(got) != 1 || !bytes.Equal(got[0], mustHex(t, c.tail)) {
+				t.Fatalf("tail = %x", got)
+			}
+			_, err := value.MarshalBER()
+			requireConstraint(t, err, want)
+			_, err = value.MarshalDER()
+			requireConstraint(t, err, want)
+			log = ber.ViolationLog{}
+			if replay, err := value.MarshalBER(ber.WithConstraintTolerance(&log)); err != nil || !bytes.Equal(replay, wire) {
+				t.Fatalf("replay = %x, %v", replay, err)
+			}
+			requireViolations(t, &log, want)
+			control := c.fresh()
+			if err := control.UnmarshalBER(mustHex(t, c.valid)); err != nil {
+				t.Fatal(err)
+			}
+			*c.extensions(control) = [][]byte{mustHex(t, c.control)}
+			if _, err := control.MarshalBER(); err != nil {
+				t.Fatalf("noncolliding BER: %v", err)
+			}
+			if _, err := control.MarshalDER(); err != nil {
+				t.Fatalf("noncolliding DER: %v", err)
+			}
+		})
 	}
-	replaysExactly(t, "RequestedInfo", &current, wire)
 }
 
 // TS 24.080 V19.4.0 changes SingleRelativeResult.relativeVelocity [3] from

@@ -11,6 +11,8 @@ import (
 	"github.com/gomaja/go-asn1/telecom/esim/sgp22"
 	"github.com/gomaja/go-asn1/telecom/esim/sgp32"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_ss_code"
+
 	"github.com/gomaja/go-asn1/telecom/ss7/tcap"
 )
 
@@ -30,6 +32,10 @@ func requireViolations(t *testing.T, log *ber.ViolationLog, want ...ber.Constrai
 	}
 	remaining := append([]ber.ConstraintViolation(nil), got...)
 	for _, record := range want {
+		// Logged diagnostics retain the original byte length, even without clipping.
+		if record.ObservedValueLength == 0 {
+			record.ObservedValueLength = len(record.ObservedValue)
+		}
 		found := false
 		for i, candidate := range remaining {
 			if reflect.DeepEqual(candidate, record) {
@@ -256,9 +262,7 @@ func TestNamedCollectionSingleSizeRecord(t *testing.T) {
 			_, err := value.MarshalBER()
 			requireConstraint(t, err, want)
 			_, err = value.MarshalDER()
-			derWant := want
-			derWant.Path = c.path[strings.LastIndexByte(c.path, '.')+1:]
-			requireConstraint(t, err, derWant)
+			requireConstraint(t, err, want)
 			log.Reset()
 			if replay, err := value.MarshalBER(ber.WithConstraintTolerance(&log)); err != nil || !bytes.Equal(replay, wire) {
 				t.Fatalf("replay = %x, %v", replay, err)
@@ -283,7 +287,7 @@ func TestNotifySSArgEncoderExtensionTags(t *testing.T) {
 		t.Run(c.wire, func(t *testing.T) {
 			value := gsm_map.NotifySSArg{ExtData_: [][]byte{mustHex(t, c.tail)}}
 			if c.code {
-				code := gsm_map.SSCode3{0}
+				code := v21_map_ss_code.SSSSCode{0}
 				value.SsCode = &code
 			}
 			want := ber.ConstraintViolation{Path: "ExtData_[0]", Constraint: "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", ObservedValue: c.observed}

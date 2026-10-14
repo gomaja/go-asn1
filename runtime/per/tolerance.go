@@ -31,6 +31,11 @@ const (
 	// 11.9.3.8), so a shorter input is an error. TruncatedExtensionTolerance
 	// accepts it (go-asn1#114), for receivers of PDUs cut in transmission.
 	ToleratedTruncatedExtension
+	// ToleratedIncompleteExtension is a known SEQUENCE or SET addition whose
+	// complete, bounded open type ended before the known value could decode.
+	// X.691 (02/2021) 11.2.1–11.2.2 and 19.9 require a complete encoding;
+	// ExtensionRecoveryTolerance explicitly accepts this error (go-asn1#142).
+	ToleratedIncompleteExtension
 )
 
 func (kind ToleranceKind) String() string {
@@ -41,6 +46,8 @@ func (kind ToleranceKind) String() string {
 		return "contained bits"
 	case ToleratedTruncatedExtension:
 		return "truncated extension"
+	case ToleratedIncompleteExtension:
+		return "incomplete extension"
 	default:
 		return "ToleranceKind(" + strconv.Itoa(int(kind)) + ")"
 	}
@@ -72,6 +79,14 @@ type Tolerance struct {
 	// bits of the fragment that was cut; fragments after it are unknown. It
 	// is zero for the other kinds.
 	Missing int
+	// DeclaredLength is the bounded open type's length in octets for
+	// ToleratedIncompleteExtension. Bits keeps those contents as provenance.
+	DeclaredLength int
+	// ConsumedBits is the position in those contents where decoding failed.
+	ConsumedBits int
+	// Err is the nested truncation error, qualified by Path on publication.
+	// The other tolerance kinds leave these three fields zero.
+	Err error
 }
 
 // ToleranceLog collects the tolerances applied by PER decodes. A zero value
@@ -114,8 +129,9 @@ func (log *ToleranceLog) append(records []Tolerance) {
 // for tolerance or deferral, so a strict eager decode pays one nil check per
 // tracked component.
 type decodeTrace struct {
-	path    []pathSegment
-	pending []Tolerance
+	trailing *ToleranceLog
+	path     []pathSegment
+	pending  []Tolerance
 	// deferred holds the deferral records of the decode, published to
 	// deferrals together with pending.
 	deferred  []pendingDeferral
@@ -123,6 +139,11 @@ type decodeTrace struct {
 	// truncated is DecodeOptions.TruncatedExtensionTolerance (see
 	// BitBuffer.outermost).
 	truncated *ToleranceLog
+	// recovery receives failures of bounded known extension additions.
+	recovery *ToleranceLog
+	// The recovery work budget belongs to this decode, never to a candidate
+	// transaction. Re-reads and provenance scans keep their charges on rollback.
+	work *recoveryWork
 }
 
 // pathSegment is a component name, or a list index when name is empty.
@@ -194,6 +215,9 @@ func (bb *BitBuffer) commitRecords(root string) {
 		for i := range trace.pending {
 			record := &trace.pending[i]
 			record.Path = qualifyPath(root, record.Path)
+			if record.Err != nil {
+				record.Err = fmt.Errorf("%s: %w", record.Path, record.Err)
+			}
 		}
 		bb.publishTolerances(trace.pending)
 		trace.pending = nil
@@ -219,28 +243,21 @@ func (bb *BitBuffer) commitRecords(root string) {
 // TrailingBitsTolerance for the others. Records for one log are appended
 // together, in decode order.
 func (bb *BitBuffer) publishTolerances(records []Tolerance) {
-	truncated := bb.trace.truncated
-	if truncated == nil || truncated == bb.tolerance {
-		if bb.tolerance != nil {
-			bb.tolerance.append(records)
-		} else {
-			truncated.append(records)
-		}
-		return
-	}
-	var cuts, others []Tolerance
+	byLog := make(map[*ToleranceLog][]Tolerance)
 	for _, record := range records {
-		if record.Kind == ToleratedTruncatedExtension {
-			cuts = append(cuts, record)
-		} else {
-			others = append(others, record)
+		log := bb.trailingTolerance()
+		switch record.Kind {
+		case ToleratedTruncatedExtension:
+			log = bb.trace.truncated
+		case ToleratedIncompleteExtension:
+			log = bb.trace.recovery
+		}
+		if log != nil {
+			byLog[log] = append(byLog[log], record)
 		}
 	}
-	if len(others) != 0 {
-		bb.tolerance.append(others)
-	}
-	if len(cuts) != 0 {
-		truncated.append(cuts)
+	for log, pending := range byLog {
+		log.append(pending)
 	}
 }
 
@@ -282,7 +299,7 @@ func CaptureContainedBits(bb *BitBuffer) (FinalPadding, error) {
 	if remaining == 0 {
 		return FinalPadding{}, nil
 	}
-	if bb.tolerance == nil {
+	if bb.trailingTolerance() == nil {
 		return FinalPadding{}, fmt.Errorf("%w: contained value has %d trailing bits", ErrExtraData, remaining)
 	}
 	offset := bb.bitPos
@@ -336,6 +353,9 @@ func AppendContainedBits(bb *BitBuffer, kept FinalPadding) error {
 // A decode whose ContainedDecoding is unknown, or defers without a
 // Deferrals log, fails here, before anything is published.
 func CaptureFinalBits(bb *BitBuffer, root string) (FinalPadding, error) {
+	if err := bb.checkRecoveryBits(0); err != nil {
+		return FinalPadding{}, err
+	}
 	if err := bb.checkContainedDecoding(); err != nil {
 		return FinalPadding{}, err
 	}
@@ -360,7 +380,7 @@ func CaptureContainedFinalBits(bb *BitBuffer) (FinalPadding, error) {
 func captureFinalBits(bb *BitBuffer, context string) (FinalPadding, error) {
 	var final FinalPadding
 	remaining := bb.BitsRemaining()
-	if bb.tolerance == nil || remaining <= 7 || bb.bitPos == 0 && remaining == 8 {
+	if bb.trailingTolerance() == nil || remaining <= 7 || bb.bitPos == 0 && remaining == 8 {
 		padding, err := captureTrailingPadding(bb, context)
 		if err != nil {
 			return FinalPadding{}, err
@@ -569,4 +589,11 @@ func CaptureContainedPaddingAligned(bb *BitBuffer) (CompletePadding, error) {
 		return CompletePadding{}, fmt.Errorf("%w: contained ALIGNED encoding has %d bits, not a multiple of eight", ErrInvalidValue, bb.bitLen)
 	}
 	return captureTrailingPadding(bb, "contained value")
+}
+
+func (bb *BitBuffer) trailingTolerance() *ToleranceLog {
+	if bb.trace == nil {
+		return nil
+	}
+	return bb.trace.trailing
 }

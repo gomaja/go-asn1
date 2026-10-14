@@ -125,6 +125,9 @@ func TestDecodeRealAcceptsBERValueWithoutDERRepresentation(t *testing.T) {
 	if again, err := EncodeBERReal(fromWire); err != nil || !bytes.Equal(again, wire) {
 		t.Fatalf("unchanged BER REAL = %x, %v", again, err)
 	}
+	if again, err := EncodeBERReal(fromWire, WithoutBERReplay()); !errors.Is(err, ErrInvalidValue) || again != nil {
+		t.Fatalf("REAL without replay = %x, %v; want typed error", again, err)
+	}
 	fromWire.Mantissa.Add(fromWire.Mantissa, big.NewInt(1))
 	if again, err := EncodeBERReal(fromWire); !errors.Is(err, ErrInvalidValue) || again != nil {
 		t.Fatalf("modified REAL = %x, %v; want typed error", again, err)

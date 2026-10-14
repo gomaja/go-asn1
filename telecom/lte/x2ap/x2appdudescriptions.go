@@ -116,7 +116,7 @@ func (v *X2APPDU) MarshalAPERTo(bb *per.BitBuffer) error {
 	if isExtension {
 		return fmt.Errorf("X2APPDU: extension choice %d not supported", v.Choice)
 	}
-	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:150
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -157,10 +157,12 @@ func (v *X2APPDU) UnmarshalAPER(data []byte) error {
 }
 
 // UnmarshalAPERWithOptions decodes X2APPDU with explicit receiver options:
-// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
+// MaxZeroWidthCharacters (see
 // per.BitBuffer.SetDecodeOptionsAligned).
 func (v *X2APPDU) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "X2APPDU")
 	}
@@ -176,6 +178,10 @@ func (v *X2APPDU) UnmarshalAPERWithOptions(data []byte, options per.DecodeOption
 }
 
 func (v *X2APPDU) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = X2APPDU{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -197,7 +203,7 @@ func (v *X2APPDU) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:237
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -253,10 +259,12 @@ func (v *InitiatingMessage) UnmarshalAPER(data []byte) error {
 }
 
 // UnmarshalAPERWithOptions decodes InitiatingMessage with explicit receiver options:
-// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
+// MaxZeroWidthCharacters (see
 // per.BitBuffer.SetDecodeOptionsAligned).
 func (v *InitiatingMessage) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "InitiatingMessage")
 	}
@@ -272,6 +280,10 @@ func (v *InitiatingMessage) UnmarshalAPERWithOptions(data []byte, options per.De
 }
 
 func (v *InitiatingMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = InitiatingMessage{}
 	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
@@ -319,10 +331,12 @@ func (v *SuccessfulOutcome) UnmarshalAPER(data []byte) error {
 }
 
 // UnmarshalAPERWithOptions decodes SuccessfulOutcome with explicit receiver options:
-// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
+// MaxZeroWidthCharacters (see
 // per.BitBuffer.SetDecodeOptionsAligned).
 func (v *SuccessfulOutcome) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SuccessfulOutcome")
 	}
@@ -338,6 +352,10 @@ func (v *SuccessfulOutcome) UnmarshalAPERWithOptions(data []byte, options per.De
 }
 
 func (v *SuccessfulOutcome) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SuccessfulOutcome{}
 	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
@@ -385,10 +403,12 @@ func (v *UnsuccessfulOutcome) UnmarshalAPER(data []byte) error {
 }
 
 // UnmarshalAPERWithOptions decodes UnsuccessfulOutcome with explicit receiver options:
-// TruncatedExtensionTolerance and MaxZeroWidthCharacters (see
+// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
+// MaxZeroWidthCharacters (see
 // per.BitBuffer.SetDecodeOptionsAligned).
 func (v *UnsuccessfulOutcome) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "UnsuccessfulOutcome")
 	}
@@ -404,6 +424,10 @@ func (v *UnsuccessfulOutcome) UnmarshalAPERWithOptions(data []byte, options per.
 }
 
 func (v *UnsuccessfulOutcome) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = UnsuccessfulOutcome{}
 	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {

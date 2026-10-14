@@ -72,21 +72,14 @@ func significantBits[T ~string | ~[]byte](octets T, length int) int {
 	return length
 }
 
-// ObjectIdentifier represents an ASN.1 OBJECT IDENTIFIER value.
-type ObjectIdentifier []uint64
+// ObjectIdentifier holds canonical X.690 (02/2021) §8.19 contents octets.
+// Its zero value is absent/invalid; valid values are immutable and comparable.
+// Both == and Equal compare the ASN.1 value, and values can be map keys.
+type ObjectIdentifier struct{ enc string }
 
-// Equal returns true if two OIDs are equal.
-func (oid ObjectIdentifier) Equal(other ObjectIdentifier) bool {
-	if len(oid) != len(other) {
-		return false
-	}
-	for i := range oid {
-		if oid[i] != other[i] {
-			return false
-		}
-	}
-	return true
-}
+// RelativeObjectIdentifier holds canonical X.690 (02/2021) §8.20 contents.
+// Its zero value is absent/invalid; valid values are immutable and comparable.
+type RelativeObjectIdentifier struct{ enc string }
 
 // RawValue represents an unparsed ASN.1 value (used for ANY/OPEN TYPE).
 type RawValue struct {

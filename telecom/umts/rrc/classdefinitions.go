@@ -1515,8 +1515,11 @@ func (v *DLDCCHMessage) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes DLDCCHMessage with explicit receiver options.
 func (v *DLDCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "DLDCCHMessage")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLDCCHMessage")
 	}
@@ -1529,6 +1532,10 @@ func (v *DLDCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.Decode
 }
 
 func (v *DLDCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = DLDCCHMessage{}
 	// Read preamble bitmap for optional root fields
 	opt_integritycheckinfo, err := per.DecodeBoolean(bb)
@@ -1563,7 +1570,7 @@ func (v *DLDCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("DLDCCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -1802,8 +1809,11 @@ func (v *DLDCCHMessageType) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes DLDCCHMessageType with explicit receiver options.
 func (v *DLDCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "DLDCCHMessageType")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLDCCHMessageType")
 	}
@@ -1816,12 +1826,16 @@ func (v *DLDCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.De
 }
 
 func (v *DLDCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = DLDCCHMessageType{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 31)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -2055,8 +2069,11 @@ func (v *ULDCCHMessage) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes ULDCCHMessage with explicit receiver options.
 func (v *ULDCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "ULDCCHMessage")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULDCCHMessage")
 	}
@@ -2069,6 +2086,10 @@ func (v *ULDCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.Decode
 }
 
 func (v *ULDCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = ULDCCHMessage{}
 	// Read preamble bitmap for optional root fields
 	opt_integritycheckinfo, err := per.DecodeBoolean(bb)
@@ -2103,7 +2124,7 @@ func (v *ULDCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ULDCCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -2348,8 +2369,11 @@ func (v *ULDCCHMessageType) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes ULDCCHMessageType with explicit receiver options.
 func (v *ULDCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "ULDCCHMessageType")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULDCCHMessageType")
 	}
@@ -2362,12 +2386,16 @@ func (v *ULDCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.De
 }
 
 func (v *ULDCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = ULDCCHMessageType{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 31)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -2588,7 +2616,7 @@ func (v *ULDCCHMessageTypeExt) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ULDCCHMessageTypeExt: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -2631,8 +2659,11 @@ func (v *ULDCCHMessageTypeExt) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes ULDCCHMessageTypeExt with explicit receiver options.
 func (v *ULDCCHMessageTypeExt) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "ULDCCHMessageTypeExt")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULDCCHMessageTypeExt")
 	}
@@ -2645,12 +2676,16 @@ func (v *ULDCCHMessageTypeExt) UnmarshalUPERWithOptions(data []byte, options per
 }
 
 func (v *ULDCCHMessageTypeExt) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = ULDCCHMessageTypeExt{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 15)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -2728,8 +2763,11 @@ func (v *DLCCCHMessage) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes DLCCCHMessage with explicit receiver options.
 func (v *DLCCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "DLCCCHMessage")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLCCCHMessage")
 	}
@@ -2742,6 +2780,10 @@ func (v *DLCCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.Decode
 }
 
 func (v *DLCCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = DLCCCHMessage{}
 	// Read preamble bitmap for optional root fields
 	opt_integritycheckinfo, err := per.DecodeBoolean(bb)
@@ -2776,7 +2818,7 @@ func (v *DLCCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("DLCCCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -2841,8 +2883,11 @@ func (v *DLCCCHMessageType) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes DLCCCHMessageType with explicit receiver options.
 func (v *DLCCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "DLCCCHMessageType")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLCCCHMessageType")
 	}
@@ -2855,12 +2900,16 @@ func (v *DLCCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.De
 }
 
 func (v *DLCCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = DLCCCHMessageType{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 7)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -2944,8 +2993,11 @@ func (v *ULCCCHMessage) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes ULCCCHMessage with explicit receiver options.
 func (v *ULCCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "ULCCCHMessage")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULCCCHMessage")
 	}
@@ -2958,6 +3010,10 @@ func (v *ULCCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.Decode
 }
 
 func (v *ULCCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = ULCCCHMessage{}
 	// Read preamble bitmap for optional root fields
 	opt_integritycheckinfo, err := per.DecodeBoolean(bb)
@@ -2992,7 +3048,7 @@ func (v *ULCCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ULCCCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -3041,8 +3097,11 @@ func (v *ULCCCHMessageType) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes ULCCCHMessageType with explicit receiver options.
 func (v *ULCCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "ULCCCHMessageType")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULCCCHMessageType")
 	}
@@ -3055,12 +3114,16 @@ func (v *ULCCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.De
 }
 
 func (v *ULCCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = ULCCCHMessageType{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -3111,7 +3174,7 @@ func (v *ULCCCHMessageTypeR11) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ULCCCHMessageTypeR11: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -3142,8 +3205,11 @@ func (v *ULCCCHMessageTypeR11) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes ULCCCHMessageTypeR11 with explicit receiver options.
 func (v *ULCCCHMessageTypeR11) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "ULCCCHMessageTypeR11")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULCCCHMessageTypeR11")
 	}
@@ -3156,12 +3222,16 @@ func (v *ULCCCHMessageTypeR11) UnmarshalUPERWithOptions(data []byte, options per
 }
 
 func (v *ULCCCHMessageTypeR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = ULCCCHMessageTypeR11{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -3206,8 +3276,11 @@ func (v *PCCHMessage) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes PCCHMessage with explicit receiver options.
 func (v *PCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PCCHMessage")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PCCHMessage")
 	}
@@ -3220,6 +3293,10 @@ func (v *PCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOp
 }
 
 func (v *PCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PCCHMessage{}
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
@@ -3240,7 +3317,7 @@ func (v *PCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("PCCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -3269,8 +3346,11 @@ func (v *PCCHMessageType) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes PCCHMessageType with explicit receiver options.
 func (v *PCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PCCHMessageType")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PCCHMessageType")
 	}
@@ -3283,12 +3363,16 @@ func (v *PCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.Deco
 }
 
 func (v *PCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PCCHMessageType{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -3329,8 +3413,11 @@ func (v *DLSHCCHMessage) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes DLSHCCHMessage with explicit receiver options.
 func (v *DLSHCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "DLSHCCHMessage")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLSHCCHMessage")
 	}
@@ -3343,6 +3430,10 @@ func (v *DLSHCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.Decod
 }
 
 func (v *DLSHCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = DLSHCCHMessage{}
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
@@ -3363,7 +3454,7 @@ func (v *DLSHCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("DLSHCCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -3392,8 +3483,11 @@ func (v *DLSHCCHMessageType) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes DLSHCCHMessageType with explicit receiver options.
 func (v *DLSHCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "DLSHCCHMessageType")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLSHCCHMessageType")
 	}
@@ -3406,12 +3500,16 @@ func (v *DLSHCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.D
 }
 
 func (v *DLSHCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = DLSHCCHMessageType{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -3452,8 +3550,11 @@ func (v *ULSHCCHMessage) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes ULSHCCHMessage with explicit receiver options.
 func (v *ULSHCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "ULSHCCHMessage")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULSHCCHMessage")
 	}
@@ -3466,6 +3567,10 @@ func (v *ULSHCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.Decod
 }
 
 func (v *ULSHCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = ULSHCCHMessage{}
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
@@ -3486,7 +3591,7 @@ func (v *ULSHCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ULSHCCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -3515,8 +3620,11 @@ func (v *ULSHCCHMessageType) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes ULSHCCHMessageType with explicit receiver options.
 func (v *ULSHCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "ULSHCCHMessageType")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULSHCCHMessageType")
 	}
@@ -3529,12 +3637,16 @@ func (v *ULSHCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.D
 }
 
 func (v *ULSHCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = ULSHCCHMessageType{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -3575,8 +3687,11 @@ func (v *BCCHFACHMessage) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes BCCHFACHMessage with explicit receiver options.
 func (v *BCCHFACHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "BCCHFACHMessage")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "BCCHFACHMessage")
 	}
@@ -3589,6 +3704,10 @@ func (v *BCCHFACHMessage) UnmarshalUPERWithOptions(data []byte, options per.Deco
 }
 
 func (v *BCCHFACHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = BCCHFACHMessage{}
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
@@ -3609,7 +3728,7 @@ func (v *BCCHFACHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("BCCHFACHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -3646,8 +3765,11 @@ func (v *BCCHFACHMessageType) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes BCCHFACHMessageType with explicit receiver options.
 func (v *BCCHFACHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "BCCHFACHMessageType")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "BCCHFACHMessageType")
 	}
@@ -3660,12 +3782,16 @@ func (v *BCCHFACHMessageType) UnmarshalUPERWithOptions(data []byte, options per.
 }
 
 func (v *BCCHFACHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = BCCHFACHMessageType{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -3714,8 +3840,11 @@ func (v *BCCHBCHMessage) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes BCCHBCHMessage with explicit receiver options.
 func (v *BCCHBCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "BCCHBCHMessage")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "BCCHBCHMessage")
 	}
@@ -3728,6 +3857,10 @@ func (v *BCCHBCHMessage) UnmarshalUPERWithOptions(data []byte, options per.Decod
 }
 
 func (v *BCCHBCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = BCCHBCHMessage{}
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
@@ -3758,8 +3891,11 @@ func (v *BCCHBCH2Message) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes BCCHBCH2Message with explicit receiver options.
 func (v *BCCHBCH2Message) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "BCCHBCH2Message")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "BCCHBCH2Message")
 	}
@@ -3772,6 +3908,10 @@ func (v *BCCHBCH2Message) UnmarshalUPERWithOptions(data []byte, options per.Deco
 }
 
 func (v *BCCHBCH2Message) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = BCCHBCH2Message{}
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
@@ -3802,8 +3942,11 @@ func (v *MCCHMessage) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MCCHMessage with explicit receiver options.
 func (v *MCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MCCHMessage")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MCCHMessage")
 	}
@@ -3816,6 +3959,10 @@ func (v *MCCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOp
 }
 
 func (v *MCCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MCCHMessage{}
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
@@ -3836,7 +3983,7 @@ func (v *MCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MCCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -3915,8 +4062,11 @@ func (v *MCCHMessageType) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MCCHMessageType with explicit receiver options.
 func (v *MCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MCCHMessageType")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MCCHMessageType")
 	}
@@ -3929,12 +4079,16 @@ func (v *MCCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.Deco
 }
 
 func (v *MCCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MCCHMessageType{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 15)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -4027,8 +4181,11 @@ func (v *MSCHMessage) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MSCHMessage with explicit receiver options.
 func (v *MSCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MSCHMessage")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MSCHMessage")
 	}
@@ -4041,6 +4198,10 @@ func (v *MSCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOp
 }
 
 func (v *MSCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MSCHMessage{}
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
@@ -4061,7 +4222,7 @@ func (v *MSCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MSCHMessageType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -4092,8 +4253,11 @@ func (v *MSCHMessageType) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MSCHMessageType with explicit receiver options.
 func (v *MSCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MSCHMessageType")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MSCHMessageType")
 	}
@@ -4106,12 +4270,16 @@ func (v *MSCHMessageType) UnmarshalUPERWithOptions(data []byte, options per.Deco
 }
 
 func (v *MSCHMessageType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MSCHMessageType{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}

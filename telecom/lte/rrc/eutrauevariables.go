@@ -482,8 +482,11 @@ func (v *VarConditionalReconfiguration) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarConditionalReconfiguration with explicit receiver options.
 func (v *VarConditionalReconfiguration) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarConditionalReconfiguration")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarConditionalReconfiguration")
 	}
@@ -496,6 +499,10 @@ func (v *VarConditionalReconfiguration) UnmarshalUPERWithOptions(data []byte, op
 }
 
 func (v *VarConditionalReconfiguration) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarConditionalReconfiguration{}
 	// Read preamble bitmap for optional root fields
 	opt_condreconfigurationlistr16, err := per.DecodeBoolean(bb)
@@ -506,7 +513,7 @@ func (v *VarConditionalReconfiguration) UnmarshalUPERFrom(bb *per.BitBuffer) err
 		toleranceMark_condreconfigurationlistr16 := bb.EnterComponent("CondReconfigurationListR16")
 		tmp_condreconfigurationlistr16 := make(CondReconfigurationToAddModListR16, 0)
 		_, errCollection_condreconfigurationlistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_condreconfigurationlistr16, fragmentLength_condreconfigurationlistr16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_condreconfigurationlistr16 < 0 || fragmentLength_condreconfigurationlistr16 < 0 || fragmentLength_condreconfigurationlistr16 > int64(^uint(0)>>1) || fragmentOffset_condreconfigurationlistr16 > int64(^uint(0)>>1)-fragmentLength_condreconfigurationlistr16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -556,8 +563,11 @@ func (v *VarConnEstFailReportR11) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarConnEstFailReportR11 with explicit receiver options.
 func (v *VarConnEstFailReportR11) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarConnEstFailReportR11")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarConnEstFailReportR11")
 	}
@@ -570,6 +580,10 @@ func (v *VarConnEstFailReportR11) UnmarshalUPERWithOptions(data []byte, options 
 }
 
 func (v *VarConnEstFailReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarConnEstFailReportR11{}
 	toleranceMark_connestfailreportr11 := bb.EnterComponent("ConnEstFailReportR11")
 	if err := v.ConnEstFailReportR11.UnmarshalUPERFrom(bb); err != nil {
@@ -617,8 +631,11 @@ func (v *VarLogMeasConfigR10) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarLogMeasConfigR10 with explicit receiver options.
 func (v *VarLogMeasConfigR10) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarLogMeasConfigR10")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR10")
 	}
@@ -631,6 +648,10 @@ func (v *VarLogMeasConfigR10) UnmarshalUPERWithOptions(data []byte, options per.
 }
 
 func (v *VarLogMeasConfigR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarLogMeasConfigR10{}
 	// Read preamble bitmap for optional root fields
 	opt_areaconfigurationr10, err := per.DecodeBoolean(bb)
@@ -700,8 +721,11 @@ func (v *VarLogMeasConfigR11) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarLogMeasConfigR11 with explicit receiver options.
 func (v *VarLogMeasConfigR11) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarLogMeasConfigR11")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR11")
 	}
@@ -714,6 +738,10 @@ func (v *VarLogMeasConfigR11) UnmarshalUPERWithOptions(data []byte, options per.
 }
 
 func (v *VarLogMeasConfigR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarLogMeasConfigR11{}
 	// Read preamble bitmap for optional root fields
 	opt_areaconfigurationr10, err := per.DecodeBoolean(bb)
@@ -813,8 +841,11 @@ func (v *VarLogMeasConfigR12) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarLogMeasConfigR12 with explicit receiver options.
 func (v *VarLogMeasConfigR12) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarLogMeasConfigR12")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR12")
 	}
@@ -827,6 +858,10 @@ func (v *VarLogMeasConfigR12) UnmarshalUPERWithOptions(data []byte, options per.
 }
 
 func (v *VarLogMeasConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarLogMeasConfigR12{}
 	// Read preamble bitmap for optional root fields
 	opt_areaconfigurationr10, err := per.DecodeBoolean(bb)
@@ -869,7 +904,7 @@ func (v *VarLogMeasConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		toleranceMark_targetmbsfnarealistr12 := bb.EnterComponent("TargetMBSFNAreaListR12")
 		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, 0)
 		_, errCollection_targetmbsfnarealistr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_targetmbsfnarealistr12, fragmentLength_targetmbsfnarealistr12 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_targetmbsfnarealistr12 < 0 || fragmentLength_targetmbsfnarealistr12 < 0 || fragmentLength_targetmbsfnarealistr12 > int64(^uint(0)>>1) || fragmentOffset_targetmbsfnarealistr12 > int64(^uint(0)>>1)-fragmentLength_targetmbsfnarealistr12 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -993,8 +1028,11 @@ func (v *VarLogMeasConfigR15) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarLogMeasConfigR15 with explicit receiver options.
 func (v *VarLogMeasConfigR15) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarLogMeasConfigR15")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR15")
 	}
@@ -1007,6 +1045,10 @@ func (v *VarLogMeasConfigR15) UnmarshalUPERWithOptions(data []byte, options per.
 }
 
 func (v *VarLogMeasConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarLogMeasConfigR15{}
 	// Read preamble bitmap for optional root fields
 	opt_areaconfigurationr10, err := per.DecodeBoolean(bb)
@@ -1057,7 +1099,7 @@ func (v *VarLogMeasConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		toleranceMark_targetmbsfnarealistr12 := bb.EnterComponent("TargetMBSFNAreaListR12")
 		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, 0)
 		_, errCollection_targetmbsfnarealistr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_targetmbsfnarealistr12, fragmentLength_targetmbsfnarealistr12 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_targetmbsfnarealistr12 < 0 || fragmentLength_targetmbsfnarealistr12 < 0 || fragmentLength_targetmbsfnarealistr12 > int64(^uint(0)>>1) || fragmentOffset_targetmbsfnarealistr12 > int64(^uint(0)>>1)-fragmentLength_targetmbsfnarealistr12 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1081,7 +1123,7 @@ func (v *VarLogMeasConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_btnamelistr15 {
 		tmp_btnamelistr15 := make(BTNameListR15, 0)
 		_, errCollection_btnamelistr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_btnamelistr15, fragmentLength_btnamelistr15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1274
+			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1273
 			if fragmentOffset_btnamelistr15 < 0 || fragmentLength_btnamelistr15 < 0 || fragmentLength_btnamelistr15 > int64(^uint(0)>>1) || fragmentOffset_btnamelistr15 > int64(^uint(0)>>1)-fragmentLength_btnamelistr15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1102,7 +1144,7 @@ func (v *VarLogMeasConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_wlannamelistr15 {
 		tmp_wlannamelistr15 := make(WLANNameListR15, 0)
 		_, errCollection_wlannamelistr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_wlannamelistr15, fragmentLength_wlannamelistr15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1274
+			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1273
 			if fragmentOffset_wlannamelistr15 < 0 || fragmentLength_wlannamelistr15 < 0 || fragmentLength_wlannamelistr15 > int64(^uint(0)>>1) || fragmentOffset_wlannamelistr15 > int64(^uint(0)>>1)-fragmentLength_wlannamelistr15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1239,8 +1281,11 @@ func (v *VarLogMeasConfigR17) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarLogMeasConfigR17 with explicit receiver options.
 func (v *VarLogMeasConfigR17) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarLogMeasConfigR17")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR17")
 	}
@@ -1253,6 +1298,10 @@ func (v *VarLogMeasConfigR17) UnmarshalUPERWithOptions(data []byte, options per.
 }
 
 func (v *VarLogMeasConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarLogMeasConfigR17{}
 	// Read preamble bitmap for optional root fields
 	opt_areaconfigurationr10, err := per.DecodeBoolean(bb)
@@ -1311,7 +1360,7 @@ func (v *VarLogMeasConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		toleranceMark_targetmbsfnarealistr12 := bb.EnterComponent("TargetMBSFNAreaListR12")
 		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, 0)
 		_, errCollection_targetmbsfnarealistr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_targetmbsfnarealistr12, fragmentLength_targetmbsfnarealistr12 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_targetmbsfnarealistr12 < 0 || fragmentLength_targetmbsfnarealistr12 < 0 || fragmentLength_targetmbsfnarealistr12 > int64(^uint(0)>>1) || fragmentOffset_targetmbsfnarealistr12 > int64(^uint(0)>>1)-fragmentLength_targetmbsfnarealistr12 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1335,7 +1384,7 @@ func (v *VarLogMeasConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_btnamelistr15 {
 		tmp_btnamelistr15 := make(BTNameListR15, 0)
 		_, errCollection_btnamelistr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_btnamelistr15, fragmentLength_btnamelistr15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1274
+			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1273
 			if fragmentOffset_btnamelistr15 < 0 || fragmentLength_btnamelistr15 < 0 || fragmentLength_btnamelistr15 > int64(^uint(0)>>1) || fragmentOffset_btnamelistr15 > int64(^uint(0)>>1)-fragmentLength_btnamelistr15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1356,7 +1405,7 @@ func (v *VarLogMeasConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_wlannamelistr15 {
 		tmp_wlannamelistr15 := make(WLANNameListR15, 0)
 		_, errCollection_wlannamelistr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_wlannamelistr15, fragmentLength_wlannamelistr15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1274
+			// arithmetic pattern UPER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1273
 			if fragmentOffset_wlannamelistr15 < 0 || fragmentLength_wlannamelistr15 < 0 || fragmentLength_wlannamelistr15 > int64(^uint(0)>>1) || fragmentOffset_wlannamelistr15 > int64(^uint(0)>>1)-fragmentLength_wlannamelistr15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1440,8 +1489,11 @@ func (v *VarLogMeasReportR10) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarLogMeasReportR10 with explicit receiver options.
 func (v *VarLogMeasReportR10) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarLogMeasReportR10")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasReportR10")
 	}
@@ -1454,6 +1506,10 @@ func (v *VarLogMeasReportR10) UnmarshalUPERWithOptions(data []byte, options per.
 }
 
 func (v *VarLogMeasReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarLogMeasReportR10{}
 	if err := v.TraceReferenceR10.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TraceReferenceR10")
@@ -1479,7 +1535,7 @@ func (v *VarLogMeasReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	toleranceMark_logmeasinfolistr10 := bb.EnterComponent("LogMeasInfoListR10")
 	v.LogMeasInfoListR10 = make(LogMeasInfoList2R10, 0)
 	_, errCollection_logmeasinfolistr10 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4060, HasUpper: true}, false, func(fragmentOffset_logmeasinfolistr10, fragmentLength_logmeasinfolistr10 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_logmeasinfolistr10 < 0 || fragmentLength_logmeasinfolistr10 < 0 || fragmentLength_logmeasinfolistr10 > int64(^uint(0)>>1) || fragmentOffset_logmeasinfolistr10 > int64(^uint(0)>>1)-fragmentLength_logmeasinfolistr10 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1564,8 +1620,11 @@ func (v *VarLogMeasReportR11) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarLogMeasReportR11 with explicit receiver options.
 func (v *VarLogMeasReportR11) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarLogMeasReportR11")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasReportR11")
 	}
@@ -1578,6 +1637,10 @@ func (v *VarLogMeasReportR11) UnmarshalUPERWithOptions(data []byte, options per.
 }
 
 func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarLogMeasReportR11{}
 	if err := v.TraceReferenceR10.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TraceReferenceR10")
@@ -1594,7 +1657,7 @@ func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.TceIdR10 = val_tceidr10
 	v.PlmnIdentityListR11 = make(PLMNIdentityList3R11, 0)
 	_, errCollection_plmnidentitylistr11 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr11, fragmentLength_plmnidentitylistr11 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_plmnidentitylistr11 < 0 || fragmentLength_plmnidentitylistr11 < 0 || fragmentLength_plmnidentitylistr11 > int64(^uint(0)>>1) || fragmentOffset_plmnidentitylistr11 > int64(^uint(0)>>1)-fragmentLength_plmnidentitylistr11 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1618,7 +1681,7 @@ func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	toleranceMark_logmeasinfolistr10 := bb.EnterComponent("LogMeasInfoListR10")
 	v.LogMeasInfoListR10 = make(LogMeasInfoList2R10, 0)
 	_, errCollection_logmeasinfolistr10 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4060, HasUpper: true}, false, func(fragmentOffset_logmeasinfolistr10, fragmentLength_logmeasinfolistr10 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_logmeasinfolistr10 < 0 || fragmentLength_logmeasinfolistr10 < 0 || fragmentLength_logmeasinfolistr10 > int64(^uint(0)>>1) || fragmentOffset_logmeasinfolistr10 > int64(^uint(0)>>1)-fragmentLength_logmeasinfolistr10 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1669,8 +1732,11 @@ func (v *LogMeasInfoList2R10Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete LogMeasInfoList2R10 with explicit receiver options.
 func (v *LogMeasInfoList2R10Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "LogMeasInfoList2R10")
+	}
 	value, err := UnmarshalUPERLogMeasInfoList2R10From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "LogMeasInfoList2R10")
@@ -1719,6 +1785,10 @@ func UnmarshalUPERLogMeasInfoList2R10(data []byte) (LogMeasInfoList2R10Complete,
 
 // UnmarshalUPERLogMeasInfoList2R10From decodes a LogMeasInfoList2R10 list from bb.
 func UnmarshalUPERLogMeasInfoList2R10From(bb *per.BitBuffer) (LogMeasInfoList2R10, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERLogMeasInfoList2R10ListValue
 	if err := unmarshalUPERLogMeasInfoList2R10Into(&v, bb); err != nil {
 		return nil, err
@@ -1730,7 +1800,7 @@ func unmarshalUPERLogMeasInfoList2R10Into(v *asn1cUPERLogMeasInfoList2R10ListVal
 	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(LogMeasInfoList2R10, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4060, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1965,8 +2035,11 @@ func (v *VarMeasConfig) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarMeasConfig with explicit receiver options.
 func (v *VarMeasConfig) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarMeasConfig")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasConfig")
 	}
@@ -1979,6 +2052,10 @@ func (v *VarMeasConfig) UnmarshalUPERWithOptions(data []byte, options per.Decode
 }
 
 func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarMeasConfig{}
 	// Read preamble bitmap for optional root fields
 	opt_measidlist, err := per.DecodeBoolean(bb)
@@ -2036,7 +2113,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measidlist {
 		tmp_measidlist := make(MeasIdToAddModList, 0)
 		_, errCollection_measidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measidlist, fragmentLength_measidlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_measidlist < 0 || fragmentLength_measidlist < 0 || fragmentLength_measidlist > int64(^uint(0)>>1) || fragmentOffset_measidlist > int64(^uint(0)>>1)-fragmentLength_measidlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2057,7 +2134,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measidlistextr12 {
 		tmp_measidlistextr12 := make(MeasIdToAddModListExtR12, 0)
 		_, errCollection_measidlistextr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measidlistextr12, fragmentLength_measidlistextr12 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_measidlistextr12 < 0 || fragmentLength_measidlistextr12 < 0 || fragmentLength_measidlistextr12 > int64(^uint(0)>>1) || fragmentOffset_measidlistextr12 > int64(^uint(0)>>1)-fragmentLength_measidlistextr12 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2078,7 +2155,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measidlistv1310 {
 		tmp_measidlistv1310 := make(MeasIdToAddModListV1310, 0)
 		_, errCollection_measidlistv1310 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measidlistv1310, fragmentLength_measidlistv1310 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_measidlistv1310 < 0 || fragmentLength_measidlistv1310 < 0 || fragmentLength_measidlistv1310 > int64(^uint(0)>>1) || fragmentOffset_measidlistv1310 > int64(^uint(0)>>1)-fragmentLength_measidlistv1310 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2099,7 +2176,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measidlistextv1310 {
 		tmp_measidlistextv1310 := make(MeasIdToAddModListExtV1310, 0)
 		_, errCollection_measidlistextv1310 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measidlistextv1310, fragmentLength_measidlistextv1310 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_measidlistextv1310 < 0 || fragmentLength_measidlistextv1310 < 0 || fragmentLength_measidlistextv1310 > int64(^uint(0)>>1) || fragmentOffset_measidlistextv1310 > int64(^uint(0)>>1)-fragmentLength_measidlistextv1310 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2121,7 +2198,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		toleranceMark_measobjectlist := bb.EnterComponent("MeasObjectList")
 		tmp_measobjectlist := make(MeasObjectToAddModList, 0)
 		_, errCollection_measobjectlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measobjectlist, fragmentLength_measobjectlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_measobjectlist < 0 || fragmentLength_measobjectlist < 0 || fragmentLength_measobjectlist > int64(^uint(0)>>1) || fragmentOffset_measobjectlist > int64(^uint(0)>>1)-fragmentLength_measobjectlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2146,7 +2223,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		toleranceMark_measobjectlistextr13 := bb.EnterComponent("MeasObjectListExtR13")
 		tmp_measobjectlistextr13 := make(MeasObjectToAddModListExtR13, 0)
 		_, errCollection_measobjectlistextr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measobjectlistextr13, fragmentLength_measobjectlistextr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_measobjectlistextr13 < 0 || fragmentLength_measobjectlistextr13 < 0 || fragmentLength_measobjectlistextr13 > int64(^uint(0)>>1) || fragmentOffset_measobjectlistextr13 > int64(^uint(0)>>1)-fragmentLength_measobjectlistextr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2170,7 +2247,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measobjectlistv9i0 {
 		tmp_measobjectlistv9i0 := make(MeasObjectToAddModListV9e0, 0)
 		_, errCollection_measobjectlistv9i0 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measobjectlistv9i0, fragmentLength_measobjectlistv9i0 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_measobjectlistv9i0 < 0 || fragmentLength_measobjectlistv9i0 < 0 || fragmentLength_measobjectlistv9i0 > int64(^uint(0)>>1) || fragmentOffset_measobjectlistv9i0 > int64(^uint(0)>>1)-fragmentLength_measobjectlistv9i0 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2192,7 +2269,7 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		toleranceMark_reportconfiglist := bb.EnterComponent("ReportConfigList")
 		tmp_reportconfiglist := make(ReportConfigToAddModList, 0)
 		_, errCollection_reportconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_reportconfiglist, fragmentLength_reportconfiglist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_reportconfiglist < 0 || fragmentLength_reportconfiglist < 0 || fragmentLength_reportconfiglist > int64(^uint(0)>>1) || fragmentOffset_reportconfiglist > int64(^uint(0)>>1)-fragmentLength_reportconfiglist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2297,8 +2374,11 @@ func (v *VarMeasIdleConfigR15) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarMeasIdleConfigR15 with explicit receiver options.
 func (v *VarMeasIdleConfigR15) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarMeasIdleConfigR15")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleConfigR15")
 	}
@@ -2311,6 +2391,10 @@ func (v *VarMeasIdleConfigR15) UnmarshalUPERWithOptions(data []byte, options per
 }
 
 func (v *VarMeasIdleConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarMeasIdleConfigR15{}
 	// Read preamble bitmap for optional root fields
 	opt_measidlecarrierlisteutrar15, err := per.DecodeBoolean(bb)
@@ -2321,7 +2405,7 @@ func (v *VarMeasIdleConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		toleranceMark_measidlecarrierlisteutrar15 := bb.EnterComponent("MeasIdleCarrierListEUTRAR15")
 		tmp_measidlecarrierlisteutrar15 := make(EUTRACarrierListR15, 0)
 		_, errCollection_measidlecarrierlisteutrar15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_measidlecarrierlisteutrar15, fragmentLength_measidlecarrierlisteutrar15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_measidlecarrierlisteutrar15 < 0 || fragmentLength_measidlecarrierlisteutrar15 < 0 || fragmentLength_measidlecarrierlisteutrar15 > int64(^uint(0)>>1) || fragmentOffset_measidlecarrierlisteutrar15 > int64(^uint(0)>>1)-fragmentLength_measidlecarrierlisteutrar15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2409,8 +2493,11 @@ func (v *VarMeasIdleConfigR16) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarMeasIdleConfigR16 with explicit receiver options.
 func (v *VarMeasIdleConfigR16) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarMeasIdleConfigR16")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleConfigR16")
 	}
@@ -2423,6 +2510,10 @@ func (v *VarMeasIdleConfigR16) UnmarshalUPERWithOptions(data []byte, options per
 }
 
 func (v *VarMeasIdleConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarMeasIdleConfigR16{}
 	// Read preamble bitmap for optional root fields
 	opt_measidlecarrierlistnrr16, err := per.DecodeBoolean(bb)
@@ -2437,7 +2528,7 @@ func (v *VarMeasIdleConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		toleranceMark_measidlecarrierlistnrr16 := bb.EnterComponent("MeasIdleCarrierListNRR16")
 		tmp_measidlecarrierlistnrr16 := make(NRCarrierListR16, 0)
 		_, errCollection_measidlecarrierlistnrr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_measidlecarrierlistnrr16, fragmentLength_measidlecarrierlistnrr16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_measidlecarrierlistnrr16 < 0 || fragmentLength_measidlecarrierlistnrr16 < 0 || fragmentLength_measidlecarrierlistnrr16 > int64(^uint(0)>>1) || fragmentOffset_measidlecarrierlistnrr16 > int64(^uint(0)>>1)-fragmentLength_measidlecarrierlistnrr16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2461,7 +2552,7 @@ func (v *VarMeasIdleConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_validityarealistr16 {
 		tmp_validityarealistr16 := make(ValidityAreaListR16, 0)
 		_, errCollection_validityarealistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_validityarealistr16, fragmentLength_validityarealistr16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_validityarealistr16 < 0 || fragmentLength_validityarealistr16 < 0 || fragmentLength_validityarealistr16 > int64(^uint(0)>>1) || fragmentOffset_validityarealistr16 > int64(^uint(0)>>1)-fragmentLength_validityarealistr16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2516,8 +2607,11 @@ func (v *VarMeasIdleReportR15) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarMeasIdleReportR15 with explicit receiver options.
 func (v *VarMeasIdleReportR15) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarMeasIdleReportR15")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleReportR15")
 	}
@@ -2530,11 +2624,15 @@ func (v *VarMeasIdleReportR15) UnmarshalUPERWithOptions(data []byte, options per
 }
 
 func (v *VarMeasIdleReportR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarMeasIdleReportR15{}
 	toleranceMark_measreportidler15 := bb.EnterComponent("MeasReportIdleR15")
 	v.MeasReportIdleR15 = make(MeasResultListIdleR15, 0)
 	_, errCollection_measreportidler15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_measreportidler15, fragmentLength_measreportidler15 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_measreportidler15 < 0 || fragmentLength_measreportidler15 < 0 || fragmentLength_measreportidler15 > int64(^uint(0)>>1) || fragmentOffset_measreportidler15 > int64(^uint(0)>>1)-fragmentLength_measreportidler15 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2615,8 +2713,11 @@ func (v *VarMeasIdleReportR16) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarMeasIdleReportR16 with explicit receiver options.
 func (v *VarMeasIdleReportR16) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarMeasIdleReportR16")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleReportR16")
 	}
@@ -2629,6 +2730,10 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERWithOptions(data []byte, options per
 }
 
 func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarMeasIdleReportR16{}
 	// Read preamble bitmap for optional root fields
 	opt_measreportidler16, err := per.DecodeBoolean(bb)
@@ -2643,7 +2748,7 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		toleranceMark_measreportidler16 := bb.EnterComponent("MeasReportIdleR16")
 		tmp_measreportidler16 := make(MeasResultListExtIdleR16, 0)
 		_, errCollection_measreportidler16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 5, HasUpper: true}, false, func(fragmentOffset_measreportidler16, fragmentLength_measreportidler16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1258
+			// arithmetic pattern UPER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1257
 			if fragmentOffset_measreportidler16 < 0 || fragmentLength_measreportidler16 < 0 || fragmentLength_measreportidler16 > int64(^uint(0)>>1) || fragmentOffset_measreportidler16 > int64(^uint(0)>>1)-fragmentLength_measreportidler16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2668,7 +2773,7 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		toleranceMark_measreportidlenrr16 := bb.EnterComponent("MeasReportIdleNRR16")
 		tmp_measreportidlenrr16 := make(MeasResultListIdleNRR16, 0)
 		_, errCollection_measreportidlenrr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_measreportidlenrr16, fragmentLength_measreportidlenrr16 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_measreportidlenrr16 < 0 || fragmentLength_measreportidlenrr16 < 0 || fragmentLength_measreportidlenrr16 > int64(^uint(0)>>1) || fragmentOffset_measreportidlenrr16 > int64(^uint(0)>>1)-fragmentLength_measreportidlenrr16 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2716,8 +2821,11 @@ func (v *VarMeasReportListComplete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete VarMeasReportList with explicit receiver options.
 func (v *VarMeasReportListComplete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarMeasReportList")
+	}
 	value, err := UnmarshalUPERVarMeasReportListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasReportList")
@@ -2766,6 +2874,10 @@ func UnmarshalUPERVarMeasReportList(data []byte) (VarMeasReportListComplete, err
 
 // UnmarshalUPERVarMeasReportListFrom decodes a VarMeasReportList list from bb.
 func UnmarshalUPERVarMeasReportListFrom(bb *per.BitBuffer) (VarMeasReportList, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERVarMeasReportListListValue
 	if err := unmarshalUPERVarMeasReportListInto(&v, bb); err != nil {
 		return nil, err
@@ -2777,7 +2889,7 @@ func unmarshalUPERVarMeasReportListInto(v *asn1cUPERVarMeasReportListListValue, 
 	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(VarMeasReportList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2823,8 +2935,11 @@ func (v *VarMeasReportListR12Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete VarMeasReportListR12 with explicit receiver options.
 func (v *VarMeasReportListR12Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarMeasReportListR12")
+	}
 	value, err := UnmarshalUPERVarMeasReportListR12From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasReportListR12")
@@ -2873,6 +2988,10 @@ func UnmarshalUPERVarMeasReportListR12(data []byte) (VarMeasReportListR12Complet
 
 // UnmarshalUPERVarMeasReportListR12From decodes a VarMeasReportListR12 list from bb.
 func UnmarshalUPERVarMeasReportListR12From(bb *per.BitBuffer) (VarMeasReportListR12, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERVarMeasReportListR12ListValue
 	if err := unmarshalUPERVarMeasReportListR12Into(&v, bb); err != nil {
 		return nil, err
@@ -2884,7 +3003,7 @@ func unmarshalUPERVarMeasReportListR12Into(v *asn1cUPERVarMeasReportListR12ListV
 	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(VarMeasReportListR12, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2998,8 +3117,11 @@ func (v *VarMeasReport) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarMeasReport with explicit receiver options.
 func (v *VarMeasReport) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarMeasReport")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasReport")
 	}
@@ -3012,6 +3134,10 @@ func (v *VarMeasReport) UnmarshalUPERWithOptions(data []byte, options per.Decode
 }
 
 func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarMeasReport{}
 	// Read preamble bitmap for optional root fields
 	opt_measidv1250, err := per.DecodeBoolean(bb)
@@ -3047,7 +3173,7 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		toleranceMark_cellstriggeredlist := bb.EnterComponent("CellsTriggeredList")
 		tmp_cellstriggeredlist := make(CellsTriggeredList, 0)
 		_, errCollection_cellstriggeredlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cellstriggeredlist, fragmentLength_cellstriggeredlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cellstriggeredlist < 0 || fragmentLength_cellstriggeredlist < 0 || fragmentLength_cellstriggeredlist > int64(^uint(0)>>1) || fragmentOffset_cellstriggeredlist > int64(^uint(0)>>1)-fragmentLength_cellstriggeredlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -3071,7 +3197,7 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_csirstriggeredlistr12 {
 		tmp_csirstriggeredlistr12 := make(CSIRSTriggeredListR12, 0)
 		_, errCollection_csirstriggeredlistr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 96, HasUpper: true}, false, func(fragmentOffset_csirstriggeredlistr12, fragmentLength_csirstriggeredlistr12 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_csirstriggeredlistr12 < 0 || fragmentLength_csirstriggeredlistr12 < 0 || fragmentLength_csirstriggeredlistr12 > int64(^uint(0)>>1) || fragmentOffset_csirstriggeredlistr12 > int64(^uint(0)>>1)-fragmentLength_csirstriggeredlistr12 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -3092,7 +3218,7 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_poolstriggeredlistr14 {
 		tmp_poolstriggeredlistr14 := make(TxResourcePoolMeasListR14, 0)
 		_, errCollection_poolstriggeredlistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 72, HasUpper: true}, false, func(fragmentOffset_poolstriggeredlistr14, fragmentLength_poolstriggeredlistr14 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_poolstriggeredlistr14 < 0 || fragmentLength_poolstriggeredlistr14 < 0 || fragmentLength_poolstriggeredlistr14 > int64(^uint(0)>>1) || fragmentOffset_poolstriggeredlistr14 > int64(^uint(0)>>1)-fragmentLength_poolstriggeredlistr14 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -3142,8 +3268,11 @@ func (v *CellsTriggeredListComplete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete CellsTriggeredList with explicit receiver options.
 func (v *CellsTriggeredListComplete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CellsTriggeredList")
+	}
 	value, err := UnmarshalUPERCellsTriggeredListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredList")
@@ -3192,6 +3321,10 @@ func UnmarshalUPERCellsTriggeredList(data []byte) (CellsTriggeredListComplete, e
 
 // UnmarshalUPERCellsTriggeredListFrom decodes a CellsTriggeredList list from bb.
 func UnmarshalUPERCellsTriggeredListFrom(bb *per.BitBuffer) (CellsTriggeredList, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERCellsTriggeredListListValue
 	if err := unmarshalUPERCellsTriggeredListInto(&v, bb); err != nil {
 		return nil, err
@@ -3203,7 +3336,7 @@ func unmarshalUPERCellsTriggeredListInto(v *asn1cUPERCellsTriggeredListListValue
 	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(CellsTriggeredList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -3249,8 +3382,11 @@ func (v *CSIRSTriggeredListR12Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete CSIRSTriggeredListR12 with explicit receiver options.
 func (v *CSIRSTriggeredListR12Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CSIRSTriggeredListR12")
+	}
 	value, err := UnmarshalUPERCSIRSTriggeredListR12From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CSIRSTriggeredListR12")
@@ -3299,6 +3435,10 @@ func UnmarshalUPERCSIRSTriggeredListR12(data []byte) (CSIRSTriggeredListR12Compl
 
 // UnmarshalUPERCSIRSTriggeredListR12From decodes a CSIRSTriggeredListR12 list from bb.
 func UnmarshalUPERCSIRSTriggeredListR12From(bb *per.BitBuffer) (CSIRSTriggeredListR12, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERCSIRSTriggeredListR12ListValue
 	if err := unmarshalUPERCSIRSTriggeredListR12Into(&v, bb); err != nil {
 		return nil, err
@@ -3309,7 +3449,7 @@ func UnmarshalUPERCSIRSTriggeredListR12From(bb *per.BitBuffer) (CSIRSTriggeredLi
 func unmarshalUPERCSIRSTriggeredListR12Into(v *asn1cUPERCSIRSTriggeredListR12ListValue, bb *per.BitBuffer) error {
 	v.Value = make(CSIRSTriggeredListR12, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 96, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -3352,8 +3492,11 @@ func (v *SSBIndexListR15Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete SSBIndexListR15 with explicit receiver options.
 func (v *SSBIndexListR15Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SSBIndexListR15")
+	}
 	value, err := UnmarshalUPERSSBIndexListR15From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SSBIndexListR15")
@@ -3402,6 +3545,10 @@ func UnmarshalUPERSSBIndexListR15(data []byte) (SSBIndexListR15Complete, error) 
 
 // UnmarshalUPERSSBIndexListR15From decodes a SSBIndexListR15 list from bb.
 func UnmarshalUPERSSBIndexListR15From(bb *per.BitBuffer) (SSBIndexListR15, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERSSBIndexListR15ListValue
 	if err := unmarshalUPERSSBIndexListR15Into(&v, bb); err != nil {
 		return nil, err
@@ -3412,7 +3559,7 @@ func UnmarshalUPERSSBIndexListR15From(bb *per.BitBuffer) (SSBIndexListR15, error
 func unmarshalUPERSSBIndexListR15Into(v *asn1cUPERSSBIndexListR15ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SSBIndexListR15, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -3460,8 +3607,11 @@ func (v *VarPendingRnaUpdateR15) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarPendingRnaUpdateR15 with explicit receiver options.
 func (v *VarPendingRnaUpdateR15) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarPendingRnaUpdateR15")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarPendingRnaUpdateR15")
 	}
@@ -3474,6 +3624,10 @@ func (v *VarPendingRnaUpdateR15) UnmarshalUPERWithOptions(data []byte, options p
 }
 
 func (v *VarPendingRnaUpdateR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarPendingRnaUpdateR15{}
 	// Read preamble bitmap for optional root fields
 	opt_pendingrnaupdate, err := per.DecodeBoolean(bb)
@@ -3516,8 +3670,11 @@ func (v *VarRLFReportR10) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarRLFReportR10 with explicit receiver options.
 func (v *VarRLFReportR10) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarRLFReportR10")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarRLFReportR10")
 	}
@@ -3530,6 +3687,10 @@ func (v *VarRLFReportR10) UnmarshalUPERWithOptions(data []byte, options per.Deco
 }
 
 func (v *VarRLFReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarRLFReportR10{}
 	toleranceMark_rlfreportr10 := bb.EnterComponent("RlfReportR10")
 	if err := v.RlfReportR10.UnmarshalUPERFrom(bb); err != nil {
@@ -3579,8 +3740,11 @@ func (v *VarRLFReportR11) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarRLFReportR11 with explicit receiver options.
 func (v *VarRLFReportR11) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarRLFReportR11")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarRLFReportR11")
 	}
@@ -3593,6 +3757,10 @@ func (v *VarRLFReportR11) UnmarshalUPERWithOptions(data []byte, options per.Deco
 }
 
 func (v *VarRLFReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarRLFReportR11{}
 	toleranceMark_rlfreportr10 := bb.EnterComponent("RlfReportR10")
 	if err := v.RlfReportR10.UnmarshalUPERFrom(bb); err != nil {
@@ -3601,7 +3769,7 @@ func (v *VarRLFReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	bb.LeaveComponent(toleranceMark_rlfreportr10)
 	v.PlmnIdentityListR11 = make(PLMNIdentityList3R11, 0)
 	_, errCollection_plmnidentitylistr11 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr11, fragmentLength_plmnidentitylistr11 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_plmnidentitylistr11 < 0 || fragmentLength_plmnidentitylistr11 < 0 || fragmentLength_plmnidentitylistr11 > int64(^uint(0)>>1) || fragmentOffset_plmnidentitylistr11 > int64(^uint(0)>>1)-fragmentLength_plmnidentitylistr11 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -3649,8 +3817,11 @@ func (v *VarShortINACTIVEMACInputR15) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarShortINACTIVEMACInputR15 with explicit receiver options.
 func (v *VarShortINACTIVEMACInputR15) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarShortINACTIVEMACInputR15")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarShortINACTIVEMACInputR15")
 	}
@@ -3663,6 +3834,10 @@ func (v *VarShortINACTIVEMACInputR15) UnmarshalUPERWithOptions(data []byte, opti
 }
 
 func (v *VarShortINACTIVEMACInputR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarShortINACTIVEMACInputR15{}
 	bsBytes_cellidentityr15, bsBitLen_cellidentityr15, err := per.DecodeBitStringExt(bb, 28, 28, true, false)
 	if err != nil {
@@ -3711,8 +3886,11 @@ func (v *VarShortMACInput) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarShortMACInput with explicit receiver options.
 func (v *VarShortMACInput) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarShortMACInput")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarShortMACInput")
 	}
@@ -3725,6 +3903,10 @@ func (v *VarShortMACInput) UnmarshalUPERWithOptions(data []byte, options per.Dec
 }
 
 func (v *VarShortMACInput) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarShortMACInput{}
 	bsBytes_cellidentity, bsBitLen_cellidentity, err := per.DecodeBitStringExt(bb, 28, 28, true, false)
 	if err != nil {
@@ -3776,8 +3958,11 @@ func (v *VarShortResumeMACInputR13) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarShortResumeMACInputR13 with explicit receiver options.
 func (v *VarShortResumeMACInputR13) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarShortResumeMACInputR13")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarShortResumeMACInputR13")
 	}
@@ -3790,6 +3975,10 @@ func (v *VarShortResumeMACInputR13) UnmarshalUPERWithOptions(data []byte, option
 }
 
 func (v *VarShortResumeMACInputR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarShortResumeMACInputR13{}
 	bsBytes_cellidentityr13, bsBitLen_cellidentityr13, err := per.DecodeBitStringExt(bb, 28, 28, true, false)
 	if err != nil {
@@ -3870,8 +4059,11 @@ func (v *VarWLANMobilityConfig) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarWLANMobilityConfig with explicit receiver options.
 func (v *VarWLANMobilityConfig) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarWLANMobilityConfig")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarWLANMobilityConfig")
 	}
@@ -3884,6 +4076,10 @@ func (v *VarWLANMobilityConfig) UnmarshalUPERWithOptions(data []byte, options pe
 }
 
 func (v *VarWLANMobilityConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarWLANMobilityConfig{}
 	// Read preamble bitmap for optional root fields
 	opt_wlanmobilitysetr13, err := per.DecodeBoolean(bb)
@@ -3902,7 +4098,7 @@ func (v *VarWLANMobilityConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		toleranceMark_wlanmobilitysetr13 := bb.EnterComponent("WlanMobilitySetR13")
 		tmp_wlanmobilitysetr13 := make(WLANIdListR13, 0)
 		_, errCollection_wlanmobilitysetr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_wlanmobilitysetr13, fragmentLength_wlanmobilitysetr13 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_wlanmobilitysetr13 < 0 || fragmentLength_wlanmobilitysetr13 < 0 || fragmentLength_wlanmobilitysetr13 > int64(^uint(0)>>1) || fragmentOffset_wlanmobilitysetr13 > int64(^uint(0)>>1)-fragmentLength_wlanmobilitysetr13 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -3972,8 +4168,11 @@ func (v *VarWLANStatusR13) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarWLANStatusR13 with explicit receiver options.
 func (v *VarWLANStatusR13) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarWLANStatusR13")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarWLANStatusR13")
 	}
@@ -3986,6 +4185,10 @@ func (v *VarWLANStatusR13) UnmarshalUPERWithOptions(data []byte, options per.Dec
 }
 
 func (v *VarWLANStatusR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarWLANStatusR13{}
 	// Read preamble bitmap for optional root fields
 	opt_statusr14, err := per.DecodeBoolean(bb)
@@ -4021,7 +4224,7 @@ func (v *VarMeasConfigSpeedStatePars) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("VarMeasConfigSpeedStatePars: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -4050,8 +4253,11 @@ func (v *VarMeasConfigSpeedStatePars) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarMeasConfigSpeedStatePars with explicit receiver options.
 func (v *VarMeasConfigSpeedStatePars) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarMeasConfigSpeedStatePars")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasConfigSpeedStatePars")
 	}
@@ -4064,12 +4270,16 @@ func (v *VarMeasConfigSpeedStatePars) UnmarshalUPERWithOptions(data []byte, opti
 }
 
 func (v *VarMeasConfigSpeedStatePars) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarMeasConfigSpeedStatePars{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -4113,8 +4323,11 @@ func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes VarMeasConfigSpeedStateParsSetup with explicit receiver options.
 func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "VarMeasConfigSpeedStateParsSetup")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasConfigSpeedStateParsSetup")
 	}
@@ -4127,6 +4340,10 @@ func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPERWithOptions(data []byte,
 }
 
 func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = VarMeasConfigSpeedStateParsSetup{}
 	if err := v.MobilityStateParameters.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MobilityStateParameters")
@@ -4150,7 +4367,7 @@ func (v *CellsTriggeredListElem) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("CellsTriggeredListElem: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -4213,8 +4430,11 @@ func (v *CellsTriggeredListElem) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes CellsTriggeredListElem with explicit receiver options.
 func (v *CellsTriggeredListElem) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CellsTriggeredListElem")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElem")
 	}
@@ -4227,12 +4447,16 @@ func (v *CellsTriggeredListElem) UnmarshalUPERWithOptions(data []byte, options p
 }
 
 func (v *CellsTriggeredListElem) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = CellsTriggeredListElem{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 5)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -4295,7 +4519,7 @@ func (v *CellsTriggeredListElemPhysCellIdUTRA) MarshalUPERTo(bb *per.BitBuffer) 
 	if v.Choice < 1 {
 		return fmt.Errorf("CellsTriggeredListElemPhysCellIdUTRA: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -4330,8 +4554,11 @@ func (v *CellsTriggeredListElemPhysCellIdUTRA) UnmarshalUPER(data []byte) error 
 
 // UnmarshalUPERWithOptions decodes CellsTriggeredListElemPhysCellIdUTRA with explicit receiver options.
 func (v *CellsTriggeredListElemPhysCellIdUTRA) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdUTRA")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdUTRA")
 	}
@@ -4344,12 +4571,16 @@ func (v *CellsTriggeredListElemPhysCellIdUTRA) UnmarshalUPERWithOptions(data []b
 }
 
 func (v *CellsTriggeredListElemPhysCellIdUTRA) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = CellsTriggeredListElemPhysCellIdUTRA{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -4399,8 +4630,11 @@ func (v *CellsTriggeredListElemPhysCellIdGERAN) UnmarshalUPER(data []byte) error
 
 // UnmarshalUPERWithOptions decodes CellsTriggeredListElemPhysCellIdGERAN with explicit receiver options.
 func (v *CellsTriggeredListElemPhysCellIdGERAN) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdGERAN")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdGERAN")
 	}
@@ -4413,6 +4647,10 @@ func (v *CellsTriggeredListElemPhysCellIdGERAN) UnmarshalUPERWithOptions(data []
 }
 
 func (v *CellsTriggeredListElemPhysCellIdGERAN) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = CellsTriggeredListElemPhysCellIdGERAN{}
 	if err := v.CarrierFreq.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CarrierFreq")
@@ -4469,8 +4707,11 @@ func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPER(data []byte) error
 
 // UnmarshalUPERWithOptions decodes CellsTriggeredListElemPhysCellIdNRR15 with explicit receiver options.
 func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdNRR15")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdNRR15")
 	}
@@ -4483,6 +4724,10 @@ func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPERWithOptions(data []
 }
 
 func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = CellsTriggeredListElemPhysCellIdNRR15{}
 	// Read preamble bitmap for optional root fields
 	opt_rsindexlistr15, err := per.DecodeBoolean(bb)
@@ -4502,7 +4747,7 @@ func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_rsindexlistr15 {
 		tmp_rsindexlistr15 := make(SSBIndexListR15, 0)
 		_, errCollection_rsindexlistr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_rsindexlistr15, fragmentLength_rsindexlistr15 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_rsindexlistr15 < 0 || fragmentLength_rsindexlistr15 < 0 || fragmentLength_rsindexlistr15 > int64(^uint(0)>>1) || fragmentOffset_rsindexlistr15 > int64(^uint(0)>>1)-fragmentLength_rsindexlistr15 {
 				return fmt.Errorf("collection fragment count out of range")
 			}

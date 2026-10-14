@@ -318,7 +318,9 @@ func TestCharacterStringRejectsRootLengthInExtensionForm(t *testing.T) {
 func TestZeroWidthCharactersAreBounded(t *testing.T) {
 	decode := func(wire []byte, options DecodeOptions, lb, ub int64, constrained bool) (string, error) {
 		bb := NewBitBufferFromBytes(wire)
-		bb.SetDecodeOptions(options)
+		if err := bb.SetDecodeOptions(options); err != nil {
+			t.Fatal(err)
+		}
 		return DecodeAlphabetString(bb, oneAlphabet, lb, ub, constrained, false)
 	}
 	// 70000 characters from three octets: within the default limit.
@@ -338,7 +340,9 @@ func TestZeroWidthCharactersAreBounded(t *testing.T) {
 	}
 	// A nested decode, such as an open type, inherits the limit.
 	parent := NewBitBuffer()
-	parent.SetDecodeOptions(DecodeOptions{MaxZeroWidthCharacters: 69999})
+	if err := parent.SetDecodeOptions(DecodeOptions{MaxZeroWidthCharacters: 69999}); err != nil {
+		t.Fatal(err)
+	}
 	child := NewBitBufferFromBytes([]byte{0xc4, 0x91, 0x70})
 	child.InheritDecodeOptions(parent)
 	if _, err := DecodeAlphabetString(child, oneAlphabet, 0, 0, false, false); !errors.Is(err, ErrResourceLimit) {
@@ -350,7 +354,9 @@ func TestZeroWidthCharactersAreBounded(t *testing.T) {
 	}
 	// Characters with at least one bit are bounded by the input.
 	bb := NewBitBufferFromBytes([]byte{0xc4, 0x91, 0x70})
-	bb.SetDecodeOptions(DecodeOptions{MaxZeroWidthCharacters: 1})
+	if err := bb.SetDecodeOptions(DecodeOptions{MaxZeroWidthCharacters: 1}); err != nil {
+		t.Fatal(err)
+	}
 	if _, err := DecodeAlphabetString(bb, upperAlphabet, 0, 0, false, false); !errors.Is(err, ErrTruncated) {
 		t.Fatalf("5-bit characters: %v, want ErrTruncated", err)
 	}

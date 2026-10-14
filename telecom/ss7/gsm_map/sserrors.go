@@ -48,18 +48,21 @@ func (v *PruAssociationRejParam) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	if v.NewLmfRoutingId != nil {
 		enc_newlmfroutingid, encodeErr_enc_newlmfroutingid := ber.EncodeOctetString(v.NewLmfRoutingId)
 		if encodeErr_enc_newlmfroutingid != nil {
-			return nil, fmt.Errorf("encoding newLmfRoutingId: %w", encodeErr_enc_newlmfroutingid)
+			return nil, qualifyBERError(encodeErr_enc_newlmfroutingid, "newLmfRoutingId", "encoding", false)
 		}
 		{
 			var encodeErr error
 			enc_newlmfroutingid, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_newlmfroutingid)
 			if encodeErr != nil {
-				return nil, fmt.Errorf("encoding newLmfRoutingId: %w", encodeErr)
+				return nil, qualifyBERError(encodeErr, "newLmfRoutingId", "encoding", false)
 			}
 		}
 		children = append(children, enc_newlmfroutingid...)
 	}
 	for i, ext := range v.ExtData_ {
+		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, extErr)
@@ -87,13 +90,13 @@ func (v *PruAssociationRejParam) MarshalDER() ([]byte, error) {
 	if v.NewLmfRoutingId != nil {
 		enc_newlmfroutingid, encodeErr_enc_newlmfroutingid := ber.EncodeOctetString(v.NewLmfRoutingId)
 		if encodeErr_enc_newlmfroutingid != nil {
-			return nil, fmt.Errorf("encoding newLmfRoutingId: %w", encodeErr_enc_newlmfroutingid)
+			return nil, qualifyBERError(encodeErr_enc_newlmfroutingid, "newLmfRoutingId", "encoding", true)
 		}
 		{
 			var encodeErr error
 			enc_newlmfroutingid, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_newlmfroutingid)
 			if encodeErr != nil {
-				return nil, fmt.Errorf("encoding newLmfRoutingId: %w", encodeErr)
+				return nil, qualifyBERError(encodeErr, "newLmfRoutingId", "encoding", true)
 			}
 		}
 		children = append(children, enc_newlmfroutingid...)
@@ -119,7 +122,7 @@ func (v *PruAssociationRejParam) MarshalDER() ([]byte, error) {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("encoding PruAssociationRejParam as DER: %w", err)
+		return nil, fmt.Errorf("%s: %w", "encoding PruAssociationRejParam as DER", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -133,7 +136,10 @@ func (v *PruAssociationRejParam) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return err
+		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+			var probe PruAssociationRejParam
+			return probe.UnmarshalBER(data, probeOpts...)
+		})
 	}
 	*v = PruAssociationRejParam{}
 	defer func() {
@@ -151,7 +157,7 @@ func (v *PruAssociationRejParam) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("decoding PruAssociationRejParam SEQUENCE: %w", err)
+		return fmt.Errorf("%s: %w", "decoding PruAssociationRejParam SEQUENCE", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "PruAssociationRejParam", Cause: ber.ErrExtraData}
@@ -162,24 +168,26 @@ func (v *PruAssociationRejParam) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+				ber.MarkPreflightTarget(opts, "newLmfRoutingId", content[offset:])
 				decodedTag_newlmfroutingid, n_newlmfroutingid, innerData_newlmfroutingid, err := ber.DecodeTLV(content[offset:], opts...)
 				if err != nil {
-					return fmt.Errorf("decoding newLmfRoutingId: %w", err)
+					return qualifyBERError(err, "newLmfRoutingId", "decoding", false)
 				}
 				if decodedTag_newlmfroutingid.Class != tag.ClassContextSpecific || decodedTag_newlmfroutingid.Number != 0 || decodedTag_newlmfroutingid.Constructed != true {
-					return fmt.Errorf("decoding newLmfRoutingId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_newlmfroutingid)
+					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_newlmfroutingid), "newLmfRoutingId", "decoding", false)
 				}
 				_, innerUsed_newlmfroutingid, _, innerErr_newlmfroutingid := ber.DecodeTLV(innerData_newlmfroutingid, opts...)
 				if innerErr_newlmfroutingid != nil {
-					return fmt.Errorf("decoding newLmfRoutingId: %w", innerErr_newlmfroutingid)
+					return qualifyBERError(innerErr_newlmfroutingid, "newLmfRoutingId", "decoding", false)
 				}
 				if innerUsed_newlmfroutingid != len(innerData_newlmfroutingid) {
-					return fmt.Errorf("decoding newLmfRoutingId: %w", ber.ErrExtraData)
+					return qualifyBERError(ber.ErrExtraData, "newLmfRoutingId", "decoding", false)
 				}
 				// Decode inner value from explicit tag wrapper
+				ber.MarkPreflightTarget(opts, "newLmfRoutingId", innerData_newlmfroutingid)
 				val_newlmfroutingid, _, err := ber.DecodeOctetString(innerData_newlmfroutingid, opts...)
 				if err != nil {
-					return fmt.Errorf("decoding newLmfRoutingId: %w", err)
+					return qualifyBERError(err, "newLmfRoutingId", "decoding", false)
 				}
 				tmp_newlmfroutingid := val_newlmfroutingid
 				v.NewLmfRoutingId = tmp_newlmfroutingid

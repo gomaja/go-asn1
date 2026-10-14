@@ -312,14 +312,14 @@ func (v *ROSSingleAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		enc_0, err := v.Invoke.MarshalBER(ber.ChildEncodeOptions(opts, "invoke")...)
 		if err != nil {
-			return nil, fmt.Errorf("encoding invoke: %w", err)
+			return nil, qualifyBERError(err, "invoke", "encoding", false)
 		}
 		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_0)
 		if tagErr_enc_0 != nil {
-			return nil, fmt.Errorf("encoding invoke: %w", tagErr_enc_0)
+			return nil, qualifyBERError(tagErr_enc_0, "invoke", "encoding", false)
 		}
 		enc_0 = retagged_enc_0
 		return enc_0, nil
@@ -329,11 +329,11 @@ func (v *ROSSingleAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		enc_1, err := v.ReturnResult.MarshalBER(ber.ChildEncodeOptions(opts, "returnResult")...)
 		if err != nil {
-			return nil, fmt.Errorf("encoding returnResult: %w", err)
+			return nil, qualifyBERError(err, "returnResult", "encoding", false)
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_1)
 		if tagErr_enc_1 != nil {
-			return nil, fmt.Errorf("encoding returnResult: %w", tagErr_enc_1)
+			return nil, qualifyBERError(tagErr_enc_1, "returnResult", "encoding", false)
 		}
 		enc_1 = retagged_enc_1
 		return enc_1, nil
@@ -343,11 +343,11 @@ func (v *ROSSingleAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		enc_2, err := v.ReturnError.MarshalBER(ber.ChildEncodeOptions(opts, "returnError")...)
 		if err != nil {
-			return nil, fmt.Errorf("encoding returnError: %w", err)
+			return nil, qualifyBERError(err, "returnError", "encoding", false)
 		}
 		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_2)
 		if tagErr_enc_2 != nil {
-			return nil, fmt.Errorf("encoding returnError: %w", tagErr_enc_2)
+			return nil, qualifyBERError(tagErr_enc_2, "returnError", "encoding", false)
 		}
 		enc_2 = retagged_enc_2
 		return enc_2, nil
@@ -357,11 +357,11 @@ func (v *ROSSingleAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		enc_3, err := v.Reject.MarshalBER(ber.ChildEncodeOptions(opts, "reject")...)
 		if err != nil {
-			return nil, fmt.Errorf("encoding reject: %w", err)
+			return nil, qualifyBERError(err, "reject", "encoding", false)
 		}
 		retagged_enc_3, tagErr_enc_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_3)
 		if tagErr_enc_3 != nil {
-			return nil, fmt.Errorf("encoding reject: %w", tagErr_enc_3)
+			return nil, qualifyBERError(tagErr_enc_3, "reject", "encoding", false)
 		}
 		enc_3 = retagged_enc_3
 		return enc_3, nil
@@ -382,18 +382,18 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0, err := v.Invoke.MarshalDER()
 		if err != nil {
-			return nil, fmt.Errorf("encoding invoke: %w", err)
+			return nil, qualifyBERError(err, "invoke", "encoding", true)
 		}
 		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_0)
 		if tagErr_enc_der_0 != nil {
-			return nil, fmt.Errorf("encoding invoke: %w", tagErr_enc_der_0)
+			return nil, qualifyBERError(tagErr_enc_der_0, "invoke", "encoding", true)
 		}
 		enc_der_0 = retagged_enc_der_0
 		if derErr := ber.ValidateDEREncodedElement(enc_der_0); derErr != nil {
-			return nil, fmt.Errorf("encoding invoke as DER: %w", derErr)
+			return nil, qualifyBERError(derErr, "invoke", "encoding", true)
 		}
 		return enc_der_0, nil
 	case ROSSingleASChoiceReturnResult:
@@ -402,15 +402,15 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_1, err := v.ReturnResult.MarshalDER()
 		if err != nil {
-			return nil, fmt.Errorf("encoding returnResult: %w", err)
+			return nil, qualifyBERError(err, "returnResult", "encoding", true)
 		}
 		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_1)
 		if tagErr_enc_der_1 != nil {
-			return nil, fmt.Errorf("encoding returnResult: %w", tagErr_enc_der_1)
+			return nil, qualifyBERError(tagErr_enc_der_1, "returnResult", "encoding", true)
 		}
 		enc_der_1 = retagged_enc_der_1
 		if derErr := ber.ValidateDEREncodedElement(enc_der_1); derErr != nil {
-			return nil, fmt.Errorf("encoding returnResult as DER: %w", derErr)
+			return nil, qualifyBERError(derErr, "returnResult", "encoding", true)
 		}
 		return enc_der_1, nil
 	case ROSSingleASChoiceReturnError:
@@ -419,15 +419,15 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_2, err := v.ReturnError.MarshalDER()
 		if err != nil {
-			return nil, fmt.Errorf("encoding returnError: %w", err)
+			return nil, qualifyBERError(err, "returnError", "encoding", true)
 		}
 		retagged_enc_der_2, tagErr_enc_der_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_der_2)
 		if tagErr_enc_der_2 != nil {
-			return nil, fmt.Errorf("encoding returnError: %w", tagErr_enc_der_2)
+			return nil, qualifyBERError(tagErr_enc_der_2, "returnError", "encoding", true)
 		}
 		enc_der_2 = retagged_enc_der_2
 		if derErr := ber.ValidateDEREncodedElement(enc_der_2); derErr != nil {
-			return nil, fmt.Errorf("encoding returnError as DER: %w", derErr)
+			return nil, qualifyBERError(derErr, "returnError", "encoding", true)
 		}
 		return enc_der_2, nil
 	case ROSSingleASChoiceReject:
@@ -436,15 +436,15 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_3, err := v.Reject.MarshalDER()
 		if err != nil {
-			return nil, fmt.Errorf("encoding reject: %w", err)
+			return nil, qualifyBERError(err, "reject", "encoding", true)
 		}
 		retagged_enc_der_3, tagErr_enc_der_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_der_3)
 		if tagErr_enc_der_3 != nil {
-			return nil, fmt.Errorf("encoding reject: %w", tagErr_enc_der_3)
+			return nil, qualifyBERError(tagErr_enc_der_3, "reject", "encoding", true)
 		}
 		enc_der_3 = retagged_enc_der_3
 		if derErr := ber.ValidateDEREncodedElement(enc_der_3); derErr != nil {
-			return nil, fmt.Errorf("encoding reject as DER: %w", derErr)
+			return nil, qualifyBERError(derErr, "reject", "encoding", true)
 		}
 		return enc_der_3, nil
 	}
@@ -453,7 +453,17 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 		return nil, err
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("encoding ROSSingleAS as DER: %w", err)
+		switch v.Choice {
+		case ROSSingleASChoiceInvoke:
+			return nil, qualifyBERError(err, "invoke", "encoding", true)
+		case ROSSingleASChoiceReturnResult:
+			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+		case ROSSingleASChoiceReturnError:
+			return nil, qualifyBERError(err, "returnError", "encoding", true)
+		case ROSSingleASChoiceReject:
+			return nil, qualifyBERError(err, "reject", "encoding", true)
+		}
+		return nil, fmt.Errorf("%s: %w", "encoding ROSSingleAS as DER", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -480,7 +490,10 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		v.berSnapshot_ = snapshot
 	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return err
+		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+			var probe ROSSingleAS
+			return probe.UnmarshalBER(data, probeOpts...)
+		})
 	}
 	*v = ROSSingleAS{}
 	if len(data) == 0 {
@@ -494,7 +507,7 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding ROSSingleAS CHOICE: %w", tlvErr)
+		return fmt.Errorf("%s: %w", "decoding ROSSingleAS CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "ROSSingleAS", Cause: ber.ErrExtraData}
@@ -502,9 +515,10 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = ROSSingleASChoiceInvoke
+		ber.MarkPreflightTarget(opts, "invoke", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding invoke: %w", tlvErr)
+			return qualifyBERError(tlvErr, "invoke", "decoding", false)
 		}
 		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
 		if reconstructionErr != nil {
@@ -512,7 +526,7 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		}
 		var dec Invoke
 		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "invoke")...); unmErr != nil {
-			return fmt.Errorf("decoding invoke: %w", unmErr)
+			return qualifyBERError(unmErr, "invoke", "decoding", false)
 		}
 		v.Invoke = &dec
 		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
@@ -520,9 +534,10 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == true {
 		v.Choice = ROSSingleASChoiceReturnResult
+		ber.MarkPreflightTarget(opts, "returnResult", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding returnResult: %w", tlvErr)
+			return qualifyBERError(tlvErr, "returnResult", "decoding", false)
 		}
 		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
 		if reconstructionErr != nil {
@@ -530,14 +545,15 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		}
 		var dec ReturnResult
 		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "returnResult")...); unmErr != nil {
-			return fmt.Errorf("decoding returnResult: %w", unmErr)
+			return qualifyBERError(unmErr, "returnResult", "decoding", false)
 		}
 		v.ReturnResult = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 && peekTag.Constructed == true {
 		v.Choice = ROSSingleASChoiceReturnError
+		ber.MarkPreflightTarget(opts, "returnError", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding returnError: %w", tlvErr)
+			return qualifyBERError(tlvErr, "returnError", "decoding", false)
 		}
 		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
 		if reconstructionErr != nil {
@@ -545,14 +561,15 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		}
 		var dec ReturnError
 		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "returnError")...); unmErr != nil {
-			return fmt.Errorf("decoding returnError: %w", unmErr)
+			return qualifyBERError(unmErr, "returnError", "decoding", false)
 		}
 		v.ReturnError = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 && peekTag.Constructed == true {
 		v.Choice = ROSSingleASChoiceReject
+		ber.MarkPreflightTarget(opts, "reject", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding reject: %w", tlvErr)
+			return qualifyBERError(tlvErr, "reject", "decoding", false)
 		}
 		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
 		if reconstructionErr != nil {
@@ -560,7 +577,7 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		}
 		var dec Reject
 		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "reject")...); unmErr != nil {
-			return fmt.Errorf("decoding reject: %w", unmErr)
+			return qualifyBERError(unmErr, "reject", "decoding", false)
 		}
 		v.Reject = &dec
 	} else {
@@ -593,14 +610,14 @@ func (v *ROSConsumerAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		enc_0, err := v.Invoke.MarshalBER(ber.ChildEncodeOptions(opts, "invoke")...)
 		if err != nil {
-			return nil, fmt.Errorf("encoding invoke: %w", err)
+			return nil, qualifyBERError(err, "invoke", "encoding", false)
 		}
 		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_0)
 		if tagErr_enc_0 != nil {
-			return nil, fmt.Errorf("encoding invoke: %w", tagErr_enc_0)
+			return nil, qualifyBERError(tagErr_enc_0, "invoke", "encoding", false)
 		}
 		enc_0 = retagged_enc_0
 		return enc_0, nil
@@ -610,11 +627,11 @@ func (v *ROSConsumerAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		enc_1, err := v.ReturnResult.MarshalBER(ber.ChildEncodeOptions(opts, "returnResult")...)
 		if err != nil {
-			return nil, fmt.Errorf("encoding returnResult: %w", err)
+			return nil, qualifyBERError(err, "returnResult", "encoding", false)
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_1)
 		if tagErr_enc_1 != nil {
-			return nil, fmt.Errorf("encoding returnResult: %w", tagErr_enc_1)
+			return nil, qualifyBERError(tagErr_enc_1, "returnResult", "encoding", false)
 		}
 		enc_1 = retagged_enc_1
 		return enc_1, nil
@@ -624,11 +641,11 @@ func (v *ROSConsumerAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		enc_2, err := v.ReturnError.MarshalBER(ber.ChildEncodeOptions(opts, "returnError")...)
 		if err != nil {
-			return nil, fmt.Errorf("encoding returnError: %w", err)
+			return nil, qualifyBERError(err, "returnError", "encoding", false)
 		}
 		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_2)
 		if tagErr_enc_2 != nil {
-			return nil, fmt.Errorf("encoding returnError: %w", tagErr_enc_2)
+			return nil, qualifyBERError(tagErr_enc_2, "returnError", "encoding", false)
 		}
 		enc_2 = retagged_enc_2
 		return enc_2, nil
@@ -638,11 +655,11 @@ func (v *ROSConsumerAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		enc_3, err := v.Reject.MarshalBER(ber.ChildEncodeOptions(opts, "reject")...)
 		if err != nil {
-			return nil, fmt.Errorf("encoding reject: %w", err)
+			return nil, qualifyBERError(err, "reject", "encoding", false)
 		}
 		retagged_enc_3, tagErr_enc_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_3)
 		if tagErr_enc_3 != nil {
-			return nil, fmt.Errorf("encoding reject: %w", tagErr_enc_3)
+			return nil, qualifyBERError(tagErr_enc_3, "reject", "encoding", false)
 		}
 		enc_3 = retagged_enc_3
 		return enc_3, nil
@@ -663,18 +680,18 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0, err := v.Invoke.MarshalDER()
 		if err != nil {
-			return nil, fmt.Errorf("encoding invoke: %w", err)
+			return nil, qualifyBERError(err, "invoke", "encoding", true)
 		}
 		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_0)
 		if tagErr_enc_der_0 != nil {
-			return nil, fmt.Errorf("encoding invoke: %w", tagErr_enc_der_0)
+			return nil, qualifyBERError(tagErr_enc_der_0, "invoke", "encoding", true)
 		}
 		enc_der_0 = retagged_enc_der_0
 		if derErr := ber.ValidateDEREncodedElement(enc_der_0); derErr != nil {
-			return nil, fmt.Errorf("encoding invoke as DER: %w", derErr)
+			return nil, qualifyBERError(derErr, "invoke", "encoding", true)
 		}
 		return enc_der_0, nil
 	case ROSConsumerASChoiceReturnResult:
@@ -683,15 +700,15 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_1, err := v.ReturnResult.MarshalDER()
 		if err != nil {
-			return nil, fmt.Errorf("encoding returnResult: %w", err)
+			return nil, qualifyBERError(err, "returnResult", "encoding", true)
 		}
 		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_1)
 		if tagErr_enc_der_1 != nil {
-			return nil, fmt.Errorf("encoding returnResult: %w", tagErr_enc_der_1)
+			return nil, qualifyBERError(tagErr_enc_der_1, "returnResult", "encoding", true)
 		}
 		enc_der_1 = retagged_enc_der_1
 		if derErr := ber.ValidateDEREncodedElement(enc_der_1); derErr != nil {
-			return nil, fmt.Errorf("encoding returnResult as DER: %w", derErr)
+			return nil, qualifyBERError(derErr, "returnResult", "encoding", true)
 		}
 		return enc_der_1, nil
 	case ROSConsumerASChoiceReturnError:
@@ -700,15 +717,15 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_2, err := v.ReturnError.MarshalDER()
 		if err != nil {
-			return nil, fmt.Errorf("encoding returnError: %w", err)
+			return nil, qualifyBERError(err, "returnError", "encoding", true)
 		}
 		retagged_enc_der_2, tagErr_enc_der_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_der_2)
 		if tagErr_enc_der_2 != nil {
-			return nil, fmt.Errorf("encoding returnError: %w", tagErr_enc_der_2)
+			return nil, qualifyBERError(tagErr_enc_der_2, "returnError", "encoding", true)
 		}
 		enc_der_2 = retagged_enc_der_2
 		if derErr := ber.ValidateDEREncodedElement(enc_der_2); derErr != nil {
-			return nil, fmt.Errorf("encoding returnError as DER: %w", derErr)
+			return nil, qualifyBERError(derErr, "returnError", "encoding", true)
 		}
 		return enc_der_2, nil
 	case ROSConsumerASChoiceReject:
@@ -717,15 +734,15 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_3, err := v.Reject.MarshalDER()
 		if err != nil {
-			return nil, fmt.Errorf("encoding reject: %w", err)
+			return nil, qualifyBERError(err, "reject", "encoding", true)
 		}
 		retagged_enc_der_3, tagErr_enc_der_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_der_3)
 		if tagErr_enc_der_3 != nil {
-			return nil, fmt.Errorf("encoding reject: %w", tagErr_enc_der_3)
+			return nil, qualifyBERError(tagErr_enc_der_3, "reject", "encoding", true)
 		}
 		enc_der_3 = retagged_enc_der_3
 		if derErr := ber.ValidateDEREncodedElement(enc_der_3); derErr != nil {
-			return nil, fmt.Errorf("encoding reject as DER: %w", derErr)
+			return nil, qualifyBERError(derErr, "reject", "encoding", true)
 		}
 		return enc_der_3, nil
 	}
@@ -734,7 +751,17 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 		return nil, err
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("encoding ROSConsumerAS as DER: %w", err)
+		switch v.Choice {
+		case ROSConsumerASChoiceInvoke:
+			return nil, qualifyBERError(err, "invoke", "encoding", true)
+		case ROSConsumerASChoiceReturnResult:
+			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+		case ROSConsumerASChoiceReturnError:
+			return nil, qualifyBERError(err, "returnError", "encoding", true)
+		case ROSConsumerASChoiceReject:
+			return nil, qualifyBERError(err, "reject", "encoding", true)
+		}
+		return nil, fmt.Errorf("%s: %w", "encoding ROSConsumerAS as DER", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -761,7 +788,10 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		v.berSnapshot_ = snapshot
 	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return err
+		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+			var probe ROSConsumerAS
+			return probe.UnmarshalBER(data, probeOpts...)
+		})
 	}
 	*v = ROSConsumerAS{}
 	if len(data) == 0 {
@@ -775,7 +805,7 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding ROSConsumerAS CHOICE: %w", tlvErr)
+		return fmt.Errorf("%s: %w", "decoding ROSConsumerAS CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "ROSConsumerAS", Cause: ber.ErrExtraData}
@@ -783,9 +813,10 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = ROSConsumerASChoiceInvoke
+		ber.MarkPreflightTarget(opts, "invoke", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding invoke: %w", tlvErr)
+			return qualifyBERError(tlvErr, "invoke", "decoding", false)
 		}
 		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
 		if reconstructionErr != nil {
@@ -793,7 +824,7 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		}
 		var dec Invoke
 		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "invoke")...); unmErr != nil {
-			return fmt.Errorf("decoding invoke: %w", unmErr)
+			return qualifyBERError(unmErr, "invoke", "decoding", false)
 		}
 		v.Invoke = &dec
 		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
@@ -801,9 +832,10 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == true {
 		v.Choice = ROSConsumerASChoiceReturnResult
+		ber.MarkPreflightTarget(opts, "returnResult", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding returnResult: %w", tlvErr)
+			return qualifyBERError(tlvErr, "returnResult", "decoding", false)
 		}
 		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
 		if reconstructionErr != nil {
@@ -811,14 +843,15 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		}
 		var dec ReturnResult
 		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "returnResult")...); unmErr != nil {
-			return fmt.Errorf("decoding returnResult: %w", unmErr)
+			return qualifyBERError(unmErr, "returnResult", "decoding", false)
 		}
 		v.ReturnResult = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 && peekTag.Constructed == true {
 		v.Choice = ROSConsumerASChoiceReturnError
+		ber.MarkPreflightTarget(opts, "returnError", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding returnError: %w", tlvErr)
+			return qualifyBERError(tlvErr, "returnError", "decoding", false)
 		}
 		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
 		if reconstructionErr != nil {
@@ -826,14 +859,15 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		}
 		var dec ReturnError
 		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "returnError")...); unmErr != nil {
-			return fmt.Errorf("decoding returnError: %w", unmErr)
+			return qualifyBERError(unmErr, "returnError", "decoding", false)
 		}
 		v.ReturnError = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 && peekTag.Constructed == true {
 		v.Choice = ROSConsumerASChoiceReject
+		ber.MarkPreflightTarget(opts, "reject", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding reject: %w", tlvErr)
+			return qualifyBERError(tlvErr, "reject", "decoding", false)
 		}
 		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
 		if reconstructionErr != nil {
@@ -841,7 +875,7 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		}
 		var dec Reject
 		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "reject")...); unmErr != nil {
-			return fmt.Errorf("decoding reject: %w", unmErr)
+			return qualifyBERError(unmErr, "reject", "decoding", false)
 		}
 		v.Reject = &dec
 	} else {
@@ -874,14 +908,14 @@ func (v *ROSSupplierAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		enc_0, err := v.Invoke.MarshalBER(ber.ChildEncodeOptions(opts, "invoke")...)
 		if err != nil {
-			return nil, fmt.Errorf("encoding invoke: %w", err)
+			return nil, qualifyBERError(err, "invoke", "encoding", false)
 		}
 		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_0)
 		if tagErr_enc_0 != nil {
-			return nil, fmt.Errorf("encoding invoke: %w", tagErr_enc_0)
+			return nil, qualifyBERError(tagErr_enc_0, "invoke", "encoding", false)
 		}
 		enc_0 = retagged_enc_0
 		return enc_0, nil
@@ -891,11 +925,11 @@ func (v *ROSSupplierAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		enc_1, err := v.ReturnResult.MarshalBER(ber.ChildEncodeOptions(opts, "returnResult")...)
 		if err != nil {
-			return nil, fmt.Errorf("encoding returnResult: %w", err)
+			return nil, qualifyBERError(err, "returnResult", "encoding", false)
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_1)
 		if tagErr_enc_1 != nil {
-			return nil, fmt.Errorf("encoding returnResult: %w", tagErr_enc_1)
+			return nil, qualifyBERError(tagErr_enc_1, "returnResult", "encoding", false)
 		}
 		enc_1 = retagged_enc_1
 		return enc_1, nil
@@ -905,11 +939,11 @@ func (v *ROSSupplierAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		enc_2, err := v.ReturnError.MarshalBER(ber.ChildEncodeOptions(opts, "returnError")...)
 		if err != nil {
-			return nil, fmt.Errorf("encoding returnError: %w", err)
+			return nil, qualifyBERError(err, "returnError", "encoding", false)
 		}
 		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_2)
 		if tagErr_enc_2 != nil {
-			return nil, fmt.Errorf("encoding returnError: %w", tagErr_enc_2)
+			return nil, qualifyBERError(tagErr_enc_2, "returnError", "encoding", false)
 		}
 		enc_2 = retagged_enc_2
 		return enc_2, nil
@@ -919,11 +953,11 @@ func (v *ROSSupplierAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		enc_3, err := v.Reject.MarshalBER(ber.ChildEncodeOptions(opts, "reject")...)
 		if err != nil {
-			return nil, fmt.Errorf("encoding reject: %w", err)
+			return nil, qualifyBERError(err, "reject", "encoding", false)
 		}
 		retagged_enc_3, tagErr_enc_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_3)
 		if tagErr_enc_3 != nil {
-			return nil, fmt.Errorf("encoding reject: %w", tagErr_enc_3)
+			return nil, qualifyBERError(tagErr_enc_3, "reject", "encoding", false)
 		}
 		enc_3 = retagged_enc_3
 		return enc_3, nil
@@ -944,18 +978,18 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_0, err := v.Invoke.MarshalDER()
 		if err != nil {
-			return nil, fmt.Errorf("encoding invoke: %w", err)
+			return nil, qualifyBERError(err, "invoke", "encoding", true)
 		}
 		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
 			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
 		}
 		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_der_0)
 		if tagErr_enc_der_0 != nil {
-			return nil, fmt.Errorf("encoding invoke: %w", tagErr_enc_der_0)
+			return nil, qualifyBERError(tagErr_enc_der_0, "invoke", "encoding", true)
 		}
 		enc_der_0 = retagged_enc_der_0
 		if derErr := ber.ValidateDEREncodedElement(enc_der_0); derErr != nil {
-			return nil, fmt.Errorf("encoding invoke as DER: %w", derErr)
+			return nil, qualifyBERError(derErr, "invoke", "encoding", true)
 		}
 		return enc_der_0, nil
 	case ROSSupplierASChoiceReturnResult:
@@ -964,15 +998,15 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_1, err := v.ReturnResult.MarshalDER()
 		if err != nil {
-			return nil, fmt.Errorf("encoding returnResult: %w", err)
+			return nil, qualifyBERError(err, "returnResult", "encoding", true)
 		}
 		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_der_1)
 		if tagErr_enc_der_1 != nil {
-			return nil, fmt.Errorf("encoding returnResult: %w", tagErr_enc_der_1)
+			return nil, qualifyBERError(tagErr_enc_der_1, "returnResult", "encoding", true)
 		}
 		enc_der_1 = retagged_enc_der_1
 		if derErr := ber.ValidateDEREncodedElement(enc_der_1); derErr != nil {
-			return nil, fmt.Errorf("encoding returnResult as DER: %w", derErr)
+			return nil, qualifyBERError(derErr, "returnResult", "encoding", true)
 		}
 		return enc_der_1, nil
 	case ROSSupplierASChoiceReturnError:
@@ -981,15 +1015,15 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_2, err := v.ReturnError.MarshalDER()
 		if err != nil {
-			return nil, fmt.Errorf("encoding returnError: %w", err)
+			return nil, qualifyBERError(err, "returnError", "encoding", true)
 		}
 		retagged_enc_der_2, tagErr_enc_der_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_der_2)
 		if tagErr_enc_der_2 != nil {
-			return nil, fmt.Errorf("encoding returnError: %w", tagErr_enc_der_2)
+			return nil, qualifyBERError(tagErr_enc_der_2, "returnError", "encoding", true)
 		}
 		enc_der_2 = retagged_enc_der_2
 		if derErr := ber.ValidateDEREncodedElement(enc_der_2); derErr != nil {
-			return nil, fmt.Errorf("encoding returnError as DER: %w", derErr)
+			return nil, qualifyBERError(derErr, "returnError", "encoding", true)
 		}
 		return enc_der_2, nil
 	case ROSSupplierASChoiceReject:
@@ -998,15 +1032,15 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 		}
 		enc_der_3, err := v.Reject.MarshalDER()
 		if err != nil {
-			return nil, fmt.Errorf("encoding reject: %w", err)
+			return nil, qualifyBERError(err, "reject", "encoding", true)
 		}
 		retagged_enc_der_3, tagErr_enc_der_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_der_3)
 		if tagErr_enc_der_3 != nil {
-			return nil, fmt.Errorf("encoding reject: %w", tagErr_enc_der_3)
+			return nil, qualifyBERError(tagErr_enc_der_3, "reject", "encoding", true)
 		}
 		enc_der_3 = retagged_enc_der_3
 		if derErr := ber.ValidateDEREncodedElement(enc_der_3); derErr != nil {
-			return nil, fmt.Errorf("encoding reject as DER: %w", derErr)
+			return nil, qualifyBERError(derErr, "reject", "encoding", true)
 		}
 		return enc_der_3, nil
 	}
@@ -1015,7 +1049,17 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 		return nil, err
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("encoding ROSSupplierAS as DER: %w", err)
+		switch v.Choice {
+		case ROSSupplierASChoiceInvoke:
+			return nil, qualifyBERError(err, "invoke", "encoding", true)
+		case ROSSupplierASChoiceReturnResult:
+			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+		case ROSSupplierASChoiceReturnError:
+			return nil, qualifyBERError(err, "returnError", "encoding", true)
+		case ROSSupplierASChoiceReject:
+			return nil, qualifyBERError(err, "reject", "encoding", true)
+		}
+		return nil, fmt.Errorf("%s: %w", "encoding ROSSupplierAS as DER", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1042,7 +1086,10 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		v.berSnapshot_ = snapshot
 	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return err
+		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+			var probe ROSSupplierAS
+			return probe.UnmarshalBER(data, probeOpts...)
+		})
 	}
 	*v = ROSSupplierAS{}
 	if len(data) == 0 {
@@ -1056,7 +1103,7 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding ROSSupplierAS CHOICE: %w", tlvErr)
+		return fmt.Errorf("%s: %w", "decoding ROSSupplierAS CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "ROSSupplierAS", Cause: ber.ErrExtraData}
@@ -1064,9 +1111,10 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = ROSSupplierASChoiceInvoke
+		ber.MarkPreflightTarget(opts, "invoke", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding invoke: %w", tlvErr)
+			return qualifyBERError(tlvErr, "invoke", "decoding", false)
 		}
 		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
 		if reconstructionErr != nil {
@@ -1074,7 +1122,7 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		}
 		var dec Invoke
 		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "invoke")...); unmErr != nil {
-			return fmt.Errorf("decoding invoke: %w", unmErr)
+			return qualifyBERError(unmErr, "invoke", "decoding", false)
 		}
 		v.Invoke = &dec
 		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
@@ -1082,9 +1130,10 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == true {
 		v.Choice = ROSSupplierASChoiceReturnResult
+		ber.MarkPreflightTarget(opts, "returnResult", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding returnResult: %w", tlvErr)
+			return qualifyBERError(tlvErr, "returnResult", "decoding", false)
 		}
 		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
 		if reconstructionErr != nil {
@@ -1092,14 +1141,15 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		}
 		var dec ReturnResult
 		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "returnResult")...); unmErr != nil {
-			return fmt.Errorf("decoding returnResult: %w", unmErr)
+			return qualifyBERError(unmErr, "returnResult", "decoding", false)
 		}
 		v.ReturnResult = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 && peekTag.Constructed == true {
 		v.Choice = ROSSupplierASChoiceReturnError
+		ber.MarkPreflightTarget(opts, "returnError", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding returnError: %w", tlvErr)
+			return qualifyBERError(tlvErr, "returnError", "decoding", false)
 		}
 		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
 		if reconstructionErr != nil {
@@ -1107,14 +1157,15 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		}
 		var dec ReturnError
 		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "returnError")...); unmErr != nil {
-			return fmt.Errorf("decoding returnError: %w", unmErr)
+			return qualifyBERError(unmErr, "returnError", "decoding", false)
 		}
 		v.ReturnError = &dec
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 && peekTag.Constructed == true {
 		v.Choice = ROSSupplierASChoiceReject
+		ber.MarkPreflightTarget(opts, "reject", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding reject: %w", tlvErr)
+			return qualifyBERError(tlvErr, "reject", "decoding", false)
 		}
 		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
 		if reconstructionErr != nil {
@@ -1122,7 +1173,7 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		}
 		var dec Reject
 		if unmErr := dec.UnmarshalBER(reconstructed, ber.ChildDecodeOptions(opts, "reject")...); unmErr != nil {
-			return fmt.Errorf("decoding reject: %w", unmErr)
+			return qualifyBERError(unmErr, "reject", "decoding", false)
 		}
 		v.Reject = &dec
 	} else {
@@ -1155,11 +1206,11 @@ func (v *ROSSingleASInvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]byte
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
 		if encodeErr_enc_0 != nil {
-			return nil, fmt.Errorf("encoding present: %w", encodeErr_enc_0)
+			return nil, qualifyBERError(encodeErr_enc_0, "present", "encoding", false)
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
-			return nil, fmt.Errorf("encoding present: %w", tagErr_enc_0)
+			return nil, qualifyBERError(tagErr_enc_0, "present", "encoding", false)
 		}
 		enc_0 = retagged_enc_0
 		return enc_0, nil
@@ -1167,7 +1218,7 @@ func (v *ROSSingleASInvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]byte
 		enc_1 := ber.EncodeNull()
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
-			return nil, fmt.Errorf("encoding absent: %w", tagErr_enc_1)
+			return nil, qualifyBERError(tagErr_enc_1, "absent", "encoding", false)
 		}
 		enc_1 = retagged_enc_1
 		return enc_1, nil
@@ -1186,7 +1237,13 @@ func (v *ROSSingleASInvokeLinkedId) MarshalDER() ([]byte, error) {
 		return nil, err
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("encoding ROSSingleASInvokeLinkedId as DER: %w", err)
+		switch v.Choice {
+		case ROSSingleASInvokeLinkedIdChoicePresent:
+			return nil, qualifyBERError(err, "present", "encoding", true)
+		case ROSSingleASInvokeLinkedIdChoiceAbsent:
+			return nil, qualifyBERError(err, "absent", "encoding", true)
+		}
+		return nil, fmt.Errorf("%s: %w", "encoding ROSSingleASInvokeLinkedId as DER", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1213,7 +1270,10 @@ func (v *ROSSingleASInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.Decode
 		v.berSnapshot_ = snapshot
 	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return err
+		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+			var probe ROSSingleASInvokeLinkedId
+			return probe.UnmarshalBER(data, probeOpts...)
+		})
 	}
 	*v = ROSSingleASInvokeLinkedId{}
 	if len(data) == 0 {
@@ -1227,7 +1287,7 @@ func (v *ROSSingleASInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.Decode
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding ROSSingleASInvokeLinkedId CHOICE: %w", tlvErr)
+		return fmt.Errorf("%s: %w", "decoding ROSSingleASInvokeLinkedId CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "ROSSingleASInvokeLinkedId", Cause: ber.ErrExtraData}
@@ -1235,23 +1295,25 @@ func (v *ROSSingleASInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.Decode
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == false {
 		v.Choice = ROSSingleASInvokeLinkedIdChoicePresent
+		ber.MarkPreflightTarget(opts, "present", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding present: %w", tlvErr)
+			return qualifyBERError(tlvErr, "present", "decoding", false)
 		}
 		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
-			return fmt.Errorf("decoding present: %w", intErr)
+			return qualifyBERError(intErr, "present", "decoding", false)
 		}
 		v.Present = decVal
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = ROSSingleASInvokeLinkedIdChoiceAbsent
+		ber.MarkPreflightTarget(opts, "absent", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding absent: %w", tlvErr)
+			return qualifyBERError(tlvErr, "absent", "decoding", false)
 		}
 		if len(rawVal) != 0 {
-			return fmt.Errorf("decoding absent: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal))
+			return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal)), "absent", "decoding", false)
 		}
 		v.Absent = &struct{}{}
 	} else {
@@ -1280,10 +1342,16 @@ func (v *ROSSingleASReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]
 	var children []byte
 	enc_opcode, err := v.Opcode.MarshalBER(ber.ChildEncodeOptions(opts, "opcode")...)
 	if err != nil {
-		return nil, fmt.Errorf("encoding opcode: %w", err)
+		return nil, qualifyBERError(err, "opcode", "encoding", false)
 	}
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
+	if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		return nil, qualifyBERError(err, "result", "encoding", false)
+	}
+	if rawErr := ber.ValidateBEREncodedElement(enc_result); rawErr != nil {
+		return nil, qualifyBERError(rawErr, "result", "encoding", false)
+	}
 	children = append(children, enc_result...)
 	return ber.EncodeSequence(children)
 }
@@ -1296,17 +1364,20 @@ func (v *ROSSingleASReturnResultResult) MarshalDER() ([]byte, error) {
 	var children []byte
 	enc_opcode, err := v.Opcode.MarshalDER()
 	if err != nil {
-		return nil, fmt.Errorf("encoding opcode: %w", err)
+		return nil, qualifyBERError(err, "opcode", "encoding", true)
 	}
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
+	if rawErr := ber.ValidateDEREncodedElement(enc_result); rawErr != nil {
+		return nil, qualifyBERError(rawErr, "result", "encoding", true)
+	}
 	children = append(children, enc_result...)
 	encoded, setErr := ber.EncodeSequence(children)
 	if setErr != nil {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("encoding ROSSingleASReturnResultResult as DER: %w", err)
+		return nil, fmt.Errorf("%s: %w", "encoding ROSSingleASReturnResultResult as DER", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1320,7 +1391,10 @@ func (v *ROSSingleASReturnResultResult) UnmarshalBER(data []byte, opts ...ber.De
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return err
+		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+			var probe ROSSingleASReturnResultResult
+			return probe.UnmarshalBER(data, probeOpts...)
+		})
 	}
 	*v = ROSSingleASReturnResultResult{}
 	defer func() {
@@ -1338,7 +1412,7 @@ func (v *ROSSingleASReturnResultResult) UnmarshalBER(data []byte, opts ...ber.De
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("decoding ROSSingleASReturnResultResult SEQUENCE: %w", err)
+		return fmt.Errorf("%s: %w", "decoding ROSSingleASReturnResultResult SEQUENCE", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ROSSingleASReturnResultResult", Cause: ber.ErrExtraData}
@@ -1348,43 +1422,50 @@ func (v *ROSSingleASReturnResultResult) UnmarshalBER(data []byte, opts ...ber.De
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field opcode")
 	}
-	// Decode nested CHOICE (Code)
-	_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:], opts...)
-	if tlvErr_opcode != nil {
-		return fmt.Errorf("decoding opcode: %w", tlvErr_opcode)
-	}
-	if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
-		return fmt.Errorf("invalid BER content window")
-	}
+	{
+		ber.MarkPreflightTarget(opts, "opcode", content[offset:])
+		// Decode nested CHOICE (Code)
+		_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:], opts...)
+		if tlvErr_opcode != nil {
+			return qualifyBERError(tlvErr_opcode, "opcode", "decoding", false)
+		}
+		if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
 
-	if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], ber.ChildDecodeOptions(opts, "opcode")...); unmErr != nil {
-		return fmt.Errorf("decoding opcode: %w", unmErr)
-	}
-	if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
-		return fmt.Errorf("invalid BER content window")
-	}
+		if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], ber.ChildDecodeOptions(opts, "opcode")...); unmErr != nil {
+			return qualifyBERError(unmErr, "opcode", "decoding", false)
+		}
+		if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
 
-	offset += n_opcode
+		offset += n_opcode
+	}
 	// Decode result
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field result")
 	}
-	_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:], opts...)
-	if tlvErr_result != nil {
-		return fmt.Errorf("decoding result: %w", tlvErr_result)
-	}
-	if offset < 0 || offset >
-		len(content) || n_result < 0 || n_result > len(content[offset:]) {
-		return fmt.Errorf("invalid BER content window")
-	}
+	{
+		ber.MarkPreflightTarget(opts, "result", content[offset:])
+		_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:], opts...)
+		if tlvErr_result != nil {
+			return qualifyBERError(tlvErr_result, "result", "decoding", false)
+		}
+		ber.MarkPreflightOpaque(opts, "result", content[offset:], n_result)
+		if offset < 0 || offset >
+			len(content) || n_result < 0 || n_result > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
 
-	v.Result = runtime.RawValue{Bytes: content[offset : offset+n_result]}
-	if offset < 0 || offset >
-		len(content) || n_result < 0 || n_result > len(content[offset:]) {
-		return fmt.Errorf("invalid BER content window")
-	}
+		v.Result = runtime.RawValue{Bytes: content[offset : offset+n_result]}
+		if offset < 0 || offset >
+			len(content) || n_result < 0 || n_result > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
 
-	offset += n_result
+		offset += n_result
+	}
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "ROSSingleASReturnResultResult", Cause: ber.ErrExtraData}
 	}
@@ -1415,11 +1496,11 @@ func (v *ROSConsumerASInvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]by
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
 		if encodeErr_enc_0 != nil {
-			return nil, fmt.Errorf("encoding present: %w", encodeErr_enc_0)
+			return nil, qualifyBERError(encodeErr_enc_0, "present", "encoding", false)
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
-			return nil, fmt.Errorf("encoding present: %w", tagErr_enc_0)
+			return nil, qualifyBERError(tagErr_enc_0, "present", "encoding", false)
 		}
 		enc_0 = retagged_enc_0
 		return enc_0, nil
@@ -1427,7 +1508,7 @@ func (v *ROSConsumerASInvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]by
 		enc_1 := ber.EncodeNull()
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
-			return nil, fmt.Errorf("encoding absent: %w", tagErr_enc_1)
+			return nil, qualifyBERError(tagErr_enc_1, "absent", "encoding", false)
 		}
 		enc_1 = retagged_enc_1
 		return enc_1, nil
@@ -1446,7 +1527,13 @@ func (v *ROSConsumerASInvokeLinkedId) MarshalDER() ([]byte, error) {
 		return nil, err
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("encoding ROSConsumerASInvokeLinkedId as DER: %w", err)
+		switch v.Choice {
+		case ROSConsumerASInvokeLinkedIdChoicePresent:
+			return nil, qualifyBERError(err, "present", "encoding", true)
+		case ROSConsumerASInvokeLinkedIdChoiceAbsent:
+			return nil, qualifyBERError(err, "absent", "encoding", true)
+		}
+		return nil, fmt.Errorf("%s: %w", "encoding ROSConsumerASInvokeLinkedId as DER", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1473,7 +1560,10 @@ func (v *ROSConsumerASInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.Deco
 		v.berSnapshot_ = snapshot
 	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return err
+		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+			var probe ROSConsumerASInvokeLinkedId
+			return probe.UnmarshalBER(data, probeOpts...)
+		})
 	}
 	*v = ROSConsumerASInvokeLinkedId{}
 	if len(data) == 0 {
@@ -1487,7 +1577,7 @@ func (v *ROSConsumerASInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.Deco
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding ROSConsumerASInvokeLinkedId CHOICE: %w", tlvErr)
+		return fmt.Errorf("%s: %w", "decoding ROSConsumerASInvokeLinkedId CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "ROSConsumerASInvokeLinkedId", Cause: ber.ErrExtraData}
@@ -1495,23 +1585,25 @@ func (v *ROSConsumerASInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.Deco
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == false {
 		v.Choice = ROSConsumerASInvokeLinkedIdChoicePresent
+		ber.MarkPreflightTarget(opts, "present", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding present: %w", tlvErr)
+			return qualifyBERError(tlvErr, "present", "decoding", false)
 		}
 		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
-			return fmt.Errorf("decoding present: %w", intErr)
+			return qualifyBERError(intErr, "present", "decoding", false)
 		}
 		v.Present = decVal
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = ROSConsumerASInvokeLinkedIdChoiceAbsent
+		ber.MarkPreflightTarget(opts, "absent", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding absent: %w", tlvErr)
+			return qualifyBERError(tlvErr, "absent", "decoding", false)
 		}
 		if len(rawVal) != 0 {
-			return fmt.Errorf("decoding absent: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal))
+			return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal)), "absent", "decoding", false)
 		}
 		v.Absent = &struct{}{}
 	} else {
@@ -1540,10 +1632,16 @@ func (v *ROSConsumerASReturnResultResult) marshalBER(opts ...ber.EncodeOption) (
 	var children []byte
 	enc_opcode, err := v.Opcode.MarshalBER(ber.ChildEncodeOptions(opts, "opcode")...)
 	if err != nil {
-		return nil, fmt.Errorf("encoding opcode: %w", err)
+		return nil, qualifyBERError(err, "opcode", "encoding", false)
 	}
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
+	if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		return nil, qualifyBERError(err, "result", "encoding", false)
+	}
+	if rawErr := ber.ValidateBEREncodedElement(enc_result); rawErr != nil {
+		return nil, qualifyBERError(rawErr, "result", "encoding", false)
+	}
 	children = append(children, enc_result...)
 	return ber.EncodeSequence(children)
 }
@@ -1556,17 +1654,20 @@ func (v *ROSConsumerASReturnResultResult) MarshalDER() ([]byte, error) {
 	var children []byte
 	enc_opcode, err := v.Opcode.MarshalDER()
 	if err != nil {
-		return nil, fmt.Errorf("encoding opcode: %w", err)
+		return nil, qualifyBERError(err, "opcode", "encoding", true)
 	}
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
+	if rawErr := ber.ValidateDEREncodedElement(enc_result); rawErr != nil {
+		return nil, qualifyBERError(rawErr, "result", "encoding", true)
+	}
 	children = append(children, enc_result...)
 	encoded, setErr := ber.EncodeSequence(children)
 	if setErr != nil {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("encoding ROSConsumerASReturnResultResult as DER: %w", err)
+		return nil, fmt.Errorf("%s: %w", "encoding ROSConsumerASReturnResultResult as DER", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1580,7 +1681,10 @@ func (v *ROSConsumerASReturnResultResult) UnmarshalBER(data []byte, opts ...ber.
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return err
+		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+			var probe ROSConsumerASReturnResultResult
+			return probe.UnmarshalBER(data, probeOpts...)
+		})
 	}
 	*v = ROSConsumerASReturnResultResult{}
 	defer func() {
@@ -1598,7 +1702,7 @@ func (v *ROSConsumerASReturnResultResult) UnmarshalBER(data []byte, opts ...ber.
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("decoding ROSConsumerASReturnResultResult SEQUENCE: %w", err)
+		return fmt.Errorf("%s: %w", "decoding ROSConsumerASReturnResultResult SEQUENCE", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ROSConsumerASReturnResultResult", Cause: ber.ErrExtraData}
@@ -1608,43 +1712,50 @@ func (v *ROSConsumerASReturnResultResult) UnmarshalBER(data []byte, opts ...ber.
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field opcode")
 	}
-	// Decode nested CHOICE (Code)
-	_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:], opts...)
-	if tlvErr_opcode != nil {
-		return fmt.Errorf("decoding opcode: %w", tlvErr_opcode)
-	}
-	if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
-		return fmt.Errorf("invalid BER content window")
-	}
+	{
+		ber.MarkPreflightTarget(opts, "opcode", content[offset:])
+		// Decode nested CHOICE (Code)
+		_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:], opts...)
+		if tlvErr_opcode != nil {
+			return qualifyBERError(tlvErr_opcode, "opcode", "decoding", false)
+		}
+		if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
 
-	if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], ber.ChildDecodeOptions(opts, "opcode")...); unmErr != nil {
-		return fmt.Errorf("decoding opcode: %w", unmErr)
-	}
-	if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
-		return fmt.Errorf("invalid BER content window")
-	}
+		if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], ber.ChildDecodeOptions(opts, "opcode")...); unmErr != nil {
+			return qualifyBERError(unmErr, "opcode", "decoding", false)
+		}
+		if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
 
-	offset += n_opcode
+		offset += n_opcode
+	}
 	// Decode result
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field result")
 	}
-	_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:], opts...)
-	if tlvErr_result != nil {
-		return fmt.Errorf("decoding result: %w", tlvErr_result)
-	}
-	if offset < 0 || offset >
-		len(content) || n_result < 0 || n_result > len(content[offset:]) {
-		return fmt.Errorf("invalid BER content window")
-	}
+	{
+		ber.MarkPreflightTarget(opts, "result", content[offset:])
+		_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:], opts...)
+		if tlvErr_result != nil {
+			return qualifyBERError(tlvErr_result, "result", "decoding", false)
+		}
+		ber.MarkPreflightOpaque(opts, "result", content[offset:], n_result)
+		if offset < 0 || offset >
+			len(content) || n_result < 0 || n_result > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
 
-	v.Result = runtime.RawValue{Bytes: content[offset : offset+n_result]}
-	if offset < 0 || offset >
-		len(content) || n_result < 0 || n_result > len(content[offset:]) {
-		return fmt.Errorf("invalid BER content window")
-	}
+		v.Result = runtime.RawValue{Bytes: content[offset : offset+n_result]}
+		if offset < 0 || offset >
+			len(content) || n_result < 0 || n_result > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
 
-	offset += n_result
+		offset += n_result
+	}
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "ROSConsumerASReturnResultResult", Cause: ber.ErrExtraData}
 	}
@@ -1675,11 +1786,11 @@ func (v *ROSSupplierASInvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]by
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
 		if encodeErr_enc_0 != nil {
-			return nil, fmt.Errorf("encoding present: %w", encodeErr_enc_0)
+			return nil, qualifyBERError(encodeErr_enc_0, "present", "encoding", false)
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
-			return nil, fmt.Errorf("encoding present: %w", tagErr_enc_0)
+			return nil, qualifyBERError(tagErr_enc_0, "present", "encoding", false)
 		}
 		enc_0 = retagged_enc_0
 		return enc_0, nil
@@ -1687,7 +1798,7 @@ func (v *ROSSupplierASInvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]by
 		enc_1 := ber.EncodeNull()
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
-			return nil, fmt.Errorf("encoding absent: %w", tagErr_enc_1)
+			return nil, qualifyBERError(tagErr_enc_1, "absent", "encoding", false)
 		}
 		enc_1 = retagged_enc_1
 		return enc_1, nil
@@ -1706,7 +1817,13 @@ func (v *ROSSupplierASInvokeLinkedId) MarshalDER() ([]byte, error) {
 		return nil, err
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("encoding ROSSupplierASInvokeLinkedId as DER: %w", err)
+		switch v.Choice {
+		case ROSSupplierASInvokeLinkedIdChoicePresent:
+			return nil, qualifyBERError(err, "present", "encoding", true)
+		case ROSSupplierASInvokeLinkedIdChoiceAbsent:
+			return nil, qualifyBERError(err, "absent", "encoding", true)
+		}
+		return nil, fmt.Errorf("%s: %w", "encoding ROSSupplierASInvokeLinkedId as DER", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1733,7 +1850,10 @@ func (v *ROSSupplierASInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.Deco
 		v.berSnapshot_ = snapshot
 	}()
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return err
+		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+			var probe ROSSupplierASInvokeLinkedId
+			return probe.UnmarshalBER(data, probeOpts...)
+		})
 	}
 	*v = ROSSupplierASInvokeLinkedId{}
 	if len(data) == 0 {
@@ -1747,7 +1867,7 @@ func (v *ROSSupplierASInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.Deco
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("decoding ROSSupplierASInvokeLinkedId CHOICE: %w", tlvErr)
+		return fmt.Errorf("%s: %w", "decoding ROSSupplierASInvokeLinkedId CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
 		return &ber.DecodeError{Offset: total, TypeName: "ROSSupplierASInvokeLinkedId", Cause: ber.ErrExtraData}
@@ -1755,23 +1875,25 @@ func (v *ROSSupplierASInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.Deco
 
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == false {
 		v.Choice = ROSSupplierASInvokeLinkedIdChoicePresent
+		ber.MarkPreflightTarget(opts, "present", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding present: %w", tlvErr)
+			return qualifyBERError(tlvErr, "present", "decoding", false)
 		}
 		decVal, intErr := ber.DecodeBigIntValue(rawVal)
 		if intErr != nil {
-			return fmt.Errorf("decoding present: %w", intErr)
+			return qualifyBERError(intErr, "present", "decoding", false)
 		}
 		v.Present = decVal
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = ROSSupplierASInvokeLinkedIdChoiceAbsent
+		ber.MarkPreflightTarget(opts, "absent", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
-			return fmt.Errorf("decoding absent: %w", tlvErr)
+			return qualifyBERError(tlvErr, "absent", "decoding", false)
 		}
 		if len(rawVal) != 0 {
-			return fmt.Errorf("decoding absent: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal))
+			return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal)), "absent", "decoding", false)
 		}
 		v.Absent = &struct{}{}
 	} else {
@@ -1800,10 +1922,16 @@ func (v *ROSSupplierASReturnResultResult) marshalBER(opts ...ber.EncodeOption) (
 	var children []byte
 	enc_opcode, err := v.Opcode.MarshalBER(ber.ChildEncodeOptions(opts, "opcode")...)
 	if err != nil {
-		return nil, fmt.Errorf("encoding opcode: %w", err)
+		return nil, qualifyBERError(err, "opcode", "encoding", false)
 	}
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
+	if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		return nil, qualifyBERError(err, "result", "encoding", false)
+	}
+	if rawErr := ber.ValidateBEREncodedElement(enc_result); rawErr != nil {
+		return nil, qualifyBERError(rawErr, "result", "encoding", false)
+	}
 	children = append(children, enc_result...)
 	return ber.EncodeSequence(children)
 }
@@ -1816,17 +1944,20 @@ func (v *ROSSupplierASReturnResultResult) MarshalDER() ([]byte, error) {
 	var children []byte
 	enc_opcode, err := v.Opcode.MarshalDER()
 	if err != nil {
-		return nil, fmt.Errorf("encoding opcode: %w", err)
+		return nil, qualifyBERError(err, "opcode", "encoding", true)
 	}
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
+	if rawErr := ber.ValidateDEREncodedElement(enc_result); rawErr != nil {
+		return nil, qualifyBERError(rawErr, "result", "encoding", true)
+	}
 	children = append(children, enc_result...)
 	encoded, setErr := ber.EncodeSequence(children)
 	if setErr != nil {
 		return nil, setErr
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("encoding ROSSupplierASReturnResultResult as DER: %w", err)
+		return nil, fmt.Errorf("%s: %w", "encoding ROSSupplierASReturnResultResult as DER", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
@@ -1840,7 +1971,10 @@ func (v *ROSSupplierASReturnResultResult) UnmarshalBER(data []byte, opts ...ber.
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
 	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return err
+		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+			var probe ROSSupplierASReturnResultResult
+			return probe.UnmarshalBER(data, probeOpts...)
+		})
 	}
 	*v = ROSSupplierASReturnResultResult{}
 	defer func() {
@@ -1858,7 +1992,7 @@ func (v *ROSSupplierASReturnResultResult) UnmarshalBER(data []byte, opts ...ber.
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
-		return fmt.Errorf("decoding ROSSupplierASReturnResultResult SEQUENCE: %w", err)
+		return fmt.Errorf("%s: %w", "decoding ROSSupplierASReturnResultResult SEQUENCE", qualifyBERError(err, "", "decoding", false))
 	}
 	if total != len(data) {
 		return &ber.DecodeError{Offset: total, TypeName: "ROSSupplierASReturnResultResult", Cause: ber.ErrExtraData}
@@ -1868,43 +2002,50 @@ func (v *ROSSupplierASReturnResultResult) UnmarshalBER(data []byte, opts ...ber.
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field opcode")
 	}
-	// Decode nested CHOICE (Code)
-	_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:], opts...)
-	if tlvErr_opcode != nil {
-		return fmt.Errorf("decoding opcode: %w", tlvErr_opcode)
-	}
-	if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
-		return fmt.Errorf("invalid BER content window")
-	}
+	{
+		ber.MarkPreflightTarget(opts, "opcode", content[offset:])
+		// Decode nested CHOICE (Code)
+		_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:], opts...)
+		if tlvErr_opcode != nil {
+			return qualifyBERError(tlvErr_opcode, "opcode", "decoding", false)
+		}
+		if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
 
-	if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], ber.ChildDecodeOptions(opts, "opcode")...); unmErr != nil {
-		return fmt.Errorf("decoding opcode: %w", unmErr)
-	}
-	if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
-		return fmt.Errorf("invalid BER content window")
-	}
+		if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], ber.ChildDecodeOptions(opts, "opcode")...); unmErr != nil {
+			return qualifyBERError(unmErr, "opcode", "decoding", false)
+		}
+		if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
 
-	offset += n_opcode
+		offset += n_opcode
+	}
 	// Decode result
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field result")
 	}
-	_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:], opts...)
-	if tlvErr_result != nil {
-		return fmt.Errorf("decoding result: %w", tlvErr_result)
-	}
-	if offset < 0 || offset >
-		len(content) || n_result < 0 || n_result > len(content[offset:]) {
-		return fmt.Errorf("invalid BER content window")
-	}
+	{
+		ber.MarkPreflightTarget(opts, "result", content[offset:])
+		_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:], opts...)
+		if tlvErr_result != nil {
+			return qualifyBERError(tlvErr_result, "result", "decoding", false)
+		}
+		ber.MarkPreflightOpaque(opts, "result", content[offset:], n_result)
+		if offset < 0 || offset >
+			len(content) || n_result < 0 || n_result > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
 
-	v.Result = runtime.RawValue{Bytes: content[offset : offset+n_result]}
-	if offset < 0 || offset >
-		len(content) || n_result < 0 || n_result > len(content[offset:]) {
-		return fmt.Errorf("invalid BER content window")
-	}
+		v.Result = runtime.RawValue{Bytes: content[offset : offset+n_result]}
+		if offset < 0 || offset >
+			len(content) || n_result < 0 || n_result > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
 
-	offset += n_result
+		offset += n_result
+	}
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "ROSSupplierASReturnResultResult", Cause: ber.ErrExtraData}
 	}

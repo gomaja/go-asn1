@@ -1,6 +1,10 @@
 package ber
 
-import "github.com/gomaja/go-asn1/runtime"
+import (
+	"math/bits"
+
+	"github.com/gomaja/go-asn1/runtime"
+)
 
 // NamedBitSizeRange is an inclusive SIZE interval. Max=-1 means unbounded.
 type NamedBitSizeRange struct{ Min, Max int }
@@ -9,14 +13,36 @@ type NamedBitSizeRange struct{ Min, Max int }
 type NamedBitSizeSet []NamedBitSizeRange
 
 // NormalizeNamedBitStringSize chooses the shortest permitted abstract value
-// that differs from the received value only by added trailing zero bits.
+// that differs from the received value only by added or removed trailing zero bits.
 // A failed intersection leaves the value for the generated constraint checks.
 // ITU-T X.680 (02/2021) §22.7; X.690 (02/2021) §§8.6.2.4, 11.2.2 NOTE 1.
 func NormalizeNamedBitStringSize(value runtime.BitString, sets []NamedBitSizeSet, options ...DecodeOption) runtime.BitString {
 	if value.BitLength < 0 || len(sets) == 0 {
 		return value
 	}
-	candidate := value.BitLength
+	// Leave malformed shapes to the generated structural checks. Unused
+	// wire padding cannot become a set abstract bit during normalization.
+	width := value.BitLength / 8
+	if value.BitLength%8 != 0 {
+		width++
+	}
+	if len(value.Bytes) != width {
+		return value
+	}
+	candidate := 0
+	for index := len(value.Bytes); index > 0; {
+		index--
+		octet := value.Bytes[index]
+		if index == len(value.Bytes)-1 && value.BitLength%8 != 0 {
+			octet &= byte(0xff << (8 - value.BitLength%8))
+		}
+		if octet != 0 {
+			// index is bounded by ceil(BitLength/8), so this bit index
+			// fits int even at the public representation's limit.
+			candidate = index*8 + (8 - bits.TrailingZeros8(octet))
+			break
+		}
+	}
 	for {
 		next := candidate
 		for _, set := range sets {
@@ -48,10 +74,10 @@ func NormalizeNamedBitStringSize(value runtime.BitString, sets []NamedBitSizeSet
 	if candidate == value.BitLength {
 		return value
 	}
-	// Keep an encoded short form for BER replay when its decoded abstract
-	// value needs zero extension to meet SIZE.
+	// Keep the received form for BER replay when the abstract value
+	// needs zero extension or trimming to meet the permitted intersection.
 	MarkBERNonCanonical(options)
-	width := candidate / 8
+	width = candidate / 8
 	if candidate%8 != 0 {
 		width++
 	}
@@ -59,7 +85,7 @@ func NormalizeNamedBitStringSize(value runtime.BitString, sets []NamedBitSizeSet
 	copy(bytes, value.Bytes)
 	// X.690 (02/2021) §8.6.2.2: unused bits in the final received
 	// octet are padding, not value bits when §22.7 permits extension.
-	if n := value.BitLength % 8; n != 0 {
+	if n := value.BitLength % 8; n != 0 && value.BitLength/8 < len(bytes) {
 		bytes[value.BitLength/8] &= byte(0xff << (8 - n))
 	}
 	return runtime.BitString{Bytes: bytes, BitLength: candidate}

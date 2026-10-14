@@ -754,6 +754,12 @@ func EncodeOpenTypeAligned(bb *BitBuffer, data []byte) error {
 
 // DecodeOpenTypeAligned decodes an open type's complete encoding (APER).
 func DecodeOpenTypeAligned(bb *BitBuffer) ([]byte, error) {
+	// X.691 (02/2021) §11.2.2 delimits each frame; account for it
+	// even when the actual type is opaque. This is a receiver ceiling.
+	if err := bb.EnterOpenType(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveOpenType()
 	data, err := decodeLengthDelimitedOctets(bb, true)
 	if err != nil {
 		return nil, err

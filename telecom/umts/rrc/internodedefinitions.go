@@ -4311,7 +4311,7 @@ func (v *ToTargetRNCContainer) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ToTargetRNCContainer: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -4354,8 +4354,11 @@ func (v *ToTargetRNCContainer) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes ToTargetRNCContainer with explicit receiver options.
 func (v *ToTargetRNCContainer) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "ToTargetRNCContainer")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ToTargetRNCContainer")
 	}
@@ -4368,12 +4371,16 @@ func (v *ToTargetRNCContainer) UnmarshalUPERWithOptions(data []byte, options per
 }
 
 func (v *ToTargetRNCContainer) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = ToTargetRNCContainer{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -4418,7 +4425,7 @@ func (v *TargetRNCToSourceRNCContainer) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("TargetRNCToSourceRNCContainer: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -4486,8 +4493,11 @@ func (v *TargetRNCToSourceRNCContainer) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes TargetRNCToSourceRNCContainer with explicit receiver options.
 func (v *TargetRNCToSourceRNCContainer) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "TargetRNCToSourceRNCContainer")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TargetRNCToSourceRNCContainer")
 	}
@@ -4500,12 +4510,16 @@ func (v *TargetRNCToSourceRNCContainer) UnmarshalUPERWithOptions(data []byte, op
 }
 
 func (v *TargetRNCToSourceRNCContainer) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = TargetRNCToSourceRNCContainer{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 7)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -4575,7 +4589,7 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3) MarshalUPERTo(bb *per.B
 	if v.Choice < 1 {
 		return fmt.Errorf("InterRATHandoverInfoWithInterRATCapabilitiesR3: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -4610,8 +4624,11 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3) UnmarshalUPER(data []by
 
 // UnmarshalUPERWithOptions decodes InterRATHandoverInfoWithInterRATCapabilitiesR3 with explicit receiver options.
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3")
 	}
@@ -4624,12 +4641,16 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3) UnmarshalUPERWithOption
 }
 
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = InterRATHandoverInfoWithInterRATCapabilitiesR3{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -4694,8 +4715,11 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3IEs) UnmarshalUPER(data [
 
 // UnmarshalUPERWithOptions decodes InterRATHandoverInfoWithInterRATCapabilitiesR3IEs with explicit receiver options.
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3IEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3IEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3IEs")
 	}
@@ -4708,6 +4732,10 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3IEs) UnmarshalUPERWithOpt
 }
 
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = InterRATHandoverInfoWithInterRATCapabilitiesR3IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_ueratspecificcapability, err := per.DecodeBoolean(bb)
@@ -4717,7 +4745,7 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3IEs) UnmarshalUPERFrom(bb
 	if opt_ueratspecificcapability {
 		tmp_ueratspecificcapability := make(InterRATUERadioAccessCapabilityList, 0)
 		_, errCollection_ueratspecificcapability := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ueratspecificcapability, fragmentLength_ueratspecificcapability int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability > int64(^uint(0)>>1) || fragmentOffset_ueratspecificcapability > int64(^uint(0)>>1)-fragmentLength_ueratspecificcapability {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -4772,8 +4800,11 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesV390extIEs) UnmarshalUPER(d
 
 // UnmarshalUPERWithOptions decodes InterRATHandoverInfoWithInterRATCapabilitiesV390extIEs with explicit receiver options.
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesV390extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesV390extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesV390extIEs")
 	}
@@ -4786,6 +4817,10 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesV390extIEs) UnmarshalUPERWi
 }
 
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesV390extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = InterRATHandoverInfoWithInterRATCapabilitiesV390extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_failurecausewithproterr, err := per.DecodeBoolean(bb)
@@ -4831,8 +4866,11 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesV690extIEs) UnmarshalUPER(d
 
 // UnmarshalUPERWithOptions decodes InterRATHandoverInfoWithInterRATCapabilitiesV690extIEs with explicit receiver options.
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesV690extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesV690extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesV690extIEs")
 	}
@@ -4845,6 +4883,10 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesV690extIEs) UnmarshalUPERWi
 }
 
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesV690extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = InterRATHandoverInfoWithInterRATCapabilitiesV690extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_ueratspecificcapabilityv690ext, err := per.DecodeBoolean(bb)
@@ -4890,8 +4932,11 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesV860extIEs) UnmarshalUPER(d
 
 // UnmarshalUPERWithOptions decodes InterRATHandoverInfoWithInterRATCapabilitiesV860extIEs with explicit receiver options.
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesV860extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesV860extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesV860extIEs")
 	}
@@ -4904,6 +4949,10 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesV860extIEs) UnmarshalUPERWi
 }
 
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesV860extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = InterRATHandoverInfoWithInterRATCapabilitiesV860extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_ueratspecificcapability, err := per.DecodeBoolean(bb)
@@ -4949,8 +4998,11 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesV920extIEs) UnmarshalUPER(d
 
 // UnmarshalUPERWithOptions decodes InterRATHandoverInfoWithInterRATCapabilitiesV920extIEs with explicit receiver options.
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesV920extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesV920extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesV920extIEs")
 	}
@@ -4963,6 +5015,10 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesV920extIEs) UnmarshalUPERWi
 }
 
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesV920extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = InterRATHandoverInfoWithInterRATCapabilitiesV920extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_ueinactivityperiod, err := per.DecodeBoolean(bb)
@@ -4992,7 +5048,7 @@ func (v *RFC3095ContextInfoR5) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("RFC3095ContextInfoR5: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -5027,8 +5083,11 @@ func (v *RFC3095ContextInfoR5) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes RFC3095ContextInfoR5 with explicit receiver options.
 func (v *RFC3095ContextInfoR5) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "RFC3095ContextInfoR5")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RFC3095ContextInfoR5")
 	}
@@ -5041,12 +5100,16 @@ func (v *RFC3095ContextInfoR5) UnmarshalUPERWithOptions(data []byte, options per
 }
 
 func (v *RFC3095ContextInfoR5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = RFC3095ContextInfoR5{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -5092,8 +5155,11 @@ func (v *RFC3095ContextInfoListR5Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete RFC3095ContextInfoListR5 with explicit receiver options.
 func (v *RFC3095ContextInfoListR5Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "RFC3095ContextInfoListR5")
+	}
 	value, err := UnmarshalUPERRFC3095ContextInfoListR5From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "RFC3095ContextInfoListR5")
@@ -5142,6 +5208,10 @@ func UnmarshalUPERRFC3095ContextInfoListR5(data []byte) (RFC3095ContextInfoListR
 
 // UnmarshalUPERRFC3095ContextInfoListR5From decodes a RFC3095ContextInfoListR5 list from bb.
 func UnmarshalUPERRFC3095ContextInfoListR5From(bb *per.BitBuffer) (RFC3095ContextInfoListR5, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERRFC3095ContextInfoListR5ListValue
 	if err := unmarshalUPERRFC3095ContextInfoListR5Into(&v, bb); err != nil {
 		return nil, err
@@ -5152,7 +5222,7 @@ func UnmarshalUPERRFC3095ContextInfoListR5From(bb *per.BitBuffer) (RFC3095Contex
 func unmarshalUPERRFC3095ContextInfoListR5Into(v *asn1cUPERRFC3095ContextInfoListR5ListValue, bb *per.BitBuffer) error {
 	v.Value = make(RFC3095ContextInfoListR5, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -5184,7 +5254,7 @@ func (v *SRNCRelocationInfoR3) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -5219,8 +5289,11 @@ func (v *SRNCRelocationInfoR3) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3 with explicit receiver options.
 func (v *SRNCRelocationInfoR3) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3")
 	}
@@ -5233,12 +5306,16 @@ func (v *SRNCRelocationInfoR3) UnmarshalUPERWithOptions(data []byte, options per
 }
 
 func (v *SRNCRelocationInfoR3) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -5567,8 +5644,11 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3IEs with explicit receiver options.
 func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3IEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3IEs")
 	}
@@ -5581,6 +5661,10 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERWithOptions(data []byte, options 
 }
 
 func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_calculationtimeforciphering, err := per.DecodeBoolean(bb)
@@ -5672,7 +5756,7 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBList, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -5693,7 +5777,7 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -5718,7 +5802,7 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.IntegrityProtectionStatus = IntegrityProtectionStatus(val_integrityprotectionstatus)
 	v.SrbSpecificIntegrityProtInfo = make(SRBSpecificIntegrityProtInfoList, 0)
 	_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -5766,7 +5850,7 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueratspecificcapability {
 		tmp_ueratspecificcapability := make(InterRATUERadioAccessCapabilityList, 0)
 		_, errCollection_ueratspecificcapability := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ueratspecificcapability, fragmentLength_ueratspecificcapability int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability > int64(^uint(0)>>1) || fragmentOffset_ueratspecificcapability > int64(^uint(0)>>1)-fragmentLength_ueratspecificcapability {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -5800,7 +5884,7 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationList, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -5821,7 +5905,7 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepList, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -5841,7 +5925,7 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -5859,7 +5943,7 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupList, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -5878,7 +5962,7 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupList, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -5906,7 +5990,7 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -5937,7 +6021,7 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoList, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -6002,8 +6086,11 @@ func (v *SRNCRelocationInfoV380extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV380extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV380extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV380extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV380extIEs")
 	}
@@ -6016,6 +6103,10 @@ func (v *SRNCRelocationInfoV380extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV380extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV380extIEs{}
 	val_cndomainidentity, err := per.DecodeEnumerated(bb, 2, false)
 	if err != nil {
@@ -6024,7 +6115,7 @@ func (v *SRNCRelocationInfoV380extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	v.CnDomainIdentity = CNDomainIdentity(val_cndomainidentity)
 	v.CipheringStatusList = make(CipheringStatusList, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -6110,8 +6201,11 @@ func (v *SRNCRelocationInfoV390extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV390extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV390extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV390extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV390extIEs")
 	}
@@ -6124,6 +6218,10 @@ func (v *SRNCRelocationInfoV390extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV390extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV390extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_cndomaininformationlistv390ext, err := per.DecodeBoolean(bb)
@@ -6145,7 +6243,7 @@ func (v *SRNCRelocationInfoV390extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_cndomaininformationlistv390ext {
 		tmp_cndomaininformationlistv390ext := make(CNDomainInformationListV390ext, 0)
 		_, errCollection_cndomaininformationlistv390ext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlistv390ext, fragmentLength_cndomaininformationlistv390ext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cndomaininformationlistv390ext < 0 || fragmentLength_cndomaininformationlistv390ext < 0 || fragmentLength_cndomaininformationlistv390ext > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlistv390ext > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlistv390ext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -6225,8 +6323,11 @@ func (v *SRNCRelocationInfoV3a0extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV3a0extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV3a0extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV3a0extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV3a0extIEs")
 	}
@@ -6239,6 +6340,10 @@ func (v *SRNCRelocationInfoV3a0extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV3a0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV3a0extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_ueradioaccesscapabilityv3a0ext, err := per.DecodeBoolean(bb)
@@ -6306,8 +6411,11 @@ func (v *SRNCRelocationInfoV3b0extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV3b0extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV3b0extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV3b0extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV3b0extIEs")
 	}
@@ -6320,6 +6428,10 @@ func (v *SRNCRelocationInfoV3b0extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV3b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV3b0extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_startvalueforcipheringv3b0ext, err := per.DecodeBoolean(bb)
@@ -6334,7 +6446,7 @@ func (v *SRNCRelocationInfoV3b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_startvalueforcipheringv3b0ext {
 		tmp_startvalueforcipheringv3b0ext := make(STARTList2, 0)
 		_, errCollection_startvalueforcipheringv3b0ext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_startvalueforcipheringv3b0ext, fragmentLength_startvalueforcipheringv3b0ext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_startvalueforcipheringv3b0ext < 0 || fragmentLength_startvalueforcipheringv3b0ext < 0 || fragmentLength_startvalueforcipheringv3b0ext > int64(^uint(0)>>1) || fragmentOffset_startvalueforcipheringv3b0ext > int64(^uint(0)>>1)-fragmentLength_startvalueforcipheringv3b0ext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -6384,8 +6496,11 @@ func (v *SRNCRelocationInfoV3c0extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV3c0extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV3c0extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV3c0extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV3c0extIEs")
 	}
@@ -6398,6 +6513,10 @@ func (v *SRNCRelocationInfoV3c0extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV3c0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV3c0extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_rbidentityforhomessage, err := per.DecodeBoolean(bb)
@@ -6452,8 +6571,11 @@ func (v *SRNCRelocationInfoV3d0extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV3d0extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV3d0extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV3d0extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV3d0extIEs")
 	}
@@ -6466,6 +6588,10 @@ func (v *SRNCRelocationInfoV3d0extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV3d0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV3d0extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_uespecificbehaviourinformation1idle, err := per.DecodeBoolean(bb)
@@ -6524,8 +6650,11 @@ func (v *SRNCRelocationInfoV3g0extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV3g0extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV3g0extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV3g0extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV3g0extIEs")
 	}
@@ -6538,6 +6667,10 @@ func (v *SRNCRelocationInfoV3g0extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV3g0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV3g0extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_ueradioaccesscapabilityv3g0ext, err := per.DecodeBoolean(bb)
@@ -6608,8 +6741,11 @@ func (v *SRNCRelocationInfoV3h0extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV3h0extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV3h0extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV3h0extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV3h0extIEs")
 	}
@@ -6622,6 +6758,10 @@ func (v *SRNCRelocationInfoV3h0extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV3h0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV3h0extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_tpccombinationinfolist, err := per.DecodeBoolean(bb)
@@ -6635,7 +6775,7 @@ func (v *SRNCRelocationInfoV3h0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -6703,8 +6843,11 @@ func (v *SRNCRelocationInfoV4d0extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV4d0extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV4d0extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV4d0extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV4d0extIEs")
 	}
@@ -6717,6 +6860,10 @@ func (v *SRNCRelocationInfoV4d0extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV4d0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV4d0extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_tpccombinationinfolist, err := per.DecodeBoolean(bb)
@@ -6726,7 +6873,7 @@ func (v *SRNCRelocationInfoV4d0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -6771,8 +6918,11 @@ func (v *TPCCombinationInfoListComplete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete TPCCombinationInfoList with explicit receiver options.
 func (v *TPCCombinationInfoListComplete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "TPCCombinationInfoList")
+	}
 	value, err := UnmarshalUPERTPCCombinationInfoListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "TPCCombinationInfoList")
@@ -6821,6 +6971,10 @@ func UnmarshalUPERTPCCombinationInfoList(data []byte) (TPCCombinationInfoListCom
 
 // UnmarshalUPERTPCCombinationInfoListFrom decodes a TPCCombinationInfoList list from bb.
 func UnmarshalUPERTPCCombinationInfoListFrom(bb *per.BitBuffer) (TPCCombinationInfoList, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERTPCCombinationInfoListListValue
 	if err := unmarshalUPERTPCCombinationInfoListInto(&v, bb); err != nil {
 		return nil, err
@@ -6831,7 +6985,7 @@ func UnmarshalUPERTPCCombinationInfoListFrom(bb *per.BitBuffer) (TPCCombinationI
 func unmarshalUPERTPCCombinationInfoListInto(v *asn1cUPERTPCCombinationInfoListListValue, bb *per.BitBuffer) error {
 	v.Value = make(TPCCombinationInfoList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -6874,8 +7028,11 @@ func (v *TPCCombinationInfoListR9Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete TPCCombinationInfoListR9 with explicit receiver options.
 func (v *TPCCombinationInfoListR9Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "TPCCombinationInfoListR9")
+	}
 	value, err := UnmarshalUPERTPCCombinationInfoListR9From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "TPCCombinationInfoListR9")
@@ -6924,6 +7081,10 @@ func UnmarshalUPERTPCCombinationInfoListR9(data []byte) (TPCCombinationInfoListR
 
 // UnmarshalUPERTPCCombinationInfoListR9From decodes a TPCCombinationInfoListR9 list from bb.
 func UnmarshalUPERTPCCombinationInfoListR9From(bb *per.BitBuffer) (TPCCombinationInfoListR9, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERTPCCombinationInfoListR9ListValue
 	if err := unmarshalUPERTPCCombinationInfoListR9Into(&v, bb); err != nil {
 		return nil, err
@@ -6934,7 +7095,7 @@ func UnmarshalUPERTPCCombinationInfoListR9From(bb *per.BitBuffer) (TPCCombinatio
 func unmarshalUPERTPCCombinationInfoListR9Into(v *asn1cUPERTPCCombinationInfoListR9ListValue, bb *per.BitBuffer) error {
 	v.Value = make(TPCCombinationInfoListR9, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -6977,8 +7138,11 @@ func (v *STARTList2Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete STARTList2 with explicit receiver options.
 func (v *STARTList2Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "STARTList2")
+	}
 	value, err := UnmarshalUPERSTARTList2From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "STARTList2")
@@ -7025,6 +7189,10 @@ func UnmarshalUPERSTARTList2(data []byte) (STARTList2Complete, error) {
 
 // UnmarshalUPERSTARTList2From decodes a STARTList2 list from bb.
 func UnmarshalUPERSTARTList2From(bb *per.BitBuffer) (STARTList2, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERSTARTList2ListValue
 	if err := unmarshalUPERSTARTList2Into(&v, bb); err != nil {
 		return nil, err
@@ -7035,7 +7203,7 @@ func UnmarshalUPERSTARTList2From(bb *per.BitBuffer) (STARTList2, error) {
 func unmarshalUPERSTARTList2Into(v *asn1cUPERSTARTList2ListValue, bb *per.BitBuffer) error {
 	v.Value = make(STARTList2, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -7083,8 +7251,11 @@ func (v *SRNCRelocationInfoV4b0extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV4b0extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV4b0extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV4b0extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV4b0extIEs")
 	}
@@ -7097,6 +7268,10 @@ func (v *SRNCRelocationInfoV4b0extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV4b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV4b0extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_ueradioaccesscapabilityv4b0ext, err := per.DecodeBoolean(bb)
@@ -7150,8 +7325,11 @@ func (v *SRNCRelocationInfoV590extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV590extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV590extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV590extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV590extIEs")
 	}
@@ -7164,6 +7342,10 @@ func (v *SRNCRelocationInfoV590extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV590extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV590extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_ueradioaccesscapabilityv590ext, err := per.DecodeBoolean(bb)
@@ -7220,8 +7402,11 @@ func (v *SRNCRelocationInfoV5a0extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV5a0extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV5a0extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV5a0extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV5a0extIEs")
 	}
@@ -7234,6 +7419,10 @@ func (v *SRNCRelocationInfoV5a0extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV5a0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV5a0extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_storedcompressedmodeinfo, err := per.DecodeBoolean(bb)
@@ -7279,8 +7468,11 @@ func (v *SRNCRelocationInfoV5b0extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV5b0extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV5b0extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV5b0extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV5b0extIEs")
 	}
@@ -7293,6 +7485,10 @@ func (v *SRNCRelocationInfoV5b0extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV5b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV5b0extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_interratcellinfoindication, err := per.DecodeBoolean(bb)
@@ -7339,8 +7535,11 @@ func (v *SRNCRelocationInfoV5c0extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV5c0extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV5c0extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV5c0extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV5c0extIEs")
 	}
@@ -7353,6 +7552,10 @@ func (v *SRNCRelocationInfoV5c0extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV5c0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV5c0extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_ueradioaccesscapabilityv5c0ext, err := per.DecodeBoolean(bb)
@@ -7392,8 +7595,11 @@ func (v *CipheringInfoPerRBListV3a0ext) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes CipheringInfoPerRBListV3a0ext with explicit receiver options.
 func (v *CipheringInfoPerRBListV3a0ext) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CipheringInfoPerRBListV3a0ext")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CipheringInfoPerRBListV3a0ext")
 	}
@@ -7406,6 +7612,10 @@ func (v *CipheringInfoPerRBListV3a0ext) UnmarshalUPERWithOptions(data []byte, op
 }
 
 func (v *CipheringInfoPerRBListV3a0ext) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = CipheringInfoPerRBListV3a0ext{}
 	bsBytes_dlumsn, bsBitLen_dlumsn, err := per.DecodeBitStringExt(bb, 7, 7, true, false)
 	if err != nil {
@@ -7439,8 +7649,11 @@ func (v *CipheringStatusListComplete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete CipheringStatusList with explicit receiver options.
 func (v *CipheringStatusListComplete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CipheringStatusList")
+	}
 	value, err := UnmarshalUPERCipheringStatusListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CipheringStatusList")
@@ -7489,6 +7702,10 @@ func UnmarshalUPERCipheringStatusList(data []byte) (CipheringStatusListComplete,
 
 // UnmarshalUPERCipheringStatusListFrom decodes a CipheringStatusList list from bb.
 func UnmarshalUPERCipheringStatusListFrom(bb *per.BitBuffer) (CipheringStatusList, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERCipheringStatusListListValue
 	if err := unmarshalUPERCipheringStatusListInto(&v, bb); err != nil {
 		return nil, err
@@ -7499,7 +7716,7 @@ func UnmarshalUPERCipheringStatusListFrom(bb *per.BitBuffer) (CipheringStatusLis
 func unmarshalUPERCipheringStatusListInto(v *asn1cUPERCipheringStatusListListValue, bb *per.BitBuffer) error {
 	v.Value = make(CipheringStatusList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -7544,8 +7761,11 @@ func (v *CipheringStatusCNdomain) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes CipheringStatusCNdomain with explicit receiver options.
 func (v *CipheringStatusCNdomain) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CipheringStatusCNdomain")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CipheringStatusCNdomain")
 	}
@@ -7558,6 +7778,10 @@ func (v *CipheringStatusCNdomain) UnmarshalUPERWithOptions(data []byte, options 
 }
 
 func (v *CipheringStatusCNdomain) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = CipheringStatusCNdomain{}
 	val_cndomainidentity, err := per.DecodeEnumerated(bb, 2, false)
 	if err != nil {
@@ -7596,8 +7820,11 @@ func (v *CodeChangeStatusListComplete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete CodeChangeStatusList with explicit receiver options.
 func (v *CodeChangeStatusListComplete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CodeChangeStatusList")
+	}
 	value, err := UnmarshalUPERCodeChangeStatusListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CodeChangeStatusList")
@@ -7646,6 +7873,10 @@ func UnmarshalUPERCodeChangeStatusList(data []byte) (CodeChangeStatusListComplet
 
 // UnmarshalUPERCodeChangeStatusListFrom decodes a CodeChangeStatusList list from bb.
 func UnmarshalUPERCodeChangeStatusListFrom(bb *per.BitBuffer) (CodeChangeStatusList, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERCodeChangeStatusListListValue
 	if err := unmarshalUPERCodeChangeStatusListInto(&v, bb); err != nil {
 		return nil, err
@@ -7656,7 +7887,7 @@ func UnmarshalUPERCodeChangeStatusListFrom(bb *per.BitBuffer) (CodeChangeStatusL
 func unmarshalUPERCodeChangeStatusListInto(v *asn1cUPERCodeChangeStatusListListValue, bb *per.BitBuffer) error {
 	v.Value = make(CodeChangeStatusList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -7701,8 +7932,11 @@ func (v *CodeChangeStatus) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes CodeChangeStatus with explicit receiver options.
 func (v *CodeChangeStatus) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CodeChangeStatus")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CodeChangeStatus")
 	}
@@ -7715,6 +7949,10 @@ func (v *CodeChangeStatus) UnmarshalUPERWithOptions(data []byte, options per.Dec
 }
 
 func (v *CodeChangeStatus) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = CodeChangeStatus{}
 	if err := v.PrimaryCPICHInfo.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PrimaryCPICHInfo")
@@ -7781,8 +8019,11 @@ func (v *StoredCompressedModeInfo) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes StoredCompressedModeInfo with explicit receiver options.
 func (v *StoredCompressedModeInfo) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "StoredCompressedModeInfo")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "StoredCompressedModeInfo")
 	}
@@ -7795,6 +8036,10 @@ func (v *StoredCompressedModeInfo) UnmarshalUPERWithOptions(data []byte, options
 }
 
 func (v *StoredCompressedModeInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = StoredCompressedModeInfo{}
 	// Read preamble bitmap for optional root fields
 	opt_codechangestatuslist, err := per.DecodeBoolean(bb)
@@ -7803,7 +8048,7 @@ func (v *StoredCompressedModeInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.StoredTGPSequenceList = make(StoredTGPSequenceList, 0)
 	_, errCollection_storedtgpsequencelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_storedtgpsequencelist, fragmentLength_storedtgpsequencelist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_storedtgpsequencelist < 0 || fragmentLength_storedtgpsequencelist < 0 || fragmentLength_storedtgpsequencelist > int64(^uint(0)>>1) || fragmentOffset_storedtgpsequencelist > int64(^uint(0)>>1)-fragmentLength_storedtgpsequencelist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -7822,7 +8067,7 @@ func (v *StoredCompressedModeInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_codechangestatuslist {
 		tmp_codechangestatuslist := make(CodeChangeStatusList, 0)
 		_, errCollection_codechangestatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_codechangestatuslist, fragmentLength_codechangestatuslist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_codechangestatuslist < 0 || fragmentLength_codechangestatuslist < 0 || fragmentLength_codechangestatuslist > int64(^uint(0)>>1) || fragmentOffset_codechangestatuslist > int64(^uint(0)>>1)-fragmentLength_codechangestatuslist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -7897,8 +8142,11 @@ func (v *StoredCompressedModeInfoR8) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes StoredCompressedModeInfoR8 with explicit receiver options.
 func (v *StoredCompressedModeInfoR8) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "StoredCompressedModeInfoR8")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "StoredCompressedModeInfoR8")
 	}
@@ -7911,6 +8159,10 @@ func (v *StoredCompressedModeInfoR8) UnmarshalUPERWithOptions(data []byte, optio
 }
 
 func (v *StoredCompressedModeInfoR8) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = StoredCompressedModeInfoR8{}
 	// Read preamble bitmap for optional root fields
 	opt_codechangestatuslist, err := per.DecodeBoolean(bb)
@@ -7919,7 +8171,7 @@ func (v *StoredCompressedModeInfoR8) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	}
 	v.StoredTGPSequenceList = make(StoredTGPSequenceListR8, 0)
 	_, errCollection_storedtgpsequencelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_storedtgpsequencelist, fragmentLength_storedtgpsequencelist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_storedtgpsequencelist < 0 || fragmentLength_storedtgpsequencelist < 0 || fragmentLength_storedtgpsequencelist > int64(^uint(0)>>1) || fragmentOffset_storedtgpsequencelist > int64(^uint(0)>>1)-fragmentLength_storedtgpsequencelist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -7938,7 +8190,7 @@ func (v *StoredCompressedModeInfoR8) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	if opt_codechangestatuslist {
 		tmp_codechangestatuslist := make(CodeChangeStatusList, 0)
 		_, errCollection_codechangestatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_codechangestatuslist, fragmentLength_codechangestatuslist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_codechangestatuslist < 0 || fragmentLength_codechangestatuslist < 0 || fragmentLength_codechangestatuslist > int64(^uint(0)>>1) || fragmentOffset_codechangestatuslist > int64(^uint(0)>>1)-fragmentLength_codechangestatuslist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -7983,8 +8235,11 @@ func (v *StoredTGPSequenceListComplete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete StoredTGPSequenceList with explicit receiver options.
 func (v *StoredTGPSequenceListComplete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "StoredTGPSequenceList")
+	}
 	value, err := UnmarshalUPERStoredTGPSequenceListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "StoredTGPSequenceList")
@@ -8033,6 +8288,10 @@ func UnmarshalUPERStoredTGPSequenceList(data []byte) (StoredTGPSequenceListCompl
 
 // UnmarshalUPERStoredTGPSequenceListFrom decodes a StoredTGPSequenceList list from bb.
 func UnmarshalUPERStoredTGPSequenceListFrom(bb *per.BitBuffer) (StoredTGPSequenceList, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERStoredTGPSequenceListListValue
 	if err := unmarshalUPERStoredTGPSequenceListInto(&v, bb); err != nil {
 		return nil, err
@@ -8043,7 +8302,7 @@ func UnmarshalUPERStoredTGPSequenceListFrom(bb *per.BitBuffer) (StoredTGPSequenc
 func unmarshalUPERStoredTGPSequenceListInto(v *asn1cUPERStoredTGPSequenceListListValue, bb *per.BitBuffer) error {
 	v.Value = make(StoredTGPSequenceList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -8086,8 +8345,11 @@ func (v *StoredTGPSequenceListR8Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete StoredTGPSequenceListR8 with explicit receiver options.
 func (v *StoredTGPSequenceListR8Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "StoredTGPSequenceListR8")
+	}
 	value, err := UnmarshalUPERStoredTGPSequenceListR8From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "StoredTGPSequenceListR8")
@@ -8136,6 +8398,10 @@ func UnmarshalUPERStoredTGPSequenceListR8(data []byte) (StoredTGPSequenceListR8C
 
 // UnmarshalUPERStoredTGPSequenceListR8From decodes a StoredTGPSequenceListR8 list from bb.
 func UnmarshalUPERStoredTGPSequenceListR8From(bb *per.BitBuffer) (StoredTGPSequenceListR8, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERStoredTGPSequenceListR8ListValue
 	if err := unmarshalUPERStoredTGPSequenceListR8Into(&v, bb); err != nil {
 		return nil, err
@@ -8146,7 +8412,7 @@ func UnmarshalUPERStoredTGPSequenceListR8From(bb *per.BitBuffer) (StoredTGPSeque
 func unmarshalUPERStoredTGPSequenceListR8Into(v *asn1cUPERStoredTGPSequenceListR8ListValue, bb *per.BitBuffer) error {
 	v.Value = make(StoredTGPSequenceListR8, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -8200,8 +8466,11 @@ func (v *StoredTGPSequence) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes StoredTGPSequence with explicit receiver options.
 func (v *StoredTGPSequence) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "StoredTGPSequence")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "StoredTGPSequence")
 	}
@@ -8214,6 +8483,10 @@ func (v *StoredTGPSequence) UnmarshalUPERWithOptions(data []byte, options per.De
 }
 
 func (v *StoredTGPSequence) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = StoredTGPSequence{}
 	// Read preamble bitmap for optional root fields
 	opt_tgpsconfigurationparams, err := per.DecodeBoolean(bb)
@@ -8273,8 +8546,11 @@ func (v *StoredTGPSequenceR8) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes StoredTGPSequenceR8 with explicit receiver options.
 func (v *StoredTGPSequenceR8) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "StoredTGPSequenceR8")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "StoredTGPSequenceR8")
 	}
@@ -8287,6 +8563,10 @@ func (v *StoredTGPSequenceR8) UnmarshalUPERWithOptions(data []byte, options per.
 }
 
 func (v *StoredTGPSequenceR8) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = StoredTGPSequenceR8{}
 	// Read preamble bitmap for optional root fields
 	opt_tgpsconfigurationparams, err := per.DecodeBoolean(bb)
@@ -8684,8 +8964,11 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR4IEs with explicit receiver options.
 func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR4IEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR4IEs")
 	}
@@ -8698,6 +8981,10 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERWithOptions(data []byte, options 
 }
 
 func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR4IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_rbidentityforhomessage, err := per.DecodeBoolean(bb)
@@ -8808,7 +9095,7 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -8839,7 +9126,7 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -8860,7 +9147,7 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -8885,7 +9172,7 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.IntegrityProtectionStatus = IntegrityProtectionStatus(val_integrityprotectionstatus)
 	v.SrbSpecificIntegrityProtInfo = make(SRBSpecificIntegrityProtInfoList, 0)
 	_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -8926,7 +9213,7 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -8970,7 +9257,7 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueratspecificcapability {
 		tmp_ueratspecificcapability := make(InterRATUERadioAccessCapabilityList, 0)
 		_, errCollection_ueratspecificcapability := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ueratspecificcapability, fragmentLength_ueratspecificcapability int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability > int64(^uint(0)>>1) || fragmentOffset_ueratspecificcapability > int64(^uint(0)>>1)-fragmentLength_ueratspecificcapability {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -9004,7 +9291,7 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -9025,7 +9312,7 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR4, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -9045,7 +9332,7 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -9063,7 +9350,7 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupList, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -9082,7 +9369,7 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR4, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -9110,7 +9397,7 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -9145,7 +9432,7 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR4, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -9566,8 +9853,11 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR5IEs with explicit receiver options.
 func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR5IEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR5IEs")
 	}
@@ -9580,6 +9870,10 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERWithOptions(data []byte, options 
 }
 
 func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR5IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_rbidentityforhomessage, err := per.DecodeBoolean(bb)
@@ -9698,7 +9992,7 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -9729,7 +10023,7 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -9750,7 +10044,7 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -9776,7 +10070,7 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -9819,7 +10113,7 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -9883,7 +10177,7 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -9904,7 +10198,7 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR5, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -9924,7 +10218,7 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -9942,7 +10236,7 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR5, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -9961,7 +10255,7 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR5, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -9989,7 +10283,7 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -10024,7 +10318,7 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR5, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -10045,7 +10339,7 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -10207,8 +10501,11 @@ func (v *SRNCRelocationInfoV690extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV690extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV690extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV690extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV690extIEs")
 	}
@@ -10221,6 +10518,10 @@ func (v *SRNCRelocationInfoV690extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV690extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV690extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_uecapabilitycontainer, err := per.DecodeBoolean(bb)
@@ -10259,18 +10560,18 @@ func (v *SRNCRelocationInfoV690extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 		}
 		var contained_uecapabilitycontainer UECapabilityContainerIEs
 		if containedSite_uecapabilitycontainer := bb.EnterContained(); containedSite_uecapabilitycontainer.Decodes() {
-			containedBB_uecapabilitycontainer, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainer, bsBitLen_uecapabilitycontainer)
+			containedBB_uecapabilitycontainer := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainer, bb)
+			err = containedBB_uecapabilitycontainer.SetReadBitLength(bsBitLen_uecapabilitycontainer)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer: %w", err), "UeCapabilityContainer")
 			}
-			containedBB_uecapabilitycontainer.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainer.UnmarshalUPERFrom(containedBB_uecapabilitycontainer)
 			if err == nil {
 				v.UeCapabilityContainerPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainer)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer: %w", err)
-				if !containedSite_uecapabilitycontainer.DefersErrors() {
+				if !containedSite_uecapabilitycontainer.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainer")
 				}
 				contained_uecapabilitycontainer = UECapabilityContainerIEs{}
@@ -10290,18 +10591,18 @@ func (v *SRNCRelocationInfoV690extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 		}
 		var contained_uecapabilitycontainerrsc RRCConnectionSetupCompleteR3AddExtIEs
 		if containedSite_uecapabilitycontainerrsc := bb.EnterContained(); containedSite_uecapabilitycontainerrsc.Decodes() {
-			containedBB_uecapabilitycontainerrsc, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainerrsc, bsBitLen_uecapabilitycontainerrsc)
+			containedBB_uecapabilitycontainerrsc := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainerrsc, bb)
+			err = containedBB_uecapabilitycontainerrsc.SetReadBitLength(bsBitLen_uecapabilitycontainerrsc)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err), "UeCapabilityContainerRSC")
 			}
-			containedBB_uecapabilitycontainerrsc.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainerrsc.UnmarshalUPERFrom(containedBB_uecapabilitycontainerrsc)
 			if err == nil {
 				v.UeCapabilityContainerRSCPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainerrsc)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err)
-				if !containedSite_uecapabilitycontainerrsc.DefersErrors() {
+				if !containedSite_uecapabilitycontainerrsc.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerRSC")
 				}
 				contained_uecapabilitycontainerrsc = RRCConnectionSetupCompleteR3AddExtIEs{}
@@ -10321,18 +10622,18 @@ func (v *SRNCRelocationInfoV690extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 		}
 		var contained_uecapabilitycontaineruci UECapabilityInformationR3AddExtIEs
 		if containedSite_uecapabilitycontaineruci := bb.EnterContained(); containedSite_uecapabilitycontaineruci.Decodes() {
-			containedBB_uecapabilitycontaineruci, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontaineruci, bsBitLen_uecapabilitycontaineruci)
+			containedBB_uecapabilitycontaineruci := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontaineruci, bb)
+			err = containedBB_uecapabilitycontaineruci.SetReadBitLength(bsBitLen_uecapabilitycontaineruci)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err), "UeCapabilityContainerUCI")
 			}
-			containedBB_uecapabilitycontaineruci.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontaineruci.UnmarshalUPERFrom(containedBB_uecapabilitycontaineruci)
 			if err == nil {
 				v.UeCapabilityContainerUCIPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontaineruci)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err)
-				if !containedSite_uecapabilitycontaineruci.DefersErrors() {
+				if !containedSite_uecapabilitycontaineruci.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerUCI")
 				}
 				contained_uecapabilitycontaineruci = UECapabilityInformationR3AddExtIEs{}
@@ -10347,7 +10648,7 @@ func (v *SRNCRelocationInfoV690extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR6Ext, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -10867,8 +11168,11 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR6IEs with explicit receiver options.
 func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR6IEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR6IEs")
 	}
@@ -10881,6 +11185,10 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERWithOptions(data []byte, options 
 }
 
 func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR6IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_rbidentityforhomessage, err := per.DecodeBoolean(bb)
@@ -11019,7 +11327,7 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -11050,7 +11358,7 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -11071,7 +11379,7 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -11097,7 +11405,7 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -11140,7 +11448,7 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -11189,18 +11497,18 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainer UECapabilityContainerIEs
 		if containedSite_uecapabilitycontainer := bb.EnterContained(); containedSite_uecapabilitycontainer.Decodes() {
-			containedBB_uecapabilitycontainer, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainer, bsBitLen_uecapabilitycontainer)
+			containedBB_uecapabilitycontainer := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainer, bb)
+			err = containedBB_uecapabilitycontainer.SetReadBitLength(bsBitLen_uecapabilitycontainer)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer: %w", err), "UeCapabilityContainer")
 			}
-			containedBB_uecapabilitycontainer.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainer.UnmarshalUPERFrom(containedBB_uecapabilitycontainer)
 			if err == nil {
 				v.UeCapabilityContainerPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainer)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer: %w", err)
-				if !containedSite_uecapabilitycontainer.DefersErrors() {
+				if !containedSite_uecapabilitycontainer.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainer")
 				}
 				contained_uecapabilitycontainer = UECapabilityContainerIEs{}
@@ -11220,18 +11528,18 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainerrsc RRCConnectionSetupCompleteR3AddExtIEs
 		if containedSite_uecapabilitycontainerrsc := bb.EnterContained(); containedSite_uecapabilitycontainerrsc.Decodes() {
-			containedBB_uecapabilitycontainerrsc, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainerrsc, bsBitLen_uecapabilitycontainerrsc)
+			containedBB_uecapabilitycontainerrsc := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainerrsc, bb)
+			err = containedBB_uecapabilitycontainerrsc.SetReadBitLength(bsBitLen_uecapabilitycontainerrsc)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err), "UeCapabilityContainerRSC")
 			}
-			containedBB_uecapabilitycontainerrsc.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainerrsc.UnmarshalUPERFrom(containedBB_uecapabilitycontainerrsc)
 			if err == nil {
 				v.UeCapabilityContainerRSCPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainerrsc)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err)
-				if !containedSite_uecapabilitycontainerrsc.DefersErrors() {
+				if !containedSite_uecapabilitycontainerrsc.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerRSC")
 				}
 				contained_uecapabilitycontainerrsc = RRCConnectionSetupCompleteR3AddExtIEs{}
@@ -11251,18 +11559,18 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontaineruci UECapabilityInformationR3AddExtIEs
 		if containedSite_uecapabilitycontaineruci := bb.EnterContained(); containedSite_uecapabilitycontaineruci.Decodes() {
-			containedBB_uecapabilitycontaineruci, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontaineruci, bsBitLen_uecapabilitycontaineruci)
+			containedBB_uecapabilitycontaineruci := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontaineruci, bb)
+			err = containedBB_uecapabilitycontaineruci.SetReadBitLength(bsBitLen_uecapabilitycontaineruci)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err), "UeCapabilityContainerUCI")
 			}
-			containedBB_uecapabilitycontaineruci.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontaineruci.UnmarshalUPERFrom(containedBB_uecapabilitycontaineruci)
 			if err == nil {
 				v.UeCapabilityContainerUCIPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontaineruci)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err)
-				if !containedSite_uecapabilitycontaineruci.DefersErrors() {
+				if !containedSite_uecapabilitycontaineruci.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerUCI")
 				}
 				contained_uecapabilitycontaineruci = UECapabilityInformationR3AddExtIEs{}
@@ -11297,7 +11605,7 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -11318,7 +11626,7 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR6, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -11346,7 +11654,7 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -11364,7 +11672,7 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR6, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -11383,7 +11691,7 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR6, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -11411,7 +11719,7 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR6, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -11439,7 +11747,7 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR5, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -11460,7 +11768,7 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -11493,18 +11801,18 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_measurementreport MeasurementReport
 		if containedSite_measurementreport := bb.EnterContained(); containedSite_measurementreport.Decodes() {
-			containedBB_measurementreport, err := per.NewBitBufferFromBits(bsBytes_measurementreport, bsBitLen_measurementreport)
+			containedBB_measurementreport := per.NewNestedDecodeBuffer(bsBytes_measurementreport, bb)
+			err = containedBB_measurementreport.SetReadBitLength(bsBitLen_measurementreport)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained measurementReport: %w", err), "MeasurementReport")
 			}
-			containedBB_measurementreport.InheritDecodeOptions(bb)
 			err = contained_measurementreport.UnmarshalUPERFrom(containedBB_measurementreport)
 			if err == nil {
 				v.MeasurementReportPERPadding_, err = per.CaptureContainedBits(containedBB_measurementreport)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained measurementReport: %w", err)
-				if !containedSite_measurementreport.DefersErrors() {
+				if !containedSite_measurementreport.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "MeasurementReport")
 				}
 				contained_measurementreport = MeasurementReport{}
@@ -11571,8 +11879,11 @@ func (v *SRNCRelocationInfoR6AddExtIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR6AddExtIEs with explicit receiver options.
 func (v *SRNCRelocationInfoR6AddExtIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR6AddExtIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR6AddExtIEs")
 	}
@@ -11585,6 +11896,10 @@ func (v *SRNCRelocationInfoR6AddExtIEs) UnmarshalUPERWithOptions(data []byte, op
 }
 
 func (v *SRNCRelocationInfoR6AddExtIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR6AddExtIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_v7f0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -11647,8 +11962,11 @@ func (v *SRNCRelocationInfoV6b0extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV6b0extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV6b0extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV6b0extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV6b0extIEs")
 	}
@@ -11661,6 +11979,10 @@ func (v *SRNCRelocationInfoV6b0extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV6b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV6b0extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_rabinformationsetuplistext, err := per.DecodeBoolean(bb)
@@ -11670,7 +11992,7 @@ func (v *SRNCRelocationInfoV6b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_rabinformationsetuplistext {
 		tmp_rabinformationsetuplistext := make(RABInformationSetupListV6b0ext, 0)
 		_, errCollection_rabinformationsetuplistext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplistext, fragmentLength_rabinformationsetuplistext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_rabinformationsetuplistext < 0 || fragmentLength_rabinformationsetuplistext < 0 || fragmentLength_rabinformationsetuplistext > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplistext > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplistext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -12188,8 +12510,11 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR7IEs with explicit receiver options.
 func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR7IEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR7IEs")
 	}
@@ -12202,6 +12527,10 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERWithOptions(data []byte, options 
 }
 
 func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR7IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_rbidentityforhomessage, err := per.DecodeBoolean(bb)
@@ -12348,7 +12677,7 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -12379,7 +12708,7 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -12400,7 +12729,7 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -12426,7 +12755,7 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -12469,7 +12798,7 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -12518,18 +12847,18 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainer UECapabilityContainerIEs
 		if containedSite_uecapabilitycontainer := bb.EnterContained(); containedSite_uecapabilitycontainer.Decodes() {
-			containedBB_uecapabilitycontainer, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainer, bsBitLen_uecapabilitycontainer)
+			containedBB_uecapabilitycontainer := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainer, bb)
+			err = containedBB_uecapabilitycontainer.SetReadBitLength(bsBitLen_uecapabilitycontainer)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer: %w", err), "UeCapabilityContainer")
 			}
-			containedBB_uecapabilitycontainer.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainer.UnmarshalUPERFrom(containedBB_uecapabilitycontainer)
 			if err == nil {
 				v.UeCapabilityContainerPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainer)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer: %w", err)
-				if !containedSite_uecapabilitycontainer.DefersErrors() {
+				if !containedSite_uecapabilitycontainer.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainer")
 				}
 				contained_uecapabilitycontainer = UECapabilityContainerIEs{}
@@ -12549,18 +12878,18 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainerrsc RRCConnectionSetupCompleteR3AddExtIEs
 		if containedSite_uecapabilitycontainerrsc := bb.EnterContained(); containedSite_uecapabilitycontainerrsc.Decodes() {
-			containedBB_uecapabilitycontainerrsc, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainerrsc, bsBitLen_uecapabilitycontainerrsc)
+			containedBB_uecapabilitycontainerrsc := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainerrsc, bb)
+			err = containedBB_uecapabilitycontainerrsc.SetReadBitLength(bsBitLen_uecapabilitycontainerrsc)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err), "UeCapabilityContainerRSC")
 			}
-			containedBB_uecapabilitycontainerrsc.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainerrsc.UnmarshalUPERFrom(containedBB_uecapabilitycontainerrsc)
 			if err == nil {
 				v.UeCapabilityContainerRSCPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainerrsc)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err)
-				if !containedSite_uecapabilitycontainerrsc.DefersErrors() {
+				if !containedSite_uecapabilitycontainerrsc.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerRSC")
 				}
 				contained_uecapabilitycontainerrsc = RRCConnectionSetupCompleteR3AddExtIEs{}
@@ -12580,18 +12909,18 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontaineruci UECapabilityInformationR3AddExtIEs
 		if containedSite_uecapabilitycontaineruci := bb.EnterContained(); containedSite_uecapabilitycontaineruci.Decodes() {
-			containedBB_uecapabilitycontaineruci, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontaineruci, bsBitLen_uecapabilitycontaineruci)
+			containedBB_uecapabilitycontaineruci := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontaineruci, bb)
+			err = containedBB_uecapabilitycontaineruci.SetReadBitLength(bsBitLen_uecapabilitycontaineruci)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err), "UeCapabilityContainerUCI")
 			}
-			containedBB_uecapabilitycontaineruci.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontaineruci.UnmarshalUPERFrom(containedBB_uecapabilitycontaineruci)
 			if err == nil {
 				v.UeCapabilityContainerUCIPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontaineruci)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err)
-				if !containedSite_uecapabilitycontaineruci.DefersErrors() {
+				if !containedSite_uecapabilitycontaineruci.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerUCI")
 				}
 				contained_uecapabilitycontaineruci = UECapabilityInformationR3AddExtIEs{}
@@ -12634,7 +12963,7 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -12655,7 +12984,7 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR7, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -12683,7 +13012,7 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -12701,7 +13030,7 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR7, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -12720,7 +13049,7 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR7, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -12748,7 +13077,7 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR7, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -12776,7 +13105,7 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR7, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -12797,7 +13126,7 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -12830,18 +13159,18 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_measurementreport MeasurementReport
 		if containedSite_measurementreport := bb.EnterContained(); containedSite_measurementreport.Decodes() {
-			containedBB_measurementreport, err := per.NewBitBufferFromBits(bsBytes_measurementreport, bsBitLen_measurementreport)
+			containedBB_measurementreport := per.NewNestedDecodeBuffer(bsBytes_measurementreport, bb)
+			err = containedBB_measurementreport.SetReadBitLength(bsBitLen_measurementreport)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained measurementReport: %w", err), "MeasurementReport")
 			}
-			containedBB_measurementreport.InheritDecodeOptions(bb)
 			err = contained_measurementreport.UnmarshalUPERFrom(containedBB_measurementreport)
 			if err == nil {
 				v.MeasurementReportPERPadding_, err = per.CaptureContainedBits(containedBB_measurementreport)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained measurementReport: %w", err)
-				if !containedSite_measurementreport.DefersErrors() {
+				if !containedSite_measurementreport.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "MeasurementReport")
 				}
 				contained_measurementreport = MeasurementReport{}
@@ -12915,8 +13244,11 @@ func (v *SRNCRelocationInfoR7AddExtIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR7AddExtIEs with explicit receiver options.
 func (v *SRNCRelocationInfoR7AddExtIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR7AddExtIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR7AddExtIEs")
 	}
@@ -12929,6 +13261,10 @@ func (v *SRNCRelocationInfoR7AddExtIEs) UnmarshalUPERWithOptions(data []byte, op
 }
 
 func (v *SRNCRelocationInfoR7AddExtIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR7AddExtIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_v7f0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -12985,8 +13321,11 @@ func (v *SRNCRelocationInfoV770extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV770extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV770extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV770extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV770extIEs")
 	}
@@ -12999,6 +13338,10 @@ func (v *SRNCRelocationInfoV770extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV770extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV770extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_thresholdsfngpstowus, err := per.DecodeBoolean(bb)
@@ -13051,8 +13394,11 @@ func (v *SRNCRelocationInfoV7e0extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV7e0extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV7e0extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV7e0extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV7e0extIEs")
 	}
@@ -13065,6 +13411,10 @@ func (v *SRNCRelocationInfoV7e0extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV7e0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV7e0extIEs{}
 	if err := v.UeRadioAccessCapability.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UeRadioAccessCapability")
@@ -13101,8 +13451,11 @@ func (v *SRNCRelocationInfoV7f0extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV7f0extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV7f0extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV7f0extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV7f0extIEs")
 	}
@@ -13115,6 +13468,10 @@ func (v *SRNCRelocationInfoV7f0extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV7f0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV7f0extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_ueradioaccesscapability, err := per.DecodeBoolean(bb)
@@ -13652,8 +14009,11 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR8IEs with explicit receiver options.
 func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR8IEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR8IEs")
 	}
@@ -13666,6 +14026,10 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERWithOptions(data []byte, options 
 }
 
 func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR8IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_rbidentityforhomessage, err := per.DecodeBoolean(bb)
@@ -13820,7 +14184,7 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -13851,7 +14215,7 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -13872,7 +14236,7 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -13898,7 +14262,7 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -13941,7 +14305,7 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -13990,18 +14354,18 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainer UECapabilityContainerIEs
 		if containedSite_uecapabilitycontainer := bb.EnterContained(); containedSite_uecapabilitycontainer.Decodes() {
-			containedBB_uecapabilitycontainer, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainer, bsBitLen_uecapabilitycontainer)
+			containedBB_uecapabilitycontainer := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainer, bb)
+			err = containedBB_uecapabilitycontainer.SetReadBitLength(bsBitLen_uecapabilitycontainer)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer: %w", err), "UeCapabilityContainer")
 			}
-			containedBB_uecapabilitycontainer.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainer.UnmarshalUPERFrom(containedBB_uecapabilitycontainer)
 			if err == nil {
 				v.UeCapabilityContainerPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainer)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer: %w", err)
-				if !containedSite_uecapabilitycontainer.DefersErrors() {
+				if !containedSite_uecapabilitycontainer.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainer")
 				}
 				contained_uecapabilitycontainer = UECapabilityContainerIEs{}
@@ -14021,18 +14385,18 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainerrsc RRCConnectionSetupCompleteR3AddExtIEs
 		if containedSite_uecapabilitycontainerrsc := bb.EnterContained(); containedSite_uecapabilitycontainerrsc.Decodes() {
-			containedBB_uecapabilitycontainerrsc, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainerrsc, bsBitLen_uecapabilitycontainerrsc)
+			containedBB_uecapabilitycontainerrsc := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainerrsc, bb)
+			err = containedBB_uecapabilitycontainerrsc.SetReadBitLength(bsBitLen_uecapabilitycontainerrsc)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err), "UeCapabilityContainerRSC")
 			}
-			containedBB_uecapabilitycontainerrsc.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainerrsc.UnmarshalUPERFrom(containedBB_uecapabilitycontainerrsc)
 			if err == nil {
 				v.UeCapabilityContainerRSCPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainerrsc)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err)
-				if !containedSite_uecapabilitycontainerrsc.DefersErrors() {
+				if !containedSite_uecapabilitycontainerrsc.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerRSC")
 				}
 				contained_uecapabilitycontainerrsc = RRCConnectionSetupCompleteR3AddExtIEs{}
@@ -14052,18 +14416,18 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontaineruci UECapabilityInformationR3AddExtIEs
 		if containedSite_uecapabilitycontaineruci := bb.EnterContained(); containedSite_uecapabilitycontaineruci.Decodes() {
-			containedBB_uecapabilitycontaineruci, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontaineruci, bsBitLen_uecapabilitycontaineruci)
+			containedBB_uecapabilitycontaineruci := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontaineruci, bb)
+			err = containedBB_uecapabilitycontaineruci.SetReadBitLength(bsBitLen_uecapabilitycontaineruci)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err), "UeCapabilityContainerUCI")
 			}
-			containedBB_uecapabilitycontaineruci.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontaineruci.UnmarshalUPERFrom(containedBB_uecapabilitycontaineruci)
 			if err == nil {
 				v.UeCapabilityContainerUCIPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontaineruci)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err)
-				if !containedSite_uecapabilitycontaineruci.DefersErrors() {
+				if !containedSite_uecapabilitycontaineruci.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerUCI")
 				}
 				contained_uecapabilitycontaineruci = UECapabilityInformationR3AddExtIEs{}
@@ -14106,7 +14470,7 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -14127,7 +14491,7 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR8, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -14155,7 +14519,7 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -14173,7 +14537,7 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR8, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -14192,7 +14556,7 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR8, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -14220,7 +14584,7 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -14248,7 +14612,7 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR7, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -14269,7 +14633,7 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -14290,7 +14654,7 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -14323,18 +14687,18 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_measurementreport MeasurementReport
 		if containedSite_measurementreport := bb.EnterContained(); containedSite_measurementreport.Decodes() {
-			containedBB_measurementreport, err := per.NewBitBufferFromBits(bsBytes_measurementreport, bsBitLen_measurementreport)
+			containedBB_measurementreport := per.NewNestedDecodeBuffer(bsBytes_measurementreport, bb)
+			err = containedBB_measurementreport.SetReadBitLength(bsBitLen_measurementreport)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained measurementReport: %w", err), "MeasurementReport")
 			}
-			containedBB_measurementreport.InheritDecodeOptions(bb)
 			err = contained_measurementreport.UnmarshalUPERFrom(containedBB_measurementreport)
 			if err == nil {
 				v.MeasurementReportPERPadding_, err = per.CaptureContainedBits(containedBB_measurementreport)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained measurementReport: %w", err)
-				if !containedSite_measurementreport.DefersErrors() {
+				if !containedSite_measurementreport.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "MeasurementReport")
 				}
 				contained_measurementreport = MeasurementReport{}
@@ -14417,8 +14781,11 @@ func (v *SRNCRelocationInfoV820extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV820extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV820extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV820extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV820extIEs")
 	}
@@ -14431,6 +14798,10 @@ func (v *SRNCRelocationInfoV820extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV820extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV820extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_rabinformationlist, err := per.DecodeBoolean(bb)
@@ -14440,7 +14811,7 @@ func (v *SRNCRelocationInfoV820extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListV820ext, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -14501,8 +14872,11 @@ func (v *SRNCRelocationInfoV860extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV860extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV860extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV860extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV860extIEs")
 	}
@@ -14515,6 +14889,10 @@ func (v *SRNCRelocationInfoV860extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV860extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV860extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_ergchcombinationinfolist, err := per.DecodeBoolean(bb)
@@ -14524,7 +14902,7 @@ func (v *SRNCRelocationInfoV860extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -14574,8 +14952,11 @@ func (v *SRNCRelocationInfoV8d0extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV8d0extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV8d0extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV8d0extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV8d0extIEs")
 	}
@@ -14588,6 +14969,10 @@ func (v *SRNCRelocationInfoV8d0extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV8d0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV8d0extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_pdcprohctargetmode, err := per.DecodeBoolean(bb)
@@ -15164,8 +15549,11 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR9IEs with explicit receiver options.
 func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR9IEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR9IEs")
 	}
@@ -15178,6 +15566,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERWithOptions(data []byte, options 
 }
 
 func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR9IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_rbidentityforhomessage, err := per.DecodeBoolean(bb)
@@ -15340,7 +15732,7 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -15371,7 +15763,7 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -15392,7 +15784,7 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -15418,7 +15810,7 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -15461,7 +15853,7 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -15510,18 +15902,18 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainer UECapabilityContainerIEs
 		if containedSite_uecapabilitycontainer := bb.EnterContained(); containedSite_uecapabilitycontainer.Decodes() {
-			containedBB_uecapabilitycontainer, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainer, bsBitLen_uecapabilitycontainer)
+			containedBB_uecapabilitycontainer := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainer, bb)
+			err = containedBB_uecapabilitycontainer.SetReadBitLength(bsBitLen_uecapabilitycontainer)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer: %w", err), "UeCapabilityContainer")
 			}
-			containedBB_uecapabilitycontainer.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainer.UnmarshalUPERFrom(containedBB_uecapabilitycontainer)
 			if err == nil {
 				v.UeCapabilityContainerPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainer)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer: %w", err)
-				if !containedSite_uecapabilitycontainer.DefersErrors() {
+				if !containedSite_uecapabilitycontainer.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainer")
 				}
 				contained_uecapabilitycontainer = UECapabilityContainerIEs{}
@@ -15541,18 +15933,18 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainerrsc RRCConnectionSetupCompleteR3AddExtIEs
 		if containedSite_uecapabilitycontainerrsc := bb.EnterContained(); containedSite_uecapabilitycontainerrsc.Decodes() {
-			containedBB_uecapabilitycontainerrsc, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainerrsc, bsBitLen_uecapabilitycontainerrsc)
+			containedBB_uecapabilitycontainerrsc := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainerrsc, bb)
+			err = containedBB_uecapabilitycontainerrsc.SetReadBitLength(bsBitLen_uecapabilitycontainerrsc)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err), "UeCapabilityContainerRSC")
 			}
-			containedBB_uecapabilitycontainerrsc.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainerrsc.UnmarshalUPERFrom(containedBB_uecapabilitycontainerrsc)
 			if err == nil {
 				v.UeCapabilityContainerRSCPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainerrsc)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err)
-				if !containedSite_uecapabilitycontainerrsc.DefersErrors() {
+				if !containedSite_uecapabilitycontainerrsc.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerRSC")
 				}
 				contained_uecapabilitycontainerrsc = RRCConnectionSetupCompleteR3AddExtIEs{}
@@ -15572,18 +15964,18 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontaineruci UECapabilityInformationR3AddExtIEs
 		if containedSite_uecapabilitycontaineruci := bb.EnterContained(); containedSite_uecapabilitycontaineruci.Decodes() {
-			containedBB_uecapabilitycontaineruci, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontaineruci, bsBitLen_uecapabilitycontaineruci)
+			containedBB_uecapabilitycontaineruci := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontaineruci, bb)
+			err = containedBB_uecapabilitycontaineruci.SetReadBitLength(bsBitLen_uecapabilitycontaineruci)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err), "UeCapabilityContainerUCI")
 			}
-			containedBB_uecapabilitycontaineruci.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontaineruci.UnmarshalUPERFrom(containedBB_uecapabilitycontaineruci)
 			if err == nil {
 				v.UeCapabilityContainerUCIPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontaineruci)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err)
-				if !containedSite_uecapabilitycontaineruci.DefersErrors() {
+				if !containedSite_uecapabilitycontaineruci.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerUCI")
 				}
 				contained_uecapabilitycontaineruci = UECapabilityInformationR3AddExtIEs{}
@@ -15626,7 +16018,7 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -15647,7 +16039,7 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR9, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -15675,7 +16067,7 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -15693,7 +16085,7 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR8, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -15712,7 +16104,7 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR8, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -15740,7 +16132,7 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -15768,7 +16160,7 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR9, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -15789,7 +16181,7 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -15810,7 +16202,7 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -15838,7 +16230,7 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondarytpccombinationinfolist {
 		tmp_secondarytpccombinationinfolist := make(TPCCombinationInfoListR9, 0)
 		_, errCollection_secondarytpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondarytpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondarytpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -15859,7 +16251,7 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondaryergchcombinationinfolist {
 		tmp_secondaryergchcombinationinfolist := make(ERGCHCombinationInfoListR9, 0)
 		_, errCollection_secondaryergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondaryergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondaryergchcombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -15885,18 +16277,18 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_measurementreport MeasurementReport
 		if containedSite_measurementreport := bb.EnterContained(); containedSite_measurementreport.Decodes() {
-			containedBB_measurementreport, err := per.NewBitBufferFromBits(bsBytes_measurementreport, bsBitLen_measurementreport)
+			containedBB_measurementreport := per.NewNestedDecodeBuffer(bsBytes_measurementreport, bb)
+			err = containedBB_measurementreport.SetReadBitLength(bsBitLen_measurementreport)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained measurementReport: %w", err), "MeasurementReport")
 			}
-			containedBB_measurementreport.InheritDecodeOptions(bb)
 			err = contained_measurementreport.UnmarshalUPERFrom(containedBB_measurementreport)
 			if err == nil {
 				v.MeasurementReportPERPadding_, err = per.CaptureContainedBits(containedBB_measurementreport)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained measurementReport: %w", err)
-				if !containedSite_measurementreport.DefersErrors() {
+				if !containedSite_measurementreport.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "MeasurementReport")
 				}
 				contained_measurementreport = MeasurementReport{}
@@ -15979,8 +16371,11 @@ func (v *SRNCRelocationInfoV970extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV970extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV970extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV970extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV970extIEs")
 	}
@@ -15993,6 +16388,10 @@ func (v *SRNCRelocationInfoV970extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV970extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV970extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_ongoingmeasreplist, err := per.DecodeBoolean(bb)
@@ -16002,7 +16401,7 @@ func (v *SRNCRelocationInfoV970extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListV970extIE, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -16063,8 +16462,11 @@ func (v *SRNCRelocationInfoV9c0extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV9c0extIEs with explicit receiver options.
 func (v *SRNCRelocationInfoV9c0extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV9c0extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV9c0extIEs")
 	}
@@ -16077,6 +16479,10 @@ func (v *SRNCRelocationInfoV9c0extIEs) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoV9c0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV9c0extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_dladdreconftranschinfolist, err := per.DecodeBoolean(bb)
@@ -16086,7 +16492,7 @@ func (v *SRNCRelocationInfoV9c0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListTDD128V9c0ext, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -16674,8 +17080,11 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR10IEs with explicit receiver options.
 func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR10IEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR10IEs")
 	}
@@ -16688,6 +17097,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERWithOptions(data []byte, options
 }
 
 func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR10IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_rbidentityforhomessage, err := per.DecodeBoolean(bb)
@@ -16854,7 +17267,7 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -16885,7 +17298,7 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -16906,7 +17319,7 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -16932,7 +17345,7 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -16975,7 +17388,7 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -17024,18 +17437,18 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainer UECapabilityContainerIEs
 		if containedSite_uecapabilitycontainer := bb.EnterContained(); containedSite_uecapabilitycontainer.Decodes() {
-			containedBB_uecapabilitycontainer, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainer, bsBitLen_uecapabilitycontainer)
+			containedBB_uecapabilitycontainer := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainer, bb)
+			err = containedBB_uecapabilitycontainer.SetReadBitLength(bsBitLen_uecapabilitycontainer)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer: %w", err), "UeCapabilityContainer")
 			}
-			containedBB_uecapabilitycontainer.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainer.UnmarshalUPERFrom(containedBB_uecapabilitycontainer)
 			if err == nil {
 				v.UeCapabilityContainerPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainer)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer: %w", err)
-				if !containedSite_uecapabilitycontainer.DefersErrors() {
+				if !containedSite_uecapabilitycontainer.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainer")
 				}
 				contained_uecapabilitycontainer = UECapabilityContainerIEs{}
@@ -17055,18 +17468,18 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainerrsc RRCConnectionSetupCompleteR3AddExtIEs
 		if containedSite_uecapabilitycontainerrsc := bb.EnterContained(); containedSite_uecapabilitycontainerrsc.Decodes() {
-			containedBB_uecapabilitycontainerrsc, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainerrsc, bsBitLen_uecapabilitycontainerrsc)
+			containedBB_uecapabilitycontainerrsc := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainerrsc, bb)
+			err = containedBB_uecapabilitycontainerrsc.SetReadBitLength(bsBitLen_uecapabilitycontainerrsc)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err), "UeCapabilityContainerRSC")
 			}
-			containedBB_uecapabilitycontainerrsc.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainerrsc.UnmarshalUPERFrom(containedBB_uecapabilitycontainerrsc)
 			if err == nil {
 				v.UeCapabilityContainerRSCPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainerrsc)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err)
-				if !containedSite_uecapabilitycontainerrsc.DefersErrors() {
+				if !containedSite_uecapabilitycontainerrsc.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerRSC")
 				}
 				contained_uecapabilitycontainerrsc = RRCConnectionSetupCompleteR3AddExtIEs{}
@@ -17086,18 +17499,18 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontaineruci UECapabilityInformationR3AddExtIEs
 		if containedSite_uecapabilitycontaineruci := bb.EnterContained(); containedSite_uecapabilitycontaineruci.Decodes() {
-			containedBB_uecapabilitycontaineruci, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontaineruci, bsBitLen_uecapabilitycontaineruci)
+			containedBB_uecapabilitycontaineruci := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontaineruci, bb)
+			err = containedBB_uecapabilitycontaineruci.SetReadBitLength(bsBitLen_uecapabilitycontaineruci)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err), "UeCapabilityContainerUCI")
 			}
-			containedBB_uecapabilitycontaineruci.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontaineruci.UnmarshalUPERFrom(containedBB_uecapabilitycontaineruci)
 			if err == nil {
 				v.UeCapabilityContainerUCIPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontaineruci)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err)
-				if !containedSite_uecapabilitycontaineruci.DefersErrors() {
+				if !containedSite_uecapabilitycontaineruci.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerUCI")
 				}
 				contained_uecapabilitycontaineruci = UECapabilityInformationR3AddExtIEs{}
@@ -17140,7 +17553,7 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -17161,7 +17574,7 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR10, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -17189,7 +17602,7 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -17207,7 +17620,7 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR8, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -17226,7 +17639,7 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR8, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -17262,7 +17675,7 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -17290,7 +17703,7 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR9, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -17311,7 +17724,7 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -17332,7 +17745,7 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -17360,7 +17773,7 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondarytpccombinationinfolist {
 		tmp_secondarytpccombinationinfolist := make(TPCCombinationInfoListR9, 0)
 		_, errCollection_secondarytpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondarytpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondarytpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -17381,7 +17794,7 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondaryergchcombinationinfolist {
 		tmp_secondaryergchcombinationinfolist := make(ERGCHCombinationInfoListR9, 0)
 		_, errCollection_secondaryergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondaryergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondaryergchcombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -17407,18 +17820,18 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_measurementreport MeasurementReport
 		if containedSite_measurementreport := bb.EnterContained(); containedSite_measurementreport.Decodes() {
-			containedBB_measurementreport, err := per.NewBitBufferFromBits(bsBytes_measurementreport, bsBitLen_measurementreport)
+			containedBB_measurementreport := per.NewNestedDecodeBuffer(bsBytes_measurementreport, bb)
+			err = containedBB_measurementreport.SetReadBitLength(bsBitLen_measurementreport)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained measurementReport: %w", err), "MeasurementReport")
 			}
-			containedBB_measurementreport.InheritDecodeOptions(bb)
 			err = contained_measurementreport.UnmarshalUPERFrom(containedBB_measurementreport)
 			if err == nil {
 				v.MeasurementReportPERPadding_, err = per.CaptureContainedBits(containedBB_measurementreport)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained measurementReport: %w", err)
-				if !containedSite_measurementreport.DefersErrors() {
+				if !containedSite_measurementreport.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "MeasurementReport")
 				}
 				contained_measurementreport = MeasurementReport{}
@@ -18028,8 +18441,11 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR11IEs with explicit receiver options.
 func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR11IEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR11IEs")
 	}
@@ -18042,6 +18458,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERWithOptions(data []byte, options
 }
 
 func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR11IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_rbidentityforhomessage, err := per.DecodeBoolean(bb)
@@ -18208,7 +18628,7 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -18239,7 +18659,7 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18260,7 +18680,7 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18286,7 +18706,7 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18329,7 +18749,7 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18378,18 +18798,18 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainer UECapabilityContainerIEs
 		if containedSite_uecapabilitycontainer := bb.EnterContained(); containedSite_uecapabilitycontainer.Decodes() {
-			containedBB_uecapabilitycontainer, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainer, bsBitLen_uecapabilitycontainer)
+			containedBB_uecapabilitycontainer := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainer, bb)
+			err = containedBB_uecapabilitycontainer.SetReadBitLength(bsBitLen_uecapabilitycontainer)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer: %w", err), "UeCapabilityContainer")
 			}
-			containedBB_uecapabilitycontainer.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainer.UnmarshalUPERFrom(containedBB_uecapabilitycontainer)
 			if err == nil {
 				v.UeCapabilityContainerPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainer)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer: %w", err)
-				if !containedSite_uecapabilitycontainer.DefersErrors() {
+				if !containedSite_uecapabilitycontainer.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainer")
 				}
 				contained_uecapabilitycontainer = UECapabilityContainerIEs{}
@@ -18409,18 +18829,18 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainerrsc RRCConnectionSetupCompleteR3AddExtIEs
 		if containedSite_uecapabilitycontainerrsc := bb.EnterContained(); containedSite_uecapabilitycontainerrsc.Decodes() {
-			containedBB_uecapabilitycontainerrsc, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainerrsc, bsBitLen_uecapabilitycontainerrsc)
+			containedBB_uecapabilitycontainerrsc := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainerrsc, bb)
+			err = containedBB_uecapabilitycontainerrsc.SetReadBitLength(bsBitLen_uecapabilitycontainerrsc)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err), "UeCapabilityContainerRSC")
 			}
-			containedBB_uecapabilitycontainerrsc.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainerrsc.UnmarshalUPERFrom(containedBB_uecapabilitycontainerrsc)
 			if err == nil {
 				v.UeCapabilityContainerRSCPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainerrsc)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err)
-				if !containedSite_uecapabilitycontainerrsc.DefersErrors() {
+				if !containedSite_uecapabilitycontainerrsc.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerRSC")
 				}
 				contained_uecapabilitycontainerrsc = RRCConnectionSetupCompleteR3AddExtIEs{}
@@ -18440,18 +18860,18 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontaineruci UECapabilityInformationR3AddExtIEs
 		if containedSite_uecapabilitycontaineruci := bb.EnterContained(); containedSite_uecapabilitycontaineruci.Decodes() {
-			containedBB_uecapabilitycontaineruci, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontaineruci, bsBitLen_uecapabilitycontaineruci)
+			containedBB_uecapabilitycontaineruci := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontaineruci, bb)
+			err = containedBB_uecapabilitycontaineruci.SetReadBitLength(bsBitLen_uecapabilitycontaineruci)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err), "UeCapabilityContainerUCI")
 			}
-			containedBB_uecapabilitycontaineruci.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontaineruci.UnmarshalUPERFrom(containedBB_uecapabilitycontaineruci)
 			if err == nil {
 				v.UeCapabilityContainerUCIPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontaineruci)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err)
-				if !containedSite_uecapabilitycontaineruci.DefersErrors() {
+				if !containedSite_uecapabilitycontaineruci.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerUCI")
 				}
 				contained_uecapabilitycontaineruci = UECapabilityInformationR3AddExtIEs{}
@@ -18494,7 +18914,7 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18515,7 +18935,7 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR11, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18543,7 +18963,7 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -18561,7 +18981,7 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR11, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -18580,7 +19000,7 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR11, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18616,7 +19036,7 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18644,7 +19064,7 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18665,7 +19085,7 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18686,7 +19106,7 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18714,7 +19134,7 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondarytpccombinationinfolist {
 		tmp_secondarytpccombinationinfolist := make(TPCCombinationInfoListR9, 0)
 		_, errCollection_secondarytpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondarytpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondarytpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18735,7 +19155,7 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondaryergchcombinationinfolist {
 		tmp_secondaryergchcombinationinfolist := make(ERGCHCombinationInfoListR9, 0)
 		_, errCollection_secondaryergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondaryergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondaryergchcombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -18761,18 +19181,18 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_measurementreport MeasurementReport
 		if containedSite_measurementreport := bb.EnterContained(); containedSite_measurementreport.Decodes() {
-			containedBB_measurementreport, err := per.NewBitBufferFromBits(bsBytes_measurementreport, bsBitLen_measurementreport)
+			containedBB_measurementreport := per.NewNestedDecodeBuffer(bsBytes_measurementreport, bb)
+			err = containedBB_measurementreport.SetReadBitLength(bsBitLen_measurementreport)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained measurementReport: %w", err), "MeasurementReport")
 			}
-			containedBB_measurementreport.InheritDecodeOptions(bb)
 			err = contained_measurementreport.UnmarshalUPERFrom(containedBB_measurementreport)
 			if err == nil {
 				v.MeasurementReportPERPadding_, err = per.CaptureContainedBits(containedBB_measurementreport)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained measurementReport: %w", err)
-				if !containedSite_measurementreport.DefersErrors() {
+				if !containedSite_measurementreport.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "MeasurementReport")
 				}
 				contained_measurementreport = MeasurementReport{}
@@ -19441,8 +19861,11 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR12IEs with explicit receiver options.
 func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR12IEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR12IEs")
 	}
@@ -19455,6 +19878,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERWithOptions(data []byte, options
 }
 
 func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR12IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_rbidentityforhomessage, err := per.DecodeBoolean(bb)
@@ -19645,7 +20072,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -19676,7 +20103,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -19697,7 +20124,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -19723,7 +20150,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -19766,7 +20193,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -19815,18 +20242,18 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainer UECapabilityContainerIEs
 		if containedSite_uecapabilitycontainer := bb.EnterContained(); containedSite_uecapabilitycontainer.Decodes() {
-			containedBB_uecapabilitycontainer, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainer, bsBitLen_uecapabilitycontainer)
+			containedBB_uecapabilitycontainer := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainer, bb)
+			err = containedBB_uecapabilitycontainer.SetReadBitLength(bsBitLen_uecapabilitycontainer)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer: %w", err), "UeCapabilityContainer")
 			}
-			containedBB_uecapabilitycontainer.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainer.UnmarshalUPERFrom(containedBB_uecapabilitycontainer)
 			if err == nil {
 				v.UeCapabilityContainerPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainer)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer: %w", err)
-				if !containedSite_uecapabilitycontainer.DefersErrors() {
+				if !containedSite_uecapabilitycontainer.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainer")
 				}
 				contained_uecapabilitycontainer = UECapabilityContainerIEs{}
@@ -19846,18 +20273,18 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainerrsc RRCConnectionSetupCompleteR3AddExtIEs
 		if containedSite_uecapabilitycontainerrsc := bb.EnterContained(); containedSite_uecapabilitycontainerrsc.Decodes() {
-			containedBB_uecapabilitycontainerrsc, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainerrsc, bsBitLen_uecapabilitycontainerrsc)
+			containedBB_uecapabilitycontainerrsc := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainerrsc, bb)
+			err = containedBB_uecapabilitycontainerrsc.SetReadBitLength(bsBitLen_uecapabilitycontainerrsc)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err), "UeCapabilityContainerRSC")
 			}
-			containedBB_uecapabilitycontainerrsc.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainerrsc.UnmarshalUPERFrom(containedBB_uecapabilitycontainerrsc)
 			if err == nil {
 				v.UeCapabilityContainerRSCPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainerrsc)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err)
-				if !containedSite_uecapabilitycontainerrsc.DefersErrors() {
+				if !containedSite_uecapabilitycontainerrsc.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerRSC")
 				}
 				contained_uecapabilitycontainerrsc = RRCConnectionSetupCompleteR3AddExtIEs{}
@@ -19877,18 +20304,18 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontaineruci UECapabilityInformationR3AddExtIEs
 		if containedSite_uecapabilitycontaineruci := bb.EnterContained(); containedSite_uecapabilitycontaineruci.Decodes() {
-			containedBB_uecapabilitycontaineruci, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontaineruci, bsBitLen_uecapabilitycontaineruci)
+			containedBB_uecapabilitycontaineruci := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontaineruci, bb)
+			err = containedBB_uecapabilitycontaineruci.SetReadBitLength(bsBitLen_uecapabilitycontaineruci)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err), "UeCapabilityContainerUCI")
 			}
-			containedBB_uecapabilitycontaineruci.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontaineruci.UnmarshalUPERFrom(containedBB_uecapabilitycontaineruci)
 			if err == nil {
 				v.UeCapabilityContainerUCIPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontaineruci)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err)
-				if !containedSite_uecapabilitycontaineruci.DefersErrors() {
+				if !containedSite_uecapabilitycontaineruci.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerUCI")
 				}
 				contained_uecapabilitycontaineruci = UECapabilityInformationR3AddExtIEs{}
@@ -19931,7 +20358,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -19952,7 +20379,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR12, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -19980,7 +20407,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -19998,7 +20425,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR11, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -20017,7 +20444,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR11, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -20053,7 +20480,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -20081,7 +20508,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -20102,7 +20529,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -20123,7 +20550,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -20151,7 +20578,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondarytpccombinationinfolist {
 		tmp_secondarytpccombinationinfolist := make(TPCCombinationInfoListR9, 0)
 		_, errCollection_secondarytpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondarytpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondarytpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -20172,7 +20599,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondaryergchcombinationinfolist {
 		tmp_secondaryergchcombinationinfolist := make(ERGCHCombinationInfoListR9, 0)
 		_, errCollection_secondaryergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondaryergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondaryergchcombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -20228,7 +20655,7 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR12, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -20254,18 +20681,18 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_measurementreport MeasurementReport
 		if containedSite_measurementreport := bb.EnterContained(); containedSite_measurementreport.Decodes() {
-			containedBB_measurementreport, err := per.NewBitBufferFromBits(bsBytes_measurementreport, bsBitLen_measurementreport)
+			containedBB_measurementreport := per.NewNestedDecodeBuffer(bsBytes_measurementreport, bb)
+			err = containedBB_measurementreport.SetReadBitLength(bsBitLen_measurementreport)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained measurementReport: %w", err), "MeasurementReport")
 			}
-			containedBB_measurementreport.InheritDecodeOptions(bb)
 			err = contained_measurementreport.UnmarshalUPERFrom(containedBB_measurementreport)
 			if err == nil {
 				v.MeasurementReportPERPadding_, err = per.CaptureContainedBits(containedBB_measurementreport)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained measurementReport: %w", err)
-				if !containedSite_measurementreport.DefersErrors() {
+				if !containedSite_measurementreport.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "MeasurementReport")
 				}
 				contained_measurementreport = MeasurementReport{}
@@ -20934,8 +21361,11 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR13IEs with explicit receiver options.
 func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR13IEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR13IEs")
 	}
@@ -20948,6 +21378,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERWithOptions(data []byte, options
 }
 
 func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR13IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_rbidentityforhomessage, err := per.DecodeBoolean(bb)
@@ -21138,7 +21572,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -21169,7 +21603,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -21190,7 +21624,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -21216,7 +21650,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -21259,7 +21693,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -21308,18 +21742,18 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainer UECapabilityContainerIEs
 		if containedSite_uecapabilitycontainer := bb.EnterContained(); containedSite_uecapabilitycontainer.Decodes() {
-			containedBB_uecapabilitycontainer, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainer, bsBitLen_uecapabilitycontainer)
+			containedBB_uecapabilitycontainer := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainer, bb)
+			err = containedBB_uecapabilitycontainer.SetReadBitLength(bsBitLen_uecapabilitycontainer)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer: %w", err), "UeCapabilityContainer")
 			}
-			containedBB_uecapabilitycontainer.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainer.UnmarshalUPERFrom(containedBB_uecapabilitycontainer)
 			if err == nil {
 				v.UeCapabilityContainerPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainer)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer: %w", err)
-				if !containedSite_uecapabilitycontainer.DefersErrors() {
+				if !containedSite_uecapabilitycontainer.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainer")
 				}
 				contained_uecapabilitycontainer = UECapabilityContainerIEs{}
@@ -21339,18 +21773,18 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainerrsc RRCConnectionSetupCompleteR3AddExtIEs
 		if containedSite_uecapabilitycontainerrsc := bb.EnterContained(); containedSite_uecapabilitycontainerrsc.Decodes() {
-			containedBB_uecapabilitycontainerrsc, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainerrsc, bsBitLen_uecapabilitycontainerrsc)
+			containedBB_uecapabilitycontainerrsc := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainerrsc, bb)
+			err = containedBB_uecapabilitycontainerrsc.SetReadBitLength(bsBitLen_uecapabilitycontainerrsc)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err), "UeCapabilityContainerRSC")
 			}
-			containedBB_uecapabilitycontainerrsc.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainerrsc.UnmarshalUPERFrom(containedBB_uecapabilitycontainerrsc)
 			if err == nil {
 				v.UeCapabilityContainerRSCPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainerrsc)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err)
-				if !containedSite_uecapabilitycontainerrsc.DefersErrors() {
+				if !containedSite_uecapabilitycontainerrsc.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerRSC")
 				}
 				contained_uecapabilitycontainerrsc = RRCConnectionSetupCompleteR3AddExtIEs{}
@@ -21370,18 +21804,18 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontaineruci UECapabilityInformationR3AddExtIEs
 		if containedSite_uecapabilitycontaineruci := bb.EnterContained(); containedSite_uecapabilitycontaineruci.Decodes() {
-			containedBB_uecapabilitycontaineruci, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontaineruci, bsBitLen_uecapabilitycontaineruci)
+			containedBB_uecapabilitycontaineruci := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontaineruci, bb)
+			err = containedBB_uecapabilitycontaineruci.SetReadBitLength(bsBitLen_uecapabilitycontaineruci)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err), "UeCapabilityContainerUCI")
 			}
-			containedBB_uecapabilitycontaineruci.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontaineruci.UnmarshalUPERFrom(containedBB_uecapabilitycontaineruci)
 			if err == nil {
 				v.UeCapabilityContainerUCIPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontaineruci)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err)
-				if !containedSite_uecapabilitycontaineruci.DefersErrors() {
+				if !containedSite_uecapabilitycontaineruci.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerUCI")
 				}
 				contained_uecapabilitycontaineruci = UECapabilityInformationR3AddExtIEs{}
@@ -21424,7 +21858,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -21445,7 +21879,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR13, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -21473,7 +21907,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -21491,7 +21925,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR11, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -21510,7 +21944,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR11, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -21546,7 +21980,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -21574,7 +22008,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -21595,7 +22029,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -21616,7 +22050,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -21644,7 +22078,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondarytpccombinationinfolist {
 		tmp_secondarytpccombinationinfolist := make(TPCCombinationInfoListR9, 0)
 		_, errCollection_secondarytpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondarytpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondarytpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -21665,7 +22099,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondaryergchcombinationinfolist {
 		tmp_secondaryergchcombinationinfolist := make(ERGCHCombinationInfoListR9, 0)
 		_, errCollection_secondaryergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondaryergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondaryergchcombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -21721,7 +22155,7 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -21747,18 +22181,18 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_measurementreport MeasurementReport
 		if containedSite_measurementreport := bb.EnterContained(); containedSite_measurementreport.Decodes() {
-			containedBB_measurementreport, err := per.NewBitBufferFromBits(bsBytes_measurementreport, bsBitLen_measurementreport)
+			containedBB_measurementreport := per.NewNestedDecodeBuffer(bsBytes_measurementreport, bb)
+			err = containedBB_measurementreport.SetReadBitLength(bsBitLen_measurementreport)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained measurementReport: %w", err), "MeasurementReport")
 			}
-			containedBB_measurementreport.InheritDecodeOptions(bb)
 			err = contained_measurementreport.UnmarshalUPERFrom(containedBB_measurementreport)
 			if err == nil {
 				v.MeasurementReportPERPadding_, err = per.CaptureContainedBits(containedBB_measurementreport)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained measurementReport: %w", err)
-				if !containedSite_measurementreport.DefersErrors() {
+				if !containedSite_measurementreport.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "MeasurementReport")
 				}
 				contained_measurementreport = MeasurementReport{}
@@ -21824,8 +22258,11 @@ func (v *SRNCRelocationInfoLaterCriticalExtensions) UnmarshalUPER(data []byte) e
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoLaterCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoLaterCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoLaterCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoLaterCriticalExtensions")
 	}
@@ -21838,6 +22275,10 @@ func (v *SRNCRelocationInfoLaterCriticalExtensions) UnmarshalUPERWithOptions(dat
 }
 
 func (v *SRNCRelocationInfoLaterCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoLaterCriticalExtensions{}
 	toleranceMark_criticalextensions := bb.EnterComponent("CriticalExtensions")
 	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
@@ -21870,8 +22311,11 @@ func (v *SRNCRelocationInfoCriticalExtensionsR15IEs) UnmarshalUPER(data []byte) 
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoCriticalExtensionsR15IEs with explicit receiver options.
 func (v *SRNCRelocationInfoCriticalExtensionsR15IEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoCriticalExtensionsR15IEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoCriticalExtensionsR15IEs")
 	}
@@ -21884,6 +22328,10 @@ func (v *SRNCRelocationInfoCriticalExtensionsR15IEs) UnmarshalUPERWithOptions(da
 }
 
 func (v *SRNCRelocationInfoCriticalExtensionsR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoCriticalExtensionsR15IEs{}
 	toleranceMark_criticalextensions := bb.EnterComponent("CriticalExtensions")
 	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
@@ -22519,8 +22967,11 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR14IEs with explicit receiver options.
 func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR14IEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR14IEs")
 	}
@@ -22533,6 +22984,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERWithOptions(data []byte, options
 }
 
 func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR14IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_rbidentityforhomessage, err := per.DecodeBoolean(bb)
@@ -22723,7 +23178,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -22754,7 +23209,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -22775,7 +23230,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -22801,7 +23256,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -22844,7 +23299,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -22893,18 +23348,18 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainer UECapabilityContainerIEs
 		if containedSite_uecapabilitycontainer := bb.EnterContained(); containedSite_uecapabilitycontainer.Decodes() {
-			containedBB_uecapabilitycontainer, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainer, bsBitLen_uecapabilitycontainer)
+			containedBB_uecapabilitycontainer := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainer, bb)
+			err = containedBB_uecapabilitycontainer.SetReadBitLength(bsBitLen_uecapabilitycontainer)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer: %w", err), "UeCapabilityContainer")
 			}
-			containedBB_uecapabilitycontainer.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainer.UnmarshalUPERFrom(containedBB_uecapabilitycontainer)
 			if err == nil {
 				v.UeCapabilityContainerPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainer)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer: %w", err)
-				if !containedSite_uecapabilitycontainer.DefersErrors() {
+				if !containedSite_uecapabilitycontainer.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainer")
 				}
 				contained_uecapabilitycontainer = UECapabilityContainerIEs{}
@@ -22924,18 +23379,18 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainerrsc RRCConnectionSetupCompleteR3AddExtIEs
 		if containedSite_uecapabilitycontainerrsc := bb.EnterContained(); containedSite_uecapabilitycontainerrsc.Decodes() {
-			containedBB_uecapabilitycontainerrsc, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainerrsc, bsBitLen_uecapabilitycontainerrsc)
+			containedBB_uecapabilitycontainerrsc := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainerrsc, bb)
+			err = containedBB_uecapabilitycontainerrsc.SetReadBitLength(bsBitLen_uecapabilitycontainerrsc)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err), "UeCapabilityContainerRSC")
 			}
-			containedBB_uecapabilitycontainerrsc.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainerrsc.UnmarshalUPERFrom(containedBB_uecapabilitycontainerrsc)
 			if err == nil {
 				v.UeCapabilityContainerRSCPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainerrsc)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err)
-				if !containedSite_uecapabilitycontainerrsc.DefersErrors() {
+				if !containedSite_uecapabilitycontainerrsc.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerRSC")
 				}
 				contained_uecapabilitycontainerrsc = RRCConnectionSetupCompleteR3AddExtIEs{}
@@ -22955,18 +23410,18 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontaineruci UECapabilityInformationR3AddExtIEs
 		if containedSite_uecapabilitycontaineruci := bb.EnterContained(); containedSite_uecapabilitycontaineruci.Decodes() {
-			containedBB_uecapabilitycontaineruci, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontaineruci, bsBitLen_uecapabilitycontaineruci)
+			containedBB_uecapabilitycontaineruci := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontaineruci, bb)
+			err = containedBB_uecapabilitycontaineruci.SetReadBitLength(bsBitLen_uecapabilitycontaineruci)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err), "UeCapabilityContainerUCI")
 			}
-			containedBB_uecapabilitycontaineruci.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontaineruci.UnmarshalUPERFrom(containedBB_uecapabilitycontaineruci)
 			if err == nil {
 				v.UeCapabilityContainerUCIPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontaineruci)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err)
-				if !containedSite_uecapabilitycontaineruci.DefersErrors() {
+				if !containedSite_uecapabilitycontaineruci.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerUCI")
 				}
 				contained_uecapabilitycontaineruci = UECapabilityInformationR3AddExtIEs{}
@@ -23009,7 +23464,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -23030,7 +23485,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR14, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -23058,7 +23513,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -23076,7 +23531,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR11, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -23095,7 +23550,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR11, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -23131,7 +23586,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -23159,7 +23614,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -23180,7 +23635,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -23201,7 +23656,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -23229,7 +23684,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondarytpccombinationinfolist {
 		tmp_secondarytpccombinationinfolist := make(TPCCombinationInfoListR9, 0)
 		_, errCollection_secondarytpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondarytpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondarytpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -23250,7 +23705,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondaryergchcombinationinfolist {
 		tmp_secondaryergchcombinationinfolist := make(ERGCHCombinationInfoListR9, 0)
 		_, errCollection_secondaryergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondaryergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondaryergchcombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -23306,7 +23761,7 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -23332,18 +23787,18 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_measurementreport MeasurementReport
 		if containedSite_measurementreport := bb.EnterContained(); containedSite_measurementreport.Decodes() {
-			containedBB_measurementreport, err := per.NewBitBufferFromBits(bsBytes_measurementreport, bsBitLen_measurementreport)
+			containedBB_measurementreport := per.NewNestedDecodeBuffer(bsBytes_measurementreport, bb)
+			err = containedBB_measurementreport.SetReadBitLength(bsBitLen_measurementreport)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained measurementReport: %w", err), "MeasurementReport")
 			}
-			containedBB_measurementreport.InheritDecodeOptions(bb)
 			err = contained_measurementreport.UnmarshalUPERFrom(containedBB_measurementreport)
 			if err == nil {
 				v.MeasurementReportPERPadding_, err = per.CaptureContainedBits(containedBB_measurementreport)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained measurementReport: %w", err)
-				if !containedSite_measurementreport.DefersErrors() {
+				if !containedSite_measurementreport.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "MeasurementReport")
 				}
 				contained_measurementreport = MeasurementReport{}
@@ -24012,8 +24467,11 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR15IEs with explicit receiver options.
 func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR15IEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR15IEs")
 	}
@@ -24026,6 +24484,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERWithOptions(data []byte, options
 }
 
 func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR15IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_rbidentityforhomessage, err := per.DecodeBoolean(bb)
@@ -24216,7 +24678,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -24247,7 +24709,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -24268,7 +24730,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -24294,7 +24756,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -24337,7 +24799,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -24386,18 +24848,18 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainer UECapabilityContainerIEs
 		if containedSite_uecapabilitycontainer := bb.EnterContained(); containedSite_uecapabilitycontainer.Decodes() {
-			containedBB_uecapabilitycontainer, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainer, bsBitLen_uecapabilitycontainer)
+			containedBB_uecapabilitycontainer := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainer, bb)
+			err = containedBB_uecapabilitycontainer.SetReadBitLength(bsBitLen_uecapabilitycontainer)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer: %w", err), "UeCapabilityContainer")
 			}
-			containedBB_uecapabilitycontainer.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainer.UnmarshalUPERFrom(containedBB_uecapabilitycontainer)
 			if err == nil {
 				v.UeCapabilityContainerPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainer)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer: %w", err)
-				if !containedSite_uecapabilitycontainer.DefersErrors() {
+				if !containedSite_uecapabilitycontainer.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainer")
 				}
 				contained_uecapabilitycontainer = UECapabilityContainerIEs{}
@@ -24417,18 +24879,18 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontainerrsc RRCConnectionSetupCompleteR3AddExtIEs
 		if containedSite_uecapabilitycontainerrsc := bb.EnterContained(); containedSite_uecapabilitycontainerrsc.Decodes() {
-			containedBB_uecapabilitycontainerrsc, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontainerrsc, bsBitLen_uecapabilitycontainerrsc)
+			containedBB_uecapabilitycontainerrsc := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontainerrsc, bb)
+			err = containedBB_uecapabilitycontainerrsc.SetReadBitLength(bsBitLen_uecapabilitycontainerrsc)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err), "UeCapabilityContainerRSC")
 			}
-			containedBB_uecapabilitycontainerrsc.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontainerrsc.UnmarshalUPERFrom(containedBB_uecapabilitycontainerrsc)
 			if err == nil {
 				v.UeCapabilityContainerRSCPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontainerrsc)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-RSC: %w", err)
-				if !containedSite_uecapabilitycontainerrsc.DefersErrors() {
+				if !containedSite_uecapabilitycontainerrsc.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerRSC")
 				}
 				contained_uecapabilitycontainerrsc = RRCConnectionSetupCompleteR3AddExtIEs{}
@@ -24448,18 +24910,18 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_uecapabilitycontaineruci UECapabilityInformationR3AddExtIEs
 		if containedSite_uecapabilitycontaineruci := bb.EnterContained(); containedSite_uecapabilitycontaineruci.Decodes() {
-			containedBB_uecapabilitycontaineruci, err := per.NewBitBufferFromBits(bsBytes_uecapabilitycontaineruci, bsBitLen_uecapabilitycontaineruci)
+			containedBB_uecapabilitycontaineruci := per.NewNestedDecodeBuffer(bsBytes_uecapabilitycontaineruci, bb)
+			err = containedBB_uecapabilitycontaineruci.SetReadBitLength(bsBitLen_uecapabilitycontaineruci)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err), "UeCapabilityContainerUCI")
 			}
-			containedBB_uecapabilitycontaineruci.InheritDecodeOptions(bb)
 			err = contained_uecapabilitycontaineruci.UnmarshalUPERFrom(containedBB_uecapabilitycontaineruci)
 			if err == nil {
 				v.UeCapabilityContainerUCIPERPadding_, err = per.CaptureContainedBits(containedBB_uecapabilitycontaineruci)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained ueCapabilityContainer-UCI: %w", err)
-				if !containedSite_uecapabilitycontaineruci.DefersErrors() {
+				if !containedSite_uecapabilitycontaineruci.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "UeCapabilityContainerUCI")
 				}
 				contained_uecapabilitycontaineruci = UECapabilityInformationR3AddExtIEs{}
@@ -24502,7 +24964,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -24523,7 +24985,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR15, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -24551,7 +25013,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -24569,7 +25031,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR11, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -24588,7 +25050,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR11, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -24624,7 +25086,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -24652,7 +25114,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -24673,7 +25135,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -24694,7 +25156,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -24722,7 +25184,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondarytpccombinationinfolist {
 		tmp_secondarytpccombinationinfolist := make(TPCCombinationInfoListR9, 0)
 		_, errCollection_secondarytpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondarytpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondarytpccombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -24743,7 +25205,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondaryergchcombinationinfolist {
 		tmp_secondaryergchcombinationinfolist := make(ERGCHCombinationInfoListR9, 0)
 		_, errCollection_secondaryergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondaryergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondaryergchcombinationinfolist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -24799,7 +25261,7 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -24825,18 +25287,18 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_measurementreport MeasurementReport
 		if containedSite_measurementreport := bb.EnterContained(); containedSite_measurementreport.Decodes() {
-			containedBB_measurementreport, err := per.NewBitBufferFromBits(bsBytes_measurementreport, bsBitLen_measurementreport)
+			containedBB_measurementreport := per.NewNestedDecodeBuffer(bsBytes_measurementreport, bb)
+			err = containedBB_measurementreport.SetReadBitLength(bsBitLen_measurementreport)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained measurementReport: %w", err), "MeasurementReport")
 			}
-			containedBB_measurementreport.InheritDecodeOptions(bb)
 			err = contained_measurementreport.UnmarshalUPERFrom(containedBB_measurementreport)
 			if err == nil {
 				v.MeasurementReportPERPadding_, err = per.CaptureContainedBits(containedBB_measurementreport)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained measurementReport: %w", err)
-				if !containedSite_measurementreport.DefersErrors() {
+				if !containedSite_measurementreport.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "MeasurementReport")
 				}
 				contained_measurementreport = MeasurementReport{}
@@ -24905,8 +25367,11 @@ func (v *CalculationTimeForCiphering) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes CalculationTimeForCiphering with explicit receiver options.
 func (v *CalculationTimeForCiphering) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CalculationTimeForCiphering")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CalculationTimeForCiphering")
 	}
@@ -24919,6 +25384,10 @@ func (v *CalculationTimeForCiphering) UnmarshalUPERWithOptions(data []byte, opti
 }
 
 func (v *CalculationTimeForCiphering) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = CalculationTimeForCiphering{}
 	bsBytes_cellid, bsBitLen_cellid, err := per.DecodeBitStringExt(bb, 28, 28, true, false)
 	if err != nil {
@@ -24959,8 +25428,11 @@ func (v *CipheringInfoPerRB) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes CipheringInfoPerRB with explicit receiver options.
 func (v *CipheringInfoPerRB) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CipheringInfoPerRB")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CipheringInfoPerRB")
 	}
@@ -24973,6 +25445,10 @@ func (v *CipheringInfoPerRB) UnmarshalUPERWithOptions(data []byte, options per.D
 }
 
 func (v *CipheringInfoPerRB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = CipheringInfoPerRB{}
 	bsBytes_dlhfn, bsBitLen_dlhfn, err := per.DecodeBitStringExt(bb, 20, 25, true, false)
 	if err != nil {
@@ -25025,8 +25501,11 @@ func (v *CipheringInfoPerRBR4) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes CipheringInfoPerRBR4 with explicit receiver options.
 func (v *CipheringInfoPerRBR4) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CipheringInfoPerRBR4")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CipheringInfoPerRBR4")
 	}
@@ -25039,6 +25518,10 @@ func (v *CipheringInfoPerRBR4) UnmarshalUPERWithOptions(data []byte, options per
 }
 
 func (v *CipheringInfoPerRBR4) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = CipheringInfoPerRBR4{}
 	// Read preamble bitmap for optional root fields
 	opt_dlumsn, err := per.DecodeBoolean(bb)
@@ -25095,8 +25578,11 @@ func (v *CipheringInfoPerRBListComplete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete CipheringInfoPerRBList with explicit receiver options.
 func (v *CipheringInfoPerRBListComplete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CipheringInfoPerRBList")
+	}
 	value, err := UnmarshalUPERCipheringInfoPerRBListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CipheringInfoPerRBList")
@@ -25145,6 +25631,10 @@ func UnmarshalUPERCipheringInfoPerRBList(data []byte) (CipheringInfoPerRBListCom
 
 // UnmarshalUPERCipheringInfoPerRBListFrom decodes a CipheringInfoPerRBList list from bb.
 func UnmarshalUPERCipheringInfoPerRBListFrom(bb *per.BitBuffer) (CipheringInfoPerRBList, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERCipheringInfoPerRBListListValue
 	if err := unmarshalUPERCipheringInfoPerRBListInto(&v, bb); err != nil {
 		return nil, err
@@ -25155,7 +25645,7 @@ func UnmarshalUPERCipheringInfoPerRBListFrom(bb *per.BitBuffer) (CipheringInfoPe
 func unmarshalUPERCipheringInfoPerRBListInto(v *asn1cUPERCipheringInfoPerRBListListValue, bb *per.BitBuffer) error {
 	v.Value = make(CipheringInfoPerRBList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -25198,8 +25688,11 @@ func (v *CipheringInfoPerRBListR4Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete CipheringInfoPerRBListR4 with explicit receiver options.
 func (v *CipheringInfoPerRBListR4Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CipheringInfoPerRBListR4")
+	}
 	value, err := UnmarshalUPERCipheringInfoPerRBListR4From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CipheringInfoPerRBListR4")
@@ -25248,6 +25741,10 @@ func UnmarshalUPERCipheringInfoPerRBListR4(data []byte) (CipheringInfoPerRBListR
 
 // UnmarshalUPERCipheringInfoPerRBListR4From decodes a CipheringInfoPerRBListR4 list from bb.
 func UnmarshalUPERCipheringInfoPerRBListR4From(bb *per.BitBuffer) (CipheringInfoPerRBListR4, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERCipheringInfoPerRBListR4ListValue
 	if err := unmarshalUPERCipheringInfoPerRBListR4Into(&v, bb); err != nil {
 		return nil, err
@@ -25258,7 +25755,7 @@ func UnmarshalUPERCipheringInfoPerRBListR4From(bb *per.BitBuffer) (CipheringInfo
 func unmarshalUPERCipheringInfoPerRBListR4Into(v *asn1cUPERCipheringInfoPerRBListR4ListValue, bb *per.BitBuffer) error {
 	v.Value = make(CipheringInfoPerRBListR4, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -25301,8 +25798,11 @@ func (v *CipheringStatusListR4Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete CipheringStatusListR4 with explicit receiver options.
 func (v *CipheringStatusListR4Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CipheringStatusListR4")
+	}
 	value, err := UnmarshalUPERCipheringStatusListR4From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CipheringStatusListR4")
@@ -25351,6 +25851,10 @@ func UnmarshalUPERCipheringStatusListR4(data []byte) (CipheringStatusListR4Compl
 
 // UnmarshalUPERCipheringStatusListR4From decodes a CipheringStatusListR4 list from bb.
 func UnmarshalUPERCipheringStatusListR4From(bb *per.BitBuffer) (CipheringStatusListR4, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERCipheringStatusListR4ListValue
 	if err := unmarshalUPERCipheringStatusListR4Into(&v, bb); err != nil {
 		return nil, err
@@ -25361,7 +25865,7 @@ func UnmarshalUPERCipheringStatusListR4From(bb *per.BitBuffer) (CipheringStatusL
 func unmarshalUPERCipheringStatusListR4Into(v *asn1cUPERCipheringStatusListR4ListValue, bb *per.BitBuffer) error {
 	v.Value = make(CipheringStatusListR4, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -25409,8 +25913,11 @@ func (v *CipheringStatusCNdomainR4) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes CipheringStatusCNdomainR4 with explicit receiver options.
 func (v *CipheringStatusCNdomainR4) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CipheringStatusCNdomainR4")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CipheringStatusCNdomainR4")
 	}
@@ -25423,6 +25930,10 @@ func (v *CipheringStatusCNdomainR4) UnmarshalUPERWithOptions(data []byte, option
 }
 
 func (v *CipheringStatusCNdomainR4) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = CipheringStatusCNdomainR4{}
 	val_cndomainidentity, err := per.DecodeEnumerated(bb, 2, false)
 	if err != nil {
@@ -25465,8 +25976,11 @@ func (v *CNDomainInformationV390ext) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes CNDomainInformationV390ext with explicit receiver options.
 func (v *CNDomainInformationV390ext) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CNDomainInformationV390ext")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CNDomainInformationV390ext")
 	}
@@ -25479,6 +25993,10 @@ func (v *CNDomainInformationV390ext) UnmarshalUPERWithOptions(data []byte, optio
 }
 
 func (v *CNDomainInformationV390ext) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = CNDomainInformationV390ext{}
 	val_cndrxcyclelengthcoeff, err := per.DecodeInteger(bb, int64Ptr(6), int64Ptr(9), false)
 	if err != nil {
@@ -25514,8 +26032,11 @@ func (v *CNDomainInformationListV390extComplete) UnmarshalUPER(data []byte) erro
 
 // UnmarshalUPERWithOptions decodes a complete CNDomainInformationListV390ext with explicit receiver options.
 func (v *CNDomainInformationListV390extComplete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CNDomainInformationListV390ext")
+	}
 	value, err := UnmarshalUPERCNDomainInformationListV390extFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CNDomainInformationListV390ext")
@@ -25564,6 +26085,10 @@ func UnmarshalUPERCNDomainInformationListV390ext(data []byte) (CNDomainInformati
 
 // UnmarshalUPERCNDomainInformationListV390extFrom decodes a CNDomainInformationListV390ext list from bb.
 func UnmarshalUPERCNDomainInformationListV390extFrom(bb *per.BitBuffer) (CNDomainInformationListV390ext, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERCNDomainInformationListV390extListValue
 	if err := unmarshalUPERCNDomainInformationListV390extInto(&v, bb); err != nil {
 		return nil, err
@@ -25574,7 +26099,7 @@ func UnmarshalUPERCNDomainInformationListV390extFrom(bb *per.BitBuffer) (CNDomai
 func unmarshalUPERCNDomainInformationListV390extInto(v *asn1cUPERCNDomainInformationListV390extListValue, bb *per.BitBuffer) error {
 	v.Value = make(CNDomainInformationListV390ext, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -25649,8 +26174,11 @@ func (v *CompressedModeMeasCapabilityR4) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes CompressedModeMeasCapabilityR4 with explicit receiver options.
 func (v *CompressedModeMeasCapabilityR4) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "CompressedModeMeasCapabilityR4")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CompressedModeMeasCapabilityR4")
 	}
@@ -25663,6 +26191,10 @@ func (v *CompressedModeMeasCapabilityR4) UnmarshalUPERWithOptions(data []byte, o
 }
 
 func (v *CompressedModeMeasCapabilityR4) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = CompressedModeMeasCapabilityR4{}
 	// Read preamble bitmap for optional root fields
 	opt_tdd384measurements, err := per.DecodeBoolean(bb)
@@ -25741,8 +26273,11 @@ func (v *COUNTCListComplete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete COUNTCList with explicit receiver options.
 func (v *COUNTCListComplete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "COUNTCList")
+	}
 	value, err := UnmarshalUPERCOUNTCListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "COUNTCList")
@@ -25789,6 +26324,10 @@ func UnmarshalUPERCOUNTCList(data []byte) (COUNTCListComplete, error) {
 
 // UnmarshalUPERCOUNTCListFrom decodes a COUNTCList list from bb.
 func UnmarshalUPERCOUNTCListFrom(bb *per.BitBuffer) (COUNTCList, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERCOUNTCListListValue
 	if err := unmarshalUPERCOUNTCListInto(&v, bb); err != nil {
 		return nil, err
@@ -25799,7 +26338,7 @@ func UnmarshalUPERCOUNTCListFrom(bb *per.BitBuffer) (COUNTCList, error) {
 func unmarshalUPERCOUNTCListInto(v *asn1cUPERCOUNTCListListValue, bb *per.BitBuffer) error {
 	v.Value = make(COUNTCList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -25844,8 +26383,11 @@ func (v *COUNTCSingle) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes COUNTCSingle with explicit receiver options.
 func (v *COUNTCSingle) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "COUNTCSingle")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "COUNTCSingle")
 	}
@@ -25858,6 +26400,10 @@ func (v *COUNTCSingle) UnmarshalUPERWithOptions(data []byte, options per.DecodeO
 }
 
 func (v *COUNTCSingle) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = COUNTCSingle{}
 	val_cndomainidentity, err := per.DecodeEnumerated(bb, 2, false)
 	if err != nil {
@@ -25916,8 +26462,11 @@ func (v *DLPhysChCapabilityFDDR4) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes DLPhysChCapabilityFDDR4 with explicit receiver options.
 func (v *DLPhysChCapabilityFDDR4) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "DLPhysChCapabilityFDDR4")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLPhysChCapabilityFDDR4")
 	}
@@ -25930,6 +26479,10 @@ func (v *DLPhysChCapabilityFDDR4) UnmarshalUPERWithOptions(data []byte, options 
 }
 
 func (v *DLPhysChCapabilityFDDR4) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = DLPhysChCapabilityFDDR4{}
 	// Read preamble bitmap for optional root fields
 	opt_dummy3, err := per.DecodeBoolean(bb)
@@ -26017,8 +26570,11 @@ func (v *DLPhysChCapabilityFDDR5) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes DLPhysChCapabilityFDDR5 with explicit receiver options.
 func (v *DLPhysChCapabilityFDDR5) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "DLPhysChCapabilityFDDR5")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLPhysChCapabilityFDDR5")
 	}
@@ -26031,6 +26587,10 @@ func (v *DLPhysChCapabilityFDDR5) UnmarshalUPERWithOptions(data []byte, options 
 }
 
 func (v *DLPhysChCapabilityFDDR5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = DLPhysChCapabilityFDDR5{}
 	// Read preamble bitmap for optional root fields
 	opt_dummy3, err := per.DecodeBoolean(bb)
@@ -26112,8 +26672,11 @@ func (v *DLPhysChCapabilityTDDR5) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes DLPhysChCapabilityTDDR5 with explicit receiver options.
 func (v *DLPhysChCapabilityTDDR5) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "DLPhysChCapabilityTDDR5")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLPhysChCapabilityTDDR5")
 	}
@@ -26126,6 +26689,10 @@ func (v *DLPhysChCapabilityTDDR5) UnmarshalUPERWithOptions(data []byte, options 
 }
 
 func (v *DLPhysChCapabilityTDDR5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = DLPhysChCapabilityTDDR5{}
 	val_maxtsperframe, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(14), false)
 	if err != nil {
@@ -26199,8 +26766,11 @@ func (v *DLPhysChCapabilityTDDLCRR5) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes DLPhysChCapabilityTDDLCRR5 with explicit receiver options.
 func (v *DLPhysChCapabilityTDDLCRR5) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "DLPhysChCapabilityTDDLCRR5")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLPhysChCapabilityTDDLCRR5")
 	}
@@ -26213,6 +26783,10 @@ func (v *DLPhysChCapabilityTDDLCRR5) UnmarshalUPERWithOptions(data []byte, optio
 }
 
 func (v *DLPhysChCapabilityTDDLCRR5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = DLPhysChCapabilityTDDLCRR5{}
 	val_maxtspersubframe, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(6), false)
 	if err != nil {
@@ -26315,8 +26889,11 @@ func (v *DLRFC3095Context) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes DLRFC3095Context with explicit receiver options.
 func (v *DLRFC3095Context) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "DLRFC3095Context")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLRFC3095Context")
 	}
@@ -26329,6 +26906,10 @@ func (v *DLRFC3095Context) UnmarshalUPERWithOptions(data []byte, options per.Dec
 }
 
 func (v *DLRFC3095Context) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = DLRFC3095Context{}
 	// Read preamble bitmap for optional root fields
 	opt_dlreftime, err := per.DecodeBoolean(bb)
@@ -26424,8 +27005,11 @@ func (v *ERGCHCombinationInfo) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes ERGCHCombinationInfo with explicit receiver options.
 func (v *ERGCHCombinationInfo) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "ERGCHCombinationInfo")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERGCHCombinationInfo")
 	}
@@ -26438,6 +27022,10 @@ func (v *ERGCHCombinationInfo) UnmarshalUPERWithOptions(data []byte, options per
 }
 
 func (v *ERGCHCombinationInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = ERGCHCombinationInfo{}
 	if err := v.PrimaryCPICHInfo.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PrimaryCPICHInfo")
@@ -26476,8 +27064,11 @@ func (v *ERGCHCombinationInfoR9) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes ERGCHCombinationInfoR9 with explicit receiver options.
 func (v *ERGCHCombinationInfoR9) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "ERGCHCombinationInfoR9")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERGCHCombinationInfoR9")
 	}
@@ -26490,6 +27081,10 @@ func (v *ERGCHCombinationInfoR9) UnmarshalUPERWithOptions(data []byte, options p
 }
 
 func (v *ERGCHCombinationInfoR9) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = ERGCHCombinationInfoR9{}
 	if err := v.PrimaryCPICHInfo.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PrimaryCPICHInfo")
@@ -26526,8 +27121,11 @@ func (v *ERGCHCombinationInfoListComplete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete ERGCHCombinationInfoList with explicit receiver options.
 func (v *ERGCHCombinationInfoListComplete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "ERGCHCombinationInfoList")
+	}
 	value, err := UnmarshalUPERERGCHCombinationInfoListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ERGCHCombinationInfoList")
@@ -26576,6 +27174,10 @@ func UnmarshalUPERERGCHCombinationInfoList(data []byte) (ERGCHCombinationInfoLis
 
 // UnmarshalUPERERGCHCombinationInfoListFrom decodes a ERGCHCombinationInfoList list from bb.
 func UnmarshalUPERERGCHCombinationInfoListFrom(bb *per.BitBuffer) (ERGCHCombinationInfoList, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERERGCHCombinationInfoListListValue
 	if err := unmarshalUPERERGCHCombinationInfoListInto(&v, bb); err != nil {
 		return nil, err
@@ -26586,7 +27188,7 @@ func UnmarshalUPERERGCHCombinationInfoListFrom(bb *per.BitBuffer) (ERGCHCombinat
 func unmarshalUPERERGCHCombinationInfoListInto(v *asn1cUPERERGCHCombinationInfoListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERGCHCombinationInfoList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -26629,8 +27231,11 @@ func (v *ERGCHCombinationInfoListR9Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete ERGCHCombinationInfoListR9 with explicit receiver options.
 func (v *ERGCHCombinationInfoListR9Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "ERGCHCombinationInfoListR9")
+	}
 	value, err := UnmarshalUPERERGCHCombinationInfoListR9From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ERGCHCombinationInfoListR9")
@@ -26679,6 +27284,10 @@ func UnmarshalUPERERGCHCombinationInfoListR9(data []byte) (ERGCHCombinationInfoL
 
 // UnmarshalUPERERGCHCombinationInfoListR9From decodes a ERGCHCombinationInfoListR9 list from bb.
 func UnmarshalUPERERGCHCombinationInfoListR9From(bb *per.BitBuffer) (ERGCHCombinationInfoListR9, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERERGCHCombinationInfoListR9ListValue
 	if err := unmarshalUPERERGCHCombinationInfoListR9Into(&v, bb); err != nil {
 		return nil, err
@@ -26689,7 +27298,7 @@ func UnmarshalUPERERGCHCombinationInfoListR9From(bb *per.BitBuffer) (ERGCHCombin
 func unmarshalUPERERGCHCombinationInfoListR9Into(v *asn1cUPERERGCHCombinationInfoListR9ListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERGCHCombinationInfoListR9, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -26751,8 +27360,11 @@ func (v *InterRATUERadioAccessCapabilityListR5) UnmarshalUPER(data []byte) error
 
 // UnmarshalUPERWithOptions decodes InterRATUERadioAccessCapabilityListR5 with explicit receiver options.
 func (v *InterRATUERadioAccessCapabilityListR5) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATUERadioAccessCapabilityListR5")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATUERadioAccessCapabilityListR5")
 	}
@@ -26765,6 +27377,10 @@ func (v *InterRATUERadioAccessCapabilityListR5) UnmarshalUPERWithOptions(data []
 }
 
 func (v *InterRATUERadioAccessCapabilityListR5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = InterRATUERadioAccessCapabilityListR5{}
 	// Read preamble bitmap for optional root fields
 	opt_geraniuradioaccesscapability, err := per.DecodeBoolean(bb)
@@ -26773,7 +27389,7 @@ func (v *InterRATUERadioAccessCapabilityListR5) UnmarshalUPERFrom(bb *per.BitBuf
 	}
 	v.InterRATUERadioAccessCapability = make(InterRATUERadioAccessCapabilityList, 0)
 	_, errCollection_interratueradioaccesscapability := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_interratueradioaccesscapability, fragmentLength_interratueradioaccesscapability int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_interratueradioaccesscapability < 0 || fragmentLength_interratueradioaccesscapability < 0 || fragmentLength_interratueradioaccesscapability > int64(^uint(0)>>1) || fragmentOffset_interratueradioaccesscapability > int64(^uint(0)>>1)-fragmentLength_interratueradioaccesscapability {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -26838,8 +27454,11 @@ func (v *IntraFreqReportingCriteriaR6Ext) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes IntraFreqReportingCriteriaR6Ext with explicit receiver options.
 func (v *IntraFreqReportingCriteriaR6Ext) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "IntraFreqReportingCriteriaR6Ext")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "IntraFreqReportingCriteriaR6Ext")
 	}
@@ -26852,6 +27471,10 @@ func (v *IntraFreqReportingCriteriaR6Ext) UnmarshalUPERWithOptions(data []byte, 
 }
 
 func (v *IntraFreqReportingCriteriaR6Ext) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = IntraFreqReportingCriteriaR6Ext{}
 	// Read preamble bitmap for optional root fields
 	opt_reportingcellstatus, err := per.DecodeBoolean(bb)
@@ -26907,8 +27530,11 @@ func (v *MeasurementCapabilityR4) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MeasurementCapabilityR4 with explicit receiver options.
 func (v *MeasurementCapabilityR4) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementCapabilityR4")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementCapabilityR4")
 	}
@@ -26921,6 +27547,10 @@ func (v *MeasurementCapabilityR4) UnmarshalUPERWithOptions(data []byte, options 
 }
 
 func (v *MeasurementCapabilityR4) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MeasurementCapabilityR4{}
 	if err := v.DownlinkCompressedMode.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkCompressedMode")
@@ -26944,7 +27574,7 @@ func (v *MeasurementCommandWithType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithType: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -26974,8 +27604,11 @@ func (v *MeasurementCommandWithType) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MeasurementCommandWithType with explicit receiver options.
 func (v *MeasurementCommandWithType) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementCommandWithType")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementCommandWithType")
 	}
@@ -26988,12 +27621,16 @@ func (v *MeasurementCommandWithType) UnmarshalUPERWithOptions(data []byte, optio
 }
 
 func (v *MeasurementCommandWithType) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MeasurementCommandWithType{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 2)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -27026,7 +27663,7 @@ func (v *MeasurementCommandWithTypeR4) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR4: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -27056,8 +27693,11 @@ func (v *MeasurementCommandWithTypeR4) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MeasurementCommandWithTypeR4 with explicit receiver options.
 func (v *MeasurementCommandWithTypeR4) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR4")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR4")
 	}
@@ -27070,12 +27710,16 @@ func (v *MeasurementCommandWithTypeR4) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *MeasurementCommandWithTypeR4) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MeasurementCommandWithTypeR4{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 2)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -27108,7 +27752,7 @@ func (v *MeasurementCommandWithTypeR6) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR6: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -27138,8 +27782,11 @@ func (v *MeasurementCommandWithTypeR6) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MeasurementCommandWithTypeR6 with explicit receiver options.
 func (v *MeasurementCommandWithTypeR6) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR6")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR6")
 	}
@@ -27152,12 +27799,16 @@ func (v *MeasurementCommandWithTypeR6) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *MeasurementCommandWithTypeR6) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MeasurementCommandWithTypeR6{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 2)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -27190,7 +27841,7 @@ func (v *MeasurementCommandWithTypeR7) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR7: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -27220,8 +27871,11 @@ func (v *MeasurementCommandWithTypeR7) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MeasurementCommandWithTypeR7 with explicit receiver options.
 func (v *MeasurementCommandWithTypeR7) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR7")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR7")
 	}
@@ -27234,12 +27888,16 @@ func (v *MeasurementCommandWithTypeR7) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *MeasurementCommandWithTypeR7) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MeasurementCommandWithTypeR7{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 2)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -27272,7 +27930,7 @@ func (v *MeasurementCommandWithTypeR8) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR8: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -27302,8 +27960,11 @@ func (v *MeasurementCommandWithTypeR8) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MeasurementCommandWithTypeR8 with explicit receiver options.
 func (v *MeasurementCommandWithTypeR8) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR8")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR8")
 	}
@@ -27316,12 +27977,16 @@ func (v *MeasurementCommandWithTypeR8) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *MeasurementCommandWithTypeR8) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MeasurementCommandWithTypeR8{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 2)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -27354,7 +28019,7 @@ func (v *MeasurementCommandWithTypeR9) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR9: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -27384,8 +28049,11 @@ func (v *MeasurementCommandWithTypeR9) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MeasurementCommandWithTypeR9 with explicit receiver options.
 func (v *MeasurementCommandWithTypeR9) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR9")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR9")
 	}
@@ -27398,12 +28066,16 @@ func (v *MeasurementCommandWithTypeR9) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *MeasurementCommandWithTypeR9) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MeasurementCommandWithTypeR9{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 2)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -27436,7 +28108,7 @@ func (v *MeasurementCommandWithTypeR10) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR10: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -27466,8 +28138,11 @@ func (v *MeasurementCommandWithTypeR10) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MeasurementCommandWithTypeR10 with explicit receiver options.
 func (v *MeasurementCommandWithTypeR10) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR10")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR10")
 	}
@@ -27480,12 +28155,16 @@ func (v *MeasurementCommandWithTypeR10) UnmarshalUPERWithOptions(data []byte, op
 }
 
 func (v *MeasurementCommandWithTypeR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MeasurementCommandWithTypeR10{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 2)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -27518,7 +28197,7 @@ func (v *MeasurementCommandWithTypeR11) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR11: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -27548,8 +28227,11 @@ func (v *MeasurementCommandWithTypeR11) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MeasurementCommandWithTypeR11 with explicit receiver options.
 func (v *MeasurementCommandWithTypeR11) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR11")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR11")
 	}
@@ -27562,12 +28244,16 @@ func (v *MeasurementCommandWithTypeR11) UnmarshalUPERWithOptions(data []byte, op
 }
 
 func (v *MeasurementCommandWithTypeR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MeasurementCommandWithTypeR11{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 2)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -27600,7 +28286,7 @@ func (v *MeasurementCommandWithTypeR12) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR12: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -27630,8 +28316,11 @@ func (v *MeasurementCommandWithTypeR12) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MeasurementCommandWithTypeR12 with explicit receiver options.
 func (v *MeasurementCommandWithTypeR12) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR12")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR12")
 	}
@@ -27644,12 +28333,16 @@ func (v *MeasurementCommandWithTypeR12) UnmarshalUPERWithOptions(data []byte, op
 }
 
 func (v *MeasurementCommandWithTypeR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MeasurementCommandWithTypeR12{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 2)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -27682,7 +28375,7 @@ func (v *MeasurementCommandWithTypeR13) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR13: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -27712,8 +28405,11 @@ func (v *MeasurementCommandWithTypeR13) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MeasurementCommandWithTypeR13 with explicit receiver options.
 func (v *MeasurementCommandWithTypeR13) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR13")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR13")
 	}
@@ -27726,12 +28422,16 @@ func (v *MeasurementCommandWithTypeR13) UnmarshalUPERWithOptions(data []byte, op
 }
 
 func (v *MeasurementCommandWithTypeR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MeasurementCommandWithTypeR13{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 2)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -27764,7 +28464,7 @@ func (v *MeasurementCommandWithTypeR14) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR14: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -27794,8 +28494,11 @@ func (v *MeasurementCommandWithTypeR14) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MeasurementCommandWithTypeR14 with explicit receiver options.
 func (v *MeasurementCommandWithTypeR14) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR14")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR14")
 	}
@@ -27808,12 +28511,16 @@ func (v *MeasurementCommandWithTypeR14) UnmarshalUPERWithOptions(data []byte, op
 }
 
 func (v *MeasurementCommandWithTypeR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MeasurementCommandWithTypeR14{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 2)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -27846,7 +28553,7 @@ func (v *MeasurementCommandWithTypeR15) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR15: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -27876,8 +28583,11 @@ func (v *MeasurementCommandWithTypeR15) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes MeasurementCommandWithTypeR15 with explicit receiver options.
 func (v *MeasurementCommandWithTypeR15) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR15")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementCommandWithTypeR15")
 	}
@@ -27890,12 +28600,16 @@ func (v *MeasurementCommandWithTypeR15) UnmarshalUPERWithOptions(data []byte, op
 }
 
 func (v *MeasurementCommandWithTypeR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = MeasurementCommandWithTypeR15{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 2)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -27969,8 +28683,11 @@ func (v *OngoingMeasRep) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes OngoingMeasRep with explicit receiver options.
 func (v *OngoingMeasRep) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRep")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRep")
 	}
@@ -27983,6 +28700,10 @@ func (v *OngoingMeasRep) UnmarshalUPERWithOptions(data []byte, options per.Decod
 }
 
 func (v *OngoingMeasRep) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = OngoingMeasRep{}
 	// Read preamble bitmap for optional root fields
 	opt_measurementreportingmode, err := per.DecodeBoolean(bb)
@@ -28011,7 +28732,7 @@ func (v *OngoingMeasRep) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -28086,8 +28807,11 @@ func (v *OngoingMeasRepR4) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes OngoingMeasRepR4 with explicit receiver options.
 func (v *OngoingMeasRepR4) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepR4")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepR4")
 	}
@@ -28100,6 +28824,10 @@ func (v *OngoingMeasRepR4) UnmarshalUPERWithOptions(data []byte, options per.Dec
 }
 
 func (v *OngoingMeasRepR4) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = OngoingMeasRepR4{}
 	// Read preamble bitmap for optional root fields
 	opt_measurementreportingmode, err := per.DecodeBoolean(bb)
@@ -28128,7 +28856,7 @@ func (v *OngoingMeasRepR4) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -28227,8 +28955,11 @@ func (v *OngoingMeasRepR5) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes OngoingMeasRepR5 with explicit receiver options.
 func (v *OngoingMeasRepR5) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepR5")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepR5")
 	}
@@ -28241,6 +28972,10 @@ func (v *OngoingMeasRepR5) UnmarshalUPERWithOptions(data []byte, options per.Dec
 }
 
 func (v *OngoingMeasRepR5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = OngoingMeasRepR5{}
 	// Read preamble bitmap for optional root fields
 	opt_measurementreportingmode, err := per.DecodeBoolean(bb)
@@ -28281,7 +29016,7 @@ func (v *OngoingMeasRepR5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -28377,8 +29112,11 @@ func (v *OngoingMeasRepR6) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes OngoingMeasRepR6 with explicit receiver options.
 func (v *OngoingMeasRepR6) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepR6")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepR6")
 	}
@@ -28391,6 +29129,10 @@ func (v *OngoingMeasRepR6) UnmarshalUPERWithOptions(data []byte, options per.Dec
 }
 
 func (v *OngoingMeasRepR6) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = OngoingMeasRepR6{}
 	// Read preamble bitmap for optional root fields
 	opt_measurementreportingmode, err := per.DecodeBoolean(bb)
@@ -28419,7 +29161,7 @@ func (v *OngoingMeasRepR6) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -28494,8 +29236,11 @@ func (v *OngoingMeasRepR7) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes OngoingMeasRepR7 with explicit receiver options.
 func (v *OngoingMeasRepR7) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepR7")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepR7")
 	}
@@ -28508,6 +29253,10 @@ func (v *OngoingMeasRepR7) UnmarshalUPERWithOptions(data []byte, options per.Dec
 }
 
 func (v *OngoingMeasRepR7) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = OngoingMeasRepR7{}
 	// Read preamble bitmap for optional root fields
 	opt_measurementreportingmode, err := per.DecodeBoolean(bb)
@@ -28536,7 +29285,7 @@ func (v *OngoingMeasRepR7) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -28611,8 +29360,11 @@ func (v *OngoingMeasRepR8) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes OngoingMeasRepR8 with explicit receiver options.
 func (v *OngoingMeasRepR8) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepR8")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepR8")
 	}
@@ -28625,6 +29377,10 @@ func (v *OngoingMeasRepR8) UnmarshalUPERWithOptions(data []byte, options per.Dec
 }
 
 func (v *OngoingMeasRepR8) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = OngoingMeasRepR8{}
 	// Read preamble bitmap for optional root fields
 	opt_measurementreportingmode, err := per.DecodeBoolean(bb)
@@ -28653,7 +29409,7 @@ func (v *OngoingMeasRepR8) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -28728,8 +29484,11 @@ func (v *OngoingMeasRepR9) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes OngoingMeasRepR9 with explicit receiver options.
 func (v *OngoingMeasRepR9) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepR9")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepR9")
 	}
@@ -28742,6 +29501,10 @@ func (v *OngoingMeasRepR9) UnmarshalUPERWithOptions(data []byte, options per.Dec
 }
 
 func (v *OngoingMeasRepR9) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = OngoingMeasRepR9{}
 	// Read preamble bitmap for optional root fields
 	opt_measurementreportingmode, err := per.DecodeBoolean(bb)
@@ -28770,7 +29533,7 @@ func (v *OngoingMeasRepR9) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -28839,8 +29602,11 @@ func (v *OngoingMeasRepV970extIEs) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes OngoingMeasRepV970extIEs with explicit receiver options.
 func (v *OngoingMeasRepV970extIEs) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepV970extIEs")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepV970extIEs")
 	}
@@ -28853,6 +29619,10 @@ func (v *OngoingMeasRepV970extIEs) UnmarshalUPERWithOptions(data []byte, options
 }
 
 func (v *OngoingMeasRepV970extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = OngoingMeasRepV970extIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_measurementidentity, err := per.DecodeBoolean(bb)
@@ -28874,7 +29644,7 @@ func (v *OngoingMeasRepV970extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -28949,8 +29719,11 @@ func (v *OngoingMeasRepR10) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes OngoingMeasRepR10 with explicit receiver options.
 func (v *OngoingMeasRepR10) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepR10")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepR10")
 	}
@@ -28963,6 +29736,10 @@ func (v *OngoingMeasRepR10) UnmarshalUPERWithOptions(data []byte, options per.De
 }
 
 func (v *OngoingMeasRepR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = OngoingMeasRepR10{}
 	// Read preamble bitmap for optional root fields
 	opt_measurementreportingmode, err := per.DecodeBoolean(bb)
@@ -28991,7 +29768,7 @@ func (v *OngoingMeasRepR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -29066,8 +29843,11 @@ func (v *OngoingMeasRepR11) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes OngoingMeasRepR11 with explicit receiver options.
 func (v *OngoingMeasRepR11) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepR11")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepR11")
 	}
@@ -29080,6 +29860,10 @@ func (v *OngoingMeasRepR11) UnmarshalUPERWithOptions(data []byte, options per.De
 }
 
 func (v *OngoingMeasRepR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = OngoingMeasRepR11{}
 	// Read preamble bitmap for optional root fields
 	opt_measurementreportingmode, err := per.DecodeBoolean(bb)
@@ -29108,7 +29892,7 @@ func (v *OngoingMeasRepR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -29183,8 +29967,11 @@ func (v *OngoingMeasRepR12) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes OngoingMeasRepR12 with explicit receiver options.
 func (v *OngoingMeasRepR12) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepR12")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepR12")
 	}
@@ -29197,6 +29984,10 @@ func (v *OngoingMeasRepR12) UnmarshalUPERWithOptions(data []byte, options per.De
 }
 
 func (v *OngoingMeasRepR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = OngoingMeasRepR12{}
 	// Read preamble bitmap for optional root fields
 	opt_measurementreportingmode, err := per.DecodeBoolean(bb)
@@ -29225,7 +30016,7 @@ func (v *OngoingMeasRepR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -29300,8 +30091,11 @@ func (v *OngoingMeasRepR13) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes OngoingMeasRepR13 with explicit receiver options.
 func (v *OngoingMeasRepR13) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepR13")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepR13")
 	}
@@ -29314,6 +30108,10 @@ func (v *OngoingMeasRepR13) UnmarshalUPERWithOptions(data []byte, options per.De
 }
 
 func (v *OngoingMeasRepR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = OngoingMeasRepR13{}
 	// Read preamble bitmap for optional root fields
 	opt_measurementreportingmode, err := per.DecodeBoolean(bb)
@@ -29342,7 +30140,7 @@ func (v *OngoingMeasRepR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -29417,8 +30215,11 @@ func (v *OngoingMeasRepR14) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes OngoingMeasRepR14 with explicit receiver options.
 func (v *OngoingMeasRepR14) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepR14")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepR14")
 	}
@@ -29431,6 +30232,10 @@ func (v *OngoingMeasRepR14) UnmarshalUPERWithOptions(data []byte, options per.De
 }
 
 func (v *OngoingMeasRepR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = OngoingMeasRepR14{}
 	// Read preamble bitmap for optional root fields
 	opt_measurementreportingmode, err := per.DecodeBoolean(bb)
@@ -29459,7 +30264,7 @@ func (v *OngoingMeasRepR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -29534,8 +30339,11 @@ func (v *OngoingMeasRepR15) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes OngoingMeasRepR15 with explicit receiver options.
 func (v *OngoingMeasRepR15) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepR15")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepR15")
 	}
@@ -29548,6 +30356,10 @@ func (v *OngoingMeasRepR15) UnmarshalUPERWithOptions(data []byte, options per.De
 }
 
 func (v *OngoingMeasRepR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = OngoingMeasRepR15{}
 	// Read preamble bitmap for optional root fields
 	opt_measurementreportingmode, err := per.DecodeBoolean(bb)
@@ -29576,7 +30388,7 @@ func (v *OngoingMeasRepR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -29621,8 +30433,11 @@ func (v *OngoingMeasRepListComplete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete OngoingMeasRepList with explicit receiver options.
 func (v *OngoingMeasRepListComplete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepList")
+	}
 	value, err := UnmarshalUPEROngoingMeasRepListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepList")
@@ -29671,6 +30486,10 @@ func UnmarshalUPEROngoingMeasRepList(data []byte) (OngoingMeasRepListComplete, e
 
 // UnmarshalUPEROngoingMeasRepListFrom decodes a OngoingMeasRepList list from bb.
 func UnmarshalUPEROngoingMeasRepListFrom(bb *per.BitBuffer) (OngoingMeasRepList, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPEROngoingMeasRepListListValue
 	if err := unmarshalUPEROngoingMeasRepListInto(&v, bb); err != nil {
 		return nil, err
@@ -29681,7 +30500,7 @@ func UnmarshalUPEROngoingMeasRepListFrom(bb *per.BitBuffer) (OngoingMeasRepList,
 func unmarshalUPEROngoingMeasRepListInto(v *asn1cUPEROngoingMeasRepListListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -29724,8 +30543,11 @@ func (v *OngoingMeasRepListR4Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete OngoingMeasRepListR4 with explicit receiver options.
 func (v *OngoingMeasRepListR4Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepListR4")
+	}
 	value, err := UnmarshalUPEROngoingMeasRepListR4From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepListR4")
@@ -29774,6 +30596,10 @@ func UnmarshalUPEROngoingMeasRepListR4(data []byte) (OngoingMeasRepListR4Complet
 
 // UnmarshalUPEROngoingMeasRepListR4From decodes a OngoingMeasRepListR4 list from bb.
 func UnmarshalUPEROngoingMeasRepListR4From(bb *per.BitBuffer) (OngoingMeasRepListR4, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPEROngoingMeasRepListR4ListValue
 	if err := unmarshalUPEROngoingMeasRepListR4Into(&v, bb); err != nil {
 		return nil, err
@@ -29784,7 +30610,7 @@ func UnmarshalUPEROngoingMeasRepListR4From(bb *per.BitBuffer) (OngoingMeasRepLis
 func unmarshalUPEROngoingMeasRepListR4Into(v *asn1cUPEROngoingMeasRepListR4ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR4, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -29827,8 +30653,11 @@ func (v *OngoingMeasRepListR5Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete OngoingMeasRepListR5 with explicit receiver options.
 func (v *OngoingMeasRepListR5Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepListR5")
+	}
 	value, err := UnmarshalUPEROngoingMeasRepListR5From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepListR5")
@@ -29877,6 +30706,10 @@ func UnmarshalUPEROngoingMeasRepListR5(data []byte) (OngoingMeasRepListR5Complet
 
 // UnmarshalUPEROngoingMeasRepListR5From decodes a OngoingMeasRepListR5 list from bb.
 func UnmarshalUPEROngoingMeasRepListR5From(bb *per.BitBuffer) (OngoingMeasRepListR5, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPEROngoingMeasRepListR5ListValue
 	if err := unmarshalUPEROngoingMeasRepListR5Into(&v, bb); err != nil {
 		return nil, err
@@ -29887,7 +30720,7 @@ func UnmarshalUPEROngoingMeasRepListR5From(bb *per.BitBuffer) (OngoingMeasRepLis
 func unmarshalUPEROngoingMeasRepListR5Into(v *asn1cUPEROngoingMeasRepListR5ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR5, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -29930,8 +30763,11 @@ func (v *OngoingMeasRepListR6Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete OngoingMeasRepListR6 with explicit receiver options.
 func (v *OngoingMeasRepListR6Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepListR6")
+	}
 	value, err := UnmarshalUPEROngoingMeasRepListR6From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepListR6")
@@ -29980,6 +30816,10 @@ func UnmarshalUPEROngoingMeasRepListR6(data []byte) (OngoingMeasRepListR6Complet
 
 // UnmarshalUPEROngoingMeasRepListR6From decodes a OngoingMeasRepListR6 list from bb.
 func UnmarshalUPEROngoingMeasRepListR6From(bb *per.BitBuffer) (OngoingMeasRepListR6, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPEROngoingMeasRepListR6ListValue
 	if err := unmarshalUPEROngoingMeasRepListR6Into(&v, bb); err != nil {
 		return nil, err
@@ -29990,7 +30830,7 @@ func UnmarshalUPEROngoingMeasRepListR6From(bb *per.BitBuffer) (OngoingMeasRepLis
 func unmarshalUPEROngoingMeasRepListR6Into(v *asn1cUPEROngoingMeasRepListR6ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR6, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -30033,8 +30873,11 @@ func (v *OngoingMeasRepListR7Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete OngoingMeasRepListR7 with explicit receiver options.
 func (v *OngoingMeasRepListR7Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepListR7")
+	}
 	value, err := UnmarshalUPEROngoingMeasRepListR7From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepListR7")
@@ -30083,6 +30926,10 @@ func UnmarshalUPEROngoingMeasRepListR7(data []byte) (OngoingMeasRepListR7Complet
 
 // UnmarshalUPEROngoingMeasRepListR7From decodes a OngoingMeasRepListR7 list from bb.
 func UnmarshalUPEROngoingMeasRepListR7From(bb *per.BitBuffer) (OngoingMeasRepListR7, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPEROngoingMeasRepListR7ListValue
 	if err := unmarshalUPEROngoingMeasRepListR7Into(&v, bb); err != nil {
 		return nil, err
@@ -30093,7 +30940,7 @@ func UnmarshalUPEROngoingMeasRepListR7From(bb *per.BitBuffer) (OngoingMeasRepLis
 func unmarshalUPEROngoingMeasRepListR7Into(v *asn1cUPEROngoingMeasRepListR7ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR7, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -30136,8 +30983,11 @@ func (v *OngoingMeasRepListR8Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete OngoingMeasRepListR8 with explicit receiver options.
 func (v *OngoingMeasRepListR8Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepListR8")
+	}
 	value, err := UnmarshalUPEROngoingMeasRepListR8From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepListR8")
@@ -30186,6 +31036,10 @@ func UnmarshalUPEROngoingMeasRepListR8(data []byte) (OngoingMeasRepListR8Complet
 
 // UnmarshalUPEROngoingMeasRepListR8From decodes a OngoingMeasRepListR8 list from bb.
 func UnmarshalUPEROngoingMeasRepListR8From(bb *per.BitBuffer) (OngoingMeasRepListR8, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPEROngoingMeasRepListR8ListValue
 	if err := unmarshalUPEROngoingMeasRepListR8Into(&v, bb); err != nil {
 		return nil, err
@@ -30196,7 +31050,7 @@ func UnmarshalUPEROngoingMeasRepListR8From(bb *per.BitBuffer) (OngoingMeasRepLis
 func unmarshalUPEROngoingMeasRepListR8Into(v *asn1cUPEROngoingMeasRepListR8ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR8, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -30239,8 +31093,11 @@ func (v *OngoingMeasRepListR9Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete OngoingMeasRepListR9 with explicit receiver options.
 func (v *OngoingMeasRepListR9Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepListR9")
+	}
 	value, err := UnmarshalUPEROngoingMeasRepListR9From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepListR9")
@@ -30289,6 +31146,10 @@ func UnmarshalUPEROngoingMeasRepListR9(data []byte) (OngoingMeasRepListR9Complet
 
 // UnmarshalUPEROngoingMeasRepListR9From decodes a OngoingMeasRepListR9 list from bb.
 func UnmarshalUPEROngoingMeasRepListR9From(bb *per.BitBuffer) (OngoingMeasRepListR9, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPEROngoingMeasRepListR9ListValue
 	if err := unmarshalUPEROngoingMeasRepListR9Into(&v, bb); err != nil {
 		return nil, err
@@ -30299,7 +31160,7 @@ func UnmarshalUPEROngoingMeasRepListR9From(bb *per.BitBuffer) (OngoingMeasRepLis
 func unmarshalUPEROngoingMeasRepListR9Into(v *asn1cUPEROngoingMeasRepListR9ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR9, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -30342,8 +31203,11 @@ func (v *OngoingMeasRepListV970extIEComplete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete OngoingMeasRepListV970extIE with explicit receiver options.
 func (v *OngoingMeasRepListV970extIEComplete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepListV970extIE")
+	}
 	value, err := UnmarshalUPEROngoingMeasRepListV970extIEFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepListV970extIE")
@@ -30392,6 +31256,10 @@ func UnmarshalUPEROngoingMeasRepListV970extIE(data []byte) (OngoingMeasRepListV9
 
 // UnmarshalUPEROngoingMeasRepListV970extIEFrom decodes a OngoingMeasRepListV970extIE list from bb.
 func UnmarshalUPEROngoingMeasRepListV970extIEFrom(bb *per.BitBuffer) (OngoingMeasRepListV970extIE, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPEROngoingMeasRepListV970extIEListValue
 	if err := unmarshalUPEROngoingMeasRepListV970extIEInto(&v, bb); err != nil {
 		return nil, err
@@ -30402,7 +31270,7 @@ func UnmarshalUPEROngoingMeasRepListV970extIEFrom(bb *per.BitBuffer) (OngoingMea
 func unmarshalUPEROngoingMeasRepListV970extIEInto(v *asn1cUPEROngoingMeasRepListV970extIEListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListV970extIE, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -30445,8 +31313,11 @@ func (v *OngoingMeasRepListR10Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete OngoingMeasRepListR10 with explicit receiver options.
 func (v *OngoingMeasRepListR10Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepListR10")
+	}
 	value, err := UnmarshalUPEROngoingMeasRepListR10From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepListR10")
@@ -30495,6 +31366,10 @@ func UnmarshalUPEROngoingMeasRepListR10(data []byte) (OngoingMeasRepListR10Compl
 
 // UnmarshalUPEROngoingMeasRepListR10From decodes a OngoingMeasRepListR10 list from bb.
 func UnmarshalUPEROngoingMeasRepListR10From(bb *per.BitBuffer) (OngoingMeasRepListR10, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPEROngoingMeasRepListR10ListValue
 	if err := unmarshalUPEROngoingMeasRepListR10Into(&v, bb); err != nil {
 		return nil, err
@@ -30505,7 +31380,7 @@ func UnmarshalUPEROngoingMeasRepListR10From(bb *per.BitBuffer) (OngoingMeasRepLi
 func unmarshalUPEROngoingMeasRepListR10Into(v *asn1cUPEROngoingMeasRepListR10ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR10, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -30548,8 +31423,11 @@ func (v *OngoingMeasRepListR11Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete OngoingMeasRepListR11 with explicit receiver options.
 func (v *OngoingMeasRepListR11Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepListR11")
+	}
 	value, err := UnmarshalUPEROngoingMeasRepListR11From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepListR11")
@@ -30598,6 +31476,10 @@ func UnmarshalUPEROngoingMeasRepListR11(data []byte) (OngoingMeasRepListR11Compl
 
 // UnmarshalUPEROngoingMeasRepListR11From decodes a OngoingMeasRepListR11 list from bb.
 func UnmarshalUPEROngoingMeasRepListR11From(bb *per.BitBuffer) (OngoingMeasRepListR11, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPEROngoingMeasRepListR11ListValue
 	if err := unmarshalUPEROngoingMeasRepListR11Into(&v, bb); err != nil {
 		return nil, err
@@ -30608,7 +31490,7 @@ func UnmarshalUPEROngoingMeasRepListR11From(bb *per.BitBuffer) (OngoingMeasRepLi
 func unmarshalUPEROngoingMeasRepListR11Into(v *asn1cUPEROngoingMeasRepListR11ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR11, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -30651,8 +31533,11 @@ func (v *OngoingMeasRepListR12Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete OngoingMeasRepListR12 with explicit receiver options.
 func (v *OngoingMeasRepListR12Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepListR12")
+	}
 	value, err := UnmarshalUPEROngoingMeasRepListR12From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepListR12")
@@ -30701,6 +31586,10 @@ func UnmarshalUPEROngoingMeasRepListR12(data []byte) (OngoingMeasRepListR12Compl
 
 // UnmarshalUPEROngoingMeasRepListR12From decodes a OngoingMeasRepListR12 list from bb.
 func UnmarshalUPEROngoingMeasRepListR12From(bb *per.BitBuffer) (OngoingMeasRepListR12, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPEROngoingMeasRepListR12ListValue
 	if err := unmarshalUPEROngoingMeasRepListR12Into(&v, bb); err != nil {
 		return nil, err
@@ -30711,7 +31600,7 @@ func UnmarshalUPEROngoingMeasRepListR12From(bb *per.BitBuffer) (OngoingMeasRepLi
 func unmarshalUPEROngoingMeasRepListR12Into(v *asn1cUPEROngoingMeasRepListR12ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR12, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -30754,8 +31643,11 @@ func (v *OngoingMeasRepListR13Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete OngoingMeasRepListR13 with explicit receiver options.
 func (v *OngoingMeasRepListR13Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepListR13")
+	}
 	value, err := UnmarshalUPEROngoingMeasRepListR13From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepListR13")
@@ -30804,6 +31696,10 @@ func UnmarshalUPEROngoingMeasRepListR13(data []byte) (OngoingMeasRepListR13Compl
 
 // UnmarshalUPEROngoingMeasRepListR13From decodes a OngoingMeasRepListR13 list from bb.
 func UnmarshalUPEROngoingMeasRepListR13From(bb *per.BitBuffer) (OngoingMeasRepListR13, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPEROngoingMeasRepListR13ListValue
 	if err := unmarshalUPEROngoingMeasRepListR13Into(&v, bb); err != nil {
 		return nil, err
@@ -30814,7 +31710,7 @@ func UnmarshalUPEROngoingMeasRepListR13From(bb *per.BitBuffer) (OngoingMeasRepLi
 func unmarshalUPEROngoingMeasRepListR13Into(v *asn1cUPEROngoingMeasRepListR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -30857,8 +31753,11 @@ func (v *OngoingMeasRepListR14Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete OngoingMeasRepListR14 with explicit receiver options.
 func (v *OngoingMeasRepListR14Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepListR14")
+	}
 	value, err := UnmarshalUPEROngoingMeasRepListR14From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepListR14")
@@ -30907,6 +31806,10 @@ func UnmarshalUPEROngoingMeasRepListR14(data []byte) (OngoingMeasRepListR14Compl
 
 // UnmarshalUPEROngoingMeasRepListR14From decodes a OngoingMeasRepListR14 list from bb.
 func UnmarshalUPEROngoingMeasRepListR14From(bb *per.BitBuffer) (OngoingMeasRepListR14, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPEROngoingMeasRepListR14ListValue
 	if err := unmarshalUPEROngoingMeasRepListR14Into(&v, bb); err != nil {
 		return nil, err
@@ -30917,7 +31820,7 @@ func UnmarshalUPEROngoingMeasRepListR14From(bb *per.BitBuffer) (OngoingMeasRepLi
 func unmarshalUPEROngoingMeasRepListR14Into(v *asn1cUPEROngoingMeasRepListR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -30960,8 +31863,11 @@ func (v *OngoingMeasRepListR15Complete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete OngoingMeasRepListR15 with explicit receiver options.
 func (v *OngoingMeasRepListR15Complete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepListR15")
+	}
 	value, err := UnmarshalUPEROngoingMeasRepListR15From(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepListR15")
@@ -31010,6 +31916,10 @@ func UnmarshalUPEROngoingMeasRepListR15(data []byte) (OngoingMeasRepListR15Compl
 
 // UnmarshalUPEROngoingMeasRepListR15From decodes a OngoingMeasRepListR15 list from bb.
 func UnmarshalUPEROngoingMeasRepListR15From(bb *per.BitBuffer) (OngoingMeasRepListR15, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPEROngoingMeasRepListR15ListValue
 	if err := unmarshalUPEROngoingMeasRepListR15Into(&v, bb); err != nil {
 		return nil, err
@@ -31020,7 +31930,7 @@ func UnmarshalUPEROngoingMeasRepListR15From(bb *per.BitBuffer) (OngoingMeasRepLi
 func unmarshalUPEROngoingMeasRepListR15Into(v *asn1cUPEROngoingMeasRepListR15ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR15, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -31068,8 +31978,11 @@ func (v *PDCPCapabilityR4) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes PDCPCapabilityR4 with explicit receiver options.
 func (v *PDCPCapabilityR4) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PDCPCapabilityR4")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PDCPCapabilityR4")
 	}
@@ -31082,6 +31995,10 @@ func (v *PDCPCapabilityR4) UnmarshalUPERWithOptions(data []byte, options per.Dec
 }
 
 func (v *PDCPCapabilityR4) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PDCPCapabilityR4{}
 	val_losslesssrnsrelocationsupport, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -31126,8 +32043,11 @@ func (v *PDCPCapabilityR5) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes PDCPCapabilityR5 with explicit receiver options.
 func (v *PDCPCapabilityR5) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PDCPCapabilityR5")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PDCPCapabilityR5")
 	}
@@ -31140,6 +32060,10 @@ func (v *PDCPCapabilityR5) UnmarshalUPERWithOptions(data []byte, options per.Dec
 }
 
 func (v *PDCPCapabilityR5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PDCPCapabilityR5{}
 	val_losslesssrnsrelocationsupport, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -31193,8 +32117,11 @@ func (v *PDCPCapabilityR6) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes PDCPCapabilityR6 with explicit receiver options.
 func (v *PDCPCapabilityR6) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PDCPCapabilityR6")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PDCPCapabilityR6")
 	}
@@ -31207,6 +32134,10 @@ func (v *PDCPCapabilityR6) UnmarshalUPERWithOptions(data []byte, options per.Dec
 }
 
 func (v *PDCPCapabilityR6) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PDCPCapabilityR6{}
 	// Read preamble bitmap for optional root fields
 	opt_losslessdlrlcpdusizechange, err := per.DecodeBoolean(bb)
@@ -31279,8 +32210,11 @@ func (v *PhysicalChannelCapabilityR4) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes PhysicalChannelCapabilityR4 with explicit receiver options.
 func (v *PhysicalChannelCapabilityR4) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PhysicalChannelCapabilityR4")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PhysicalChannelCapabilityR4")
 	}
@@ -31293,6 +32227,10 @@ func (v *PhysicalChannelCapabilityR4) UnmarshalUPERWithOptions(data []byte, opti
 }
 
 func (v *PhysicalChannelCapabilityR4) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PhysicalChannelCapabilityR4{}
 	// Read preamble bitmap for optional root fields
 	opt_fddphyschcapability, err := per.DecodeBoolean(bb)
@@ -31376,8 +32314,11 @@ func (v *PhysicalChannelCapabilityR5) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes PhysicalChannelCapabilityR5 with explicit receiver options.
 func (v *PhysicalChannelCapabilityR5) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PhysicalChannelCapabilityR5")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PhysicalChannelCapabilityR5")
 	}
@@ -31390,6 +32331,10 @@ func (v *PhysicalChannelCapabilityR5) UnmarshalUPERWithOptions(data []byte, opti
 }
 
 func (v *PhysicalChannelCapabilityR5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PhysicalChannelCapabilityR5{}
 	// Read preamble bitmap for optional root fields
 	opt_fddphyschcapability, err := per.DecodeBoolean(bb)
@@ -31473,8 +32418,11 @@ func (v *RFCapabilityR4) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes RFCapabilityR4 with explicit receiver options.
 func (v *RFCapabilityR4) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "RFCapabilityR4")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RFCapabilityR4")
 	}
@@ -31487,6 +32435,10 @@ func (v *RFCapabilityR4) UnmarshalUPERWithOptions(data []byte, options per.Decod
 }
 
 func (v *RFCapabilityR4) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = RFCapabilityR4{}
 	// Read preamble bitmap for optional root fields
 	opt_fddrfcapability, err := per.DecodeBoolean(bb)
@@ -31562,8 +32514,11 @@ func (v *RFC3095ContextInfo) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes RFC3095ContextInfo with explicit receiver options.
 func (v *RFC3095ContextInfo) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "RFC3095ContextInfo")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RFC3095ContextInfo")
 	}
@@ -31576,6 +32531,10 @@ func (v *RFC3095ContextInfo) UnmarshalUPERWithOptions(data []byte, options per.D
 }
 
 func (v *RFC3095ContextInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = RFC3095ContextInfo{}
 	val_rbidentity, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(32), false)
 	if err != nil {
@@ -31584,7 +32543,7 @@ func (v *RFC3095ContextInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.RbIdentity = RBIdentity(val_rbidentity)
 	v.Rfc3095ContextList = make(RFC3095ContextList, 0)
 	_, errCollection_rfc3095contextlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, false, func(fragmentOffset_rfc3095contextlist, fragmentLength_rfc3095contextlist int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_rfc3095contextlist < 0 || fragmentLength_rfc3095contextlist < 0 || fragmentLength_rfc3095contextlist > int64(^uint(0)>>1) || fragmentOffset_rfc3095contextlist > int64(^uint(0)>>1)-fragmentLength_rfc3095contextlist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -31627,8 +32586,11 @@ func (v *RFC3095ContextListComplete) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes a complete RFC3095ContextList with explicit receiver options.
 func (v *RFC3095ContextListComplete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "RFC3095ContextList")
+	}
 	value, err := UnmarshalUPERRFC3095ContextListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "RFC3095ContextList")
@@ -31677,6 +32639,10 @@ func UnmarshalUPERRFC3095ContextList(data []byte) (RFC3095ContextListComplete, e
 
 // UnmarshalUPERRFC3095ContextListFrom decodes a RFC3095ContextList list from bb.
 func UnmarshalUPERRFC3095ContextListFrom(bb *per.BitBuffer) (RFC3095ContextList, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERRFC3095ContextListListValue
 	if err := unmarshalUPERRFC3095ContextListInto(&v, bb); err != nil {
 		return nil, err
@@ -31687,7 +32653,7 @@ func UnmarshalUPERRFC3095ContextListFrom(bb *per.BitBuffer) (RFC3095ContextList,
 func unmarshalUPERRFC3095ContextListInto(v *asn1cUPERRFC3095ContextListListValue, bb *per.BitBuffer) error {
 	v.Value = make(RFC3095ContextList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -31735,8 +32701,11 @@ func (v *RLCCapabilityR5) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes RLCCapabilityR5 with explicit receiver options.
 func (v *RLCCapabilityR5) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "RLCCapabilityR5")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RLCCapabilityR5")
 	}
@@ -31749,6 +32718,10 @@ func (v *RLCCapabilityR5) UnmarshalUPERWithOptions(data []byte, options per.Deco
 }
 
 func (v *RLCCapabilityR5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = RLCCapabilityR5{}
 	val_totalrlcambuffersize, err := per.DecodeEnumerated(bb, 10, false)
 	if err != nil {
@@ -31800,8 +32773,11 @@ func (v *SRBSpecificIntegrityProtInfo) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRBSpecificIntegrityProtInfo with explicit receiver options.
 func (v *SRBSpecificIntegrityProtInfo) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRBSpecificIntegrityProtInfo")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRBSpecificIntegrityProtInfo")
 	}
@@ -31814,6 +32790,10 @@ func (v *SRBSpecificIntegrityProtInfo) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRBSpecificIntegrityProtInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRBSpecificIntegrityProtInfo{}
 	bsBytes_ulrrchfn, bsBitLen_ulrrchfn, err := per.DecodeBitStringExt(bb, 28, 28, true, false)
 	if err != nil {
@@ -31864,8 +32844,11 @@ func (v *SRBSpecificIntegrityProtInfoListComplete) UnmarshalUPER(data []byte) er
 
 // UnmarshalUPERWithOptions decodes a complete SRBSpecificIntegrityProtInfoList with explicit receiver options.
 func (v *SRBSpecificIntegrityProtInfoListComplete) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRBSpecificIntegrityProtInfoList")
+	}
 	value, err := UnmarshalUPERSRBSpecificIntegrityProtInfoListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SRBSpecificIntegrityProtInfoList")
@@ -31914,6 +32897,10 @@ func UnmarshalUPERSRBSpecificIntegrityProtInfoList(data []byte) (SRBSpecificInte
 
 // UnmarshalUPERSRBSpecificIntegrityProtInfoListFrom decodes a SRBSpecificIntegrityProtInfoList list from bb.
 func UnmarshalUPERSRBSpecificIntegrityProtInfoListFrom(bb *per.BitBuffer) (SRBSpecificIntegrityProtInfoList, error) {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return nil, err
+	}
+	defer bb.LeaveDecodeValue()
 	var v asn1cUPERSRBSpecificIntegrityProtInfoListListValue
 	if err := unmarshalUPERSRBSpecificIntegrityProtInfoListInto(&v, bb); err != nil {
 		return nil, err
@@ -31924,7 +32911,7 @@ func UnmarshalUPERSRBSpecificIntegrityProtInfoListFrom(bb *per.BitBuffer) (SRBSp
 func unmarshalUPERSRBSpecificIntegrityProtInfoListInto(v *asn1cUPERSRBSpecificIntegrityProtInfoListListValue, bb *per.BitBuffer) error {
 	v.Value = make(SRBSpecificIntegrityProtInfoList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -31969,8 +32956,11 @@ func (v *TPCCombinationInfo) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes TPCCombinationInfo with explicit receiver options.
 func (v *TPCCombinationInfo) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "TPCCombinationInfo")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TPCCombinationInfo")
 	}
@@ -31983,6 +32973,10 @@ func (v *TPCCombinationInfo) UnmarshalUPERWithOptions(data []byte, options per.D
 }
 
 func (v *TPCCombinationInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = TPCCombinationInfo{}
 	if err := v.PrimaryCPICHInfo.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PrimaryCPICHInfo")
@@ -32021,8 +33015,11 @@ func (v *TPCCombinationInfoR9) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes TPCCombinationInfoR9 with explicit receiver options.
 func (v *TPCCombinationInfoR9) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "TPCCombinationInfoR9")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TPCCombinationInfoR9")
 	}
@@ -32035,6 +33032,10 @@ func (v *TPCCombinationInfoR9) UnmarshalUPERWithOptions(data []byte, options per
 }
 
 func (v *TPCCombinationInfoR9) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = TPCCombinationInfoR9{}
 	if err := v.PrimaryCPICHInfo.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PrimaryCPICHInfo")
@@ -32076,8 +33077,11 @@ func (v *UEMultiModeRATCapabilityR5) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes UEMultiModeRATCapabilityR5 with explicit receiver options.
 func (v *UEMultiModeRATCapabilityR5) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "UEMultiModeRATCapabilityR5")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEMultiModeRATCapabilityR5")
 	}
@@ -32090,6 +33094,10 @@ func (v *UEMultiModeRATCapabilityR5) UnmarshalUPERWithOptions(data []byte, optio
 }
 
 func (v *UEMultiModeRATCapabilityR5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = UEMultiModeRATCapabilityR5{}
 	if err := v.MultiRATCapabilityList.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MultiRATCapabilityList")
@@ -32162,8 +33170,11 @@ func (v *UEPositioningCapabilityR4) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes UEPositioningCapabilityR4 with explicit receiver options.
 func (v *UEPositioningCapabilityR4) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "UEPositioningCapabilityR4")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEPositioningCapabilityR4")
 	}
@@ -32176,6 +33187,10 @@ func (v *UEPositioningCapabilityR4) UnmarshalUPERWithOptions(data []byte, option
 }
 
 func (v *UEPositioningCapabilityR4) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = UEPositioningCapabilityR4{}
 	// Read preamble bitmap for optional root fields
 	opt_validitycellpchurapch, err := per.DecodeBoolean(bb)
@@ -32262,8 +33277,11 @@ func (v *UEPositioningLastKnownPos) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes UEPositioningLastKnownPos with explicit receiver options.
 func (v *UEPositioningLastKnownPos) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "UEPositioningLastKnownPos")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEPositioningLastKnownPos")
 	}
@@ -32276,6 +33294,10 @@ func (v *UEPositioningLastKnownPos) UnmarshalUPERWithOptions(data []byte, option
 }
 
 func (v *UEPositioningLastKnownPos) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = UEPositioningLastKnownPos{}
 	val_sfn, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(4095), false)
 	if err != nil {
@@ -32349,8 +33371,11 @@ func (v *UERadioAccessCapabilityR4) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes UERadioAccessCapabilityR4 with explicit receiver options.
 func (v *UERadioAccessCapabilityR4) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityR4")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityR4")
 	}
@@ -32363,6 +33388,10 @@ func (v *UERadioAccessCapabilityR4) UnmarshalUPERWithOptions(data []byte, option
 }
 
 func (v *UERadioAccessCapabilityR4) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = UERadioAccessCapabilityR4{}
 	// Read preamble bitmap for optional root fields
 	opt_measurementcapability, err := per.DecodeBoolean(bb)
@@ -32472,8 +33501,11 @@ func (v *UERadioAccessCapabilityR5) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes UERadioAccessCapabilityR5 with explicit receiver options.
 func (v *UERadioAccessCapabilityR5) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityR5")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityR5")
 	}
@@ -32486,6 +33518,10 @@ func (v *UERadioAccessCapabilityR5) UnmarshalUPERWithOptions(data []byte, option
 }
 
 func (v *UERadioAccessCapabilityR5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = UERadioAccessCapabilityR5{}
 	// Read preamble bitmap for optional root fields
 	opt_dlcapabilitywithsimultaneoushsdschconfig, err := per.DecodeBoolean(bb)
@@ -32607,8 +33643,11 @@ func (v *UERadioAccessCapabilityR6) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes UERadioAccessCapabilityR6 with explicit receiver options.
 func (v *UERadioAccessCapabilityR6) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityR6")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityR6")
 	}
@@ -32621,6 +33660,10 @@ func (v *UERadioAccessCapabilityR6) UnmarshalUPERWithOptions(data []byte, option
 }
 
 func (v *UERadioAccessCapabilityR6) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = UERadioAccessCapabilityR6{}
 	// Read preamble bitmap for optional root fields
 	opt_dlcapabilitywithsimultaneoushsdschconfig, err := per.DecodeBoolean(bb)
@@ -32748,8 +33791,11 @@ func (v *ULRFC3095Context) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes ULRFC3095Context with explicit receiver options.
 func (v *ULRFC3095Context) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "ULRFC3095Context")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULRFC3095Context")
 	}
@@ -32762,6 +33808,10 @@ func (v *ULRFC3095Context) UnmarshalUPERWithOptions(data []byte, options per.Dec
 }
 
 func (v *ULRFC3095Context) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = ULRFC3095Context{}
 	// Read preamble bitmap for optional root fields
 	opt_ulreftime, err := per.DecodeBoolean(bb)
@@ -32869,8 +33919,11 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3) UnmarshalUPER(data []
 
 // UnmarshalUPERWithOptions decodes InterRATHandoverInfoWithInterRATCapabilitiesR3R3 with explicit receiver options.
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3R3")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3R3")
 	}
@@ -32883,6 +33936,10 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3) UnmarshalUPERWithOpti
 }
 
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = InterRATHandoverInfoWithInterRATCapabilitiesR3R3{}
 	// Read preamble bitmap for optional root fields
 	opt_v390noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -32934,8 +33991,11 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensio
 
 // UnmarshalUPERWithOptions decodes InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensions with explicit receiver options.
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensions")
 	}
@@ -32948,6 +34008,10 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensio
 }
 
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v690noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -32999,8 +34063,11 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensio
 
 // UnmarshalUPERWithOptions decodes InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensions with explicit receiver options.
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensions")
 	}
@@ -33013,6 +34080,10 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensio
 }
 
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v860noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -33064,8 +34135,11 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensio
 
 // UnmarshalUPERWithOptions decodes InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensions with explicit receiver options.
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensions")
 	}
@@ -33078,6 +34152,10 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensio
 }
 
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v920noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -33129,8 +34207,11 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensio
 
 // UnmarshalUPERWithOptions decodes InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensionsV920NonCriticalExtensions with explicit receiver options.
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensionsV920NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensionsV920NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensionsV920NonCriticalExtensions")
 	}
@@ -33143,6 +34224,10 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensio
 }
 
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensionsV920NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensionsV920NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -33182,8 +34267,11 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensio
 
 // UnmarshalUPERWithOptions decodes InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensionsV920NonCriticalExtensionsNonCriticalExtensions with explicit receiver options.
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensionsV920NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensionsV920NonCriticalExtensionsNonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensionsV920NonCriticalExtensionsNonCriticalExtensions")
 	}
@@ -33196,6 +34284,10 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensio
 }
 
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensionsV920NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = InterRATHandoverInfoWithInterRATCapabilitiesR3R3V390NonCriticalExtensionsV690NonCriticalExtensionsV860NonCriticalExtensionsV920NonCriticalExtensionsNonCriticalExtensions{}
 	return nil
 }
@@ -33220,8 +34312,11 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3CriticalExtensions) Unmar
 
 // UnmarshalUPERWithOptions decodes InterRATHandoverInfoWithInterRATCapabilitiesR3CriticalExtensions with explicit receiver options.
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3CriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3CriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATHandoverInfoWithInterRATCapabilitiesR3CriticalExtensions")
 	}
@@ -33234,6 +34329,10 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3CriticalExtensions) Unmar
 }
 
 func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3CriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = InterRATHandoverInfoWithInterRATCapabilitiesR3CriticalExtensions{}
 	return nil
 }
@@ -33281,8 +34380,11 @@ func (v *RFC3095ContextInfoR5R5) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes RFC3095ContextInfoR5R5 with explicit receiver options.
 func (v *RFC3095ContextInfoR5R5) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "RFC3095ContextInfoR5R5")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RFC3095ContextInfoR5R5")
 	}
@@ -33295,6 +34397,10 @@ func (v *RFC3095ContextInfoR5R5) UnmarshalUPERWithOptions(data []byte, options p
 }
 
 func (v *RFC3095ContextInfoR5R5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = RFC3095ContextInfoR5R5{}
 	// Read preamble bitmap for optional root fields
 	opt_noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -33303,7 +34409,7 @@ func (v *RFC3095ContextInfoR5R5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RFC3095ContextInfoListR5 = make(RFC3095ContextInfoListR5, 0)
 	_, errCollection_rfc3095contextinfolistr5 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_rfc3095contextinfolistr5, fragmentLength_rfc3095contextinfolistr5 int64) error {
-		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 		if fragmentOffset_rfc3095contextinfolistr5 < 0 || fragmentLength_rfc3095contextinfolistr5 < 0 || fragmentLength_rfc3095contextinfolistr5 > int64(^uint(0)>>1) || fragmentOffset_rfc3095contextinfolistr5 > int64(^uint(0)>>1)-fragmentLength_rfc3095contextinfolistr5 {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -33349,8 +34455,11 @@ func (v *RFC3095ContextInfoR5R5NonCriticalExtensions) UnmarshalUPER(data []byte)
 
 // UnmarshalUPERWithOptions decodes RFC3095ContextInfoR5R5NonCriticalExtensions with explicit receiver options.
 func (v *RFC3095ContextInfoR5R5NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "RFC3095ContextInfoR5R5NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RFC3095ContextInfoR5R5NonCriticalExtensions")
 	}
@@ -33363,6 +34472,10 @@ func (v *RFC3095ContextInfoR5R5NonCriticalExtensions) UnmarshalUPERWithOptions(d
 }
 
 func (v *RFC3095ContextInfoR5R5NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = RFC3095ContextInfoR5R5NonCriticalExtensions{}
 	return nil
 }
@@ -33387,8 +34500,11 @@ func (v *RFC3095ContextInfoR5CriticalExtensions) UnmarshalUPER(data []byte) erro
 
 // UnmarshalUPERWithOptions decodes RFC3095ContextInfoR5CriticalExtensions with explicit receiver options.
 func (v *RFC3095ContextInfoR5CriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "RFC3095ContextInfoR5CriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RFC3095ContextInfoR5CriticalExtensions")
 	}
@@ -33401,6 +34517,10 @@ func (v *RFC3095ContextInfoR5CriticalExtensions) UnmarshalUPERWithOptions(data [
 }
 
 func (v *RFC3095ContextInfoR5CriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = RFC3095ContextInfoR5CriticalExtensions{}
 	return nil
 }
@@ -33437,8 +34557,11 @@ func (v *SRNCRelocationInfoR3R3) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3 with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3")
 	}
@@ -33451,6 +34574,10 @@ func (v *SRNCRelocationInfoR3R3) UnmarshalUPERWithOptions(data []byte, options p
 }
 
 func (v *SRNCRelocationInfoR3R3) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3{}
 	// Read preamble bitmap for optional root fields
 	opt_v380noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -33504,8 +34631,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensions) UnmarshalUPER(data []b
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensions")
 	}
@@ -33518,6 +34648,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensions) UnmarshalUPERWithOptio
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v390noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -33571,8 +34705,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensions")
 	}
@@ -33585,6 +34722,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v3a0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -33638,8 +34779,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensions")
 	}
@@ -33652,6 +34796,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v3b0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -33705,8 +34853,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensions")
 	}
@@ -33719,6 +34870,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v3c0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -33772,8 +34927,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensions")
 	}
@@ -33786,6 +34944,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_laternoncriticalextensions, err := per.DecodeBoolean(bb)
@@ -33860,8 +35022,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensions")
 	}
@@ -33874,6 +35039,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_srncrelocationinfor3addext, err := per.DecodeBoolean(bb)
@@ -33895,18 +35064,18 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 		}
 		var contained_srncrelocationinfor3addext SRNCRelocationInfoV3h0extIEs
 		if containedSite_srncrelocationinfor3addext := bb.EnterContained(); containedSite_srncrelocationinfor3addext.Decodes() {
-			containedBB_srncrelocationinfor3addext, err := per.NewBitBufferFromBits(bsBytes_srncrelocationinfor3addext, bsBitLen_srncrelocationinfor3addext)
+			containedBB_srncrelocationinfor3addext := per.NewNestedDecodeBuffer(bsBytes_srncrelocationinfor3addext, bb)
+			err = containedBB_srncrelocationinfor3addext.SetReadBitLength(bsBitLen_srncrelocationinfor3addext)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained sRNC-RelocationInfo-r3-add-ext: %w", err), "SRNCRelocationInfoR3AddExt")
 			}
-			containedBB_srncrelocationinfor3addext.InheritDecodeOptions(bb)
 			err = contained_srncrelocationinfor3addext.UnmarshalUPERFrom(containedBB_srncrelocationinfor3addext)
 			if err == nil {
 				v.SRNCRelocationInfoR3AddExtPERPadding_, err = per.CaptureContainedBits(containedBB_srncrelocationinfor3addext)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained sRNC-RelocationInfo-r3-add-ext: %w", err)
-				if !containedSite_srncrelocationinfor3addext.DefersErrors() {
+				if !containedSite_srncrelocationinfor3addext.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3AddExt")
 				}
 				contained_srncrelocationinfor3addext = SRNCRelocationInfoV3h0extIEs{}
@@ -33962,8 +35131,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensions")
 	}
@@ -33976,6 +35148,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v4b0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -34029,8 +35205,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensions")
 	}
@@ -34043,6 +35222,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v590noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -34096,8 +35279,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensions")
 	}
@@ -34110,6 +35296,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v5a0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -34163,8 +35353,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensions")
 	}
@@ -34177,6 +35370,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v5b0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -34230,8 +35427,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensions")
 	}
@@ -34244,6 +35444,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v5c0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -34297,8 +35501,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions")
 	}
@@ -34311,6 +35518,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v690noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -34364,8 +35575,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions")
 	}
@@ -34378,6 +35592,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v6b0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -34431,8 +35649,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions")
 	}
@@ -34445,6 +35666,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v770noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -34496,8 +35721,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions")
 	}
@@ -34510,6 +35738,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v7e0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -34561,8 +35793,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions")
 	}
@@ -34575,6 +35810,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v7f0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -34626,8 +35865,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions")
 	}
@@ -34640,6 +35882,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -34679,8 +35925,11 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions")
 	}
@@ -34693,6 +35942,10 @@ func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtension
 }
 
 func (v *SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3R3V380NonCriticalExtensionsV390NonCriticalExtensionsV3a0NonCriticalExtensionsV3b0NonCriticalExtensionsV3c0NonCriticalExtensionsLaterNonCriticalExtensionsV3g0NonCriticalExtensionsV4b0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions{}
 	return nil
 }
@@ -34710,7 +35963,7 @@ func (v *SRNCRelocationInfoR3LaterThanR3) MarshalUPERTo(bb *per.BitBuffer) error
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -34745,8 +35998,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3 with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3")
 	}
@@ -34759,12 +36015,16 @@ func (v *SRNCRelocationInfoR3LaterThanR3) UnmarshalUPERWithOptions(data []byte, 
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -34822,8 +36082,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3R4 with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3R4) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4")
 	}
@@ -34836,6 +36099,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4) UnmarshalUPERWithOptions(data []byte
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3R4) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3R4{}
 	// Read preamble bitmap for optional root fields
 	opt_v4d0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -34897,8 +36164,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensions) UnmarshalUP
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensions")
 	}
@@ -34911,6 +36181,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensions) UnmarshalUP
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_srncrelocationinfor4addext, err := per.DecodeBoolean(bb)
@@ -34976,8 +36250,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensions")
 	}
@@ -34990,6 +36267,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v5a0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -35043,8 +36324,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensions")
 	}
@@ -35057,6 +36341,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v5b0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -35110,8 +36398,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensions")
 	}
@@ -35124,6 +36415,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v5c0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -35177,8 +36472,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions")
 	}
@@ -35191,6 +36489,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v690noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -35244,8 +36546,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions")
 	}
@@ -35258,6 +36563,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v6b0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -35311,8 +36620,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions")
 	}
@@ -35325,6 +36637,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v770noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -35376,8 +36692,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions")
 	}
@@ -35390,6 +36709,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v7e0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -35441,8 +36764,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions")
 	}
@@ -35455,6 +36781,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v7f0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -35506,8 +36836,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions")
 	}
@@ -35520,6 +36853,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -35559,8 +36896,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions")
 	}
@@ -35573,6 +36913,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCritic
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3R4V4d0NonCriticalExtensionsV590NonCriticalExtensionsV5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions{}
 	return nil
 }
@@ -35590,7 +36934,7 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensions) MarshalUPERTo(bb *pe
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -35625,8 +36969,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensions) UnmarshalUPER(data [
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensions")
 	}
@@ -35639,12 +36986,16 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensions) UnmarshalUPERWithOpt
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -35710,8 +37061,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5) UnmarshalUPER(data
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5 with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5")
 	}
@@ -35724,6 +37078,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5) UnmarshalUPERWithO
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5{}
 	// Read preamble bitmap for optional root fields
 	opt_srncrelocationinfor5addext, err := per.DecodeBoolean(bb)
@@ -35789,8 +37147,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensions")
 	}
@@ -35803,6 +37164,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v5b0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -35856,8 +37221,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensions")
 	}
@@ -35870,6 +37238,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v5c0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -35923,8 +37295,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions")
 	}
@@ -35937,6 +37312,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v690noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -35990,8 +37369,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions")
 	}
@@ -36004,6 +37386,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v6b0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -36057,8 +37443,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions")
 	}
@@ -36071,6 +37460,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v770noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -36122,8 +37515,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions")
 	}
@@ -36136,6 +37532,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v7e0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -36187,8 +37587,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions")
 	}
@@ -36201,6 +37604,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v7f0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -36252,8 +37659,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions")
 	}
@@ -36266,6 +37676,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -36305,8 +37719,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions")
 	}
@@ -36319,6 +37736,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExten
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsR5V5a0NonCriticalExtensionsV5b0NonCriticalExtensionsV5c0NonCriticalExtensionsV690NonCriticalExtensionsV6b0NonCriticalExtensionsV770NonCriticalExtensionsV7e0NonCriticalExtensionsV7f0NonCriticalExtensionsNonCriticalExtensions{}
 	return nil
 }
@@ -36336,7 +37757,7 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensions) Ma
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -36371,8 +37792,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensions) Un
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensions")
 	}
@@ -36385,12 +37809,16 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensions) Un
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -36469,8 +37897,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6) 
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6 with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6")
 	}
@@ -36483,6 +37914,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6) 
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6{}
 	// Read preamble bitmap for optional root fields
 	opt_srncrelocationinfor6addext, err := per.DecodeBoolean(bb)
@@ -36506,18 +37941,18 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6) 
 		}
 		var contained_srncrelocationinfor6addext SRNCRelocationInfoR6AddExtIEs
 		if containedSite_srncrelocationinfor6addext := bb.EnterContained(); containedSite_srncrelocationinfor6addext.Decodes() {
-			containedBB_srncrelocationinfor6addext, err := per.NewBitBufferFromBits(bsBytes_srncrelocationinfor6addext, bsBitLen_srncrelocationinfor6addext)
+			containedBB_srncrelocationinfor6addext := per.NewNestedDecodeBuffer(bsBytes_srncrelocationinfor6addext, bb)
+			err = containedBB_srncrelocationinfor6addext.SetReadBitLength(bsBitLen_srncrelocationinfor6addext)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained sRNC-RelocationInfo-r6-add-ext: %w", err), "SRNCRelocationInfoR6AddExt")
 			}
-			containedBB_srncrelocationinfor6addext.InheritDecodeOptions(bb)
 			err = contained_srncrelocationinfor6addext.UnmarshalUPERFrom(containedBB_srncrelocationinfor6addext)
 			if err == nil {
 				v.SRNCRelocationInfoR6AddExtPERPadding_, err = per.CaptureContainedBits(containedBB_srncrelocationinfor6addext)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained sRNC-RelocationInfo-r6-add-ext: %w", err)
-				if !containedSite_srncrelocationinfor6addext.DefersErrors() {
+				if !containedSite_srncrelocationinfor6addext.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "SRNCRelocationInfoR6AddExt")
 				}
 				contained_srncrelocationinfor6addext = SRNCRelocationInfoR6AddExtIEs{}
@@ -36571,8 +38006,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensions")
 	}
@@ -36585,6 +38023,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v770noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -36636,8 +38078,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensions")
 	}
@@ -36650,6 +38095,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v820noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -36701,8 +38150,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensions")
 	}
@@ -36715,6 +38167,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v860noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -36766,8 +38222,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensionsV860NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensionsV860NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensionsV860NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensionsV860NonCriticalExtensions")
 	}
@@ -36780,6 +38239,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensionsV860NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensionsV860NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -36819,8 +38282,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensionsV860NonCriticalExtensionsNonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensionsV860NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensionsV860NonCriticalExtensionsNonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensionsV860NonCriticalExtensionsNonCriticalExtensions")
 	}
@@ -36833,6 +38299,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensionsV860NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsR6V6b0NonCriticalExtensionsV770NonCriticalExtensionsV820NonCriticalExtensionsV860NonCriticalExtensionsNonCriticalExtensions{}
 	return nil
 }
@@ -36850,7 +38320,7 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -36885,8 +38355,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions")
 	}
@@ -36899,12 +38372,16 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -36983,8 +38460,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7 with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7")
 	}
@@ -36997,6 +38477,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7{}
 	// Read preamble bitmap for optional root fields
 	opt_srncrelocationinfor7addext, err := per.DecodeBoolean(bb)
@@ -37020,18 +38504,18 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 		}
 		var contained_srncrelocationinfor7addext SRNCRelocationInfoR7AddExtIEs
 		if containedSite_srncrelocationinfor7addext := bb.EnterContained(); containedSite_srncrelocationinfor7addext.Decodes() {
-			containedBB_srncrelocationinfor7addext, err := per.NewBitBufferFromBits(bsBytes_srncrelocationinfor7addext, bsBitLen_srncrelocationinfor7addext)
+			containedBB_srncrelocationinfor7addext := per.NewNestedDecodeBuffer(bsBytes_srncrelocationinfor7addext, bb)
+			err = containedBB_srncrelocationinfor7addext.SetReadBitLength(bsBitLen_srncrelocationinfor7addext)
 			if err != nil {
 				return runtime.WrapDecodePath(fmt.Errorf("decoding contained sRNC-RelocationInfo-r7-add-ext: %w", err), "SRNCRelocationInfoR7AddExt")
 			}
-			containedBB_srncrelocationinfor7addext.InheritDecodeOptions(bb)
 			err = contained_srncrelocationinfor7addext.UnmarshalUPERFrom(containedBB_srncrelocationinfor7addext)
 			if err == nil {
 				v.SRNCRelocationInfoR7AddExtPERPadding_, err = per.CaptureContainedBits(containedBB_srncrelocationinfor7addext)
 			}
 			if err != nil {
 				err = fmt.Errorf("decoding contained sRNC-RelocationInfo-r7-add-ext: %w", err)
-				if !containedSite_srncrelocationinfor7addext.DefersErrors() {
+				if !containedSite_srncrelocationinfor7addext.DefersErrors(err) {
 					return runtime.WrapDecodePath(err, "SRNCRelocationInfoR7AddExt")
 				}
 				contained_srncrelocationinfor7addext = SRNCRelocationInfoR7AddExtIEs{}
@@ -37085,8 +38569,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensions")
 	}
@@ -37099,6 +38586,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v860noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -37150,8 +38641,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensionsV860NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensionsV860NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensionsV860NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensionsV860NonCriticalExtensions")
 	}
@@ -37164,6 +38658,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensionsV860NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensionsV860NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -37203,8 +38701,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensionsV860NonCriticalExtensionsNonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensionsV860NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensionsV860NonCriticalExtensionsNonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensionsV860NonCriticalExtensionsNonCriticalExtensions")
 	}
@@ -37217,6 +38718,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensionsV860NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsR7V820NonCriticalExtensionsV860NonCriticalExtensionsNonCriticalExtensions{}
 	return nil
 }
@@ -37234,7 +38739,7 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -37269,8 +38774,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions")
 	}
@@ -37283,12 +38791,16 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -37354,8 +38866,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8 with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8")
 	}
@@ -37368,6 +38883,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8{}
 	// Read preamble bitmap for optional root fields
 	opt_srncrelocationinfor8addext, err := per.DecodeBoolean(bb)
@@ -37433,8 +38952,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensions")
 	}
@@ -37447,6 +38969,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v7f0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -37498,8 +39024,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensions")
 	}
@@ -37512,6 +39041,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v8d0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -37563,8 +39096,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensionsV8d0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensionsV8d0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensionsV8d0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensionsV8d0NonCriticalExtensions")
 	}
@@ -37577,6 +39113,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensionsV8d0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensionsV8d0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -37616,8 +39156,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensionsV8d0NonCriticalExtensionsNonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensionsV8d0NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensionsV8d0NonCriticalExtensionsNonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensionsV8d0NonCriticalExtensionsNonCriticalExtensions")
 	}
@@ -37630,6 +39173,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensionsV8d0NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR8V7e0NonCriticalExtensionsV7f0NonCriticalExtensionsV8d0NonCriticalExtensionsNonCriticalExtensions{}
 	return nil
 }
@@ -37647,7 +39194,7 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -37682,8 +39229,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions")
 	}
@@ -37696,12 +39246,16 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -37767,8 +39321,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9 with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9")
 	}
@@ -37781,6 +39338,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9{}
 	// Read preamble bitmap for optional root fields
 	opt_srncrelocationinfor9addext, err := per.DecodeBoolean(bb)
@@ -37846,8 +39407,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensions")
 	}
@@ -37860,6 +39424,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v970noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -37911,8 +39479,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensions")
 	}
@@ -37925,6 +39496,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_v9c0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -37976,8 +39551,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensionsV9c0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensionsV9c0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensionsV9c0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensionsV9c0NonCriticalExtensions")
 	}
@@ -37990,6 +39568,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensionsV9c0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensionsV9c0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -38029,8 +39611,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensionsV9c0NonCriticalExtensionsNonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensionsV9c0NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensionsV9c0NonCriticalExtensionsNonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensionsV9c0NonCriticalExtensionsNonCriticalExtensions")
 	}
@@ -38043,6 +39628,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensionsV9c0NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR9V8d0NonCriticalExtensionsV970NonCriticalExtensionsV9c0NonCriticalExtensionsNonCriticalExtensions{}
 	return nil
 }
@@ -38060,7 +39649,7 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -38095,8 +39684,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions")
 	}
@@ -38109,12 +39701,16 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -38180,8 +39776,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10 with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10")
 	}
@@ -38194,6 +39793,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10{}
 	// Read preamble bitmap for optional root fields
 	opt_srncrelocationinfor10addext, err := per.DecodeBoolean(bb)
@@ -38259,8 +39862,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensions")
 	}
@@ -38273,6 +39879,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_vab0noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -38324,8 +39934,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensionsVab0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensionsVab0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensionsVab0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensionsVab0NonCriticalExtensions")
 	}
@@ -38338,6 +39951,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensionsVab0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensionsVab0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -38377,8 +39994,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensionsVab0NonCriticalExtensionsNonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensionsVab0NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensionsVab0NonCriticalExtensionsNonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensionsVab0NonCriticalExtensionsNonCriticalExtensions")
 	}
@@ -38391,6 +40011,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensionsVab0NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR10V9c0NonCriticalExtensionsVab0NonCriticalExtensionsNonCriticalExtensions{}
 	return nil
 }
@@ -38408,7 +40032,7 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -38443,8 +40067,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions")
 	}
@@ -38457,12 +40084,16 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -38528,8 +40159,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR11 with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR11) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR11")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR11")
 	}
@@ -38542,6 +40176,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR11{}
 	// Read preamble bitmap for optional root fields
 	opt_srncrelocationinfor11addext, err := per.DecodeBoolean(bb)
@@ -38595,8 +40233,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR11NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR11NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR11NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR11NonCriticalExtensions")
 	}
@@ -38609,6 +40250,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR11NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR11NonCriticalExtensions{}
 	return nil
 }
@@ -38626,7 +40271,7 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -38661,8 +40306,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions")
 	}
@@ -38675,12 +40323,16 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -38746,8 +40398,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR12 with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR12) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR12")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR12")
 	}
@@ -38760,6 +40415,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR12{}
 	// Read preamble bitmap for optional root fields
 	opt_srncrelocationinfor12addext, err := per.DecodeBoolean(bb)
@@ -38813,8 +40472,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR12NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR12NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR12NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR12NonCriticalExtensions")
 	}
@@ -38827,6 +40489,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR12NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR12NonCriticalExtensions{}
 	return nil
 }
@@ -38844,7 +40510,7 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -38879,8 +40545,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions")
 	}
@@ -38893,12 +40562,16 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -38964,8 +40637,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR13 with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR13) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR13")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR13")
 	}
@@ -38978,6 +40654,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR13{}
 	// Read preamble bitmap for optional root fields
 	opt_srncrelocationinfor13addext, err := per.DecodeBoolean(bb)
@@ -39031,8 +40711,11 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR13NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR13NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR13NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR13NonCriticalExtensions")
 	}
@@ -39045,6 +40728,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 }
 
 func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR13NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsR13NonCriticalExtensions{}
 	return nil
 }
@@ -39062,7 +40749,7 @@ func (v *SRNCRelocationInfoR3IEsModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffe
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3IEsModeSpecificInfo: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -39091,8 +40778,11 @@ func (v *SRNCRelocationInfoR3IEsModeSpecificInfo) UnmarshalUPER(data []byte) err
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3IEsModeSpecificInfo with explicit receiver options.
 func (v *SRNCRelocationInfoR3IEsModeSpecificInfo) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3IEsModeSpecificInfo")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3IEsModeSpecificInfo")
 	}
@@ -39105,12 +40795,16 @@ func (v *SRNCRelocationInfoR3IEsModeSpecificInfo) UnmarshalUPERWithOptions(data 
 }
 
 func (v *SRNCRelocationInfoR3IEsModeSpecificInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3IEsModeSpecificInfo{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -39176,8 +40870,11 @@ func (v *SRNCRelocationInfoR3IEsModeSpecificInfoFdd) UnmarshalUPER(data []byte) 
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR3IEsModeSpecificInfoFdd with explicit receiver options.
 func (v *SRNCRelocationInfoR3IEsModeSpecificInfoFdd) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3IEsModeSpecificInfoFdd")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR3IEsModeSpecificInfoFdd")
 	}
@@ -39190,6 +40887,10 @@ func (v *SRNCRelocationInfoR3IEsModeSpecificInfoFdd) UnmarshalUPERWithOptions(da
 }
 
 func (v *SRNCRelocationInfoR3IEsModeSpecificInfoFdd) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR3IEsModeSpecificInfoFdd{}
 	// Read preamble bitmap for optional root fields
 	opt_dummy, err := per.DecodeBoolean(bb)
@@ -39211,7 +40912,7 @@ func (v *SRNCRelocationInfoR3IEsModeSpecificInfoFdd) UnmarshalUPERFrom(bb *per.B
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -39252,8 +40953,11 @@ func (v *SRNCRelocationInfoV3h0extIEsNonCriticalExtension) UnmarshalUPER(data []
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoV3h0extIEsNonCriticalExtension with explicit receiver options.
 func (v *SRNCRelocationInfoV3h0extIEsNonCriticalExtension) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV3h0extIEsNonCriticalExtension")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoV3h0extIEsNonCriticalExtension")
 	}
@@ -39266,6 +40970,10 @@ func (v *SRNCRelocationInfoV3h0extIEsNonCriticalExtension) UnmarshalUPERWithOpti
 }
 
 func (v *SRNCRelocationInfoV3h0extIEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoV3h0extIEsNonCriticalExtension{}
 	return nil
 }
@@ -39283,7 +40991,7 @@ func (v *StoredTGPSequenceCurrentTgpsStatus) MarshalUPERTo(bb *per.BitBuffer) er
 	if v.Choice < 1 {
 		return fmt.Errorf("StoredTGPSequenceCurrentTgpsStatus: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -39312,8 +41020,11 @@ func (v *StoredTGPSequenceCurrentTgpsStatus) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes StoredTGPSequenceCurrentTgpsStatus with explicit receiver options.
 func (v *StoredTGPSequenceCurrentTgpsStatus) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "StoredTGPSequenceCurrentTgpsStatus")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "StoredTGPSequenceCurrentTgpsStatus")
 	}
@@ -39326,12 +41037,16 @@ func (v *StoredTGPSequenceCurrentTgpsStatus) UnmarshalUPERWithOptions(data []byt
 }
 
 func (v *StoredTGPSequenceCurrentTgpsStatus) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = StoredTGPSequenceCurrentTgpsStatus{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -39372,8 +41087,11 @@ func (v *StoredTGPSequenceCurrentTgpsStatusActive) UnmarshalUPER(data []byte) er
 
 // UnmarshalUPERWithOptions decodes StoredTGPSequenceCurrentTgpsStatusActive with explicit receiver options.
 func (v *StoredTGPSequenceCurrentTgpsStatusActive) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "StoredTGPSequenceCurrentTgpsStatusActive")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "StoredTGPSequenceCurrentTgpsStatusActive")
 	}
@@ -39386,6 +41104,10 @@ func (v *StoredTGPSequenceCurrentTgpsStatusActive) UnmarshalUPERWithOptions(data
 }
 
 func (v *StoredTGPSequenceCurrentTgpsStatusActive) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = StoredTGPSequenceCurrentTgpsStatusActive{}
 	val_tgcfn, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
@@ -39408,7 +41130,7 @@ func (v *StoredTGPSequenceR8CurrentTgpsStatus) MarshalUPERTo(bb *per.BitBuffer) 
 	if v.Choice < 1 {
 		return fmt.Errorf("StoredTGPSequenceR8CurrentTgpsStatus: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -39437,8 +41159,11 @@ func (v *StoredTGPSequenceR8CurrentTgpsStatus) UnmarshalUPER(data []byte) error 
 
 // UnmarshalUPERWithOptions decodes StoredTGPSequenceR8CurrentTgpsStatus with explicit receiver options.
 func (v *StoredTGPSequenceR8CurrentTgpsStatus) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "StoredTGPSequenceR8CurrentTgpsStatus")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "StoredTGPSequenceR8CurrentTgpsStatus")
 	}
@@ -39451,12 +41176,16 @@ func (v *StoredTGPSequenceR8CurrentTgpsStatus) UnmarshalUPERWithOptions(data []b
 }
 
 func (v *StoredTGPSequenceR8CurrentTgpsStatus) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = StoredTGPSequenceR8CurrentTgpsStatus{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -39497,8 +41226,11 @@ func (v *StoredTGPSequenceR8CurrentTgpsStatusActive) UnmarshalUPER(data []byte) 
 
 // UnmarshalUPERWithOptions decodes StoredTGPSequenceR8CurrentTgpsStatusActive with explicit receiver options.
 func (v *StoredTGPSequenceR8CurrentTgpsStatusActive) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "StoredTGPSequenceR8CurrentTgpsStatusActive")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "StoredTGPSequenceR8CurrentTgpsStatusActive")
 	}
@@ -39511,6 +41243,10 @@ func (v *StoredTGPSequenceR8CurrentTgpsStatusActive) UnmarshalUPERWithOptions(da
 }
 
 func (v *StoredTGPSequenceR8CurrentTgpsStatusActive) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = StoredTGPSequenceR8CurrentTgpsStatusActive{}
 	val_tgcfn, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
@@ -39533,7 +41269,7 @@ func (v *SRNCRelocationInfoR4IEsDummy) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR4IEsDummy: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -39562,8 +41298,11 @@ func (v *SRNCRelocationInfoR4IEsDummy) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR4IEsDummy with explicit receiver options.
 func (v *SRNCRelocationInfoR4IEsDummy) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR4IEsDummy")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR4IEsDummy")
 	}
@@ -39576,12 +41315,16 @@ func (v *SRNCRelocationInfoR4IEsDummy) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoR4IEsDummy) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR4IEsDummy{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -39647,8 +41390,11 @@ func (v *SRNCRelocationInfoR4IEsDummyFdd) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR4IEsDummyFdd with explicit receiver options.
 func (v *SRNCRelocationInfoR4IEsDummyFdd) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR4IEsDummyFdd")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR4IEsDummyFdd")
 	}
@@ -39661,6 +41407,10 @@ func (v *SRNCRelocationInfoR4IEsDummyFdd) UnmarshalUPERWithOptions(data []byte, 
 }
 
 func (v *SRNCRelocationInfoR4IEsDummyFdd) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR4IEsDummyFdd{}
 	// Read preamble bitmap for optional root fields
 	opt_dummy1, err := per.DecodeBoolean(bb)
@@ -39682,7 +41432,7 @@ func (v *SRNCRelocationInfoR4IEsDummyFdd) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -39716,7 +41466,7 @@ func (v *SRNCRelocationInfoR5IEsDummy) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR5IEsDummy: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -39745,8 +41495,11 @@ func (v *SRNCRelocationInfoR5IEsDummy) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR5IEsDummy with explicit receiver options.
 func (v *SRNCRelocationInfoR5IEsDummy) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR5IEsDummy")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR5IEsDummy")
 	}
@@ -39759,12 +41512,16 @@ func (v *SRNCRelocationInfoR5IEsDummy) UnmarshalUPERWithOptions(data []byte, opt
 }
 
 func (v *SRNCRelocationInfoR5IEsDummy) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR5IEsDummy{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -39830,8 +41587,11 @@ func (v *SRNCRelocationInfoR5IEsDummyFdd) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR5IEsDummyFdd with explicit receiver options.
 func (v *SRNCRelocationInfoR5IEsDummyFdd) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR5IEsDummyFdd")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR5IEsDummyFdd")
 	}
@@ -39844,6 +41604,10 @@ func (v *SRNCRelocationInfoR5IEsDummyFdd) UnmarshalUPERWithOptions(data []byte, 
 }
 
 func (v *SRNCRelocationInfoR5IEsDummyFdd) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR5IEsDummyFdd{}
 	// Read preamble bitmap for optional root fields
 	opt_dummy1, err := per.DecodeBoolean(bb)
@@ -39865,7 +41629,7 @@ func (v *SRNCRelocationInfoR5IEsDummyFdd) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -39918,8 +41682,11 @@ func (v *SRNCRelocationInfoR6AddExtIEsV7f0NonCriticalExtensions) UnmarshalUPER(d
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR6AddExtIEsV7f0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR6AddExtIEsV7f0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR6AddExtIEsV7f0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR6AddExtIEsV7f0NonCriticalExtensions")
 	}
@@ -39932,6 +41699,10 @@ func (v *SRNCRelocationInfoR6AddExtIEsV7f0NonCriticalExtensions) UnmarshalUPERWi
 }
 
 func (v *SRNCRelocationInfoR6AddExtIEsV7f0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR6AddExtIEsV7f0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -39971,8 +41742,11 @@ func (v *SRNCRelocationInfoR6AddExtIEsV7f0NonCriticalExtensionsNonCriticalExtens
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR6AddExtIEsV7f0NonCriticalExtensionsNonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR6AddExtIEsV7f0NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR6AddExtIEsV7f0NonCriticalExtensionsNonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR6AddExtIEsV7f0NonCriticalExtensionsNonCriticalExtensions")
 	}
@@ -39985,6 +41759,10 @@ func (v *SRNCRelocationInfoR6AddExtIEsV7f0NonCriticalExtensionsNonCriticalExtens
 }
 
 func (v *SRNCRelocationInfoR6AddExtIEsV7f0NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR6AddExtIEsV7f0NonCriticalExtensionsNonCriticalExtensions{}
 	return nil
 }
@@ -40021,8 +41799,11 @@ func (v *SRNCRelocationInfoR7AddExtIEsV7f0NonCriticalExtensions) UnmarshalUPER(d
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR7AddExtIEsV7f0NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR7AddExtIEsV7f0NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR7AddExtIEsV7f0NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR7AddExtIEsV7f0NonCriticalExtensions")
 	}
@@ -40035,6 +41816,10 @@ func (v *SRNCRelocationInfoR7AddExtIEsV7f0NonCriticalExtensions) UnmarshalUPERWi
 }
 
 func (v *SRNCRelocationInfoR7AddExtIEsV7f0NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR7AddExtIEsV7f0NonCriticalExtensions{}
 	// Read preamble bitmap for optional root fields
 	opt_noncriticalextensions, err := per.DecodeBoolean(bb)
@@ -40074,8 +41859,11 @@ func (v *SRNCRelocationInfoR7AddExtIEsV7f0NonCriticalExtensionsNonCriticalExtens
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoR7AddExtIEsV7f0NonCriticalExtensionsNonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoR7AddExtIEsV7f0NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR7AddExtIEsV7f0NonCriticalExtensionsNonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoR7AddExtIEsV7f0NonCriticalExtensionsNonCriticalExtensions")
 	}
@@ -40088,6 +41876,10 @@ func (v *SRNCRelocationInfoR7AddExtIEsV7f0NonCriticalExtensionsNonCriticalExtens
 }
 
 func (v *SRNCRelocationInfoR7AddExtIEsV7f0NonCriticalExtensionsNonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoR7AddExtIEsV7f0NonCriticalExtensionsNonCriticalExtensions{}
 	return nil
 }
@@ -40105,7 +41897,7 @@ func (v *SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensions) MarshalUPE
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -40140,8 +41932,11 @@ func (v *SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensions) UnmarshalU
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensions")
 	}
@@ -40154,12 +41949,16 @@ func (v *SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensions) UnmarshalU
 }
 
 func (v *SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -40225,8 +42024,11 @@ func (v *SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensionsR14) Unmarsh
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensionsR14 with explicit receiver options.
 func (v *SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensionsR14) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensionsR14")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensionsR14")
 	}
@@ -40239,6 +42041,10 @@ func (v *SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensionsR14) Unmarsh
 }
 
 func (v *SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensionsR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensionsR14{}
 	// Read preamble bitmap for optional root fields
 	opt_srncrelocationinfor14addext, err := per.DecodeBoolean(bb)
@@ -40292,8 +42098,11 @@ func (v *SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensionsR14NonCritic
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensionsR14NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensionsR14NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensionsR14NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensionsR14NonCriticalExtensions")
 	}
@@ -40306,6 +42115,10 @@ func (v *SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensionsR14NonCritic
 }
 
 func (v *SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensionsR14NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensionsR14NonCriticalExtensions{}
 	return nil
 }
@@ -40323,7 +42136,7 @@ func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensions) MarshalUP
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -40358,8 +42171,11 @@ func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensions) Unmarshal
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensions")
 	}
@@ -40372,12 +42188,16 @@ func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensions) Unmarshal
 }
 
 func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -40441,8 +42261,11 @@ func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsR15) Unmars
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsR15 with explicit receiver options.
 func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsR15) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsR15")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsR15")
 	}
@@ -40455,6 +42278,10 @@ func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsR15) Unmars
 }
 
 func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsR15{}
 	// Read preamble bitmap for optional root fields
 	opt_srncrelocationinfor15addext, err := per.DecodeBoolean(bb)
@@ -40508,8 +42335,11 @@ func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsR15NonCriti
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsR15NonCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsR15NonCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsR15NonCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsR15NonCriticalExtensions")
 	}
@@ -40522,6 +42352,10 @@ func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsR15NonCriti
 }
 
 func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsR15NonCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsR15NonCriticalExtensions{}
 	return nil
 }
@@ -40546,8 +42380,11 @@ func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsCriticalExt
 
 // UnmarshalUPERWithOptions decodes SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsCriticalExtensions with explicit receiver options.
 func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsCriticalExtensions) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsCriticalExtensions")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsCriticalExtensions")
 	}
@@ -40560,6 +42397,10 @@ func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsCriticalExt
 }
 
 func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensionsCriticalExtensions{}
 	return nil
 }
@@ -40577,7 +42418,7 @@ func (v *DLPhysChCapabilityFDDR5FddHspdsch) MarshalUPERTo(bb *per.BitBuffer) err
 	if v.Choice < 1 {
 		return fmt.Errorf("DLPhysChCapabilityFDDR5FddHspdsch: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -40606,8 +42447,11 @@ func (v *DLPhysChCapabilityFDDR5FddHspdsch) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes DLPhysChCapabilityFDDR5FddHspdsch with explicit receiver options.
 func (v *DLPhysChCapabilityFDDR5FddHspdsch) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "DLPhysChCapabilityFDDR5FddHspdsch")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLPhysChCapabilityFDDR5FddHspdsch")
 	}
@@ -40620,12 +42464,16 @@ func (v *DLPhysChCapabilityFDDR5FddHspdsch) UnmarshalUPERWithOptions(data []byte
 }
 
 func (v *DLPhysChCapabilityFDDR5FddHspdsch) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = DLPhysChCapabilityFDDR5FddHspdsch{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -40672,8 +42520,11 @@ func (v *DLPhysChCapabilityFDDR5FddHspdschSupported) UnmarshalUPER(data []byte) 
 
 // UnmarshalUPERWithOptions decodes DLPhysChCapabilityFDDR5FddHspdschSupported with explicit receiver options.
 func (v *DLPhysChCapabilityFDDR5FddHspdschSupported) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "DLPhysChCapabilityFDDR5FddHspdschSupported")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLPhysChCapabilityFDDR5FddHspdschSupported")
 	}
@@ -40686,6 +42537,10 @@ func (v *DLPhysChCapabilityFDDR5FddHspdschSupported) UnmarshalUPERWithOptions(da
 }
 
 func (v *DLPhysChCapabilityFDDR5FddHspdschSupported) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = DLPhysChCapabilityFDDR5FddHspdschSupported{}
 	val_hsdschphysicallayercategory, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(64), false)
 	if err != nil {
@@ -40718,7 +42573,7 @@ func (v *DLPhysChCapabilityTDDR5Tdd384Hspdsch) MarshalUPERTo(bb *per.BitBuffer) 
 	if v.Choice < 1 {
 		return fmt.Errorf("DLPhysChCapabilityTDDR5Tdd384Hspdsch: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -40747,8 +42602,11 @@ func (v *DLPhysChCapabilityTDDR5Tdd384Hspdsch) UnmarshalUPER(data []byte) error 
 
 // UnmarshalUPERWithOptions decodes DLPhysChCapabilityTDDR5Tdd384Hspdsch with explicit receiver options.
 func (v *DLPhysChCapabilityTDDR5Tdd384Hspdsch) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "DLPhysChCapabilityTDDR5Tdd384Hspdsch")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLPhysChCapabilityTDDR5Tdd384Hspdsch")
 	}
@@ -40761,12 +42619,16 @@ func (v *DLPhysChCapabilityTDDR5Tdd384Hspdsch) UnmarshalUPERWithOptions(data []b
 }
 
 func (v *DLPhysChCapabilityTDDR5Tdd384Hspdsch) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = DLPhysChCapabilityTDDR5Tdd384Hspdsch{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -40798,7 +42660,7 @@ func (v *DLPhysChCapabilityTDDLCRR5Tdd128Hspdsch) MarshalUPERTo(bb *per.BitBuffe
 	if v.Choice < 1 {
 		return fmt.Errorf("DLPhysChCapabilityTDDLCRR5Tdd128Hspdsch: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -40827,8 +42689,11 @@ func (v *DLPhysChCapabilityTDDLCRR5Tdd128Hspdsch) UnmarshalUPER(data []byte) err
 
 // UnmarshalUPERWithOptions decodes DLPhysChCapabilityTDDLCRR5Tdd128Hspdsch with explicit receiver options.
 func (v *DLPhysChCapabilityTDDLCRR5Tdd128Hspdsch) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "DLPhysChCapabilityTDDLCRR5Tdd128Hspdsch")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLPhysChCapabilityTDDLCRR5Tdd128Hspdsch")
 	}
@@ -40841,12 +42706,16 @@ func (v *DLPhysChCapabilityTDDLCRR5Tdd128Hspdsch) UnmarshalUPERWithOptions(data 
 }
 
 func (v *DLPhysChCapabilityTDDLCRR5Tdd128Hspdsch) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = DLPhysChCapabilityTDDLCRR5Tdd128Hspdsch{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -40878,7 +42747,7 @@ func (v *OngoingMeasRepR5MeasurementCommandV590ext) MarshalUPERTo(bb *per.BitBuf
 	if v.Choice < 1 {
 		return fmt.Errorf("OngoingMeasRepR5MeasurementCommandV590ext: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -40929,8 +42798,11 @@ func (v *OngoingMeasRepR5MeasurementCommandV590ext) UnmarshalUPER(data []byte) e
 
 // UnmarshalUPERWithOptions decodes OngoingMeasRepR5MeasurementCommandV590ext with explicit receiver options.
 func (v *OngoingMeasRepR5MeasurementCommandV590ext) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "OngoingMeasRepR5MeasurementCommandV590ext")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OngoingMeasRepR5MeasurementCommandV590ext")
 	}
@@ -40943,12 +42815,16 @@ func (v *OngoingMeasRepR5MeasurementCommandV590ext) UnmarshalUPERWithOptions(dat
 }
 
 func (v *OngoingMeasRepR5MeasurementCommandV590ext) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = OngoingMeasRepR5MeasurementCommandV590ext{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -40957,7 +42833,7 @@ func (v *OngoingMeasRepR5MeasurementCommandV590ext) UnmarshalUPERFrom(bb *per.Bi
 	case OngoingMeasRepR5MeasurementCommandV590extChoiceIntraFrequency:
 		tmp_intrafrequency := make(IntraFreqEventCriteriaListV590ext, 0)
 		_, errCollection_intrafrequency := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_intrafrequency, fragmentLength_intrafrequency int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1239
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1238
 			if fragmentOffset_intrafrequency < 0 || fragmentLength_intrafrequency < 0 || fragmentLength_intrafrequency > int64(^uint(0)>>1) || fragmentOffset_intrafrequency > int64(^uint(0)>>1)-fragmentLength_intrafrequency {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -40977,7 +42853,7 @@ func (v *OngoingMeasRepR5MeasurementCommandV590ext) UnmarshalUPERFrom(bb *per.Bi
 	case OngoingMeasRepR5MeasurementCommandV590extChoiceInterFrequency:
 		tmp_interfrequency := make(InterFreqEventCriteriaListV590ext, 0)
 		_, errCollection_interfrequency := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_interfrequency, fragmentLength_interfrequency int64) error {
-			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1205
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1204
 			if fragmentOffset_interfrequency < 0 || fragmentLength_interfrequency < 0 || fragmentLength_interfrequency > int64(^uint(0)>>1) || fragmentOffset_interfrequency > int64(^uint(0)>>1)-fragmentLength_interfrequency {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -41011,7 +42887,7 @@ func (v *PDCPCapabilityR4SupportForRfc2507) MarshalUPERTo(bb *per.BitBuffer) err
 	if v.Choice < 1 {
 		return fmt.Errorf("PDCPCapabilityR4SupportForRfc2507: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -41040,8 +42916,11 @@ func (v *PDCPCapabilityR4SupportForRfc2507) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes PDCPCapabilityR4SupportForRfc2507 with explicit receiver options.
 func (v *PDCPCapabilityR4SupportForRfc2507) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PDCPCapabilityR4SupportForRfc2507")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PDCPCapabilityR4SupportForRfc2507")
 	}
@@ -41054,12 +42933,16 @@ func (v *PDCPCapabilityR4SupportForRfc2507) UnmarshalUPERWithOptions(data []byte
 }
 
 func (v *PDCPCapabilityR4SupportForRfc2507) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PDCPCapabilityR4SupportForRfc2507{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -41091,7 +42974,7 @@ func (v *PDCPCapabilityR4SupportForRfc3095) MarshalUPERTo(bb *per.BitBuffer) err
 	if v.Choice < 1 {
 		return fmt.Errorf("PDCPCapabilityR4SupportForRfc3095: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -41120,8 +43003,11 @@ func (v *PDCPCapabilityR4SupportForRfc3095) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes PDCPCapabilityR4SupportForRfc3095 with explicit receiver options.
 func (v *PDCPCapabilityR4SupportForRfc3095) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PDCPCapabilityR4SupportForRfc3095")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PDCPCapabilityR4SupportForRfc3095")
 	}
@@ -41134,12 +43020,16 @@ func (v *PDCPCapabilityR4SupportForRfc3095) UnmarshalUPERWithOptions(data []byte
 }
 
 func (v *PDCPCapabilityR4SupportForRfc3095) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PDCPCapabilityR4SupportForRfc3095{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -41198,8 +43088,11 @@ func (v *PDCPCapabilityR4SupportForRfc3095Supported) UnmarshalUPER(data []byte) 
 
 // UnmarshalUPERWithOptions decodes PDCPCapabilityR4SupportForRfc3095Supported with explicit receiver options.
 func (v *PDCPCapabilityR4SupportForRfc3095Supported) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PDCPCapabilityR4SupportForRfc3095Supported")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PDCPCapabilityR4SupportForRfc3095Supported")
 	}
@@ -41212,6 +43105,10 @@ func (v *PDCPCapabilityR4SupportForRfc3095Supported) UnmarshalUPERWithOptions(da
 }
 
 func (v *PDCPCapabilityR4SupportForRfc3095Supported) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PDCPCapabilityR4SupportForRfc3095Supported{}
 	var explicitDefaults_ uint64
 	// Read preamble bitmap for optional root fields
@@ -41261,7 +43158,7 @@ func (v *PDCPCapabilityR5SupportForRfc2507) MarshalUPERTo(bb *per.BitBuffer) err
 	if v.Choice < 1 {
 		return fmt.Errorf("PDCPCapabilityR5SupportForRfc2507: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -41290,8 +43187,11 @@ func (v *PDCPCapabilityR5SupportForRfc2507) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes PDCPCapabilityR5SupportForRfc2507 with explicit receiver options.
 func (v *PDCPCapabilityR5SupportForRfc2507) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PDCPCapabilityR5SupportForRfc2507")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PDCPCapabilityR5SupportForRfc2507")
 	}
@@ -41304,12 +43204,16 @@ func (v *PDCPCapabilityR5SupportForRfc2507) UnmarshalUPERWithOptions(data []byte
 }
 
 func (v *PDCPCapabilityR5SupportForRfc2507) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PDCPCapabilityR5SupportForRfc2507{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -41341,7 +43245,7 @@ func (v *PDCPCapabilityR5SupportForRfc3095) MarshalUPERTo(bb *per.BitBuffer) err
 	if v.Choice < 1 {
 		return fmt.Errorf("PDCPCapabilityR5SupportForRfc3095: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -41370,8 +43274,11 @@ func (v *PDCPCapabilityR5SupportForRfc3095) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes PDCPCapabilityR5SupportForRfc3095 with explicit receiver options.
 func (v *PDCPCapabilityR5SupportForRfc3095) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PDCPCapabilityR5SupportForRfc3095")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PDCPCapabilityR5SupportForRfc3095")
 	}
@@ -41384,12 +43291,16 @@ func (v *PDCPCapabilityR5SupportForRfc3095) UnmarshalUPERWithOptions(data []byte
 }
 
 func (v *PDCPCapabilityR5SupportForRfc3095) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PDCPCapabilityR5SupportForRfc3095{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -41451,8 +43362,11 @@ func (v *PDCPCapabilityR5SupportForRfc3095Supported) UnmarshalUPER(data []byte) 
 
 // UnmarshalUPERWithOptions decodes PDCPCapabilityR5SupportForRfc3095Supported with explicit receiver options.
 func (v *PDCPCapabilityR5SupportForRfc3095Supported) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PDCPCapabilityR5SupportForRfc3095Supported")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PDCPCapabilityR5SupportForRfc3095Supported")
 	}
@@ -41465,6 +43379,10 @@ func (v *PDCPCapabilityR5SupportForRfc3095Supported) UnmarshalUPERWithOptions(da
 }
 
 func (v *PDCPCapabilityR5SupportForRfc3095Supported) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PDCPCapabilityR5SupportForRfc3095Supported{}
 	var explicitDefaults_ uint64
 	// Read preamble bitmap for optional root fields
@@ -41519,7 +43437,7 @@ func (v *PDCPCapabilityR6SupportForRfc2507) MarshalUPERTo(bb *per.BitBuffer) err
 	if v.Choice < 1 {
 		return fmt.Errorf("PDCPCapabilityR6SupportForRfc2507: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -41548,8 +43466,11 @@ func (v *PDCPCapabilityR6SupportForRfc2507) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes PDCPCapabilityR6SupportForRfc2507 with explicit receiver options.
 func (v *PDCPCapabilityR6SupportForRfc2507) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PDCPCapabilityR6SupportForRfc2507")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PDCPCapabilityR6SupportForRfc2507")
 	}
@@ -41562,12 +43483,16 @@ func (v *PDCPCapabilityR6SupportForRfc2507) UnmarshalUPERWithOptions(data []byte
 }
 
 func (v *PDCPCapabilityR6SupportForRfc2507) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PDCPCapabilityR6SupportForRfc2507{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -41599,7 +43524,7 @@ func (v *PDCPCapabilityR6SupportForRfc3095) MarshalUPERTo(bb *per.BitBuffer) err
 	if v.Choice < 1 {
 		return fmt.Errorf("PDCPCapabilityR6SupportForRfc3095: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:180
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:182
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -41628,8 +43553,11 @@ func (v *PDCPCapabilityR6SupportForRfc3095) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes PDCPCapabilityR6SupportForRfc3095 with explicit receiver options.
 func (v *PDCPCapabilityR6SupportForRfc3095) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PDCPCapabilityR6SupportForRfc3095")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PDCPCapabilityR6SupportForRfc3095")
 	}
@@ -41642,12 +43570,16 @@ func (v *PDCPCapabilityR6SupportForRfc3095) UnmarshalUPERWithOptions(data []byte
 }
 
 func (v *PDCPCapabilityR6SupportForRfc3095) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PDCPCapabilityR6SupportForRfc3095{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:269
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:273
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
@@ -41709,8 +43641,11 @@ func (v *PDCPCapabilityR6SupportForRfc3095Supported) UnmarshalUPER(data []byte) 
 
 // UnmarshalUPERWithOptions decodes PDCPCapabilityR6SupportForRfc3095Supported with explicit receiver options.
 func (v *PDCPCapabilityR6SupportForRfc3095Supported) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PDCPCapabilityR6SupportForRfc3095Supported")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PDCPCapabilityR6SupportForRfc3095Supported")
 	}
@@ -41723,6 +43658,10 @@ func (v *PDCPCapabilityR6SupportForRfc3095Supported) UnmarshalUPERWithOptions(da
 }
 
 func (v *PDCPCapabilityR6SupportForRfc3095Supported) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PDCPCapabilityR6SupportForRfc3095Supported{}
 	var explicitDefaults_ uint64
 	// Read preamble bitmap for optional root fields
@@ -41790,8 +43729,11 @@ func (v *PhysicalChannelCapabilityR4FddPhysChCapability) UnmarshalUPER(data []by
 
 // UnmarshalUPERWithOptions decodes PhysicalChannelCapabilityR4FddPhysChCapability with explicit receiver options.
 func (v *PhysicalChannelCapabilityR4FddPhysChCapability) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PhysicalChannelCapabilityR4FddPhysChCapability")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PhysicalChannelCapabilityR4FddPhysChCapability")
 	}
@@ -41804,6 +43746,10 @@ func (v *PhysicalChannelCapabilityR4FddPhysChCapability) UnmarshalUPERWithOption
 }
 
 func (v *PhysicalChannelCapabilityR4FddPhysChCapability) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PhysicalChannelCapabilityR4FddPhysChCapability{}
 	if err := v.DownlinkPhysChCapability.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkPhysChCapability")
@@ -41840,8 +43786,11 @@ func (v *PhysicalChannelCapabilityR4Tdd384PhysChCapability) UnmarshalUPER(data [
 
 // UnmarshalUPERWithOptions decodes PhysicalChannelCapabilityR4Tdd384PhysChCapability with explicit receiver options.
 func (v *PhysicalChannelCapabilityR4Tdd384PhysChCapability) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PhysicalChannelCapabilityR4Tdd384PhysChCapability")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PhysicalChannelCapabilityR4Tdd384PhysChCapability")
 	}
@@ -41854,6 +43803,10 @@ func (v *PhysicalChannelCapabilityR4Tdd384PhysChCapability) UnmarshalUPERWithOpt
 }
 
 func (v *PhysicalChannelCapabilityR4Tdd384PhysChCapability) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PhysicalChannelCapabilityR4Tdd384PhysChCapability{}
 	if err := v.DownlinkPhysChCapability.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkPhysChCapability")
@@ -41890,8 +43843,11 @@ func (v *PhysicalChannelCapabilityR4Tdd128PhysChCapability) UnmarshalUPER(data [
 
 // UnmarshalUPERWithOptions decodes PhysicalChannelCapabilityR4Tdd128PhysChCapability with explicit receiver options.
 func (v *PhysicalChannelCapabilityR4Tdd128PhysChCapability) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PhysicalChannelCapabilityR4Tdd128PhysChCapability")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PhysicalChannelCapabilityR4Tdd128PhysChCapability")
 	}
@@ -41904,6 +43860,10 @@ func (v *PhysicalChannelCapabilityR4Tdd128PhysChCapability) UnmarshalUPERWithOpt
 }
 
 func (v *PhysicalChannelCapabilityR4Tdd128PhysChCapability) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PhysicalChannelCapabilityR4Tdd128PhysChCapability{}
 	if err := v.DownlinkPhysChCapability.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkPhysChCapability")
@@ -41940,8 +43900,11 @@ func (v *PhysicalChannelCapabilityR5FddPhysChCapability) UnmarshalUPER(data []by
 
 // UnmarshalUPERWithOptions decodes PhysicalChannelCapabilityR5FddPhysChCapability with explicit receiver options.
 func (v *PhysicalChannelCapabilityR5FddPhysChCapability) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PhysicalChannelCapabilityR5FddPhysChCapability")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PhysicalChannelCapabilityR5FddPhysChCapability")
 	}
@@ -41954,6 +43917,10 @@ func (v *PhysicalChannelCapabilityR5FddPhysChCapability) UnmarshalUPERWithOption
 }
 
 func (v *PhysicalChannelCapabilityR5FddPhysChCapability) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PhysicalChannelCapabilityR5FddPhysChCapability{}
 	if err := v.DownlinkPhysChCapability.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkPhysChCapability")
@@ -41990,8 +43957,11 @@ func (v *PhysicalChannelCapabilityR5Tdd384PhysChCapability) UnmarshalUPER(data [
 
 // UnmarshalUPERWithOptions decodes PhysicalChannelCapabilityR5Tdd384PhysChCapability with explicit receiver options.
 func (v *PhysicalChannelCapabilityR5Tdd384PhysChCapability) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PhysicalChannelCapabilityR5Tdd384PhysChCapability")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PhysicalChannelCapabilityR5Tdd384PhysChCapability")
 	}
@@ -42004,6 +43974,10 @@ func (v *PhysicalChannelCapabilityR5Tdd384PhysChCapability) UnmarshalUPERWithOpt
 }
 
 func (v *PhysicalChannelCapabilityR5Tdd384PhysChCapability) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PhysicalChannelCapabilityR5Tdd384PhysChCapability{}
 	if err := v.DownlinkPhysChCapability.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkPhysChCapability")
@@ -42040,8 +44014,11 @@ func (v *PhysicalChannelCapabilityR5Tdd128PhysChCapability) UnmarshalUPER(data [
 
 // UnmarshalUPERWithOptions decodes PhysicalChannelCapabilityR5Tdd128PhysChCapability with explicit receiver options.
 func (v *PhysicalChannelCapabilityR5Tdd128PhysChCapability) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "PhysicalChannelCapabilityR5Tdd128PhysChCapability")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PhysicalChannelCapabilityR5Tdd128PhysChCapability")
 	}
@@ -42054,6 +44031,10 @@ func (v *PhysicalChannelCapabilityR5Tdd128PhysChCapability) UnmarshalUPERWithOpt
 }
 
 func (v *PhysicalChannelCapabilityR5Tdd128PhysChCapability) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = PhysicalChannelCapabilityR5Tdd128PhysChCapability{}
 	if err := v.DownlinkPhysChCapability.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkPhysChCapability")
@@ -42090,8 +44071,11 @@ func (v *RFCapabilityR4FddRFCapability) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes RFCapabilityR4FddRFCapability with explicit receiver options.
 func (v *RFCapabilityR4FddRFCapability) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "RFCapabilityR4FddRFCapability")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RFCapabilityR4FddRFCapability")
 	}
@@ -42104,6 +44088,10 @@ func (v *RFCapabilityR4FddRFCapability) UnmarshalUPERWithOptions(data []byte, op
 }
 
 func (v *RFCapabilityR4FddRFCapability) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = RFCapabilityR4FddRFCapability{}
 	val_uepowerclass, err := per.DecodeEnumerated(bb, 8, false)
 	if err != nil {
@@ -42147,8 +44135,11 @@ func (v *RFCapabilityR4Tdd384RFCapability) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes RFCapabilityR4Tdd384RFCapability with explicit receiver options.
 func (v *RFCapabilityR4Tdd384RFCapability) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "RFCapabilityR4Tdd384RFCapability")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RFCapabilityR4Tdd384RFCapability")
 	}
@@ -42161,6 +44152,10 @@ func (v *RFCapabilityR4Tdd384RFCapability) UnmarshalUPERWithOptions(data []byte,
 }
 
 func (v *RFCapabilityR4Tdd384RFCapability) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = RFCapabilityR4Tdd384RFCapability{}
 	val_uepowerclass, err := per.DecodeEnumerated(bb, 8, false)
 	if err != nil {
@@ -42209,8 +44204,11 @@ func (v *RFCapabilityR4Tdd128RFCapability) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes RFCapabilityR4Tdd128RFCapability with explicit receiver options.
 func (v *RFCapabilityR4Tdd128RFCapability) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "RFCapabilityR4Tdd128RFCapability")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RFCapabilityR4Tdd128RFCapability")
 	}
@@ -42223,6 +44221,10 @@ func (v *RFCapabilityR4Tdd128RFCapability) UnmarshalUPERWithOptions(data []byte,
 }
 
 func (v *RFCapabilityR4Tdd128RFCapability) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = RFCapabilityR4Tdd128RFCapability{}
 	val_uepowerclass, err := per.DecodeEnumerated(bb, 8, false)
 	if err != nil {
@@ -42279,8 +44281,11 @@ func (v *RFC3095ContextListElem) UnmarshalUPER(data []byte) error {
 
 // UnmarshalUPERWithOptions decodes RFC3095ContextListElem with explicit receiver options.
 func (v *RFC3095ContextListElem) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	bb := per.NewBitBufferFromBytes(data)
-	bb.SetDecodeOptions(options)
+	var budget per.DecodeBudget
+	bb := per.NewDecodeBuffer(data, &budget)
+	if err := bb.SetDecodeOptions(options); err != nil {
+		return runtime.WrapDecodePath(err, "RFC3095ContextListElem")
+	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RFC3095ContextListElem")
 	}
@@ -42293,6 +44298,10 @@ func (v *RFC3095ContextListElem) UnmarshalUPERWithOptions(data []byte, options p
 }
 
 func (v *RFC3095ContextListElem) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
 	*v = RFC3095ContextListElem{}
 	// Read preamble bitmap for optional root fields
 	opt_dlrfc3095context, err := per.DecodeBoolean(bb)

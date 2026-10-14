@@ -170,6 +170,9 @@ func DecodeCollection(bb *BitBuffer, size SizeConstraint, aligned bool, decodeFr
 		if err != nil {
 			return 0, err
 		}
+		if err := bb.ChargeElements(length); err != nil {
+			return 0, err
+		}
 		if err := decodeFragment(0, length); err != nil {
 			return 0, err
 		}
@@ -181,6 +184,9 @@ func DecodeCollection(bb *BitBuffer, size SizeConstraint, aligned bool, decodeFr
 		maximum = size.Upper
 	}
 	total, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(offset, length int64) error {
+		if err := bb.ChargeElements(length); err != nil {
+			return err
+		}
 		return decodeFragment(offset, length)
 	})
 	if err != nil {

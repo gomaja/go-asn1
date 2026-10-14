@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"math"
+
+	"github.com/gomaja/go-asn1/runtime"
 )
 
 // ExtensionAdditions is the decode state of the extension additions of one
@@ -27,6 +29,7 @@ type ExtensionAdditions struct {
 	aligned                  bool
 	present                  []bool
 	cut                      *truncatedExtension
+	recovered                bool
 }
 
 // BeginExtensionAdditions starts the extension additions of a SEQUENCE or SET
@@ -89,7 +92,10 @@ func (a *ExtensionAdditions) receive(bb *BitBuffer, index int64) bool {
 	for i, present := range a.present {
 		kept = kept || i < cutAt && present
 	}
-	record, err := a.cutRecord(append([]byte(nil), bb.data...), bb.bitLen, cutAt, offset, kept)
+	input := append([]byte(nil), bb.data...)
+	reader := *bb
+	reader.data, reader.bitPos = input, 0
+	record, err := a.cutRecord(&reader, input, cutAt, offset, kept)
 	if err != nil {
 		return true
 	}
@@ -124,11 +130,8 @@ func (a *ExtensionAdditions) receive(bb *BitBuffer, index int64) bool {
 // of the cut and later additions cleared or, when no addition before the cut
 // was present, the input up to the end of the value's root with its extension
 // bit cleared (X.691 (02/2021) 19.1).
-func (a *ExtensionAdditions) cutRecord(input []byte, bits, cutAt, offset int, kept bool) (*truncatedExtension, error) {
-	reader, err := NewBitBufferFromBits(input, bits)
-	if err != nil {
-		return nil, err
-	}
+func (a *ExtensionAdditions) cutRecord(reader *BitBuffer, input []byte, cutAt, offset int, kept bool) (*truncatedExtension, error) {
+	bits := reader.bitLen
 	expected := NewBitBuffer()
 	if kept {
 		if err := copyBits(expected, reader, a.bitmap); err != nil {
@@ -169,7 +172,7 @@ func (a *ExtensionAdditions) cutRecord(input []byte, bits, cutAt, offset int, ke
 			return nil, err
 		}
 	}
-	return &truncatedExtension{input: input, bits: bits, expected: expected.data, expectedBits: expected.bitPos, kept: kept}, nil
+	return &truncatedExtension{input: input, bits: bits, expected: expected.data, expectedBits: expected.bitPos, kept: kept, cut: true}, nil
 }
 
 // copyBits appends the next count bits of from to to.
@@ -213,7 +216,18 @@ func openTypeCut(reader BitBuffer, aligned bool) (missing int, cut bool) {
 // a zero extension bit, so that an edited value is encoded with none (X.691
 // (02/2021) 19.1).
 func (a *ExtensionAdditions) Emptied() bool {
-	return a.cut != nil && !a.cut.kept
+	if a.cut != nil && !a.cut.kept {
+		return true
+	}
+	if a.recovered {
+		for _, present := range a.present {
+			if present {
+				return false
+			}
+		}
+		return true
+	}
+	return false
 }
 
 // Record returns final, the decoded value's PERPadding_, together with the
@@ -235,7 +249,7 @@ func (a *ExtensionAdditions) Record(final FinalPadding) FinalPadding {
 // by the end of the input (TruncatedExtensionTolerance), so that an
 // unchanged value re-encodes to the received input.
 func (f FinalPadding) Truncated() bool {
-	return f.bits != nil && f.bits.truncated != nil
+	return f.bits != nil && f.bits.truncated != nil && (!f.bits.truncated.recovered || f.bits.truncated.cut)
 }
 
 // truncatedExtension is the record of a SEQUENCE or SET value whose extension
@@ -244,12 +258,20 @@ func (f FinalPadding) Truncated() bool {
 // unchanged value gets up to its own end, of expectedBits bits. kept is set
 // when an addition before the cut one was received, so the value keeps its
 // extension bit and bitmap.
+// For bounded recovery without an outer-input cut, both encodings instead
+// hold only the local value's bits, together with its starting alignment.
 type truncatedExtension struct {
 	input        []byte
 	bits         int
 	expected     []byte
 	expectedBits int
 	kept         bool
+	cut          bool
+	recovered    bool
+	// phase is the recovered value's starting position modulo eight.
+	// Only bounded recovery uses it; an outer-input cut retains its
+	// whole-input comparison for go-asn1#114.
+	phase int
 }
 
 // AppendTruncatedExtension completes the encoding of a SEQUENCE or SET value
@@ -266,10 +288,29 @@ type truncatedExtension struct {
 // before it, such as a presence bit, extension bit or count, which the
 // comparison covers.
 func AppendTruncatedExtension(bb *BitBuffer, final FinalPadding) {
-	if final.bits == nil || final.bits.truncated == nil {
+	if !final.Truncated() {
 		return
 	}
 	final.bits.truncated.replay(bb)
+}
+
+// AppendExtensionRecovery replays bounded-addition recovery for the value
+// whose encoder began at start. Comparing its exact span prevents a changed
+// length from matching only a suffix of the old typed encoding. APER also
+// requires the same starting alignment (X.691 (02/2021) 11.1.4, 11.2.2).
+// An outer-input cut is handled separately by AppendTruncatedExtension.
+func AppendExtensionRecovery(bb *BitBuffer, final FinalPadding, start int) {
+	if !final.Recovered() || final.Truncated() {
+		return
+	}
+	cut := final.bits.truncated
+	if start < 0 || start > bb.bitPos {
+		return
+	}
+	if bb.bitPos-start != cut.expectedBits || !cut.follows(bb) {
+		return
+	}
+	cut.replayLocal(bb)
 }
 
 func (cut *truncatedExtension) replay(bb *BitBuffer) {
@@ -280,9 +321,249 @@ func (cut *truncatedExtension) replay(bb *BitBuffer) {
 	bb.bitPos = cut.bits
 }
 
-// follows reports whether bb holds exactly the encoding the unchanged value
-// gets. A write buffer holds its bits in exactly the octets they need, with
-// the unused low bits of the last one zero, as the expected encoding does.
+// replayLocal replaces only this value's suffix. Preserve the partial octet
+// before it without retaining or copying any preceding complete octets.
+func (cut *truncatedExtension) replayLocal(bb *BitBuffer) {
+	start := bb.bitPos - cut.expectedBits // AppendExtensionRecovery checked the exact span
+	if cut.bits < 0 || cut.bits > math.MaxInt-start {
+		return
+	}
+	leading := start % 8
+	var prefix uint64
+	if leading != 0 {
+		prefix = uint64(bb.data[start/8]) >> uint(8-leading)
+	}
+	bb.bitPos = start - leading
+	bb.data = bb.data[:bb.bitPos/8]
+	if err := bb.WriteBits(prefix, leading); err != nil {
+		return
+	}
+	if err := bb.WriteBitsFromBytes(cut.input, cut.bits); err != nil {
+		return
+	}
+}
+
+// follows compares the unchanged value's local encoding and alignment, or
+// the whole prefix when an outer-input cut requires it. A write buffer's
+// unused low bits are zero, as the expected encoding's are.
 func (cut *truncatedExtension) follows(bb *BitBuffer) bool {
+	if cut.recovered && !cut.cut {
+		if cut.expectedBits < 0 || cut.expectedBits > bb.bitPos {
+			return false
+		}
+		start := bb.bitPos - cut.expectedBits
+		if start%8 != cut.phase {
+			return false
+		}
+		// These are typed encodings already held by the caller, not a new
+		// receiver input. A one-pass ceiling based on their length preserves
+		// replay for values decoded under raised DecodeLimits.MaxWork.
+		var readBudget, expectedBudget DecodeBudget
+		readBudget.limits = DefaultDecodeLimits()
+		readBudget.limits.MaxWork = cut.expectedBits
+		reader := *bb
+		reader.bitPos, reader.bitLen, reader.budget = start, bb.bitPos, &readBudget
+		expected := NewDecodeBuffer(cut.expected, &expectedBudget)
+		expectedBudget.limits.MaxWork = cut.expectedBits
+		for remaining := cut.expectedBits; remaining > 0; {
+			width := min(remaining, 64)
+			got, err := reader.ReadBits(width)
+			if err != nil {
+				return false
+			}
+			want, err := expected.ReadBits(width)
+			if err != nil || got != want {
+				return false
+			}
+			remaining -= width
+		}
+		return true
+	}
 	return bb.bitPos == cut.expectedBits && bytes.Equal(bb.data, cut.expected)
+}
+
+// KnownAdditionCheckpoint marks pending records before a candidate decode.
+// It contains no buffer pointers, so a generated decoder can keep its shared
+// budget on the stack even when extension recovery is enabled.
+type KnownAdditionCheckpoint struct{ path, pending, deferred int }
+
+// CheckpointKnownAddition records the transaction boundary before decoding a
+// fully received known addition. The child must already have entered its
+// open-type scope.
+func (bb *BitBuffer) CheckpointKnownAddition() KnownAdditionCheckpoint {
+	if bb.trace == nil {
+		return KnownAdditionCheckpoint{}
+	}
+	return KnownAdditionCheckpoint{len(bb.trace.path), len(bb.trace.pending), len(bb.trace.deferred)}
+}
+
+// CompleteKnownAddition finishes a caller-owned candidate and closes its
+// open-type scope. The caller commits typed fields only when decoded is true.
+// X.691 (02/2021) §§19.9 and 11.2.1–11.2.2 delimit additions with complete
+// open types; only nested truncation is recoverable. Resource limits, padding,
+// constraints and unsupported constructs fail. Failed candidates roll back
+// pending records, never their resource usage.
+func (a *ExtensionAdditions) CompleteKnownAddition(child *BitBuffer, index int64, data []byte, checkpoint KnownAdditionCheckpoint, err error) (decoded bool, padding CompletePadding, result error) {
+	defer child.LeaveOpenType()
+	trace := child.trace
+	if trace != nil {
+		defer func() { trace.path = trace.path[:checkpoint.path] }()
+	}
+	if limitErr := child.checkRecoveryBits(0); limitErr != nil {
+		err = limitErr
+	}
+	if err == nil {
+		padding, err = CaptureOpenTypePadding(child)
+		if err != nil {
+			err = runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", index))
+		}
+		return err == nil, padding, err
+	}
+	if trace != nil {
+		trace.path = trace.path[:checkpoint.path]
+		trace.pending = trace.pending[:checkpoint.pending]
+		trace.deferred = trace.deferred[:checkpoint.deferred]
+		if trace.work != nil && trace.work.err == nil {
+			trace.work.recordRollback(data, child.bitPos)
+		}
+	}
+	if trace == nil || trace.recovery == nil || index < 0 || index >= int64(len(a.present)) || !a.present[index] || child.invalidLength || !onlyTruncated(err) {
+		return false, CompletePadding{}, err
+	}
+	trace.enter(pathSegment{name: "ExtData_"})
+	trace.enter(pathSegment{index: index})
+	trace.pending = append(trace.pending, Tolerance{
+		Path: trace.relativePath(), Kind: ToleratedIncompleteExtension,
+		Bits:           TrailingBits{Bytes: append([]byte(nil), data...), BitLength: child.bitLen},
+		DeclaredLength: len(data), ConsumedBits: child.bitPos, Err: err,
+	})
+	a.present[index], a.recovered = false, true
+	return false, CompletePadding{}, nil
+}
+
+// onlyTruncated admits the truncation sentinel through single-error wrappers.
+// An error tree containing both truncation and a structural/limit failure is
+// never recoverable, even when errors.Is would match ErrTruncated.
+func onlyTruncated(err error) bool {
+	for err != nil {
+		if err == ErrTruncated {
+			return true
+		}
+		err = errors.Unwrap(err)
+	}
+	return false
+}
+
+// Recovered reports a failed bounded known addition in this decode.
+func (a *ExtensionAdditions) Recovered() bool { return a.recovered }
+
+// RecoveryEncoder returns an encoder with only the starting bit position
+// modulo eight as alignment context (X.691 (02/2021) 11.1.4, 11.2.2). The
+// generated decoder encodes the surviving typed fields here; no parent prefix
+// is copied. A later outer-input cut retains go-asn1#114's prefix comparison.
+func (a *ExtensionAdditions) RecoveryEncoder(bb *BitBuffer) (*BitBuffer, error) {
+	if err := bb.checkRecoveryBits(0); err != nil {
+		return nil, err
+	}
+	if a.start < 0 || a.start > bb.bitPos || bb.bitPos > bb.bitLen {
+		return nil, fmt.Errorf("%w: invalid recovery start %d at bit %d", ErrInvalidValue, a.start, bb.bitPos)
+	}
+	encoded := NewBitBuffer()
+	if a.cut == nil {
+		if err := encoded.WriteBits(0, a.start%8); err != nil {
+			return nil, err
+		}
+		return encoded, nil
+	}
+	reader := *bb
+	reader.bitPos = 0
+	if bb.trace != nil && bb.trace.work != nil {
+		active := bb.trace.work.active
+		bb.trace.work.active = true
+		defer func() { bb.trace.work.active = active }()
+	}
+	if err := copyBits(encoded, &reader, a.start); err != nil {
+		return nil, err
+	}
+	return encoded, nil
+}
+
+// RecordRecovery stores received bytes separately from the typed fields.
+// expected is the encoding of those fields, with failed additions absent.
+// Both encodings are relative to this value, excluding the parent prefix and
+// the temporary alignment context. AppendExtensionRecovery replays only
+// while the local typed encoding and starting alignment are unchanged. An
+// edit emits the surviving typed fields with failed additions omitted
+// (X.691 (02/2021) 19.1, 19.8).
+// It also retains a later outer-input cut accepted under go-asn1#114.
+func (a *ExtensionAdditions) RecordRecovery(bb, expected *BitBuffer, final FinalPadding) (FinalPadding, error) {
+	if err := bb.checkRecoveryBits(0); err != nil {
+		return FinalPadding{}, err
+	}
+	if a.start < 0 || a.start > bb.bitPos || bb.bitPos > bb.bitLen {
+		return FinalPadding{}, fmt.Errorf("%w: invalid recovery start %d at bit %d", ErrInvalidValue, a.start, bb.bitPos)
+	}
+	start, phase := 0, 0
+	if a.cut == nil {
+		start, phase = a.start, a.start%8
+	}
+	if expected.bitPos < phase {
+		return FinalPadding{}, fmt.Errorf("%w: recovery encoding ends before its alignment context", ErrInvalidValue)
+	}
+	reader := *bb
+	reader.bitPos = start
+	inputBits, expectedBits := bb.bitPos-start, expected.bitPos-phase
+	if bb.trace != nil && bb.trace.work != nil {
+		active := bb.trace.work.active
+		bb.trace.work.active = true
+		defer func() { bb.trace.work.active = active }()
+	}
+	input, err := reader.ReadBitsToBytes(inputBits)
+	if err != nil {
+		return FinalPadding{}, err
+	}
+	written := *expected
+	written.bitPos, written.bitLen = phase, expected.bitPos
+	written.trace, written.budget = bb.trace, bb.decodeBudget()
+	typed, err := written.ReadBitsToBytes(expectedBits)
+	if err != nil {
+		return FinalPadding{}, err
+	}
+	var merged finalBits
+	if final.bits != nil {
+		merged = *final.bits
+	}
+	merged.truncated = &truncatedExtension{
+		input: input, bits: inputBits, expected: typed, expectedBits: expectedBits,
+		cut: a.cut != nil, recovered: true, phase: phase,
+	}
+	return FinalPadding{bits: &merged}, nil
+}
+
+// Recovered reports whether a value keeps bounded-addition recovery provenance.
+func (f FinalPadding) Recovered() bool {
+	return f.bits != nil && f.bits.truncated != nil && f.bits.truncated.recovered
+}
+
+// RecoveryEnabled reports the explicit bounded-addition recovery policy.
+func (a *ExtensionAdditions) RecoveryEnabled(bb *BitBuffer) bool {
+	return bb.trace != nil && bb.trace.recovery != nil
+}
+
+// RecoveryComponent enters a path only under bounded-addition recovery. A
+// disabled option returns an inert mark, preserving strict decode costs.
+func (bb *BitBuffer) RecoveryComponent(name string) int {
+	if bb.trace == nil || bb.trace.recovery == nil {
+		return -1
+	}
+	return bb.trace.enter(pathSegment{name: name})
+}
+
+// RecoveryIndex enters a list index only under bounded-addition recovery.
+// Like RecoveryComponent, its inert mark leaves other policies unchanged.
+func (bb *BitBuffer) RecoveryIndex(index int64) int {
+	if bb.trace == nil || bb.trace.recovery == nil {
+		return -1
+	}
+	return bb.trace.enter(pathSegment{index: index})
 }

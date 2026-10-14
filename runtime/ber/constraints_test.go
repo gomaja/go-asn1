@@ -35,7 +35,8 @@ func TestConstraintTolerancePolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	reports = log.Snapshot()
-	if len(reports) != 3 || reports[1].Path != "parent.field" || reports[1].Constraint != "(1 | 3)" || reports[1].ObservedValue != "2" ||
+	if len(reports) != 3 || reports[0].Path != "parent.field" || reports[0].Constraint != "(1 | 3)" || reports[0].ObservedValue != "2" ||
+		reports[1].Path != "parent.field" || reports[1].ObservedValue != "2" ||
 		reports[2].Path != "parent.octets" || reports[2].ObservedLength == nil || *reports[2].ObservedLength != 4 {
 		t.Fatalf("tolerant encode reports = %+v", reports)
 	}
@@ -64,10 +65,12 @@ func TestConstraintToleranceSharedLog(t *testing.T) {
 		go func() {
 			defer group.Done()
 			for i := 0; i < reportsPerWorker; i++ {
-				if err := CheckDecodedLength([]DecodeOption{option}, "field", "SIZE (1)", 2); err != nil {
+				options, finish := StageDecodeReports([]DecodeOption{option})
+				if err := CheckDecodedLength(options, "field", "SIZE (1)", 2); err != nil {
 					t.Errorf("tolerant decode: %v", err)
 					return
 				}
+				finish(true)
 			}
 		}()
 	}

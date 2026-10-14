@@ -39,7 +39,9 @@ func TestZeroPaddingIsNotRetained(t *testing.T) {
 	for _, tolerant := range []bool{false, true} {
 		bb := NewBitBufferFromBytes([]byte{0x80})
 		if tolerant {
-			bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &ToleranceLog{}})
+			if err := bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &ToleranceLog{}}); err != nil {
+				t.Fatal(err)
+			}
 		}
 		if _, err := bb.ReadBits(2); err != nil {
 			t.Fatal(err)
@@ -115,7 +117,9 @@ func TestEditedValueDropsTrailingBits(t *testing.T) {
 	// x = 5 in three bits, then thirteen extraneous bits.
 	wire := []byte{0xa0, 0xab}
 	bb := NewBitBufferFromBytes(wire)
-	bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &ToleranceLog{}})
+	if err := bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &ToleranceLog{}}); err != nil {
+		t.Fatal(err)
+	}
 	if _, err := bb.ReadBits(3); err != nil {
 		t.Fatal(err)
 	}
@@ -143,7 +147,9 @@ func TestEditedValueDropsTrailingBits(t *testing.T) {
 	// An empty value is completed by its mandated zero octet; a suffix after
 	// it is replayed only for an empty value.
 	empty := NewBitBufferFromBytes([]byte{0x00, 0xab})
-	empty.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &ToleranceLog{}})
+	if err := empty.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &ToleranceLog{}}); err != nil {
+		t.Fatal(err)
+	}
 	final, err = CaptureFinalBits(empty, "T")
 	if err != nil || final.Trailing().BitLength != 8 {
 		t.Fatalf("empty captured %+v, %v", final.Trailing(), err)
@@ -166,7 +172,9 @@ func TestEditedContainedValueDropsExtraBits(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &ToleranceLog{}})
+		if err := bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &ToleranceLog{}}); err != nil {
+			t.Fatal(err)
+		}
 		if consumed > 0 {
 			if _, err := bb.ReadBits(consumed); err != nil {
 				t.Fatal(err)
@@ -234,7 +242,9 @@ func FuzzEditedFinalBits(f *testing.F) {
 		for _, tolerant := range []bool{false, true} {
 			reader := NewBitBufferFromBytes(wire)
 			if tolerant {
-				reader.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &ToleranceLog{}})
+				if err := reader.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &ToleranceLog{}}); err != nil {
+					t.Fatal(err)
+				}
 			}
 			consumed, err := reader.ReadBitsToBytes(int(prefix))
 			if err != nil {
@@ -295,7 +305,9 @@ func FuzzEditedContainedBits(f *testing.F) {
 		if err != nil {
 			t.Skip() // not a BIT STRING value: its unused bits are nonzero
 		}
-		reader.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &ToleranceLog{}})
+		if err := reader.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &ToleranceLog{}}); err != nil {
+			t.Fatal(err)
+		}
 		prefix, err := reader.ReadBitsToBytes(int(consumed))
 		if err != nil {
 			t.Fatal(err)
@@ -345,7 +357,11 @@ func FuzzEditedContainedBits(f *testing.F) {
 func TestFinalBitsAllocations(t *testing.T) {
 	for _, wire := range [][]byte{{0x80}, {0xbf}} {
 		if allocs := testing.AllocsPerRun(100, func() {
-			bb := NewBitBufferFromBytes(wire)
+			var budget DecodeBudget
+			bb := NewDecodeBuffer(wire, &budget)
+			if err := bb.SetDecodeOptions(DecodeOptions{}); err != nil {
+				t.Fatal(err)
+			}
 			if _, err := bb.ReadBits(2); err != nil {
 				t.Fatal(err)
 			}

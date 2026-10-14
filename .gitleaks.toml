@@ -27,3 +27,11 @@ paths = [
 regexes = [
   '''^\s*type ERUCCHAccessServiceClass = PRACHPartitioningLCRR4\s*$''',
 ]
+
+[[allowlists]]
+description = "Generated S1AP choice tolerance bookkeeping can match the generic API key heuristic across two lines."
+targetRules = ["generic-api-key"]
+condition = "AND"
+regexTarget = "line"
+paths = ['''^telecom/lte/s1ap/s1apies\.go$''']
+regexes = ['''^\s*case UES1APIDsChoiceUES1APIDPair:\r?\n\s*toleranceMark_ues1apidpair := bb\.EnterComponent\("UES1APIDPair"\)\s*$''']

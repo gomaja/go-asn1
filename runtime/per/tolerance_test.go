@@ -38,7 +38,9 @@ func TestFinalPaddingTableRoundTrip(t *testing.T) {
 
 func TestStrictDecodeHasNoTrace(t *testing.T) {
 	bb := NewBitBufferFromBytes([]byte{0x80, 0xff})
-	bb.SetDecodeOptions(DecodeOptions{})
+	if err := bb.SetDecodeOptions(DecodeOptions{}); err != nil {
+		t.Fatal(err)
+	}
 	if bb.trace != nil || bb.EnterComponent("X") != 0 {
 		t.Fatal("strict decode allocated a trace")
 	}
@@ -64,7 +66,9 @@ func TestStrictDecodeHasNoTrace(t *testing.T) {
 func TestToleranceRecordsCarryPathOffsetAndBits(t *testing.T) {
 	var log ToleranceLog
 	bb := NewBitBufferFromBytes([]byte{0x80, 0x00, 0xa5})
-	bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &log})
+	if err := bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &log}); err != nil {
+		t.Fatal(err)
+	}
 	if _, err := bb.ReadBits(1); err != nil {
 		t.Fatal(err)
 	}
@@ -129,7 +133,9 @@ func TestToleranceRecordsCarryPathOffsetAndBits(t *testing.T) {
 func TestLeaveComponentRestoresUnbalancedPath(t *testing.T) {
 	var log ToleranceLog
 	bb := NewBitBufferFromBytes([]byte{0})
-	bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &log})
+	if err := bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &log}); err != nil {
+		t.Fatal(err)
+	}
 	mark := bb.EnterComponent("A")
 	bb.EnterComponent("B") // an inner decoder returned without leaving
 	bb.LeaveComponent(mark)
@@ -155,7 +161,9 @@ func TestContainedBitsAcceptAnyRun(t *testing.T) {
 	} {
 		contained := func(options DecodeOptions) *BitBuffer {
 			parent := NewBitBufferFromBytes([]byte{0})
-			parent.SetDecodeOptions(options)
+			if err := parent.SetDecodeOptions(options); err != nil {
+				t.Fatal(err)
+			}
 			child, err := NewBitBufferFromBits(tc.data, tc.length)
 			if err != nil {
 				t.Fatal(err)
@@ -209,7 +217,10 @@ func TestToleranceLogConcurrentDecodes(t *testing.T) {
 			defer group.Done()
 			for range 100 {
 				bb := NewBitBufferFromBytes([]byte{0x80, 0x01})
-				bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &log})
+				if err := bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &log}); err != nil {
+					t.Error(err)
+					return
+				}
 				if _, err := bb.ReadBits(1); err != nil {
 					t.Error(err)
 					return
@@ -258,7 +269,9 @@ func FuzzTolerantFinalBitsRoundTrip(f *testing.F) {
 			if tolerant {
 				options.TrailingBitsTolerance = &log
 			}
-			reader.SetDecodeOptions(options)
+			if err := reader.SetDecodeOptions(options); err != nil {
+				t.Fatal(err)
+			}
 			consumed, err := reader.ReadBitsToBytes(int(prefix))
 			if err != nil {
 				t.Fatal(err)
@@ -310,13 +323,17 @@ func FuzzTolerantFinalBitsRoundTrip(f *testing.F) {
 func TestZeroBitCompleteEncodingsAreNotTolerances(t *testing.T) {
 	var log ToleranceLog
 	bb := NewBitBufferFromBytes([]byte{0})
-	bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &log})
+	if err := bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &log}); err != nil {
+		t.Fatal(err)
+	}
 	final, err := CaptureFinalBits(bb, "T")
 	if err != nil || final != (FinalPadding{}) || len(log.Snapshot()) != 0 {
 		t.Fatalf("zero octet: final %+v, err %v, records %+v", final, err, log.Snapshot())
 	}
 	bb = NewBitBufferFromBytes([]byte{0x80})
-	bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &log})
+	if err := bb.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &log}); err != nil {
+		t.Fatal(err)
+	}
 	if _, err := CaptureFinalBits(bb, "T"); !errors.Is(err, ErrInvalidValue) {
 		t.Fatalf("nonzero octet error = %v", err)
 	}
@@ -324,7 +341,9 @@ func TestZeroBitCompleteEncodingsAreNotTolerances(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	contained.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &log})
+	if err := contained.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &log}); err != nil {
+		t.Fatal(err)
+	}
 	if kept, err := CaptureContainedBits(contained); err != nil || kept != (FinalPadding{}) || len(contained.trace.pending) != 0 {
 		t.Fatalf("contained zero bit: %+v, %v, %+v", kept, err, contained.trace.pending)
 	}
@@ -359,14 +378,18 @@ func TestContainedFinalBitsJoinParentDecode(t *testing.T) {
 		return child
 	}
 	strict := NewBitBufferFromBytes([]byte{0x00})
-	strict.SetDecodeOptions(DecodeOptions{})
+	if err := strict.SetDecodeOptions(DecodeOptions{}); err != nil {
+		t.Fatal(err)
+	}
 	if _, err := CaptureContainedFinalBits(contained(strict)); !errors.Is(err, ErrExtraData) {
 		t.Fatalf("strict contained suffix error = %v", err)
 	}
 
 	var log ToleranceLog
 	parent := NewBitBufferFromBytes([]byte{0x00})
-	parent.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &log})
+	if err := parent.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &log}); err != nil {
+		t.Fatal(err)
+	}
 	mark := parent.EnterComponent("Field")
 	final, err := CaptureContainedFinalBits(contained(parent))
 	if err != nil {
@@ -394,7 +417,9 @@ func TestContainedFinalBitsJoinParentDecode(t *testing.T) {
 	// Conformant padding, nonzero or not, is retained without a record.
 	log.Reset()
 	parent = NewBitBufferFromBytes([]byte{0x00})
-	parent.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &log})
+	if err := parent.SetDecodeOptions(DecodeOptions{TrailingBitsTolerance: &log}); err != nil {
+		t.Fatal(err)
+	}
 	child := NewBitBufferFromBytes([]byte{0xbf})
 	child.InheritDecodeOptions(parent)
 	if _, err := child.ReadBits(3); err != nil {
@@ -429,7 +454,9 @@ func FuzzContainedBitsRoundTrip(f *testing.F) {
 		}
 		read := func(options DecodeOptions) (*BitBuffer, *ToleranceLog) {
 			parent := NewBitBufferFromBytes([]byte{0})
-			parent.SetDecodeOptions(options)
+			if err := parent.SetDecodeOptions(options); err != nil {
+				t.Fatal(err)
+			}
 			child, err := NewBitBufferFromBits(data, int(length))
 			if err != nil {
 				t.Fatal(err)
