@@ -68,6 +68,13 @@ exponent digits before conversion, including leading zeros. Implicitly
 tagged REALs use the same budget. DER validation checks decimal REAL
 canonical spelling directly, without big-number conversion.
 
+PER decoding also has operational ceilings for nesting, collection elements,
+open-type nesting and total bits examined. Set individual fields of
+`per.DecodeOptions{Limits: per.DecodeLimits{MaxWork: 128 << 20}}` when a receiver needs a
+larger budget; `per.DecodeOptions.Usage` reports one decode's high-water
+marks. These limits reject excess work with `per.ErrResourceLimit` without
+changing the X.691 wire rules (ITU-T X.691 (02/2021) §§11.2.2, 11.9.3.8).
+
 ### APER character strings and bit strings
 
 In the ALIGNED variant, each character of an IA5String, VisibleString or
@@ -164,7 +171,9 @@ Table 3; X.680 (02/2021) §51.5.4). Their character repertoires are enforced
 on decode and encode (X.680 (02/2021) §41, Tables 8–10). Strict BER decode
 and BER/DER encode reject an outside octet; tolerant BER records its `0xNN`
 value and retains it for tolerant replay. UTF8String keeps its code-point
-SIZE checks.
+SIZE checks. Invalid UTF-8 is rejected in strict mode; tolerant decoding
+records the invalid octets and preserves them for unchanged replay
+(X.690 (02/2021) §8.23.10).
 
 A named SEQUENCE OF or SET OF component produces one record per violated
 SIZE constraint. Its path uses the ASN.1 component identifiers, such as
@@ -182,7 +191,12 @@ snapshot: a SET received in schema order keeps no copy, because a fresh
 `MarshalBER` writes schema order (X.690 (02/2021) §8.11.2 leaves the order to
 the sender). Changing a typed field makes BER encoding use its
 current value. Out-of-constraint values still require the tolerance option
-when encoding.
+when encoding. `ber.WithoutBERReplay()` on a BER encoder rebuilds current
+typed values recursively, including unchanged children. It refuses opaque
+open values and unknown extensions, which have no typed value to rebuild.
+The default continues exact replay of unchanged BER. This option does not
+apply DER rules or guarantee a protocol-specific transfer profile
+(X.690 (02/2021) §§8.1.3, 8.7.3).
 
 `MarshalDER` encodes typed values in DER form and never re-emits preserved BER
 bytes: REAL values take their distinguished form, SET components are sorted,
@@ -190,10 +204,10 @@ a SEQUENCE or SET component equal to its `DEFAULT` is omitted, and a named
 BIT STRING loses its trailing zero bits (ITU-T X.690 (02/2021) §8.5.7 NOTE 1,
 §§10.3, 11.2.2, 11.3.1, 11.5). The named BIT STRING rule changes the DER of
 such values in GSM MAP, TCAP (`protocol-version`), SGP.22 and SGP.32 when they
-end in zero bits. When decoding, a named BIT STRING shorter than its `SIZE`
-lower bound is first extended with trailing zero bits, which X.680 (02/2021)
-§22.7 permits, before the constraint is checked. Open-type contents are
-emitted as carried.
+end in zero bits. When decoding, trailing zero bits of a named BIT STRING may be added or
+removed to meet its `SIZE` bounds while keeping every set value bit
+(X.680 (02/2021) §22.7); unchanged BER still replays its received form.
+Open-type contents are emitted as carried.
 An unchanged valid BER REAL whose normalized exponent cannot fit the 255-octet
 encoding limit can still be re-encoded as BER; `MarshalDER` returns
 `ber.ErrInvalidValue` (X.690 §§8.5.7.4, 11.3.1).
@@ -274,16 +288,85 @@ absent component. Tolerant BER encoding records each collision at its
 `ExtData_[i]` path.
 
 The SEQUENCE check applies to the first unknown TLV only, and only to that
-trailing run. Additions may reuse the tag of a mandatory component, and any
-tag may follow an unknown addition, so a value from a newer version still decodes
-with an older type. The older MAP `SMMTForwardSMArg`, which ends at
-`correlationID [1]`, accepts TS 29.002 V19.1.0 `MT-ForwardSM-Arg` values with
-`maximumRetransmissionTime [2]`, `smsGmscAddress [3]` or
-`smsGmscDiameterAddress [4]`.
+trailing run. Additions may reuse a mandatory component's tag, and any tag
+may follow an unknown addition. For example, current `MTForwardSMArg`
+accepts an unknown context-specific [5] after its known fields: [5] is an
+alternative of its mandatory `sm-RP-DA` and `sm-RP-OA`, outside the trailing
+OPTIONAL run (TS 29.002 V19.1.0 §17.7.6). A later [0] stays with that unknown
+tail rather than becoming `smsOverIP-OnlyIndicator`. Similarly,
+`RequestedInfo` retains a future [13] followed by [8] as unknown TLVs
+(TS 29.002 V19.1.0 §17.7.1).
+
+### GSM MAP package migration
+
+The previously published package put every GSM MAP module in
+`github.com/gomaja/go-asn1/telecom/ss7/gsm_map`. This regeneration compiles
+43 official ASN.1 modules into 15 packages. The current MAP and
+supplementary-service modules remain in the root. Shared dependencies use
+these import paths:
+
+| Import path | ASN.1 modules | Official source |
+| --- | --- | --- |
+| `github.com/gomaja/go-asn1/telecom/ss7/gsm_map/etr091_mobiledomaindefinitions` | MobileDomainDefinitions | ETSI ETR 091 |
+| `github.com/gomaja/go-asn1/telecom/ss7/gsm_map` | MAP-ApplicationContexts, MAP-BS-Code, MAP-CH-DataTypes, MAP-CallHandlingOperations, MAP-CommonDataTypes, MAP-DialogueInformation, MAP-ER-DataTypes, MAP-Errors, MAP-ExtensionDataTypes, MAP-GR-DataTypes, MAP-Group-Call-Operations, MAP-LCS-DataTypes, MAP-LocationServiceOperations, MAP-MS-DataTypes, MAP-MobileServiceOperations, MAP-OM-DataTypes, MAP-OperationAndMaintenanceOperations, MAP-Protocol, MAP-SM-DataTypes, MAP-SS-Code, MAP-SS-DataTypes, MAP-ShortMessageServiceOperations, MAP-SupplementaryServiceOperations, MAP-TS-Code, SS-DataTypes, SS-Errors, SS-Operations | 3GPP TS 24.080 V19.4.0; 3GPP TS 29.002 V19.1.0 (module version 22) |
+| `github.com/gomaja/go-asn1/telecom/ss7/gsm_map/ros` | Remote-Operations-Generic-ROS-PDUs, Remote-Operations-Information-Objects, Remote-Operations-Useful-Definitions | ITU-T X.880 Technical Corrigendum 1 |
+| `github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_bs_code` | MAP-BS-Code | Official version-21 MAP modules imported by TS 24.080 SS-DataTypes |
+| `github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_commondatatypes` | MAP-CommonDataTypes | Official version-21 MAP modules imported by TS 24.080 SS-DataTypes |
+| `github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_er_datatypes` | MAP-ER-DataTypes | Official version-21 MAP modules imported by TS 24.080 SS-DataTypes |
+| `github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_errors` | MAP-Errors | Official version-21 MAP modules imported by TS 24.080 SS-DataTypes |
+| `github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_extensiondatatypes` | MAP-ExtensionDataTypes | Official version-21 MAP modules imported by TS 24.080 SS-DataTypes |
+| `github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_lcs_datatypes` | MAP-LCS-DataTypes | Official version-21 MAP modules imported by TS 24.080 SS-DataTypes |
+| `github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_ms_datatypes` | MAP-MS-DataTypes | Official version-21 MAP modules imported by TS 24.080 SS-DataTypes |
+| `github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_om_datatypes` | MAP-OM-DataTypes | Official version-21 MAP modules imported by TS 24.080 SS-DataTypes |
+| `github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_sm_datatypes` | MAP-SM-DataTypes | Official version-21 MAP modules imported by TS 24.080 SS-DataTypes |
+| `github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_ss_code` | MAP-SS-Code | Official version-21 MAP modules imported by TS 24.080 SS-DataTypes |
+| `github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_ss_datatypes` | MAP-SS-DataTypes | Official version-21 MAP modules imported by TS 24.080 SS-DataTypes |
+| `github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_ts_code` | MAP-TS-Code | Official version-21 MAP modules imported by TS 24.080 SS-DataTypes |
+
+Package placement follows each definitive module identity, including its
+assigned identifier, rather than its unqualified module name (ITU-T X.680
+(02/2021) §13.16). The 24 TS 29.002 modules and three TS 24.080 modules stay
+in the root; the three ROS modules share `gsm_map/ros`. Each version-21 MAP
+module and the ETR 091 module has its own dependency package. Package names
+use the source collection and lowercased module name with punctuation
+replaced by underscores. Version 21 denotes the MAP module OID version,
+not the 3GPP release number. The 89 SS-DataTypes fields imported from MAP use
+concrete types from `v21_*`: SS-DataTypes assigns version-21 identifiers in
+its IMPORTS clause, so the current version-22 types cannot replace them
+(X.680 §13.16).
+
+Imports and identifier spellings may both change. For example, the former
+flat `SSCode3` is now `v21_map_ss_code.SSSSCode`, `SSStatus3` is
+`v21_map_ss_datatypes.SSSSStatus`, and `PWRegistrationFailureCause3` is
+`v21_map_er_datatypes.ERPWRegistrationFailureCause`. Their standalone codec
+functions move with them. A standalone codec's `BERValue[T]` holder belongs
+to that same package. ROS declarations move to `ros`; MobileDomainDefinitions
+moves to `etr091_mobiledomaindefinitions`. Current root `MAPOperationCode`,
+`MAPErrorCode`, `SSOperationCode` and `SSErrorCode` remain separate,
+source-derived catalogues.
+
+Modules sourced only from Wireshark are removed: historical MAP versions
+10, 11, 13 and 15; vendor `EricssonMAP` and `NokiaMAP-Extensions`; and the
+dissector-only `DummyMAP`. Their types and codecs are absent, including
+`RequestedInfo6` and `SMMTForwardSMArg`. The local code helpers
+`LocalErrorCode`, `LocalOperationCode` and their `String` methods are not
+emitted. There are no aliases or compatibility wrappers. Use an official
+module with the identity required by the protocol; a similarly named
+current type is not a blanket substitute for a removed historical type.
+
+**Changed meaning under an unchanged root spelling:** `gsm_map.LocationInfo`
+was DummyMAP's CHOICE; it is now SS-DataTypes' BIT STRING. The same official
+BIT STRING was previously `gsm_map.DataTypesLocationInfo`, whose old
+spelling is removed. Update both constructions and interpretation when
+migrating. This is the only surviving root export whose ASN.1 origin changes.
+
+The verbatim official MAP-CommonDataTypes comments cite RFC 3588, which
+[RFC 6733](https://www.rfc-editor.org/rfc/rfc6733.html) obsoletes; the
+DiameterIdentity types remain OCTET STRING, so the codec is unaffected.
 
 #### Standalone operation and error values
 
-Types in `telecom/ss7/gsm_map` that are used directly as an operation
+Types in `telecom/ss7/gsm_map` and its subpackages that are used directly as an operation
 argument or result, or as an error parameter (ITU-T X.880 (07/1994)
 §§8.2.2, 8.2.5, 8.3.2), and that are not a SEQUENCE, SET or CHOICE have
 standalone functions:
@@ -291,9 +374,9 @@ standalone functions:
 `ISDNAddressString` and `IMSI` (`sendIMSI`), `SSCode` and `Password`
 (`registerPassword`), `GuidanceInfo` (`getPassword`), `SSUserData`
 (`processUnstructuredSS-Data`), `SSStatus` (`ss-ErrorStatus`) and
-`PWRegistrationFailureCause` (`pw-RegistrationFailure`), plus `SSStatus3`
-and `PWRegistrationFailureCause3` from the package's second `MAP-Errors`
-module. Earlier releases generated these types only as Go aliases or named
+`PWRegistrationFailureCause` (`pw-RegistrationFailure`), plus `v21_map_ss_datatypes.SSSSStatus`
+and `v21_map_er_datatypes.ERPWRegistrationFailureCause` from the historical MAP modules (see the
+package migration above). Earlier releases generated these types only as Go aliases or named
 scalars, with no codec. `processUnstructuredSS-Data`, using the `SSUserData`
 role, is an SS-Operations operation defined by TS 24.080 V19.4.0 §4.2.
 
@@ -444,7 +527,7 @@ nonzero mandated octet or bit, or a missing one, is rejected in both modes.
 
 An extension addition of a SEQUENCE or SET, or an extension addition group,
 is encoded as an open type whose length determinant gives the length of its
-contents (ITU-T X.691 (02/2021) §§19.9, 11.2.1). A PDU cut in transmission
+contents (ITU-T X.691 (02/2021) §§19.9, 11.2.2). A PDU cut in transmission
 can end inside the last of them, and X.691 makes the whole PDU an error. A
 receiver that needs what arrived, such as a trace analyser, passes a
 `per.ToleranceLog` in `per.DecodeOptions{TruncatedExtensionTolerance}`
@@ -461,8 +544,10 @@ contents, after the extension bitmap was read in full:
   `ExtCount_` is 0 and `ExtPresent_`, `ExtData_` and `PERExtPadding_` are
   nil.
 - A cut in the root, in the extension bitmap, or in an open type or
-  contained value that arrived with its full length is still an error, with
-  or without more data after it. So is a cut in a CHOICE extension
+  contained value that arrived with its full length is still an error under
+  this option, with or without more data after it. `ExtensionRecoveryTolerance`
+  is a separate opt-in policy for an incomplete value inside a complete known
+  SEQUENCE or SET addition. A decoder still rejects a cut in a CHOICE extension
   alternative, which cannot be left absent, and a cut in a value decoded
   later from a deferred `BIT STRING (CONTAINING ...)`. The contents of a
   deferred `OCTET STRING` are decoded later as an input of their own, so
@@ -499,8 +584,9 @@ replay, err := message.MarshalUPER() // equal to wire
 
 `UnmarshalAPERWithOptions`, new on every APER SEQUENCE, SET, CHOICE and
 `<List>Complete`, takes the option too; `UnmarshalAPER` calls it with no
-options. APER decoders accept `TruncatedExtensionTolerance` and
-`MaxZeroWidthCharacters`, and reject `TrailingBitsTolerance` and a
+options. APER decoders accept `TruncatedExtensionTolerance`,
+`ExtensionRecoveryTolerance` and `MaxZeroWidthCharacters`, and reject
+`TrailingBitsTolerance` and a
 `ContainedDecoding` other than `per.Eager` rather than ignore them. Every
 extensible APER SEQUENCE or SET now keeps its final bits in a
 `per.FinalPadding`, which can hold the record of a cut, instead of a
@@ -510,6 +596,20 @@ A decode without the option allocates nothing more. With it, a decode
 allocates its trace and field path, as with the other tolerance options. A
 decode that meets a cut also keeps, in the cut value's `PERPadding_`, a copy
 of the input and the encoding the unchanged value gets, which is no longer.
+
+### Incomplete known extension values
+
+A known SEQUENCE or SET addition may arrive with its declared open-type
+length while its inner value is incomplete. Strict decoding rejects it, as
+X.691 (02/2021) §§11.2.2 and 19.9 require. An explicit
+`per.DecodeOptions{ExtensionRecoveryTolerance: &log}` accepts only a nested
+truncation in that bounded addition. It leaves the failed addition absent,
+keeps earlier typed fields, and continues with later additions. A successful
+decode logs one `per.ToleratedIncompleteExtension` record with the ASN.1 path,
+declared length, consumed bits and strict error. Unchanged values replay
+exactly; edits omit the failed addition. Recovery re-reads are bounded and
+`Limits.MaxWork` counts all examined bits. This option is independent of
+`TruncatedExtensionTolerance` (go-asn1#142).
 
 ### Editing decoded PER values
 

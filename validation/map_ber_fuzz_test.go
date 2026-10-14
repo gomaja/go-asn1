@@ -8,31 +8,34 @@ import (
 
 	"github.com/gomaja/go-asn1/runtime/ber"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_er_datatypes"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_ss_datatypes"
 )
 
 // fuzzRoleCodec checks that a standalone decoder either rejects data or
 // yields a value that replays data exactly, and whose DER decodes strictly
 // to the same value. Editing a non-canonical decoded holder must produce
 // the same BER and DER as a fresh holder of the replacement value.
-func fuzzRoleCodec[T any](t *testing.T, data []byte, first, second T,
-	decode func([]byte, ...ber.DecodeOption) (*gsm_map.BERValue[T], error),
-	encode func(*gsm_map.BERValue[T], ...ber.EncodeOption) ([]byte, error),
-	der func(*gsm_map.BERValue[T]) ([]byte, error),
+func fuzzRoleCodec[T, H any](t *testing.T, data []byte, first, second T,
+	decode func([]byte, ...ber.DecodeOption) (*H, error),
+	encode func(*H, ...ber.EncodeOption) ([]byte, error),
+	der func(*H) ([]byte, error),
+	field func(*H) *T,
 ) {
 	decoded, err := decode(data)
 	if err != nil {
 		return
 	}
 	if replay, err := encode(decoded); err != nil || !bytes.Equal(replay, data) {
-		t.Fatalf("%T replay = %x, %v; want %x", decoded.Value, replay, err, data)
+		t.Fatalf("%T replay = %x, %v; want %x", *field(decoded), replay, err, data)
 	}
 	canonical, err := der(decoded)
 	if err != nil {
-		t.Fatalf("%T DER: %v", decoded.Value, err)
+		t.Fatalf("%T DER: %v", *field(decoded), err)
 	}
 	again, err := decode(canonical)
-	if err != nil || !reflect.DeepEqual(again.Value, decoded.Value) {
-		t.Fatalf("%T DER %x decodes to %#v, %v", decoded.Value, canonical, again, err)
+	if err != nil || !reflect.DeepEqual(*field(again), *field(decoded)) {
+		t.Fatalf("%T DER %x decodes to %#v, %v", *field(decoded), canonical, again, err)
 	}
 
 	// All ten role types have one-octet tags. Add a length octet to make a
@@ -45,16 +48,16 @@ func fuzzRoleCodec[T any](t *testing.T, data []byte, first, second T,
 	}
 	edited, err := decode(long)
 	if err != nil {
-		t.Fatalf("%T long-form decode: %v", decoded.Value, err)
+		t.Fatalf("%T long-form decode: %v", *field(decoded), err)
 	}
 	replacement := first
-	if reflect.DeepEqual(edited.Value, first) {
+	if reflect.DeepEqual(*field(edited), first) {
 		replacement = second
 	}
-	if reflect.DeepEqual(edited.Value, replacement) {
+	if reflect.DeepEqual(*field(edited), replacement) {
 		t.Fatal("edit must change Value")
 	}
-	fresh := &gsm_map.BERValue[T]{Value: replacement}
+	fresh := freshRoleHolder(replacement, field)
 	want, err := der(fresh)
 	if err != nil {
 		t.Fatalf("%T fresh DER: %v", replacement, err)
@@ -62,7 +65,7 @@ func fuzzRoleCodec[T any](t *testing.T, data []byte, first, second T,
 	if encoded, err := encode(fresh); err != nil || !bytes.Equal(encoded, want) {
 		t.Fatalf("%T fresh BER = %x, %v; want %x", replacement, encoded, err, want)
 	}
-	edited.Value = replacement
+	*field(edited) = replacement
 	if encoded, err := encode(edited); err != nil || !bytes.Equal(encoded, want) {
 		t.Fatalf("%T edited BER = %x, %v; want %x", replacement, encoded, err, want)
 	}
@@ -109,16 +112,22 @@ func FuzzMAPRoleTypeDecoders(f *testing.F) {
 		f.Add(mustHexF(f, seed))
 	}
 	f.Fuzz(func(t *testing.T, data []byte) {
-		fuzzRoleCodec(t, data, gsm_map.ISDNAddressString{0x91, 0x1f}, gsm_map.ISDNAddressString{0x91, 0x2f}, gsm_map.UnmarshalBERISDNAddressString, gsm_map.MarshalBERISDNAddressString, gsm_map.MarshalDERISDNAddressString)
-		fuzzRoleCodec(t, data, gsm_map.IMSI{0x21, 0x43, 0x65}, gsm_map.IMSI{0x65, 0x87, 0x21}, gsm_map.UnmarshalBERIMSI, gsm_map.MarshalBERIMSI, gsm_map.MarshalDERIMSI)
-		fuzzRoleCodec(t, data, gsm_map.SSCode{0x92}, gsm_map.SSCode{0x93}, gsm_map.UnmarshalBERSSCode, gsm_map.MarshalBERSSCode, gsm_map.MarshalDERSSCode)
-		fuzzRoleCodec(t, data, gsm_map.Password("0000"), gsm_map.Password("1234"), gsm_map.UnmarshalBERPassword, gsm_map.MarshalBERPassword, gsm_map.MarshalDERPassword)
-		fuzzRoleCodec(t, data, gsm_map.GuidanceInfoEnterPW, gsm_map.GuidanceInfoEnterNewPW, gsm_map.UnmarshalBERGuidanceInfo, gsm_map.MarshalBERGuidanceInfo, gsm_map.MarshalDERGuidanceInfo)
-		fuzzRoleCodec(t, data, gsm_map.SSUserData("A"), gsm_map.SSUserData("B"), gsm_map.UnmarshalBERSSUserData, gsm_map.MarshalBERSSUserData, gsm_map.MarshalDERSSUserData)
-		fuzzRoleCodec(t, data, gsm_map.SSStatus{0x05}, gsm_map.SSStatus{0x0a}, gsm_map.UnmarshalBERSSStatus, gsm_map.MarshalBERSSStatus, gsm_map.MarshalDERSSStatus)
-		fuzzRoleCodec(t, data, gsm_map.PWRegistrationFailureCauseUndetermined, gsm_map.PWRegistrationFailureCauseInvalidFormat, gsm_map.UnmarshalBERPWRegistrationFailureCause, gsm_map.MarshalBERPWRegistrationFailureCause, gsm_map.MarshalDERPWRegistrationFailureCause)
-		fuzzRoleCodec(t, data, gsm_map.SSStatus3{0x0c}, gsm_map.SSStatus3{0x03}, gsm_map.UnmarshalBERSSStatus3, gsm_map.MarshalBERSSStatus3, gsm_map.MarshalDERSSStatus3)
-		fuzzRoleCodec(t, data, gsm_map.PWRegistrationFailureCause3Undetermined, gsm_map.PWRegistrationFailureCause3InvalidFormat, gsm_map.UnmarshalBERPWRegistrationFailureCause3, gsm_map.MarshalBERPWRegistrationFailureCause3, gsm_map.MarshalDERPWRegistrationFailureCause3)
+		fuzzRoleCodec(t, data, gsm_map.ISDNAddressString{0x91, 0x1f}, gsm_map.ISDNAddressString{0x91, 0x2f}, gsm_map.UnmarshalBERISDNAddressString, gsm_map.MarshalBERISDNAddressString, gsm_map.MarshalDERISDNAddressString, func(v *gsm_map.BERValue[gsm_map.ISDNAddressString]) *gsm_map.ISDNAddressString { return &v.Value })
+		fuzzRoleCodec(t, data, gsm_map.IMSI{0x21, 0x43, 0x65}, gsm_map.IMSI{0x65, 0x87, 0x21}, gsm_map.UnmarshalBERIMSI, gsm_map.MarshalBERIMSI, gsm_map.MarshalDERIMSI, func(v *gsm_map.BERValue[gsm_map.IMSI]) *gsm_map.IMSI { return &v.Value })
+		fuzzRoleCodec(t, data, gsm_map.SSCode{0x92}, gsm_map.SSCode{0x93}, gsm_map.UnmarshalBERSSCode, gsm_map.MarshalBERSSCode, gsm_map.MarshalDERSSCode, func(v *gsm_map.BERValue[gsm_map.SSCode]) *gsm_map.SSCode { return &v.Value })
+		fuzzRoleCodec(t, data, gsm_map.Password("0000"), gsm_map.Password("1234"), gsm_map.UnmarshalBERPassword, gsm_map.MarshalBERPassword, gsm_map.MarshalDERPassword, func(v *gsm_map.BERValue[gsm_map.Password]) *gsm_map.Password { return &v.Value })
+		fuzzRoleCodec(t, data, gsm_map.GuidanceInfoEnterPW, gsm_map.GuidanceInfoEnterNewPW, gsm_map.UnmarshalBERGuidanceInfo, gsm_map.MarshalBERGuidanceInfo, gsm_map.MarshalDERGuidanceInfo, func(v *gsm_map.BERValue[gsm_map.GuidanceInfo]) *gsm_map.GuidanceInfo { return &v.Value })
+		fuzzRoleCodec(t, data, gsm_map.SSUserData("A"), gsm_map.SSUserData("B"), gsm_map.UnmarshalBERSSUserData, gsm_map.MarshalBERSSUserData, gsm_map.MarshalDERSSUserData, func(v *gsm_map.BERValue[gsm_map.SSUserData]) *gsm_map.SSUserData { return &v.Value })
+		fuzzRoleCodec(t, data, gsm_map.SSStatus{0x05}, gsm_map.SSStatus{0x0a}, gsm_map.UnmarshalBERSSStatus, gsm_map.MarshalBERSSStatus, gsm_map.MarshalDERSSStatus, func(v *gsm_map.BERValue[gsm_map.SSStatus]) *gsm_map.SSStatus { return &v.Value })
+		fuzzRoleCodec(t, data, gsm_map.PWRegistrationFailureCauseUndetermined, gsm_map.PWRegistrationFailureCauseInvalidFormat, gsm_map.UnmarshalBERPWRegistrationFailureCause, gsm_map.MarshalBERPWRegistrationFailureCause, gsm_map.MarshalDERPWRegistrationFailureCause, func(v *gsm_map.BERValue[gsm_map.PWRegistrationFailureCause]) *gsm_map.PWRegistrationFailureCause {
+			return &v.Value
+		})
+		fuzzRoleCodec(t, data, v21_map_ss_datatypes.SSSSStatus{0x0c}, v21_map_ss_datatypes.SSSSStatus{0x03}, v21_map_ss_datatypes.UnmarshalBERSSSSStatus, v21_map_ss_datatypes.MarshalBERSSSSStatus, v21_map_ss_datatypes.MarshalDERSSSSStatus, func(v *v21_map_ss_datatypes.BERValue[v21_map_ss_datatypes.SSSSStatus]) *v21_map_ss_datatypes.SSSSStatus {
+			return &v.Value
+		})
+		fuzzRoleCodec(t, data, v21_map_er_datatypes.ERPWRegistrationFailureCauseUndetermined, v21_map_er_datatypes.ERPWRegistrationFailureCauseInvalidFormat, v21_map_er_datatypes.UnmarshalBERERPWRegistrationFailureCause, v21_map_er_datatypes.MarshalBERERPWRegistrationFailureCause, v21_map_er_datatypes.MarshalDERERPWRegistrationFailureCause, func(v *v21_map_er_datatypes.BERValue[v21_map_er_datatypes.ERPWRegistrationFailureCause]) *v21_map_er_datatypes.ERPWRegistrationFailureCause {
+			return &v.Value
+		})
 	})
 }
 
@@ -134,7 +143,7 @@ func FuzzMAPExtensionTail(f *testing.F) {
 	f.Fuzz(func(t *testing.T, data []byte) {
 		fuzzExtensibleSequence(t, data, func() berValue { return &gsm_map.NotifySSArg{} })
 		fuzzExtensibleSequence(t, data, func() berValue { return &gsm_map.SingleRelativeResult{} })
-		fuzzExtensibleSequence(t, data, func() berValue { return &gsm_map.RequestedInfo6{} })
+		fuzzExtensibleSequence(t, data, func() berValue { return &gsm_map.RequestedInfo{} })
 		fuzzExtensibleSequence(t, data, func() berValue { return &gsm_map.ExtCallBarringInfoForCSE{} })
 	})
 }

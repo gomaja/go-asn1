@@ -70,7 +70,7 @@ func TestExplicitWrapperRejectsTrailingAARQ(t *testing.T) {
 	valid := mustHex(t, "600ba109060704000001000103")
 	var request tcap.AARQApdu
 	replaysExactly(t, "AARQ-apdu", &request, valid)
-	if want := (runtime.ObjectIdentifier{0, 4, 0, 0, 1, 0, 1, 3}); !request.ApplicationContextName.Equal(want) {
+	if want := runtime.MustObjectIdentifierFromArcs(0, 4, 0, 0, 1, 0, 1, 3); !request.ApplicationContextName.Equal(want) {
 		t.Fatalf("application-context-name = %v, want %v", request.ApplicationContextName, want)
 	}
 	rejectsTrailingInExplicit(t, "AARQ-apdu", func() berValue { return &tcap.AARQApdu{} },
