@@ -155,6 +155,66 @@ func asn1VectorInterface(value reflect.Value) (any, error) {
 	return value.Interface(), nil
 }
 
+// TestVectorTcaUiccCapabilityBit39 verifies TCA eUICC Profile Package V3.4.1 (2025-04-15) §8.2.2 PEDefinitions UICCCapability usatAppPairing(39); ITU-T X.690 (02/2021) §§8.6.2 and 11.2.2.
+func TestVectorTcaUiccCapabilityBit39(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "bf222781030304018203020700830301000084008506000000000001880100a900aa0004030100000c00")
+	var decoded EUICCInfo2
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "UiccCapability.BitLength", "40")
+	asn1VectorAssertPath(t, decoded, "UiccCapability.Bytes", "\"AAAAAAE=\"")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+// TestVectorTcaUiccCapabilityBit0 verifies TCA eUICC Profile Package V3.4.1 (2025-04-15) §8.2.2 PEDefinitions UICCCapability contactlessSupport(0); ITU-T X.690 (02/2021) §8.6.2.
+func TestVectorTcaUiccCapabilityBit0(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "bf2223810303040182030207008303010000840085020780880100a900aa0004030100000c00")
+	var decoded EUICCInfo2
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "UiccCapability.BitLength", "1")
+	asn1VectorAssertPath(t, decoded, "UiccCapability.Bytes", "\"gA==\"")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+// TestVectorTcaUiccCapabilityBit31 verifies TCA eUICC Profile Package V3.4.1 (2025-04-15) §8.2.2 PEDefinitions UICCCapability iotminimal(31); ITU-T X.690 (02/2021) §8.6.2.
+func TestVectorTcaUiccCapabilityBit31(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "bf2226810303040182030207008303010000840085050000000001880100a900aa0004030100000c00")
+	var decoded EUICCInfo2
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "UiccCapability.BitLength", "32")
+	asn1VectorAssertPath(t, decoded, "UiccCapability.Bytes", "\"AAAAAQ==\"")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
 // TestVectorExpirationDateUtcTime verifies GSMA SGP.22 V2.7 (2026-04-24), section 2.8 and RFC 5280 section 4.1.2.5; certificate expiration dates retain the imported Time CHOICE.
 // Regression: go-asn1-v0.4.2.sgp22.expiration-date-time-alias
 func TestVectorExpirationDateUtcTime(t *testing.T) {
@@ -463,6 +523,16 @@ func TestVectorAuthenticateClientEs11ResponseMissingOuterTag(t *testing.T) {
 	if !strings.Contains(err.Error(), "expected tag [CONTEXT 64]") {
 		t.Fatalf("decode error = %q, want substring %q", err, "expected tag [CONTEXT 64]")
 	}
+}
+
+func FuzzBEREUICCInfo2(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("bf222781030304018203020700830301000084008506000000000001880100a900aa0004030100000c00"))
+	f.Add(asn1VectorHexForFuzz("bf2223810303040182030207008303010000840085020780880100a900aa0004030100000c00"))
+	f.Add(asn1VectorHexForFuzz("bf2226810303040182030207008303010000840085050000000001880100a900aa0004030100000c00"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded EUICCInfo2
+		_ = decoded.UnmarshalBER(input)
+	})
 }
 
 func FuzzBERExpirationDate(f *testing.F) {
