@@ -239,6 +239,13 @@ passed to `UICCCapability.Has`. Position zero is the leading bit; subsequent
 positions follow in order (ITU-T X.680 (02/2021) §22.4). DER omits trailing
 zero bits of a named BIT STRING (ITU-T X.690 (02/2021) §11.2.2).
 
+SGP.22 and SGP.32 `PEDefinitions` use the [Trusted Connectivity Alliance
+eUICC Profile Package V3.4.1 module](https://trustedconnectivityalliance.org/wp-content/uploads/2025/03/Profile-interoperability-technical-specification_V3.4.1.zip).
+`UICCCapabilityUsatAppPairing` is bit 39 in that module and in the
+specification's §8.2.2;
+Annex F §14.8 prints bit 35, which the module assigns to `gbauApi`. Use the
+generated bit constants when inspecting a `UICCCapability` value.
+
 A SEQUENCE OF or SET OF whose element type carries its own tag, IMPLICIT or
 EXPLICIT, directly or through a tagged type reference, decodes and encodes
 each element with that effective tag (ITU-T X.680 (02/2021) §31; X.690
