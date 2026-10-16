@@ -155,6 +155,26 @@ func asn1VectorInterface(value reflect.Value) (any, error) {
 	return value.Interface(), nil
 }
 
+// TestVectorTcaUiccCapabilityBit39 verifies TCA eUICC Profile Package V3.4.1 (2025-04-15) §8.2.2 PEDefinitions UICCCapability usatAppPairing(39), imported by GSMA SGP.32 V1.3 (2026-05-22) Annex C; ITU-T X.690 (02/2021) §§8.6.2 and 11.2.2.
+func TestVectorTcaUiccCapabilityBit39(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "bf222781030304018203020700830301000084008506000000000001880100a900aa0004030100000c00")
+	var decoded SGPEUICCInfo2
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "UiccCapability.BitLength", "40")
+	asn1VectorAssertPath(t, decoded, "UiccCapability.Bytes", "\"AAAAAAE=\"")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
 // TestVectorGetCertsResponseCertificates verifies GSMA SGP.32 V1.3 (2026-05-22), section 5.9.10 and normative Annex C; RFC 5280 section 4.1 and Appendix A.1.
 func TestVectorGetCertsResponseCertificates(t *testing.T) {
 	t.Parallel()
@@ -174,6 +194,14 @@ func TestVectorGetCertsResponseCertificates(t *testing.T) {
 	if !bytes.Equal(wire, input) {
 		t.Fatalf("round trip = %x, want %x", wire, input)
 	}
+}
+
+func FuzzBERSGPEUICCInfo2(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("bf222781030304018203020700830301000084008506000000000001880100a900aa0004030100000c00"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded SGPEUICCInfo2
+		_ = decoded.UnmarshalBER(input)
+	})
 }
 
 func FuzzBERGetCertsResponse(f *testing.F) {

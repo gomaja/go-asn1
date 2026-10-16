@@ -1,22 +1,22 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "649a2a974e479a03c8a25ad7b623ed69f0f4fe83",
-  "target_base_commit": "5ee2197ff927083d81f5098ada38ada9cde229b0",
+  "compiler_commit": "df33899d4e56e49b1983adf46620009a84ddfda2",
+  "target_base_commit": "59638a87dc061c10a53801e5033f78efb7d2e059",
   "inputs": {
-    "sha256": "280bae7daa519ef7998d9646fa003c9344a1daf1430e22f87416cf525a666d1e",
+    "sha256": "bceb513dc1eb935ed03c8a876c759fbfb714ca4d1b75b456a7b3bda9477b9c26",
     "files": [
       {
         "path": "conformance/corpus.yaml",
         "mode": "0644",
-        "sha256": "f9b137a3897507b7586d4bd5d9891257e694acc56b5b8d1df856d0a96d223943",
-        "size_bytes": 194424
+        "sha256": "f49a00a952ebbe957751916985a81432e37931346765e9c3e5d3319244f9c6ae",
+        "size_bytes": 197640
       },
       {
         "path": "conformance/source.lock.json",
         "mode": "0644",
-        "sha256": "90f19e21d3176d3aaa77566387ec515834d42e91aae19527e8313c945a6fca6e",
-        "size_bytes": 153235
+        "sha256": "ac2cde3760949129e138252585c09c44c0be2e35f399ae051cede4ed52488d35",
+        "size_bytes": 153436
       }
     ]
   },
@@ -30,7 +30,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "649a2a974e479a03c8a25ad7b623ed69f0f4fe83",
+          "commit": "df33899d4e56e49b1983adf46620009a84ddfda2",
           "dirty": false
         },
         "frontend": {
@@ -39,17 +39,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f9b137a3897507b7586d4bd5d9891257e694acc56b5b8d1df856d0a96d223943",
-          "size_bytes": 194424
+          "sha256": "f49a00a952ebbe957751916985a81432e37931346765e9c3e5d3319244f9c6ae",
+          "size_bytes": 197640
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "90f19e21d3176d3aaa77566387ec515834d42e91aae19527e8313c945a6fca6e",
-          "size_bytes": 153235
+          "sha256": "ac2cde3760949129e138252585c09c44c0be2e35f399ae051cede4ed52488d35",
+          "size_bytes": 153436
         },
         "source_plan": {
           "path": "gsm-map/source-plan.json",
-          "sha256": "36975c826bb8320892675e9e7c946a9f7e4e06c54f636244a0ad1e7b12d3a279",
+          "sha256": "503a3870e0d70b21ffebfba847f6ced40e81971dbdf4e59ed977ec9f21cc64fd",
           "size_bytes": 761920
         },
         "sources": [
@@ -498,7 +498,7 @@
         ],
         "ir": {
           "path": "gsm-map/resolved-schema.json",
-          "sha256": "ea8f56e413250d777046961eabf4b77318e1e4796f346903e11fe0eb32e1d69c",
+          "sha256": "0be6316fd7fd1377721624520dee2d7814d5d6e5737980a1a3ecf11727bce2c3",
           "size_bytes": 4722697
         },
         "outputs": [
@@ -1097,7 +1097,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "649a2a974e479a03c8a25ad7b623ed69f0f4fe83",
+          "commit": "df33899d4e56e49b1983adf46620009a84ddfda2",
           "dirty": false
         },
         "frontend": {
@@ -1106,17 +1106,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f9b137a3897507b7586d4bd5d9891257e694acc56b5b8d1df856d0a96d223943",
-          "size_bytes": 194424
+          "sha256": "f49a00a952ebbe957751916985a81432e37931346765e9c3e5d3319244f9c6ae",
+          "size_bytes": 197640
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "90f19e21d3176d3aaa77566387ec515834d42e91aae19527e8313c945a6fca6e",
-          "size_bytes": 153235
+          "sha256": "ac2cde3760949129e138252585c09c44c0be2e35f399ae051cede4ed52488d35",
+          "size_bytes": 153436
         },
         "source_plan": {
           "path": "lpp/source-plan.json",
-          "sha256": "19726332f1364f066f1dd9ee9b913b111ba0f27814b151c53f8c2a9978eb39d4",
+          "sha256": "53f170c8ca5eb0fa0a315827a01187c2a631b8c04be619d5a75505ccbae5487d",
           "size_bytes": 149910
         },
         "sources": [
@@ -1145,7 +1145,7 @@
         ],
         "ir": {
           "path": "lpp/resolved-schema.json",
-          "sha256": "3ac40e29d6a025c4c69b527322571238d00a6746110d310a9a267bbaa1326ba7",
+          "sha256": "6d0d69ca7404296a4acfafeba2328f357cad4d87454cffeaa1659b35f862f36f",
           "size_bytes": 1689605
         },
         "outputs": [
@@ -1475,7 +1475,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "649a2a974e479a03c8a25ad7b623ed69f0f4fe83",
+          "commit": "df33899d4e56e49b1983adf46620009a84ddfda2",
           "dirty": false
         },
         "frontend": {
@@ -1484,17 +1484,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f9b137a3897507b7586d4bd5d9891257e694acc56b5b8d1df856d0a96d223943",
-          "size_bytes": 194424
+          "sha256": "f49a00a952ebbe957751916985a81432e37931346765e9c3e5d3319244f9c6ae",
+          "size_bytes": 197640
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "90f19e21d3176d3aaa77566387ec515834d42e91aae19527e8313c945a6fca6e",
-          "size_bytes": 153235
+          "sha256": "ac2cde3760949129e138252585c09c44c0be2e35f399ae051cede4ed52488d35",
+          "size_bytes": 153436
         },
         "source_plan": {
           "path": "lppa/source-plan.json",
-          "sha256": "b0f7cd295225abd2c3b3ae7ab6ca736be357421ae5a8331c7c44639559b65ee1",
+          "sha256": "2022b2cbecbadc4517d1a1398dabe03a15bb172e1129d6b7a62e3d88eb38db0c",
           "size_bytes": 75872
         },
         "sources": [
@@ -1563,7 +1563,7 @@
         ],
         "ir": {
           "path": "lppa/resolved-schema.json",
-          "sha256": "0b3b6a8cafebbcea42667c03445715188cbd70f51022deef683a648358912971",
+          "sha256": "db25e26db7d70a70f64f6013e680b66787ca66718c1a1636bd0ef450bc760d0e",
           "size_bytes": 714565
         },
         "outputs": [
@@ -1923,7 +1923,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "649a2a974e479a03c8a25ad7b623ed69f0f4fe83",
+          "commit": "df33899d4e56e49b1983adf46620009a84ddfda2",
           "dirty": false
         },
         "frontend": {
@@ -1932,17 +1932,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f9b137a3897507b7586d4bd5d9891257e694acc56b5b8d1df856d0a96d223943",
-          "size_bytes": 194424
+          "sha256": "f49a00a952ebbe957751916985a81432e37931346765e9c3e5d3319244f9c6ae",
+          "size_bytes": 197640
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "90f19e21d3176d3aaa77566387ec515834d42e91aae19527e8313c945a6fca6e",
-          "size_bytes": 153235
+          "sha256": "ac2cde3760949129e138252585c09c44c0be2e35f399ae051cede4ed52488d35",
+          "size_bytes": 153436
         },
         "source_plan": {
           "path": "lte-rrc/source-plan.json",
-          "sha256": "46954294bb7256c1f99e52444b8654ae32bf6cdf4740c422ac7ee3073771ab27",
+          "sha256": "c99e6f8a4f4e9abcf27d6321d49277458d16fe317576d5b0cd36fc345aaad626",
           "size_bytes": 638414
         },
         "sources": [
@@ -2401,7 +2401,7 @@
         ],
         "ir": {
           "path": "lte-rrc/resolved-schema.json",
-          "sha256": "e723ebe15c9fd9bd2db4ba29a677df4ad0574f406c869855a3fa2a8d0864daa6",
+          "sha256": "cb52b8b24708ea2da5a9d19355339d103a1452e0cd3939fd80775b6c2d956d36",
           "size_bytes": 5691540
         },
         "outputs": [
@@ -2691,7 +2691,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "649a2a974e479a03c8a25ad7b623ed69f0f4fe83",
+          "commit": "df33899d4e56e49b1983adf46620009a84ddfda2",
           "dirty": false
         },
         "frontend": {
@@ -2700,17 +2700,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f9b137a3897507b7586d4bd5d9891257e694acc56b5b8d1df856d0a96d223943",
-          "size_bytes": 194424
+          "sha256": "f49a00a952ebbe957751916985a81432e37931346765e9c3e5d3319244f9c6ae",
+          "size_bytes": 197640
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "90f19e21d3176d3aaa77566387ec515834d42e91aae19527e8313c945a6fca6e",
-          "size_bytes": 153235
+          "sha256": "ac2cde3760949129e138252585c09c44c0be2e35f399ae051cede4ed52488d35",
+          "size_bytes": 153436
         },
         "source_plan": {
           "path": "rrc/source-plan.json",
-          "sha256": "855cbcb082fdf11c3bafcfc20dd741cbc2ce26f6a801f8585fd8299edb2b897b",
+          "sha256": "d2672aebadf3e2990ff16179462f057adb7fbc20a2cd584a101d6987e0d6eb79",
           "size_bytes": 929329
         },
         "sources": [
@@ -2769,7 +2769,7 @@
         ],
         "ir": {
           "path": "rrc/resolved-schema.json",
-          "sha256": "8a4ace7bf399887767e8165e879ba2a15220830d93d4962fbc28bea41ec33301",
+          "sha256": "9f26d42fd868727d8cf2051fa82c451580f2deb7afd58b0349b7352123d40a49",
           "size_bytes": 10933106
         },
         "outputs": [
@@ -3043,7 +3043,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "649a2a974e479a03c8a25ad7b623ed69f0f4fe83",
+          "commit": "df33899d4e56e49b1983adf46620009a84ddfda2",
           "dirty": false
         },
         "frontend": {
@@ -3052,17 +3052,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f9b137a3897507b7586d4bd5d9891257e694acc56b5b8d1df856d0a96d223943",
-          "size_bytes": 194424
+          "sha256": "f49a00a952ebbe957751916985a81432e37931346765e9c3e5d3319244f9c6ae",
+          "size_bytes": 197640
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "90f19e21d3176d3aaa77566387ec515834d42e91aae19527e8313c945a6fca6e",
-          "size_bytes": 153235
+          "sha256": "ac2cde3760949129e138252585c09c44c0be2e35f399ae051cede4ed52488d35",
+          "size_bytes": 153436
         },
         "source_plan": {
           "path": "s1ap/source-plan.json",
-          "sha256": "68a47801b6245c56d82a9de997a268c926811e0875748d98e7a9e4e40674fd18",
+          "sha256": "ea9cd70f4dfe543de4215decb2f141df7bf2c3b40d085d1d5fa9b825349c9646",
           "size_bytes": 385543
         },
         "sources": [
@@ -3159,7 +3159,7 @@
         ],
         "ir": {
           "path": "s1ap/resolved-schema.json",
-          "sha256": "26cc7bb3bf71766bef5c15664bcaad5be22dc9969e181c0dca6d8b8a09a207ce",
+          "sha256": "8494f7f5f0b49c124efa358d018c4cdf41045ad2eea2a55b7171652adcacef70",
           "size_bytes": 3760485
         },
         "outputs": [
@@ -3449,7 +3449,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "649a2a974e479a03c8a25ad7b623ed69f0f4fe83",
+          "commit": "df33899d4e56e49b1983adf46620009a84ddfda2",
           "dirty": false
         },
         "frontend": {
@@ -3458,18 +3458,18 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f9b137a3897507b7586d4bd5d9891257e694acc56b5b8d1df856d0a96d223943",
-          "size_bytes": 194424
+          "sha256": "f49a00a952ebbe957751916985a81432e37931346765e9c3e5d3319244f9c6ae",
+          "size_bytes": 197640
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "90f19e21d3176d3aaa77566387ec515834d42e91aae19527e8313c945a6fca6e",
-          "size_bytes": 153235
+          "sha256": "ac2cde3760949129e138252585c09c44c0be2e35f399ae051cede4ed52488d35",
+          "size_bytes": 153436
         },
         "source_plan": {
           "path": "sgp22/source-plan.json",
-          "sha256": "3812a95e4e298e4565de27aac88ee008571ca5bcd03fc58c020866f0dfab9433",
-          "size_bytes": 68687
+          "sha256": "186fe647aa243dc278b3a8a7d719fb4f7c749bef3c80d8b169557aa3dbce3ae8",
+          "size_bytes": 79430
         },
         "sources": [
           {
@@ -3485,10 +3485,10 @@
             "sha256": "ebd67aeb4fcbe58ec759938b6f2bbcf936e94e5acad5f30f6fbc6ff19c8c5a48"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "sgp22/PEDefinitions.asn",
+            "collection": "tca-profile-v341",
+            "path": "modules/PEDefinitions.asn",
             "mode": "0644",
-            "sha256": "706d2f16a28bc942ded84e1c826e14e252020d5fe5d159aa342f0f6e0fcdd7f7"
+            "sha256": "407f1db3ba4e60cd9bd7c830033982aa626a9c09e18fe3b0e46c5f6dfcb12650"
           },
           {
             "collection": "wireshark-asn1",
@@ -3500,7 +3500,7 @@
         "module_closure": [
           {
             "module": "PEDefinitions",
-            "path": "wireshark-asn1/sgp22/PEDefinitions.asn"
+            "path": "tca-profile-v341/modules/PEDefinitions.asn"
           },
           {
             "module": "PKIX1Explicit88",
@@ -3541,6 +3541,14 @@
             "standard_reference": "RFC 5280 Appendix A and Appendix A.1 pseudo-ASN.1 UNIVERSAL type redefinition"
           },
           {
+            "source_collection": "tca-profile-v341",
+            "module": "PEDefinitions",
+            "symbol": "",
+            "target_module": "",
+            "reason": "RSPDefinitions imports PEDefinitions by its definitive identifier; select the complete current TCA module instead of Wireshark's earlier excerpt with the same identifier.",
+            "standard_reference": "TCA eUICC Profile Package Interoperable Format Technical Specification V3.4.1 (2025-04-15) clause 8.2.2, formal PEDefinitions module"
+          },
+          {
             "source_collection": "wireshark-asn1",
             "module": "",
             "symbol": "",
@@ -3551,14 +3559,14 @@
         ],
         "ir": {
           "path": "sgp22/resolved-schema.json",
-          "sha256": "21c4151363e6f1ae48f1a2d290f4ac57179311a2c044d965639bb8a400e17397",
-          "size_bytes": 404435
+          "sha256": "8379eb4d58a2336d95a0e4b02c4391dfb51a30bbbd178d9eee1f6d45268d9794",
+          "size_bytes": 724425
         },
         "outputs": [
           {
             "path": "sgp22/asn1_wire_vectors_test.go",
-            "sha256": "d31e9c865f9d32fb14d3d9bc200ba8f20a09c01f18dec96c2fee34dc83ae6864",
-            "size_bytes": 20751
+            "sha256": "7bfca9a9877d8b7c0965572c492ddc97c1fed911a6f1e77ae5a1ea2189219ea8",
+            "size_bytes": 23512
           },
           {
             "path": "sgp22/ber-error-paths.go",
@@ -3567,8 +3575,8 @@
           },
           {
             "path": "sgp22/pedefinitions.go",
-            "sha256": "1a283e3b2d635fe7d35a65b536e548478c9c6070f40a750656c8b6defb09a419",
-            "size_bytes": 5525
+            "sha256": "11df6d69d07540c3cff20250fe99f79462296aae590a6395d7206f1b918ad120",
+            "size_bytes": 3124761
           },
           {
             "path": "sgp22/pkix1explicit88.go",
@@ -3606,6 +3614,11 @@
             "authority": "itu-t",
             "document": "ITU-T X.690 (02/2021), Distinguished Encoding Rules",
             "status": "in force verified 2026-09-01; Erratum 1 (09/2021) is applicable"
+          },
+          {
+            "authority": "tca",
+            "document": "TCA eUICC Profile Package Interoperable Format Technical Specification V3.4.1 (2025-04-15), clause 8.2.2 UICCCapability",
+            "status": "current edition verified 2026-10-16; formal PEDefinitions module and clause 8.2.2 specify usatAppPairing(39), while clause 14.8 says (35); the codec follows the formal module pending publisher clarification; catalog shows no later edition, erratum, corrigendum or draft"
           }
         ],
         "validation": [
@@ -3819,7 +3832,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "649a2a974e479a03c8a25ad7b623ed69f0f4fe83",
+          "commit": "df33899d4e56e49b1983adf46620009a84ddfda2",
           "dirty": false
         },
         "frontend": {
@@ -3828,18 +3841,18 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f9b137a3897507b7586d4bd5d9891257e694acc56b5b8d1df856d0a96d223943",
-          "size_bytes": 194424
+          "sha256": "f49a00a952ebbe957751916985a81432e37931346765e9c3e5d3319244f9c6ae",
+          "size_bytes": 197640
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "90f19e21d3176d3aaa77566387ec515834d42e91aae19527e8313c945a6fca6e",
-          "size_bytes": 153235
+          "sha256": "ac2cde3760949129e138252585c09c44c0be2e35f399ae051cede4ed52488d35",
+          "size_bytes": 153436
         },
         "source_plan": {
           "path": "sgp32/source-plan.json",
-          "sha256": "9eccb033a5c6780d026f41ab31f65d670597d09255999d6fdcc65cb65d7061b3",
-          "size_bytes": 97863
+          "sha256": "46a59a36cd099fc03f03d0e0b10793e3e1b05a817e3f726a4afe2fd1187e4937",
+          "size_bytes": 108665
         },
         "sources": [
           {
@@ -3855,10 +3868,10 @@
             "sha256": "ebd67aeb4fcbe58ec759938b6f2bbcf936e94e5acad5f30f6fbc6ff19c8c5a48"
           },
           {
-            "collection": "wireshark-asn1",
-            "path": "sgp22/PEDefinitions.asn",
+            "collection": "tca-profile-v341",
+            "path": "modules/PEDefinitions.asn",
             "mode": "0644",
-            "sha256": "706d2f16a28bc942ded84e1c826e14e252020d5fe5d159aa342f0f6e0fcdd7f7"
+            "sha256": "407f1db3ba4e60cd9bd7c830033982aa626a9c09e18fe3b0e46c5f6dfcb12650"
           },
           {
             "collection": "wireshark-asn1",
@@ -3876,7 +3889,7 @@
         "module_closure": [
           {
             "module": "PEDefinitions",
-            "path": "wireshark-asn1/sgp22/PEDefinitions.asn"
+            "path": "tca-profile-v341/modules/PEDefinitions.asn"
           },
           {
             "module": "PKIX1Explicit88",
@@ -3921,6 +3934,14 @@
             "standard_reference": "RFC 5280 Appendix A and Appendix A.1 pseudo-ASN.1 UNIVERSAL type redefinition"
           },
           {
+            "source_collection": "tca-profile-v341",
+            "module": "PEDefinitions",
+            "symbol": "",
+            "target_module": "",
+            "reason": "RSPDefinitions imports PEDefinitions by its definitive identifier; select the complete current TCA module instead of Wireshark's earlier excerpt with the same identifier.",
+            "standard_reference": "TCA eUICC Profile Package Interoperable Format Technical Specification V3.4.1 (2025-04-15) clause 8.2.2, formal PEDefinitions module"
+          },
+          {
             "source_collection": "wireshark-asn1",
             "module": "",
             "symbol": "",
@@ -3939,14 +3960,14 @@
         ],
         "ir": {
           "path": "sgp32/resolved-schema.json",
-          "sha256": "69d95cbf5fdf1ea503e27678e4df84ed2b1d1ddf4c1f29c0ef3a2edb752bf255",
-          "size_bytes": 639965
+          "sha256": "da79c6b9f181238afc85394af8c98c6b30afdf220de9670088b55fc8aee56517",
+          "size_bytes": 960034
         },
         "outputs": [
           {
             "path": "sgp32/asn1_wire_vectors_test.go",
-            "sha256": "a131e2376ab25f380f62a3732562e37bd02ef93163d6cec84e052a2632ad0d39",
-            "size_bytes": 7475
+            "sha256": "87dc77c839b005ecad0c6ef3621b71567dd6ba1766ddb1f194763b535ed8884e",
+            "size_bytes": 8572
           },
           {
             "path": "sgp32/ber-error-paths.go",
@@ -3955,8 +3976,8 @@
           },
           {
             "path": "sgp32/pedefinitions.go",
-            "sha256": "7b7f0fbfe3839b3e1dbb2981bb3e1d01c96d7a76675a660dbd15c88ea1769459",
-            "size_bytes": 5525
+            "sha256": "0e46931a8669a3d183956f1e0cd5565bb959f84489de7bf1302790d6beb1ab2b",
+            "size_bytes": 3124761
           },
           {
             "path": "sgp32/pkix1explicit88.go",
@@ -3999,6 +4020,11 @@
             "authority": "itu-t",
             "document": "ITU-T X.690 (02/2021), Distinguished Encoding Rules",
             "status": "in force verified 2026-09-01; Erratum 1 (09/2021) is applicable"
+          },
+          {
+            "authority": "tca",
+            "document": "TCA eUICC Profile Package Interoperable Format Technical Specification V3.4.1 (2025-04-15), clause 8.2.2 UICCCapability",
+            "status": "current edition verified 2026-10-16; SGP32Definitions.EUICCInfo2 imports the formal PEDefinitions capability through RSPDefinitions; the formal module and clause 8.2.2 specify usatAppPairing(39), while clause 14.8 says (35); the codec follows the formal module pending publisher clarification; catalog shows no later edition, erratum, corrigendum or draft"
           }
         ],
         "validation": [
@@ -4213,7 +4239,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "649a2a974e479a03c8a25ad7b623ed69f0f4fe83",
+          "commit": "df33899d4e56e49b1983adf46620009a84ddfda2",
           "dirty": false
         },
         "frontend": {
@@ -4222,17 +4248,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f9b137a3897507b7586d4bd5d9891257e694acc56b5b8d1df856d0a96d223943",
-          "size_bytes": 194424
+          "sha256": "f49a00a952ebbe957751916985a81432e37931346765e9c3e5d3319244f9c6ae",
+          "size_bytes": 197640
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "90f19e21d3176d3aaa77566387ec515834d42e91aae19527e8313c945a6fca6e",
-          "size_bytes": 153235
+          "sha256": "ac2cde3760949129e138252585c09c44c0be2e35f399ae051cede4ed52488d35",
+          "size_bytes": 153436
         },
         "source_plan": {
           "path": "tcap/source-plan.json",
-          "sha256": "9b717bd10834a851917ed38353f7f00614ac87d752a35bfbe75104b9bd117b6e",
+          "sha256": "9c85bb49bd361ec78090679d90ebf361da4796789fe09f6ca1be6122d46b57e4",
           "size_bytes": 25040
         },
         "sources": [
@@ -4311,7 +4337,7 @@
         ],
         "ir": {
           "path": "tcap/resolved-schema.json",
-          "sha256": "6b79a6dd4380d85e73c1b70c22bd55a64e3a689fe646fc14bc144e3b0662eeaf",
+          "sha256": "d19e96704885e7adea4f287e5dc34f03a5a48cc60622ed10c070624ee47c87e1",
           "size_bytes": 490465
         },
         "outputs": [
@@ -4589,7 +4615,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "649a2a974e479a03c8a25ad7b623ed69f0f4fe83",
+          "commit": "df33899d4e56e49b1983adf46620009a84ddfda2",
           "dirty": false
         },
         "frontend": {
@@ -4598,17 +4624,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f9b137a3897507b7586d4bd5d9891257e694acc56b5b8d1df856d0a96d223943",
-          "size_bytes": 194424
+          "sha256": "f49a00a952ebbe957751916985a81432e37931346765e9c3e5d3319244f9c6ae",
+          "size_bytes": 197640
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "90f19e21d3176d3aaa77566387ec515834d42e91aae19527e8313c945a6fca6e",
-          "size_bytes": 153235
+          "sha256": "ac2cde3760949129e138252585c09c44c0be2e35f399ae051cede4ed52488d35",
+          "size_bytes": 153436
         },
         "source_plan": {
           "path": "x2ap/source-plan.json",
-          "sha256": "a04c5e72a2f0ce6485b9c0c31ed072160a839a72e220b1e4e7bb1fcbb4e87fc3",
+          "sha256": "10718f21dfd963391796cdc8695f06016cb456bc5fddf9620c14c4365a745e22",
           "size_bytes": 490213
         },
         "sources": [
@@ -4677,7 +4703,7 @@
         ],
         "ir": {
           "path": "x2ap/resolved-schema.json",
-          "sha256": "890c65d696039999e9b7d2138affde0e15ab121a43525a7fd4b313d37a3945f8",
+          "sha256": "e0028615e9144c56f24421ea62311c04fdb803e9f88259063e5ace8d3ac433a4",
           "size_bytes": 5279731
         },
         "outputs": [
@@ -4960,7 +4986,7 @@
     }
   ],
   "outputs": {
-    "sha256": "35380aef3807f0e87bdaaa1bc46bafc5d7c15a4531c4b95a691e4046aea69123",
+    "sha256": "212bc558a76f225605d05ce853b7664f7b1612397410766273844fa4933e3d0b",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
@@ -5949,8 +5975,8 @@
       {
         "path": "telecom/esim/sgp22/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "d31e9c865f9d32fb14d3d9bc200ba8f20a09c01f18dec96c2fee34dc83ae6864",
-        "size_bytes": 20751
+        "sha256": "7bfca9a9877d8b7c0965572c492ddc97c1fed911a6f1e77ae5a1ea2189219ea8",
+        "size_bytes": 23512
       },
       {
         "path": "telecom/esim/sgp22/ber-error-paths.go",
@@ -5961,8 +5987,8 @@
       {
         "path": "telecom/esim/sgp22/pedefinitions.go",
         "mode": "0644",
-        "sha256": "1a283e3b2d635fe7d35a65b536e548478c9c6070f40a750656c8b6defb09a419",
-        "size_bytes": 5525
+        "sha256": "11df6d69d07540c3cff20250fe99f79462296aae590a6395d7206f1b918ad120",
+        "size_bytes": 3124761
       },
       {
         "path": "telecom/esim/sgp22/pkix1explicit88.go",
@@ -5985,8 +6011,8 @@
       {
         "path": "telecom/esim/sgp32/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "a131e2376ab25f380f62a3732562e37bd02ef93163d6cec84e052a2632ad0d39",
-        "size_bytes": 7475
+        "sha256": "87dc77c839b005ecad0c6ef3621b71567dd6ba1766ddb1f194763b535ed8884e",
+        "size_bytes": 8572
       },
       {
         "path": "telecom/esim/sgp32/ber-error-paths.go",
@@ -5997,8 +6023,8 @@
       {
         "path": "telecom/esim/sgp32/pedefinitions.go",
         "mode": "0644",
-        "sha256": "7b7f0fbfe3839b3e1dbb2981bb3e1d01c96d7a76675a660dbd15c88ea1769459",
-        "size_bytes": 5525
+        "sha256": "0e46931a8669a3d183956f1e0cd5565bb959f84489de7bf1302790d6beb1ab2b",
+        "size_bytes": 3124761
       },
       {
         "path": "telecom/esim/sgp32/pkix1explicit88.go",
@@ -7209,7 +7235,7 @@
     },
     {
       "name": "gopls",
-      "tool_version": "v0.23.0",
+      "tool_version": "v0.24.0",
       "args": [
         "check",
         "$STAGE/runtime/ber/ber_test.go",
@@ -7514,7 +7540,7 @@
     },
     {
       "name": "gopls",
-      "tool_version": "v0.23.0",
+      "tool_version": "v0.24.0",
       "args": [
         "check",
         "$STAGE/telecom/ss7/tcap/remoteoperationsgenericrospdus.go",
