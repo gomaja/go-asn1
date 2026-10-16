@@ -181,6 +181,13 @@ SIZE constraint. Its path uses the ASN.1 component identifiers, such as
 
 #### Preserved BER forms and DER
 
+Generated BER decoders use a lighter path for shallow values with definite
+lengths and a path that records validated spans for deeper or indefinite
+values. Both enforce the same BER rules and decode limits. The
+`ber.ForceGeneratedBERLightForTesting` and
+`ber.ForceGeneratedBERProofForTesting` options are test controls; applications
+do not need to select a path.
+
 Strict and tolerant decoders retain received BER bytes only when an unchanged
 value would otherwise lose a valid noncanonical form, such as a constructed
 string, an indefinite length, a nonminimal length, a non-normalised REAL, a
@@ -198,6 +205,20 @@ The default continues exact replay of unchanged BER. This option does not
 apply DER rules or guarantee a protocol-specific transfer profile
 (X.690 (02/2021) §§8.1.3, 8.7.3).
 
+When a field in an aggregate changes, the encoder compares each child with
+the child at the same encoded position in the received value. A child proved
+unchanged can keep its received IMPLICIT tag and nonminimal or indefinite
+length. If a comparison cannot prove equality, the encoder compares fresh
+encodings before replaying the child. Changing component presence or the
+selected CHOICE alternative can require a fresh enclosing encoding
+(ITU-T X.690 (02/2021) §§8.1.1–8.1.3, 8.9.2–8.9.3, 8.13–8.14).
+
+Generated BER and DER encoders append nested values into a growing buffer
+within each package instead of repeatedly copying the accumulated prefix.
+Imported values cross the package boundary through their public marshal
+methods. BER replay and DER validation remain subject to the rules described
+here (ITU-T X.690 (02/2021) §§8.1.3, 10.1).
+
 `MarshalDER` encodes typed values in DER form and never re-emits preserved BER
 bytes: REAL values take their distinguished form, SET components are sorted,
 a SEQUENCE or SET component equal to its `DEFAULT` is omitted, and a named
@@ -211,6 +232,12 @@ Open-type contents are emitted as carried.
 An unchanged valid BER REAL whose normalized exponent cannot fit the 255-octet
 encoding limit can still be re-encoded as BER; `MarshalDER` returns
 `ber.ErrInvalidValue` (X.690 §§8.5.7.4, 11.3.1).
+
+Named BIT STRING types expose Go constants for their bit positions. For
+example, `sgp22.UICCCapabilityContactlessSupport` is position zero and can be
+passed to `UICCCapability.Has`. Position zero is the leading bit; subsequent
+positions follow in order (ITU-T X.680 (02/2021) §22.4). DER omits trailing
+zero bits of a named BIT STRING (ITU-T X.690 (02/2021) §11.2.2).
 
 A SEQUENCE OF or SET OF whose element type carries its own tag, IMPLICIT or
 EXPLICIT, directly or through a tagged type reference, decodes and encodes
@@ -296,6 +323,23 @@ OPTIONAL run (TS 29.002 V19.1.0 §17.7.6). A later [0] stays with that unknown
 tail rather than becoming `smsOverIP-OnlyIndicator`. Similarly,
 `RequestedInfo` retains a future [13] followed by [8] as unknown TLVs
 (TS 29.002 V19.1.0 §17.7.1).
+
+#### Unknown CHOICE extensions
+
+An extensible BER CHOICE can retain an alternative absent from its compiled
+schema. `UnknownExtension.Element` holds a copy of the complete received BER
+element, including its identifier, length, contents and any end-of-contents
+octets. `MarshalBER` reproduces it; `MarshalDER` accepts it only when the
+complete element is valid DER (ITU-T X.690 (02/2021) §§8.1.1, 8.13, 10–11).
+
+A fresh value may set `UnknownExtension` if it selects no known alternative
+and the element does not reuse a known alternative's tag. At the CHOICE's
+position, the unknown tag must also be distinct from a preceding OPTIONAL or
+DEFAULT component, even when that component is absent, and from every other
+reachable sibling. A known tag with the wrong primitive or constructed form
+is rejected as malformed rather than treated as an unknown alternative
+(ITU-T X.680 (02/2021) §§25.6.1, 25.7, 29.3, 52.7.3; X.690 (02/2021)
+§§8.1.2.2–8.1.2.5, 8.13).
 
 ### GSM MAP package migration
 
