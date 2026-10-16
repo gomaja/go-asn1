@@ -3,7 +3,6 @@ package ber
 import (
 	"math/big"
 	"testing"
-	"time"
 
 	"github.com/gomaja/go-asn1/runtime"
 )
@@ -45,18 +44,29 @@ func TestRealEqualsDERDefaultLargePowerOfFive(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	// A per-factor division takes roughly a second for 5^100000 on the
-	// pre-fix implementation. Batched extraction needs logarithmically many
-	// divisions even when the mantissa is supplied by a caller.
-	mantissa := new(big.Int).Exp(big.NewInt(5), big.NewInt(100000), nil)
-	value := runtime.Real{Kind: runtime.RealFinite, Base: 2, Mantissa: mantissa, Exponent: big.NewInt(0)}
-	start := time.Now()
-	equal, err := RealEqualsDERDefault(value, string(defaultDER))
-	if err != nil || equal {
-		t.Fatalf("equality = %t, %v; want false", equal, err)
-	}
-	if elapsed := time.Since(start); elapsed > 300*time.Millisecond {
-		t.Fatalf("factor extraction took %s for 5^100000", elapsed)
+	// Squared powers use logarithmically many divisions. Bound quotient
+	// allocations, and retain the scan fallback for a per-factor loop that
+	// reuses its quotient storage instead of allocating it each time.
+	var previousTime, previousExponent int64
+	for _, exponent := range []int64{1024, 4096, 16384, 65536, 100000} {
+		mantissa := new(big.Int).Exp(big.NewInt(5), big.NewInt(exponent), nil)
+		value := runtime.Real{Kind: runtime.RealFinite, Base: 2, Mantissa: mantissa, Exponent: big.NewInt(0)}
+		operation := func() {
+			equal, err := RealEqualsDERDefault(value, string(defaultDER))
+			if err != nil || equal {
+				t.Fatalf("equality = %t, %v; want false", equal, err)
+			}
+		}
+		allocated, allocations := allocationCost(t, 5, operation)
+		if allocated > uint64(64*exponent+8192) || allocations > 256 {
+			t.Fatalf("5^%d: %d bytes, %d allocations", exponent, allocated, allocations)
+		}
+		elapsed := minimumTime(t, operation).Nanoseconds()
+		if previousTime != 0 && elapsed*previousExponent > 3*previousTime*exponent {
+			t.Fatalf("5^%d: %d ns, previous 5^%d: %d ns; exceeds linear bound", exponent, elapsed, previousExponent, previousTime)
+		}
+		previousTime, previousExponent = elapsed, exponent
+		t.Logf("5^%d: %d bytes, %d allocations, minimum %d ns", exponent, allocated, allocations, elapsed)
 	}
 }
 

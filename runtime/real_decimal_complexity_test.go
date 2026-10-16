@@ -1,10 +1,12 @@
-package runtime
+package runtime_test
 
 import (
 	"math/big"
+	"strconv"
 	"strings"
 	"testing"
-	"time"
+
+	"github.com/gomaja/go-asn1/runtime"
 )
 
 func TestNewRealLargeDecimalWithoutTrailingZero(t *testing.T) {
@@ -15,15 +17,19 @@ func TestNewRealLargeDecimalWithoutTrailingZero(t *testing.T) {
 	if !ok {
 		t.Fatal("constructing decimal mantissa")
 	}
-	start := time.Now()
-	value, err := NewReal(10, mantissa, big.NewInt(0))
-	elapsed := time.Since(start)
+	var value runtime.Real
+	var err error
+	allocated, allocations := allocationCost(t, 5, func() { value, err = runtime.NewReal(10, mantissa, big.NewInt(0)) })
 	if err != nil || value.Mantissa.Cmp(mantissa) != 0 || value.Exponent.Sign() != 0 {
 		t.Fatalf("NewReal: value=%#v err=%v", value, err)
 	}
-	if elapsed > 100*time.Millisecond {
-		t.Fatalf("NewReal converted a nonzero-ending decimal mantissa in %s", elapsed)
+	// Normalization copies binary words; decimal text conversion and reparsing
+	// require substantially more storage, even with no trailing zero to remove.
+	limit := uint64(8*len(mantissa.Bits())*(strconv.IntSize/8) + 4096)
+	if allocated > limit || allocations > 32 {
+		t.Fatalf("normalization: %d bytes, %d allocations; want <= %d bytes, 32 allocations", allocated, allocations, limit)
 	}
+	t.Logf("normalization: %d bytes, %d allocations (limit %d)", allocated, allocations, limit)
 }
 
 func TestNewRealLargeDecimalWithOneTrailingZero(t *testing.T) {
@@ -31,15 +37,19 @@ func TestNewRealLargeDecimalWithOneTrailingZero(t *testing.T) {
 	if !ok {
 		t.Fatal("constructing decimal mantissa")
 	}
-	start := time.Now()
-	value, err := NewReal(10, mantissa, big.NewInt(0))
-	elapsed := time.Since(start)
+	var value runtime.Real
+	var err error
+	allocated, allocations := allocationCost(t, 5, func() { value, err = runtime.NewReal(10, mantissa, big.NewInt(0)) })
 	if err != nil || value.Exponent.Cmp(big.NewInt(1)) != 0 || new(big.Int).Mul(value.Mantissa, big.NewInt(10)).Cmp(mantissa) != 0 {
 		t.Fatalf("NewReal: exponent=%v err=%v", value.Exponent, err)
 	}
-	if elapsed > 100*time.Millisecond {
-		t.Fatalf("NewReal used large-factor division for one decimal zero in %s", elapsed)
+	// Normalization copies binary words; decimal text conversion and reparsing
+	// require substantially more storage, even with no trailing zero to remove.
+	limit := uint64(8*len(mantissa.Bits())*(strconv.IntSize/8) + 4096)
+	if allocated > limit || allocations > 32 {
+		t.Fatalf("normalization: %d bytes, %d allocations; want <= %d bytes, 32 allocations", allocated, allocations, limit)
 	}
+	t.Logf("normalization: %d bytes, %d allocations (limit %d)", allocated, allocations, limit)
 }
 
 func TestNewRealDecimalTrailingZeroBatches(t *testing.T) {
@@ -47,7 +57,7 @@ func TestNewRealDecimalTrailingZeroBatches(t *testing.T) {
 		for _, sign := range []int64{-1, 1} {
 			mantissa := new(big.Int).Mul(big.NewInt(37*sign), new(big.Int).Exp(big.NewInt(10), big.NewInt(zeros), nil))
 			original := new(big.Int).Set(mantissa)
-			got, err := NewReal(10, mantissa, big.NewInt(-5))
+			got, err := runtime.NewReal(10, mantissa, big.NewInt(-5))
 			if err != nil {
 				t.Fatal(err)
 			}

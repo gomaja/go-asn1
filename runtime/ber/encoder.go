@@ -666,7 +666,7 @@ func EncodeImplicitTagWithClass(tagClass tag.Class, tagNum int, content []byte) 
 	if err != nil {
 		return nil, fmt.Errorf("retag implicit value: %w", err)
 	}
-	_, total, _, err := DecodeTLV(content, encodingStructureOption(content))
+	_, total, _, err := DecodeEncodedTLV(content)
 	if err != nil {
 		return nil, fmt.Errorf("retag implicit value: %w", err)
 	}

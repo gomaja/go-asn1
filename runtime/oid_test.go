@@ -309,19 +309,20 @@ func TestOIDDecodeLinearAllocationBound(t *testing.T) {
 			t.Fatal(err)
 		}
 		var got runtime.ObjectIdentifier
-		measurement := testing.Benchmark(func(b *testing.B) {
-			for b.Loop() {
-				var e error
-				got, _, e = ber.DecodeObjectIdentifier(wire)
-				if e != nil {
-					b.Fatal(e)
-				}
+		operation := func() {
+			var e error
+			got, _, e = ber.DecodeObjectIdentifier(wire)
+			if e != nil {
+				t.Fatal(e)
 			}
-		})
-		if len(got.Encoded()) != size || measurement.AllocedBytesPerOp() > int64(size*2+256) || measurement.AllocsPerOp() > 2 || measurement.NsPerOp() > int64(size)*100 {
-			t.Fatalf("size=%d %s %s", size, measurement.String(), measurement.MemString())
 		}
-		t.Logf("size=%d %s %s", size, measurement.String(), measurement.MemString())
+		allocated, allocations := allocationCost(t, 5, operation)
+		// Repeated scans can be quadratic without allocating more memory.
+		elapsed := minimumTime(t, operation)
+		if len(got.Encoded()) != size || int64(allocated) > int64(size*2+256) || int64(allocations) > 2 || elapsed.Nanoseconds() > int64(size)*100 {
+			t.Fatalf("size=%d time=%s bytes=%d allocs=%d", size, elapsed, allocated, allocations)
+		}
+		t.Logf("size=%d time=%s bytes=%d allocs=%d", size, elapsed, allocated, allocations)
 	}
 }
 

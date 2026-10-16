@@ -270,17 +270,18 @@ func TestOIDFormattingWidthPreflightBound(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		measurement := testing.Benchmark(func(b *testing.B) {
-			for b.Loop() {
-				_, e := oid.StringChecked()
-				if !errors.Is(e, runtime.ErrOIDTextLimit) {
-					b.Fatal(e)
-				}
+		operation := func() {
+			_, e := oid.StringChecked()
+			if !errors.Is(e, runtime.ErrOIDTextLimit) {
+				t.Fatal(e)
 			}
-		})
-		if measurement.AllocedBytesPerOp() > 256 || measurement.NsPerOp() > 100000 {
-			t.Fatalf("size=%d %s %s", size, measurement.String(), measurement.MemString())
 		}
-		t.Logf("size=%d %s %s", size, measurement.String(), measurement.MemString())
+		allocated, _ := allocationCost(t, 5, operation)
+		// Repeated scans can be quadratic without allocating more memory.
+		elapsed := minimumTime(t, operation)
+		if int64(allocated) > 256 || elapsed.Nanoseconds() > 100000 {
+			t.Fatalf("size=%d time=%s bytes=%d", size, elapsed, allocated)
+		}
+		t.Logf("size=%d time=%s bytes=%d", size, elapsed, allocated)
 	}
 }

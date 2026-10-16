@@ -30,11 +30,21 @@ func (withoutBERReplayOption) applyEncode(config *encodeConfig) error {
 func WithoutBERReplay() EncodeOption { return withoutBERReplayOption{} }
 
 // BERReplayEnabled reports whether valid encode options permit replay of a
-// typed value's retained BER form. Malformed options return false; generated
-// entry points must still reject them with ValidateEncodeOptions.
+// typed value's retained BER form. Both comparison streams must use the same
+// generated BER form; X.690 (02/2021) §8.1.3 permits alternate length forms.
+// Malformed options return false; generated entry points must still reject
+// them with ValidateEncodeOptions.
 func BERReplayEnabled(options []EncodeOption) bool {
 	config, err := encodeOptions(options)
-	return err == nil && !config.noReplay
+	if err != nil || config.noReplay {
+		return false
+	}
+	for _, option := range options {
+		if mode, ok := option.(replayModeOption); ok && (mode.collector != nil || mode.comparison) {
+			return false
+		}
+	}
+	return true
 }
 
 // CheckBEROpaqueReplay rejects copying any present opaque open-type value or

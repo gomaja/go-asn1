@@ -5,8 +5,8 @@ import (
 	"math/big"
 	"strings"
 	"testing"
-	"time"
 
+	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/tag"
 )
 
@@ -52,29 +52,37 @@ func TestDecimalRealFormTrackingMatchesCanonicalEncoding(t *testing.T) {
 }
 
 func TestTrackedCanonicalDecimalRealDecodeCost(t *testing.T) {
-	// Compare with one mandatory decimal-to-binary conversion. The old path
-	// converted the value back to decimal several times and decoded it twice.
-	digits := strings.Repeat("7", 1_000_000)
-	start := time.Now()
-	mantissa, ok := new(big.Int).SetString(digits, 10)
-	parseTime := time.Since(start)
-	if !ok || mantissa.Sign() == 0 {
-		t.Fatal("constructing decimal mantissa")
-	}
-	contents := append([]byte{3}, []byte(digits+".E+0")...)
-	wire, err := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, contents)
-	if err != nil {
-		t.Fatal(err)
-	}
-	opts := TrackBERForm(nil)
-	start = time.Now()
-	value, consumed, err := DecodeReal(wire, opts...)
-	decodeTime := time.Since(start)
-	if err != nil || consumed != len(wire) || value.Mantissa.Cmp(mantissa) != 0 || BERNeedsPreservation(opts) {
-		t.Fatalf("DecodeReal: consumed=%d preserve=%v err=%v", consumed, BERNeedsPreservation(opts), err)
-	}
-	if decodeTime > 2*parseTime+500*time.Millisecond {
-		t.Fatalf("tracked decimal decode=%s, single SetString=%s", decodeTime, parseTime)
+	// Decimal-to-binary conversion itself is superlinear. Compare allocations
+	// with that mandatory conversion, excluding it from the decoder's overhead.
+	for _, size := range []int{4096, 16384, 65536} {
+		digits := strings.Repeat("7", size)
+		var mantissa *big.Int
+		parseBytes, parseAllocs := allocationCost(t, 5, func() {
+			var ok bool
+			mantissa, ok = new(big.Int).SetString(digits, 10)
+			if !ok || mantissa.Sign() == 0 {
+				t.Fatal("constructing decimal mantissa")
+			}
+		})
+		contents := append([]byte{3}, []byte(digits+".E+0")...)
+		wire, err := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, contents)
+		if err != nil {
+			t.Fatal(err)
+		}
+		var value runtime.Real
+		var consumed int
+		var opts []DecodeOption
+		decodeBytes, decodeAllocs := allocationCost(t, 5, func() {
+			opts = TrackBERForm(nil)
+			value, consumed, err = DecodeReal(wire, opts...)
+		})
+		if err != nil || consumed != len(wire) || value.Mantissa.Cmp(mantissa) != 0 || BERNeedsPreservation(opts) {
+			t.Fatalf("DecodeReal: consumed=%d preserve=%v err=%v", consumed, BERNeedsPreservation(opts), err)
+		}
+		if decodeBytes > parseBytes+uint64(16*size+8192) || decodeAllocs > parseAllocs+64 {
+			t.Fatalf("%d digits: decode %d bytes/%d allocations, parse %d bytes/%d allocations", size, decodeBytes, decodeAllocs, parseBytes, parseAllocs)
+		}
+		t.Logf("%d digits: decode %d bytes/%d allocations, parse %d bytes/%d allocations", size, decodeBytes, decodeAllocs, parseBytes, parseAllocs)
 	}
 }
 

@@ -5271,6 +5271,73 @@ type SecurityCapability struct {
 	PERPadding_                     per.FinalPadding  `asn1:"-" json:"-"`
 }
 
+const (
+	// SecurityCapabilityCipheringAlgorithmCapSpare15 is position 0 of ASN.1 named bit spare15 of SecurityCapability.cipheringAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityCipheringAlgorithmCapSpare15 = 0
+	// SecurityCapabilityCipheringAlgorithmCapSpare14 is position 1 of ASN.1 named bit spare14 of SecurityCapability.cipheringAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityCipheringAlgorithmCapSpare14 = 1
+	// SecurityCapabilityCipheringAlgorithmCapSpare13 is position 2 of ASN.1 named bit spare13 of SecurityCapability.cipheringAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityCipheringAlgorithmCapSpare13 = 2
+	// SecurityCapabilityCipheringAlgorithmCapSpare12 is position 3 of ASN.1 named bit spare12 of SecurityCapability.cipheringAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityCipheringAlgorithmCapSpare12 = 3
+	// SecurityCapabilityCipheringAlgorithmCapSpare11 is position 4 of ASN.1 named bit spare11 of SecurityCapability.cipheringAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityCipheringAlgorithmCapSpare11 = 4
+	// SecurityCapabilityCipheringAlgorithmCapSpare10 is position 5 of ASN.1 named bit spare10 of SecurityCapability.cipheringAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityCipheringAlgorithmCapSpare10 = 5
+	// SecurityCapabilityCipheringAlgorithmCapSpare9 is position 6 of ASN.1 named bit spare9 of SecurityCapability.cipheringAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityCipheringAlgorithmCapSpare9 = 6
+	// SecurityCapabilityCipheringAlgorithmCapSpare8 is position 7 of ASN.1 named bit spare8 of SecurityCapability.cipheringAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityCipheringAlgorithmCapSpare8 = 7
+	// SecurityCapabilityCipheringAlgorithmCapSpare7 is position 8 of ASN.1 named bit spare7 of SecurityCapability.cipheringAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityCipheringAlgorithmCapSpare7 = 8
+	// SecurityCapabilityCipheringAlgorithmCapSpare6 is position 9 of ASN.1 named bit spare6 of SecurityCapability.cipheringAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityCipheringAlgorithmCapSpare6 = 9
+	// SecurityCapabilityCipheringAlgorithmCapSpare5 is position 10 of ASN.1 named bit spare5 of SecurityCapability.cipheringAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityCipheringAlgorithmCapSpare5 = 10
+	// SecurityCapabilityCipheringAlgorithmCapSpare4 is position 11 of ASN.1 named bit spare4 of SecurityCapability.cipheringAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityCipheringAlgorithmCapSpare4 = 11
+	// SecurityCapabilityCipheringAlgorithmCapSpare3 is position 12 of ASN.1 named bit spare3 of SecurityCapability.cipheringAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityCipheringAlgorithmCapSpare3 = 12
+	// SecurityCapabilityCipheringAlgorithmCapUea2 is position 13 of ASN.1 named bit uea2 of SecurityCapability.cipheringAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityCipheringAlgorithmCapUea2 = 13
+	// SecurityCapabilityCipheringAlgorithmCapUea1 is position 14 of ASN.1 named bit uea1 of SecurityCapability.cipheringAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityCipheringAlgorithmCapUea1 = 14
+	// SecurityCapabilityCipheringAlgorithmCapUea0 is position 15 of ASN.1 named bit uea0 of SecurityCapability.cipheringAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityCipheringAlgorithmCapUea0 = 15
+	// SecurityCapabilityIntegrityProtectionAlgorithmCapSpare15 is position 0 of ASN.1 named bit spare15 of SecurityCapability.integrityProtectionAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityIntegrityProtectionAlgorithmCapSpare15 = 0
+	// SecurityCapabilityIntegrityProtectionAlgorithmCapSpare14 is position 1 of ASN.1 named bit spare14 of SecurityCapability.integrityProtectionAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityIntegrityProtectionAlgorithmCapSpare14 = 1
+	// SecurityCapabilityIntegrityProtectionAlgorithmCapSpare13 is position 2 of ASN.1 named bit spare13 of SecurityCapability.integrityProtectionAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityIntegrityProtectionAlgorithmCapSpare13 = 2
+	// SecurityCapabilityIntegrityProtectionAlgorithmCapSpare12 is position 3 of ASN.1 named bit spare12 of SecurityCapability.integrityProtectionAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityIntegrityProtectionAlgorithmCapSpare12 = 3
+	// SecurityCapabilityIntegrityProtectionAlgorithmCapSpare11 is position 4 of ASN.1 named bit spare11 of SecurityCapability.integrityProtectionAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityIntegrityProtectionAlgorithmCapSpare11 = 4
+	// SecurityCapabilityIntegrityProtectionAlgorithmCapSpare10 is position 5 of ASN.1 named bit spare10 of SecurityCapability.integrityProtectionAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityIntegrityProtectionAlgorithmCapSpare10 = 5
+	// SecurityCapabilityIntegrityProtectionAlgorithmCapSpare9 is position 6 of ASN.1 named bit spare9 of SecurityCapability.integrityProtectionAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityIntegrityProtectionAlgorithmCapSpare9 = 6
+	// SecurityCapabilityIntegrityProtectionAlgorithmCapSpare8 is position 7 of ASN.1 named bit spare8 of SecurityCapability.integrityProtectionAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityIntegrityProtectionAlgorithmCapSpare8 = 7
+	// SecurityCapabilityIntegrityProtectionAlgorithmCapSpare7 is position 8 of ASN.1 named bit spare7 of SecurityCapability.integrityProtectionAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityIntegrityProtectionAlgorithmCapSpare7 = 8
+	// SecurityCapabilityIntegrityProtectionAlgorithmCapSpare6 is position 9 of ASN.1 named bit spare6 of SecurityCapability.integrityProtectionAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityIntegrityProtectionAlgorithmCapSpare6 = 9
+	// SecurityCapabilityIntegrityProtectionAlgorithmCapSpare5 is position 10 of ASN.1 named bit spare5 of SecurityCapability.integrityProtectionAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityIntegrityProtectionAlgorithmCapSpare5 = 10
+	// SecurityCapabilityIntegrityProtectionAlgorithmCapSpare4 is position 11 of ASN.1 named bit spare4 of SecurityCapability.integrityProtectionAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityIntegrityProtectionAlgorithmCapSpare4 = 11
+	// SecurityCapabilityIntegrityProtectionAlgorithmCapSpare3 is position 12 of ASN.1 named bit spare3 of SecurityCapability.integrityProtectionAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityIntegrityProtectionAlgorithmCapSpare3 = 12
+	// SecurityCapabilityIntegrityProtectionAlgorithmCapUia2 is position 13 of ASN.1 named bit uia2 of SecurityCapability.integrityProtectionAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityIntegrityProtectionAlgorithmCapUia2 = 13
+	// SecurityCapabilityIntegrityProtectionAlgorithmCapUia1 is position 14 of ASN.1 named bit uia1 of SecurityCapability.integrityProtectionAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityIntegrityProtectionAlgorithmCapUia1 = 14
+	// SecurityCapabilityIntegrityProtectionAlgorithmCapSpare0 is position 15 of ASN.1 named bit spare0 of SecurityCapability.integrityProtectionAlgorithmCap (ITU-T X.680 (02/2021) §22).
+	SecurityCapabilityIntegrityProtectionAlgorithmCapSpare0 = 15
+)
+
 // SecondaryServingEDCHCellInfo represents the ASN.1 type SecondaryServingEDCHCell-Info (SEQUENCE).
 type SecondaryServingEDCHCellInfo struct {
 	PrimaryERNTI   *ERNTI           `asn1:"tag:0,context,implicit,optional" json:"PrimaryERNTI,omitempty"`
@@ -15265,12 +15332,42 @@ type AccessServiceClassFDD struct {
 	PERPadding_                  per.FinalPadding  `asn1:"-" json:"-"`
 }
 
+const (
+	// AccessServiceClassFDDAssignedSubChannelNumberB3 is position 0 of ASN.1 named bit b3 of AccessServiceClass-FDD.assignedSubChannelNumber (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassFDDAssignedSubChannelNumberB3 = 0
+	// AccessServiceClassFDDAssignedSubChannelNumberB2 is position 1 of ASN.1 named bit b2 of AccessServiceClass-FDD.assignedSubChannelNumber (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassFDDAssignedSubChannelNumberB2 = 1
+	// AccessServiceClassFDDAssignedSubChannelNumberB1 is position 2 of ASN.1 named bit b1 of AccessServiceClass-FDD.assignedSubChannelNumber (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassFDDAssignedSubChannelNumberB1 = 2
+	// AccessServiceClassFDDAssignedSubChannelNumberB0 is position 3 of ASN.1 named bit b0 of AccessServiceClass-FDD.assignedSubChannelNumber (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassFDDAssignedSubChannelNumberB0 = 3
+)
+
 // AccessServiceClassTDD represents the ASN.1 type AccessServiceClass-TDD (SEQUENCE).
 type AccessServiceClassTDD struct {
 	ChannelisationCodeIndices *runtime.BitString                  `asn1:"tag:0,context,implicit,optional" json:"ChannelisationCodeIndices,omitempty"`
 	SubchannelSize            AccessServiceClassTDDSubchannelSize `asn1:"tag:1,context,explicit"`
 	PERPadding_               per.FinalPadding                    `asn1:"-" json:"-"`
 }
+
+const (
+	// AccessServiceClassTDDChannelisationCodeIndicesChCodeIndex7 is position 0 of ASN.1 named bit chCodeIndex7 of AccessServiceClass-TDD.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDChannelisationCodeIndicesChCodeIndex7 = 0
+	// AccessServiceClassTDDChannelisationCodeIndicesChCodeIndex6 is position 1 of ASN.1 named bit chCodeIndex6 of AccessServiceClass-TDD.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDChannelisationCodeIndicesChCodeIndex6 = 1
+	// AccessServiceClassTDDChannelisationCodeIndicesChCodeIndex5 is position 2 of ASN.1 named bit chCodeIndex5 of AccessServiceClass-TDD.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDChannelisationCodeIndicesChCodeIndex5 = 2
+	// AccessServiceClassTDDChannelisationCodeIndicesChCodeIndex4 is position 3 of ASN.1 named bit chCodeIndex4 of AccessServiceClass-TDD.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDChannelisationCodeIndicesChCodeIndex4 = 3
+	// AccessServiceClassTDDChannelisationCodeIndicesChCodeIndex3 is position 4 of ASN.1 named bit chCodeIndex3 of AccessServiceClass-TDD.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDChannelisationCodeIndicesChCodeIndex3 = 4
+	// AccessServiceClassTDDChannelisationCodeIndicesChCodeIndex2 is position 5 of ASN.1 named bit chCodeIndex2 of AccessServiceClass-TDD.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDChannelisationCodeIndicesChCodeIndex2 = 5
+	// AccessServiceClassTDDChannelisationCodeIndicesChCodeIndex1 is position 6 of ASN.1 named bit chCodeIndex1 of AccessServiceClass-TDD.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDChannelisationCodeIndicesChCodeIndex1 = 6
+	// AccessServiceClassTDDChannelisationCodeIndicesChCodeIndex0 is position 7 of ASN.1 named bit chCodeIndex0 of AccessServiceClass-TDD.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDChannelisationCodeIndicesChCodeIndex0 = 7
+)
 
 // AccessServiceClassTDDR7 represents the ASN.1 type AccessServiceClass-TDD-r7 (SEQUENCE).
 type AccessServiceClassTDDR7 struct {
@@ -15279,12 +15376,66 @@ type AccessServiceClassTDDR7 struct {
 	PERPadding_               per.FinalPadding                      `asn1:"-" json:"-"`
 }
 
+const (
+	// AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex15 is position 0 of ASN.1 named bit chCodeIndex15 of AccessServiceClass-TDD-r7.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex15 = 0
+	// AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex14 is position 1 of ASN.1 named bit chCodeIndex14 of AccessServiceClass-TDD-r7.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex14 = 1
+	// AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex13 is position 2 of ASN.1 named bit chCodeIndex13 of AccessServiceClass-TDD-r7.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex13 = 2
+	// AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex12 is position 3 of ASN.1 named bit chCodeIndex12 of AccessServiceClass-TDD-r7.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex12 = 3
+	// AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex11 is position 4 of ASN.1 named bit chCodeIndex11 of AccessServiceClass-TDD-r7.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex11 = 4
+	// AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex10 is position 5 of ASN.1 named bit chCodeIndex10 of AccessServiceClass-TDD-r7.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex10 = 5
+	// AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex9 is position 6 of ASN.1 named bit chCodeIndex9 of AccessServiceClass-TDD-r7.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex9 = 6
+	// AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex8 is position 7 of ASN.1 named bit chCodeIndex8 of AccessServiceClass-TDD-r7.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex8 = 7
+	// AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex7 is position 8 of ASN.1 named bit chCodeIndex7 of AccessServiceClass-TDD-r7.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex7 = 8
+	// AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex6 is position 9 of ASN.1 named bit chCodeIndex6 of AccessServiceClass-TDD-r7.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex6 = 9
+	// AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex5 is position 10 of ASN.1 named bit chCodeIndex5 of AccessServiceClass-TDD-r7.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex5 = 10
+	// AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex4 is position 11 of ASN.1 named bit chCodeIndex4 of AccessServiceClass-TDD-r7.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex4 = 11
+	// AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex3 is position 12 of ASN.1 named bit chCodeIndex3 of AccessServiceClass-TDD-r7.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex3 = 12
+	// AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex2 is position 13 of ASN.1 named bit chCodeIndex2 of AccessServiceClass-TDD-r7.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex2 = 13
+	// AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex1 is position 14 of ASN.1 named bit chCodeIndex1 of AccessServiceClass-TDD-r7.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex1 = 14
+	// AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex0 is position 15 of ASN.1 named bit chCodeIndex0 of AccessServiceClass-TDD-r7.channelisationCodeIndices (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7ChannelisationCodeIndicesChCodeIndex0 = 15
+)
+
 // AccessServiceClassTDDLCRR4 represents the ASN.1 type AccessServiceClass-TDD-LCR-r4 (SEQUENCE).
 type AccessServiceClassTDDLCRR4 struct {
 	AvailableSYNCUlCodesIndics *runtime.BitString                       `asn1:"tag:0,context,implicit,optional" json:"AvailableSYNCUlCodesIndics,omitempty"`
 	SubchannelSize             AccessServiceClassTDDLCRR4SubchannelSize `asn1:"tag:1,context,explicit"`
 	PERPadding_                per.FinalPadding                         `asn1:"-" json:"-"`
 }
+
+const (
+	// AccessServiceClassTDDLCRR4AvailableSYNCUlCodesIndicsSulCodeIndex7 is position 0 of ASN.1 named bit sulCodeIndex7 of AccessServiceClass-TDD-LCR-r4.availableSYNC-UlCodesIndics (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4AvailableSYNCUlCodesIndicsSulCodeIndex7 = 0
+	// AccessServiceClassTDDLCRR4AvailableSYNCUlCodesIndicsSulCodeIndex6 is position 1 of ASN.1 named bit sulCodeIndex6 of AccessServiceClass-TDD-LCR-r4.availableSYNC-UlCodesIndics (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4AvailableSYNCUlCodesIndicsSulCodeIndex6 = 1
+	// AccessServiceClassTDDLCRR4AvailableSYNCUlCodesIndicsSulCodeIndex5 is position 2 of ASN.1 named bit sulCodeIndex5 of AccessServiceClass-TDD-LCR-r4.availableSYNC-UlCodesIndics (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4AvailableSYNCUlCodesIndicsSulCodeIndex5 = 2
+	// AccessServiceClassTDDLCRR4AvailableSYNCUlCodesIndicsSulCodeIndex4 is position 3 of ASN.1 named bit sulCodeIndex4 of AccessServiceClass-TDD-LCR-r4.availableSYNC-UlCodesIndics (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4AvailableSYNCUlCodesIndicsSulCodeIndex4 = 3
+	// AccessServiceClassTDDLCRR4AvailableSYNCUlCodesIndicsSulCodeIndex3 is position 4 of ASN.1 named bit sulCodeIndex3 of AccessServiceClass-TDD-LCR-r4.availableSYNC-UlCodesIndics (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4AvailableSYNCUlCodesIndicsSulCodeIndex3 = 4
+	// AccessServiceClassTDDLCRR4AvailableSYNCUlCodesIndicsSulCodeIndex2 is position 5 of ASN.1 named bit sulCodeIndex2 of AccessServiceClass-TDD-LCR-r4.availableSYNC-UlCodesIndics (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4AvailableSYNCUlCodesIndicsSulCodeIndex2 = 5
+	// AccessServiceClassTDDLCRR4AvailableSYNCUlCodesIndicsSulCodeIndex1 is position 6 of ASN.1 named bit sulCodeIndex1 of AccessServiceClass-TDD-LCR-r4.availableSYNC-UlCodesIndics (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4AvailableSYNCUlCodesIndicsSulCodeIndex1 = 6
+	// AccessServiceClassTDDLCRR4AvailableSYNCUlCodesIndicsSulCodeIndex0 is position 7 of ASN.1 named bit sulCodeIndex0 of AccessServiceClass-TDD-LCR-r4.availableSYNC-UlCodesIndics (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4AvailableSYNCUlCodesIndicsSulCodeIndex0 = 7
+)
 
 // ActivationTimeOffset represents the ASN.1 type ActivationTimeOffset (INTEGER).
 type ActivationTimeOffset = int64
@@ -15521,8 +15672,70 @@ type AvailableMinimumSFVCAM struct {
 // AvailableSignatures represents the ASN.1 type AvailableSignatures (BIT_STRING).
 type AvailableSignatures = runtime.BitString
 
+const (
+	// AvailableSignaturesSignature15 is position 0 of ASN.1 named bit signature15 of AvailableSignatures (ITU-T X.680 (02/2021) §22).
+	AvailableSignaturesSignature15 = 0
+	// AvailableSignaturesSignature14 is position 1 of ASN.1 named bit signature14 of AvailableSignatures (ITU-T X.680 (02/2021) §22).
+	AvailableSignaturesSignature14 = 1
+	// AvailableSignaturesSignature13 is position 2 of ASN.1 named bit signature13 of AvailableSignatures (ITU-T X.680 (02/2021) §22).
+	AvailableSignaturesSignature13 = 2
+	// AvailableSignaturesSignature12 is position 3 of ASN.1 named bit signature12 of AvailableSignatures (ITU-T X.680 (02/2021) §22).
+	AvailableSignaturesSignature12 = 3
+	// AvailableSignaturesSignature11 is position 4 of ASN.1 named bit signature11 of AvailableSignatures (ITU-T X.680 (02/2021) §22).
+	AvailableSignaturesSignature11 = 4
+	// AvailableSignaturesSignature10 is position 5 of ASN.1 named bit signature10 of AvailableSignatures (ITU-T X.680 (02/2021) §22).
+	AvailableSignaturesSignature10 = 5
+	// AvailableSignaturesSignature9 is position 6 of ASN.1 named bit signature9 of AvailableSignatures (ITU-T X.680 (02/2021) §22).
+	AvailableSignaturesSignature9 = 6
+	// AvailableSignaturesSignature8 is position 7 of ASN.1 named bit signature8 of AvailableSignatures (ITU-T X.680 (02/2021) §22).
+	AvailableSignaturesSignature8 = 7
+	// AvailableSignaturesSignature7 is position 8 of ASN.1 named bit signature7 of AvailableSignatures (ITU-T X.680 (02/2021) §22).
+	AvailableSignaturesSignature7 = 8
+	// AvailableSignaturesSignature6 is position 9 of ASN.1 named bit signature6 of AvailableSignatures (ITU-T X.680 (02/2021) §22).
+	AvailableSignaturesSignature6 = 9
+	// AvailableSignaturesSignature5 is position 10 of ASN.1 named bit signature5 of AvailableSignatures (ITU-T X.680 (02/2021) §22).
+	AvailableSignaturesSignature5 = 10
+	// AvailableSignaturesSignature4 is position 11 of ASN.1 named bit signature4 of AvailableSignatures (ITU-T X.680 (02/2021) §22).
+	AvailableSignaturesSignature4 = 11
+	// AvailableSignaturesSignature3 is position 12 of ASN.1 named bit signature3 of AvailableSignatures (ITU-T X.680 (02/2021) §22).
+	AvailableSignaturesSignature3 = 12
+	// AvailableSignaturesSignature2 is position 13 of ASN.1 named bit signature2 of AvailableSignatures (ITU-T X.680 (02/2021) §22).
+	AvailableSignaturesSignature2 = 13
+	// AvailableSignaturesSignature1 is position 14 of ASN.1 named bit signature1 of AvailableSignatures (ITU-T X.680 (02/2021) §22).
+	AvailableSignaturesSignature1 = 14
+	// AvailableSignaturesSignature0 is position 15 of ASN.1 named bit signature0 of AvailableSignatures (ITU-T X.680 (02/2021) §22).
+	AvailableSignaturesSignature0 = 15
+)
+
 // AvailableSubChannelNumbers represents the ASN.1 type AvailableSubChannelNumbers (BIT_STRING).
 type AvailableSubChannelNumbers = runtime.BitString
+
+const (
+	// AvailableSubChannelNumbersSubCh11 is position 0 of ASN.1 named bit subCh11 of AvailableSubChannelNumbers (ITU-T X.680 (02/2021) §22).
+	AvailableSubChannelNumbersSubCh11 = 0
+	// AvailableSubChannelNumbersSubCh10 is position 1 of ASN.1 named bit subCh10 of AvailableSubChannelNumbers (ITU-T X.680 (02/2021) §22).
+	AvailableSubChannelNumbersSubCh10 = 1
+	// AvailableSubChannelNumbersSubCh9 is position 2 of ASN.1 named bit subCh9 of AvailableSubChannelNumbers (ITU-T X.680 (02/2021) §22).
+	AvailableSubChannelNumbersSubCh9 = 2
+	// AvailableSubChannelNumbersSubCh8 is position 3 of ASN.1 named bit subCh8 of AvailableSubChannelNumbers (ITU-T X.680 (02/2021) §22).
+	AvailableSubChannelNumbersSubCh8 = 3
+	// AvailableSubChannelNumbersSubCh7 is position 4 of ASN.1 named bit subCh7 of AvailableSubChannelNumbers (ITU-T X.680 (02/2021) §22).
+	AvailableSubChannelNumbersSubCh7 = 4
+	// AvailableSubChannelNumbersSubCh6 is position 5 of ASN.1 named bit subCh6 of AvailableSubChannelNumbers (ITU-T X.680 (02/2021) §22).
+	AvailableSubChannelNumbersSubCh6 = 5
+	// AvailableSubChannelNumbersSubCh5 is position 6 of ASN.1 named bit subCh5 of AvailableSubChannelNumbers (ITU-T X.680 (02/2021) §22).
+	AvailableSubChannelNumbersSubCh5 = 6
+	// AvailableSubChannelNumbersSubCh4 is position 7 of ASN.1 named bit subCh4 of AvailableSubChannelNumbers (ITU-T X.680 (02/2021) §22).
+	AvailableSubChannelNumbersSubCh4 = 7
+	// AvailableSubChannelNumbersSubCh3 is position 8 of ASN.1 named bit subCh3 of AvailableSubChannelNumbers (ITU-T X.680 (02/2021) §22).
+	AvailableSubChannelNumbersSubCh3 = 8
+	// AvailableSubChannelNumbersSubCh2 is position 9 of ASN.1 named bit subCh2 of AvailableSubChannelNumbers (ITU-T X.680 (02/2021) §22).
+	AvailableSubChannelNumbersSubCh2 = 9
+	// AvailableSubChannelNumbersSubCh1 is position 10 of ASN.1 named bit subCh1 of AvailableSubChannelNumbers (ITU-T X.680 (02/2021) §22).
+	AvailableSubChannelNumbersSubCh1 = 10
+	// AvailableSubChannelNumbersSubCh0 is position 11 of ASN.1 named bit subCh0 of AvailableSubChannelNumbers (ITU-T X.680 (02/2021) §22).
+	AvailableSubChannelNumbersSubCh0 = 11
+)
 
 // BEACONPLEst represents the ASN.1 ENUMERATED type BEACON-PL-Est.
 type BEACONPLEst int64
@@ -23449,8 +23662,46 @@ type SynchronisationParametersR4 struct {
 	PERPadding_       per.FinalPadding   `asn1:"-" json:"-"`
 }
 
+const (
+	// SynchronisationParametersR4SyncULCodesBitmapCode7 is position 0 of ASN.1 named bit code7 of SynchronisationParameters-r4.sync-UL-CodesBitmap (ITU-T X.680 (02/2021) §22).
+	SynchronisationParametersR4SyncULCodesBitmapCode7 = 0
+	// SynchronisationParametersR4SyncULCodesBitmapCode6 is position 1 of ASN.1 named bit code6 of SynchronisationParameters-r4.sync-UL-CodesBitmap (ITU-T X.680 (02/2021) §22).
+	SynchronisationParametersR4SyncULCodesBitmapCode6 = 1
+	// SynchronisationParametersR4SyncULCodesBitmapCode5 is position 2 of ASN.1 named bit code5 of SynchronisationParameters-r4.sync-UL-CodesBitmap (ITU-T X.680 (02/2021) §22).
+	SynchronisationParametersR4SyncULCodesBitmapCode5 = 2
+	// SynchronisationParametersR4SyncULCodesBitmapCode4 is position 3 of ASN.1 named bit code4 of SynchronisationParameters-r4.sync-UL-CodesBitmap (ITU-T X.680 (02/2021) §22).
+	SynchronisationParametersR4SyncULCodesBitmapCode4 = 3
+	// SynchronisationParametersR4SyncULCodesBitmapCode3 is position 4 of ASN.1 named bit code3 of SynchronisationParameters-r4.sync-UL-CodesBitmap (ITU-T X.680 (02/2021) §22).
+	SynchronisationParametersR4SyncULCodesBitmapCode3 = 4
+	// SynchronisationParametersR4SyncULCodesBitmapCode2 is position 5 of ASN.1 named bit code2 of SynchronisationParameters-r4.sync-UL-CodesBitmap (ITU-T X.680 (02/2021) §22).
+	SynchronisationParametersR4SyncULCodesBitmapCode2 = 5
+	// SynchronisationParametersR4SyncULCodesBitmapCode1 is position 6 of ASN.1 named bit code1 of SynchronisationParameters-r4.sync-UL-CodesBitmap (ITU-T X.680 (02/2021) §22).
+	SynchronisationParametersR4SyncULCodesBitmapCode1 = 6
+	// SynchronisationParametersR4SyncULCodesBitmapCode0 is position 7 of ASN.1 named bit code0 of SynchronisationParameters-r4.sync-UL-CodesBitmap (ITU-T X.680 (02/2021) §22).
+	SynchronisationParametersR4SyncULCodesBitmapCode0 = 7
+)
+
 // SyncULCodesBitmap represents the ASN.1 type Sync-UL-Codes-Bitmap (BIT_STRING).
 type SyncULCodesBitmap = runtime.BitString
+
+const (
+	// SyncULCodesBitmapCode7 is position 0 of ASN.1 named bit code7 of Sync-UL-Codes-Bitmap (ITU-T X.680 (02/2021) §22).
+	SyncULCodesBitmapCode7 = 0
+	// SyncULCodesBitmapCode6 is position 1 of ASN.1 named bit code6 of Sync-UL-Codes-Bitmap (ITU-T X.680 (02/2021) §22).
+	SyncULCodesBitmapCode6 = 1
+	// SyncULCodesBitmapCode5 is position 2 of ASN.1 named bit code5 of Sync-UL-Codes-Bitmap (ITU-T X.680 (02/2021) §22).
+	SyncULCodesBitmapCode5 = 2
+	// SyncULCodesBitmapCode4 is position 3 of ASN.1 named bit code4 of Sync-UL-Codes-Bitmap (ITU-T X.680 (02/2021) §22).
+	SyncULCodesBitmapCode4 = 3
+	// SyncULCodesBitmapCode3 is position 4 of ASN.1 named bit code3 of Sync-UL-Codes-Bitmap (ITU-T X.680 (02/2021) §22).
+	SyncULCodesBitmapCode3 = 4
+	// SyncULCodesBitmapCode2 is position 5 of ASN.1 named bit code2 of Sync-UL-Codes-Bitmap (ITU-T X.680 (02/2021) §22).
+	SyncULCodesBitmapCode2 = 5
+	// SyncULCodesBitmapCode1 is position 6 of ASN.1 named bit code1 of Sync-UL-Codes-Bitmap (ITU-T X.680 (02/2021) §22).
+	SyncULCodesBitmapCode1 = 6
+	// SyncULCodesBitmapCode0 is position 7 of ASN.1 named bit code0 of Sync-UL-Codes-Bitmap (ITU-T X.680 (02/2021) §22).
+	SyncULCodesBitmapCode0 = 7
+)
 
 // SYNCULProcedureR4 represents the ASN.1 type SYNC-UL-Procedure-r4 (SEQUENCE).
 type SYNCULProcedureR4 struct {
@@ -44665,6 +44916,23 @@ type GSMMSRadioAccessCapability = []byte
 // GsmSecurityCapability represents the ASN.1 type GsmSecurityCapability (BIT_STRING).
 type GsmSecurityCapability = runtime.BitString
 
+const (
+	// GsmSecurityCapabilityA57 is position 0 of ASN.1 named bit a5-7 of GsmSecurityCapability (ITU-T X.680 (02/2021) §22).
+	GsmSecurityCapabilityA57 = 0
+	// GsmSecurityCapabilityA56 is position 1 of ASN.1 named bit a5-6 of GsmSecurityCapability (ITU-T X.680 (02/2021) §22).
+	GsmSecurityCapabilityA56 = 1
+	// GsmSecurityCapabilityA55 is position 2 of ASN.1 named bit a5-5 of GsmSecurityCapability (ITU-T X.680 (02/2021) §22).
+	GsmSecurityCapabilityA55 = 2
+	// GsmSecurityCapabilityA54 is position 3 of ASN.1 named bit a5-4 of GsmSecurityCapability (ITU-T X.680 (02/2021) §22).
+	GsmSecurityCapabilityA54 = 3
+	// GsmSecurityCapabilityA53 is position 4 of ASN.1 named bit a5-3 of GsmSecurityCapability (ITU-T X.680 (02/2021) §22).
+	GsmSecurityCapabilityA53 = 4
+	// GsmSecurityCapabilityA52 is position 5 of ASN.1 named bit a5-2 of GsmSecurityCapability (ITU-T X.680 (02/2021) §22).
+	GsmSecurityCapabilityA52 = 5
+	// GsmSecurityCapabilityA51 is position 6 of ASN.1 named bit a5-1 of GsmSecurityCapability (ITU-T X.680 (02/2021) §22).
+	GsmSecurityCapabilityA51 = 6
+)
+
 // GSMTargetCellInfoList represents the ASN.1 type GSM-TargetCellInfoList (SEQUENCE_OF).
 
 type GSMTargetCellInfoList = []GSMTargetCellInfo
@@ -55186,11 +55454,41 @@ type AccessServiceClassTDDSubchannelSizeSize4 struct {
 	PERPadding_ per.FinalPadding   `asn1:"-" json:"-"`
 }
 
+const (
+	// AccessServiceClassTDDSubchannelSizeSize4SubchannelsSubCh3 is position 0 of ASN.1 named bit subCh3 of AccessServiceClass-TDD-subchannelSize-size4.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDSubchannelSizeSize4SubchannelsSubCh3 = 0
+	// AccessServiceClassTDDSubchannelSizeSize4SubchannelsSubCh2 is position 1 of ASN.1 named bit subCh2 of AccessServiceClass-TDD-subchannelSize-size4.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDSubchannelSizeSize4SubchannelsSubCh2 = 1
+	// AccessServiceClassTDDSubchannelSizeSize4SubchannelsSubCh1 is position 2 of ASN.1 named bit subCh1 of AccessServiceClass-TDD-subchannelSize-size4.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDSubchannelSizeSize4SubchannelsSubCh1 = 2
+	// AccessServiceClassTDDSubchannelSizeSize4SubchannelsSubCh0 is position 3 of ASN.1 named bit subCh0 of AccessServiceClass-TDD-subchannelSize-size4.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDSubchannelSizeSize4SubchannelsSubCh0 = 3
+)
+
 // AccessServiceClassTDDSubchannelSizeSize8 represents the ASN.1 type AccessServiceClass-TDD-subchannelSize-size8 (SEQUENCE).
 type AccessServiceClassTDDSubchannelSizeSize8 struct {
 	Subchannels *runtime.BitString `asn1:"tag:0,context,implicit,optional" json:"Subchannels,omitempty"`
 	PERPadding_ per.FinalPadding   `asn1:"-" json:"-"`
 }
+
+const (
+	// AccessServiceClassTDDSubchannelSizeSize8SubchannelsSubCh7 is position 0 of ASN.1 named bit subCh7 of AccessServiceClass-TDD-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDSubchannelSizeSize8SubchannelsSubCh7 = 0
+	// AccessServiceClassTDDSubchannelSizeSize8SubchannelsSubCh6 is position 1 of ASN.1 named bit subCh6 of AccessServiceClass-TDD-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDSubchannelSizeSize8SubchannelsSubCh6 = 1
+	// AccessServiceClassTDDSubchannelSizeSize8SubchannelsSubCh5 is position 2 of ASN.1 named bit subCh5 of AccessServiceClass-TDD-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDSubchannelSizeSize8SubchannelsSubCh5 = 2
+	// AccessServiceClassTDDSubchannelSizeSize8SubchannelsSubCh4 is position 3 of ASN.1 named bit subCh4 of AccessServiceClass-TDD-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDSubchannelSizeSize8SubchannelsSubCh4 = 3
+	// AccessServiceClassTDDSubchannelSizeSize8SubchannelsSubCh3 is position 4 of ASN.1 named bit subCh3 of AccessServiceClass-TDD-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDSubchannelSizeSize8SubchannelsSubCh3 = 4
+	// AccessServiceClassTDDSubchannelSizeSize8SubchannelsSubCh2 is position 5 of ASN.1 named bit subCh2 of AccessServiceClass-TDD-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDSubchannelSizeSize8SubchannelsSubCh2 = 5
+	// AccessServiceClassTDDSubchannelSizeSize8SubchannelsSubCh1 is position 6 of ASN.1 named bit subCh1 of AccessServiceClass-TDD-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDSubchannelSizeSize8SubchannelsSubCh1 = 6
+	// AccessServiceClassTDDSubchannelSizeSize8SubchannelsSubCh0 is position 7 of ASN.1 named bit subCh0 of AccessServiceClass-TDD-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDSubchannelSizeSize8SubchannelsSubCh0 = 7
+)
 
 // AccessServiceClassTDDR7SubchannelSize choice constants.
 const (
@@ -55265,17 +55563,82 @@ type AccessServiceClassTDDR7SubchannelSizeSize4 struct {
 	PERPadding_ per.FinalPadding   `asn1:"-" json:"-"`
 }
 
+const (
+	// AccessServiceClassTDDR7SubchannelSizeSize4SubchannelsSubCh3 is position 0 of ASN.1 named bit subCh3 of AccessServiceClass-TDD-r7-subchannelSize-size4.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize4SubchannelsSubCh3 = 0
+	// AccessServiceClassTDDR7SubchannelSizeSize4SubchannelsSubCh2 is position 1 of ASN.1 named bit subCh2 of AccessServiceClass-TDD-r7-subchannelSize-size4.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize4SubchannelsSubCh2 = 1
+	// AccessServiceClassTDDR7SubchannelSizeSize4SubchannelsSubCh1 is position 2 of ASN.1 named bit subCh1 of AccessServiceClass-TDD-r7-subchannelSize-size4.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize4SubchannelsSubCh1 = 2
+	// AccessServiceClassTDDR7SubchannelSizeSize4SubchannelsSubCh0 is position 3 of ASN.1 named bit subCh0 of AccessServiceClass-TDD-r7-subchannelSize-size4.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize4SubchannelsSubCh0 = 3
+)
+
 // AccessServiceClassTDDR7SubchannelSizeSize8 represents the ASN.1 type AccessServiceClass-TDD-r7-subchannelSize-size8 (SEQUENCE).
 type AccessServiceClassTDDR7SubchannelSizeSize8 struct {
 	Subchannels *runtime.BitString `asn1:"tag:0,context,implicit,optional" json:"Subchannels,omitempty"`
 	PERPadding_ per.FinalPadding   `asn1:"-" json:"-"`
 }
 
+const (
+	// AccessServiceClassTDDR7SubchannelSizeSize8SubchannelsSubCh7 is position 0 of ASN.1 named bit subCh7 of AccessServiceClass-TDD-r7-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize8SubchannelsSubCh7 = 0
+	// AccessServiceClassTDDR7SubchannelSizeSize8SubchannelsSubCh6 is position 1 of ASN.1 named bit subCh6 of AccessServiceClass-TDD-r7-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize8SubchannelsSubCh6 = 1
+	// AccessServiceClassTDDR7SubchannelSizeSize8SubchannelsSubCh5 is position 2 of ASN.1 named bit subCh5 of AccessServiceClass-TDD-r7-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize8SubchannelsSubCh5 = 2
+	// AccessServiceClassTDDR7SubchannelSizeSize8SubchannelsSubCh4 is position 3 of ASN.1 named bit subCh4 of AccessServiceClass-TDD-r7-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize8SubchannelsSubCh4 = 3
+	// AccessServiceClassTDDR7SubchannelSizeSize8SubchannelsSubCh3 is position 4 of ASN.1 named bit subCh3 of AccessServiceClass-TDD-r7-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize8SubchannelsSubCh3 = 4
+	// AccessServiceClassTDDR7SubchannelSizeSize8SubchannelsSubCh2 is position 5 of ASN.1 named bit subCh2 of AccessServiceClass-TDD-r7-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize8SubchannelsSubCh2 = 5
+	// AccessServiceClassTDDR7SubchannelSizeSize8SubchannelsSubCh1 is position 6 of ASN.1 named bit subCh1 of AccessServiceClass-TDD-r7-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize8SubchannelsSubCh1 = 6
+	// AccessServiceClassTDDR7SubchannelSizeSize8SubchannelsSubCh0 is position 7 of ASN.1 named bit subCh0 of AccessServiceClass-TDD-r7-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize8SubchannelsSubCh0 = 7
+)
+
 // AccessServiceClassTDDR7SubchannelSizeSize16 represents the ASN.1 type AccessServiceClass-TDD-r7-subchannelSize-size16 (SEQUENCE).
 type AccessServiceClassTDDR7SubchannelSizeSize16 struct {
 	Subchannels *runtime.BitString `asn1:"tag:0,context,implicit,optional" json:"Subchannels,omitempty"`
 	PERPadding_ per.FinalPadding   `asn1:"-" json:"-"`
 }
+
+const (
+	// AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh15 is position 0 of ASN.1 named bit subCh15 of AccessServiceClass-TDD-r7-subchannelSize-size16.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh15 = 0
+	// AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh14 is position 1 of ASN.1 named bit subCh14 of AccessServiceClass-TDD-r7-subchannelSize-size16.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh14 = 1
+	// AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh13 is position 2 of ASN.1 named bit subCh13 of AccessServiceClass-TDD-r7-subchannelSize-size16.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh13 = 2
+	// AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh12 is position 3 of ASN.1 named bit subCh12 of AccessServiceClass-TDD-r7-subchannelSize-size16.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh12 = 3
+	// AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh11 is position 4 of ASN.1 named bit subCh11 of AccessServiceClass-TDD-r7-subchannelSize-size16.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh11 = 4
+	// AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh10 is position 5 of ASN.1 named bit subCh10 of AccessServiceClass-TDD-r7-subchannelSize-size16.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh10 = 5
+	// AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh9 is position 6 of ASN.1 named bit subCh9 of AccessServiceClass-TDD-r7-subchannelSize-size16.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh9 = 6
+	// AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh8 is position 7 of ASN.1 named bit subCh8 of AccessServiceClass-TDD-r7-subchannelSize-size16.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh8 = 7
+	// AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh7 is position 8 of ASN.1 named bit subCh7 of AccessServiceClass-TDD-r7-subchannelSize-size16.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh7 = 8
+	// AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh6 is position 9 of ASN.1 named bit subCh6 of AccessServiceClass-TDD-r7-subchannelSize-size16.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh6 = 9
+	// AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh5 is position 10 of ASN.1 named bit subCh5 of AccessServiceClass-TDD-r7-subchannelSize-size16.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh5 = 10
+	// AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh4 is position 11 of ASN.1 named bit subCh4 of AccessServiceClass-TDD-r7-subchannelSize-size16.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh4 = 11
+	// AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh3 is position 12 of ASN.1 named bit subCh3 of AccessServiceClass-TDD-r7-subchannelSize-size16.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh3 = 12
+	// AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh2 is position 13 of ASN.1 named bit subCh2 of AccessServiceClass-TDD-r7-subchannelSize-size16.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh2 = 13
+	// AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh1 is position 14 of ASN.1 named bit subCh1 of AccessServiceClass-TDD-r7-subchannelSize-size16.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh1 = 14
+	// AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh0 is position 15 of ASN.1 named bit subCh0 of AccessServiceClass-TDD-r7-subchannelSize-size16.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDR7SubchannelSizeSize16SubchannelsSubCh0 = 15
+)
 
 // AccessServiceClassTDDLCRR4SubchannelSize choice constants.
 const (
@@ -55340,11 +55703,41 @@ type AccessServiceClassTDDLCRR4SubchannelSizeSize4 struct {
 	PERPadding_ per.FinalPadding   `asn1:"-" json:"-"`
 }
 
+const (
+	// AccessServiceClassTDDLCRR4SubchannelSizeSize4SubchannelsSubCh3 is position 0 of ASN.1 named bit subCh3 of AccessServiceClass-TDD-LCR-r4-subchannelSize-size4.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4SubchannelSizeSize4SubchannelsSubCh3 = 0
+	// AccessServiceClassTDDLCRR4SubchannelSizeSize4SubchannelsSubCh2 is position 1 of ASN.1 named bit subCh2 of AccessServiceClass-TDD-LCR-r4-subchannelSize-size4.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4SubchannelSizeSize4SubchannelsSubCh2 = 1
+	// AccessServiceClassTDDLCRR4SubchannelSizeSize4SubchannelsSubCh1 is position 2 of ASN.1 named bit subCh1 of AccessServiceClass-TDD-LCR-r4-subchannelSize-size4.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4SubchannelSizeSize4SubchannelsSubCh1 = 2
+	// AccessServiceClassTDDLCRR4SubchannelSizeSize4SubchannelsSubCh0 is position 3 of ASN.1 named bit subCh0 of AccessServiceClass-TDD-LCR-r4-subchannelSize-size4.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4SubchannelSizeSize4SubchannelsSubCh0 = 3
+)
+
 // AccessServiceClassTDDLCRR4SubchannelSizeSize8 represents the ASN.1 type AccessServiceClass-TDD-LCR-r4-subchannelSize-size8 (SEQUENCE).
 type AccessServiceClassTDDLCRR4SubchannelSizeSize8 struct {
 	Subchannels *runtime.BitString `asn1:"tag:0,context,implicit,optional" json:"Subchannels,omitempty"`
 	PERPadding_ per.FinalPadding   `asn1:"-" json:"-"`
 }
+
+const (
+	// AccessServiceClassTDDLCRR4SubchannelSizeSize8SubchannelsSubCh7 is position 0 of ASN.1 named bit subCh7 of AccessServiceClass-TDD-LCR-r4-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4SubchannelSizeSize8SubchannelsSubCh7 = 0
+	// AccessServiceClassTDDLCRR4SubchannelSizeSize8SubchannelsSubCh6 is position 1 of ASN.1 named bit subCh6 of AccessServiceClass-TDD-LCR-r4-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4SubchannelSizeSize8SubchannelsSubCh6 = 1
+	// AccessServiceClassTDDLCRR4SubchannelSizeSize8SubchannelsSubCh5 is position 2 of ASN.1 named bit subCh5 of AccessServiceClass-TDD-LCR-r4-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4SubchannelSizeSize8SubchannelsSubCh5 = 2
+	// AccessServiceClassTDDLCRR4SubchannelSizeSize8SubchannelsSubCh4 is position 3 of ASN.1 named bit subCh4 of AccessServiceClass-TDD-LCR-r4-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4SubchannelSizeSize8SubchannelsSubCh4 = 3
+	// AccessServiceClassTDDLCRR4SubchannelSizeSize8SubchannelsSubCh3 is position 4 of ASN.1 named bit subCh3 of AccessServiceClass-TDD-LCR-r4-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4SubchannelSizeSize8SubchannelsSubCh3 = 4
+	// AccessServiceClassTDDLCRR4SubchannelSizeSize8SubchannelsSubCh2 is position 5 of ASN.1 named bit subCh2 of AccessServiceClass-TDD-LCR-r4-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4SubchannelSizeSize8SubchannelsSubCh2 = 5
+	// AccessServiceClassTDDLCRR4SubchannelSizeSize8SubchannelsSubCh1 is position 6 of ASN.1 named bit subCh1 of AccessServiceClass-TDD-LCR-r4-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4SubchannelSizeSize8SubchannelsSubCh1 = 6
+	// AccessServiceClassTDDLCRR4SubchannelSizeSize8SubchannelsSubCh0 is position 7 of ASN.1 named bit subCh0 of AccessServiceClass-TDD-LCR-r4-subchannelSize-size8.subchannels (ITU-T X.680 (02/2021) §22).
+	AccessServiceClassTDDLCRR4SubchannelSizeSize8SubchannelsSubCh0 = 7
+)
 
 // CommonERNTIInfoElem represents the ASN.1 type Common-E-RNTI-Info-Elem (SEQUENCE).
 type CommonERNTIInfoElem struct {
@@ -59881,6 +60274,41 @@ func NewDLTSChannelisationCodesShortCodesRepresentationBitmap(v runtime.BitStrin
 	}
 }
 
+const (
+	// DLTSChannelisationCodesShortCodesRepresentationBitmapChCode16SF16 is position 0 of ASN.1 named bit chCode16-SF16 of DL-TS-ChannelisationCodesShort-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortCodesRepresentationBitmapChCode16SF16 = 0
+	// DLTSChannelisationCodesShortCodesRepresentationBitmapChCode15SF16 is position 1 of ASN.1 named bit chCode15-SF16 of DL-TS-ChannelisationCodesShort-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortCodesRepresentationBitmapChCode15SF16 = 1
+	// DLTSChannelisationCodesShortCodesRepresentationBitmapChCode14SF16 is position 2 of ASN.1 named bit chCode14-SF16 of DL-TS-ChannelisationCodesShort-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortCodesRepresentationBitmapChCode14SF16 = 2
+	// DLTSChannelisationCodesShortCodesRepresentationBitmapChCode13SF16 is position 3 of ASN.1 named bit chCode13-SF16 of DL-TS-ChannelisationCodesShort-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortCodesRepresentationBitmapChCode13SF16 = 3
+	// DLTSChannelisationCodesShortCodesRepresentationBitmapChCode12SF16 is position 4 of ASN.1 named bit chCode12-SF16 of DL-TS-ChannelisationCodesShort-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortCodesRepresentationBitmapChCode12SF16 = 4
+	// DLTSChannelisationCodesShortCodesRepresentationBitmapChCode11SF16 is position 5 of ASN.1 named bit chCode11-SF16 of DL-TS-ChannelisationCodesShort-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortCodesRepresentationBitmapChCode11SF16 = 5
+	// DLTSChannelisationCodesShortCodesRepresentationBitmapChCode10SF16 is position 6 of ASN.1 named bit chCode10-SF16 of DL-TS-ChannelisationCodesShort-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortCodesRepresentationBitmapChCode10SF16 = 6
+	// DLTSChannelisationCodesShortCodesRepresentationBitmapChCode9SF16 is position 7 of ASN.1 named bit chCode9-SF16 of DL-TS-ChannelisationCodesShort-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortCodesRepresentationBitmapChCode9SF16 = 7
+	// DLTSChannelisationCodesShortCodesRepresentationBitmapChCode8SF16 is position 8 of ASN.1 named bit chCode8-SF16 of DL-TS-ChannelisationCodesShort-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortCodesRepresentationBitmapChCode8SF16 = 8
+	// DLTSChannelisationCodesShortCodesRepresentationBitmapChCode7SF16 is position 9 of ASN.1 named bit chCode7-SF16 of DL-TS-ChannelisationCodesShort-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortCodesRepresentationBitmapChCode7SF16 = 9
+	// DLTSChannelisationCodesShortCodesRepresentationBitmapChCode6SF16 is position 10 of ASN.1 named bit chCode6-SF16 of DL-TS-ChannelisationCodesShort-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortCodesRepresentationBitmapChCode6SF16 = 10
+	// DLTSChannelisationCodesShortCodesRepresentationBitmapChCode5SF16 is position 11 of ASN.1 named bit chCode5-SF16 of DL-TS-ChannelisationCodesShort-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortCodesRepresentationBitmapChCode5SF16 = 11
+	// DLTSChannelisationCodesShortCodesRepresentationBitmapChCode4SF16 is position 12 of ASN.1 named bit chCode4-SF16 of DL-TS-ChannelisationCodesShort-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortCodesRepresentationBitmapChCode4SF16 = 12
+	// DLTSChannelisationCodesShortCodesRepresentationBitmapChCode3SF16 is position 13 of ASN.1 named bit chCode3-SF16 of DL-TS-ChannelisationCodesShort-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortCodesRepresentationBitmapChCode3SF16 = 13
+	// DLTSChannelisationCodesShortCodesRepresentationBitmapChCode2SF16 is position 14 of ASN.1 named bit chCode2-SF16 of DL-TS-ChannelisationCodesShort-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortCodesRepresentationBitmapChCode2SF16 = 14
+	// DLTSChannelisationCodesShortCodesRepresentationBitmapChCode1SF16 is position 15 of ASN.1 named bit chCode1-SF16 of DL-TS-ChannelisationCodesShort-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortCodesRepresentationBitmapChCode1SF16 = 15
+)
+
 // DLTSChannelisationCodesShortCodesRepresentationConsecutive represents the ASN.1 type DL-TS-ChannelisationCodesShort-codesRepresentation-consecutive (SEQUENCE).
 type DLTSChannelisationCodesShortCodesRepresentationConsecutive struct {
 	FirstChannelisationCode DLTSChannelisationCode `asn1:"tag:0,context,implicit"`
@@ -59918,6 +60346,73 @@ func NewDLTSChannelisationCodesShortVHCRCodesRepresentationBitmap(v runtime.BitS
 		Bitmap: &v,
 	}
 }
+
+const (
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode32SF32 is position 0 of ASN.1 named bit chCode32-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode32SF32 = 0
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode31SF32 is position 1 of ASN.1 named bit chCode31-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode31SF32 = 1
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode30SF32 is position 2 of ASN.1 named bit chCode30-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode30SF32 = 2
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode29SF32 is position 3 of ASN.1 named bit chCode29-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode29SF32 = 3
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode28SF32 is position 4 of ASN.1 named bit chCode28-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode28SF32 = 4
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode27SF32 is position 5 of ASN.1 named bit chCode27-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode27SF32 = 5
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode26SF32 is position 6 of ASN.1 named bit chCode26-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode26SF32 = 6
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode25SF32 is position 7 of ASN.1 named bit chCode25-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode25SF32 = 7
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode24SF32 is position 8 of ASN.1 named bit chCode24-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode24SF32 = 8
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode23SF32 is position 9 of ASN.1 named bit chCode23-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode23SF32 = 9
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode22SF32 is position 10 of ASN.1 named bit chCode22-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode22SF32 = 10
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode21SF32 is position 11 of ASN.1 named bit chCode21-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode21SF32 = 11
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode20SF32 is position 12 of ASN.1 named bit chCode20-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode20SF32 = 12
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode19SF32 is position 13 of ASN.1 named bit chCode19-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode19SF32 = 13
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode18SF32 is position 14 of ASN.1 named bit chCode18-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode18SF32 = 14
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode17SF32 is position 15 of ASN.1 named bit chCode17-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode17SF32 = 15
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode16SF32 is position 16 of ASN.1 named bit chCode16-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode16SF32 = 16
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode15SF32 is position 17 of ASN.1 named bit chCode15-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode15SF32 = 17
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode14SF32 is position 18 of ASN.1 named bit chCode14-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode14SF32 = 18
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode13SF32 is position 19 of ASN.1 named bit chCode13-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode13SF32 = 19
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode12SF32 is position 20 of ASN.1 named bit chCode12-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode12SF32 = 20
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode11SF32 is position 21 of ASN.1 named bit chCode11-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode11SF32 = 21
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode10SF32 is position 22 of ASN.1 named bit chCode10-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode10SF32 = 22
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode9SF32 is position 23 of ASN.1 named bit chCode9-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode9SF32 = 23
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode8SF32 is position 24 of ASN.1 named bit chCode8-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode8SF32 = 24
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode7SF32 is position 25 of ASN.1 named bit chCode7-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode7SF32 = 25
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode6SF32 is position 26 of ASN.1 named bit chCode6-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode6SF32 = 26
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode5SF32 is position 27 of ASN.1 named bit chCode5-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode5SF32 = 27
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode4SF32 is position 28 of ASN.1 named bit chCode4-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode4SF32 = 28
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode3SF32 is position 29 of ASN.1 named bit chCode3-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode3SF32 = 29
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode2SF32 is position 30 of ASN.1 named bit chCode2-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode2SF32 = 30
+	// DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode1SF32 is position 31 of ASN.1 named bit chCode1-SF32 of DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation.bitmap (ITU-T X.680 (02/2021) §22).
+	DLTSChannelisationCodesShortVHCRCodesRepresentationBitmapChCode1SF32 = 31
+)
 
 // DLTSChannelisationCodesShortVHCRCodesRepresentationConsecutive represents the ASN.1 type DL-TS-ChannelisationCodesShort-VHCR-codesRepresentation-consecutive (SEQUENCE).
 type DLTSChannelisationCodesShortVHCRCodesRepresentationConsecutive struct {

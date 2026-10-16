@@ -100,6 +100,7 @@ func DiagnosePreflight(err error, data []byte, options []DecodeOption, rootChild
 // evidence that it reached the preflight failure. The options carry the names
 // of ancestors already traversed by the generated decoder.
 func MarkPreflightTarget(options []DecodeOption, name string, raw []byte) {
+	options = expandGeneratedDecodeOptions(options)
 	if len(options) == 0 || len(raw) == 0 {
 		return
 	}
@@ -117,6 +118,7 @@ func MarkPreflightTarget(options []DecodeOption, name string, raw []byte) {
 // MarkPreflightElement avoids formatting a collection index during ordinary
 // decoding. Only the diagnostic pass for the failing identifier needs it.
 func MarkPreflightElement(options []DecodeOption, index int, raw []byte) {
+	options = expandGeneratedDecodeOptions(options)
 	if len(options) == 0 || len(raw) == 0 {
 		return
 	}
@@ -131,6 +133,7 @@ func MarkPreflightElement(options []DecodeOption, index int, raw []byte) {
 // the preflight failure. Remaining positions are reported as child indexes.
 // It scans each opaque field once only during a failed diagnostic decode.
 func MarkPreflightOpaque(options []DecodeOption, name string, raw []byte, length int) {
+	options = expandGeneratedDecodeOptions(options)
 	if len(options) == 0 {
 		return
 	}

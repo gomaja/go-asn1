@@ -142,6 +142,13 @@ func DecodeTLV(data []byte, options ...DecodeOption) (tag.Tag, int, []byte, erro
 	if configErr != nil {
 		return tag.Tag{}, 0, nil, configErr
 	}
+	if len(options) != 0 {
+		if context, ok := options[0].(*generatedDecodeOption); ok && context != nil {
+			if decodedTag, total, value, err, handled := decodeValidatedTLV(data, context, config.form); handled {
+				return decodedTag, total, value, err
+			}
+		}
+	}
 	return decodeTLV(data, config.limits, config.form)
 }
 
@@ -1171,7 +1178,11 @@ func DecodeImplicitBitStringValue(constructed bool, value []byte, options ...Dec
 	if constructed {
 		MarkBERNonCanonical(options)
 	}
-	return decodeBitStringValue(constructed, value, options...)
+	decoded, unused, err := decodeBitStringValue(constructed, value, options...)
+	if err == nil && !constructed && len(options) != 0 && isGeneratedDecodeContext(options[0]) {
+		decoded = bytes.Clone(decoded)
+	}
+	return decoded, unused, err
 }
 
 // DecodeImplicitOctetStringValue decodes the contents of an implicitly tagged
@@ -1181,6 +1192,9 @@ func DecodeImplicitOctetStringValue(constructed bool, value []byte, options ...D
 	if !constructed {
 		if err := ValidateDecodeOptions(options...); err != nil {
 			return nil, err
+		}
+		if len(options) != 0 && isGeneratedDecodeContext(options[0]) {
+			return bytes.Clone(value), nil
 		}
 		return value, nil
 	}
